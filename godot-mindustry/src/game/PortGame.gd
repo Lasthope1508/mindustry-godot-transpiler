@@ -2568,19 +2568,42 @@ func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq
 	}
 
 func source_building_sense_object_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:
+	var source_state := {
+		"method": "public Object senseObject(LAccess sensor){",
+		"type_case": "case type -> block;",
+		"first_item_case": "case firstItem -> items == null ? null : items.first();",
+		"config_case": "case config -> block.configSenseable() ? config() : null;",
+		"payload_type_case": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
+		"default_case": "default -> noSensed;",
+		"sensor": sensor,
+		"block_value": block_value,
+		"has_items_module": has_items_module,
+		"first_item_value": first_item_value,
+		"config_senseable": config_senseable,
+		"config_value": config_value,
+		"single_payload_kind": single_payload_kind,
+		"single_payload_content": single_payload_content,
+		"no_sensed": false,
+		"value": null,
+	}
 	match sensor:
 		"type":
-			return {"no_sensed": false, "value": block_value}
+			source_state["value"] = block_value
+			return source_state
 		"firstItem":
-			return {"no_sensed": false, "value": first_item_value if has_items_module else null}
+			source_state["value"] = first_item_value if has_items_module else null
+			return source_state
 		"config":
-			return {"no_sensed": false, "value": config_value if config_senseable else null}
+			source_state["value"] = config_value if config_senseable else null
+			return source_state
 		"payloadType":
 			if single_payload_kind == "unit" or single_payload_kind == "block":
-				return {"no_sensed": false, "value": single_payload_content}
-			return {"no_sensed": false, "value": null}
+				source_state["value"] = single_payload_content
+				return source_state
+			return source_state
 		_:
-			return {"no_sensed": true, "value": null}
+			source_state["no_sensed"] = true
+			return source_state
 
 func source_building_sense_content_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
 	var source_state := {

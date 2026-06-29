@@ -30063,6 +30063,256 @@
           "rule": "Carries rotation_value input into result schema."
         }
       }
+    },
+    "source_building_sense_object_input": {
+      "status": "active",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "sensor",
+          "godot_symbol": "source_building_sense_object_input.sensor",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime sensor supplies LAccess switch selector."
+        },
+        "block_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "block",
+          "godot_symbol": "source_building_sense_object_input.block_value",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime block_value supplies block."
+        },
+        "has_items_module": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "items != null",
+          "godot_symbol": "source_building_sense_object_input.has_items_module",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime has_items_module supplies items != null."
+        },
+        "first_item_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "items.first()",
+          "godot_symbol": "source_building_sense_object_input.first_item_value",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime first_item_value supplies items.first()."
+        },
+        "config_senseable": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "block.configSenseable()",
+          "godot_symbol": "source_building_sense_object_input.config_senseable",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime config_senseable supplies block.configSenseable()."
+        },
+        "config_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "config()",
+          "godot_symbol": "source_building_sense_object_input.config_value",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime config_value supplies config()."
+        },
+        "single_payload_kind": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "getPayload() instanceof UnitPayload p1 / BuildPayload p2",
+          "godot_symbol": "source_building_sense_object_input.single_payload_kind",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime single_payload_kind supplies getPayload() instanceof UnitPayload p1 / BuildPayload p2."
+        },
+        "single_payload_content": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "p1.unit.type / p2.block()",
+          "godot_symbol": "source_building_sense_object_input.single_payload_content",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime single_payload_content supplies p1.unit.type / p2.block()."
+        }
+      }
+    },
+    "source_building_sense_object_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "godot_symbol": "source_building_sense_object_result.method",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "BuildingComp senseObject(LAccess) method boundary."
+        },
+        "type_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "case type -> block;",
+          "godot_symbol": "source_building_sense_object_result.type_case",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "senseObject type case boundary."
+        },
+        "first_item_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "case firstItem -> items == null ? null : items.first();",
+          "godot_symbol": "source_building_sense_object_result.first_item_case",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "senseObject firstItem case boundary."
+        },
+        "config_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "case config -> block.configSenseable() ? config() : null;",
+          "godot_symbol": "source_building_sense_object_result.config_case",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "senseObject config case boundary."
+        },
+        "payload_type_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
+          "godot_symbol": "source_building_sense_object_result.payload_type_case",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "senseObject payloadType case boundary."
+        },
+        "default_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "default -> noSensed;",
+          "godot_symbol": "source_building_sense_object_result.default_case",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "senseObject default case boundary."
+        },
+        "sensor": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.sensor",
+          "rule": "Carries sensor input into result schema."
+        },
+        "block_value": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.block_value",
+          "rule": "Carries block_value input into result schema."
+        },
+        "has_items_module": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.has_items_module",
+          "rule": "Carries has_items_module input into result schema."
+        },
+        "first_item_value": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.first_item_value",
+          "rule": "Carries first_item_value input into result schema."
+        },
+        "config_senseable": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.config_senseable",
+          "rule": "Carries config_senseable input into result schema."
+        },
+        "config_value": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.config_value",
+          "rule": "Carries config_value input into result schema."
+        },
+        "single_payload_kind": {
+          "type": "String",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.single_payload_kind",
+          "rule": "Carries single_payload_kind input into result schema."
+        },
+        "single_payload_content": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_sense_object_input.single_payload_content",
+          "rule": "Carries single_payload_content input into result schema."
+        },
+        "no_sensed": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "default -> noSensed;",
+          "godot_symbol": "source_building_sense_object_result.no_sensed",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime no_sensed is true only for upstream default -> noSensed."
+        },
+        "value": {
+          "type": "Variant",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "senseObject(LAccess sensor)",
+          "java_expr": "block / items.first() / config() / p1.unit.type / p2.block() / noSensed",
+          "godot_symbol": "source_building_sense_object_result.value",
+          "used_by": [
+            "PortGame.source_building_sense_object_state"
+          ],
+          "rule": "Runtime value mirrors source senseObject branch output."
+        }
+      }
     }
   },
   "version": 1

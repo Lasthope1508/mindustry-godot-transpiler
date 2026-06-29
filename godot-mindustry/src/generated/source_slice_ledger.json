@@ -7468,6 +7468,50 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_health_process_state",
       "rule": "Backfills SSOT for existing canonical source_building_sense_health_process_state helper against BuildingComp.sense(LAccess sensor)."
+    },
+    "N636": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "exact_exprs": [
+        "public Object senseObject(LAccess sensor){",
+        "case type -> block;",
+        "case firstItem -> items == null ? null : items.first();",
+        "case config -> block.configSenseable() ? config() : null;",
+        "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
+        "default -> noSensed;",
+        "sensor",
+        "block",
+        "items != null",
+        "items.first()",
+        "block.configSenseable()",
+        "config()",
+        "getPayload() instanceof UnitPayload p1 / BuildPayload p2",
+        "p1.unit.type / p2.block()"
+      ],
+      "source_symbols": [
+        "building_sense_object.method",
+        "building_sense_object.type_case",
+        "building_sense_object.first_item_case",
+        "building_sense_object.config_case",
+        "building_sense_object.payload_type_case",
+        "building_sense_object.default_case",
+        "building_sense_object.sensor",
+        "building_sense_object.block_value",
+        "building_sense_object.has_items_module",
+        "building_sense_object.first_item_value",
+        "building_sense_object.config_senseable",
+        "building_sense_object.config_value",
+        "building_sense_object.single_payload_kind",
+        "building_sense_object.single_payload_content"
+      ],
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "rule": "Backfills SSOT for existing canonical source_building_sense_object_state helper against BuildingComp.senseObject(LAccess sensor)."
     }
   },
   "version": 1

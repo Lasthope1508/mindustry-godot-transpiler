@@ -2427,12 +2427,19 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_sense_object_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:", source)
-        self.assertIn('return {"no_sensed": false, "value": block_value}', source)
-        self.assertIn('return {"no_sensed": false, "value": first_item_value if has_items_module else null}', source)
-        self.assertIn('return {"no_sensed": false, "value": config_value if config_senseable else null}', source)
+        self.assertIn('"method": "public Object senseObject(LAccess sensor){",', source)
+        self.assertIn('"type_case": "case type -> block;",', source)
+        self.assertIn('"first_item_case": "case firstItem -> items == null ? null : items.first();",', source)
+        self.assertIn('"config_case": "case config -> block.configSenseable() ? config() : null;",', source)
+        self.assertIn('"payload_type_case": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",', source)
+        self.assertIn('"default_case": "default -> noSensed;",', source)
+        self.assertIn('source_state["value"] = block_value', source)
+        self.assertIn('source_state["value"] = first_item_value if has_items_module else null', source)
+        self.assertIn('source_state["value"] = config_value if config_senseable else null', source)
         self.assertIn('if single_payload_kind == "unit" or single_payload_kind == "block":', source)
-        self.assertIn('return {"no_sensed": false, "value": single_payload_content}', source)
-        self.assertIn('return {"no_sensed": true, "value": null}', source)
+        self.assertIn('source_state["value"] = single_payload_content', source)
+        self.assertIn('source_state["no_sensed"] = true', source)
+        self.assertIn("return source_state", source)
 
     def test_port_game_exposes_source_building_sense_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

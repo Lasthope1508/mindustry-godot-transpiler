@@ -9085,6 +9085,77 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_health_process_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) health/process helper."
+    },
+    "PortGame.source_building_sense_object_state": {
+      "status": "active",
+      "source_slice": "N636",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "senseObject(LAccess sensor)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_building_sense_object_input.sensor"
+        },
+        {
+          "name": "block_value",
+          "type": "Variant",
+          "schema": "source_building_sense_object_input.block_value"
+        },
+        {
+          "name": "has_items_module",
+          "type": "bool",
+          "schema": "source_building_sense_object_input.has_items_module"
+        },
+        {
+          "name": "first_item_value",
+          "type": "Variant",
+          "schema": "source_building_sense_object_input.first_item_value"
+        },
+        {
+          "name": "config_senseable",
+          "type": "bool",
+          "schema": "source_building_sense_object_input.config_senseable"
+        },
+        {
+          "name": "config_value",
+          "type": "Variant",
+          "schema": "source_building_sense_object_input.config_value"
+        },
+        {
+          "name": "single_payload_kind",
+          "type": "String",
+          "schema": "source_building_sense_object_input.single_payload_kind"
+        },
+        {
+          "name": "single_payload_content",
+          "type": "Variant",
+          "schema": "source_building_sense_object_input.single_payload_content"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "type_case",
+        "first_item_case",
+        "config_case",
+        "payload_type_case",
+        "default_case",
+        "sensor",
+        "block_value",
+        "has_items_module",
+        "first_item_value",
+        "config_senseable",
+        "config_value",
+        "single_payload_kind",
+        "single_payload_content",
+        "no_sensed",
+        "value"
+      ],
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.senseObject(LAccess sensor) helper."
     }
   },
   "policy": {

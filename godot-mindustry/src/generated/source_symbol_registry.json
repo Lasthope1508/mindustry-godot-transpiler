@@ -23017,6 +23017,188 @@
       "java_expr": "rotation",
       "godot_symbol": "source_building_sense_health_process_input.rotation_value",
       "rule": "Runtime rotation_value supplies rotation."
+    },
+    "building_sense_object.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "public Object senseObject(LAccess sensor){",
+      "godot_symbol": "source_building_sense_object_result.method",
+      "rule": "BuildingComp senseObject(LAccess) method boundary."
+    },
+    "building_sense_object.type_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "case type -> block;",
+      "godot_symbol": "source_building_sense_object_result.type_case",
+      "rule": "senseObject type case returns block."
+    },
+    "building_sense_object.first_item_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "case firstItem -> items == null ? null : items.first();",
+      "godot_symbol": "source_building_sense_object_result.first_item_case",
+      "rule": "senseObject firstItem case returns first item when items exists."
+    },
+    "building_sense_object.config_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "case config -> block.configSenseable() ? config() : null;",
+      "godot_symbol": "source_building_sense_object_result.config_case",
+      "rule": "senseObject config case returns config when block config is senseable."
+    },
+    "building_sense_object.payload_type_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
+      "godot_symbol": "source_building_sense_object_result.payload_type_case",
+      "rule": "senseObject payloadType case returns unit type, block, or null."
+    },
+    "building_sense_object.default_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "default -> noSensed;",
+      "godot_symbol": "source_building_sense_object_result.default_case",
+      "rule": "senseObject default returns noSensed."
+    },
+    "building_sense_object.sensor": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "sensor",
+      "godot_symbol": "source_building_sense_object_input.sensor",
+      "rule": "Runtime sensor supplies LAccess switch selector."
+    },
+    "building_sense_object.block_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "block",
+      "godot_symbol": "source_building_sense_object_input.block_value",
+      "rule": "Runtime block_value supplies block."
+    },
+    "building_sense_object.has_items_module": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "items != null",
+      "godot_symbol": "source_building_sense_object_input.has_items_module",
+      "rule": "Runtime has_items_module supplies items != null."
+    },
+    "building_sense_object.first_item_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "items.first()",
+      "godot_symbol": "source_building_sense_object_input.first_item_value",
+      "rule": "Runtime first_item_value supplies items.first()."
+    },
+    "building_sense_object.config_senseable": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "block.configSenseable()",
+      "godot_symbol": "source_building_sense_object_input.config_senseable",
+      "rule": "Runtime config_senseable supplies block.configSenseable()."
+    },
+    "building_sense_object.config_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "config()",
+      "godot_symbol": "source_building_sense_object_input.config_value",
+      "rule": "Runtime config_value supplies config()."
+    },
+    "building_sense_object.single_payload_kind": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "getPayload() instanceof UnitPayload p1 / BuildPayload p2",
+      "godot_symbol": "source_building_sense_object_input.single_payload_kind",
+      "rule": "Runtime single_payload_kind supplies getPayload() instanceof UnitPayload p1 / BuildPayload p2."
+    },
+    "building_sense_object.single_payload_content": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "tests": [
+        "test_building_sense_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_object_state",
+      "java_expr": "p1.unit.type / p2.block()",
+      "godot_symbol": "source_building_sense_object_input.single_payload_content",
+      "rule": "Runtime single_payload_content supplies p1.unit.type / p2.block()."
     }
   }
 }

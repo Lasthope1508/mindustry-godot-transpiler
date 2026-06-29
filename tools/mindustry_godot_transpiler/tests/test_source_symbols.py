@@ -3113,6 +3113,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_tilesize["java_expr"], "tilesize")
         self.assertEqual(source_tilesize["godot_symbol"], "source_building_sense_health_process_input.source_tilesize")
 
+    def test_building_sense_object_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_sense_object.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "senseObject(LAccess sensor)")
+        self.assertEqual(method["java_expr"], "public Object senseObject(LAccess sensor){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_sense_object_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_sense_object_state")
+        self.assertEqual(method["godot_symbol"], "source_building_sense_object_result.method")
+
+        first_item_case = source_symbols.source_symbol(registry, "building_sense_object.first_item_case")
+        self.assertEqual(first_item_case["java_expr"], "case firstItem -> items == null ? null : items.first();")
+        self.assertEqual(first_item_case["godot_symbol"], "source_building_sense_object_result.first_item_case")
+
+        payload_type_case = source_symbols.source_symbol(registry, "building_sense_object.payload_type_case")
+        self.assertEqual(payload_type_case["java_expr"], "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;")
+        self.assertEqual(payload_type_case["godot_symbol"], "source_building_sense_object_result.payload_type_case")
+
+        sensor = source_symbols.source_symbol(registry, "building_sense_object.sensor")
+        self.assertEqual(sensor["status"], "explicit-input")
+        self.assertEqual(sensor["java_expr"], "sensor")
+        self.assertEqual(sensor["godot_symbol"], "source_building_sense_object_input.sensor")
+
+        single_payload_content = source_symbols.source_symbol(registry, "building_sense_object.single_payload_content")
+        self.assertEqual(single_payload_content["status"], "explicit-input")
+        self.assertEqual(single_payload_content["java_expr"], "p1.unit.type / p2.block()")
+        self.assertEqual(single_payload_content["godot_symbol"], "source_building_sense_object_input.single_payload_content")
+
     def test_building_sense_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6818,9 +6850,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 233)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 234)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 238)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 239)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6987,6 +7019,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_sense_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_enabled_controlled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_health_process_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
@@ -8032,6 +8065,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("case rotation -> rotation;", building_sense_health_process["exact_exprs"])
         self.assertIn("r.range()", building_sense_health_process["exact_exprs"])
         self.assertIn("tilesize", building_sense_health_process["exact_exprs"])
+
+        building_sense_object = source_symbols.source_slice(ledger, "N636")
+        self.assertEqual(building_sense_object["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_sense_object["java_method"], "senseObject(LAccess sensor)")
+        self.assertEqual(building_sense_object["godot_owner"], "PortGame.source_building_sense_object_state")
+        self.assertIn("public Object senseObject(LAccess sensor){", building_sense_object["exact_exprs"])
+        self.assertIn("case type -> block;", building_sense_object["exact_exprs"])
+        self.assertIn("case firstItem -> items == null ? null : items.first();", building_sense_object["exact_exprs"])
+        self.assertIn("case config -> block.configSenseable() ? config() : null;", building_sense_object["exact_exprs"])
+        self.assertIn("case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;", building_sense_object["exact_exprs"])
+        self.assertIn("default -> noSensed;", building_sense_object["exact_exprs"])
 
         building_maximum_accepted = source_symbols.source_slice(ledger, "N603")
         self.assertEqual(building_maximum_accepted["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10194,6 +10238,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("range", building_sense_health_process["return_keys"])
         self.assertIn("rotation", building_sense_health_process["return_keys"])
         self.assertEqual(building_sense_health_process["source_method"], "sense(LAccess sensor)")
+
+        building_sense_object = source_symbols.api_contract(contracts, "PortGame.source_building_sense_object_state")
+        self.assertEqual([param["name"] for param in building_sense_object["params"]], ["sensor", "block_value", "has_items_module", "first_item_value", "config_senseable", "config_value", "single_payload_kind", "single_payload_content"])
+        self.assertEqual(building_sense_object["params"][0]["schema"], "source_building_sense_object_input.sensor")
+        self.assertEqual(building_sense_object["params"][7]["schema"], "source_building_sense_object_input.single_payload_content")
+        self.assertIn("method", building_sense_object["return_keys"])
+        self.assertIn("type_case", building_sense_object["return_keys"])
+        self.assertIn("first_item_case", building_sense_object["return_keys"])
+        self.assertIn("config_case", building_sense_object["return_keys"])
+        self.assertIn("payload_type_case", building_sense_object["return_keys"])
+        self.assertIn("default_case", building_sense_object["return_keys"])
+        self.assertIn("no_sensed", building_sense_object["return_keys"])
+        self.assertIn("value", building_sense_object["return_keys"])
+        self.assertEqual(building_sense_object["source_method"], "senseObject(LAccess sensor)")
 
         building_maximum_accepted = source_symbols.api_contract(contracts, "PortGame.source_building_maximum_accepted")
         self.assertEqual([param["name"] for param in building_maximum_accepted["params"]], ["block_item_capacity"])
@@ -12518,6 +12576,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_sense_health_process_result["keys"]["range_case"]["java_expr"], "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;")
         self.assertEqual(source_building_sense_health_process_result["keys"]["health"]["alias_of"], "source_building_sense_health_process_input.health")
         self.assertEqual(source_building_sense_health_process_result["keys"]["rotation_value"]["alias_of"], "source_building_sense_health_process_input.rotation_value")
+
+        source_building_sense_object_input = source_symbols.state_schema(schema, "source_building_sense_object_input")
+        self.assertEqual(source_building_sense_object_input["keys"]["sensor"]["java_expr"], "sensor")
+        self.assertEqual(source_building_sense_object_input["keys"]["block_value"]["java_expr"], "block")
+        self.assertEqual(source_building_sense_object_input["keys"]["has_items_module"]["java_expr"], "items != null")
+        self.assertEqual(source_building_sense_object_input["keys"]["first_item_value"]["java_expr"], "items.first()")
+        self.assertEqual(source_building_sense_object_input["keys"]["config_senseable"]["java_expr"], "block.configSenseable()")
+        self.assertEqual(source_building_sense_object_input["keys"]["config_value"]["java_expr"], "config()")
+        self.assertEqual(source_building_sense_object_input["keys"]["single_payload_kind"]["java_expr"], "getPayload() instanceof UnitPayload p1 / BuildPayload p2")
+        self.assertEqual(source_building_sense_object_input["keys"]["single_payload_content"]["java_expr"], "p1.unit.type / p2.block()")
+
+        source_building_sense_object_result = source_symbols.state_schema(schema, "source_building_sense_object_result")
+        self.assertEqual(source_building_sense_object_result["keys"]["method"]["java_expr"], "public Object senseObject(LAccess sensor){")
+        self.assertEqual(source_building_sense_object_result["keys"]["type_case"]["java_expr"], "case type -> block;")
+        self.assertEqual(source_building_sense_object_result["keys"]["first_item_case"]["java_expr"], "case firstItem -> items == null ? null : items.first();")
+        self.assertEqual(source_building_sense_object_result["keys"]["payload_type_case"]["java_expr"], "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;")
+        self.assertEqual(source_building_sense_object_result["keys"]["sensor"]["alias_of"], "source_building_sense_object_input.sensor")
+        self.assertEqual(source_building_sense_object_result["keys"]["single_payload_content"]["alias_of"], "source_building_sense_object_input.single_payload_content")
 
         source_building_maximum_accepted_input = source_symbols.state_schema(schema, "source_building_maximum_accepted_input")
         self.assertEqual(source_building_maximum_accepted_input["keys"]["block_item_capacity"]["java_expr"], "block.itemCapacity")
