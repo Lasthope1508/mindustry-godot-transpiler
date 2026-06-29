@@ -10132,6 +10132,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
       "rule": "Backfills SSOT for updateConsumption optional consumer pass; later efficiency assignment remains separate slice."
+    },
+    "PortGame.source_building_update_consumption_second_pass_state": {
+      "status": "active",
+      "source_slice": "N664",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "update",
+          "type": "bool",
+          "schema": "source_building_update_consumption_second_pass_input.update"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_building_update_consumption_second_pass_input.efficiency"
+        },
+        {
+          "name": "update_consumers",
+          "type": "Array",
+          "schema": "source_building_update_consumption_second_pass_input.update_consumers"
+        },
+        {
+          "name": "self_state",
+          "type": "Dictionary",
+          "schema": "source_building_update_consumption_second_pass_input.self_state"
+        }
+      ],
+      "return_keys": [
+        "updated_consumers",
+        "update_count"
+      ],
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "rule": "Backfills SSOT for updateConsumption efficiency multiplier call and update-consumer second pass."
     }
   },
   "policy": {

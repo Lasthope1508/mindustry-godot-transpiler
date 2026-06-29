@@ -2467,6 +2467,13 @@ func source_building_update_consumption_efficiency_state(min_efficiency: float, 
 		"potential_efficiency": potential_efficiency,
 	}
 
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_METHOD := "public void updateConsumption(){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_MULTIPLIER := "updateEfficiencyMultiplier();"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_COMMENT := "//second pass: update every consumer based on efficiency"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_GUARD := "if(update && efficiency > 0){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_LOOP := "for(var cons : block.updateConsumers){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_UPDATE := "cons.update(self());"
+
 func source_building_update_consumption_second_pass_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
 	var updated_consumers := []
 	if update and efficiency > 0.0:

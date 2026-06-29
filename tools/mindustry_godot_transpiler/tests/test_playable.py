@@ -2310,6 +2310,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_METHOD := "public void updateConsumption(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_MULTIPLIER := "updateEfficiencyMultiplier();"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_COMMENT := "//second pass: update every consumer based on efficiency"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_GUARD := "if(update && efficiency > 0){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_LOOP := "for(var cons : block.updateConsumers){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_UPDATE := "cons.update(self());"', source)
         self.assertIn("func source_building_update_consumption_second_pass_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:", source)
         self.assertIn("if update and efficiency > 0.0:", source)
         self.assertIn("for consumer in update_consumers:", source)

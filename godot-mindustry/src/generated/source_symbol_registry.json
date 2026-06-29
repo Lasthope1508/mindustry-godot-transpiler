@@ -26180,6 +26180,174 @@
         "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
       ]
+    },
+    "building_update_consumption_second_pass.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "public void updateConsumption(){",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.method",
+      "rule": "BuildingComp.updateConsumption method boundary for update-consumer second pass slice.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "updateEfficiencyMultiplier();",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.multiplier",
+      "rule": "Exact upstream efficiency multiplier call before second pass.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "//second pass: update every consumer based on efficiency",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.comment",
+      "rule": "Exact upstream second-pass comment.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "if(update && efficiency > 0){",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.guard",
+      "rule": "Exact upstream update and positive-efficiency guard.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "for(var cons : block.updateConsumers){",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.loop",
+      "rule": "Exact upstream update consumer loop.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.update_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "cons.update(self());",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.update_call",
+      "rule": "Exact upstream consumer update call.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.update": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "update",
+      "godot_symbol": "source_building_update_consumption_second_pass_input.update",
+      "rule": "Explicit runtime input for upstream update boolean.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "efficiency",
+      "godot_symbol": "source_building_update_consumption_second_pass_input.efficiency",
+      "rule": "Explicit runtime input for upstream efficiency guard value.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.update_consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "block.updateConsumers",
+      "godot_symbol": "source_building_update_consumption_second_pass_input.update_consumers",
+      "rule": "Explicit runtime input representing upstream block.updateConsumers.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.self_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "self()",
+      "godot_symbol": "source_building_update_consumption_second_pass_input.self_state",
+      "rule": "Explicit runtime input representing upstream self() passed to consumer updates.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.updated_consumers": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "cons.update(self());",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.updated_consumers",
+      "rule": "Generated ordered records of update consumer calls.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
+    },
+    "building_update_consumption_second_pass.update_count": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_second_pass_state",
+      "java_expr": "cons.update(self());",
+      "godot_symbol": "source_building_update_consumption_second_pass_result.update_count",
+      "rule": "Generated count of update consumer calls.",
+      "tests": [
+        "test_building_update_consumption_second_pass_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_second_pass_state"
+      ]
     }
   }
 }
