@@ -7172,6 +7172,36 @@
       ],
       "runtime_proof": "/root/Main.source_building_puddle_on_state",
       "rule": "Backfills SSOT for existing canonical source_building_puddle_on_state helper against BuildingComp.puddleOn(Puddle puddle) no-op."
+    },
+    "N629": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "recache()",
+      "godot_owner": "PortGame.source_building_recache_state",
+      "exact_exprs": [
+        "public void recache(){",
+        "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+        "headless",
+        "block.buildingCacheLayer",
+        "tile"
+      ],
+      "deferred_exprs": [
+        "Concrete renderer.blocks.recacheBuilding side effects remain owned by rendering integration slices."
+      ],
+      "source_symbols": [
+        "building_recache.method",
+        "building_recache.headless_gate",
+        "building_recache.recache_call",
+        "building_recache.headless",
+        "building_recache.building_cache_layer",
+        "building_recache.tile"
+      ],
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "rule": "Backfills SSOT for existing canonical source_building_recache_state helper against BuildingComp.recache()."
     }
   },
   "version": 1

@@ -1462,6 +1462,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_recache_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void recache(){",', source)
+        self.assertIn('"headless_gate": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",', source)
+        self.assertIn('"recache_call": ""', source)
+        self.assertIn('"recache_call": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);"', source)
         self.assertIn("if headless:", source)
         self.assertIn('"recache": false', source)
         self.assertIn('"recache": true', source)

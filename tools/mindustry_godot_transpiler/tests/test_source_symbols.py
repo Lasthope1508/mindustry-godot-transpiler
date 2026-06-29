@@ -4087,6 +4087,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(puddle_state["java_expr"], "Puddle puddle")
         self.assertEqual(puddle_state["godot_symbol"], "source_building_puddle_on_input.puddle_state")
 
+    def test_building_recache_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_recache.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "recache()")
+        self.assertEqual(method["java_expr"], "public void recache(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_recache_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_recache_state")
+        self.assertEqual(method["godot_symbol"], "source_building_recache_result.method")
+
+        headless_gate = source_symbols.source_symbol(registry, "building_recache.headless_gate")
+        self.assertEqual(headless_gate["java_expr"], "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);")
+        self.assertEqual(headless_gate["godot_symbol"], "source_building_recache_result.headless_gate")
+
+        recache_call = source_symbols.source_symbol(registry, "building_recache.recache_call")
+        self.assertEqual(recache_call["java_expr"], "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);")
+        self.assertEqual(recache_call["godot_symbol"], "source_building_recache_result.recache_call")
+
+        headless = source_symbols.source_symbol(registry, "building_recache.headless")
+        self.assertEqual(headless["status"], "explicit-input")
+        self.assertEqual(headless["java_expr"], "headless")
+        self.assertEqual(headless["godot_symbol"], "source_building_recache_input.headless")
+
+        building_cache_layer = source_symbols.source_symbol(registry, "building_recache.building_cache_layer")
+        self.assertEqual(building_cache_layer["status"], "explicit-input")
+        self.assertEqual(building_cache_layer["java_expr"], "block.buildingCacheLayer")
+        self.assertEqual(building_cache_layer["godot_symbol"], "source_building_recache_input.building_cache_layer")
+
+        tile = source_symbols.source_symbol(registry, "building_recache.tile")
+        self.assertEqual(tile["status"], "explicit-input")
+        self.assertEqual(tile["java_expr"], "tile")
+        self.assertEqual(tile["godot_symbol"], "source_building_recache_input.tile")
+
     def test_building_placed_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6503,9 +6540,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 226)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 227)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 231)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 232)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6548,6 +6585,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_production_valid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_power_production_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_puddle_on_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_recache_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -8021,6 +8059,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Called when a puddle is on this building. Only called at an interval (40 ticks).", building_puddle_on["exact_exprs"])
         self.assertIn("public void puddleOn(Puddle puddle){", building_puddle_on["exact_exprs"])
         self.assertIn("Puddle puddle", building_puddle_on["exact_exprs"])
+
+        building_recache = source_symbols.source_slice(ledger, "N629")
+        self.assertEqual(building_recache["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_recache["java_method"], "recache()")
+        self.assertEqual(building_recache["godot_owner"], "PortGame.source_building_recache_state")
+        self.assertIn("public void recache(){", building_recache["exact_exprs"])
+        self.assertIn("if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);", building_recache["exact_exprs"])
+        self.assertIn("headless", building_recache["exact_exprs"])
+        self.assertIn("block.buildingCacheLayer", building_recache["exact_exprs"])
+        self.assertIn("tile", building_recache["exact_exprs"])
 
         building_placed = source_symbols.source_slice(ledger, "N623")
         self.assertEqual(building_placed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10095,6 +10143,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("no_op", building_puddle_on["return_keys"])
         self.assertIn("puddle_state", building_puddle_on["return_keys"])
         self.assertEqual(building_puddle_on["source_method"], "puddleOn(Puddle puddle)")
+
+        building_recache = source_symbols.api_contract(contracts, "PortGame.source_building_recache_state")
+        self.assertEqual([param["name"] for param in building_recache["params"]], ["headless", "building_cache_layer", "tile_state"])
+        self.assertEqual(building_recache["params"][0]["schema"], "source_building_recache_input.headless")
+        self.assertEqual(building_recache["params"][1]["schema"], "source_building_recache_input.building_cache_layer")
+        self.assertEqual(building_recache["params"][2]["schema"], "source_building_recache_input.tile")
+        self.assertIn("method", building_recache["return_keys"])
+        self.assertIn("headless_gate", building_recache["return_keys"])
+        self.assertIn("recache_call", building_recache["return_keys"])
+        self.assertIn("recache", building_recache["return_keys"])
+        self.assertIn("building_cache_layer", building_recache["return_keys"])
+        self.assertIn("tile", building_recache["return_keys"])
+        self.assertEqual(building_recache["source_method"], "recache()")
 
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
@@ -12382,6 +12443,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_puddle_on_result["keys"]["comment"]["java_expr"], "Called when a puddle is on this building. Only called at an interval (40 ticks).")
         self.assertEqual(source_building_puddle_on_result["keys"]["no_op"]["java_expr"], "public void puddleOn(Puddle puddle){")
         self.assertEqual(source_building_puddle_on_result["keys"]["puddle_state"]["alias_of"], "source_building_puddle_on_input.puddle_state")
+
+        source_building_recache_input = source_symbols.state_schema(schema, "source_building_recache_input")
+        self.assertEqual(source_building_recache_input["keys"]["headless"]["java_expr"], "headless")
+        self.assertEqual(source_building_recache_input["keys"]["headless"]["status"], "explicit-input")
+        self.assertEqual(source_building_recache_input["keys"]["building_cache_layer"]["java_expr"], "block.buildingCacheLayer")
+        self.assertEqual(source_building_recache_input["keys"]["tile"]["java_expr"], "tile")
+
+        source_building_recache_result = source_symbols.state_schema(schema, "source_building_recache_result")
+        self.assertEqual(source_building_recache_result["keys"]["method"]["java_expr"], "public void recache(){")
+        self.assertEqual(source_building_recache_result["keys"]["headless_gate"]["java_expr"], "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);")
+        self.assertEqual(source_building_recache_result["keys"]["recache_call"]["java_expr"], "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);")
+        self.assertEqual(source_building_recache_result["keys"]["headless"]["alias_of"], "source_building_recache_input.headless")
+        self.assertEqual(source_building_recache_result["keys"]["building_cache_layer"]["alias_of"], "source_building_recache_input.building_cache_layer")
+        self.assertEqual(source_building_recache_result["keys"]["tile"]["alias_of"], "source_building_recache_input.tile")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

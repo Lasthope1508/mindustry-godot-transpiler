@@ -1585,8 +1585,22 @@ func source_building_draw_cached_state(variants: int, has_variant_regions: bool,
 
 func source_building_recache_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:
 	if headless:
-		return {"recache": false}
-	return {"recache": true, "building_cache_layer": building_cache_layer, "tile": tile_state}
+		return {
+			"method": "public void recache(){",
+			"headless_gate": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+			"recache_call": "",
+			"recache": false,
+			"building_cache_layer": building_cache_layer,
+			"tile": tile_state,
+		}
+	return {
+		"method": "public void recache(){",
+		"headless_gate": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+		"recache_call": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+		"recache": true,
+		"building_cache_layer": building_cache_layer,
+		"tile": tile_state,
+	}
 
 func source_building_payload_draw_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
 	var cached_draw := {}

@@ -28104,6 +28104,118 @@
         }
       }
     },
+    "source_building_recache_input": {
+      "status": "active",
+      "keys": {
+        "headless": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "recache()",
+          "java_expr": "headless",
+          "godot_symbol": "source_building_recache_input.headless",
+          "used_by": [
+            "PortGame.source_building_recache_state"
+          ],
+          "rule": "Runtime headless argument supplies global headless gate."
+        },
+        "building_cache_layer": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "recache()",
+          "java_expr": "block.buildingCacheLayer",
+          "godot_symbol": "source_building_recache_input.building_cache_layer",
+          "used_by": [
+            "PortGame.source_building_recache_state"
+          ],
+          "rule": "Runtime building_cache_layer argument supplies block.buildingCacheLayer."
+        },
+        "tile": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "recache()",
+          "java_expr": "tile",
+          "godot_symbol": "source_building_recache_input.tile",
+          "used_by": [
+            "PortGame.source_building_recache_state"
+          ],
+          "rule": "Runtime tile_state argument supplies tile."
+        }
+      }
+    },
+    "source_building_recache_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "recache()",
+          "java_expr": "public void recache(){",
+          "godot_symbol": "source_building_recache_result.method",
+          "used_by": [
+            "PortGame.source_building_recache_state"
+          ],
+          "rule": "BuildingComp recache method boundary."
+        },
+        "headless_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "recache()",
+          "java_expr": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+          "godot_symbol": "source_building_recache_result.headless_gate",
+          "used_by": [
+            "PortGame.source_building_recache_state"
+          ],
+          "rule": "Recache runs renderer cache update only when not headless."
+        },
+        "recache_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "recache()",
+          "java_expr": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+          "godot_symbol": "source_building_recache_result.recache_call",
+          "used_by": [
+            "PortGame.source_building_recache_state"
+          ],
+          "rule": "Recache call made in non-headless branch."
+        },
+        "recache": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "recache()",
+          "java_expr": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+          "godot_symbol": "source_building_recache_result.recache",
+          "used_by": [
+            "PortGame.source_building_recache_state"
+          ],
+          "rule": "Runtime recache mirrors the not-headless branch result."
+        },
+        "headless": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_recache_input.headless",
+          "rule": "Carries headless input into result schema."
+        },
+        "building_cache_layer": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_recache_input.building_cache_layer",
+          "rule": "Carries building_cache_layer input into result schema."
+        },
+        "tile": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_recache_input.tile",
+          "rule": "Carries tile input into result schema."
+        }
+      }
+    },
     "source_building_placed_input": {
       "status": "active",
       "keys": {

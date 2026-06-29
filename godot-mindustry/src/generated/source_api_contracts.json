@@ -8686,6 +8686,42 @@
       ],
       "runtime_proof": "/root/Main.source_building_power_production_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.getPowerProduction default helper."
+    },
+    "PortGame.source_building_recache_state": {
+      "status": "active",
+      "source_slice": "N629",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "recache()",
+      "params": [
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_building_recache_input.headless"
+        },
+        {
+          "name": "building_cache_layer",
+          "type": "Variant",
+          "schema": "source_building_recache_input.building_cache_layer"
+        },
+        {
+          "name": "tile_state",
+          "type": "Variant",
+          "schema": "source_building_recache_input.tile"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "headless_gate",
+        "recache_call",
+        "recache",
+        "building_cache_layer",
+        "tile"
+      ],
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.recache helper."
     }
   },
   "policy": {

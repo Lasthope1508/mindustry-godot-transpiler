@@ -21653,6 +21653,84 @@
       "godot_symbol": "source_building_puddle_on_input.puddle_state",
       "rule": "Runtime puddle_state argument supplies Puddle puddle and is passed through because base puddleOn has no side effects."
     },
+    "building_recache.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "recache()",
+      "godot_owner": "PortGame.source_building_recache_state",
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "java_expr": "public void recache(){",
+      "godot_symbol": "source_building_recache_result.method",
+      "rule": "BuildingComp recache method boundary."
+    },
+    "building_recache.headless_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "recache()",
+      "godot_owner": "PortGame.source_building_recache_state",
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "java_expr": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+      "godot_symbol": "source_building_recache_result.headless_gate",
+      "rule": "Recache runs renderer cache update only when not headless."
+    },
+    "building_recache.recache_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "recache()",
+      "godot_owner": "PortGame.source_building_recache_state",
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "java_expr": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);",
+      "godot_symbol": "source_building_recache_result.recache_call",
+      "rule": "Recache delegates to renderer.blocks.recacheBuilding with block.buildingCacheLayer and tile."
+    },
+    "building_recache.headless": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "recache()",
+      "godot_owner": "PortGame.source_building_recache_state",
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "java_expr": "headless",
+      "godot_symbol": "source_building_recache_input.headless",
+      "rule": "Runtime headless argument supplies global headless gate."
+    },
+    "building_recache.building_cache_layer": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "recache()",
+      "godot_owner": "PortGame.source_building_recache_state",
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "java_expr": "block.buildingCacheLayer",
+      "godot_symbol": "source_building_recache_input.building_cache_layer",
+      "rule": "Runtime building_cache_layer argument supplies block.buildingCacheLayer."
+    },
+    "building_recache.tile": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "recache()",
+      "godot_owner": "PortGame.source_building_recache_state",
+      "tests": [
+        "test_building_recache_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_recache_state",
+      "java_expr": "tile",
+      "godot_symbol": "source_building_recache_input.tile",
+      "rule": "Runtime tile_state argument supplies tile."
+    },
     "building_placed.method": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
