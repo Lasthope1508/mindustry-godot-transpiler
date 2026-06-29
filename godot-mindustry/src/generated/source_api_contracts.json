@@ -8145,6 +8145,63 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed electric power sound helper."
+    },
+    "PortGame.source_building_on_destroyed_reactive_sound_state": {
+      "status": "active",
+      "source_slice": "N614",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed()",
+      "params": [
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_reactive_sound_input.headless"
+        },
+        {
+          "name": "explosiveness",
+          "type": "float",
+          "schema": "source_building_on_destroyed_reactive_sound_input.explosiveness"
+        },
+        {
+          "name": "flammability",
+          "type": "float",
+          "schema": "source_building_on_destroyed_reactive_sound_input.flammability"
+        },
+        {
+          "name": "destroy_pitch_min",
+          "type": "float",
+          "schema": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_min"
+        },
+        {
+          "name": "destroy_pitch_max",
+          "type": "float",
+          "schema": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_max"
+        },
+        {
+          "name": "destroy_sound_volume",
+          "type": "float",
+          "schema": "source_building_on_destroyed_reactive_sound_input.destroy_sound_volume"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "headless",
+        "explosiveness",
+        "flammability",
+        "play_reactive_sound",
+        "reactive_sound_kind",
+        "sound",
+        "sound_choices",
+        "chance",
+        "pitch_min",
+        "pitch_max",
+        "volume"
+      ],
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed reactive explosion sound helper."
     }
   },
   "policy": {

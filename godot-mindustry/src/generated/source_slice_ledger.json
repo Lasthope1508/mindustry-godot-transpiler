@@ -6715,6 +6715,46 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_power_sound_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_power_sound_state helper against BuildingComp.onDestroyed() electric power sound gates."
+    },
+    "N614": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "exact_exprs": [
+        "public void onDestroyed(){",
+        "if(!headless){",
+        "if(explosiveness > 40f){",
+        "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        "}else if(flammability > 5f){",
+        "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+        "Mathf.chance(0.5)",
+        "Mathf.random(block.destroyPitchMin, block.destroyPitchMax)",
+        "block.destroySoundVolume"
+      ],
+      "deferred_exprs": [
+        "Concrete audio playback, tile position routing, random pitch sampling, and chance selection remain covered by audio/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_reactive_sound.method",
+        "building_on_destroyed_reactive_sound.headless_gate",
+        "building_on_destroyed_reactive_sound.explosive_gate",
+        "building_on_destroyed_reactive_sound.explosive_sound",
+        "building_on_destroyed_reactive_sound.flammable_gate",
+        "building_on_destroyed_reactive_sound.flammable_sound",
+        "building_on_destroyed_reactive_sound.headless",
+        "building_on_destroyed_reactive_sound.explosiveness",
+        "building_on_destroyed_reactive_sound.flammability",
+        "building_on_destroyed_reactive_sound.destroy_pitch_min",
+        "building_on_destroyed_reactive_sound.destroy_pitch_max",
+        "building_on_destroyed_reactive_sound.destroy_sound_volume"
+      ],
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_reactive_sound_state helper against BuildingComp.onDestroyed() reactive explosion sound gates."
     }
   },
   "version": 1

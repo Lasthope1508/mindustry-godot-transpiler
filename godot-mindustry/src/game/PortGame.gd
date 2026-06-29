@@ -1854,6 +1854,10 @@ func source_building_on_destroyed_base_sound_state(headless: bool, destroy_sound
 func source_building_on_destroyed_reactive_sound_state(headless: bool, explosiveness: float, flammability: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
 	var should_play_reactive_sound := not headless
 	var silent_state := {
+		"method": "public void onDestroyed(){",
+		"headless": headless,
+		"explosiveness": explosiveness,
+		"flammability": flammability,
 		"play_reactive_sound": false,
 		"reactive_sound_kind": "",
 		"sound": "",
@@ -1867,6 +1871,10 @@ func source_building_on_destroyed_reactive_sound_state(headless: bool, explosive
 		return silent_state
 	if explosiveness > 40.0:
 		return {
+			"method": "public void onDestroyed(){",
+			"headless": headless,
+			"explosiveness": explosiveness,
+			"flammability": flammability,
 			"play_reactive_sound": true,
 			"reactive_sound_kind": "explosive",
 			"sound": "",
@@ -1878,6 +1886,10 @@ func source_building_on_destroyed_reactive_sound_state(headless: bool, explosive
 		}
 	if flammability > 5.0:
 		return {
+			"method": "public void onDestroyed(){",
+			"headless": headless,
+			"explosiveness": explosiveness,
+			"flammability": flammability,
 			"play_reactive_sound": true,
 			"reactive_sound_kind": "flammable",
 			"sound": "blockExplodeFlammable",

@@ -1806,6 +1806,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_on_destroyed_reactive_sound_state(headless: bool, explosiveness: float, flammability: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:", source)
         self.assertIn("var should_play_reactive_sound := not headless", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"headless": headless', source)
+        self.assertIn('"explosiveness": explosiveness', source)
+        self.assertIn('"flammability": flammability', source)
         self.assertIn('"reactive_sound_kind": "explosive"', source)
         self.assertIn('"reactive_sound_kind": "flammable"', source)
         self.assertIn('"chance": 0.5', source)

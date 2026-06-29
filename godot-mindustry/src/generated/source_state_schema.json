@@ -26859,6 +26859,196 @@
           "rule": "Carries destroy_sound_volume input into result schema."
         }
       }
+    },
+    "source_building_on_destroyed_reactive_sound_input": {
+      "status": "active",
+      "keys": {
+        "headless": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "headless",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_input.headless",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Runtime headless supplies source headless gate."
+        },
+        "explosiveness": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "explosiveness",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_input.explosiveness",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Runtime explosiveness supplies source explosiveness accumulator."
+        },
+        "flammability": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "flammability",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_input.flammability",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Runtime flammability supplies source flammability accumulator."
+        },
+        "destroy_pitch_min": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroyPitchMin",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_min",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Runtime destroy_pitch_min supplies source block.destroyPitchMin."
+        },
+        "destroy_pitch_max": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroyPitchMax",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_max",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Runtime destroy_pitch_max supplies source block.destroyPitchMax."
+        },
+        "destroy_sound_volume": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.destroySoundVolume",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_input.destroy_sound_volume",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Runtime destroy_sound_volume supplies source block.destroySoundVolume."
+        }
+      }
+    },
+    "source_building_on_destroyed_reactive_sound_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "public void onDestroyed(){",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_result.method",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "BuildingComp onDestroyed method boundary."
+        },
+        "play_reactive_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(!headless){",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_result.play_reactive_sound",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Reactive explosion sound is gated by non-headless runtime."
+        },
+        "reactive_sound_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(explosiveness > 40f){ / }else if(flammability > 5f){",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_result.reactive_sound_kind",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Reactive sound branch kind."
+        },
+        "sound_choices": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_result.sound_choices",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Explosive reactive sound random choice set."
+        },
+        "sound": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_result.sound",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Flammable reactive sound call."
+        },
+        "chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "Mathf.chance(0.5)",
+          "godot_symbol": "source_building_on_destroyed_reactive_sound_result.chance",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_reactive_sound_state"
+          ],
+          "rule": "Explosive branch chance selector."
+        },
+        "headless": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_reactive_sound_input.headless",
+          "rule": "Carries headless input into result schema."
+        },
+        "explosiveness": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_reactive_sound_input.explosiveness",
+          "rule": "Carries explosiveness input into result schema."
+        },
+        "flammability": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_reactive_sound_input.flammability",
+          "rule": "Carries flammability input into result schema."
+        },
+        "pitch_min": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_min",
+          "rule": "Carries destroy_pitch_min input into result schema."
+        },
+        "pitch_max": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_max",
+          "rule": "Carries destroy_pitch_max input into result schema."
+        },
+        "volume": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_reactive_sound_input.destroy_sound_volume",
+          "rule": "Carries destroy_sound_volume input into result schema."
+        }
+      }
     }
   },
   "version": 1

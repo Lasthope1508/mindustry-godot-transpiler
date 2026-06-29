@@ -20742,6 +20742,162 @@
       "java_expr": "block.destroySoundVolume",
       "godot_symbol": "source_building_on_destroyed_power_sound_input.destroy_sound_volume",
       "rule": "Runtime destroy_sound_volume supplies source block.destroySoundVolume."
+    },
+    "building_on_destroyed_reactive_sound.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_result.method",
+      "rule": "BuildingComp onDestroyed method boundary."
+    },
+    "building_on_destroyed_reactive_sound.headless_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "if(!headless){",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_result.play_reactive_sound",
+      "rule": "Reactive explosion sound is gated by non-headless runtime."
+    },
+    "building_on_destroyed_reactive_sound.explosive_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "if(explosiveness > 40f){",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_result.reactive_sound_kind",
+      "rule": "Explosive reactive sound gate."
+    },
+    "building_on_destroyed_reactive_sound.explosive_sound": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_result.sound_choices",
+      "rule": "Explosive reactive sound random choice call."
+    },
+    "building_on_destroyed_reactive_sound.flammable_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "}else if(flammability > 5f){",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_result.reactive_sound_kind",
+      "rule": "Flammable reactive sound gate."
+    },
+    "building_on_destroyed_reactive_sound.flammable_sound": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_result.sound",
+      "rule": "Flammable reactive sound call."
+    },
+    "building_on_destroyed_reactive_sound.headless": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "headless",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_input.headless",
+      "rule": "Runtime headless supplies source headless gate."
+    },
+    "building_on_destroyed_reactive_sound.explosiveness": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "explosiveness",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_input.explosiveness",
+      "rule": "Runtime explosiveness supplies source explosiveness accumulator."
+    },
+    "building_on_destroyed_reactive_sound.flammability": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "flammability",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_input.flammability",
+      "rule": "Runtime flammability supplies source flammability accumulator."
+    },
+    "building_on_destroyed_reactive_sound.destroy_pitch_min": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "block.destroyPitchMin",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_min",
+      "rule": "Runtime destroy_pitch_min supplies source block.destroyPitchMin."
+    },
+    "building_on_destroyed_reactive_sound.destroy_pitch_max": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "block.destroyPitchMax",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_input.destroy_pitch_max",
+      "rule": "Runtime destroy_pitch_max supplies source block.destroyPitchMax."
+    },
+    "building_on_destroyed_reactive_sound.destroy_sound_volume": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
+      "tests": [
+        "test_building_on_destroyed_reactive_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
+      "java_expr": "block.destroySoundVolume",
+      "godot_symbol": "source_building_on_destroyed_reactive_sound_input.destroy_sound_volume",
+      "rule": "Runtime destroy_sound_volume supplies source block.destroySoundVolume."
     }
   }
 }
