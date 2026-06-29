@@ -18960,6 +18960,84 @@
         "test_bullet_lifetime_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_range_change.comment": {
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "godot_symbol": "source_bullet_range_change_result.comment",
+      "java_expr": "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType rangeChange source comment.",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_range_change.data": {
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "godot_symbol": "source_bullet_range_change_input.data",
+      "java_expr": "BulletType data",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime data dictionary supplies BulletType rangeChange field state.",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_range_change.default": {
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "godot_symbol": "source_bullet_range_change_result.default_value",
+      "java_expr": "0f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot fallback preserves BulletType.rangeChange default value.",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_range_change.field": {
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "godot_symbol": "source_bullet_range_change_result.field",
+      "java_expr": "public float rangeChange = 0f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType rangeChange field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_range_change.key": {
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "godot_symbol": "source_bullet_range_change_result.key",
+      "java_expr": "rangeChange",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot dictionary key maps to BulletType.rangeChange exactly.",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_range_change.result": {
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "godot_symbol": "source_bullet_range_change_result.range_change",
+      "java_expr": "rangeChange",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Return range change from BulletType.rangeChange runtime data or default.",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",

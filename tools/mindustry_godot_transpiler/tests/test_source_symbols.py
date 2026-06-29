@@ -4149,6 +4149,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "lifetime / 60f")
         self.assertEqual(result["godot_symbol"], "source_bullet_lifetime_result.lifetime_seconds")
 
+    def test_bullet_range_change_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "bullet_range_change.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(comment["java_method"], "field declaration")
+        self.assertEqual(comment["java_expr"], "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_bullet_range_change")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_bullet_range_change")
+        self.assertEqual(comment["godot_symbol"], "source_bullet_range_change_result.comment")
+
+        field = source_symbols.source_symbol(registry, "bullet_range_change.field")
+        self.assertEqual(field["java_expr"], "public float rangeChange = 0f;")
+        self.assertEqual(field["godot_symbol"], "source_bullet_range_change_result.field")
+
+        data = source_symbols.source_symbol(registry, "bullet_range_change.data")
+        self.assertEqual(data["status"], "explicit-input")
+        self.assertEqual(data["java_expr"], "BulletType data")
+        self.assertEqual(data["godot_symbol"], "source_bullet_range_change_input.data")
+
+        key = source_symbols.source_symbol(registry, "bullet_range_change.key")
+        self.assertEqual(key["java_expr"], "rangeChange")
+        self.assertEqual(key["godot_symbol"], "source_bullet_range_change_result.key")
+
+        default_value = source_symbols.source_symbol(registry, "bullet_range_change.default")
+        self.assertEqual(default_value["java_expr"], "0f")
+        self.assertEqual(default_value["godot_symbol"], "source_bullet_range_change_result.default_value")
+
+        result = source_symbols.source_symbol(registry, "bullet_range_change.result")
+        self.assertEqual(result["java_expr"], "rangeChange")
+        self.assertEqual(result["godot_symbol"], "source_bullet_range_change_result.range_change")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8233,9 +8268,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 273)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 274)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 278)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 279)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8416,6 +8451,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_hit_size", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_inaccuracy", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_lifetime_seconds", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_range_change", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9839,6 +9875,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lifetime", bullet_lifetime["exact_exprs"])
         self.assertIn("40f", bullet_lifetime["exact_exprs"])
         self.assertIn("60f", bullet_lifetime["exact_exprs"])
+
+        bullet_range_change = source_symbols.source_slice(ledger, "N676")
+        self.assertEqual(bullet_range_change["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_range_change["java_method"], "field declaration")
+        self.assertEqual(bullet_range_change["godot_owner"], "PortGame.source_bullet_range_change")
+        self.assertIn("/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */", bullet_range_change["exact_exprs"])
+        self.assertIn("public float rangeChange = 0f;", bullet_range_change["exact_exprs"])
+        self.assertIn("rangeChange", bullet_range_change["exact_exprs"])
+        self.assertIn("0f", bullet_range_change["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12875,6 +12920,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lifetime_seconds", bullet_lifetime["return_keys"])
         self.assertEqual(bullet_lifetime["source_method"], "field declaration")
 
+        bullet_range_change = source_symbols.api_contract(contracts, "PortGame.source_bullet_range_change")
+        self.assertEqual([param["name"] for param in bullet_range_change["params"]], ["data"])
+        self.assertEqual(bullet_range_change["params"][0]["schema"], "source_bullet_range_change_input.data")
+        self.assertIn("range_change", bullet_range_change["return_keys"])
+        self.assertEqual(bullet_range_change["source_method"], "field declaration")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -15791,6 +15842,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_lifetime_result["keys"]["ticks_per_second"]["java_expr"], "60f")
         self.assertEqual(source_bullet_lifetime_result["keys"]["lifetime_seconds"]["java_expr"], "lifetime / 60f")
         self.assertEqual(source_bullet_lifetime_result["keys"]["data"]["alias_of"], "source_bullet_lifetime_input.data")
+
+        source_bullet_range_change_input = source_symbols.state_schema(schema, "source_bullet_range_change_input")
+        self.assertEqual(source_bullet_range_change_input["keys"]["data"]["java_expr"], "BulletType data")
+        self.assertEqual(source_bullet_range_change_input["keys"]["data"]["status"], "explicit-input")
+
+        source_bullet_range_change_result = source_symbols.state_schema(schema, "source_bullet_range_change_result")
+        self.assertEqual(source_bullet_range_change_result["keys"]["comment"]["java_expr"], "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */")
+        self.assertEqual(source_bullet_range_change_result["keys"]["field"]["java_expr"], "public float rangeChange = 0f;")
+        self.assertEqual(source_bullet_range_change_result["keys"]["key"]["java_expr"], "rangeChange")
+        self.assertEqual(source_bullet_range_change_result["keys"]["default_value"]["java_expr"], "0f")
+        self.assertEqual(source_bullet_range_change_result["keys"]["range_change"]["java_expr"], "rangeChange")
+        self.assertEqual(source_bullet_range_change_result["keys"]["data"]["alias_of"], "source_bullet_range_change_input.data")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

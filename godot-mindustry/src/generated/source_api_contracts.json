@@ -6802,6 +6802,27 @@
         "test_bullet_lifetime_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_bullet_range_change": {
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_range_change_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "range_change"
+      ],
+      "rule": "Public runtime contract for BulletType rangeChange field helper.",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "source_method": "field declaration",
+      "source_slice": "N676",
+      "status": "active",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_bullet_type_building_damage_state": {
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "params": [

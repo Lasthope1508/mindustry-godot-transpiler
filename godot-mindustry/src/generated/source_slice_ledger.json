@@ -8778,6 +8778,33 @@
         "test_bullet_lifetime_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_lifetime"
       ]
+    },
+    "N676": {
+      "exact_exprs": [
+        "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */",
+        "public float rangeChange = 0f;",
+        "BulletType data",
+        "rangeChange",
+        "0f"
+      ],
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "source_symbols": [
+        "bullet_range_change.comment",
+        "bullet_range_change.data",
+        "bullet_range_change.default",
+        "bullet_range_change.field",
+        "bullet_range_change.key",
+        "bullet_range_change.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
     }
   },
   "version": 1

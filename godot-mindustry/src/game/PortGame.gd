@@ -10129,8 +10129,13 @@ func source_move_angle_toward(current_degrees: float, target_degrees: float, max
 		return target_degrees
 	return current_degrees + sign(delta) * max_delta
 
+const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"
+const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"
+const SOURCE_BULLET_RANGE_CHANGE_KEY := "rangeChange"
+const SOURCE_BULLET_RANGE_CHANGE_DEFAULT := 0.0
+
 func source_bullet_range_change(data: Dictionary) -> float:
-	return float(data.get("rangeChange", 0.0))
+	return float(data.get(SOURCE_BULLET_RANGE_CHANGE_KEY, SOURCE_BULLET_RANGE_CHANGE_DEFAULT))
 
 const SOURCE_BULLET_INACCURACY_COMMENT := "/** Extra inaccuracy when firing. */"
 const SOURCE_BULLET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
