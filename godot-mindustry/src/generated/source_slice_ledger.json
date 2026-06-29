@@ -7202,6 +7202,51 @@
       ],
       "runtime_proof": "/root/Main.source_building_recache_state",
       "rule": "Backfills SSOT for existing canonical source_building_recache_state helper against BuildingComp.recache()."
+    },
+    "N630": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "removeFromProximity()",
+      "godot_owner": "PortGame.source_building_remove_from_proximity_state",
+      "exact_exprs": [
+        "public void removeFromProximity(){",
+        "onProximityRemoved();",
+        "tmpTiles.clear();",
+        "Point2[] nearby = Edges.getEdges(block.size);",
+        "for(Point2 point : nearby){",
+        "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+        "//remove this tile from all nearby tile's proximities",
+        "if(other != null){",
+        "tmpTiles.add(other);",
+        "for(Building other : tmpTiles){",
+        "other.proximity.remove(self(), true);",
+        "other.onProximityUpdate();",
+        "proximity.clear();",
+        "nearby.length",
+        "other != null"
+      ],
+      "deferred_exprs": [
+        "Concrete world.build lookup and mutable other.proximity side effects remain owned by world/proximity integration slices."
+      ],
+      "source_symbols": [
+        "building_remove_from_proximity.method",
+        "building_remove_from_proximity.on_proximity_removed",
+        "building_remove_from_proximity.tmp_tiles_clear",
+        "building_remove_from_proximity.edges_get",
+        "building_remove_from_proximity.world_build",
+        "building_remove_from_proximity.tmp_tiles_add",
+        "building_remove_from_proximity.remove_self",
+        "building_remove_from_proximity.other_update",
+        "building_remove_from_proximity.proximity_clear",
+        "building_remove_from_proximity.nearby_count",
+        "building_remove_from_proximity.removable_count"
+      ],
+      "tests": [
+        "test_building_remove_from_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_from_proximity_state",
+      "rule": "Backfills SSOT for existing canonical source_building_remove_from_proximity_state helper against BuildingComp.removeFromProximity()."
     }
   },
   "version": 1

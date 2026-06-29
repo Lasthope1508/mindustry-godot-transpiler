@@ -28653,6 +28653,202 @@
           "rule": "Runtime power_production mirrors base return 0f."
         }
       }
+    },
+    "source_building_remove_from_proximity_input": {
+      "status": "active",
+      "keys": {
+        "nearby_count": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "nearby.length",
+          "godot_symbol": "source_building_remove_from_proximity_input.nearby_count",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "Runtime nearby_count supplies the Edges.getEdges(block.size) loop count."
+        },
+        "removable_count": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "other != null",
+          "godot_symbol": "source_building_remove_from_proximity_input.removable_count",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "Runtime removable_count supplies the count of non-null world.build results queued into tmpTiles."
+        }
+      }
+    },
+    "source_building_remove_from_proximity_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "public void removeFromProximity(){",
+          "godot_symbol": "source_building_remove_from_proximity_result.method",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "BuildingComp removeFromProximity method boundary."
+        },
+        "on_proximity_removed_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "onProximityRemoved();",
+          "godot_symbol": "source_building_remove_from_proximity_result.on_proximity_removed_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity first notifies this building that proximity was removed."
+        },
+        "tmp_tiles_clear_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "tmpTiles.clear();",
+          "godot_symbol": "source_building_remove_from_proximity_result.tmp_tiles_clear_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity clears tmpTiles before scanning edges."
+        },
+        "edges_get_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "godot_symbol": "source_building_remove_from_proximity_result.edges_get_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity uses Edges.getEdges(block.size) for nearby offsets."
+        },
+        "world_build_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "godot_symbol": "source_building_remove_from_proximity_result.world_build_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity resolves nearby Building other from world.build tile offsets."
+        },
+        "tmp_tiles_add_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "tmpTiles.add(other);",
+          "godot_symbol": "source_building_remove_from_proximity_result.tmp_tiles_add_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity queues non-null other buildings in tmpTiles."
+        },
+        "remove_self_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "other.proximity.remove(self(), true);",
+          "godot_symbol": "source_building_remove_from_proximity_result.remove_self_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity removes self from each queued other proximity with identity flag true."
+        },
+        "other_update_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "other.onProximityUpdate();",
+          "godot_symbol": "source_building_remove_from_proximity_result.other_update_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity updates each queued other after removal."
+        },
+        "proximity_clear_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "proximity.clear();",
+          "godot_symbol": "source_building_remove_from_proximity_result.proximity_clear_call",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "removeFromProximity clears this building proximity after neighbor updates."
+        },
+        "on_proximity_removed": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "onProximityRemoved();",
+          "godot_symbol": "source_building_remove_from_proximity_result.on_proximity_removed",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "Runtime bool mirrors the onProximityRemoved call."
+        },
+        "tmp_tiles_cleared": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "tmpTiles.clear();",
+          "godot_symbol": "source_building_remove_from_proximity_result.tmp_tiles_cleared",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "Runtime bool mirrors tmpTiles.clear before scanning."
+        },
+        "nearby_count": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_remove_from_proximity_input.nearby_count",
+          "rule": "Carries nearby_count input into result schema."
+        },
+        "queued_removals": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_remove_from_proximity_input.removable_count",
+          "rule": "Queued removals mirror non-null other count capped by nearby_count."
+        },
+        "proximity_updates": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_remove_from_proximity_input.removable_count",
+          "rule": "Each queued removal calls other.onProximityUpdate()."
+        },
+        "proximity_cleared": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "removeFromProximity()",
+          "java_expr": "proximity.clear();",
+          "godot_symbol": "source_building_remove_from_proximity_result.proximity_cleared",
+          "used_by": [
+            "PortGame.source_building_remove_from_proximity_state"
+          ],
+          "rule": "Runtime bool mirrors final proximity.clear call."
+        }
+      }
     }
   },
   "version": 1

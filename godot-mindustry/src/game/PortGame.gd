@@ -2233,6 +2233,15 @@ func source_building_after_picked_up_state(power_present: bool, has_cons_power: 
 
 func source_building_remove_from_proximity_state(nearby_count: int, removable_count: int) -> Dictionary:
 	return {
+		"method": "public void removeFromProximity(){",
+		"on_proximity_removed_call": "onProximityRemoved();",
+		"tmp_tiles_clear_call": "tmpTiles.clear();",
+		"edges_get_call": "Point2[] nearby = Edges.getEdges(block.size);",
+		"world_build_call": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+		"tmp_tiles_add_call": "tmpTiles.add(other);",
+		"remove_self_call": "other.proximity.remove(self(), true);",
+		"other_update_call": "other.onProximityUpdate();",
+		"proximity_clear_call": "proximity.clear();",
 		"on_proximity_removed": true,
 		"tmp_tiles_cleared": true,
 		"nearby_count": nearby_count,

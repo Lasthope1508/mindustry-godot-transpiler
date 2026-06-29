@@ -2111,6 +2111,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"nearby_count": nearby_count', source)
         self.assertIn('"queued_removals": clampi(removable_count, 0, nearby_count)', source)
         self.assertIn('"proximity_cleared": true', source)
+        self.assertIn('"method": "public void removeFromProximity(){",', source)
+        self.assertIn('"on_proximity_removed_call": "onProximityRemoved();",', source)
+        self.assertIn('"tmp_tiles_clear_call": "tmpTiles.clear();",', source)
+        self.assertIn('"edges_get_call": "Point2[] nearby = Edges.getEdges(block.size);",', source)
+        self.assertIn('"world_build_call": "Building other = world.build(tile.x + point.x, tile.y + point.y);",', source)
+        self.assertIn('"tmp_tiles_add_call": "tmpTiles.add(other);",', source)
+        self.assertIn('"remove_self_call": "other.proximity.remove(self(), true);",', source)
+        self.assertIn('"other_update_call": "other.onProximityUpdate();",', source)
+        self.assertIn('"proximity_clear_call": "proximity.clear();",', source)
     def test_port_game_exposes_source_building_update_proximity_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

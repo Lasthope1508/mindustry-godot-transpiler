@@ -8722,6 +8722,46 @@
       ],
       "runtime_proof": "/root/Main.source_building_recache_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.recache helper."
+    },
+    "PortGame.source_building_remove_from_proximity_state": {
+      "status": "active",
+      "source_slice": "N630",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "removeFromProximity()",
+      "params": [
+        {
+          "name": "nearby_count",
+          "type": "int",
+          "schema": "source_building_remove_from_proximity_input.nearby_count"
+        },
+        {
+          "name": "removable_count",
+          "type": "int",
+          "schema": "source_building_remove_from_proximity_input.removable_count"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "on_proximity_removed_call",
+        "tmp_tiles_clear_call",
+        "edges_get_call",
+        "world_build_call",
+        "tmp_tiles_add_call",
+        "remove_self_call",
+        "other_update_call",
+        "proximity_clear_call",
+        "on_proximity_removed",
+        "tmp_tiles_cleared",
+        "nearby_count",
+        "queued_removals",
+        "proximity_updates",
+        "proximity_cleared"
+      ],
+      "tests": [
+        "test_building_remove_from_proximity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_from_proximity_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.removeFromProximity helper."
     }
   },
   "policy": {
