@@ -5452,6 +5452,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(nearby_count["java_expr"], "nearby.length")
         self.assertEqual(nearby_count["godot_symbol"], "source_building_update_proximity_input.nearby_count")
 
+    def test_building_update_tile_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_update_tile_gate.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "update()")
+        self.assertEqual(method["java_expr"], "public void update(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_update_tile_gate_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_update_tile_gate_state")
+        self.assertEqual(method["godot_symbol"], "source_building_update_tile_gate_result.method")
+
+        gate = source_symbols.source_symbol(registry, "building_update_tile_gate.gate")
+        self.assertEqual(gate["java_expr"], "if(enabled || !block.noUpdateDisabled){")
+        self.assertEqual(gate["godot_symbol"], "source_building_update_tile_gate_result.update_tile_called")
+
+        call = source_symbols.source_symbol(registry, "building_update_tile_gate.call")
+        self.assertEqual(call["java_expr"], "updateTile();")
+        self.assertEqual(call["godot_symbol"], "source_building_update_tile_gate_result.update_tile_call")
+
+        enabled = source_symbols.source_symbol(registry, "building_update_tile_gate.enabled")
+        self.assertEqual(enabled["status"], "explicit-input")
+        self.assertEqual(enabled["java_expr"], "enabled")
+        self.assertEqual(enabled["godot_symbol"], "source_building_update_tile_gate_input.enabled_state")
+
+        no_update_disabled = source_symbols.source_symbol(registry, "building_update_tile_gate.no_update_disabled")
+        self.assertEqual(no_update_disabled["status"], "explicit-input")
+        self.assertEqual(no_update_disabled["java_expr"], "block.noUpdateDisabled")
+        self.assertEqual(no_update_disabled["godot_symbol"], "source_building_update_tile_gate_input.block_no_update_disabled")
+
     def test_building_placed_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7988,9 +8020,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 266)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 267)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 271)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 272)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8164,6 +8196,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_update_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_fog_visibility_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_proximity_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_tile_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9524,6 +9557,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("onProximityUpdate();", building_update_proximity["exact_exprs"])
         self.assertIn("other.onProximityUpdate();", building_update_proximity["exact_exprs"])
         self.assertIn("if(!headless && block.drawCached) recache();", building_update_proximity["exact_exprs"])
+
+        building_update_tile_gate = source_symbols.source_slice(ledger, "N669")
+        self.assertEqual(building_update_tile_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_tile_gate["java_method"], "update()")
+        self.assertEqual(building_update_tile_gate["godot_owner"], "PortGame.source_building_update_tile_gate_state")
+        self.assertIn("public void update(){", building_update_tile_gate["exact_exprs"])
+        self.assertIn("if(enabled || !block.noUpdateDisabled){", building_update_tile_gate["exact_exprs"])
+        self.assertIn("updateTile();", building_update_tile_gate["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12514,6 +12555,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("recache", building_update_proximity["return_keys"])
         self.assertEqual(building_update_proximity["source_method"], "updateProximity()")
 
+        building_update_tile_gate = source_symbols.api_contract(contracts, "PortGame.source_building_update_tile_gate_state")
+        self.assertEqual([param["name"] for param in building_update_tile_gate["params"]], ["enabled_state", "block_no_update_disabled"])
+        self.assertEqual(building_update_tile_gate["params"][0]["schema"], "source_building_update_tile_gate_input.enabled_state")
+        self.assertEqual(building_update_tile_gate["params"][1]["schema"], "source_building_update_tile_gate_input.block_no_update_disabled")
+        self.assertIn("update_tile_called", building_update_tile_gate["return_keys"])
+        self.assertEqual(building_update_tile_gate["source_method"], "update()")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -15343,6 +15391,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_update_proximity_result["keys"]["self_proximity_update"]["java_expr"], "onProximityUpdate();")
         self.assertEqual(source_building_update_proximity_result["keys"]["other_proximity_updates"]["java_expr"], "other.onProximityUpdate();")
         self.assertEqual(source_building_update_proximity_result["keys"]["recache"]["java_expr"], "if(!headless && block.drawCached) recache();")
+
+        source_building_update_tile_gate_input = source_symbols.state_schema(schema, "source_building_update_tile_gate_input")
+        self.assertEqual(source_building_update_tile_gate_input["keys"]["enabled_state"]["java_expr"], "enabled")
+        self.assertEqual(source_building_update_tile_gate_input["keys"]["block_no_update_disabled"]["java_expr"], "block.noUpdateDisabled")
+
+        source_building_update_tile_gate_result = source_symbols.state_schema(schema, "source_building_update_tile_gate_result")
+        self.assertEqual(source_building_update_tile_gate_result["keys"]["method"]["java_expr"], "public void update(){")
+        self.assertEqual(source_building_update_tile_gate_result["keys"]["gate"]["java_expr"], "if(enabled || !block.noUpdateDisabled){")
+        self.assertEqual(source_building_update_tile_gate_result["keys"]["update_tile_call"]["java_expr"], "updateTile();")
+        self.assertEqual(source_building_update_tile_gate_result["keys"]["update_tile_called"]["java_expr"], "if(enabled || !block.noUpdateDisabled){")
+        self.assertEqual(source_building_update_tile_gate_result["keys"]["enabled_state"]["alias_of"], "source_building_update_tile_gate_input.enabled_state")
+        self.assertEqual(source_building_update_tile_gate_result["keys"]["block_no_update_disabled"]["alias_of"], "source_building_update_tile_gate_input.block_no_update_disabled")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

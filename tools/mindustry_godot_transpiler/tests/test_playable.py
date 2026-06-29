@@ -2821,6 +2821,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD := "public void update(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := "if(enabled || !block.noUpdateDisabled){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := "updateTile();"', source)
         self.assertIn("func source_building_update_tile_gate_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:", source)
         self.assertIn("var update_tile_called: bool = enabled_state or not block_no_update_disabled", source)
         self.assertIn('return {"update_tile_called": update_tile_called}', source)

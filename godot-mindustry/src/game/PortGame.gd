@@ -3001,6 +3001,10 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_CALL := "updateConsumption();"
 func source_building_update_consumption_call_state() -> Dictionary:
 	return {"update_consumption_called": true}
 
+const SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD := "public void update(){"
+const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := "if(enabled || !block.noUpdateDisabled){"
+const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := "updateTile();"
+
 func source_building_update_tile_gate_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
 	var update_tile_called: bool = enabled_state or not block_no_update_disabled
 	return {"update_tile_called": update_tile_called}
