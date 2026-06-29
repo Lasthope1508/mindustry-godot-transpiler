@@ -11187,6 +11187,42 @@
       "tests": [
         "test_drill_output_delta_for_cell_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_output_rate": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_output_rate_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_output_rate_input.item_id",
+          "type": "String"
+        },
+        {
+          "name": "return_count",
+          "schema": "source_drill_output_rate_input.return_count",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "rate",
+        "rateExpr",
+        "delay",
+        "block_id",
+        "item_id",
+        "return_count"
+      ],
+      "rule": "Public runtime contract for Drill.drawPlace drillspeed rate expression using getDrillTime(returnItem) and returnCount.",
+      "runtime_proof": "/root/Main.source_drill_output_rate",
+      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "source_slice": "N699",
+      "status": "active",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

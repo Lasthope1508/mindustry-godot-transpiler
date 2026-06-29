@@ -3364,6 +3364,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(speed["java_expr"], "speed")
         self.assertEqual(speed["godot_symbol"], "source_drill_output_delta_for_cell_input.speed")
 
+    def test_drill_output_rate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        draw_place_rate = source_symbols.source_symbol(registry, "drill_output_rate.draw_place_rate")
+        self.assertEqual(draw_place_rate["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(draw_place_rate["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(draw_place_rate["java_expr"], 'float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);')
+        self.assertEqual(draw_place_rate["godot_owner"], "PortGame.source_drill_output_rate")
+        self.assertEqual(draw_place_rate["runtime_proof"], "/root/Main.source_drill_output_rate")
+        self.assertEqual(draw_place_rate["godot_symbol"], "source_drill_output_rate_result.rate")
+
+        rate_expr = source_symbols.source_symbol(registry, "drill_output_rate.rate_expr")
+        self.assertEqual(rate_expr["java_expr"], "60f / getDrillTime(returnItem) * returnCount")
+        self.assertEqual(rate_expr["godot_symbol"], "source_drill_output_rate_result.rateExpr")
+
+        delay = source_symbols.source_symbol(registry, "drill_output_rate.delay")
+        self.assertEqual(delay["java_expr"], "getDrillTime(returnItem)")
+        self.assertEqual(delay["godot_symbol"], "source_drill_output_rate_result.delay")
+
+        block_id = source_symbols.source_symbol(registry, "drill_output_rate.block_id")
+        self.assertEqual(block_id["status"], "explicit-input")
+        self.assertEqual(block_id["java_expr"], "Drill block")
+        self.assertEqual(block_id["godot_symbol"], "source_drill_output_rate_input.block_id")
+
+        item_id = source_symbols.source_symbol(registry, "drill_output_rate.item_id")
+        self.assertEqual(item_id["status"], "explicit-input")
+        self.assertEqual(item_id["java_expr"], "returnItem")
+        self.assertEqual(item_id["godot_symbol"], "source_drill_output_rate_input.item_id")
+
+        return_count = source_symbols.source_symbol(registry, "drill_output_rate.return_count")
+        self.assertEqual(return_count["status"], "explicit-input")
+        self.assertEqual(return_count["java_expr"], "returnCount")
+        self.assertEqual(return_count["godot_symbol"], "source_drill_output_rate_input.return_count")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9294,9 +9331,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 296)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 297)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 301)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 302)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9500,6 +9537,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_drill_output_batch", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_output_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_output_delta_for_cell", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_output_rate", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10605,6 +10643,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("dominantItems", drill_output_delta_for_cell["exact_exprs"])
         self.assertIn("warmup", drill_output_delta_for_cell["exact_exprs"])
         self.assertIn("speed", drill_output_delta_for_cell["exact_exprs"])
+
+        drill_output_rate = source_symbols.source_slice(ledger, "N699")
+        self.assertEqual(drill_output_rate["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(drill_output_rate["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(drill_output_rate["godot_owner"], "PortGame.source_drill_output_rate")
+        self.assertIn('float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);', drill_output_rate["exact_exprs"])
+        self.assertIn("60f / getDrillTime(returnItem) * returnCount", drill_output_rate["exact_exprs"])
+        self.assertIn("getDrillTime(returnItem)", drill_output_rate["exact_exprs"])
+        self.assertIn("returnItem", drill_output_rate["exact_exprs"])
+        self.assertIn("returnCount", drill_output_rate["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13417,6 +13465,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("progress", drill_output_delta_for_cell["return_keys"])
         self.assertIn("time_scale", drill_output_delta_for_cell["return_keys"])
         self.assertEqual(drill_output_delta_for_cell["source_method"], "tile/block/timeScale fields and DrillBuild.updateTile() delegate")
+
+        drill_output_rate = source_symbols.api_contract(contracts, "PortGame.source_drill_output_rate")
+        self.assertEqual([param["name"] for param in drill_output_rate["params"]], ["block_id", "item_id", "return_count"])
+        self.assertEqual(drill_output_rate["params"][0]["schema"], "source_drill_output_rate_input.block_id")
+        self.assertEqual(drill_output_rate["params"][1]["schema"], "source_drill_output_rate_input.item_id")
+        self.assertEqual(drill_output_rate["params"][2]["schema"], "source_drill_output_rate_input.return_count")
+        self.assertIn("rate", drill_output_rate["return_keys"])
+        self.assertIn("delay", drill_output_rate["return_keys"])
+        self.assertEqual(drill_output_rate["source_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -16366,6 +16423,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["progress"]["java_expr"], "progress += delta() * dominantItems * speed * warmup;")
         self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["x"]["alias_of"], "source_drill_output_delta_for_cell_input.x")
         self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["dominant_items"]["alias_of"], "source_drill_output_delta_for_cell_input.dominant_items")
+
+        source_drill_output_rate_input = source_symbols.state_schema(schema, "source_drill_output_rate_input")
+        self.assertEqual(source_drill_output_rate_input["keys"]["block_id"]["java_expr"], "Drill block")
+        self.assertEqual(source_drill_output_rate_input["keys"]["item_id"]["java_expr"], "returnItem")
+        self.assertEqual(source_drill_output_rate_input["keys"]["return_count"]["java_expr"], "returnCount")
+
+        source_drill_output_rate_result = source_symbols.state_schema(schema, "source_drill_output_rate_result")
+        self.assertEqual(source_drill_output_rate_result["keys"]["rate"]["java_expr"], 'float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);')
+        self.assertEqual(source_drill_output_rate_result["keys"]["rateExpr"]["java_expr"], "60f / getDrillTime(returnItem) * returnCount")
+        self.assertEqual(source_drill_output_rate_result["keys"]["delay"]["java_expr"], "getDrillTime(returnItem)")
+        self.assertEqual(source_drill_output_rate_result["keys"]["return_count"]["alias_of"], "source_drill_output_rate_input.return_count")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

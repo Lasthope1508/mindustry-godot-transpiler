@@ -1085,13 +1085,18 @@ func source_drill_delay(block_id: String, item_id: String) -> float:
 		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
 	return (float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))) / drill_multiplier
 
-func source_drill_output_rate(block_id: String, item_id: String, ore_count: int) -> float:
-	if ore_count <= 0:
+const SOURCE_DRILL_OUTPUT_RATE_DRAW_PLACE := "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);"
+const SOURCE_DRILL_OUTPUT_RATE_RATE_EXPR := "60f / getDrillTime(returnItem) * returnCount"
+const SOURCE_DRILL_OUTPUT_RATE_RETURN_ITEM := "returnItem"
+const SOURCE_DRILL_OUTPUT_RATE_RETURN_COUNT := "returnCount"
+
+func source_drill_output_rate(block_id: String, item_id: String, return_count: int) -> float:
+	if return_count <= 0:
 		return 0.0
 	var delay := source_drill_delay(block_id, item_id)
 	if delay <= 0.0:
 		return 0.0
-	return 60.0 * float(ore_count) / delay
+	return 60.0 * float(return_count) / delay
 
 func source_drill_warmup_speed(block_id: String) -> float:
 	if content_catalog == null:

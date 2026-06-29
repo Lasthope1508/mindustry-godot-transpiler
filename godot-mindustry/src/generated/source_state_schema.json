@@ -37630,6 +37630,106 @@
       },
       "status": "active"
     },
+    "source_drill_output_rate_input": {
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_output_rate_input.block_id",
+          "java_expr": "Drill block",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill block identity for getDrillTime(returnItem).",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        },
+        "item_id": {
+          "godot_symbol": "source_drill_output_rate_input.item_id",
+          "java_expr": "returnItem",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input returnItem identity selected by countOre.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        },
+        "return_count": {
+          "godot_symbol": "source_drill_output_rate_input.return_count",
+          "java_expr": "returnCount",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input returnCount selected by countOre.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_output_rate_result": {
+      "keys": {
+        "block_id": {
+          "alias_of": "source_drill_output_rate_input.block_id",
+          "rule": "Carries Drill block identity into output rate result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "delay": {
+          "godot_symbol": "source_drill_output_rate_result.delay",
+          "java_expr": "getDrillTime(returnItem)",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source getDrillTime(returnItem) denominator.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        },
+        "item_id": {
+          "alias_of": "source_drill_output_rate_input.item_id",
+          "rule": "Carries returnItem identity into output rate result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "rate": {
+          "godot_symbol": "source_drill_output_rate_result.rate",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source drawPlace drillspeed display rate.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        },
+        "rateExpr": {
+          "godot_symbol": "source_drill_output_rate_result.rateExpr",
+          "java_expr": "60f / getDrillTime(returnItem) * returnCount",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source drawPlace drillspeed rate expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        },
+        "return_count": {
+          "alias_of": "source_drill_output_rate_input.return_count",
+          "rule": "Carries returnCount into output rate result schema.",
+          "status": "generated",
+          "type": "int"
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

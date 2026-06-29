@@ -9560,6 +9560,33 @@
         "test_drill_output_delta_for_cell_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_drill_rate"
       ]
+    },
+    "N699": {
+      "exact_exprs": [
+        "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);",
+        "60f / getDrillTime(returnItem) * returnCount",
+        "getDrillTime(returnItem)",
+        "returnItem",
+        "returnCount"
+      ],
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_output_rate",
+      "source_symbols": [
+        "drill_output_rate.draw_place_rate",
+        "drill_output_rate.rate_expr",
+        "drill_output_rate.delay",
+        "drill_output_rate.block_id",
+        "drill_output_rate.item_id",
+        "drill_output_rate.return_count"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_drill_rate"
+      ]
     }
   },
   "version": 1
