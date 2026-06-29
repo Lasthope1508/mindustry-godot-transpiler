@@ -26642,6 +26642,188 @@
         "test_building_update_efficiency_multiplier_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_efficiency_multiplier_state"
       ]
+    },
+    "building_update_fog_visibility.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */",
+      "godot_symbol": "source_building_update_fog_visibility_result.comment",
+      "rule": "Exact source comment for updateFogVisibility minimap refresh.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "public void updateFogVisibility(){",
+      "godot_symbol": "source_building_update_fog_visibility_result.method",
+      "rule": "Method boundary for BuildingComp.updateFogVisibility().",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "if(!wasVisible && !inFogTo(player.team())){",
+      "godot_symbol": "source_building_update_fog_visibility_result.gate",
+      "rule": "Exact upstream reveal gate using wasVisible and inFogTo(player.team()).",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.flags": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "visibleFlags |= (1L << player.team().id);",
+      "godot_symbol": "source_building_update_fog_visibility_result.visible_flags",
+      "rule": "Generated visibleFlags value after exact upstream bit-or assignment.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.was_visible_assignment": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "wasVisible = true;",
+      "godot_symbol": "source_building_update_fog_visibility_result.was_visible",
+      "rule": "Generated wasVisible value after exact upstream assignment.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.shadow": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "renderer.blocks.updateShadow(self());",
+      "godot_symbol": "source_building_update_fog_visibility_result.update_shadow",
+      "rule": "Exact upstream shadow update call.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.minimap": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "renderer.minimap.update(tile);",
+      "godot_symbol": "source_building_update_fog_visibility_result.minimap_update",
+      "rule": "Exact upstream minimap update call.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.was_visible": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "wasVisible",
+      "godot_symbol": "source_building_update_fog_visibility_input.was_visible",
+      "rule": "Explicit runtime input for upstream wasVisible field.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.in_fog_to_player_team": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "inFogTo(player.team())",
+      "godot_symbol": "source_building_update_fog_visibility_input.in_fog_to_player_team",
+      "rule": "Explicit runtime input for upstream inFogTo(player.team()) call.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.visible_flags": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "visibleFlags",
+      "godot_symbol": "source_building_update_fog_visibility_input.visible_flags",
+      "rule": "Explicit runtime input for upstream visibleFlags field.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.player_team_id": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "player.team().id",
+      "godot_symbol": "source_building_update_fog_visibility_input.player_team_id",
+      "rule": "Explicit runtime input for upstream player.team().id.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.self_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "self()",
+      "godot_symbol": "source_building_update_fog_visibility_input.self_state",
+      "rule": "Explicit runtime input for upstream self() passed to updateShadow.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
+    },
+    "building_update_fog_visibility.tile_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "java_expr": "tile",
+      "godot_symbol": "source_building_update_fog_visibility_input.tile_state",
+      "rule": "Explicit runtime input for upstream tile passed to minimap update.",
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ]
     }
   }
 }

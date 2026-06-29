@@ -2816,6 +2816,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_COMMENT := "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_METHOD := "public void updateFogVisibility(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_GATE := "if(!wasVisible && !inFogTo(player.team())){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_FLAGS := "visibleFlags |= (1L << player.team().id);"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_WAS_VISIBLE := "wasVisible = true;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_SHADOW := "renderer.blocks.updateShadow(self());"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_MINIMAP := "renderer.minimap.update(tile);"', source)
         self.assertIn("func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:", source)
         self.assertIn("var should_update: bool = not was_visible and not in_fog_to_player_team", source)
         self.assertIn("var updated_flags: int = visible_flags | (1 << player_team_id)", source)

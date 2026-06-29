@@ -8494,6 +8494,49 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_efficiency_multiplier_state",
       "rule": "Backfills SSOT for existing source_building_update_efficiency_multiplier_state helper against BuildingComp.updateEfficiencyMultiplier()."
+    },
+    "N667": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "updateFogVisibility()",
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "exact_exprs": [
+        "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */",
+        "public void updateFogVisibility(){",
+        "if(!wasVisible && !inFogTo(player.team())){",
+        "visibleFlags |= (1L << player.team().id);",
+        "wasVisible = true;",
+        "renderer.blocks.updateShadow(self());",
+        "renderer.minimap.update(tile);",
+        "wasVisible",
+        "inFogTo(player.team())",
+        "visibleFlags",
+        "player.team().id",
+        "self()",
+        "tile"
+      ],
+      "source_symbols": [
+        "building_update_fog_visibility.comment",
+        "building_update_fog_visibility.method",
+        "building_update_fog_visibility.gate",
+        "building_update_fog_visibility.flags",
+        "building_update_fog_visibility.was_visible_assignment",
+        "building_update_fog_visibility.shadow",
+        "building_update_fog_visibility.minimap",
+        "building_update_fog_visibility.was_visible",
+        "building_update_fog_visibility.in_fog_to_player_team",
+        "building_update_fog_visibility.visible_flags",
+        "building_update_fog_visibility.player_team_id",
+        "building_update_fog_visibility.self_state",
+        "building_update_fog_visibility.tile_state"
+      ],
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "rule": "Backfills SSOT for existing source_building_update_fog_visibility_state helper against BuildingComp.updateFogVisibility()."
     }
   },
   "version": 1

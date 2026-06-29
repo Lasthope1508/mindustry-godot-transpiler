@@ -6858,6 +6858,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(efficiency_scale["java_expr"], "efficiencyScale()")
         self.assertEqual(efficiency_scale["godot_symbol"], "source_building_update_efficiency_multiplier_input.efficiency_scale")
 
+    def test_building_update_fog_visibility_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_update_fog_visibility.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "updateFogVisibility()")
+        self.assertEqual(comment["java_expr"], "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_update_fog_visibility_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_update_fog_visibility_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_update_fog_visibility_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_update_fog_visibility.method")
+        self.assertEqual(method["java_expr"], "public void updateFogVisibility(){")
+        self.assertEqual(method["godot_symbol"], "source_building_update_fog_visibility_result.method")
+
+        gate = source_symbols.source_symbol(registry, "building_update_fog_visibility.gate")
+        self.assertEqual(gate["java_expr"], "if(!wasVisible && !inFogTo(player.team())){")
+        self.assertEqual(gate["godot_symbol"], "source_building_update_fog_visibility_result.gate")
+
+        flags = source_symbols.source_symbol(registry, "building_update_fog_visibility.flags")
+        self.assertEqual(flags["java_expr"], "visibleFlags |= (1L << player.team().id);")
+        self.assertEqual(flags["godot_symbol"], "source_building_update_fog_visibility_result.visible_flags")
+
+        shadow = source_symbols.source_symbol(registry, "building_update_fog_visibility.shadow")
+        self.assertEqual(shadow["java_expr"], "renderer.blocks.updateShadow(self());")
+        self.assertEqual(shadow["godot_symbol"], "source_building_update_fog_visibility_result.update_shadow")
+
+        minimap = source_symbols.source_symbol(registry, "building_update_fog_visibility.minimap")
+        self.assertEqual(minimap["java_expr"], "renderer.minimap.update(tile);")
+        self.assertEqual(minimap["godot_symbol"], "source_building_update_fog_visibility_result.minimap_update")
+
+        player_team_id = source_symbols.source_symbol(registry, "building_update_fog_visibility.player_team_id")
+        self.assertEqual(player_team_id["status"], "explicit-input")
+        self.assertEqual(player_team_id["java_expr"], "player.team().id")
+        self.assertEqual(player_team_id["godot_symbol"], "source_building_update_fog_visibility_input.player_team_id")
+
     def test_building_explosion_item_cap_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7906,9 +7945,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 264)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 265)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 269)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 270)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8080,6 +8119,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_update_consumption_second_pass_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_consumption_setup_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_efficiency_multiplier_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_fog_visibility_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9410,6 +9450,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("efficiency *= scale;", building_update_efficiency_multiplier["exact_exprs"])
         self.assertIn("optionalEfficiency *= scale;", building_update_efficiency_multiplier["exact_exprs"])
         self.assertIn("efficiencyScale()", building_update_efficiency_multiplier["exact_exprs"])
+
+        building_update_fog_visibility = source_symbols.source_slice(ledger, "N667")
+        self.assertEqual(building_update_fog_visibility["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_fog_visibility["java_method"], "updateFogVisibility()")
+        self.assertEqual(building_update_fog_visibility["godot_owner"], "PortGame.source_building_update_fog_visibility_state")
+        self.assertIn("/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */", building_update_fog_visibility["exact_exprs"])
+        self.assertIn("public void updateFogVisibility(){", building_update_fog_visibility["exact_exprs"])
+        self.assertIn("if(!wasVisible && !inFogTo(player.team())){", building_update_fog_visibility["exact_exprs"])
+        self.assertIn("visibleFlags |= (1L << player.team().id);", building_update_fog_visibility["exact_exprs"])
+        self.assertIn("wasVisible = true;", building_update_fog_visibility["exact_exprs"])
+        self.assertIn("renderer.blocks.updateShadow(self());", building_update_fog_visibility["exact_exprs"])
+        self.assertIn("renderer.minimap.update(tile);", building_update_fog_visibility["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11921,6 +11973,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("efficiency", building_update_efficiency_multiplier["return_keys"])
         self.assertIn("optional_efficiency", building_update_efficiency_multiplier["return_keys"])
         self.assertEqual(building_update_efficiency_multiplier["source_method"], "updateEfficiencyMultiplier()")
+
+        building_update_fog_visibility = source_symbols.api_contract(contracts, "PortGame.source_building_update_fog_visibility_state")
+        self.assertEqual([param["name"] for param in building_update_fog_visibility["params"]], ["was_visible", "in_fog_to_player_team", "visible_flags", "player_team_id", "self_state", "tile_state"])
+        self.assertEqual(building_update_fog_visibility["params"][0]["schema"], "source_building_update_fog_visibility_input.was_visible")
+        self.assertEqual(building_update_fog_visibility["params"][3]["schema"], "source_building_update_fog_visibility_input.player_team_id")
+        self.assertIn("visible_flags", building_update_fog_visibility["return_keys"])
+        self.assertIn("was_visible", building_update_fog_visibility["return_keys"])
+        self.assertIn("update_shadow", building_update_fog_visibility["return_keys"])
+        self.assertIn("minimap_update", building_update_fog_visibility["return_keys"])
+        self.assertEqual(building_update_fog_visibility["source_method"], "updateFogVisibility()")
 
         building_update_consumption_non_optional = source_symbols.api_contract(contracts, "PortGame.source_building_update_consumption_non_optional_pass_state")
         self.assertEqual([param["name"] for param in building_update_consumption_non_optional["params"]], ["non_optional_consumer_results"])
@@ -15748,6 +15810,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["scale"]["java_expr"], "float scale = efficiencyScale();")
         self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["efficiency"]["java_expr"], "efficiency *= scale;")
         self.assertEqual(source_building_update_efficiency_multiplier_result["keys"]["optional_efficiency"]["java_expr"], "optionalEfficiency *= scale;")
+
+        source_building_update_fog_visibility_input = source_symbols.state_schema(schema, "source_building_update_fog_visibility_input")
+        self.assertEqual(source_building_update_fog_visibility_input["keys"]["was_visible"]["java_expr"], "wasVisible")
+        self.assertEqual(source_building_update_fog_visibility_input["keys"]["in_fog_to_player_team"]["java_expr"], "inFogTo(player.team())")
+        self.assertEqual(source_building_update_fog_visibility_input["keys"]["visible_flags"]["java_expr"], "visibleFlags")
+        self.assertEqual(source_building_update_fog_visibility_input["keys"]["player_team_id"]["java_expr"], "player.team().id")
+        self.assertEqual(source_building_update_fog_visibility_input["keys"]["self_state"]["java_expr"], "self()")
+        self.assertEqual(source_building_update_fog_visibility_input["keys"]["tile_state"]["java_expr"], "tile")
+
+        source_building_update_fog_visibility_result = source_symbols.state_schema(schema, "source_building_update_fog_visibility_result")
+        self.assertEqual(source_building_update_fog_visibility_result["keys"]["comment"]["java_expr"], "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */")
+        self.assertEqual(source_building_update_fog_visibility_result["keys"]["method"]["java_expr"], "public void updateFogVisibility(){")
+        self.assertEqual(source_building_update_fog_visibility_result["keys"]["gate"]["java_expr"], "if(!wasVisible && !inFogTo(player.team())){")
+        self.assertEqual(source_building_update_fog_visibility_result["keys"]["visible_flags"]["java_expr"], "visibleFlags |= (1L << player.team().id);")
+        self.assertEqual(source_building_update_fog_visibility_result["keys"]["was_visible"]["java_expr"], "wasVisible = true;")
+        self.assertEqual(source_building_update_fog_visibility_result["keys"]["update_shadow"]["java_expr"], "renderer.blocks.updateShadow(self());")
+        self.assertEqual(source_building_update_fog_visibility_result["keys"]["minimap_update"]["java_expr"], "renderer.minimap.update(tile);")
 
         source_building_explosion_item_cap_input = source_symbols.state_schema(schema, "source_building_explosion_item_cap_input")
         self.assertEqual(source_building_explosion_item_cap_input["keys"]["item_capacity"]["java_expr"], "block.itemCapacity")

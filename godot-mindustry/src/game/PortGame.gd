@@ -2991,6 +2991,14 @@ func source_building_update_tile_gate_state(enabled_state: bool, block_no_update
 	var update_tile_called: bool = enabled_state or not block_no_update_disabled
 	return {"update_tile_called": update_tile_called}
 
+const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_COMMENT := "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */"
+const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_METHOD := "public void updateFogVisibility(){"
+const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_GATE := "if(!wasVisible && !inFogTo(player.team())){"
+const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_FLAGS := "visibleFlags |= (1L << player.team().id);"
+const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_WAS_VISIBLE := "wasVisible = true;"
+const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_SHADOW := "renderer.blocks.updateShadow(self());"
+const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_MINIMAP := "renderer.minimap.update(tile);"
+
 func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:
 	var should_update: bool = not was_visible and not in_fog_to_player_team
 	if not should_update:

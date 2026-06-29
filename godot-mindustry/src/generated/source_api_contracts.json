@@ -10234,6 +10234,56 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_efficiency_multiplier_state",
       "rule": "Backfills SSOT for updateEfficiencyMultiplier efficiency and optionalEfficiency scaling."
+    },
+    "PortGame.source_building_update_fog_visibility_state": {
+      "status": "active",
+      "source_slice": "N667",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateFogVisibility()",
+      "params": [
+        {
+          "name": "was_visible",
+          "type": "bool",
+          "schema": "source_building_update_fog_visibility_input.was_visible"
+        },
+        {
+          "name": "in_fog_to_player_team",
+          "type": "bool",
+          "schema": "source_building_update_fog_visibility_input.in_fog_to_player_team"
+        },
+        {
+          "name": "visible_flags",
+          "type": "int",
+          "schema": "source_building_update_fog_visibility_input.visible_flags"
+        },
+        {
+          "name": "player_team_id",
+          "type": "int",
+          "schema": "source_building_update_fog_visibility_input.player_team_id"
+        },
+        {
+          "name": "self_state",
+          "type": "Variant",
+          "schema": "source_building_update_fog_visibility_input.self_state"
+        },
+        {
+          "name": "tile_state",
+          "type": "Variant",
+          "schema": "source_building_update_fog_visibility_input.tile_state"
+        }
+      ],
+      "return_keys": [
+        "visible_flags",
+        "was_visible",
+        "update_shadow",
+        "minimap_update"
+      ],
+      "tests": [
+        "test_building_update_fog_visibility_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_fog_visibility_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
+      "rule": "Backfills SSOT for updateFogVisibility reveal gate, visible flags, shadow update, and minimap update."
     }
   },
   "policy": {
