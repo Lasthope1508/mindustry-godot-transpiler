@@ -30455,6 +30455,166 @@
           "rule": "Runtime size mirrors upstream block.size."
         }
       }
+    },
+    "source_building_sense_position_input": {
+      "status": "active",
+      "keys": {
+        "world_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "x",
+          "godot_symbol": "source_building_sense_position_input.world_x",
+          "rule": "Runtime world_x supplies BuildingComp.x."
+        },
+        "world_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "y",
+          "godot_symbol": "source_building_sense_position_input.world_y",
+          "rule": "Runtime world_y supplies BuildingComp.y."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_sense_position_input.source_tilesize",
+          "rule": "Runtime source_tilesize supplies World.tilesize."
+        }
+      }
+    },
+    "source_building_sense_position_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "public double sense(LAccess sensor){",
+          "godot_symbol": "source_building_sense_position_result.method",
+          "rule": "BuildingComp sense(LAccess) method boundary."
+        },
+        "switch_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "return switch(sensor){",
+          "godot_symbol": "source_building_sense_position_result.switch_case",
+          "rule": "BuildingComp sense(LAccess) switch boundary."
+        },
+        "x_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "case x -> World.conv(x);",
+          "godot_symbol": "source_building_sense_position_result.x_case",
+          "rule": "sense(LAccess) x case boundary."
+        },
+        "y_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "case y -> World.conv(y);",
+          "godot_symbol": "source_building_sense_position_result.y_case",
+          "rule": "sense(LAccess) y case boundary."
+        },
+        "world_conv_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_method": "conv(float coord)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "public static float conv(float coord){",
+          "godot_symbol": "source_building_sense_position_result.world_conv_method",
+          "rule": "World.conv method boundary."
+        },
+        "world_conv_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_method": "conv(float coord)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "return coord / tilesize;",
+          "godot_symbol": "source_building_sense_position_result.world_conv_return",
+          "rule": "World.conv divides world coordinate by tilesize."
+        },
+        "world_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_position_input.world_x",
+          "rule": "Carries world_x input into result schema."
+        },
+        "world_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_position_input.world_y",
+          "rule": "Carries world_y input into result schema."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_position_input.source_tilesize",
+          "rule": "Carries source_tilesize input into result schema."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "case x -> World.conv(x);",
+          "godot_symbol": "source_building_sense_position_result.x",
+          "rule": "Runtime x mirrors World.conv(x)."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_position_state"
+          ],
+          "java_expr": "case y -> World.conv(y);",
+          "godot_symbol": "source_building_sense_position_result.y",
+          "rule": "Runtime y mirrors World.conv(y)."
+        }
+      }
     }
   },
   "version": 1

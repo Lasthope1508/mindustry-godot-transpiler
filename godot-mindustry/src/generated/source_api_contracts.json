@@ -9200,6 +9200,47 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_payload_size_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) payloadCount and size helper."
+    },
+    "PortGame.source_building_sense_position_state": {
+      "status": "active",
+      "source_slice": "N638",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "sense(LAccess sensor)",
+      "params": [
+        {
+          "name": "world_x",
+          "type": "float",
+          "schema": "source_building_sense_position_input.world_x"
+        },
+        {
+          "name": "world_y",
+          "type": "float",
+          "schema": "source_building_sense_position_input.world_y"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_sense_position_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "switch_case",
+        "x_case",
+        "y_case",
+        "world_conv_method",
+        "world_conv_return",
+        "world_x",
+        "world_y",
+        "source_tilesize",
+        "x",
+        "y"
+      ],
+      "tests": [
+        "test_building_sense_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_position_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) x/y World.conv helper."
     }
   },
   "policy": {

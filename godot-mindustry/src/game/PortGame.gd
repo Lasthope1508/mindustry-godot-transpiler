@@ -2466,6 +2466,15 @@ func source_building_health_changed_state(net_server: bool, self_state := {}) ->
 
 func source_building_sense_position_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:
 	return {
+		"method": "public double sense(LAccess sensor){",
+		"switch_case": "return switch(sensor){",
+		"x_case": "case x -> World.conv(x);",
+		"y_case": "case y -> World.conv(y);",
+		"world_conv_method": "public static float conv(float coord){",
+		"world_conv_return": "return coord / tilesize;",
+		"world_x": world_x,
+		"world_y": world_y,
+		"source_tilesize": source_tilesize,
 		"x": world_x / source_tilesize,
 		"y": world_y / source_tilesize,
 	}

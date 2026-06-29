@@ -3077,6 +3077,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(ctrl_player["java_expr"], "GlobalVars.ctrlPlayer")
         self.assertEqual(ctrl_player["godot_symbol"], "source_building_sense_enabled_controlled_input.ctrl_player_value")
 
+    def test_building_sense_position_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_sense_position.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_sense_position_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_sense_position_state")
+        self.assertEqual(method["godot_symbol"], "source_building_sense_position_result.method")
+
+        x_case = source_symbols.source_symbol(registry, "building_sense_position.x_case")
+        self.assertEqual(x_case["java_expr"], "case x -> World.conv(x);")
+        self.assertEqual(x_case["godot_symbol"], "source_building_sense_position_result.x_case")
+
+        y_case = source_symbols.source_symbol(registry, "building_sense_position.y_case")
+        self.assertEqual(y_case["java_expr"], "case y -> World.conv(y);")
+        self.assertEqual(y_case["godot_symbol"], "source_building_sense_position_result.y_case")
+
+        world_conv_return = source_symbols.source_symbol(registry, "building_sense_position.world_conv_return")
+        self.assertEqual(world_conv_return["java_source"], "core/src/mindustry/core/World.java")
+        self.assertEqual(world_conv_return["java_method"], "conv(float coord)")
+        self.assertEqual(world_conv_return["java_expr"], "return coord / tilesize;")
+        self.assertEqual(world_conv_return["godot_symbol"], "source_building_sense_position_result.world_conv_return")
+
+        world_x = source_symbols.source_symbol(registry, "building_sense_position.world_x")
+        self.assertEqual(world_x["status"], "explicit-input")
+        self.assertEqual(world_x["java_expr"], "x")
+        self.assertEqual(world_x["godot_symbol"], "source_building_sense_position_input.world_x")
+
+        source_tilesize = source_symbols.source_symbol(registry, "building_sense_position.source_tilesize")
+        self.assertEqual(source_tilesize["status"], "explicit-input")
+        self.assertEqual(source_tilesize["java_expr"], "tilesize")
+        self.assertEqual(source_tilesize["godot_symbol"], "source_building_sense_position_input.source_tilesize")
+
     def test_building_sense_health_process_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6882,9 +6920,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 235)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 236)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 240)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 241)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7052,6 +7090,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_sense_enabled_controlled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_health_process_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_payload_size_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_sense_position_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8084,6 +8123,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("this instanceof ControlBlock c", building_sense_enabled_controlled["exact_exprs"])
         self.assertIn("c.isControlled()", building_sense_enabled_controlled["exact_exprs"])
         self.assertIn("GlobalVars.ctrlPlayer", building_sense_enabled_controlled["exact_exprs"])
+
+        building_sense_position = source_symbols.source_slice(ledger, "N638")
+        self.assertEqual(building_sense_position["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_sense_position["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_sense_position["godot_owner"], "PortGame.source_building_sense_position_state")
+        self.assertIn("public double sense(LAccess sensor){", building_sense_position["exact_exprs"])
+        self.assertIn("return switch(sensor){", building_sense_position["exact_exprs"])
+        self.assertIn("case x -> World.conv(x);", building_sense_position["exact_exprs"])
+        self.assertIn("case y -> World.conv(y);", building_sense_position["exact_exprs"])
+        self.assertIn("public static float conv(float coord){", building_sense_position["exact_exprs"])
+        self.assertIn("return coord / tilesize;", building_sense_position["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10268,6 +10318,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("enabled", building_sense_enabled_controlled["return_keys"])
         self.assertIn("controlled", building_sense_enabled_controlled["return_keys"])
         self.assertEqual(building_sense_enabled_controlled["source_method"], "sense(LAccess sensor)")
+
+        building_sense_position = source_symbols.api_contract(contracts, "PortGame.source_building_sense_position_state")
+        self.assertEqual([param["name"] for param in building_sense_position["params"]], ["world_x", "world_y", "source_tilesize"])
+        self.assertEqual(building_sense_position["params"][0]["schema"], "source_building_sense_position_input.world_x")
+        self.assertEqual(building_sense_position["params"][2]["schema"], "source_building_sense_position_input.source_tilesize")
+        self.assertIn("method", building_sense_position["return_keys"])
+        self.assertIn("x_case", building_sense_position["return_keys"])
+        self.assertIn("y_case", building_sense_position["return_keys"])
+        self.assertIn("world_conv_return", building_sense_position["return_keys"])
+        self.assertIn("x", building_sense_position["return_keys"])
+        self.assertIn("y", building_sense_position["return_keys"])
+        self.assertEqual(building_sense_position["source_method"], "sense(LAccess sensor)")
 
         building_sense_health_process = source_symbols.api_contract(contracts, "PortGame.source_building_sense_health_process_state")
         self.assertEqual([param["name"] for param in building_sense_health_process["params"]], ["health", "max_health", "efficiency", "time_scale", "ranged_range", "source_tilesize", "has_range", "rotation_value"])
@@ -12613,6 +12675,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["controlled_case"]["java_expr"], "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;")
         self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["enabled_state"]["alias_of"], "source_building_sense_enabled_controlled_input.enabled_state")
         self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["ctrl_player_value"]["alias_of"], "source_building_sense_enabled_controlled_input.ctrl_player_value")
+
+        source_building_sense_position_input = source_symbols.state_schema(schema, "source_building_sense_position_input")
+        self.assertEqual(source_building_sense_position_input["keys"]["world_x"]["java_expr"], "x")
+        self.assertEqual(source_building_sense_position_input["keys"]["world_y"]["java_expr"], "y")
+        self.assertEqual(source_building_sense_position_input["keys"]["source_tilesize"]["java_expr"], "tilesize")
+
+        source_building_sense_position_result = source_symbols.state_schema(schema, "source_building_sense_position_result")
+        self.assertEqual(source_building_sense_position_result["keys"]["method"]["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(source_building_sense_position_result["keys"]["x_case"]["java_expr"], "case x -> World.conv(x);")
+        self.assertEqual(source_building_sense_position_result["keys"]["y_case"]["java_expr"], "case y -> World.conv(y);")
+        self.assertEqual(source_building_sense_position_result["keys"]["world_conv_return"]["java_expr"], "return coord / tilesize;")
+        self.assertEqual(source_building_sense_position_result["keys"]["world_x"]["alias_of"], "source_building_sense_position_input.world_x")
+        self.assertEqual(source_building_sense_position_result["keys"]["source_tilesize"]["alias_of"], "source_building_sense_position_input.source_tilesize")
 
         source_building_sense_health_process_input = source_symbols.state_schema(schema, "source_building_sense_health_process_input")
         self.assertEqual(source_building_sense_health_process_input["keys"]["health"]["java_expr"], "health")

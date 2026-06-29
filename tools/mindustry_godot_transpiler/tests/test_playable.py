@@ -2344,6 +2344,15 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_sense_position_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('"method": "public double sense(LAccess sensor){",', source)
+        self.assertIn('"switch_case": "return switch(sensor){",', source)
+        self.assertIn('"x_case": "case x -> World.conv(x);",', source)
+        self.assertIn('"y_case": "case y -> World.conv(y);",', source)
+        self.assertIn('"world_conv_method": "public static float conv(float coord){",', source)
+        self.assertIn('"world_conv_return": "return coord / tilesize;",', source)
+        self.assertIn('"world_x": world_x', source)
+        self.assertIn('"world_y": world_y', source)
+        self.assertIn('"source_tilesize": source_tilesize', source)
         self.assertIn('"x": world_x / source_tilesize', source)
         self.assertIn('"y": world_y / source_tilesize', source)
 

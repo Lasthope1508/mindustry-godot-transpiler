@@ -7542,6 +7542,40 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_payload_size_state",
       "rule": "Backfills SSOT for existing canonical source_building_sense_payload_size_state helper against BuildingComp.sense(LAccess sensor)."
+    },
+    "N638": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_position_state",
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "return switch(sensor){",
+        "case x -> World.conv(x);",
+        "case y -> World.conv(y);",
+        "public static float conv(float coord){",
+        "return coord / tilesize;",
+        "x",
+        "y",
+        "tilesize"
+      ],
+      "source_symbols": [
+        "building_sense_position.method",
+        "building_sense_position.switch_case",
+        "building_sense_position.x_case",
+        "building_sense_position.y_case",
+        "building_sense_position.world_conv_method",
+        "building_sense_position.world_conv_return",
+        "building_sense_position.world_x",
+        "building_sense_position.world_y",
+        "building_sense_position.source_tilesize"
+      ],
+      "tests": [
+        "test_building_sense_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_position_state",
+      "rule": "Backfills SSOT for existing canonical source_building_sense_position_state helper against BuildingComp.sense(LAccess sensor) and World.conv(float coord)."
     }
   },
   "version": 1
