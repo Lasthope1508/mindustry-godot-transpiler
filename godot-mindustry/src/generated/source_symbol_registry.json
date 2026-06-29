@@ -25506,6 +25506,204 @@
         "test_building_update_consumption_disabled_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_update_consumption_disabled_state"
       ]
+    },
+    "building_update_consumption_efficiency.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "public void updateConsumption(){",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.method",
+      "rule": "BuildingComp.updateConsumption method boundary for efficiency assignment slice.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "//efficiency is now this minimum value",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.comment",
+      "rule": "Exact upstream efficiency assignment comment.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "efficiency = minEfficiency;",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.assign",
+      "rule": "Exact upstream efficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.optional_min": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.optional_min",
+      "rule": "Exact upstream optional efficiency min assignment.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.potential_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "//assign \"potential\"",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.potential_comment",
+      "rule": "Exact upstream potential comment.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.potential_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "potentialEfficiency = efficiency;",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.potential_assign",
+      "rule": "Exact upstream potentialEfficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.no_update_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "//no updating means zero efficiency",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.no_update_comment",
+      "rule": "Exact upstream no-update comment.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.no_update_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "if(!update){",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.no_update_guard",
+      "rule": "Exact upstream no-update guard.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.no_update_zero": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "efficiency = optionalEfficiency = 0f;",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.no_update_zero",
+      "rule": "Exact upstream no-update zero assignment.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.min_efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "minEfficiency",
+      "godot_symbol": "source_building_update_consumption_efficiency_input.min_efficiency",
+      "rule": "Explicit runtime input for upstream minEfficiency local.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.optional_efficiency_input": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "optionalEfficiency",
+      "godot_symbol": "source_building_update_consumption_efficiency_input.optional_efficiency",
+      "rule": "Explicit runtime input for upstream optionalEfficiency local.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.update": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "update",
+      "godot_symbol": "source_building_update_consumption_efficiency_input.update",
+      "rule": "Explicit runtime input for upstream update local.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_efficiency.efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "efficiency = minEfficiency;",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.efficiency",
+      "rule": "Generated efficiency mirrors minEfficiency, or zero when update is false.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_efficiency_state"
+      ]
+    },
+    "building_update_consumption_efficiency.optional_efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.optional_efficiency",
+      "rule": "Generated optional efficiency mirrors Math.min(optionalEfficiency, minEfficiency), or zero when update is false.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_efficiency_state"
+      ]
+    },
+    "building_update_consumption_efficiency.potential_efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "java_expr": "potentialEfficiency = efficiency;",
+      "godot_symbol": "source_building_update_consumption_efficiency_result.potential_efficiency",
+      "rule": "Generated potential efficiency mirrors potentialEfficiency = efficiency before no-update zeroing.",
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_efficiency_state"
+      ]
     }
   }
 }

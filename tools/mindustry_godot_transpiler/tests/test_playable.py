@@ -2274,6 +2274,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_METHOD := "public void updateConsumption(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_COMMENT := "//efficiency is now this minimum value"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_ASSIGN := "efficiency = minEfficiency;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_OPTIONAL_MIN := "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_POTENTIAL_ASSIGN := "potentialEfficiency = efficiency;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_NO_UPDATE_ZERO := "efficiency = optionalEfficiency = 0f;"', source)
         self.assertIn("func source_building_update_consumption_efficiency_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:", source)
         self.assertIn("var efficiency := min_efficiency", source)
         self.assertIn("optional_efficiency = min(optional_efficiency, min_efficiency)", source)

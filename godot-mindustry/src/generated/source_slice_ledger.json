@@ -8229,6 +8229,50 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
       "rule": "Backfills SSOT for existing canonical source_building_update_consumption_disabled_state helper against BuildingComp.updateConsumption disabled branch."
+    },
+    "N660": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//efficiency is now this minimum value",
+        "efficiency = minEfficiency;",
+        "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);",
+        "//assign \"potential\"",
+        "potentialEfficiency = efficiency;",
+        "//no updating means zero efficiency",
+        "if(!update){",
+        "efficiency = optionalEfficiency = 0f;",
+        "minEfficiency",
+        "optionalEfficiency",
+        "update"
+      ],
+      "source_symbols": [
+        "building_update_consumption_efficiency.method",
+        "building_update_consumption_efficiency.comment",
+        "building_update_consumption_efficiency.assign",
+        "building_update_consumption_efficiency.optional_min",
+        "building_update_consumption_efficiency.potential_comment",
+        "building_update_consumption_efficiency.potential_assign",
+        "building_update_consumption_efficiency.no_update_comment",
+        "building_update_consumption_efficiency.no_update_guard",
+        "building_update_consumption_efficiency.no_update_zero",
+        "building_update_consumption_efficiency.min_efficiency",
+        "building_update_consumption_efficiency.optional_efficiency_input",
+        "building_update_consumption_efficiency.update",
+        "building_update_consumption_efficiency.efficiency",
+        "building_update_consumption_efficiency.optional_efficiency",
+        "building_update_consumption_efficiency.potential_efficiency"
+      ],
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_efficiency_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_consumption_efficiency_state helper against BuildingComp.updateConsumption efficiency assignment and no-update zero branch."
     }
   },
   "version": 1

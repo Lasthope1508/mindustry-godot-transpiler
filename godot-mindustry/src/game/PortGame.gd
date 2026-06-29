@@ -2425,6 +2425,13 @@ func source_building_update_consumption_optional_pass_state(optional_consumer_re
 		"optional_efficiency": optional_efficiency,
 	}
 
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_METHOD := "public void updateConsumption(){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_COMMENT := "//efficiency is now this minimum value"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_ASSIGN := "efficiency = minEfficiency;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_OPTIONAL_MIN := "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_POTENTIAL_ASSIGN := "potentialEfficiency = efficiency;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_NO_UPDATE_ZERO := "efficiency = optionalEfficiency = 0f;"
+
 func source_building_update_consumption_efficiency_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
 	var efficiency := min_efficiency
 	optional_efficiency = min(optional_efficiency, min_efficiency)

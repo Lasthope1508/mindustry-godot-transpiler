@@ -10002,6 +10002,40 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_disabled_state",
       "rule": "Backfills SSOT for updateConsumption disabled branch; later consumer passes remain separate slices."
+    },
+    "PortGame.source_building_update_consumption_efficiency_state": {
+      "status": "active",
+      "source_slice": "N660",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "min_efficiency",
+          "type": "float",
+          "schema": "source_building_update_consumption_efficiency_input.min_efficiency"
+        },
+        {
+          "name": "optional_efficiency",
+          "type": "float",
+          "schema": "source_building_update_consumption_efficiency_input.optional_efficiency"
+        },
+        {
+          "name": "update",
+          "type": "bool",
+          "schema": "source_building_update_consumption_efficiency_input.update"
+        }
+      ],
+      "return_keys": [
+        "efficiency",
+        "optional_efficiency",
+        "potential_efficiency"
+      ],
+      "tests": [
+        "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_efficiency_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
+      "rule": "Backfills SSOT for updateConsumption efficiency/potential/no-update zero assignment; multiplier and second pass remain separate slices."
     }
   },
   "policy": {
