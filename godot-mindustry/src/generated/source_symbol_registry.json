@@ -23693,6 +23693,188 @@
       "java_expr": "self()",
       "godot_symbol": "source_building_set_prop_health_input.self_state",
       "rule": "Runtime self_state supplies self() passed to buildDestroyed."
+    },
+    "building_set_prop_item_content.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "public void setProp(UnlockableContent content, double value){",
+      "godot_symbol": "source_building_set_prop_item_content_result.method",
+      "rule": "BuildingComp setProp(UnlockableContent,double) method boundary."
+    },
+    "building_set_prop_item_content.item_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "if(content instanceof Item item && items != null){",
+      "godot_symbol": "source_building_set_prop_item_content_result.item_gate",
+      "rule": "setProp item content gate boundary."
+    },
+    "building_set_prop_item_content.amount_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "int amount = (int)value;",
+      "godot_symbol": "source_building_set_prop_item_content_result.amount_assign",
+      "rule": "setProp item amount cast from double value."
+    },
+    "building_set_prop_item_content.amount_diff_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "if(items.get(item) != amount){",
+      "godot_symbol": "source_building_set_prop_item_content_result.amount_diff_gate",
+      "rule": "setProp item branch only mutates when stored amount differs."
+    },
+    "building_set_prop_item_content.increase_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "if(items.get(item) < amount){",
+      "godot_symbol": "source_building_set_prop_item_content_result.increase_gate",
+      "rule": "setProp item increase gate before handleStack."
+    },
+    "building_set_prop_item_content.handle_stack_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
+      "godot_symbol": "source_building_set_prop_item_content_result.handle_stack_call",
+      "rule": "setProp item increase dispatches handleStack with acceptStack result."
+    },
+    "building_set_prop_item_content.remove_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "}else if(amount >= 0){",
+      "godot_symbol": "source_building_set_prop_item_content_result.remove_gate",
+      "rule": "setProp item decrease gate excludes negative target amounts."
+    },
+    "building_set_prop_item_content.remove_stack_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "removeStack(item, items.get(item) - amount);",
+      "godot_symbol": "source_building_set_prop_item_content_result.remove_stack_call",
+      "rule": "setProp item decrease dispatches removeStack with current minus target amount."
+    },
+    "building_set_prop_item_content.content_type": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "content instanceof Item item",
+      "godot_symbol": "source_building_set_prop_item_content_input.content_type",
+      "rule": "Runtime content_type supplies whether UnlockableContent is Item for item branch gate."
+    },
+    "building_set_prop_item_content.has_items_module": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "items != null",
+      "godot_symbol": "source_building_set_prop_item_content_input.has_items_module",
+      "rule": "Runtime has_items_module supplies items module null gate."
+    },
+    "building_set_prop_item_content.item_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "item",
+      "godot_symbol": "source_building_set_prop_item_content_input.item_value",
+      "rule": "Runtime item_value supplies Item item payload."
+    },
+    "building_set_prop_item_content.current_amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_building_set_prop_item_content_input.current_amount",
+      "rule": "Runtime current_amount supplies items.get(item)."
+    },
+    "building_set_prop_item_content.value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "value",
+      "godot_symbol": "source_building_set_prop_item_content_input.value",
+      "rule": "Runtime value supplies setProp double value."
+    },
+    "building_set_prop_item_content.accepted_stack": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "java_expr": "acceptStack(item, amount - items.get(item), null)",
+      "godot_symbol": "source_building_set_prop_item_content_input.accepted_stack",
+      "rule": "Runtime accepted_stack supplies precomputed acceptStack result without inventing acceptStack internals."
     }
   }
 }

@@ -2561,13 +2561,24 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:", source)
+        self.assertIn('"method": "public void setProp(UnlockableContent content, double value){",', source)
+        self.assertIn('"item_gate": "if(content instanceof Item item && items != null){",', source)
+        self.assertIn('"amount_assign": "int amount = (int)value;",', source)
+        self.assertIn('"amount_diff_gate": "if(items.get(item) != amount){",', source)
+        self.assertIn('"increase_gate": "if(items.get(item) < amount){",', source)
+        self.assertIn('"handle_stack_call": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",', source)
+        self.assertIn('"remove_gate": "}else if(amount >= 0){",', source)
+        self.assertIn('"remove_stack_call": "removeStack(item, items.get(item) - amount);",', source)
         self.assertIn('if content_type != "item" or not has_items_module:', source)
         self.assertIn("var amount := int(value)", source)
         self.assertIn("if current_amount == amount:", source)
         self.assertIn("if current_amount < amount:", source)
-        self.assertIn('return {"action": "handle_stack", "item": item_value, "amount": amount, "delta": amount - current_amount, "accepted": accepted_stack}', source)
+        self.assertIn('"action": "handle_stack"', source)
+        self.assertIn('"accepted": accepted_stack', source)
         self.assertIn("if amount >= 0:", source)
-        self.assertIn('return {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}', source)
+        self.assertIn('"action": "remove_stack"', source)
+        self.assertIn("handle_result.merge(source_exprs)", source)
+        self.assertIn("remove_result.merge(source_exprs)", source)
 
     def test_port_game_exposes_source_building_set_prop_liquid_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

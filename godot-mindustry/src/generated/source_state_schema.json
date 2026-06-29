@@ -30965,6 +30965,244 @@
           "rule": "True when healthChanged branch is called."
         }
       }
+    },
+    "source_building_set_prop_item_content_input": {
+      "status": "active",
+      "keys": {
+        "content_type": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "content instanceof Item item",
+          "godot_symbol": "source_building_set_prop_item_content_input.content_type",
+          "rule": "Runtime content_type supplies whether UnlockableContent is Item for item branch gate."
+        },
+        "has_items_module": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "items != null",
+          "godot_symbol": "source_building_set_prop_item_content_input.has_items_module",
+          "rule": "Runtime has_items_module supplies items module null gate."
+        },
+        "item_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "item",
+          "godot_symbol": "source_building_set_prop_item_content_input.item_value",
+          "rule": "Runtime item_value supplies Item item payload."
+        },
+        "current_amount": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "items.get(item)",
+          "godot_symbol": "source_building_set_prop_item_content_input.current_amount",
+          "rule": "Runtime current_amount supplies items.get(item)."
+        },
+        "value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "value",
+          "godot_symbol": "source_building_set_prop_item_content_input.value",
+          "rule": "Runtime value supplies setProp double value."
+        },
+        "accepted_stack": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "acceptStack(item, amount - items.get(item), null)",
+          "godot_symbol": "source_building_set_prop_item_content_input.accepted_stack",
+          "rule": "Runtime accepted_stack supplies precomputed acceptStack result without inventing acceptStack internals."
+        }
+      }
+    },
+    "source_building_set_prop_item_content_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "public void setProp(UnlockableContent content, double value){",
+          "godot_symbol": "source_building_set_prop_item_content_result.method",
+          "rule": "BuildingComp setProp(UnlockableContent,double) method boundary."
+        },
+        "item_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "if(content instanceof Item item && items != null){",
+          "godot_symbol": "source_building_set_prop_item_content_result.item_gate",
+          "rule": "setProp item content gate boundary."
+        },
+        "amount_assign": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "int amount = (int)value;",
+          "godot_symbol": "source_building_set_prop_item_content_result.amount_assign",
+          "rule": "setProp item amount cast from double value."
+        },
+        "amount_diff_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "if(items.get(item) != amount){",
+          "godot_symbol": "source_building_set_prop_item_content_result.amount_diff_gate",
+          "rule": "setProp item branch only mutates when stored amount differs."
+        },
+        "increase_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "if(items.get(item) < amount){",
+          "godot_symbol": "source_building_set_prop_item_content_result.increase_gate",
+          "rule": "setProp item increase gate before handleStack."
+        },
+        "handle_stack_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
+          "godot_symbol": "source_building_set_prop_item_content_result.handle_stack_call",
+          "rule": "setProp item increase dispatches handleStack with acceptStack result."
+        },
+        "remove_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "}else if(amount >= 0){",
+          "godot_symbol": "source_building_set_prop_item_content_result.remove_gate",
+          "rule": "setProp item decrease gate excludes negative target amounts."
+        },
+        "remove_stack_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "removeStack(item, items.get(item) - amount);",
+          "godot_symbol": "source_building_set_prop_item_content_result.remove_stack_call",
+          "rule": "setProp item decrease dispatches removeStack with current minus target amount."
+        },
+        "action": {
+          "type": "String",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "handleStack(item, acceptStack(item, amount - items.get(item), null), null); / removeStack(item, items.get(item) - amount);",
+          "godot_symbol": "source_building_set_prop_item_content_result.action",
+          "rule": "Action record for none, handle_stack, or remove_stack branch."
+        },
+        "item": {
+          "type": "Variant",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "item",
+          "godot_symbol": "source_building_set_prop_item_content_result.item",
+          "rule": "Item payload carried into result."
+        },
+        "amount": {
+          "type": "int",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "int amount = (int)value;",
+          "godot_symbol": "source_building_set_prop_item_content_result.amount",
+          "rule": "Target amount after Java int cast."
+        },
+        "delta": {
+          "type": "int",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "amount - items.get(item) / items.get(item) - amount",
+          "godot_symbol": "source_building_set_prop_item_content_result.delta",
+          "rule": "Item delta used by handleStack or removeStack branches."
+        },
+        "accepted": {
+          "type": "int",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_item_content_state"
+          ],
+          "java_expr": "acceptStack(item, amount - items.get(item), null)",
+          "godot_symbol": "source_building_set_prop_item_content_result.accepted",
+          "rule": "Accepted stack amount used only by handleStack branch."
+        }
+      }
     }
   },
   "version": 1

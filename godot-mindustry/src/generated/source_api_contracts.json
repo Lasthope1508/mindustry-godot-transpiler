@@ -9336,6 +9336,64 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_health_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, double value) health helper."
+    },
+    "PortGame.source_building_set_prop_item_content_state": {
+      "status": "active",
+      "source_slice": "N641",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "setProp(UnlockableContent content, double value)",
+      "params": [
+        {
+          "name": "content_type",
+          "type": "String",
+          "schema": "source_building_set_prop_item_content_input.content_type"
+        },
+        {
+          "name": "has_items_module",
+          "type": "bool",
+          "schema": "source_building_set_prop_item_content_input.has_items_module"
+        },
+        {
+          "name": "item_value",
+          "type": "Variant",
+          "schema": "source_building_set_prop_item_content_input.item_value"
+        },
+        {
+          "name": "current_amount",
+          "type": "int",
+          "schema": "source_building_set_prop_item_content_input.current_amount"
+        },
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_building_set_prop_item_content_input.value"
+        },
+        {
+          "name": "accepted_stack",
+          "type": "int",
+          "schema": "source_building_set_prop_item_content_input.accepted_stack"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_gate",
+        "amount_assign",
+        "amount_diff_gate",
+        "increase_gate",
+        "handle_stack_call",
+        "remove_gate",
+        "remove_stack_call",
+        "action",
+        "item",
+        "amount",
+        "delta",
+        "accepted"
+      ],
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.setProp(UnlockableContent content, double value) item helper."
     }
   },
   "policy": {

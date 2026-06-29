@@ -3235,6 +3235,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(max_health["java_expr"], "maxHealth")
         self.assertEqual(max_health["godot_symbol"], "source_building_set_prop_health_input.max_health_value")
 
+    def test_building_set_prop_item_content_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_set_prop_item_content.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "setProp(UnlockableContent content, double value)")
+        self.assertEqual(method["java_expr"], "public void setProp(UnlockableContent content, double value){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_set_prop_item_content_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_set_prop_item_content_state")
+        self.assertEqual(method["godot_symbol"], "source_building_set_prop_item_content_result.method")
+
+        item_gate = source_symbols.source_symbol(registry, "building_set_prop_item_content.item_gate")
+        self.assertEqual(item_gate["java_expr"], "if(content instanceof Item item && items != null){")
+        self.assertEqual(item_gate["godot_symbol"], "source_building_set_prop_item_content_result.item_gate")
+
+        amount_assign = source_symbols.source_symbol(registry, "building_set_prop_item_content.amount_assign")
+        self.assertEqual(amount_assign["java_expr"], "int amount = (int)value;")
+        self.assertEqual(amount_assign["godot_symbol"], "source_building_set_prop_item_content_result.amount_assign")
+
+        amount_diff_gate = source_symbols.source_symbol(registry, "building_set_prop_item_content.amount_diff_gate")
+        self.assertEqual(amount_diff_gate["java_expr"], "if(items.get(item) != amount){")
+        self.assertEqual(amount_diff_gate["godot_symbol"], "source_building_set_prop_item_content_result.amount_diff_gate")
+
+        increase_gate = source_symbols.source_symbol(registry, "building_set_prop_item_content.increase_gate")
+        self.assertEqual(increase_gate["java_expr"], "if(items.get(item) < amount){")
+        self.assertEqual(increase_gate["godot_symbol"], "source_building_set_prop_item_content_result.increase_gate")
+
+        handle_stack_call = source_symbols.source_symbol(registry, "building_set_prop_item_content.handle_stack_call")
+        self.assertEqual(handle_stack_call["java_expr"], "handleStack(item, acceptStack(item, amount - items.get(item), null), null);")
+        self.assertEqual(handle_stack_call["godot_symbol"], "source_building_set_prop_item_content_result.handle_stack_call")
+
+        remove_gate = source_symbols.source_symbol(registry, "building_set_prop_item_content.remove_gate")
+        self.assertEqual(remove_gate["java_expr"], "}else if(amount >= 0){")
+        self.assertEqual(remove_gate["godot_symbol"], "source_building_set_prop_item_content_result.remove_gate")
+
+        remove_stack_call = source_symbols.source_symbol(registry, "building_set_prop_item_content.remove_stack_call")
+        self.assertEqual(remove_stack_call["java_expr"], "removeStack(item, items.get(item) - amount);")
+        self.assertEqual(remove_stack_call["godot_symbol"], "source_building_set_prop_item_content_result.remove_stack_call")
+
+        accepted_stack = source_symbols.source_symbol(registry, "building_set_prop_item_content.accepted_stack")
+        self.assertEqual(accepted_stack["status"], "explicit-input")
+        self.assertEqual(accepted_stack["java_expr"], "acceptStack(item, amount - items.get(item), null)")
+        self.assertEqual(accepted_stack["godot_symbol"], "source_building_set_prop_item_content_input.accepted_stack")
+
+        current_amount = source_symbols.source_symbol(registry, "building_set_prop_item_content.current_amount")
+        self.assertEqual(current_amount["status"], "explicit-input")
+        self.assertEqual(current_amount["java_expr"], "items.get(item)")
+        self.assertEqual(current_amount["godot_symbol"], "source_building_set_prop_item_content_input.current_amount")
+
     def test_building_sense_payload_size_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7004,9 +7056,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 238)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 239)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 243)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 244)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7177,6 +7229,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_sense_position_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_totals_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_health_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_set_prop_item_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8243,6 +8296,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Call.buildDestroyed(self());", building_set_prop_health["exact_exprs"])
         self.assertIn("}else{", building_set_prop_health["exact_exprs"])
         self.assertIn("healthChanged();", building_set_prop_health["exact_exprs"])
+
+        building_set_prop_item_content = source_symbols.source_slice(ledger, "N641")
+        self.assertEqual(building_set_prop_item_content["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_set_prop_item_content["java_method"], "setProp(UnlockableContent content, double value)")
+        self.assertEqual(building_set_prop_item_content["godot_owner"], "PortGame.source_building_set_prop_item_content_state")
+        self.assertIn("public void setProp(UnlockableContent content, double value){", building_set_prop_item_content["exact_exprs"])
+        self.assertIn("if(content instanceof Item item && items != null){", building_set_prop_item_content["exact_exprs"])
+        self.assertIn("int amount = (int)value;", building_set_prop_item_content["exact_exprs"])
+        self.assertIn("if(items.get(item) != amount){", building_set_prop_item_content["exact_exprs"])
+        self.assertIn("if(items.get(item) < amount){", building_set_prop_item_content["exact_exprs"])
+        self.assertIn("handleStack(item, acceptStack(item, amount - items.get(item), null), null);", building_set_prop_item_content["exact_exprs"])
+        self.assertIn("}else if(amount >= 0){", building_set_prop_item_content["exact_exprs"])
+        self.assertIn("removeStack(item, items.get(item) - amount);", building_set_prop_item_content["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10483,6 +10549,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("build_destroyed_called", building_set_prop_health["return_keys"])
         self.assertIn("health_changed", building_set_prop_health["return_keys"])
         self.assertEqual(building_set_prop_health["source_method"], "setProp(LAccess prop, double value)")
+
+        building_set_prop_item_content = source_symbols.api_contract(contracts, "PortGame.source_building_set_prop_item_content_state")
+        self.assertEqual([param["name"] for param in building_set_prop_item_content["params"]], ["content_type", "has_items_module", "item_value", "current_amount", "value", "accepted_stack"])
+        self.assertEqual(building_set_prop_item_content["params"][0]["schema"], "source_building_set_prop_item_content_input.content_type")
+        self.assertEqual(building_set_prop_item_content["params"][5]["schema"], "source_building_set_prop_item_content_input.accepted_stack")
+        self.assertIn("method", building_set_prop_item_content["return_keys"])
+        self.assertIn("item_gate", building_set_prop_item_content["return_keys"])
+        self.assertIn("amount_assign", building_set_prop_item_content["return_keys"])
+        self.assertIn("amount_diff_gate", building_set_prop_item_content["return_keys"])
+        self.assertIn("increase_gate", building_set_prop_item_content["return_keys"])
+        self.assertIn("handle_stack_call", building_set_prop_item_content["return_keys"])
+        self.assertIn("remove_gate", building_set_prop_item_content["return_keys"])
+        self.assertIn("remove_stack_call", building_set_prop_item_content["return_keys"])
+        self.assertIn("action", building_set_prop_item_content["return_keys"])
+        self.assertIn("delta", building_set_prop_item_content["return_keys"])
+        self.assertIn("accepted", building_set_prop_item_content["return_keys"])
+        self.assertEqual(building_set_prop_item_content["source_method"], "setProp(UnlockableContent content, double value)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -12878,6 +12961,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_set_prop_health_result["keys"]["else_branch"]["java_expr"], "}else{")
         self.assertEqual(source_building_set_prop_health_result["keys"]["health_changed_call"]["java_expr"], "healthChanged();")
         self.assertEqual(source_building_set_prop_health_result["keys"]["health"]["java_expr"], "health = (float)Mathf.clamp(value, 0, maxHealth);")
+
+        source_building_set_prop_item_content_input = source_symbols.state_schema(schema, "source_building_set_prop_item_content_input")
+        self.assertEqual(source_building_set_prop_item_content_input["keys"]["content_type"]["java_expr"], "content instanceof Item item")
+        self.assertEqual(source_building_set_prop_item_content_input["keys"]["has_items_module"]["java_expr"], "items != null")
+        self.assertEqual(source_building_set_prop_item_content_input["keys"]["item_value"]["java_expr"], "item")
+        self.assertEqual(source_building_set_prop_item_content_input["keys"]["current_amount"]["java_expr"], "items.get(item)")
+        self.assertEqual(source_building_set_prop_item_content_input["keys"]["value"]["java_expr"], "value")
+        self.assertEqual(source_building_set_prop_item_content_input["keys"]["accepted_stack"]["java_expr"], "acceptStack(item, amount - items.get(item), null)")
+
+        source_building_set_prop_item_content_result = source_symbols.state_schema(schema, "source_building_set_prop_item_content_result")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["method"]["java_expr"], "public void setProp(UnlockableContent content, double value){")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["item_gate"]["java_expr"], "if(content instanceof Item item && items != null){")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["amount_assign"]["java_expr"], "int amount = (int)value;")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["amount_diff_gate"]["java_expr"], "if(items.get(item) != amount){")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["increase_gate"]["java_expr"], "if(items.get(item) < amount){")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["handle_stack_call"]["java_expr"], "handleStack(item, acceptStack(item, amount - items.get(item), null), null);")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["remove_gate"]["java_expr"], "}else if(amount >= 0){")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["remove_stack_call"]["java_expr"], "removeStack(item, items.get(item) - amount);")
+        self.assertEqual(source_building_set_prop_item_content_result["keys"]["amount"]["java_expr"], "int amount = (int)value;")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

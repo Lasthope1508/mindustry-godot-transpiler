@@ -2714,16 +2714,36 @@ func source_building_set_prop_team_object_state(prop: String, current_team_value
 	return {"team": current_team_value, "change_team_called": false, "change_team": null}
 
 func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public void setProp(UnlockableContent content, double value){",
+		"item_gate": "if(content instanceof Item item && items != null){",
+		"amount_assign": "int amount = (int)value;",
+		"amount_diff_gate": "if(items.get(item) != amount){",
+		"increase_gate": "if(items.get(item) < amount){",
+		"handle_stack_call": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
+		"remove_gate": "}else if(amount >= 0){",
+		"remove_stack_call": "removeStack(item, items.get(item) - amount);",
+	}
 	if content_type != "item" or not has_items_module:
-		return {"action": "none", "item": item_value, "amount": current_amount, "delta": 0, "accepted": 0}
+		var no_item_result: Dictionary = {"action": "none", "item": item_value, "amount": current_amount, "delta": 0, "accepted": 0}
+		no_item_result.merge(source_exprs)
+		return no_item_result
 	var amount := int(value)
 	if current_amount == amount:
-		return {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+		var same_result: Dictionary = {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+		same_result.merge(source_exprs)
+		return same_result
 	if current_amount < amount:
-		return {"action": "handle_stack", "item": item_value, "amount": amount, "delta": amount - current_amount, "accepted": accepted_stack}
+		var handle_result: Dictionary = {"action": "handle_stack", "item": item_value, "amount": amount, "delta": amount - current_amount, "accepted": accepted_stack}
+		handle_result.merge(source_exprs)
+		return handle_result
 	if amount >= 0:
-		return {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}
-	return {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+		var remove_result: Dictionary = {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}
+		remove_result.merge(source_exprs)
+		return remove_result
+	var negative_result: Dictionary = {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+	negative_result.merge(source_exprs)
+	return negative_result
 
 func source_building_set_prop_liquid_content_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, block_consumes_liquid: bool) -> Dictionary:
 	if content_type != "liquid" or not has_liquids_module:

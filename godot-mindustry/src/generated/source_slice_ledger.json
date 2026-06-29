@@ -7652,6 +7652,50 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_health_state",
       "rule": "Backfills SSOT for existing canonical source_building_set_prop_health_state helper against BuildingComp.setProp(LAccess prop, double value) health case."
+    },
+    "N641": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "exact_exprs": [
+        "public void setProp(UnlockableContent content, double value){",
+        "if(content instanceof Item item && items != null){",
+        "int amount = (int)value;",
+        "if(items.get(item) != amount){",
+        "if(items.get(item) < amount){",
+        "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
+        "}else if(amount >= 0){",
+        "removeStack(item, items.get(item) - amount);",
+        "content instanceof Item item",
+        "items != null",
+        "item",
+        "items.get(item)",
+        "value",
+        "acceptStack(item, amount - items.get(item), null)"
+      ],
+      "source_symbols": [
+        "building_set_prop_item_content.method",
+        "building_set_prop_item_content.item_gate",
+        "building_set_prop_item_content.amount_assign",
+        "building_set_prop_item_content.amount_diff_gate",
+        "building_set_prop_item_content.increase_gate",
+        "building_set_prop_item_content.handle_stack_call",
+        "building_set_prop_item_content.remove_gate",
+        "building_set_prop_item_content.remove_stack_call",
+        "building_set_prop_item_content.content_type",
+        "building_set_prop_item_content.has_items_module",
+        "building_set_prop_item_content.item_value",
+        "building_set_prop_item_content.current_amount",
+        "building_set_prop_item_content.value",
+        "building_set_prop_item_content.accepted_stack"
+      ],
+      "tests": [
+        "test_building_set_prop_item_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
+      "rule": "Backfills SSOT for existing canonical source_building_set_prop_item_content_state helper against BuildingComp.setProp(UnlockableContent content, double value) item branch."
     }
   },
   "version": 1
