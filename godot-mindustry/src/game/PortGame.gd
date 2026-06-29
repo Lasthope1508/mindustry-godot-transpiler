@@ -2434,6 +2434,11 @@ func source_building_update_consumption_non_optional_pass_state(non_optional_con
 		"should_consume_power": should_consume_power,
 	}
 
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_METHOD := "public void updateConsumption(){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_COMMENT := "//same for optionals"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_LOOP := "for(var cons : block.optionalConsumers){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_MIN := "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));"
+
 func source_building_update_consumption_optional_pass_state(optional_consumer_results: Array) -> Dictionary:
 	var optional_efficiency := 1.0
 	for result in optional_consumer_results:

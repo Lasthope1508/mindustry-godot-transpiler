@@ -10110,6 +10110,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
       "rule": "Backfills SSOT for updateConsumption first non-optional consumer pass; optional pass and later assignment remain separate slices."
+    },
+    "PortGame.source_building_update_consumption_optional_pass_state": {
+      "status": "active",
+      "source_slice": "N663",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "optional_consumer_results",
+          "type": "Array",
+          "schema": "source_building_update_consumption_optional_pass_input.optional_consumer_results"
+        }
+      ],
+      "return_keys": [
+        "optional_efficiency"
+      ],
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "rule": "Backfills SSOT for updateConsumption optional consumer pass; later efficiency assignment remains separate slice."
     }
   },
   "policy": {

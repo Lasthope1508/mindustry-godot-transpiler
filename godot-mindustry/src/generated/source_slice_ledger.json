@@ -8358,6 +8358,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
       "rule": "Backfills SSOT for existing canonical source_building_update_consumption_non_optional_pass_state helper against BuildingComp.updateConsumption first non-optional consumer pass."
+    },
+    "N663": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//same for optionals",
+        "for(var cons : block.optionalConsumers){",
+        "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));",
+        "block.optionalConsumers"
+      ],
+      "source_symbols": [
+        "building_update_consumption_optional.method",
+        "building_update_consumption_optional.comment",
+        "building_update_consumption_optional.loop",
+        "building_update_consumption_optional.optional_min",
+        "building_update_consumption_optional.optional_consumer_results",
+        "building_update_consumption_optional.optional_efficiency"
+      ],
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_consumption_optional_pass_state helper against BuildingComp.updateConsumption optional consumer pass."
     }
   },
   "version": 1

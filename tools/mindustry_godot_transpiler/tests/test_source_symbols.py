@@ -5115,6 +5115,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consumers["java_expr"], "block.nonOptionalConsumers")
         self.assertEqual(consumers["godot_symbol"], "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results")
 
+    def test_building_update_consumption_optional_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_update_consumption_optional.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "updateConsumption()")
+        self.assertEqual(method["java_expr"], "public void updateConsumption(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_update_consumption_optional_pass_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_update_consumption_optional_pass_state")
+        self.assertEqual(method["godot_symbol"], "source_building_update_consumption_optional_pass_result.method")
+
+        loop = source_symbols.source_symbol(registry, "building_update_consumption_optional.loop")
+        self.assertEqual(loop["java_expr"], "for(var cons : block.optionalConsumers){")
+        self.assertEqual(loop["godot_symbol"], "source_building_update_consumption_optional_pass_result.loop")
+
+        optional_min = source_symbols.source_symbol(registry, "building_update_consumption_optional.optional_min")
+        self.assertEqual(optional_min["java_expr"], "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));")
+        self.assertEqual(optional_min["godot_symbol"], "source_building_update_consumption_optional_pass_result.optional_min")
+
+        consumers = source_symbols.source_symbol(registry, "building_update_consumption_optional.optional_consumer_results")
+        self.assertEqual(consumers["status"], "explicit-input")
+        self.assertEqual(consumers["java_expr"], "block.optionalConsumers")
+        self.assertEqual(consumers["godot_symbol"], "source_building_update_consumption_optional_pass_input.optional_consumer_results")
+
     def test_building_on_repaired_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7786,9 +7813,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 260)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 261)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 265)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 266)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7956,6 +7983,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_update_consumption_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_consumption_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_consumption_non_optional_pass_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_consumption_optional_pass_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9276,6 +9304,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(cons != block.consPower && result <= 0.0000001f){", building_update_consumption_non_optional["exact_exprs"])
         self.assertIn("shouldConsumePower = false;", building_update_consumption_non_optional["exact_exprs"])
         self.assertIn("minEfficiency = Math.min(minEfficiency, result);", building_update_consumption_non_optional["exact_exprs"])
+
+        building_update_consumption_optional = source_symbols.source_slice(ledger, "N663")
+        self.assertEqual(building_update_consumption_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_consumption_optional["java_method"], "updateConsumption()")
+        self.assertEqual(building_update_consumption_optional["godot_owner"], "PortGame.source_building_update_consumption_optional_pass_state")
+        self.assertIn("public void updateConsumption(){", building_update_consumption_optional["exact_exprs"])
+        self.assertIn("//same for optionals", building_update_consumption_optional["exact_exprs"])
+        self.assertIn("for(var cons : block.optionalConsumers){", building_update_consumption_optional["exact_exprs"])
+        self.assertIn("optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));", building_update_consumption_optional["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11743,6 +11780,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("min_efficiency", building_update_consumption_non_optional["return_keys"])
         self.assertIn("should_consume_power", building_update_consumption_non_optional["return_keys"])
         self.assertEqual(building_update_consumption_non_optional["source_method"], "updateConsumption()")
+
+        building_update_consumption_optional = source_symbols.api_contract(contracts, "PortGame.source_building_update_consumption_optional_pass_state")
+        self.assertEqual([param["name"] for param in building_update_consumption_optional["params"]], ["optional_consumer_results"])
+        self.assertEqual(building_update_consumption_optional["params"][0]["schema"], "source_building_update_consumption_optional_pass_input.optional_consumer_results")
+        self.assertIn("optional_efficiency", building_update_consumption_optional["return_keys"])
+        self.assertEqual(building_update_consumption_optional["source_method"], "updateConsumption()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -14859,6 +14902,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_update_consumption_non_optional_result["keys"]["power_state"]["java_expr"], "shouldConsumePower = false;")
         self.assertEqual(source_building_update_consumption_non_optional_result["keys"]["min"]["java_expr"], "minEfficiency = Math.min(minEfficiency, result);")
         self.assertEqual(source_building_update_consumption_non_optional_result["keys"]["non_optional_consumer_results"]["alias_of"], "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results")
+
+        source_building_update_consumption_optional_input = source_symbols.state_schema(schema, "source_building_update_consumption_optional_pass_input")
+        self.assertEqual(source_building_update_consumption_optional_input["keys"]["optional_consumer_results"]["java_expr"], "block.optionalConsumers")
+
+        source_building_update_consumption_optional_result = source_symbols.state_schema(schema, "source_building_update_consumption_optional_pass_result")
+        self.assertEqual(source_building_update_consumption_optional_result["keys"]["method"]["java_expr"], "public void updateConsumption(){")
+        self.assertEqual(source_building_update_consumption_optional_result["keys"]["comment"]["java_expr"], "//same for optionals")
+        self.assertEqual(source_building_update_consumption_optional_result["keys"]["loop"]["java_expr"], "for(var cons : block.optionalConsumers){")
+        self.assertEqual(source_building_update_consumption_optional_result["keys"]["optional_min"]["java_expr"], "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));")
+        self.assertEqual(source_building_update_consumption_optional_result["keys"]["optional_consumer_results"]["alias_of"], "source_building_update_consumption_optional_pass_input.optional_consumer_results")
 
         source_building_on_repaired_input = source_symbols.state_schema(schema, "source_building_on_repaired_input")
         self.assertEqual(source_building_on_repaired_input["keys"]["has_fog_radius"]["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")

@@ -26096,6 +26096,90 @@
         "test_building_update_consumption_non_optional_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
       ]
+    },
+    "building_update_consumption_optional.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "java_expr": "public void updateConsumption(){",
+      "godot_symbol": "source_building_update_consumption_optional_pass_result.method",
+      "rule": "BuildingComp.updateConsumption method boundary for optional consumer pass slice.",
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ]
+    },
+    "building_update_consumption_optional.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "java_expr": "//same for optionals",
+      "godot_symbol": "source_building_update_consumption_optional_pass_result.comment",
+      "rule": "Exact upstream optional consumer pass comment.",
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ]
+    },
+    "building_update_consumption_optional.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "java_expr": "for(var cons : block.optionalConsumers){",
+      "godot_symbol": "source_building_update_consumption_optional_pass_result.loop",
+      "rule": "Exact upstream optional consumer loop.",
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ]
+    },
+    "building_update_consumption_optional.optional_min": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "java_expr": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));",
+      "godot_symbol": "source_building_update_consumption_optional_pass_result.optional_min",
+      "rule": "Exact upstream optionalEfficiency minimum fold.",
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ]
+    },
+    "building_update_consumption_optional.optional_consumer_results": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "java_expr": "block.optionalConsumers",
+      "godot_symbol": "source_building_update_consumption_optional_pass_input.optional_consumer_results",
+      "rule": "Explicit runtime input representing upstream block.optionalConsumers iteration results.",
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ]
+    },
+    "building_update_consumption_optional.optional_efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_optional_pass_state",
+      "java_expr": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));",
+      "godot_symbol": "source_building_update_consumption_optional_pass_result.optional_efficiency",
+      "rule": "Generated result records folded optionalEfficiency value.",
+      "tests": [
+        "test_building_update_consumption_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_optional_pass_state"
+      ]
     }
   }
 }

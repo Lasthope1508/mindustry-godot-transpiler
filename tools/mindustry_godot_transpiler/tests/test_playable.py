@@ -2278,6 +2278,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_METHOD := "public void updateConsumption(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_COMMENT := "//same for optionals"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_LOOP := "for(var cons : block.optionalConsumers){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_MIN := "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));"', source)
         self.assertIn("func source_building_update_consumption_optional_pass_state(optional_consumer_results: Array) -> Dictionary:", source)
         self.assertIn("var optional_efficiency := 1.0", source)
         self.assertIn("for result in optional_consumer_results:", source)
