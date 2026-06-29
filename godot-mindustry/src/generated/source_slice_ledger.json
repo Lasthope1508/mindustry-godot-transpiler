@@ -6790,6 +6790,36 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_rubble_state helper against BuildingComp.onDestroyed() rubble effect gate and call."
+    },
+    "N616": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
+      "exact_exprs": [
+        "public void onDestroyed(){",
+        "if(block.hasLiquids && state.rules.damageExplosions){",
+        "liquids.each(this::splashLiquid);",
+        "block.hasLiquids",
+        "state.rules.damageExplosions"
+      ],
+      "deferred_exprs": [
+        "Concrete LiquidModule iteration and splashLiquid(Liquid, float) effects remain covered by adjacent liquid/runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_splash_liquid.method",
+        "building_on_destroyed_splash_liquid.gate",
+        "building_on_destroyed_splash_liquid.call",
+        "building_on_destroyed_splash_liquid.has_liquids",
+        "building_on_destroyed_splash_liquid.damage_explosions",
+        "building_on_destroyed_splash_liquid.liquid_states"
+      ],
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_splash_liquid_state helper against BuildingComp.onDestroyed() splash liquid gate and call."
     }
   },
   "version": 1

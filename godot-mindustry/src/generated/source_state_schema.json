@@ -27215,6 +27215,118 @@
           "rule": "Effect.rubble size argument when gate passes, otherwise 0."
         }
       }
+    },
+    "source_building_on_destroyed_splash_liquid_input": {
+      "status": "active",
+      "keys": {
+        "has_liquids": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.hasLiquids",
+          "godot_symbol": "source_building_on_destroyed_splash_liquid_input.has_liquids",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_splash_liquid_state"
+          ],
+          "rule": "Runtime has_liquids supplies source block.hasLiquids."
+        },
+        "damage_explosions": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "state.rules.damageExplosions",
+          "godot_symbol": "source_building_on_destroyed_splash_liquid_input.damage_explosions",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_splash_liquid_state"
+          ],
+          "rule": "Runtime damage_explosions supplies source state.rules.damageExplosions."
+        },
+        "liquid_states": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "liquids.each(this::splashLiquid)",
+          "godot_symbol": "source_building_on_destroyed_splash_liquid_input.liquid_states",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_splash_liquid_state"
+          ],
+          "rule": "Runtime liquid_states supplies liquids iterated by source splashLiquid call."
+        }
+      }
+    },
+    "source_building_on_destroyed_splash_liquid_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "public void onDestroyed(){",
+          "godot_symbol": "source_building_on_destroyed_splash_liquid_result.method",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_splash_liquid_state"
+          ],
+          "rule": "BuildingComp onDestroyed method boundary."
+        },
+        "splash_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(block.hasLiquids && state.rules.damageExplosions){",
+          "godot_symbol": "source_building_on_destroyed_splash_liquid_result.splash_liquids",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_splash_liquid_state"
+          ],
+          "rule": "Splash liquid gate result."
+        },
+        "call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "liquids.each(this::splashLiquid);",
+          "godot_symbol": "source_building_on_destroyed_splash_liquid_result.call",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_splash_liquid_state"
+          ],
+          "rule": "Splash liquid call marker."
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_splash_liquid_input.has_liquids",
+          "rule": "Carries has_liquids input into result schema."
+        },
+        "damage_explosions": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_splash_liquid_input.damage_explosions",
+          "rule": "Carries damage_explosions input into result schema."
+        },
+        "liquid_states": {
+          "type": "Array",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_splash_liquid_input.liquid_states",
+          "rule": "Carries liquid_states input into result schema."
+        },
+        "liquids": {
+          "type": "Array",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_splash_liquid_input.liquid_states",
+          "rule": "Carries liquid states when splash gate passes, otherwise empty."
+        },
+        "liquid_count": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_splash_liquid_input.liquid_states",
+          "rule": "Counts liquid states when splash gate passes, otherwise 0."
+        }
+      }
     }
   },
   "version": 1

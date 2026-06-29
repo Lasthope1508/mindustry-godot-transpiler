@@ -8258,6 +8258,43 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed rubble helper."
+    },
+    "PortGame.source_building_on_destroyed_splash_liquid_state": {
+      "status": "active",
+      "source_slice": "N616",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed()",
+      "params": [
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_splash_liquid_input.has_liquids"
+        },
+        {
+          "name": "damage_explosions",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_splash_liquid_input.damage_explosions"
+        },
+        {
+          "name": "liquid_states",
+          "type": "Array",
+          "schema": "source_building_on_destroyed_splash_liquid_input.liquid_states"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "has_liquids",
+        "damage_explosions",
+        "splash_liquids",
+        "call",
+        "liquid_count",
+        "liquids"
+      ],
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed splash liquid helper."
     }
   },
   "policy": {

@@ -21015,6 +21015,84 @@
       "java_expr": "block.size",
       "godot_symbol": "source_building_on_destroyed_rubble_input.source_block_size",
       "rule": "Runtime source_block_size supplies source block.size."
+    },
+    "building_on_destroyed_splash_liquid.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_building_on_destroyed_splash_liquid_result.method",
+      "rule": "BuildingComp onDestroyed method boundary."
+    },
+    "building_on_destroyed_splash_liquid.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "java_expr": "if(block.hasLiquids && state.rules.damageExplosions){",
+      "godot_symbol": "source_building_on_destroyed_splash_liquid_result.splash_liquids",
+      "rule": "Splash liquid gate."
+    },
+    "building_on_destroyed_splash_liquid.call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "java_expr": "liquids.each(this::splashLiquid);",
+      "godot_symbol": "source_building_on_destroyed_splash_liquid_result.call",
+      "rule": "Splash liquid call."
+    },
+    "building_on_destroyed_splash_liquid.has_liquids": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "java_expr": "block.hasLiquids",
+      "godot_symbol": "source_building_on_destroyed_splash_liquid_input.has_liquids",
+      "rule": "Runtime has_liquids supplies source block.hasLiquids."
+    },
+    "building_on_destroyed_splash_liquid.damage_explosions": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "java_expr": "state.rules.damageExplosions",
+      "godot_symbol": "source_building_on_destroyed_splash_liquid_input.damage_explosions",
+      "rule": "Runtime damage_explosions supplies source state.rules.damageExplosions."
+    },
+    "building_on_destroyed_splash_liquid.liquid_states": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
+      "tests": [
+        "test_building_on_destroyed_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
+      "java_expr": "liquids.each(this::splashLiquid)",
+      "godot_symbol": "source_building_on_destroyed_splash_liquid_input.liquid_states",
+      "rule": "Runtime liquid_states supplies liquids iterated by source splashLiquid call."
     }
   }
 }

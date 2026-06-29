@@ -1762,6 +1762,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_on_destroyed_splash_liquid_state(has_liquids: bool, damage_explosions: bool, liquid_states: Array) -> Dictionary:", source)
         self.assertIn("var should_splash := has_liquids and damage_explosions", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"has_liquids": has_liquids', source)
+        self.assertIn('"damage_explosions": damage_explosions', source)
+        self.assertIn('"call": "liquids.each(this::splashLiquid);" if should_splash else ""', source)
         self.assertIn('"splash_liquids": should_splash', source)
         self.assertIn('"liquid_count": liquid_states.size() if should_splash else 0', source)
 
