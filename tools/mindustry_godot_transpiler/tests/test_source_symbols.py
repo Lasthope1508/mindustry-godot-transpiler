@@ -4033,6 +4033,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(previous_state["java_expr"], "Seq<Building> previous")
         self.assertEqual(previous_state["godot_symbol"], "source_building_overwrote_input.previous_state")
 
+    def test_building_picked_up_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_picked_up.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "pickedUp()")
+        self.assertEqual(method["java_expr"], "public void pickedUp(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_picked_up_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_picked_up_state")
+        self.assertEqual(method["godot_symbol"], "source_building_picked_up_result.method")
+
+        comment = source_symbols.source_symbol(registry, "building_picked_up.comment")
+        self.assertEqual(comment["java_expr"], "Called right before this building is picked up.")
+        self.assertEqual(comment["godot_symbol"], "source_building_picked_up_result.comment")
+
+        no_op = source_symbols.source_symbol(registry, "building_picked_up.no_op")
+        self.assertEqual(no_op["java_expr"], "public void pickedUp(){")
+        self.assertEqual(no_op["godot_symbol"], "source_building_picked_up_result.no_op")
+
+        previous_state = source_symbols.source_symbol(registry, "building_picked_up.previous_state")
+        self.assertEqual(previous_state["status"], "explicit-input")
+        self.assertEqual(previous_state["java_expr"], "public void pickedUp(){")
+        self.assertEqual(previous_state["godot_symbol"], "source_building_picked_up_input.previous_state")
+
     def test_building_payload_draw_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6294,9 +6321,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 219)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 220)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 224)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 225)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6333,6 +6360,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_repaired_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_overwrote_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_payload_draw_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7790,6 +7818,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(block.drawDynamic){", building_payload_draw["exact_exprs"])
         self.assertIn("Draw.z(z);", building_payload_draw["exact_exprs"])
         self.assertIn("draw();", building_payload_draw["exact_exprs"])
+
+        building_picked_up = source_symbols.source_slice(ledger, "N622")
+        self.assertEqual(building_picked_up["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_picked_up["java_method"], "pickedUp()")
+        self.assertEqual(building_picked_up["godot_owner"], "PortGame.source_building_picked_up_state")
+        self.assertIn("Called right before this building is picked up.", building_picked_up["exact_exprs"])
+        self.assertIn("public void pickedUp(){", building_picked_up["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9801,6 +9836,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("cached_draw", building_payload_draw["return_keys"])
         self.assertIn("dynamic_draw", building_payload_draw["return_keys"])
         self.assertEqual(building_payload_draw["source_method"], "payloadDraw()")
+
+        building_picked_up = source_symbols.api_contract(contracts, "PortGame.source_building_picked_up_state")
+        self.assertEqual([param["name"] for param in building_picked_up["params"]], ["previous_state"])
+        self.assertEqual(building_picked_up["params"][0]["schema"], "source_building_picked_up_input.previous_state")
+        self.assertIn("method", building_picked_up["return_keys"])
+        self.assertIn("comment", building_picked_up["return_keys"])
+        self.assertIn("no_op", building_picked_up["return_keys"])
+        self.assertIn("previous_state", building_picked_up["return_keys"])
+        self.assertEqual(building_picked_up["source_method"], "pickedUp()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -12018,6 +12062,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_payload_draw_result["keys"]["cached_z_call"]["java_expr"], "Draw.z(block.buildingCacheLayer.layer);")
         self.assertEqual(source_building_payload_draw_result["keys"]["dynamic_draw_call"]["java_expr"], "draw();")
         self.assertEqual(source_building_payload_draw_result["keys"]["draw_cached"]["alias_of"], "source_building_payload_draw_input.draw_cached")
+
+        source_building_picked_up_input = source_symbols.state_schema(schema, "source_building_picked_up_input")
+        self.assertEqual(source_building_picked_up_input["keys"]["previous_state"]["java_expr"], "public void pickedUp(){")
+
+        source_building_picked_up_result = source_symbols.state_schema(schema, "source_building_picked_up_result")
+        self.assertEqual(source_building_picked_up_result["keys"]["method"]["java_expr"], "public void pickedUp(){")
+        self.assertEqual(source_building_picked_up_result["keys"]["comment"]["java_expr"], "Called right before this building is picked up.")
+        self.assertEqual(source_building_picked_up_result["keys"]["no_op"]["java_expr"], "public void pickedUp(){")
+        self.assertEqual(source_building_picked_up_result["keys"]["previous_state"]["alias_of"], "source_building_picked_up_input.previous_state")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

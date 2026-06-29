@@ -6969,6 +6969,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_payload_draw_state",
       "rule": "Backfills SSOT for existing canonical source_building_payload_draw_state helper against BuildingComp.payloadDraw() z save, cached branch, and dynamic branch."
+    },
+    "N622": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "pickedUp()",
+      "godot_owner": "PortGame.source_building_picked_up_state",
+      "exact_exprs": [
+        "Called right before this building is picked up.",
+        "public void pickedUp(){"
+      ],
+      "deferred_exprs": [
+        "Concrete pickup container/item-transfer behavior remains covered by pickup runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_picked_up.method",
+        "building_picked_up.comment",
+        "building_picked_up.no_op",
+        "building_picked_up.previous_state"
+      ],
+      "tests": [
+        "test_building_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_picked_up_state",
+      "rule": "Backfills SSOT for existing canonical source_building_picked_up_state helper against BuildingComp.pickedUp() no-op."
     }
   },
   "version": 1

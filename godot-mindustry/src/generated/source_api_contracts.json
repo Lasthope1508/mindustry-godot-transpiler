@@ -8488,6 +8488,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_payload_draw_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.payloadDraw helper."
+    },
+    "PortGame.source_building_picked_up_state": {
+      "status": "active",
+      "source_slice": "N622",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "pickedUp()",
+      "params": [
+        {
+          "name": "previous_state",
+          "type": "Variant",
+          "schema": "source_building_picked_up_input.previous_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "no_op",
+        "previous_state"
+      ],
+      "tests": [
+        "test_building_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_picked_up_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.pickedUp no-op helper."
     }
   },
   "policy": {

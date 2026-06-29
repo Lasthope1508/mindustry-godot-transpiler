@@ -21470,6 +21470,58 @@
       "java_expr": "block.buildingCacheLayer.layer",
       "godot_symbol": "source_building_payload_draw_input.building_cache_layer_z",
       "rule": "Runtime building_cache_layer_z supplies block.buildingCacheLayer.layer."
+    },
+    "building_picked_up.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "pickedUp()",
+      "godot_owner": "PortGame.source_building_picked_up_state",
+      "tests": [
+        "test_building_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_picked_up_state",
+      "java_expr": "public void pickedUp(){",
+      "godot_symbol": "source_building_picked_up_result.method",
+      "rule": "BuildingComp pickedUp method boundary."
+    },
+    "building_picked_up.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "pickedUp()",
+      "godot_owner": "PortGame.source_building_picked_up_state",
+      "tests": [
+        "test_building_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_picked_up_state",
+      "java_expr": "Called right before this building is picked up.",
+      "godot_symbol": "source_building_picked_up_result.comment",
+      "rule": "Source comment documents pickedUp call timing."
+    },
+    "building_picked_up.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "pickedUp()",
+      "godot_owner": "PortGame.source_building_picked_up_state",
+      "tests": [
+        "test_building_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_picked_up_state",
+      "java_expr": "public void pickedUp(){",
+      "godot_symbol": "source_building_picked_up_result.no_op",
+      "rule": "Base pickedUp implementation is empty."
+    },
+    "building_picked_up.previous_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "pickedUp()",
+      "godot_owner": "PortGame.source_building_picked_up_state",
+      "tests": [
+        "test_building_picked_up_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_picked_up_state",
+      "java_expr": "public void pickedUp(){",
+      "godot_symbol": "source_building_picked_up_input.previous_state",
+      "rule": "Runtime previous_state is passed through because base pickedUp has no side effects."
     }
   }
 }
