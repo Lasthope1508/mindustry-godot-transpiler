@@ -41326,6 +41326,118 @@
         }
       },
       "status": "active"
+    },
+    "source_mend_projector_repair_amount_input": {
+      "keys": {
+        "targetMaxHealth": {
+          "java_expr": "other.maxHealth()",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Target Building maxHealth used by repair amount formula.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_repair_amount"
+          ],
+          "godot_symbol": "source_mend_projector_repair_amount_input.targetMaxHealth"
+        },
+        "healPercent": {
+          "java_expr": "public float healPercent = 12f;",
+          "java_method": "MendProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector healPercent field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_repair_amount"
+          ],
+          "godot_symbol": "source_mend_projector_repair_amount_input.healPercent"
+        },
+        "phaseHeat": {
+          "java_expr": "phaseHeat",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendBuild phaseHeat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_repair_amount"
+          ],
+          "godot_symbol": "source_mend_projector_repair_amount_input.phaseHeat"
+        },
+        "phaseBoost": {
+          "java_expr": "public float phaseBoost = 12f;",
+          "java_method": "MendProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector phaseBoost field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_repair_amount"
+          ],
+          "godot_symbol": "source_mend_projector_repair_amount_input.phaseBoost"
+        },
+        "efficiency": {
+          "java_expr": "efficiency",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java efficiency explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_repair_amount"
+          ],
+          "godot_symbol": "source_mend_projector_repair_amount_input.efficiency"
+        }
+      },
+      "status": "active"
+    },
+    "source_mend_projector_repair_amount_result": {
+      "keys": {
+        "amount": {
+          "java_expr": "other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Amount passed into other.heal.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_repair_amount"
+          ],
+          "godot_symbol": "source_mend_projector_repair_amount_result.amount"
+        },
+        "targetMaxHealth": {
+          "alias_of": "source_mend_projector_repair_amount_input.targetMaxHealth",
+          "rule": "Carries targetMaxHealth input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "healPercent": {
+          "alias_of": "source_mend_projector_repair_amount_input.healPercent",
+          "rule": "Carries healPercent field into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "phaseHeat": {
+          "alias_of": "source_mend_projector_repair_amount_input.phaseHeat",
+          "rule": "Carries phaseHeat input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "phaseBoost": {
+          "alias_of": "source_mend_projector_repair_amount_input.phaseBoost",
+          "rule": "Carries phaseBoost field into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "efficiency": {
+          "alias_of": "source_mend_projector_repair_amount_input.efficiency",
+          "rule": "Carries efficiency input into result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

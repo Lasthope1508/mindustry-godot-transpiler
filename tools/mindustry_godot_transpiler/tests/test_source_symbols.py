@@ -2732,6 +2732,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(phase_heat_input["java_expr"], "phaseHeat")
         self.assertEqual(phase_heat_input["godot_symbol"], "source_mend_projector_range_input.phaseHeat")
 
+    def test_mend_projector_repair_amount_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        heal_call = source_symbols.source_symbol(registry, "mend_projector_repair_amount.heal_call")
+        self.assertEqual(heal_call["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(heal_call["java_expr"], "other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);")
+        self.assertEqual(heal_call["godot_owner"], "PortGame.source_mend_projector_repair_amount")
+        self.assertEqual(heal_call["runtime_proof"], "/root/Main.source_mend_projector_repair_amount")
+
+        formula = source_symbols.source_symbol(registry, "mend_projector_repair_amount.formula")
+        self.assertEqual(formula["java_expr"], "other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency")
+        self.assertEqual(formula["godot_symbol"], "source_mend_projector_repair_amount_result.amount")
+
+        max_health_expr = source_symbols.source_symbol(registry, "mend_projector_repair_amount.max_health_expr")
+        self.assertEqual(max_health_expr["java_expr"], "other.maxHealth()")
+        self.assertEqual(max_health_expr["godot_symbol"], "source_mend_projector_repair_amount_input.targetMaxHealth")
+
+        heal_percent_field = source_symbols.source_symbol(registry, "mend_projector_repair_amount.heal_percent_field")
+        self.assertEqual(heal_percent_field["java_expr"], "public float healPercent = 12f;")
+        self.assertEqual(heal_percent_field["godot_symbol"], "source_mend_projector_repair_amount_input.healPercent")
+
+        phase_boost_field = source_symbols.source_symbol(registry, "mend_projector_repair_amount.phase_boost_field")
+        self.assertEqual(phase_boost_field["java_expr"], "public float phaseBoost = 12f;")
+        self.assertEqual(phase_boost_field["godot_symbol"], "source_mend_projector_repair_amount_input.phaseBoost")
+
+        phase_heat_input = source_symbols.source_symbol(registry, "mend_projector_repair_amount.phase_heat_input")
+        self.assertEqual(phase_heat_input["status"], "explicit-input")
+        self.assertEqual(phase_heat_input["java_expr"], "phaseHeat")
+        self.assertEqual(phase_heat_input["godot_symbol"], "source_mend_projector_repair_amount_input.phaseHeat")
+
+        efficiency_input = source_symbols.source_symbol(registry, "mend_projector_repair_amount.efficiency_input")
+        self.assertEqual(efficiency_input["status"], "explicit-input")
+        self.assertEqual(efficiency_input["java_expr"], "efficiency")
+        self.assertEqual(efficiency_input["godot_symbol"], "source_mend_projector_repair_amount_input.efficiency")
+
     def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10076,9 +10114,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 315)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 316)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 320)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 321)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10215,6 +10253,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_mend_projector_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_progress", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_range", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mend_projector_repair_amount", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11595,6 +11634,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float range = 60f;", mend_projector_range["exact_exprs"])
         self.assertIn("public float phaseRangeBoost = 50f;", mend_projector_range["exact_exprs"])
         self.assertIn("float realRange = range + phaseHeat * phaseRangeBoost;", mend_projector_range["exact_exprs"])
+
+        mend_projector_repair_amount = source_symbols.source_slice(ledger, "N718")
+        self.assertEqual(mend_projector_repair_amount["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(mend_projector_repair_amount["java_method"], "updateTile()")
+        self.assertEqual(mend_projector_repair_amount["godot_owner"], "PortGame.source_mend_projector_repair_amount")
+        self.assertIn("other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);", mend_projector_repair_amount["exact_exprs"])
+        self.assertIn("other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency", mend_projector_repair_amount["exact_exprs"])
+        self.assertIn("public float healPercent = 12f;", mend_projector_repair_amount["exact_exprs"])
+        self.assertIn("public float phaseBoost = 12f;", mend_projector_repair_amount["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14233,6 +14281,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("baseRange", mend_projector_range["return_keys"])
         self.assertIn("phaseRangeBoost", mend_projector_range["return_keys"])
         self.assertEqual(mend_projector_range["source_method"], "range()/drawSelect()")
+
+        mend_projector_repair_amount = source_symbols.api_contract(contracts, "PortGame.source_mend_projector_repair_amount")
+        self.assertEqual([param["name"] for param in mend_projector_repair_amount["params"]], ["mend_projector", "target_block", "phase_heat", "efficiency"])
+        self.assertEqual(mend_projector_repair_amount["params"][2]["schema"], "source_mend_projector_repair_amount_input.phaseHeat")
+        self.assertEqual(mend_projector_repair_amount["params"][3]["schema"], "source_mend_projector_repair_amount_input.efficiency")
+        self.assertIn("amount", mend_projector_repair_amount["return_keys"])
+        self.assertIn("targetMaxHealth", mend_projector_repair_amount["return_keys"])
+        self.assertIn("healPercent", mend_projector_repair_amount["return_keys"])
+        self.assertIn("phaseBoost", mend_projector_repair_amount["return_keys"])
+        self.assertEqual(mend_projector_repair_amount["source_method"], "updateTile()")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -17261,6 +17319,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_mend_projector_range_result["keys"]["range"]["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
         self.assertEqual(source_mend_projector_range_result["keys"]["phaseHeat"]["alias_of"], "source_mend_projector_range_input.phaseHeat")
         self.assertEqual(source_mend_projector_range_result["keys"]["phaseRangeBoost"]["alias_of"], "source_mend_projector_range_input.phaseRangeBoost")
+
+        source_mend_projector_repair_amount_input = source_symbols.state_schema(schema, "source_mend_projector_repair_amount_input")
+        self.assertEqual(source_mend_projector_repair_amount_input["keys"]["targetMaxHealth"]["java_expr"], "other.maxHealth()")
+        self.assertEqual(source_mend_projector_repair_amount_input["keys"]["healPercent"]["java_expr"], "public float healPercent = 12f;")
+        self.assertEqual(source_mend_projector_repair_amount_input["keys"]["phaseHeat"]["java_expr"], "phaseHeat")
+        self.assertEqual(source_mend_projector_repair_amount_input["keys"]["phaseBoost"]["java_expr"], "public float phaseBoost = 12f;")
+        self.assertEqual(source_mend_projector_repair_amount_input["keys"]["efficiency"]["java_expr"], "efficiency")
+
+        source_mend_projector_repair_amount_result = source_symbols.state_schema(schema, "source_mend_projector_repair_amount_result")
+        self.assertEqual(source_mend_projector_repair_amount_result["keys"]["amount"]["java_expr"], "other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency")
+        self.assertEqual(source_mend_projector_repair_amount_result["keys"]["targetMaxHealth"]["alias_of"], "source_mend_projector_repair_amount_input.targetMaxHealth")
+        self.assertEqual(source_mend_projector_repair_amount_result["keys"]["phaseHeat"]["alias_of"], "source_mend_projector_repair_amount_input.phaseHeat")
+        self.assertEqual(source_mend_projector_repair_amount_result["keys"]["efficiency"]["alias_of"], "source_mend_projector_repair_amount_input.efficiency")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")

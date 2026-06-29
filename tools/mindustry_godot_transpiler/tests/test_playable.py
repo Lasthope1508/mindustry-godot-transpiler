@@ -446,6 +446,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_MEND_PROJECTOR_REPAIR_HEAL_CALL := "other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_REPAIR_FORMULA := "other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_REPAIR_MAX_HEALTH := "other.maxHealth()"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_REPAIR_HEAL_PERCENT_FIELD := "public float healPercent = 12f;"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_REPAIR_PHASE_BOOST_FIELD := "public float phaseBoost = 12f;"', source)
         self.assertIn("func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:", source)
         self.assertIn('var heal_percent := float(mend_projector.properties.get("healPercent", 0.0))', source)
         self.assertIn('var phase_boost := float(mend_projector.properties.get("phaseBoost", 0.0))', source)

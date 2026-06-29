@@ -646,6 +646,12 @@ func selected_build_place_state() -> Dictionary:
 		return {"range": 0.0, "color": ""}
 	return source_mend_projector_place_state(selected)
 
+const SOURCE_MEND_PROJECTOR_REPAIR_HEAL_CALL := "other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);"
+const SOURCE_MEND_PROJECTOR_REPAIR_FORMULA := "other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency"
+const SOURCE_MEND_PROJECTOR_REPAIR_MAX_HEALTH := "other.maxHealth()"
+const SOURCE_MEND_PROJECTOR_REPAIR_HEAL_PERCENT_FIELD := "public float healPercent = 12f;"
+const SOURCE_MEND_PROJECTOR_REPAIR_PHASE_BOOST_FIELD := "public float phaseBoost = 12f;"
+
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
 	if mend_projector == null or target_block == null:
 		return 0.0

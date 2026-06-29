@@ -10171,6 +10171,40 @@
       "tests": [
         "test_mend_projector_range_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N718": {
+      "deferred_exprs": [
+        "other.recentlyHealed();",
+        "Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);"
+      ],
+      "exact_exprs": [
+        "other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);",
+        "other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency",
+        "other.maxHealth()",
+        "public float healPercent = 12f;",
+        "public float phaseBoost = 12f;",
+        "phaseHeat",
+        "efficiency"
+      ],
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "java_class": "mindustry.world.blocks.defense.MendProjector.MendBuild",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Backfills SSOT for existing source_mend_projector_repair_amount helper against Mindustry MendProjector updateTile heal amount formula.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "source_symbols": [
+        "mend_projector_repair_amount.heal_call",
+        "mend_projector_repair_amount.formula",
+        "mend_projector_repair_amount.max_health_expr",
+        "mend_projector_repair_amount.heal_percent_field",
+        "mend_projector_repair_amount.phase_boost_field",
+        "mend_projector_repair_amount.phase_heat_input",
+        "mend_projector_repair_amount.efficiency_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

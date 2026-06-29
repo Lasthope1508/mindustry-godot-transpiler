@@ -11871,6 +11871,47 @@
       "tests": [
         "test_mend_projector_range_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mend_projector_repair_amount": {
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "params": [
+        {
+          "name": "mend_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "target_block",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "phase_heat",
+          "schema": "source_mend_projector_repair_amount_input.phaseHeat",
+          "type": "float"
+        },
+        {
+          "name": "efficiency",
+          "schema": "source_mend_projector_repair_amount_input.efficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "amount",
+        "targetMaxHealth",
+        "healPercent",
+        "phaseHeat",
+        "phaseBoost",
+        "efficiency"
+      ],
+      "rule": "Public runtime contract for MendProjector repair amount helper using source updateTile heal formula.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "source_method": "updateTile()",
+      "source_slice": "N718",
+      "status": "active",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

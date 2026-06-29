@@ -32242,6 +32242,97 @@
       "tests": [
         "test_mend_projector_range_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mend_projector_repair_amount.heal_call": {
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "godot_symbol": "source_mend_projector_repair_amount_result.amount",
+      "java_expr": "other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector updateTile heals each damaged block by target max health times healPercent plus phaseHeat phaseBoost, scaled by efficiency.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_repair_amount.formula": {
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "godot_symbol": "source_mend_projector_repair_amount_result.amount",
+      "java_expr": "other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Repair amount formula passed into other.heal.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_repair_amount.max_health_expr": {
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "godot_symbol": "source_mend_projector_repair_amount_input.targetMaxHealth",
+      "java_expr": "other.maxHealth()",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Target block maxHealth is the base value for repair amount.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_repair_amount.heal_percent_field": {
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "godot_symbol": "source_mend_projector_repair_amount_input.healPercent",
+      "java_expr": "public float healPercent = 12f;",
+      "java_method": "MendProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector healPercent field contributes to repair amount.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_repair_amount.phase_boost_field": {
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "godot_symbol": "source_mend_projector_repair_amount_input.phaseBoost",
+      "java_expr": "public float phaseBoost = 12f;",
+      "java_method": "MendProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector phaseBoost field multiplies phaseHeat for repair amount.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_repair_amount.phase_heat_input": {
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "godot_symbol": "source_mend_projector_repair_amount_input.phaseHeat",
+      "java_expr": "phaseHeat",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild phaseHeat is explicit runtime input for boosted repair amount.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "status": "explicit-input",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_repair_amount.efficiency_input": {
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "godot_symbol": "source_mend_projector_repair_amount_input.efficiency",
+      "java_expr": "efficiency",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Building efficiency scales the repair amount in updateTile.",
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount",
+      "status": "explicit-input",
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
