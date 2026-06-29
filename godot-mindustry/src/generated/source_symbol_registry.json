@@ -31137,6 +31137,84 @@
       "tests": [
         "test_dump_payload_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "increment_dump_cursor.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "incrementDump(int prox)",
+      "java_expr": "public void incrementDump(int prox){",
+      "godot_owner": "PortGame.source_increment_dump_cursor",
+      "godot_symbol": "source_increment_dump_cursor_result.method",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "rule": "Source incrementDump method boundary.",
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "increment_dump_cursor.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "incrementDump(int prox)",
+      "java_expr": "//this is possible if transferring an item changed a block",
+      "godot_owner": "PortGame.source_increment_dump_cursor",
+      "godot_symbol": "source_increment_dump_cursor_result.comment",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "rule": "Source explains zero-proximity guard for block changes during transfer.",
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "increment_dump_cursor.nonzero_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "incrementDump(int prox)",
+      "java_expr": "if(prox != 0){",
+      "godot_owner": "PortGame.source_increment_dump_cursor",
+      "godot_symbol": "source_increment_dump_cursor_result.nonzeroGuard",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "rule": "Source only mutates cdump when prox is non-zero.",
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "increment_dump_cursor.assignment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "incrementDump(int prox)",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_owner": "PortGame.source_increment_dump_cursor",
+      "godot_symbol": "source_increment_dump_cursor_result.cdump",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "rule": "Source increments cdump modulo prox.",
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "increment_dump_cursor.current_dump": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "incrementDump(int prox)",
+      "java_expr": "cdump",
+      "godot_owner": "PortGame.source_increment_dump_cursor",
+      "godot_symbol": "source_increment_dump_cursor_input.current_dump",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "rule": "Godot current_dump supplies source cdump before mutation.",
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "increment_dump_cursor.proximity_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "incrementDump(int prox)",
+      "java_expr": "prox",
+      "godot_owner": "PortGame.source_increment_dump_cursor",
+      "godot_symbol": "source_increment_dump_cursor_input.proximity_size",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "rule": "Godot proximity_size supplies source prox parameter.",
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

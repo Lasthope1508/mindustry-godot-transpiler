@@ -3719,6 +3719,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(accepts_payload_by_index["java_expr"], "other.acceptPayload(self(), todump)")
         self.assertEqual(accepts_payload_by_index["godot_symbol"], "source_dump_payload_state_input.accepts_payload_by_index")
 
+    def test_increment_dump_cursor_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "increment_dump_cursor.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "incrementDump(int prox)")
+        self.assertEqual(method["java_expr"], "public void incrementDump(int prox){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_increment_dump_cursor")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_increment_dump_cursor")
+        self.assertEqual(method["godot_symbol"], "source_increment_dump_cursor_result.method")
+
+        comment = source_symbols.source_symbol(registry, "increment_dump_cursor.comment")
+        self.assertEqual(comment["java_expr"], "//this is possible if transferring an item changed a block")
+        self.assertEqual(comment["godot_symbol"], "source_increment_dump_cursor_result.comment")
+
+        guard = source_symbols.source_symbol(registry, "increment_dump_cursor.nonzero_guard")
+        self.assertEqual(guard["java_expr"], "if(prox != 0){")
+        self.assertEqual(guard["godot_symbol"], "source_increment_dump_cursor_result.nonzeroGuard")
+
+        assignment = source_symbols.source_symbol(registry, "increment_dump_cursor.assignment")
+        self.assertEqual(assignment["java_expr"], "cdump = ((cdump + 1) % prox);")
+        self.assertEqual(assignment["godot_symbol"], "source_increment_dump_cursor_result.cdump")
+
+        current_dump = source_symbols.source_symbol(registry, "increment_dump_cursor.current_dump")
+        self.assertEqual(current_dump["status"], "explicit-input")
+        self.assertEqual(current_dump["java_expr"], "cdump")
+        self.assertEqual(current_dump["godot_symbol"], "source_increment_dump_cursor_input.current_dump")
+
+        proximity_size = source_symbols.source_symbol(registry, "increment_dump_cursor.proximity_size")
+        self.assertEqual(proximity_size["status"], "explicit-input")
+        self.assertEqual(proximity_size["java_expr"], "prox")
+        self.assertEqual(proximity_size["godot_symbol"], "source_increment_dump_cursor_input.proximity_size")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9649,9 +9685,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 305)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 306)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 310)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 311)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9810,6 +9846,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_time_scale_duration_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_dump_payload_index", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_dump_payload_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_increment_dump_cursor", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_time_scale_decay_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_to_string_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_on_state", audit["registeredSourceOwners"])
@@ -11063,6 +11100,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("incrementDump(proximity.size);", dump_payload_state["exact_exprs"])
         self.assertIn("return true;", dump_payload_state["exact_exprs"])
         self.assertIn("return false;", dump_payload_state["exact_exprs"])
+
+        increment_dump_cursor = source_symbols.source_slice(ledger, "N708")
+        self.assertEqual(increment_dump_cursor["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(increment_dump_cursor["java_method"], "incrementDump(int prox)")
+        self.assertEqual(increment_dump_cursor["godot_owner"], "PortGame.source_increment_dump_cursor")
+        self.assertIn("public void incrementDump(int prox){", increment_dump_cursor["exact_exprs"])
+        self.assertIn("//this is possible if transferring an item changed a block", increment_dump_cursor["exact_exprs"])
+        self.assertIn("if(prox != 0){", increment_dump_cursor["exact_exprs"])
+        self.assertIn("cdump = ((cdump + 1) % prox);", increment_dump_cursor["exact_exprs"])
+        self.assertIn("cdump", increment_dump_cursor["exact_exprs"])
+        self.assertIn("prox", increment_dump_cursor["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13959,6 +14007,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handlePayload", dump_payload_state["return_keys"])
         self.assertIn("incrementDump", dump_payload_state["return_keys"])
         self.assertEqual(dump_payload_state["source_method"], "dumpPayload(Payload todump)")
+
+        increment_dump_cursor = source_symbols.api_contract(contracts, "PortGame.source_increment_dump_cursor")
+        self.assertEqual([param["name"] for param in increment_dump_cursor["params"]], ["current_dump", "proximity_size"])
+        self.assertEqual(increment_dump_cursor["params"][0]["schema"], "source_increment_dump_cursor_input.current_dump")
+        self.assertEqual(increment_dump_cursor["params"][1]["schema"], "source_increment_dump_cursor_input.proximity_size")
+        self.assertIn("cdump", increment_dump_cursor["return_keys"])
+        self.assertIn("nonzeroGuard", increment_dump_cursor["return_keys"])
+        self.assertIn("current_dump", increment_dump_cursor["return_keys"])
+        self.assertIn("proximity_size", increment_dump_cursor["return_keys"])
+        self.assertEqual(increment_dump_cursor["source_method"], "incrementDump(int prox)")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -17016,6 +17074,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_dump_payload_state_result["keys"]["proximity_size"]["alias_of"], "source_dump_payload_state_input.proximity_size")
         self.assertEqual(source_dump_payload_state_result["keys"]["dump_cursor"]["alias_of"], "source_dump_payload_state_input.dump_cursor")
         self.assertEqual(source_dump_payload_state_result["keys"]["accepts_payload_by_index"]["alias_of"], "source_dump_payload_state_input.accepts_payload_by_index")
+
+        source_increment_dump_cursor_input = source_symbols.state_schema(schema, "source_increment_dump_cursor_input")
+        self.assertEqual(source_increment_dump_cursor_input["keys"]["current_dump"]["java_expr"], "cdump")
+        self.assertEqual(source_increment_dump_cursor_input["keys"]["proximity_size"]["java_expr"], "prox")
+
+        source_increment_dump_cursor_result = source_symbols.state_schema(schema, "source_increment_dump_cursor_result")
+        self.assertEqual(source_increment_dump_cursor_result["keys"]["method"]["java_expr"], "public void incrementDump(int prox){")
+        self.assertEqual(source_increment_dump_cursor_result["keys"]["comment"]["java_expr"], "//this is possible if transferring an item changed a block")
+        self.assertEqual(source_increment_dump_cursor_result["keys"]["nonzeroGuard"]["java_expr"], "if(prox != 0){")
+        self.assertEqual(source_increment_dump_cursor_result["keys"]["cdump"]["java_expr"], "cdump = ((cdump + 1) % prox);")
+        self.assertEqual(source_increment_dump_cursor_result["keys"]["current_dump"]["alias_of"], "source_increment_dump_cursor_input.current_dump")
+        self.assertEqual(source_increment_dump_cursor_result["keys"]["proximity_size"]["alias_of"], "source_increment_dump_cursor_input.proximity_size")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

@@ -9824,6 +9824,34 @@
         "test_dump_payload_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_dump_payload_state"
       ]
+    },
+    "N708": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "incrementDump(int prox)",
+      "exact_exprs": [
+        "public void incrementDump(int prox){",
+        "//this is possible if transferring an item changed a block",
+        "if(prox != 0){",
+        "cdump = ((cdump + 1) % prox);",
+        "cdump",
+        "prox"
+      ],
+      "godot_owner": "PortGame.source_increment_dump_cursor",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "source_symbols": [
+        "increment_dump_cursor.method",
+        "increment_dump_cursor.comment",
+        "increment_dump_cursor.nonzero_guard",
+        "increment_dump_cursor.assignment",
+        "increment_dump_cursor.current_dump",
+        "increment_dump_cursor.proximity_size"
+      ],
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_dump_cursor"
+      ]
     }
   },
   "version": 1

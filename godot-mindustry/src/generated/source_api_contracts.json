@@ -11497,6 +11497,37 @@
       "tests": [
         "test_dump_payload_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_increment_dump_cursor": {
+      "status": "active",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "incrementDump(int prox)",
+      "source_slice": "N708",
+      "runtime_proof": "/root/Main.source_increment_dump_cursor",
+      "params": [
+        {
+          "name": "current_dump",
+          "type": "int",
+          "schema": "source_increment_dump_cursor_input.current_dump"
+        },
+        {
+          "name": "proximity_size",
+          "type": "int",
+          "schema": "source_increment_dump_cursor_input.proximity_size"
+        }
+      ],
+      "return_keys": [
+        "cdump",
+        "nonzeroGuard",
+        "current_dump",
+        "proximity_size",
+        "method",
+        "comment"
+      ],
+      "rule": "Public runtime contract for source incrementDump(int prox) mapped to pure cursor helper.",
+      "tests": [
+        "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

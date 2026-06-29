@@ -3229,6 +3229,11 @@ func source_move_forward_to_core(item_id: String, has_front := true, same_team :
 		return false
 	return source_core_handle_item(item_id)
 
+const SOURCE_INCREMENT_DUMP_CURSOR_METHOD := "public void incrementDump(int prox){"
+const SOURCE_INCREMENT_DUMP_CURSOR_COMMENT := "//this is possible if transferring an item changed a block"
+const SOURCE_INCREMENT_DUMP_CURSOR_NONZERO_GUARD := "if(prox != 0){"
+const SOURCE_INCREMENT_DUMP_CURSOR_ASSIGNMENT := "cdump = ((cdump + 1) % prox);"
+
 func source_increment_dump_cursor(current_dump: int, proximity_size: int) -> int:
 	if proximity_size != 0:
 		return (current_dump + 1) % proximity_size

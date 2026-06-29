@@ -1329,6 +1329,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("var drill_dump_cursor := 0", source)
+        self.assertIn('const SOURCE_INCREMENT_DUMP_CURSOR_METHOD := "public void incrementDump(int prox){"', source)
+        self.assertIn('const SOURCE_INCREMENT_DUMP_CURSOR_COMMENT := "//this is possible if transferring an item changed a block"', source)
+        self.assertIn('const SOURCE_INCREMENT_DUMP_CURSOR_NONZERO_GUARD := "if(prox != 0){"', source)
+        self.assertIn('const SOURCE_INCREMENT_DUMP_CURSOR_ASSIGNMENT := "cdump = ((cdump + 1) % prox);"', source)
         self.assertIn("func source_increment_dump_cursor(current_dump: int, proximity_size: int) -> int:", source)
         self.assertIn("if proximity_size != 0:", source)
         self.assertIn("return (current_dump + 1) % proximity_size", source)
