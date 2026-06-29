@@ -9786,6 +9786,44 @@
         "test_dump_payload_index_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_dump_payload_state"
       ]
+    },
+    "N707": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpPayload(Payload todump)",
+      "exact_exprs": [
+        "public boolean dumpPayload(Payload todump){",
+        "if(proximity.size == 0) return false;",
+        "for(int i = 0; i < proximity.size; i++){",
+        "if(other.acceptPayload(self(), todump)){",
+        "other.handlePayload(self(), todump);",
+        "incrementDump(proximity.size);",
+        "return true;",
+        "return false;",
+        "proximity.size",
+        "dump",
+        "other.acceptPayload(self(), todump)"
+      ],
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "source_symbols": [
+        "dump_payload_state.method",
+        "dump_payload_state.empty_proximity_guard",
+        "dump_payload_state.loop",
+        "dump_payload_state.accept_payload",
+        "dump_payload_state.handle_payload",
+        "dump_payload_state.increment_dump",
+        "dump_payload_state.return_true",
+        "dump_payload_state.return_false",
+        "dump_payload_state.proximity_size",
+        "dump_payload_state.dump_cursor",
+        "dump_payload_state.accepts_payload_by_index"
+      ],
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_dump_payload_state"
+      ]
     }
   },
   "version": 1

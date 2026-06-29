@@ -1488,6 +1488,11 @@ func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_t
 const SOURCE_DUMP_PAYLOAD_INDEX_DUMP_FIELD := "int dump = this.cdump;"
 const SOURCE_DUMP_PAYLOAD_INDEX_PROXIMITY_GET := "Building other = proximity.get((i + dump) % proximity.size);"
 const SOURCE_DUMP_PAYLOAD_INDEX_EXPR := "(i + dump) % proximity.size"
+const SOURCE_DUMP_PAYLOAD_STATE_METHOD := "public boolean dumpPayload(Payload todump){"
+const SOURCE_DUMP_PAYLOAD_STATE_EMPTY_PROXIMITY_GUARD := "if(proximity.size == 0) return false;"
+const SOURCE_DUMP_PAYLOAD_STATE_ACCEPT_PAYLOAD := "if(other.acceptPayload(self(), todump)){"
+const SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD := "other.handlePayload(self(), todump);"
+const SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP := "incrementDump(proximity.size);"
 
 func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:
 	return (loop_index + dump_cursor) % proximity_size

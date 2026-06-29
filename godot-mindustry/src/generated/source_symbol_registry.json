@@ -30994,6 +30994,149 @@
       "tests": [
         "test_dump_payload_index_symbols_are_registered_with_source_backing"
       ]
+    },
+    "dump_payload_state.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "public boolean dumpPayload(Payload todump){",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.method",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source dumpPayload(Payload todump) method boundary.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.empty_proximity_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "if(proximity.size == 0) return false;",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.emptyProximityGuard",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source returns false before payload dump loop when no proximity exists.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "for(int i = 0; i < proximity.size; i++){",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.loop",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source iterates each adjacent building once.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.accept_payload": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "if(other.acceptPayload(self(), todump)){",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.acceptPayload",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source moves payload only through neighbor acceptPayload gate.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.handle_payload": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "other.handlePayload(self(), todump);",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.handlePayload",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source calls handlePayload on accepted neighbor before returning true.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.increment_dump": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "incrementDump(proximity.size);",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.incrementDump",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source increments dump cursor after each payload attempt, including success.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.return_true": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "return true;",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.moved",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source returns true after accepted payload is handled.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.return_false": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "return false;",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_result.moved",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Source returns false for empty proximity or no accepted payload neighbor.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.proximity_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "proximity.size",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_input.proximity_size",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Godot proximity_size supplies source proximity.size.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.dump_cursor": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "dump",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_input.dump_cursor",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Godot dump_cursor supplies source local dump snapshot.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "dump_payload_state.accepts_payload_by_index": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpPayload(Payload todump)",
+      "java_expr": "other.acceptPayload(self(), todump)",
+      "godot_owner": "PortGame.source_dump_payload_state",
+      "godot_symbol": "source_dump_payload_state_input.accepts_payload_by_index",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "rule": "Godot accepts_payload_by_index supplies per-neighbor acceptPayload result for source todump.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

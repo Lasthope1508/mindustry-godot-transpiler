@@ -11453,6 +11453,50 @@
       "tests": [
         "test_dump_payload_index_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_dump_payload_state": {
+      "status": "active",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dumpPayload(Payload todump)",
+      "source_slice": "N707",
+      "runtime_proof": "/root/Main.source_dump_payload_state",
+      "params": [
+        {
+          "name": "proximity_size",
+          "type": "int",
+          "schema": "source_dump_payload_state_input.proximity_size"
+        },
+        {
+          "name": "dump_cursor",
+          "type": "int",
+          "schema": "source_dump_payload_state_input.dump_cursor"
+        },
+        {
+          "name": "accepts_payload_by_index",
+          "type": "Array",
+          "schema": "source_dump_payload_state_input.accepts_payload_by_index"
+        }
+      ],
+      "return_keys": [
+        "moved",
+        "cdump",
+        "handled_index",
+        "method",
+        "emptyProximityGuard",
+        "loop",
+        "acceptPayload",
+        "handlePayload",
+        "incrementDump",
+        "returnTrue",
+        "returnFalse",
+        "proximity_size",
+        "dump_cursor",
+        "accepts_payload_by_index"
+      ],
+      "rule": "Public runtime contract for source dumpPayload(Payload todump) loop state mapped to GDScript helper.",
+      "tests": [
+        "test_dump_payload_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
