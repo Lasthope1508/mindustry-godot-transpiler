@@ -3925,6 +3925,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(damage_explosions["java_expr"], "state.rules.damageExplosions")
         self.assertEqual(damage_explosions["godot_symbol"], "source_building_on_destroyed_splash_liquid_input.damage_explosions")
 
+    def test_building_on_nearby_build_added_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_nearby_build_added.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onNearbyBuildAdded(Building other)")
+        self.assertEqual(method["java_expr"], "public void onNearbyBuildAdded(Building other){}")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_nearby_build_added_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_nearby_build_added_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_nearby_build_added_result.method")
+
+        no_op = source_symbols.source_symbol(registry, "building_on_nearby_build_added.no_op")
+        self.assertEqual(no_op["java_expr"], "public void onNearbyBuildAdded(Building other){}")
+        self.assertEqual(no_op["godot_symbol"], "source_building_on_nearby_build_added_result.no_op")
+
+        other_state = source_symbols.source_symbol(registry, "building_on_nearby_build_added.other_state")
+        self.assertEqual(other_state["status"], "explicit-input")
+        self.assertEqual(other_state["java_expr"], "Building other")
+        self.assertEqual(other_state["godot_symbol"], "source_building_on_nearby_build_added_input.other_state")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6151,9 +6174,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 214)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 215)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 219)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 220)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6185,6 +6208,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_destroyed_reactive_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_rubble_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_splash_liquid_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_nearby_build_added_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7597,6 +7621,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void onDestroyed(){", building_on_destroyed_splash_liquid["exact_exprs"])
         self.assertIn("if(block.hasLiquids && state.rules.damageExplosions){", building_on_destroyed_splash_liquid["exact_exprs"])
         self.assertIn("liquids.each(this::splashLiquid);", building_on_destroyed_splash_liquid["exact_exprs"])
+
+        building_on_nearby_build_added = source_symbols.source_slice(ledger, "N617")
+        self.assertEqual(building_on_nearby_build_added["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_nearby_build_added["java_method"], "onNearbyBuildAdded(Building other)")
+        self.assertEqual(building_on_nearby_build_added["godot_owner"], "PortGame.source_building_on_nearby_build_added_state")
+        self.assertIn("public void onNearbyBuildAdded(Building other){}", building_on_nearby_build_added["exact_exprs"])
+        self.assertIn("Building other", building_on_nearby_build_added["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9558,6 +9589,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("call", building_on_destroyed_splash_liquid["return_keys"])
         self.assertIn("liquid_count", building_on_destroyed_splash_liquid["return_keys"])
         self.assertEqual(building_on_destroyed_splash_liquid["source_method"], "onDestroyed()")
+
+        building_on_nearby_build_added = source_symbols.api_contract(contracts, "PortGame.source_building_on_nearby_build_added_state")
+        self.assertEqual([param["name"] for param in building_on_nearby_build_added["params"]], ["other_state"])
+        self.assertEqual(building_on_nearby_build_added["params"][0]["schema"], "source_building_on_nearby_build_added_input.other_state")
+        self.assertIn("method", building_on_nearby_build_added["return_keys"])
+        self.assertIn("no_op", building_on_nearby_build_added["return_keys"])
+        self.assertIn("other_state", building_on_nearby_build_added["return_keys"])
+        self.assertEqual(building_on_nearby_build_added["source_method"], "onNearbyBuildAdded(Building other)")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11726,6 +11765,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_destroyed_splash_liquid_result["keys"]["call"]["java_expr"], "liquids.each(this::splashLiquid);")
         self.assertEqual(source_building_on_destroyed_splash_liquid_result["keys"]["has_liquids"]["alias_of"], "source_building_on_destroyed_splash_liquid_input.has_liquids")
         self.assertEqual(source_building_on_destroyed_splash_liquid_result["keys"]["liquid_states"]["alias_of"], "source_building_on_destroyed_splash_liquid_input.liquid_states")
+
+        source_building_on_nearby_build_added_input = source_symbols.state_schema(schema, "source_building_on_nearby_build_added_input")
+        self.assertEqual(source_building_on_nearby_build_added_input["keys"]["other_state"]["java_expr"], "Building other")
+
+        source_building_on_nearby_build_added_result = source_symbols.state_schema(schema, "source_building_on_nearby_build_added_result")
+        self.assertEqual(source_building_on_nearby_build_added_result["keys"]["method"]["java_expr"], "public void onNearbyBuildAdded(Building other){}")
+        self.assertEqual(source_building_on_nearby_build_added_result["keys"]["no_op"]["java_expr"], "public void onNearbyBuildAdded(Building other){}")
+        self.assertEqual(source_building_on_nearby_build_added_result["keys"]["other_state"]["alias_of"], "source_building_on_nearby_build_added_input.other_state")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

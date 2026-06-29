@@ -21093,6 +21093,45 @@
       "java_expr": "liquids.each(this::splashLiquid)",
       "godot_symbol": "source_building_on_destroyed_splash_liquid_input.liquid_states",
       "rule": "Runtime liquid_states supplies liquids iterated by source splashLiquid call."
+    },
+    "building_on_nearby_build_added.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onNearbyBuildAdded(Building other)",
+      "godot_owner": "PortGame.source_building_on_nearby_build_added_state",
+      "tests": [
+        "test_building_on_nearby_build_added_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_nearby_build_added_state",
+      "java_expr": "public void onNearbyBuildAdded(Building other){}",
+      "godot_symbol": "source_building_on_nearby_build_added_result.method",
+      "rule": "BuildingComp onNearbyBuildAdded method boundary."
+    },
+    "building_on_nearby_build_added.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onNearbyBuildAdded(Building other)",
+      "godot_owner": "PortGame.source_building_on_nearby_build_added_state",
+      "tests": [
+        "test_building_on_nearby_build_added_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_nearby_build_added_state",
+      "java_expr": "public void onNearbyBuildAdded(Building other){}",
+      "godot_symbol": "source_building_on_nearby_build_added_result.no_op",
+      "rule": "Base onNearbyBuildAdded implementation is empty."
+    },
+    "building_on_nearby_build_added.other_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onNearbyBuildAdded(Building other)",
+      "godot_owner": "PortGame.source_building_on_nearby_build_added_state",
+      "tests": [
+        "test_building_on_nearby_build_added_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_nearby_build_added_state",
+      "java_expr": "Building other",
+      "godot_symbol": "source_building_on_nearby_build_added_input.other_state",
+      "rule": "Runtime other_state supplies the source other Building argument for no-op passthrough."
     }
   }
 }

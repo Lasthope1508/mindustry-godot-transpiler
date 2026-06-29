@@ -8295,6 +8295,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed splash liquid helper."
+    },
+    "PortGame.source_building_on_nearby_build_added_state": {
+      "status": "active",
+      "source_slice": "N617",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onNearbyBuildAdded(Building other)",
+      "params": [
+        {
+          "name": "other_state",
+          "type": "Variant",
+          "schema": "source_building_on_nearby_build_added_input.other_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "no_op",
+        "other_state"
+      ],
+      "tests": [
+        "test_building_on_nearby_build_added_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_nearby_build_added_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onNearbyBuildAdded no-op helper."
     }
   },
   "policy": {

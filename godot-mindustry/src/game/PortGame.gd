@@ -2198,8 +2198,12 @@ func source_building_update_proximity_state(nearby_count: int, same_team_count: 
 		"recache": (not headless) and draw_cached,
 	}
 
-func source_building_on_nearby_build_added_state(other_state: Variant) -> Variant:
-	return other_state
+func source_building_on_nearby_build_added_state(other_state: Variant) -> Dictionary:
+	return {
+		"method": "public void onNearbyBuildAdded(Building other){}",
+		"no_op": true,
+		"other_state": other_state,
+	}
 
 func source_building_consume_state(consumers: Array, self_state: Variant) -> Dictionary:
 	var triggered: Array = []

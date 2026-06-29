@@ -6820,6 +6820,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_splash_liquid_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_splash_liquid_state helper against BuildingComp.onDestroyed() splash liquid gate and call."
+    },
+    "N617": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onNearbyBuildAdded(Building other)",
+      "godot_owner": "PortGame.source_building_on_nearby_build_added_state",
+      "exact_exprs": [
+        "public void onNearbyBuildAdded(Building other){}",
+        "Building other"
+      ],
+      "deferred_exprs": [
+        "Concrete block-specific onNearbyBuildAdded overrides remain covered by their own block runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_nearby_build_added.method",
+        "building_on_nearby_build_added.no_op",
+        "building_on_nearby_build_added.other_state"
+      ],
+      "tests": [
+        "test_building_on_nearby_build_added_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_nearby_build_added_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_nearby_build_added_state helper against BuildingComp.onNearbyBuildAdded(Building other) no-op."
     }
   },
   "version": 1
