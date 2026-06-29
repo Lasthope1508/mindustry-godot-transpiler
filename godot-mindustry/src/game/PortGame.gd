@@ -2563,6 +2563,13 @@ func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq
 	if has_single_payload:
 		payload_count += 1.0
 	return {
+		"method": "public double sense(LAccess sensor){",
+		"payload_count_case": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",
+		"size_case": "case size -> block.size;",
+		"has_payload_seq": has_payload_seq,
+		"payload_seq_total": payload_seq_total,
+		"has_single_payload": has_single_payload,
+		"block_size_value": block_size_value,
 		"payload_count": payload_count,
 		"size": block_size_value,
 	}

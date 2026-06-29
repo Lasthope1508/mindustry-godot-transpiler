@@ -2416,9 +2416,16 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float) -> Dictionary:", source)
+        self.assertIn('"method": "public double sense(LAccess sensor){",', source)
+        self.assertIn('"payload_count_case": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",', source)
+        self.assertIn('"size_case": "case size -> block.size;",', source)
         self.assertIn("var payload_count := 0.0", source)
         self.assertIn("payload_count += payload_seq_total", source)
         self.assertIn("payload_count += 1.0", source)
+        self.assertIn('"has_payload_seq": has_payload_seq', source)
+        self.assertIn('"payload_seq_total": payload_seq_total', source)
+        self.assertIn('"has_single_payload": has_single_payload', source)
+        self.assertIn('"block_size_value": block_size_value', source)
         self.assertIn('"payload_count": payload_count', source)
         self.assertIn('"size": block_size_value', source)
 

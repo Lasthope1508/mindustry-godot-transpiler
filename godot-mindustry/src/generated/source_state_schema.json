@@ -30313,6 +30313,148 @@
           "rule": "Runtime value mirrors source senseObject branch output."
         }
       }
+    },
+    "source_building_sense_payload_size_input": {
+      "status": "active",
+      "keys": {
+        "has_payload_seq": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "getPayloads() != null",
+          "godot_symbol": "source_building_sense_payload_size_input.has_payload_seq",
+          "rule": "Runtime has_payload_seq supplies getPayloads() != null."
+        },
+        "payload_seq_total": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "getPayloads().total()",
+          "godot_symbol": "source_building_sense_payload_size_input.payload_seq_total",
+          "rule": "Runtime payload_seq_total supplies getPayloads().total()."
+        },
+        "has_single_payload": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "getPayload() != null",
+          "godot_symbol": "source_building_sense_payload_size_input.has_single_payload",
+          "rule": "Runtime has_single_payload supplies getPayload() != null."
+        },
+        "block_size_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_sense_payload_size_input.block_size_value",
+          "rule": "Runtime block_size_value supplies block.size."
+        }
+      }
+    },
+    "source_building_sense_payload_size_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "public double sense(LAccess sensor){",
+          "godot_symbol": "source_building_sense_payload_size_result.method",
+          "rule": "BuildingComp sense(LAccess) method boundary."
+        },
+        "payload_count_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",
+          "godot_symbol": "source_building_sense_payload_size_result.payload_count_case",
+          "rule": "sense(LAccess) payloadCount case boundary."
+        },
+        "size_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "case size -> block.size;",
+          "godot_symbol": "source_building_sense_payload_size_result.size_case",
+          "rule": "sense(LAccess) size case boundary."
+        },
+        "has_payload_seq": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_payload_size_input.has_payload_seq",
+          "rule": "Carries has_payload_seq input into result schema."
+        },
+        "payload_seq_total": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_payload_size_input.payload_seq_total",
+          "rule": "Carries payload_seq_total input into result schema."
+        },
+        "has_single_payload": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_payload_size_input.has_single_payload",
+          "rule": "Carries has_single_payload input into result schema."
+        },
+        "block_size_value": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_payload_size_input.block_size_value",
+          "rule": "Carries block_size_value input into result schema."
+        },
+        "payload_count": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",
+          "godot_symbol": "source_building_sense_payload_size_result.payload_count",
+          "rule": "Runtime payload_count mirrors upstream payload sequence total plus single payload presence."
+        },
+        "size": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "used_by": [
+            "PortGame.source_building_sense_payload_size_state"
+          ],
+          "java_expr": "case size -> block.size;",
+          "godot_symbol": "source_building_sense_payload_size_result.size",
+          "rule": "Runtime size mirrors upstream block.size."
+        }
+      }
     }
   },
   "version": 1

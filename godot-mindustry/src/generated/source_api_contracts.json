@@ -9156,6 +9156,50 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_object_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.senseObject(LAccess sensor) helper."
+    },
+    "PortGame.source_building_sense_payload_size_state": {
+      "status": "active",
+      "source_slice": "N637",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "sense(LAccess sensor)",
+      "params": [
+        {
+          "name": "has_payload_seq",
+          "type": "bool",
+          "schema": "source_building_sense_payload_size_input.has_payload_seq"
+        },
+        {
+          "name": "payload_seq_total",
+          "type": "float",
+          "schema": "source_building_sense_payload_size_input.payload_seq_total"
+        },
+        {
+          "name": "has_single_payload",
+          "type": "bool",
+          "schema": "source_building_sense_payload_size_input.has_single_payload"
+        },
+        {
+          "name": "block_size_value",
+          "type": "float",
+          "schema": "source_building_sense_payload_size_input.block_size_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "payload_count_case",
+        "size_case",
+        "has_payload_seq",
+        "payload_seq_total",
+        "has_single_payload",
+        "block_size_value",
+        "payload_count",
+        "size"
+      ],
+      "tests": [
+        "test_building_sense_payload_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_payload_size_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) payloadCount and size helper."
     }
   },
   "policy": {
