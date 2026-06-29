@@ -4146,6 +4146,11 @@ func source_mathf_dst(x1: float, y1: float, x2: float, y2: float) -> float:
 	var yd := y2 - y1
 	return sqrt(xd * xd + yd * yd)
 
+const SOURCE_MATHF_LERP_DELTA_METHOD := "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }"
+const SOURCE_MATHF_LERP_DELTA_SCALED_PROGRESS := "progress * Time.delta"
+const SOURCE_MATHF_LERP_DELTA_CLAMP_EXPR := "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }"
+const SOURCE_MATHF_LERP_DELTA_LERP_EXPR := "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }"
+
 func source_mathf_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
 	return from_value + (to_value - from_value) * clampf(progress * source_delta, 0.0, 1.0)
 

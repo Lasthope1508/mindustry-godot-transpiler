@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 174,
+  "legacyUnregisteredOwnerCount": 173,
   "legacyUnregisteredOwners": [
-    "PortGame.source_mathf_lerp_delta",
     "PortGame.source_mend_projector_draw_state",
     "PortGame.source_mend_projector_light_state",
     "PortGame.source_mend_projector_place_state",
@@ -188,7 +187,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 309,
+  "registeredSourceOwnerCount": 310,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_increment_dump_cursor",
     "PortGame.source_lerp_delta",
     "PortGame.source_mathf_approach_delta",
-    "PortGame.source_mathf_dst"
+    "PortGame.source_mathf_dst",
+    "PortGame.source_mathf_lerp_delta"
   ],
   "sourceFunctions": [
     {

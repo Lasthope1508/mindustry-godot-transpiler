@@ -31514,6 +31514,110 @@
       "tests": [
         "test_mathf_dst_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mathf_lerp_delta.method": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.lerpDelta delegates to lerp using clamp(progress * Time.delta).",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.scaled_progress": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.scaledProgress",
+      "java_expr": "progress * Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Progress multiplied by Java Time.delta before clamping.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.clamp_expr": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.clampedProgress",
+      "java_expr": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.clamp(float) clamps scaled progress to [0, 1].",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.lerp_expr": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.lerp computes fromValue + (toValue - fromValue) * progress.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.from_input": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.fromValue",
+      "java_expr": "fromValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta fromValue input.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.to_input": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.toValue",
+      "java_expr": "toValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta toValue input.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.progress_input": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.progress",
+      "java_expr": "progress",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta progress input.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.delta_input": {
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
