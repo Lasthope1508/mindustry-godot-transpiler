@@ -10630,6 +10630,29 @@
       "tests": [
         "test_bullet_velocity_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_bullet_velocity_vector_state": {
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "params": [
+        {
+          "name": "velocity_state",
+          "schema": "source_bullet_velocity_vector_input.velocity_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "x",
+        "y",
+        "source"
+      ],
+      "rule": "Public runtime contract for converting BulletComp Vec2 velocity facts or initVel angle/amount into a vector state.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "source_method": "initVel(float angle, float amount)",
+      "source_slice": "N682",
+      "status": "active",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

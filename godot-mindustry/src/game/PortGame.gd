@@ -5824,12 +5824,19 @@ func source_bullet_type_create_trail_add_state(lifetime_payload_damage_state: Di
 		"keepVelocityReservedSource": "if(keepVelocity && owner instanceof Velc v){",
 	}
 
+const SOURCE_BULLET_VELOCITY_VECTOR_FIELD := "Vec2 vel = new Vec2();"
+const SOURCE_BULLET_VELOCITY_VECTOR_INIT_TRNS := "vel.trns(angle, amount);"
+const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_METHOD := "public Vec2 trns(float angle, float amount){"
+const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_RETURN := "return set(amount, 0).rotate(angle);"
+const SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE := "existing Vec2 velocity"
+const SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE := "vel.trns(angle, amount)"
+
 func source_bullet_velocity_vector_state(velocity_state: Dictionary) -> Dictionary:
 	if velocity_state.has("x") or velocity_state.has("y"):
 		return {
 			"x": float(velocity_state.get("x", 0.0)),
 			"y": float(velocity_state.get("y", 0.0)),
-			"source": "existing Vec2 velocity",
+			"source": SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE,
 		}
 	var angle := float(velocity_state.get("angle", 0.0))
 	var speed := float(velocity_state.get("speed", 0.0))
@@ -5839,7 +5846,7 @@ func source_bullet_velocity_vector_state(velocity_state: Dictionary) -> Dictiona
 		"y": float(vec.get("y", 0.0)),
 		"angle": angle,
 		"speed": speed,
-		"source": "vel.trns(angle, amount)",
+		"source": SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE,
 	}
 
 func source_bullet_type_create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary) -> Dictionary:

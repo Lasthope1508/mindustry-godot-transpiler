@@ -8967,6 +8967,42 @@
         "test_bullet_velocity_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_speed"
       ]
+    },
+    "N682": {
+      "exact_exprs": [
+        "Vec2 vel = new Vec2();",
+        "vel.trns(angle, amount);",
+        "public Vec2 trns(float angle, float amount){",
+        "return set(amount, 0).rotate(angle);",
+        "Vec2 vel",
+        "vel.x",
+        "vel.y",
+        "angle",
+        "amount",
+        "vel.trns(angle, amount)"
+      ],
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "java_class": "BulletComp",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "source_symbols": [
+        "bullet_velocity_vector.angle",
+        "bullet_velocity_vector.existing_x",
+        "bullet_velocity_vector.existing_y",
+        "bullet_velocity_vector.field",
+        "bullet_velocity_vector.init_trns",
+        "bullet_velocity_vector.result",
+        "bullet_velocity_vector.speed",
+        "bullet_velocity_vector.vec2_trns_method",
+        "bullet_velocity_vector.vec2_trns_return",
+        "bullet_velocity_vector.velocity_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_speed"
+      ]
     }
   },
   "version": 1

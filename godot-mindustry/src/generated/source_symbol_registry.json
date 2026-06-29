@@ -19598,6 +19598,136 @@
         "test_bullet_velocity_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_velocity_vector.angle": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.angle",
+      "java_expr": "angle",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Runtime angle supplies BulletComp.initVel angle.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.existing_x": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.x",
+      "java_expr": "vel.x",
+      "java_method": "field access",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Existing Vec2 velocity x component is preserved when supplied.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.existing_y": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.y",
+      "java_expr": "vel.y",
+      "java_method": "field access",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Existing Vec2 velocity y component is preserved when supplied.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.field": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.field",
+      "java_expr": "Vec2 vel = new Vec2();",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Canonical BulletComp Vec2 velocity field.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.init_trns": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.init_trns",
+      "java_expr": "vel.trns(angle, amount);",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "BulletComp initVel transforms velocity vector by angle and amount.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.result": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.vector",
+      "java_expr": "vel.trns(angle, amount)",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Velocity vector result mirrors BulletComp vel.trns(angle, amount).",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.speed": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.speed",
+      "java_expr": "amount",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Runtime speed key supplies BulletComp.initVel amount.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.vec2_trns_method": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.vec2_trns_method",
+      "java_expr": "public Vec2 trns(float angle, float amount){",
+      "java_method": "trns(float angle, float amount)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 trns method boundary for polar velocity conversion.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.vec2_trns_return": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_result.vec2_trns_return",
+      "java_expr": "return set(amount, 0).rotate(angle);",
+      "java_method": "trns(float angle, float amount)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 trns sets amount on x axis and rotates by angle.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_velocity_vector.velocity_state": {
+      "godot_owner": "PortGame.source_bullet_velocity_vector_state",
+      "godot_symbol": "source_bullet_velocity_vector_input.velocity_state",
+      "java_expr": "Vec2 vel",
+      "java_method": "initVel(float angle, float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Runtime velocity_state supplies BulletComp Vec2 velocity facts.",
+      "runtime_proof": "/root/Main.source_bullet_velocity_vector_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_velocity_vector_symbols_are_registered_with_source_backing"
+      ]
+    },
     "calculate_range_despawn_unit.despawn_unit_field": {
       "godot_owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
       "godot_symbol": "bullet_type_state.despawnUnit",
