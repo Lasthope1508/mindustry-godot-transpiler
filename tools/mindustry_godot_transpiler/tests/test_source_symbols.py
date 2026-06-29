@@ -4835,6 +4835,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_state["java_expr"], "public void onRemoved(){")
         self.assertEqual(current_state["godot_symbol"], "source_building_on_removed_input.current_state")
 
+    def test_building_unit_on_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_unit_on.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "unitOn(Unit unit)")
+        self.assertEqual(comment["java_expr"], "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_unit_on_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_unit_on_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_unit_on_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_unit_on.method")
+        self.assertEqual(method["java_expr"], "public void unitOn(Unit unit){")
+        self.assertEqual(method["godot_symbol"], "source_building_unit_on_result.method")
+
+        empty_body = source_symbols.source_symbol(registry, "building_unit_on.empty_body")
+        self.assertEqual(empty_body["java_expr"], "public void unitOn(Unit unit){\n    }")
+        self.assertEqual(empty_body["godot_symbol"], "source_building_unit_on_result.empty_body")
+
+        unit_state = source_symbols.source_symbol(registry, "building_unit_on.unit_state")
+        self.assertEqual(unit_state["status"], "explicit-input")
+        self.assertEqual(unit_state["java_expr"], "unit")
+        self.assertEqual(unit_state["godot_symbol"], "source_building_unit_on_input.unit_state")
+
     def test_building_unit_on_any_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7533,9 +7560,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 252)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 253)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 257)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 258)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7694,6 +7721,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_time_scale_duration_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_time_scale_decay_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_to_string_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_unit_on_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_on_any_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
@@ -8931,6 +8959,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void unitOnAny(Unit unit){", building_unit_on_any["exact_exprs"])
         self.assertIn("public void unitOnAny(Unit unit){\n    }", building_unit_on_any["exact_exprs"])
         self.assertIn("unit", building_unit_on_any["exact_exprs"])
+
+        building_unit_on = source_symbols.source_slice(ledger, "N655")
+        self.assertEqual(building_unit_on["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_unit_on["java_method"], "unitOn(Unit unit)")
+        self.assertEqual(building_unit_on["godot_owner"], "PortGame.source_building_unit_on_state")
+        self.assertIn("/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */", building_unit_on["exact_exprs"])
+        self.assertIn("public void unitOn(Unit unit){", building_unit_on["exact_exprs"])
+        self.assertIn("public void unitOn(Unit unit){\n    }", building_unit_on["exact_exprs"])
+        self.assertIn("unit", building_unit_on["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11329,6 +11366,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_to_string["params"][3]["schema"], "source_building_to_string_input.block_value")
         self.assertIn("to_string", building_to_string["return_keys"])
         self.assertEqual(building_to_string["source_method"], "toString()")
+
+        building_unit_on = source_symbols.api_contract(contracts, "PortGame.source_building_unit_on_state")
+        self.assertEqual([param["name"] for param in building_unit_on["params"]], ["unit_state"])
+        self.assertEqual(building_unit_on["params"][0]["schema"], "source_building_unit_on_input.unit_state")
+        self.assertIn("unit_state", building_unit_on["return_keys"])
+        self.assertEqual(building_unit_on["source_method"], "unitOn(Unit unit)")
 
         building_unit_on_any = source_symbols.api_contract(contracts, "PortGame.source_building_unit_on_any_state")
         self.assertEqual([param["name"] for param in building_unit_on_any["params"]], ["unit_state"])
@@ -14337,6 +14380,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_removed_result["keys"]["method"]["java_expr"], "public void onRemoved(){")
         self.assertEqual(source_building_on_removed_result["keys"]["no_op"]["java_expr"], "public void onRemoved(){")
         self.assertEqual(source_building_on_removed_result["keys"]["current_state"]["alias_of"], "source_building_on_removed_input.current_state")
+
+        source_building_unit_on_input = source_symbols.state_schema(schema, "source_building_unit_on_input")
+        self.assertEqual(source_building_unit_on_input["keys"]["unit_state"]["java_expr"], "unit")
+        self.assertEqual(source_building_unit_on_input["keys"]["unit_state"]["status"], "explicit-input")
+
+        source_building_unit_on_result = source_symbols.state_schema(schema, "source_building_unit_on_result")
+        self.assertEqual(source_building_unit_on_result["keys"]["comment"]["java_expr"], "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */")
+        self.assertEqual(source_building_unit_on_result["keys"]["method"]["java_expr"], "public void unitOn(Unit unit){")
+        self.assertEqual(source_building_unit_on_result["keys"]["empty_body"]["java_expr"], "public void unitOn(Unit unit){\n    }")
+        self.assertEqual(source_building_unit_on_result["keys"]["unit_state"]["alias_of"], "source_building_unit_on_input.unit_state")
 
         source_building_unit_on_any_input = source_symbols.state_schema(schema, "source_building_unit_on_any_input")
         self.assertEqual(source_building_unit_on_any_input["keys"]["unit_state"]["java_expr"], "unit")

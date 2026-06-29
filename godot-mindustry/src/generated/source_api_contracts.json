@@ -9867,6 +9867,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_on_any_state",
       "rule": "Public runtime contract for BuildingComp.unitOnAny no-op; return the supplied unit_state unchanged."
+    },
+    "PortGame.source_building_unit_on_state": {
+      "status": "active",
+      "source_slice": "N655",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "unitOn(Unit unit)",
+      "params": [
+        {
+          "name": "unit_state",
+          "type": "Variant",
+          "schema": "source_building_unit_on_input.unit_state"
+        }
+      ],
+      "return_keys": [
+        "unit_state"
+      ],
+      "tests": [
+        "test_building_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_unit_on_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_state",
+      "rule": "Backfills SSOT for existing canonical source_building_unit_on_state helper against BuildingComp.unitOn no-op body."
     }
   },
   "policy": {

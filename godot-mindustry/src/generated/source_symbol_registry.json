@@ -25033,6 +25033,19 @@
       "runtime_proof": "/root/Main.source_building_unit_on_any_state",
       "rule": "BuildingComp.unitOnAny source comment applies to any unit."
     },
+    "building_unit_on.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOn(Unit unit)",
+      "java_expr": "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */",
+      "godot_symbol": "source_building_unit_on_result.comment",
+      "godot_owner": "PortGame.source_building_unit_on_state",
+      "tests": [
+        "test_building_unit_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_state",
+      "rule": "Exact upstream BuildingComp.unitOn source token registered for canonical Godot helper."
+    },
     "building_unit_on_any.method": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
@@ -25045,6 +25058,19 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_on_any_state",
       "rule": "BuildingComp.unitOnAny method boundary."
+    },
+    "building_unit_on.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOn(Unit unit)",
+      "java_expr": "public void unitOn(Unit unit){",
+      "godot_symbol": "source_building_unit_on_result.method",
+      "godot_owner": "PortGame.source_building_unit_on_state",
+      "tests": [
+        "test_building_unit_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_state",
+      "rule": "Exact upstream BuildingComp.unitOn source token registered for canonical Godot helper."
     },
     "building_unit_on_any.empty_body": {
       "status": "source-backed",
@@ -25059,6 +25085,19 @@
       "runtime_proof": "/root/Main.source_building_unit_on_any_state",
       "rule": "BuildingComp.unitOnAny has empty no-op body."
     },
+    "building_unit_on.empty_body": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOn(Unit unit)",
+      "java_expr": "public void unitOn(Unit unit){\n    }",
+      "godot_symbol": "source_building_unit_on_result.empty_body",
+      "godot_owner": "PortGame.source_building_unit_on_state",
+      "tests": [
+        "test_building_unit_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_state",
+      "rule": "Exact upstream BuildingComp.unitOn source token registered for canonical Godot helper."
+    },
     "building_unit_on_any.unit_state": {
       "status": "explicit-input",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
@@ -25071,6 +25110,19 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_on_any_state",
       "rule": "Runtime unit_state is returned unchanged because unitOnAny has an empty body."
+    },
+    "building_unit_on.unit_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitOn(Unit unit)",
+      "java_expr": "unit",
+      "godot_symbol": "source_building_unit_on_input.unit_state",
+      "godot_owner": "PortGame.source_building_unit_on_state",
+      "tests": [
+        "test_building_unit_on_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_on_state",
+      "rule": "Represent Unit unit as explicit input until Unit runtime body is ported."
     }
   }
 }

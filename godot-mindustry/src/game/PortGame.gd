@@ -1737,6 +1737,10 @@ func source_building_on_removed_state(current_state: Variant) -> Dictionary:
 		"current_state": current_state,
 	}
 
+const SOURCE_BUILDING_UNIT_ON_COMMENT := "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */"
+const SOURCE_BUILDING_UNIT_ON_METHOD := "public void unitOn(Unit unit){"
+const SOURCE_BUILDING_UNIT_ON_EMPTY_BODY := "public void unitOn(Unit unit){\n    }"
+
 func source_building_unit_on_state(unit_state: Variant) -> Variant:
 	return unit_state
 
