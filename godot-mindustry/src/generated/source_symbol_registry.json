@@ -25193,6 +25193,123 @@
         "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
       ]
     },
+    "drill_last_speed.assignment": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_result.lastDrillSpeed",
+      "java_expr": "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source active DrillBuild branch lastDrillSpeed assignment.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.block_id": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_input.block_id",
+      "java_expr": "Drill block",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot block_id identifies source Drill block for getDrillTime.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.delay": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_result.delay",
+      "java_expr": "float delay = getDrillTime(dominantItem);",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source active DrillBuild branch delay before lastDrillSpeed assignment.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.dominant_items": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_input.dominant_items",
+      "java_expr": "dominantItems",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot dominant_items supplies DrillBuild dominantItems.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.item_id": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_input.item_id",
+      "java_expr": "Item dominantItem",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot item_id identifies source dominantItem for getDrillTime.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.liquid_boost_field": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_result.liquidBoostIntensityField",
+      "java_expr": "public float liquidBoostIntensity = 1.6f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Drill liquidBoostIntensity field used by source speed expression.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.speed": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_input.speed",
+      "java_expr": "speed",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot speed supplies source local speed after Mathf.lerp and efficiency.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.speed_expr": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_result.speedExpr",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Source active DrillBuild branch speed expression.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "source-backed",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_last_speed.warmup": {
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "godot_symbol": "source_drill_last_speed_input.warmup",
+      "java_expr": "warmup",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Godot warmup supplies DrillBuild warmup before warmup progression.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "status": "explicit-input",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
     "handle_pierce.bullet.damage": {
       "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
       "godot_symbol": "bullet_state.damage",

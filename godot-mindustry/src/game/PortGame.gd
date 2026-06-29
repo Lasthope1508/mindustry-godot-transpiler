@@ -1104,6 +1104,11 @@ func drill_warmup_at_cell(x: int, y: int) -> float:
 func set_drill_warmup_at_cell(x: int, y: int, warmup: float) -> void:
 	drill_warmups[cell_key(Vector2i(x, y))] = warmup
 
+const SOURCE_DRILL_LAST_SPEED_DELAY := "float delay = getDrillTime(dominantItem);"
+const SOURCE_DRILL_LAST_SPEED_SPEED_EXPR := "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;"
+const SOURCE_DRILL_LAST_SPEED_ASSIGNMENT := "lastDrillSpeed = (speed * dominantItems * warmup) / delay;"
+const SOURCE_DRILL_LAST_SPEED_LIQUID_BOOST_FIELD := "public float liquidBoostIntensity = 1.6f;"
+
 func source_drill_last_speed(block_id: String, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:
 	if ore_count <= 0:
 		return 0.0

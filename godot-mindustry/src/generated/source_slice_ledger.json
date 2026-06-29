@@ -9352,6 +9352,41 @@
         "test_drill_inactive_warmup_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_drill_inactive_warmup_state_symbols"
       ]
+    },
+    "N693": {
+      "exact_exprs": [
+        "float delay = getDrillTime(dominantItem);",
+        "if(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){",
+        "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+        "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+        "public float liquidBoostIntensity = 1.6f;",
+        "dominantItems",
+        "warmup",
+        "speed",
+        "Drill block",
+        "Item dominantItem"
+      ],
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "java_class": "mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "source_symbols": [
+        "drill_last_speed.assignment",
+        "drill_last_speed.block_id",
+        "drill_last_speed.delay",
+        "drill_last_speed.dominant_items",
+        "drill_last_speed.item_id",
+        "drill_last_speed.liquid_boost_field",
+        "drill_last_speed.speed",
+        "drill_last_speed.speed_expr",
+        "drill_last_speed.warmup"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_last_speed"
+      ]
     }
   },
   "version": 1

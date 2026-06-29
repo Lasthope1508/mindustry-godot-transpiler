@@ -1167,6 +1167,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("var drill_last_speeds: Dictionary = {}", source)
+        self.assertIn('const SOURCE_DRILL_LAST_SPEED_DELAY := "float delay = getDrillTime(dominantItem);"', source)
+        self.assertIn('const SOURCE_DRILL_LAST_SPEED_SPEED_EXPR := "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;"', source)
+        self.assertIn('const SOURCE_DRILL_LAST_SPEED_ASSIGNMENT := "lastDrillSpeed = (speed * dominantItems * warmup) / delay;"', source)
+        self.assertIn('const SOURCE_DRILL_LAST_SPEED_LIQUID_BOOST_FIELD := "public float liquidBoostIntensity = 1.6f;"', source)
         self.assertIn("func source_drill_last_speed(block_id: String, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:", source)
         self.assertIn('var delay := source_drill_delay(block_id, item_id)', source)
         self.assertIn("return speed * float(ore_count) * warmup / delay", source)

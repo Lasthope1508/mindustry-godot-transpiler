@@ -10928,6 +10928,49 @@
       "tests": [
         "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_last_speed": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_last_speed_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_last_speed_input.item_id",
+          "type": "String"
+        },
+        {
+          "name": "dominant_items",
+          "schema": "source_drill_last_speed_input.dominant_items",
+          "type": "int"
+        },
+        {
+          "name": "warmup",
+          "schema": "source_drill_last_speed_input.warmup",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_drill_last_speed_input.speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "lastDrillSpeed",
+        "delay",
+        "speed"
+      ],
+      "rule": "Public runtime contract for DrillBuild active branch lastDrillSpeed formula.",
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "source_method": "DrillBuild.updateTile()",
+      "source_slice": "N693",
+      "status": "active",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

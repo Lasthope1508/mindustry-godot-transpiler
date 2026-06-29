@@ -3095,6 +3095,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_delta["java_expr"], "Time.delta")
         self.assertEqual(source_delta["godot_symbol"], "source_drill_inactive_warmup_input.source_delta")
 
+    def test_drill_last_speed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        delay = source_symbols.source_symbol(registry, "drill_last_speed.delay")
+        self.assertEqual(delay["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(delay["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(delay["java_expr"], "float delay = getDrillTime(dominantItem);")
+        self.assertEqual(delay["godot_owner"], "PortGame.source_drill_last_speed")
+        self.assertEqual(delay["runtime_proof"], "/root/Main.source_drill_last_speed")
+        self.assertEqual(delay["godot_symbol"], "source_drill_last_speed_result.delay")
+
+        speed_expr = source_symbols.source_symbol(registry, "drill_last_speed.speed_expr")
+        self.assertEqual(speed_expr["java_expr"], "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;")
+        self.assertEqual(speed_expr["godot_symbol"], "source_drill_last_speed_result.speedExpr")
+
+        assignment = source_symbols.source_symbol(registry, "drill_last_speed.assignment")
+        self.assertEqual(assignment["java_expr"], "lastDrillSpeed = (speed * dominantItems * warmup) / delay;")
+        self.assertEqual(assignment["godot_symbol"], "source_drill_last_speed_result.lastDrillSpeed")
+
+        liquid_boost = source_symbols.source_symbol(registry, "drill_last_speed.liquid_boost_field")
+        self.assertEqual(liquid_boost["java_expr"], "public float liquidBoostIntensity = 1.6f;")
+        self.assertEqual(liquid_boost["godot_symbol"], "source_drill_last_speed_result.liquidBoostIntensityField")
+
+        dominant_items = source_symbols.source_symbol(registry, "drill_last_speed.dominant_items")
+        self.assertEqual(dominant_items["status"], "explicit-input")
+        self.assertEqual(dominant_items["java_expr"], "dominantItems")
+        self.assertEqual(dominant_items["godot_symbol"], "source_drill_last_speed_input.dominant_items")
+
+        warmup = source_symbols.source_symbol(registry, "drill_last_speed.warmup")
+        self.assertEqual(warmup["status"], "explicit-input")
+        self.assertEqual(warmup["java_expr"], "warmup")
+        self.assertEqual(warmup["godot_symbol"], "source_drill_last_speed_input.warmup")
+
+        speed = source_symbols.source_symbol(registry, "drill_last_speed.speed")
+        self.assertEqual(speed["status"], "explicit-input")
+        self.assertEqual(speed["java_expr"], "speed")
+        self.assertEqual(speed["godot_symbol"], "source_drill_last_speed_input.speed")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9025,9 +9066,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 290)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 291)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 295)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 296)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9225,6 +9266,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_last_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10262,6 +10304,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lastDrillSpeed = 0f;", drill_inactive_warmup["exact_exprs"])
         self.assertIn("warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);", drill_inactive_warmup["exact_exprs"])
         self.assertIn("public float warmupSpeed = 0.015f;", drill_inactive_warmup["exact_exprs"])
+
+        drill_last_speed = source_symbols.source_slice(ledger, "N693")
+        self.assertEqual(drill_last_speed["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(drill_last_speed["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(drill_last_speed["godot_owner"], "PortGame.source_drill_last_speed")
+        self.assertIn("float delay = getDrillTime(dominantItem);", drill_last_speed["exact_exprs"])
+        self.assertIn("float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;", drill_last_speed["exact_exprs"])
+        self.assertIn("lastDrillSpeed = (speed * dominantItems * warmup) / delay;", drill_last_speed["exact_exprs"])
+        self.assertIn("public float liquidBoostIntensity = 1.6f;", drill_last_speed["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13008,6 +13059,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("lastDrillSpeed", drill_inactive_warmup["return_keys"])
         self.assertIn("warmupSpeed", drill_inactive_warmup["return_keys"])
         self.assertEqual(drill_inactive_warmup["source_method"], "DrillBuild.updateTile()")
+
+        drill_last_speed = source_symbols.api_contract(contracts, "PortGame.source_drill_last_speed")
+        self.assertEqual([param["name"] for param in drill_last_speed["params"]], ["block_id", "item_id", "dominant_items", "warmup", "speed"])
+        self.assertEqual(drill_last_speed["params"][0]["schema"], "source_drill_last_speed_input.block_id")
+        self.assertEqual(drill_last_speed["params"][1]["schema"], "source_drill_last_speed_input.item_id")
+        self.assertEqual(drill_last_speed["params"][2]["schema"], "source_drill_last_speed_input.dominant_items")
+        self.assertEqual(drill_last_speed["params"][3]["schema"], "source_drill_last_speed_input.warmup")
+        self.assertEqual(drill_last_speed["params"][4]["schema"], "source_drill_last_speed_input.speed")
+        self.assertIn("lastDrillSpeed", drill_last_speed["return_keys"])
+        self.assertIn("delay", drill_last_speed["return_keys"])
+        self.assertIn("speed", drill_last_speed["return_keys"])
+        self.assertEqual(drill_last_speed["source_method"], "DrillBuild.updateTile()")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -15867,6 +15930,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_inactive_warmup_result["keys"]["warmupSpeed"]["java_expr"], "warmupSpeed")
         self.assertEqual(source_drill_inactive_warmup_result["keys"]["current_warmup"]["alias_of"], "source_drill_inactive_warmup_input.current_warmup")
         self.assertEqual(source_drill_inactive_warmup_result["keys"]["source_delta"]["alias_of"], "source_drill_inactive_warmup_input.source_delta")
+
+        source_drill_last_speed_input = source_symbols.state_schema(schema, "source_drill_last_speed_input")
+        self.assertEqual(source_drill_last_speed_input["keys"]["block_id"]["java_expr"], "Drill block")
+        self.assertEqual(source_drill_last_speed_input["keys"]["block_id"]["status"], "explicit-input")
+        self.assertEqual(source_drill_last_speed_input["keys"]["item_id"]["java_expr"], "Item dominantItem")
+        self.assertEqual(source_drill_last_speed_input["keys"]["item_id"]["status"], "explicit-input")
+        self.assertEqual(source_drill_last_speed_input["keys"]["dominant_items"]["java_expr"], "dominantItems")
+        self.assertEqual(source_drill_last_speed_input["keys"]["dominant_items"]["status"], "explicit-input")
+        self.assertEqual(source_drill_last_speed_input["keys"]["warmup"]["java_expr"], "warmup")
+        self.assertEqual(source_drill_last_speed_input["keys"]["speed"]["java_expr"], "speed")
+
+        source_drill_last_speed_result = source_symbols.state_schema(schema, "source_drill_last_speed_result")
+        self.assertEqual(source_drill_last_speed_result["keys"]["delay"]["java_expr"], "float delay = getDrillTime(dominantItem);")
+        self.assertEqual(source_drill_last_speed_result["keys"]["speedExpr"]["java_expr"], "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;")
+        self.assertEqual(source_drill_last_speed_result["keys"]["lastDrillSpeed"]["java_expr"], "lastDrillSpeed = (speed * dominantItems * warmup) / delay;")
+        self.assertEqual(source_drill_last_speed_result["keys"]["liquidBoostIntensityField"]["java_expr"], "public float liquidBoostIntensity = 1.6f;")
+        self.assertEqual(source_drill_last_speed_result["keys"]["block_id"]["alias_of"], "source_drill_last_speed_input.block_id")
+        self.assertEqual(source_drill_last_speed_result["keys"]["item_id"]["alias_of"], "source_drill_last_speed_input.item_id")
+        self.assertEqual(source_drill_last_speed_result["keys"]["dominant_items"]["alias_of"], "source_drill_last_speed_input.dominant_items")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")
