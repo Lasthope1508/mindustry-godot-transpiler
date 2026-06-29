@@ -32672,6 +32672,105 @@
         "test_move_forward_accept_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_move_forward_to_core"
       ]
+    },
+    "move_forward_to_core.method": {
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "godot_symbol": "source_move_forward_to_core_result.method",
+      "java_expr": "public boolean moveForward(Item item){",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp moveForward method boundary for core-facing bridge.",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_to_core.item_id": {
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "godot_symbol": "source_move_forward_to_core_input.item_id",
+      "java_expr": "Item item",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime item_id maps to Java Item item parameter.",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_to_core.accept_call": {
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "godot_symbol": "source_core_accept_item(item_id)",
+      "java_expr": "other.acceptItem(self(), item)",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Core-facing bridge uses existing source-backed CoreBuild.acceptItem wrapper for the Java target accept call.",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_to_core.handle_call": {
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "godot_symbol": "source_core_handle_item(item_id)",
+      "java_expr": "other.handleItem(self(), item);",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Core-facing bridge uses existing source-backed CoreBuild.handleItem wrapper for the Java handle side effect.",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_to_core.return_true": {
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "godot_symbol": "source_move_forward_to_core_result.moved",
+      "java_expr": "return true;",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "moveForward returns true after handleItem side effect.",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_to_core.return_false": {
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "godot_symbol": "source_move_forward_to_core_result.moved",
+      "java_expr": "return false;",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "moveForward returns false when accept gate fails.",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_to_core.accept_gate": {
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "godot_symbol": "source_move_forward_to_core_result.accepted",
+      "java_expr": "if(other != null && other.team == team && other.acceptItem(self(), item)){",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Bridge gate reuses N721 canonical accept gate.",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "status": "generated",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ],
+      "alias_of": "move_forward_accept.gate"
     }
   },
   "version": 1

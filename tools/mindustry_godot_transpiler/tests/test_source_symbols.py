@@ -4118,6 +4118,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(front_accepts["java_expr"], "other.acceptItem(self(), item)")
         self.assertEqual(front_accepts["godot_symbol"], "source_move_forward_accept_input.frontAccepts")
 
+    def test_move_forward_to_core_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "move_forward_to_core.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "moveForward(Item item)")
+        self.assertEqual(method["java_expr"], "public boolean moveForward(Item item){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_move_forward_to_core")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_move_forward_to_core")
+        self.assertEqual(method["godot_symbol"], "source_move_forward_to_core_result.method")
+
+        item_id = source_symbols.source_symbol(registry, "move_forward_to_core.item_id")
+        self.assertEqual(item_id["status"], "explicit-input")
+        self.assertEqual(item_id["java_expr"], "Item item")
+        self.assertEqual(item_id["godot_symbol"], "source_move_forward_to_core_input.item_id")
+
+        accept_call = source_symbols.source_symbol(registry, "move_forward_to_core.accept_call")
+        self.assertEqual(accept_call["java_expr"], "other.acceptItem(self(), item)")
+        self.assertEqual(accept_call["godot_symbol"], "source_core_accept_item(item_id)")
+
+        handle_call = source_symbols.source_symbol(registry, "move_forward_to_core.handle_call")
+        self.assertEqual(handle_call["java_expr"], "other.handleItem(self(), item);")
+        self.assertEqual(handle_call["godot_symbol"], "source_core_handle_item(item_id)")
+
+        return_true = source_symbols.source_symbol(registry, "move_forward_to_core.return_true")
+        self.assertEqual(return_true["java_expr"], "return true;")
+        self.assertEqual(return_true["godot_symbol"], "source_move_forward_to_core_result.moved")
+
+        return_false = source_symbols.source_symbol(registry, "move_forward_to_core.return_false")
+        self.assertEqual(return_false["java_expr"], "return false;")
+        self.assertEqual(return_false["godot_symbol"], "source_move_forward_to_core_result.moved")
+
+        accept_gate = source_symbols.source_symbol(registry, "move_forward_to_core.accept_gate")
+        self.assertEqual(accept_gate["java_expr"], "if(other != null && other.team == team && other.acceptItem(self(), item)){")
+        self.assertEqual(accept_gate["alias_of"], "move_forward_accept.gate")
+
     def test_dump_drill_item_to_core_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10249,9 +10288,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 319)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 320)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 324)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 325)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10461,6 +10500,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_conveyor_world_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_core_accept_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_core_handle_item", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_move_forward_to_core", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -11660,6 +11700,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return true;", move_forward_accept["exact_exprs"])
         self.assertIn("return false;", move_forward_accept["exact_exprs"])
         self.assertIn("other.handleItem(self(), item);", move_forward_accept["deferred_exprs"])
+
+        move_forward_to_core = source_symbols.source_slice(ledger, "N722")
+        self.assertEqual(move_forward_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(move_forward_to_core["java_method"], "moveForward(Item item)")
+        self.assertEqual(move_forward_to_core["godot_owner"], "PortGame.source_move_forward_to_core")
+        self.assertIn("public boolean moveForward(Item item){", move_forward_to_core["exact_exprs"])
+        self.assertIn("Building other = front();", move_forward_to_core["exact_exprs"])
+        self.assertIn("if(other != null && other.team == team && other.acceptItem(self(), item)){", move_forward_to_core["exact_exprs"])
+        self.assertIn("other.handleItem(self(), item);", move_forward_to_core["exact_exprs"])
+        self.assertIn("return true;", move_forward_to_core["exact_exprs"])
+        self.assertIn("return false;", move_forward_to_core["exact_exprs"])
+        self.assertIn("source_core_accept_item(item_id)", move_forward_to_core["bridge_exprs"])
+        self.assertIn("source_core_handle_item(item_id)", move_forward_to_core["bridge_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14636,6 +14689,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("itemCount", core_handle_item["return_keys"])
         self.assertIn("storageCapacity", core_handle_item["return_keys"])
         self.assertEqual(core_handle_item["source_method"], "handleItem(Building source, Item item)")
+
+        move_forward_to_core = source_symbols.api_contract(contracts, "PortGame.source_move_forward_to_core")
+        self.assertEqual([param["name"] for param in move_forward_to_core["params"]], ["item_id", "has_front", "same_team"])
+        self.assertEqual(move_forward_to_core["params"][0]["schema"], "source_move_forward_to_core_input.item_id")
+        self.assertEqual(move_forward_to_core["params"][1]["schema"], "source_move_forward_to_core_input.hasFront")
+        self.assertEqual(move_forward_to_core["params"][2]["schema"], "source_move_forward_to_core_input.sameTeam")
+        self.assertIn("accepted", move_forward_to_core["return_keys"])
+        self.assertIn("handled", move_forward_to_core["return_keys"])
+        self.assertIn("moved", move_forward_to_core["return_keys"])
+        self.assertEqual(move_forward_to_core["source_method"], "moveForward(Item item)")
 
         drill_delay = source_symbols.api_contract(contracts, "PortGame.source_drill_delay")
         self.assertEqual([param["name"] for param in drill_delay["params"]], ["block_id", "item_id"])
@@ -18009,6 +18072,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_move_forward_accept_result["keys"]["returnFalse"]["java_expr"], "return false;")
         self.assertEqual(source_move_forward_accept_result["keys"]["hasFront"]["alias_of"], "source_move_forward_accept_input.hasFront")
         self.assertEqual(source_move_forward_accept_result["keys"]["frontAccepts"]["alias_of"], "source_move_forward_accept_input.frontAccepts")
+
+        source_move_forward_to_core_input = source_symbols.state_schema(schema, "source_move_forward_to_core_input")
+        self.assertEqual(source_move_forward_to_core_input["keys"]["item_id"]["java_expr"], "Item item")
+        self.assertEqual(source_move_forward_to_core_input["keys"]["hasFront"]["alias_of"], "source_move_forward_accept_input.hasFront")
+        self.assertEqual(source_move_forward_to_core_input["keys"]["sameTeam"]["alias_of"], "source_move_forward_accept_input.sameTeam")
+
+        source_move_forward_to_core_result = source_symbols.state_schema(schema, "source_move_forward_to_core_result")
+        self.assertEqual(source_move_forward_to_core_result["keys"]["method"]["java_expr"], "public boolean moveForward(Item item){")
+        self.assertEqual(source_move_forward_to_core_result["keys"]["acceptCall"]["java_expr"], "other.acceptItem(self(), item)")
+        self.assertEqual(source_move_forward_to_core_result["keys"]["handleCall"]["java_expr"], "other.handleItem(self(), item);")
+        self.assertEqual(source_move_forward_to_core_result["keys"]["accepted"]["godot_symbol"], "source_core_accept_item(item_id)")
+        self.assertEqual(source_move_forward_to_core_result["keys"]["handled"]["godot_symbol"], "source_core_handle_item(item_id)")
+        self.assertEqual(source_move_forward_to_core_result["keys"]["moved"]["java_expr"], "return true; / return false;")
+        self.assertEqual(source_move_forward_to_core_result["keys"]["item_id"]["alias_of"], "source_move_forward_to_core_input.item_id")
 
         source_dump_drill_item_to_core_input = source_symbols.state_schema(schema, "source_dump_drill_item_to_core_input")
         self.assertEqual(source_dump_drill_item_to_core_input["keys"]["item_id"]["java_expr"], "todump")

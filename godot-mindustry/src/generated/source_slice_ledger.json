@@ -10305,6 +10305,39 @@
         "test_move_forward_accept_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_move_forward_to_core"
       ]
+    },
+    "N722": {
+      "bridge_exprs": [
+        "source_core_accept_item(item_id)",
+        "source_core_handle_item(item_id)"
+      ],
+      "exact_exprs": [
+        "public boolean moveForward(Item item){",
+        "Building other = front();",
+        "if(other != null && other.team == team && other.acceptItem(self(), item)){",
+        "other.handleItem(self(), item);",
+        "return true;",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_move_forward_to_core",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_move_forward_to_core",
+      "source_symbols": [
+        "move_forward_to_core.method",
+        "move_forward_to_core.item_id",
+        "move_forward_to_core.accept_call",
+        "move_forward_to_core.handle_call",
+        "move_forward_to_core.return_true",
+        "move_forward_to_core.return_false",
+        "move_forward_to_core.accept_gate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_move_forward_to_core_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
     }
   },
   "version": 1

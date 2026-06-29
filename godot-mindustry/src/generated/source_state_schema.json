@@ -41810,6 +41810,130 @@
         }
       },
       "status": "active"
+    },
+    "source_move_forward_to_core_input": {
+      "keys": {
+        "item_id": {
+          "godot_symbol": "source_move_forward_to_core_input.item_id",
+          "java_expr": "Item item",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime item id maps to Java Item item.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_to_core"
+          ]
+        },
+        "hasFront": {
+          "alias_of": "source_move_forward_accept_input.hasFront",
+          "rule": "Core bridge reuses N721 front gate input.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "sameTeam": {
+          "alias_of": "source_move_forward_accept_input.sameTeam",
+          "rule": "Core bridge reuses N721 same-team gate input.",
+          "status": "generated",
+          "type": "bool"
+        }
+      },
+      "status": "active"
+    },
+    "source_move_forward_to_core_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_move_forward_to_core_result.method",
+          "java_expr": "public boolean moveForward(Item item){",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_to_core"
+          ]
+        },
+        "acceptCall": {
+          "godot_symbol": "source_move_forward_to_core_result.acceptCall",
+          "java_expr": "other.acceptItem(self(), item)",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source target accept call mapped to existing core accept bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_to_core"
+          ]
+        },
+        "handleCall": {
+          "godot_symbol": "source_move_forward_to_core_result.handleCall",
+          "java_expr": "other.handleItem(self(), item);",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source target handle call mapped to existing core handle bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_to_core"
+          ]
+        },
+        "accepted": {
+          "godot_symbol": "source_core_accept_item(item_id)",
+          "java_expr": "other.acceptItem(self(), item)",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime accepted bool comes from source_core_accept_item(item_id).",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_move_forward_to_core"
+          ]
+        },
+        "handled": {
+          "godot_symbol": "source_core_handle_item(item_id)",
+          "java_expr": "other.handleItem(self(), item);",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime handled bool is generated bridge result for the void CoreBuild.handleItem side effect.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_move_forward_to_core"
+          ]
+        },
+        "moved": {
+          "godot_symbol": "source_move_forward_to_core_result.moved",
+          "java_expr": "return true; / return false;",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime function returns false before handle call or the source core handle bridge result after accepted transfer.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_move_forward_to_core"
+          ]
+        },
+        "item_id": {
+          "alias_of": "source_move_forward_to_core_input.item_id",
+          "rule": "Runtime echo of item input.",
+          "status": "generated",
+          "type": "String"
+        },
+        "hasFront": {
+          "alias_of": "source_move_forward_to_core_input.hasFront",
+          "rule": "Runtime echo of hasFront input.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "sameTeam": {
+          "alias_of": "source_move_forward_to_core_input.sameTeam",
+          "rule": "Runtime echo of sameTeam input.",
+          "status": "generated",
+          "type": "bool"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

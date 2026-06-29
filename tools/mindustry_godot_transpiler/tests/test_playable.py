@@ -1416,6 +1416,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_MOVE_FORWARD_ACCEPT_HANDLE_DEFERRED := "other.handleItem(self(), item);"', source)
         self.assertIn("func source_move_forward_accept_state(has_front: bool, same_team: bool, front_accepts: bool) -> bool:", source)
         self.assertIn("return has_front and same_team and front_accepts", source)
+        self.assertIn('const SOURCE_MOVE_FORWARD_TO_CORE_ACCEPT_BRIDGE := "source_core_accept_item(item_id)"', source)
+        self.assertIn('const SOURCE_MOVE_FORWARD_TO_CORE_HANDLE_BRIDGE := "source_core_handle_item(item_id)"', source)
         self.assertIn("func source_move_forward_to_core(item_id: String, has_front := true, same_team := true) -> bool:", source)
         self.assertIn("if not source_move_forward_accept_state(has_front, same_team, source_core_accept_item(item_id)):", source)
         self.assertIn("return source_core_handle_item(item_id)", source)
