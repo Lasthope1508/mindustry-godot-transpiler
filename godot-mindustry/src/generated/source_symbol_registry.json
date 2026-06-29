@@ -32164,6 +32164,84 @@
       "tests": [
         "test_mend_projector_progress_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mend_projector_range.method": {
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "godot_symbol": "source_mend_projector_range_result.baseRange",
+      "java_expr": "public float range(){\n            return range;\n        }",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild.range returns the base MendProjector range field.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_range.range_return": {
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "godot_symbol": "source_mend_projector_range_result.baseRange",
+      "java_expr": "return range;",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Base range return is the range field.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_range.range_field": {
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "godot_symbol": "source_mend_projector_range_input.range",
+      "java_expr": "public float range = 60f;",
+      "java_method": "MendProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector default range field backs content range.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_range.phase_range_boost_field": {
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "godot_symbol": "source_mend_projector_range_input.phaseRangeBoost",
+      "java_expr": "public float phaseRangeBoost = 50f;",
+      "java_method": "MendProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector phaseRangeBoost field expands real range with phaseHeat.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_range.real_range_expr": {
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "godot_symbol": "source_mend_projector_range_result.range",
+      "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "drawSelect realRange adds phaseHeat * phaseRangeBoost to base range.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_range.phase_heat_input": {
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "godot_symbol": "source_mend_projector_range_input.phaseHeat",
+      "java_expr": "phaseHeat",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild.phaseHeat is explicit runtime input for boosted realRange.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "status": "explicit-input",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

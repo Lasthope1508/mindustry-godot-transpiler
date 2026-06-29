@@ -2699,6 +2699,39 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(super_sense["java_expr"], "return super.sense(sensor);")
         self.assertEqual(super_sense["godot_symbol"], "source_mend_projector_progress_result.superSenseDeferred")
 
+    def test_mend_projector_range_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "mend_projector_range.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(method["java_expr"], "public float range(){\n            return range;\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_mend_projector_range")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_mend_projector_range")
+
+        range_return = source_symbols.source_symbol(registry, "mend_projector_range.range_return")
+        self.assertEqual(range_return["java_expr"], "return range;")
+        self.assertEqual(range_return["godot_symbol"], "source_mend_projector_range_result.baseRange")
+
+        range_field = source_symbols.source_symbol(registry, "mend_projector_range.range_field")
+        self.assertEqual(range_field["java_expr"], "public float range = 60f;")
+        self.assertEqual(range_field["godot_symbol"], "source_mend_projector_range_input.range")
+
+        phase_range_boost_field = source_symbols.source_symbol(registry, "mend_projector_range.phase_range_boost_field")
+        self.assertEqual(phase_range_boost_field["java_expr"], "public float phaseRangeBoost = 50f;")
+        self.assertEqual(phase_range_boost_field["godot_symbol"], "source_mend_projector_range_input.phaseRangeBoost")
+
+        real_range_expr = source_symbols.source_symbol(registry, "mend_projector_range.real_range_expr")
+        self.assertEqual(real_range_expr["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
+        self.assertEqual(real_range_expr["godot_symbol"], "source_mend_projector_range_result.range")
+
+        phase_heat_input = source_symbols.source_symbol(registry, "mend_projector_range.phase_heat_input")
+        self.assertEqual(phase_heat_input["status"], "explicit-input")
+        self.assertEqual(phase_heat_input["java_expr"], "phaseHeat")
+        self.assertEqual(phase_heat_input["godot_symbol"], "source_mend_projector_range_input.phaseHeat")
+
     def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10043,9 +10076,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 314)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 315)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 319)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 320)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10181,6 +10214,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_mend_projector_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_progress", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mend_projector_range", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11551,6 +11585,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);", mend_projector_progress["exact_exprs"])
         self.assertIn("charge / reload", mend_projector_progress["exact_exprs"])
         self.assertIn("return super.sense(sensor);", mend_projector_progress["deferred_exprs"])
+
+        mend_projector_range = source_symbols.source_slice(ledger, "N717")
+        self.assertEqual(mend_projector_range["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(mend_projector_range["java_method"], "range()/drawSelect()")
+        self.assertEqual(mend_projector_range["godot_owner"], "PortGame.source_mend_projector_range")
+        self.assertIn("public float range(){\n            return range;\n        }", mend_projector_range["exact_exprs"])
+        self.assertIn("return range;", mend_projector_range["exact_exprs"])
+        self.assertIn("public float range = 60f;", mend_projector_range["exact_exprs"])
+        self.assertIn("public float phaseRangeBoost = 50f;", mend_projector_range["exact_exprs"])
+        self.assertIn("float realRange = range + phaseHeat * phaseRangeBoost;", mend_projector_range["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14181,6 +14225,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("progress", mend_projector_progress["return_keys"])
         self.assertIn("chargeReloadRatio", mend_projector_progress["return_keys"])
         self.assertEqual(mend_projector_progress["source_method"], "sense(LAccess sensor)")
+
+        mend_projector_range = source_symbols.api_contract(contracts, "PortGame.source_mend_projector_range")
+        self.assertEqual([param["name"] for param in mend_projector_range["params"]], ["mend_projector", "phase_heat"])
+        self.assertEqual(mend_projector_range["params"][1]["schema"], "source_mend_projector_range_input.phaseHeat")
+        self.assertIn("range", mend_projector_range["return_keys"])
+        self.assertIn("baseRange", mend_projector_range["return_keys"])
+        self.assertIn("phaseRangeBoost", mend_projector_range["return_keys"])
+        self.assertEqual(mend_projector_range["source_method"], "range()/drawSelect()")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -17198,6 +17250,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_mend_projector_progress_result["keys"]["chargeReloadRatio"]["java_expr"], "charge / reload")
         self.assertEqual(source_mend_projector_progress_result["keys"]["charge"]["alias_of"], "source_mend_projector_progress_input.charge")
         self.assertEqual(source_mend_projector_progress_result["keys"]["superSenseDeferred"]["java_expr"], "return super.sense(sensor);")
+
+        source_mend_projector_range_input = source_symbols.state_schema(schema, "source_mend_projector_range_input")
+        self.assertEqual(source_mend_projector_range_input["keys"]["range"]["java_expr"], "public float range = 60f;")
+        self.assertEqual(source_mend_projector_range_input["keys"]["phaseHeat"]["java_expr"], "phaseHeat")
+        self.assertEqual(source_mend_projector_range_input["keys"]["phaseRangeBoost"]["java_expr"], "public float phaseRangeBoost = 50f;")
+
+        source_mend_projector_range_result = source_symbols.state_schema(schema, "source_mend_projector_range_result")
+        self.assertEqual(source_mend_projector_range_result["keys"]["baseRange"]["java_expr"], "return range;")
+        self.assertEqual(source_mend_projector_range_result["keys"]["range"]["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
+        self.assertEqual(source_mend_projector_range_result["keys"]["phaseHeat"]["alias_of"], "source_mend_projector_range_input.phaseHeat")
+        self.assertEqual(source_mend_projector_range_result["keys"]["phaseRangeBoost"]["alias_of"], "source_mend_projector_range_input.phaseRangeBoost")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")

@@ -3458,6 +3458,12 @@ func source_block_is_damaged(sprite) -> bool:
 		return false
 	return float(sprite.get_meta("source_block_health", 0.0)) < float(sprite.get_meta("source_block_max_health", 0.0)) - 0.001
 
+const SOURCE_MEND_PROJECTOR_RANGE_METHOD := "public float range(){\n            return range;\n        }"
+const SOURCE_MEND_PROJECTOR_RANGE_RETURN := "return range;"
+const SOURCE_MEND_PROJECTOR_RANGE_FIELD := "public float range = 60f;"
+const SOURCE_MEND_PROJECTOR_RANGE_PHASE_RANGE_BOOST_FIELD := "public float phaseRangeBoost = 50f;"
+const SOURCE_MEND_PROJECTOR_RANGE_REAL_RANGE_EXPR := "float realRange = range + phaseHeat * phaseRangeBoost;"
+
 func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:
 	if mend_projector == null:
 		return 0.0

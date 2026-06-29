@@ -10142,6 +10142,35 @@
       "tests": [
         "test_mend_projector_progress_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N717": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public float range(){\n            return range;\n        }",
+        "return range;",
+        "public float range = 60f;",
+        "public float phaseRangeBoost = 50f;",
+        "float realRange = range + phaseHeat * phaseRangeBoost;",
+        "phaseHeat"
+      ],
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "java_class": "mindustry.world.blocks.defense.MendProjector.MendBuild",
+      "java_method": "range()/drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Backfills SSOT for existing source_mend_projector_range helper against Mindustry MendProjector range() and drawSelect realRange formula.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "source_symbols": [
+        "mend_projector_range.method",
+        "mend_projector_range.range_return",
+        "mend_projector_range.range_field",
+        "mend_projector_range.phase_range_boost_field",
+        "mend_projector_range.real_range_expr",
+        "mend_projector_range.phase_heat_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

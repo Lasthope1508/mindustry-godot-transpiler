@@ -41244,6 +41244,88 @@
         }
       },
       "status": "active"
+    },
+    "source_mend_projector_range_input": {
+      "keys": {
+        "range": {
+          "java_expr": "public float range = 60f;",
+          "java_method": "MendProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendProjector.range field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_range"
+          ],
+          "godot_symbol": "source_mend_projector_range_input.range"
+        },
+        "phaseHeat": {
+          "java_expr": "phaseHeat",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendBuild.phaseHeat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_range"
+          ],
+          "godot_symbol": "source_mend_projector_range_input.phaseHeat"
+        },
+        "phaseRangeBoost": {
+          "java_expr": "public float phaseRangeBoost = 50f;",
+          "java_method": "MendProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendProjector.phaseRangeBoost field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_range"
+          ],
+          "godot_symbol": "source_mend_projector_range_input.phaseRangeBoost"
+        }
+      },
+      "status": "active"
+    },
+    "source_mend_projector_range_result": {
+      "keys": {
+        "baseRange": {
+          "java_expr": "return range;",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Base range returned by range().",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_range"
+          ],
+          "godot_symbol": "source_mend_projector_range_result.baseRange"
+        },
+        "range": {
+          "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Real range used by drawSelect.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_range"
+          ],
+          "godot_symbol": "source_mend_projector_range_result.range"
+        },
+        "phaseHeat": {
+          "alias_of": "source_mend_projector_range_input.phaseHeat",
+          "rule": "Carries phaseHeat input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "phaseRangeBoost": {
+          "alias_of": "source_mend_projector_range_input.phaseRangeBoost",
+          "rule": "Carries phaseRangeBoost field into result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

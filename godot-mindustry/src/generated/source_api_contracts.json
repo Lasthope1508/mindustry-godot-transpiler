@@ -11842,6 +11842,35 @@
       "tests": [
         "test_mend_projector_progress_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mend_projector_range": {
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "params": [
+        {
+          "name": "mend_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "phase_heat",
+          "schema": "source_mend_projector_range_input.phaseHeat",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "range",
+        "baseRange",
+        "phaseHeat",
+        "phaseRangeBoost"
+      ],
+      "rule": "Public runtime contract for MendProjector range helper using source base range and phase range boost formula.",
+      "runtime_proof": "/root/Main.source_mend_projector_range",
+      "source_method": "range()/drawSelect()",
+      "source_slice": "N717",
+      "status": "active",
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
