@@ -20898,6 +20898,123 @@
       "java_expr": "block.destroySoundVolume",
       "godot_symbol": "source_building_on_destroyed_reactive_sound_input.destroy_sound_volume",
       "rule": "Runtime destroy_sound_volume supplies source block.destroySoundVolume."
+    },
+    "building_on_destroyed_rubble.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_building_on_destroyed_rubble_result.method",
+      "rule": "BuildingComp onDestroyed method boundary."
+    },
+    "building_on_destroyed_rubble.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "if(block.createRubble && !floor().solid && !floor().isLiquid){",
+      "godot_symbol": "source_building_on_destroyed_rubble_result.create_rubble",
+      "rule": "Rubble effect gate."
+    },
+    "building_on_destroyed_rubble.call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "Effect.rubble(x, y, block.size);",
+      "godot_symbol": "source_building_on_destroyed_rubble_result.call",
+      "rule": "Rubble effect call."
+    },
+    "building_on_destroyed_rubble.source_x": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "x",
+      "godot_symbol": "source_building_on_destroyed_rubble_input.source_x",
+      "rule": "Runtime source_x supplies source x coordinate."
+    },
+    "building_on_destroyed_rubble.source_y": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "y",
+      "godot_symbol": "source_building_on_destroyed_rubble_input.source_y",
+      "rule": "Runtime source_y supplies source y coordinate."
+    },
+    "building_on_destroyed_rubble.create_rubble": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "block.createRubble",
+      "godot_symbol": "source_building_on_destroyed_rubble_input.create_rubble",
+      "rule": "Runtime create_rubble supplies source block.createRubble."
+    },
+    "building_on_destroyed_rubble.floor_solid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "floor().solid",
+      "godot_symbol": "source_building_on_destroyed_rubble_input.floor_solid",
+      "rule": "Runtime floor_solid supplies source floor().solid."
+    },
+    "building_on_destroyed_rubble.floor_is_liquid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "floor().isLiquid",
+      "godot_symbol": "source_building_on_destroyed_rubble_input.floor_is_liquid",
+      "rule": "Runtime floor_is_liquid supplies source floor().isLiquid."
+    },
+    "building_on_destroyed_rubble.source_block_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_on_destroyed_rubble_input.source_block_size",
+      "rule": "Runtime source_block_size supplies source block.size."
     }
   }
 }

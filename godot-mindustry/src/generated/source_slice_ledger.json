@@ -6755,6 +6755,41 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_reactive_sound_state helper against BuildingComp.onDestroyed() reactive explosion sound gates."
+    },
+    "N615": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_building_on_destroyed_rubble_state",
+      "exact_exprs": [
+        "public void onDestroyed(){",
+        "if(block.createRubble && !floor().solid && !floor().isLiquid){",
+        "Effect.rubble(x, y, block.size);",
+        "block.createRubble",
+        "floor().solid",
+        "floor().isLiquid",
+        "block.size"
+      ],
+      "deferred_exprs": [
+        "Concrete Effect.rubble rendering and floor lookup ownership remain covered by effect/world runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_destroyed_rubble.method",
+        "building_on_destroyed_rubble.gate",
+        "building_on_destroyed_rubble.call",
+        "building_on_destroyed_rubble.source_x",
+        "building_on_destroyed_rubble.source_y",
+        "building_on_destroyed_rubble.create_rubble",
+        "building_on_destroyed_rubble.floor_solid",
+        "building_on_destroyed_rubble.floor_is_liquid",
+        "building_on_destroyed_rubble.source_block_size"
+      ],
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_destroyed_rubble_state helper against BuildingComp.onDestroyed() rubble effect gate and call."
     }
   },
   "version": 1

@@ -1783,6 +1783,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_on_destroyed_rubble_state(source_x: float, source_y: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, source_block_size: int) -> Dictionary:", source)
         self.assertIn("var should_create_rubble := create_rubble and not floor_solid and not floor_is_liquid", source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"source_x": source_x', source)
+        self.assertIn('"source_y": source_y', source)
+        self.assertIn('"floor_solid": floor_solid', source)
         self.assertIn('"create_rubble": should_create_rubble', source)
         self.assertIn('"size": source_block_size if should_create_rubble else 0', source)
 

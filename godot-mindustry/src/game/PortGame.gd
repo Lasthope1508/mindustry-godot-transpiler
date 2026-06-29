@@ -1829,7 +1829,14 @@ func source_building_on_destroyed_dynamic_explosion_call_state(source_x: float, 
 func source_building_on_destroyed_rubble_state(source_x: float, source_y: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, source_block_size: int) -> Dictionary:
 	var should_create_rubble := create_rubble and not floor_solid and not floor_is_liquid
 	return {
+		"method": "public void onDestroyed(){",
+		"source_x": source_x,
+		"source_y": source_y,
+		"floor_solid": floor_solid,
+		"floor_is_liquid": floor_is_liquid,
+		"source_block_size": source_block_size,
 		"create_rubble": should_create_rubble,
+		"call": "Effect.rubble(x, y, block.size);" if should_create_rubble else "",
 		"x": source_x,
 		"y": source_y,
 		"size": source_block_size if should_create_rubble else 0,

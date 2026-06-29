@@ -27049,6 +27049,172 @@
           "rule": "Carries destroy_sound_volume input into result schema."
         }
       }
+    },
+    "source_building_on_destroyed_rubble_input": {
+      "status": "active",
+      "keys": {
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "x",
+          "godot_symbol": "source_building_on_destroyed_rubble_input.source_x",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Runtime source_x supplies source x coordinate."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "y",
+          "godot_symbol": "source_building_on_destroyed_rubble_input.source_y",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Runtime source_y supplies source y coordinate."
+        },
+        "create_rubble": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.createRubble",
+          "godot_symbol": "source_building_on_destroyed_rubble_input.create_rubble",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Runtime create_rubble supplies source block.createRubble."
+        },
+        "floor_solid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "floor().solid",
+          "godot_symbol": "source_building_on_destroyed_rubble_input.floor_solid",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Runtime floor_solid supplies source floor().solid."
+        },
+        "floor_is_liquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "floor().isLiquid",
+          "godot_symbol": "source_building_on_destroyed_rubble_input.floor_is_liquid",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Runtime floor_is_liquid supplies source floor().isLiquid."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_on_destroyed_rubble_input.source_block_size",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Runtime source_block_size supplies source block.size."
+        }
+      }
+    },
+    "source_building_on_destroyed_rubble_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "public void onDestroyed(){",
+          "godot_symbol": "source_building_on_destroyed_rubble_result.method",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "BuildingComp onDestroyed method boundary."
+        },
+        "create_rubble": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "if(block.createRubble && !floor().solid && !floor().isLiquid){",
+          "godot_symbol": "source_building_on_destroyed_rubble_result.create_rubble",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Rubble effect gate result."
+        },
+        "call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onDestroyed()",
+          "java_expr": "Effect.rubble(x, y, block.size);",
+          "godot_symbol": "source_building_on_destroyed_rubble_result.call",
+          "used_by": [
+            "PortGame.source_building_on_destroyed_rubble_state"
+          ],
+          "rule": "Rubble effect call marker."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.source_x",
+          "rule": "Carries source_x input into result schema."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.source_y",
+          "rule": "Carries source_y input into result schema."
+        },
+        "floor_solid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.floor_solid",
+          "rule": "Carries floor_solid input into result schema."
+        },
+        "floor_is_liquid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.floor_is_liquid",
+          "rule": "Carries floor_is_liquid input into result schema."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.source_block_size",
+          "rule": "Carries source_block_size input into result schema."
+        },
+        "x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.source_x",
+          "rule": "Effect.rubble x argument."
+        },
+        "y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.source_y",
+          "rule": "Effect.rubble y argument."
+        },
+        "size": {
+          "type": "int",
+          "status": "generated",
+          "alias_of": "source_building_on_destroyed_rubble_input.source_block_size",
+          "rule": "Effect.rubble size argument when gate passes, otherwise 0."
+        }
+      }
     }
   },
   "version": 1

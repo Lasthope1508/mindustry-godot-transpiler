@@ -3861,6 +3861,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(explosiveness["java_expr"], "explosiveness")
         self.assertEqual(explosiveness["godot_symbol"], "source_building_on_destroyed_reactive_sound_input.explosiveness")
 
+    def test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_destroyed_rubble.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onDestroyed()")
+        self.assertEqual(method["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_destroyed_rubble_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_destroyed_rubble_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_destroyed_rubble_result.method")
+
+        rubble_gate = source_symbols.source_symbol(registry, "building_on_destroyed_rubble.gate")
+        self.assertEqual(rubble_gate["java_expr"], "if(block.createRubble && !floor().solid && !floor().isLiquid){")
+        self.assertEqual(rubble_gate["godot_symbol"], "source_building_on_destroyed_rubble_result.create_rubble")
+
+        rubble_call = source_symbols.source_symbol(registry, "building_on_destroyed_rubble.call")
+        self.assertEqual(rubble_call["java_expr"], "Effect.rubble(x, y, block.size);")
+        self.assertEqual(rubble_call["godot_symbol"], "source_building_on_destroyed_rubble_result.call")
+
+        source_x = source_symbols.source_symbol(registry, "building_on_destroyed_rubble.source_x")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "x")
+        self.assertEqual(source_x["godot_symbol"], "source_building_on_destroyed_rubble_input.source_x")
+
+        create_rubble = source_symbols.source_symbol(registry, "building_on_destroyed_rubble.create_rubble")
+        self.assertEqual(create_rubble["status"], "explicit-input")
+        self.assertEqual(create_rubble["java_expr"], "block.createRubble")
+        self.assertEqual(create_rubble["godot_symbol"], "source_building_on_destroyed_rubble_input.create_rubble")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6087,9 +6119,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 212)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 213)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 217)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 218)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6119,6 +6151,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_destroyed_liquid_explosion_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_power_sound_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_destroyed_reactive_sound_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_destroyed_rubble_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7515,6 +7548,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);", building_on_destroyed_reactive_sound["exact_exprs"])
         self.assertIn("}else if(flammability > 5f){", building_on_destroyed_reactive_sound["exact_exprs"])
         self.assertIn("Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);", building_on_destroyed_reactive_sound["exact_exprs"])
+
+        building_on_destroyed_rubble = source_symbols.source_slice(ledger, "N615")
+        self.assertEqual(building_on_destroyed_rubble["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_destroyed_rubble["java_method"], "onDestroyed()")
+        self.assertEqual(building_on_destroyed_rubble["godot_owner"], "PortGame.source_building_on_destroyed_rubble_state")
+        self.assertIn("public void onDestroyed(){", building_on_destroyed_rubble["exact_exprs"])
+        self.assertIn("if(block.createRubble && !floor().solid && !floor().isLiquid){", building_on_destroyed_rubble["exact_exprs"])
+        self.assertIn("Effect.rubble(x, y, block.size);", building_on_destroyed_rubble["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9450,6 +9491,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("chance", building_on_destroyed_reactive_sound["return_keys"])
         self.assertIn("volume", building_on_destroyed_reactive_sound["return_keys"])
         self.assertEqual(building_on_destroyed_reactive_sound["source_method"], "onDestroyed()")
+
+        building_on_destroyed_rubble = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_rubble_state")
+        self.assertEqual([param["name"] for param in building_on_destroyed_rubble["params"]], ["source_x", "source_y", "create_rubble", "floor_solid", "floor_is_liquid", "source_block_size"])
+        self.assertEqual(building_on_destroyed_rubble["params"][0]["schema"], "source_building_on_destroyed_rubble_input.source_x")
+        self.assertEqual(building_on_destroyed_rubble["params"][2]["schema"], "source_building_on_destroyed_rubble_input.create_rubble")
+        self.assertEqual(building_on_destroyed_rubble["params"][5]["schema"], "source_building_on_destroyed_rubble_input.source_block_size")
+        self.assertIn("method", building_on_destroyed_rubble["return_keys"])
+        self.assertIn("source_x", building_on_destroyed_rubble["return_keys"])
+        self.assertIn("source_y", building_on_destroyed_rubble["return_keys"])
+        self.assertIn("create_rubble", building_on_destroyed_rubble["return_keys"])
+        self.assertIn("call", building_on_destroyed_rubble["return_keys"])
+        self.assertIn("size", building_on_destroyed_rubble["return_keys"])
+        self.assertEqual(building_on_destroyed_rubble["source_method"], "onDestroyed()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11591,6 +11645,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_destroyed_reactive_sound_result["keys"]["sound_choices"]["java_expr"], "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);")
         self.assertEqual(source_building_on_destroyed_reactive_sound_result["keys"]["sound"]["java_expr"], "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);")
         self.assertEqual(source_building_on_destroyed_reactive_sound_result["keys"]["explosiveness"]["alias_of"], "source_building_on_destroyed_reactive_sound_input.explosiveness")
+
+        source_building_on_destroyed_rubble_input = source_symbols.state_schema(schema, "source_building_on_destroyed_rubble_input")
+        self.assertEqual(source_building_on_destroyed_rubble_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_building_on_destroyed_rubble_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_building_on_destroyed_rubble_input["keys"]["create_rubble"]["java_expr"], "block.createRubble")
+        self.assertEqual(source_building_on_destroyed_rubble_input["keys"]["floor_solid"]["java_expr"], "floor().solid")
+        self.assertEqual(source_building_on_destroyed_rubble_input["keys"]["floor_is_liquid"]["java_expr"], "floor().isLiquid")
+        self.assertEqual(source_building_on_destroyed_rubble_input["keys"]["source_block_size"]["java_expr"], "block.size")
+
+        source_building_on_destroyed_rubble_result = source_symbols.state_schema(schema, "source_building_on_destroyed_rubble_result")
+        self.assertEqual(source_building_on_destroyed_rubble_result["keys"]["method"]["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(source_building_on_destroyed_rubble_result["keys"]["create_rubble"]["java_expr"], "if(block.createRubble && !floor().solid && !floor().isLiquid){")
+        self.assertEqual(source_building_on_destroyed_rubble_result["keys"]["call"]["java_expr"], "Effect.rubble(x, y, block.size);")
+        self.assertEqual(source_building_on_destroyed_rubble_result["keys"]["source_x"]["alias_of"], "source_building_on_destroyed_rubble_input.source_x")
+        self.assertEqual(source_building_on_destroyed_rubble_result["keys"]["source_block_size"]["alias_of"], "source_building_on_destroyed_rubble_input.source_block_size")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

@@ -8202,6 +8202,62 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_destroyed_reactive_sound_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed reactive explosion sound helper."
+    },
+    "PortGame.source_building_on_destroyed_rubble_state": {
+      "status": "active",
+      "source_slice": "N615",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onDestroyed()",
+      "params": [
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_on_destroyed_rubble_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_on_destroyed_rubble_input.source_y"
+        },
+        {
+          "name": "create_rubble",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_rubble_input.create_rubble"
+        },
+        {
+          "name": "floor_solid",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_rubble_input.floor_solid"
+        },
+        {
+          "name": "floor_is_liquid",
+          "type": "bool",
+          "schema": "source_building_on_destroyed_rubble_input.floor_is_liquid"
+        },
+        {
+          "name": "source_block_size",
+          "type": "int",
+          "schema": "source_building_on_destroyed_rubble_input.source_block_size"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "source_x",
+        "source_y",
+        "floor_solid",
+        "floor_is_liquid",
+        "source_block_size",
+        "create_rubble",
+        "call",
+        "x",
+        "y",
+        "size"
+      ],
+      "tests": [
+        "test_building_on_destroyed_rubble_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_destroyed_rubble_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onDestroyed rubble helper."
     }
   },
   "policy": {
