@@ -29009,6 +29009,394 @@
           "rule": "Runtime remaining mirrors item count after removing capped amount."
         }
       }
+    },
+    "source_building_sense_capacity_power_net_input": {
+      "status": "active",
+      "keys": {
+        "block_has_items": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "block.hasItems",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.block_has_items",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime block_has_items supplies block.hasItems."
+        },
+        "block_item_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "block.itemCapacity",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.block_item_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime block_item_capacity supplies block.itemCapacity."
+        },
+        "block_has_liquids": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "block.hasLiquids",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.block_has_liquids",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime block_has_liquids supplies block.hasLiquids."
+        },
+        "block_liquid_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "block.liquidCapacity",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.block_liquid_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime block_liquid_capacity supplies block.liquidCapacity."
+        },
+        "has_cons_power": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "block.consPower != null",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.has_cons_power",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime has_cons_power supplies block.consPower != null."
+        },
+        "cons_power_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "block.consPower.capacity",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.cons_power_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime cons_power_capacity supplies block.consPower.capacity."
+        },
+        "has_power_module": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "power != null",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.has_power_module",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime has_power_module supplies power != null."
+        },
+        "last_scaled_power_in": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "power.graph.getLastScaledPowerIn()",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.last_scaled_power_in",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime last_scaled_power_in supplies power.graph.getLastScaledPowerIn()."
+        },
+        "last_scaled_power_out": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "power.graph.getLastScaledPowerOut()",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.last_scaled_power_out",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime last_scaled_power_out supplies power.graph.getLastScaledPowerOut()."
+        },
+        "last_power_stored": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "power.graph.getLastPowerStored()",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.last_power_stored",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime last_power_stored supplies power.graph.getLastPowerStored()."
+        },
+        "last_power_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "power.graph.getLastCapacity()",
+          "godot_symbol": "source_building_sense_capacity_power_net_input.last_power_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime last_power_capacity supplies power.graph.getLastCapacity()."
+        }
+      }
+    },
+    "source_building_sense_capacity_power_net_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "public double sense(LAccess sensor){",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.method",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "BuildingComp sense method boundary."
+        },
+        "item_capacity_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.item_capacity_case",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "itemCapacity sensor returns block.itemCapacity only when block.hasItems."
+        },
+        "liquid_capacity_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.liquid_capacity_case",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "liquidCapacity sensor returns block.liquidCapacity only when block.hasLiquids."
+        },
+        "power_capacity_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_capacity_case",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "powerCapacity sensor returns consPower capacity only when block.consPower exists."
+        },
+        "power_net_in_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_in_case",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "powerNetIn sensor scales last graph power input by 60 when power exists."
+        },
+        "power_net_out_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_out_case",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "powerNetOut sensor scales last graph power output by 60 when power exists."
+        },
+        "power_net_stored_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_stored_case",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "powerNetStored sensor returns graph stored power when power exists."
+        },
+        "power_net_capacity_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_capacity_case",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "powerNetCapacity sensor returns graph capacity when power exists."
+        },
+        "block_has_items": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.block_has_items",
+          "rule": "Carries block_has_items input into result schema."
+        },
+        "block_item_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.block_item_capacity",
+          "rule": "Carries block_item_capacity input into result schema."
+        },
+        "block_has_liquids": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.block_has_liquids",
+          "rule": "Carries block_has_liquids input into result schema."
+        },
+        "block_liquid_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.block_liquid_capacity",
+          "rule": "Carries block_liquid_capacity input into result schema."
+        },
+        "has_cons_power": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.has_cons_power",
+          "rule": "Carries has_cons_power input into result schema."
+        },
+        "cons_power_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.cons_power_capacity",
+          "rule": "Carries cons_power_capacity input into result schema."
+        },
+        "has_power_module": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.has_power_module",
+          "rule": "Carries has_power_module input into result schema."
+        },
+        "last_scaled_power_in": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.last_scaled_power_in",
+          "rule": "Carries last_scaled_power_in input into result schema."
+        },
+        "last_scaled_power_out": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.last_scaled_power_out",
+          "rule": "Carries last_scaled_power_out input into result schema."
+        },
+        "last_power_stored": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.last_power_stored",
+          "rule": "Carries last_power_stored input into result schema."
+        },
+        "last_power_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_sense_capacity_power_net_input.last_power_capacity",
+          "rule": "Carries last_power_capacity input into result schema."
+        },
+        "item_capacity": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.item_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime item_capacity mirrors source sense case result."
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.liquid_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime liquid_capacity mirrors source sense case result."
+        },
+        "power_capacity": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime power_capacity mirrors source sense case result."
+        },
+        "power_net_in": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_in",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime power_net_in mirrors source sense case result."
+        },
+        "power_net_out": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_out",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime power_net_out mirrors source sense case result."
+        },
+        "power_net_stored": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_stored",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime power_net_stored mirrors source sense case result."
+        },
+        "power_net_capacity": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "sense(LAccess sensor)",
+          "java_expr": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();",
+          "godot_symbol": "source_building_sense_capacity_power_net_result.power_net_capacity",
+          "used_by": [
+            "PortGame.source_building_sense_capacity_power_net_state"
+          ],
+          "rule": "Runtime power_net_capacity mirrors source sense case result."
+        }
+      }
     }
   },
   "version": 1

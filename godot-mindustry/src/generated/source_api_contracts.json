@@ -8803,6 +8803,102 @@
       ],
       "runtime_proof": "/root/Main.source_building_remove_stack_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.removeStack helper."
+    },
+    "PortGame.source_building_sense_capacity_power_net_state": {
+      "status": "active",
+      "source_slice": "N632",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "sense(LAccess sensor)",
+      "params": [
+        {
+          "name": "block_has_items",
+          "type": "bool",
+          "schema": "source_building_sense_capacity_power_net_input.block_has_items"
+        },
+        {
+          "name": "block_item_capacity",
+          "type": "float",
+          "schema": "source_building_sense_capacity_power_net_input.block_item_capacity"
+        },
+        {
+          "name": "block_has_liquids",
+          "type": "bool",
+          "schema": "source_building_sense_capacity_power_net_input.block_has_liquids"
+        },
+        {
+          "name": "block_liquid_capacity",
+          "type": "float",
+          "schema": "source_building_sense_capacity_power_net_input.block_liquid_capacity"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "schema": "source_building_sense_capacity_power_net_input.has_cons_power"
+        },
+        {
+          "name": "cons_power_capacity",
+          "type": "float",
+          "schema": "source_building_sense_capacity_power_net_input.cons_power_capacity"
+        },
+        {
+          "name": "has_power_module",
+          "type": "bool",
+          "schema": "source_building_sense_capacity_power_net_input.has_power_module"
+        },
+        {
+          "name": "last_scaled_power_in",
+          "type": "float",
+          "schema": "source_building_sense_capacity_power_net_input.last_scaled_power_in"
+        },
+        {
+          "name": "last_scaled_power_out",
+          "type": "float",
+          "schema": "source_building_sense_capacity_power_net_input.last_scaled_power_out"
+        },
+        {
+          "name": "last_power_stored",
+          "type": "float",
+          "schema": "source_building_sense_capacity_power_net_input.last_power_stored"
+        },
+        {
+          "name": "last_power_capacity",
+          "type": "float",
+          "schema": "source_building_sense_capacity_power_net_input.last_power_capacity"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_capacity_case",
+        "liquid_capacity_case",
+        "power_capacity_case",
+        "power_net_in_case",
+        "power_net_out_case",
+        "power_net_stored_case",
+        "power_net_capacity_case",
+        "block_has_items",
+        "block_item_capacity",
+        "block_has_liquids",
+        "block_liquid_capacity",
+        "has_cons_power",
+        "cons_power_capacity",
+        "has_power_module",
+        "last_scaled_power_in",
+        "last_scaled_power_out",
+        "last_power_stored",
+        "last_power_capacity",
+        "item_capacity",
+        "liquid_capacity",
+        "power_capacity",
+        "power_net_in",
+        "power_net_out",
+        "power_net_stored",
+        "power_net_capacity"
+      ],
+      "tests": [
+        "test_building_sense_capacity_power_net_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_capacity_power_net_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense capacity and power-net helper."
     }
   },
   "policy": {

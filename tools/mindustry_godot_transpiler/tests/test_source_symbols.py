@@ -2988,6 +2988,63 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(amount["java_expr"], "amount")
         self.assertEqual(amount["godot_symbol"], "source_building_remove_stack_input.amount")
 
+    def test_building_sense_capacity_power_net_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_sense_capacity_power_net_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_sense_capacity_power_net_state")
+        self.assertEqual(method["godot_symbol"], "source_building_sense_capacity_power_net_result.method")
+
+        item_capacity = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.item_capacity_case")
+        self.assertEqual(item_capacity["java_expr"], "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;")
+        self.assertEqual(item_capacity["godot_symbol"], "source_building_sense_capacity_power_net_result.item_capacity_case")
+
+        liquid_capacity = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.liquid_capacity_case")
+        self.assertEqual(liquid_capacity["java_expr"], "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;")
+        self.assertEqual(liquid_capacity["godot_symbol"], "source_building_sense_capacity_power_net_result.liquid_capacity_case")
+
+        power_capacity = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.power_capacity_case")
+        self.assertEqual(power_capacity["java_expr"], "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;")
+        self.assertEqual(power_capacity["godot_symbol"], "source_building_sense_capacity_power_net_result.power_capacity_case")
+
+        power_net_in = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.power_net_in_case")
+        self.assertEqual(power_net_in["java_expr"], "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;")
+        self.assertEqual(power_net_in["godot_symbol"], "source_building_sense_capacity_power_net_result.power_net_in_case")
+
+        power_net_out = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.power_net_out_case")
+        self.assertEqual(power_net_out["java_expr"], "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;")
+        self.assertEqual(power_net_out["godot_symbol"], "source_building_sense_capacity_power_net_result.power_net_out_case")
+
+        power_net_stored = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.power_net_stored_case")
+        self.assertEqual(power_net_stored["java_expr"], "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();")
+        self.assertEqual(power_net_stored["godot_symbol"], "source_building_sense_capacity_power_net_result.power_net_stored_case")
+
+        power_net_capacity = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.power_net_capacity_case")
+        self.assertEqual(power_net_capacity["java_expr"], "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();")
+        self.assertEqual(power_net_capacity["godot_symbol"], "source_building_sense_capacity_power_net_result.power_net_capacity_case")
+
+        block_has_items = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.block_has_items")
+        self.assertEqual(block_has_items["status"], "explicit-input")
+        self.assertEqual(block_has_items["java_expr"], "block.hasItems")
+        self.assertEqual(block_has_items["godot_symbol"], "source_building_sense_capacity_power_net_input.block_has_items")
+
+        last_scaled_power_in = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.last_scaled_power_in")
+        self.assertEqual(last_scaled_power_in["status"], "explicit-input")
+        self.assertEqual(last_scaled_power_in["java_expr"], "power.graph.getLastScaledPowerIn()")
+        self.assertEqual(last_scaled_power_in["godot_symbol"], "source_building_sense_capacity_power_net_input.last_scaled_power_in")
+
+        last_power_capacity = source_symbols.source_symbol(registry, "building_sense_capacity_power_net.last_power_capacity")
+        self.assertEqual(last_power_capacity["status"], "explicit-input")
+        self.assertEqual(last_power_capacity["java_expr"], "power.graph.getLastCapacity()")
+        self.assertEqual(last_power_capacity["godot_symbol"], "source_building_sense_capacity_power_net_input.last_power_capacity")
+
     def test_building_maximum_accepted_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6645,9 +6702,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 229)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 230)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 234)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 235)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6810,6 +6867,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_remove_stack_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_sense_capacity_power_net_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
@@ -7804,6 +7862,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("noSleep();", building_remove_stack["exact_exprs"])
         self.assertIn("items.remove(item, amount);", building_remove_stack["exact_exprs"])
         self.assertIn("return amount;", building_remove_stack["exact_exprs"])
+
+        building_sense_capacity_power_net = source_symbols.source_slice(ledger, "N632")
+        self.assertEqual(building_sense_capacity_power_net["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_sense_capacity_power_net["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_sense_capacity_power_net["godot_owner"], "PortGame.source_building_sense_capacity_power_net_state")
+        self.assertIn("public double sense(LAccess sensor){", building_sense_capacity_power_net["exact_exprs"])
+        self.assertIn("case itemCapacity -> block.hasItems ? block.itemCapacity : 0;", building_sense_capacity_power_net["exact_exprs"])
+        self.assertIn("case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;", building_sense_capacity_power_net["exact_exprs"])
+        self.assertIn("case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;", building_sense_capacity_power_net["exact_exprs"])
+        self.assertIn("case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;", building_sense_capacity_power_net["exact_exprs"])
+        self.assertIn("case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;", building_sense_capacity_power_net["exact_exprs"])
+        self.assertIn("case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();", building_sense_capacity_power_net["exact_exprs"])
+        self.assertIn("case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();", building_sense_capacity_power_net["exact_exprs"])
 
         building_maximum_accepted = source_symbols.source_slice(ledger, "N603")
         self.assertEqual(building_maximum_accepted["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9915,6 +9986,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("removed", building_remove_stack["return_keys"])
         self.assertIn("remaining", building_remove_stack["return_keys"])
         self.assertEqual(building_remove_stack["source_method"], "removeStack(Item item, int amount)")
+
+        building_sense_capacity_power_net = source_symbols.api_contract(contracts, "PortGame.source_building_sense_capacity_power_net_state")
+        self.assertEqual([param["name"] for param in building_sense_capacity_power_net["params"]], ["block_has_items", "block_item_capacity", "block_has_liquids", "block_liquid_capacity", "has_cons_power", "cons_power_capacity", "has_power_module", "last_scaled_power_in", "last_scaled_power_out", "last_power_stored", "last_power_capacity"])
+        self.assertEqual(building_sense_capacity_power_net["params"][0]["schema"], "source_building_sense_capacity_power_net_input.block_has_items")
+        self.assertEqual(building_sense_capacity_power_net["params"][10]["schema"], "source_building_sense_capacity_power_net_input.last_power_capacity")
+        self.assertIn("method", building_sense_capacity_power_net["return_keys"])
+        self.assertIn("item_capacity_case", building_sense_capacity_power_net["return_keys"])
+        self.assertIn("power_net_in_case", building_sense_capacity_power_net["return_keys"])
+        self.assertIn("item_capacity", building_sense_capacity_power_net["return_keys"])
+        self.assertIn("power_net_capacity", building_sense_capacity_power_net["return_keys"])
+        self.assertEqual(building_sense_capacity_power_net["source_method"], "sense(LAccess sensor)")
 
         building_maximum_accepted = source_symbols.api_contract(contracts, "PortGame.source_building_maximum_accepted")
         self.assertEqual([param["name"] for param in building_maximum_accepted["params"]], ["block_item_capacity"])
@@ -12167,6 +12249,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_remove_stack_result["keys"]["has_items_module"]["alias_of"], "source_building_remove_stack_input.has_items_module")
         self.assertEqual(source_building_remove_stack_result["keys"]["item_count"]["alias_of"], "source_building_remove_stack_input.item_count")
         self.assertEqual(source_building_remove_stack_result["keys"]["amount"]["alias_of"], "source_building_remove_stack_input.amount")
+
+        source_building_sense_capacity_power_net_input = source_symbols.state_schema(schema, "source_building_sense_capacity_power_net_input")
+        self.assertEqual(source_building_sense_capacity_power_net_input["keys"]["block_has_items"]["java_expr"], "block.hasItems")
+        self.assertEqual(source_building_sense_capacity_power_net_input["keys"]["block_item_capacity"]["java_expr"], "block.itemCapacity")
+        self.assertEqual(source_building_sense_capacity_power_net_input["keys"]["block_has_liquids"]["java_expr"], "block.hasLiquids")
+        self.assertEqual(source_building_sense_capacity_power_net_input["keys"]["block_liquid_capacity"]["java_expr"], "block.liquidCapacity")
+        self.assertEqual(source_building_sense_capacity_power_net_input["keys"]["has_cons_power"]["java_expr"], "block.consPower != null")
+        self.assertEqual(source_building_sense_capacity_power_net_input["keys"]["last_scaled_power_in"]["java_expr"], "power.graph.getLastScaledPowerIn()")
+        self.assertEqual(source_building_sense_capacity_power_net_input["keys"]["last_power_capacity"]["java_expr"], "power.graph.getLastCapacity()")
+
+        source_building_sense_capacity_power_net_result = source_symbols.state_schema(schema, "source_building_sense_capacity_power_net_result")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["method"]["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["item_capacity_case"]["java_expr"], "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["liquid_capacity_case"]["java_expr"], "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["power_capacity_case"]["java_expr"], "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["power_net_in_case"]["java_expr"], "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["power_net_out_case"]["java_expr"], "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["power_net_stored_case"]["java_expr"], "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["power_net_capacity_case"]["java_expr"], "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["block_has_items"]["alias_of"], "source_building_sense_capacity_power_net_input.block_has_items")
+        self.assertEqual(source_building_sense_capacity_power_net_result["keys"]["last_power_capacity"]["alias_of"], "source_building_sense_capacity_power_net_input.last_power_capacity")
 
         source_building_maximum_accepted_input = source_symbols.state_schema(schema, "source_building_maximum_accepted_input")
         self.assertEqual(source_building_maximum_accepted_input["keys"]["block_item_capacity"]["java_expr"], "block.itemCapacity")

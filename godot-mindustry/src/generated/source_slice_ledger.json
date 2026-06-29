@@ -7287,6 +7287,64 @@
       ],
       "runtime_proof": "/root/Main.source_building_remove_stack_state",
       "rule": "Backfills SSOT for existing canonical source_building_remove_stack_state helper against BuildingComp.removeStack(Item item, int amount)."
+    },
+    "N632": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_capacity_power_net_state",
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "return switch(sensor){",
+        "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+        "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;",
+        "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;",
+        "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
+        "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;",
+        "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();",
+        "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();",
+        "block.hasItems",
+        "block.itemCapacity",
+        "block.hasLiquids",
+        "block.liquidCapacity",
+        "block.consPower != null",
+        "block.consPower.capacity",
+        "power != null",
+        "power.graph.getLastScaledPowerIn()",
+        "power.graph.getLastScaledPowerOut()",
+        "power.graph.getLastPowerStored()",
+        "power.graph.getLastCapacity()"
+      ],
+      "deferred_exprs": [
+        "Concrete power.graph object internals remain owned by power network runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_sense_capacity_power_net.method",
+        "building_sense_capacity_power_net.item_capacity_case",
+        "building_sense_capacity_power_net.liquid_capacity_case",
+        "building_sense_capacity_power_net.power_capacity_case",
+        "building_sense_capacity_power_net.power_net_in_case",
+        "building_sense_capacity_power_net.power_net_out_case",
+        "building_sense_capacity_power_net.power_net_stored_case",
+        "building_sense_capacity_power_net.power_net_capacity_case",
+        "building_sense_capacity_power_net.block_has_items",
+        "building_sense_capacity_power_net.block_item_capacity",
+        "building_sense_capacity_power_net.block_has_liquids",
+        "building_sense_capacity_power_net.block_liquid_capacity",
+        "building_sense_capacity_power_net.has_cons_power",
+        "building_sense_capacity_power_net.cons_power_capacity",
+        "building_sense_capacity_power_net.has_power_module",
+        "building_sense_capacity_power_net.last_scaled_power_in",
+        "building_sense_capacity_power_net.last_scaled_power_out",
+        "building_sense_capacity_power_net.last_power_stored",
+        "building_sense_capacity_power_net.last_power_capacity"
+      ],
+      "tests": [
+        "test_building_sense_capacity_power_net_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_capacity_power_net_state",
+      "rule": "Backfills SSOT for existing canonical source_building_sense_capacity_power_net_state helper against BuildingComp.sense capacity and power-net cases."
     }
   },
   "version": 1
