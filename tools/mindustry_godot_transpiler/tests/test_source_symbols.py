@@ -3305,6 +3305,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(warmup["java_expr"], "warmup")
         self.assertEqual(warmup["godot_symbol"], "source_drill_output_delta_input.warmup")
 
+    def test_drill_output_delta_for_cell_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        tile_field = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.tile_field")
+        self.assertEqual(tile_field["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(tile_field["java_method"], "fields")
+        self.assertEqual(tile_field["java_expr"], "transient Tile tile;")
+        self.assertEqual(tile_field["godot_owner"], "PortGame.source_drill_output_delta_for_cell")
+        self.assertEqual(tile_field["runtime_proof"], "/root/Main.source_drill_output_delta_for_cell")
+        self.assertEqual(tile_field["godot_symbol"], "source_drill_output_delta_for_cell_result.tile_field")
+
+        block_field = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.block_field")
+        self.assertEqual(block_field["java_expr"], "transient Block block;")
+        self.assertEqual(block_field["godot_symbol"], "source_drill_output_delta_for_cell_result.block_field")
+
+        tile_x = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.tile_x")
+        self.assertEqual(tile_x["java_expr"], "return tile.x;")
+        self.assertEqual(tile_x["godot_symbol"], "source_drill_output_delta_for_cell_input.x")
+
+        tile_y = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.tile_y")
+        self.assertEqual(tile_y["java_expr"], "return tile.y;")
+        self.assertEqual(tile_y["godot_symbol"], "source_drill_output_delta_for_cell_input.y")
+
+        time_scale_field = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.time_scale_field")
+        self.assertEqual(time_scale_field["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(time_scale_field["godot_symbol"], "source_drill_output_delta_for_cell_result.time_scale_field")
+
+        time_scale_return = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.time_scale_return")
+        self.assertEqual(time_scale_return["java_expr"], "return timeScale;")
+        self.assertEqual(time_scale_return["godot_symbol"], "source_drill_output_delta_for_cell_result.time_scale")
+
+        delegate = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.delegate_result")
+        self.assertEqual(delegate["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(delegate["java_expr"], "progress += delta() * dominantItems * speed * warmup;")
+        self.assertEqual(delegate["godot_symbol"], "source_drill_output_delta_for_cell_result.progress")
+
+        dominant_items = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.dominant_items")
+        self.assertEqual(dominant_items["status"], "explicit-input")
+        self.assertEqual(dominant_items["java_expr"], "dominantItems")
+        self.assertEqual(dominant_items["godot_symbol"], "source_drill_output_delta_for_cell_input.dominant_items")
+
+        seconds = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.seconds")
+        self.assertEqual(seconds["status"], "explicit-input")
+        self.assertEqual(seconds["java_expr"], "Time.delta")
+        self.assertEqual(seconds["godot_symbol"], "source_drill_output_delta_for_cell_input.seconds")
+
+        warmup = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.warmup")
+        self.assertEqual(warmup["status"], "explicit-input")
+        self.assertEqual(warmup["java_expr"], "warmup")
+        self.assertEqual(warmup["godot_symbol"], "source_drill_output_delta_for_cell_input.warmup")
+
+        speed = source_symbols.source_symbol(registry, "drill_output_delta_for_cell.speed")
+        self.assertEqual(speed["status"], "explicit-input")
+        self.assertEqual(speed["java_expr"], "speed")
+        self.assertEqual(speed["godot_symbol"], "source_drill_output_delta_for_cell_input.speed")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9235,9 +9294,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 295)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 296)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 300)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 301)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9440,6 +9499,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_drill_ore_count", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_output_batch", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_output_delta", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_output_delta_for_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10529,6 +10589,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("dominantItems", drill_output_delta["exact_exprs"])
         self.assertIn("speed", drill_output_delta["exact_exprs"])
         self.assertIn("warmup", drill_output_delta["exact_exprs"])
+
+        drill_output_delta_for_cell = source_symbols.source_slice(ledger, "N698")
+        self.assertEqual(drill_output_delta_for_cell["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(drill_output_delta_for_cell["java_method"], "tile/block/timeScale fields and DrillBuild.updateTile() delegate")
+        self.assertEqual(drill_output_delta_for_cell["godot_owner"], "PortGame.source_drill_output_delta_for_cell")
+        self.assertIn("transient Tile tile;", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("transient Block block;", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("return tile.x;", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("return tile.y;", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("private transient float timeScale = 1f, timeScaleDuration;", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("public float timeScale(){", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("return timeScale;", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("progress += delta() * dominantItems * speed * warmup;", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("dominantItems", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("warmup", drill_output_delta_for_cell["exact_exprs"])
+        self.assertIn("speed", drill_output_delta_for_cell["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13329,6 +13405,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(drill_output_delta["params"][4]["schema"], "source_drill_output_delta_input.speed")
         self.assertIn("progress", drill_output_delta["return_keys"])
         self.assertEqual(drill_output_delta["source_method"], "DrillBuild.updateTile()")
+
+        drill_output_delta_for_cell = source_symbols.api_contract(contracts, "PortGame.source_drill_output_delta_for_cell")
+        self.assertEqual([param["name"] for param in drill_output_delta_for_cell["params"]], ["x", "y", "dominant_items", "seconds", "warmup", "speed"])
+        self.assertEqual(drill_output_delta_for_cell["params"][0]["schema"], "source_drill_output_delta_for_cell_input.x")
+        self.assertEqual(drill_output_delta_for_cell["params"][1]["schema"], "source_drill_output_delta_for_cell_input.y")
+        self.assertEqual(drill_output_delta_for_cell["params"][2]["schema"], "source_drill_output_delta_for_cell_input.dominant_items")
+        self.assertEqual(drill_output_delta_for_cell["params"][3]["schema"], "source_drill_output_delta_for_cell_input.seconds")
+        self.assertEqual(drill_output_delta_for_cell["params"][4]["schema"], "source_drill_output_delta_for_cell_input.warmup")
+        self.assertEqual(drill_output_delta_for_cell["params"][5]["schema"], "source_drill_output_delta_for_cell_input.speed")
+        self.assertIn("progress", drill_output_delta_for_cell["return_keys"])
+        self.assertIn("time_scale", drill_output_delta_for_cell["return_keys"])
+        self.assertEqual(drill_output_delta_for_cell["source_method"], "tile/block/timeScale fields and DrillBuild.updateTile() delegate")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -16261,6 +16349,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_output_delta_result["keys"]["dominant_items"]["alias_of"], "source_drill_output_delta_input.dominant_items")
         self.assertEqual(source_drill_output_delta_result["keys"]["speed"]["alias_of"], "source_drill_output_delta_input.speed")
         self.assertEqual(source_drill_output_delta_result["keys"]["warmup"]["alias_of"], "source_drill_output_delta_input.warmup")
+
+        source_drill_output_delta_for_cell_input = source_symbols.state_schema(schema, "source_drill_output_delta_for_cell_input")
+        self.assertEqual(source_drill_output_delta_for_cell_input["keys"]["x"]["java_expr"], "return tile.x;")
+        self.assertEqual(source_drill_output_delta_for_cell_input["keys"]["y"]["java_expr"], "return tile.y;")
+        self.assertEqual(source_drill_output_delta_for_cell_input["keys"]["dominant_items"]["java_expr"], "dominantItems")
+        self.assertEqual(source_drill_output_delta_for_cell_input["keys"]["seconds"]["java_expr"], "Time.delta")
+        self.assertEqual(source_drill_output_delta_for_cell_input["keys"]["warmup"]["java_expr"], "warmup")
+        self.assertEqual(source_drill_output_delta_for_cell_input["keys"]["speed"]["java_expr"], "speed")
+
+        source_drill_output_delta_for_cell_result = source_symbols.state_schema(schema, "source_drill_output_delta_for_cell_result")
+        self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["tile_field"]["java_expr"], "transient Tile tile;")
+        self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["block_field"]["java_expr"], "transient Block block;")
+        self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["time_scale_field"]["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["time_scale"]["java_expr"], "return timeScale;")
+        self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["progress"]["java_expr"], "progress += delta() * dominantItems * speed * warmup;")
+        self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["x"]["alias_of"], "source_drill_output_delta_for_cell_input.x")
+        self.assertEqual(source_drill_output_delta_for_cell_result["keys"]["dominant_items"]["alias_of"], "source_drill_output_delta_for_cell_input.dominant_items")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

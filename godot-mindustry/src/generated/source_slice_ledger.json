@@ -9520,6 +9520,46 @@
         "test_port_game_applies_source_drill_warmup_to_output_delta",
         "test_port_game_batches_source_drill_output"
       ]
+    },
+    "N698": {
+      "exact_exprs": [
+        "transient Tile tile;",
+        "transient Block block;",
+        "return tile.x;",
+        "return tile.y;",
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "public float timeScale(){",
+        "return timeScale;",
+        "progress += delta() * dominantItems * speed * warmup;",
+        "dominantItems",
+        "Time.delta",
+        "warmup",
+        "speed"
+      ],
+      "godot_owner": "PortGame.source_drill_output_delta_for_cell",
+      "java_class": "mindustry.entities.comp.BuildingComp and mindustry.world.blocks.production.Drill.DrillBuild",
+      "java_method": "tile/block/timeScale fields and DrillBuild.updateTile() delegate",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_drill_output_delta_for_cell",
+      "source_symbols": [
+        "drill_output_delta_for_cell.tile_field",
+        "drill_output_delta_for_cell.block_field",
+        "drill_output_delta_for_cell.tile_x",
+        "drill_output_delta_for_cell.tile_y",
+        "drill_output_delta_for_cell.time_scale_field",
+        "drill_output_delta_for_cell.time_scale_method",
+        "drill_output_delta_for_cell.time_scale_return",
+        "drill_output_delta_for_cell.delegate_result",
+        "drill_output_delta_for_cell.dominant_items",
+        "drill_output_delta_for_cell.seconds",
+        "drill_output_delta_for_cell.warmup",
+        "drill_output_delta_for_cell.speed"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_output_delta_for_cell_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_drill_rate"
+      ]
     }
   },
   "version": 1

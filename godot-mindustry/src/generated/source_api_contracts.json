@@ -11139,6 +11139,54 @@
       "tests": [
         "test_drill_output_delta_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_output_delta_for_cell": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "x",
+          "schema": "source_drill_output_delta_for_cell_input.x",
+          "type": "int"
+        },
+        {
+          "name": "y",
+          "schema": "source_drill_output_delta_for_cell_input.y",
+          "type": "int"
+        },
+        {
+          "name": "dominant_items",
+          "schema": "source_drill_output_delta_for_cell_input.dominant_items",
+          "type": "int"
+        },
+        {
+          "name": "seconds",
+          "schema": "source_drill_output_delta_for_cell_input.seconds",
+          "type": "float"
+        },
+        {
+          "name": "warmup",
+          "schema": "source_drill_output_delta_for_cell_input.warmup",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_drill_output_delta_for_cell_input.speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "time_scale",
+        "block_id"
+      ],
+      "rule": "Public runtime contract for BuildingComp tile/block/timeScale cell wrapper delegating to DrillBuild raw progress increment.",
+      "runtime_proof": "/root/Main.source_drill_output_delta_for_cell",
+      "source_method": "tile/block/timeScale fields and DrillBuild.updateTile() delegate",
+      "source_slice": "N698",
+      "status": "active",
+      "tests": [
+        "test_drill_output_delta_for_cell_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

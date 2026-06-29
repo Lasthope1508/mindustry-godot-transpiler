@@ -1181,6 +1181,15 @@ func source_drill_output_delta(dominant_items: int, seconds: float, time_scale :
 	var scaled_source_delta := source_building_delta(seconds * SOURCE_TICK_RATE, time_scale)
 	return scaled_source_delta * float(dominant_items) * speed * warmup
 
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TILE_FIELD := "transient Tile tile;"
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_BLOCK_FIELD := "transient Block block;"
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TILE_X := "return tile.x;"
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TILE_Y := "return tile.y;"
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TIME_SCALE_FIELD := "private transient float timeScale = 1f, timeScaleDuration;"
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TIME_SCALE_METHOD := "public float timeScale(){"
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_TIME_SCALE_RETURN := "return timeScale;"
+const SOURCE_DRILL_OUTPUT_DELTA_FOR_CELL_DELEGATE := "progress += delta() * dominantItems * speed * warmup;"
+
 func source_drill_output_delta_for_cell(x: int, y: int, dominant_items: int, seconds: float, warmup := 1.0, speed := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):

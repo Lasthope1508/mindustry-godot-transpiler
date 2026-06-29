@@ -37310,6 +37310,202 @@
       },
       "status": "active"
     },
+    "source_drill_output_delta_for_cell_input": {
+      "keys": {
+        "dominant_items": {
+          "godot_symbol": "source_drill_output_delta_for_cell_input.dominant_items",
+          "java_expr": "dominantItems",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild dominantItems count for cell wrapper delegate.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "seconds": {
+          "godot_symbol": "source_drill_output_delta_for_cell_input.seconds",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input Time.delta as seconds converted to source ticks.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_drill_output_delta_for_cell_input.speed",
+          "java_expr": "speed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source local speed after liquid boost and efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_output_delta_for_cell_input.warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup before progress increment.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_drill_output_delta_for_cell_input.x",
+          "java_expr": "return tile.x;",
+          "java_method": "tileX()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input cell x mirrors BuildingComp tileX().",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_drill_output_delta_for_cell_input.y",
+          "java_expr": "return tile.y;",
+          "java_method": "tileY()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input cell y mirrors BuildingComp tileY().",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_output_delta_for_cell_result": {
+      "keys": {
+        "block_field": {
+          "godot_symbol": "source_drill_output_delta_for_cell_result.block_field",
+          "java_expr": "transient Block block;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp block field backing wrapper block identity.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "block_id": {
+          "alias_of": "source_drill_output_delta_for_cell_result.block_field",
+          "rule": "Carries source block id resolved from BuildingComp block field metadata.",
+          "status": "generated",
+          "type": "String"
+        },
+        "dominant_items": {
+          "alias_of": "source_drill_output_delta_for_cell_input.dominant_items",
+          "rule": "Carries dominantItems into wrapper result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "progress": {
+          "godot_symbol": "source_drill_output_delta_for_cell_result.progress",
+          "java_expr": "progress += delta() * dominantItems * speed * warmup;",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source raw DrillBuild progress increment returned by wrapper.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "seconds": {
+          "alias_of": "source_drill_output_delta_for_cell_input.seconds",
+          "rule": "Carries seconds input into wrapper result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "speed": {
+          "alias_of": "source_drill_output_delta_for_cell_input.speed",
+          "rule": "Carries speed input into wrapper result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "tile_field": {
+          "godot_symbol": "source_drill_output_delta_for_cell_result.tile_field",
+          "java_expr": "transient Tile tile;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp tile field backing wrapper cell lookup.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_drill_output_delta_for_cell_result.time_scale",
+          "java_expr": "return timeScale;",
+          "java_method": "timeScale()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Resolved BuildingComp timeScale used by delegated delta().",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "time_scale_field": {
+          "godot_symbol": "source_drill_output_delta_for_cell_result.time_scale_field",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "java_method": "fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp timeScale field backing wrapper metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "time_scale_method": {
+          "godot_symbol": "source_drill_output_delta_for_cell_result.time_scale_method",
+          "java_expr": "public float timeScale(){",
+          "java_method": "timeScale()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "BuildingComp timeScale method declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_delta_for_cell"
+          ]
+        },
+        "warmup": {
+          "alias_of": "source_drill_output_delta_for_cell_input.warmup",
+          "rule": "Carries warmup input into wrapper result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "x": {
+          "alias_of": "source_drill_output_delta_for_cell_input.x",
+          "rule": "Carries x input into wrapper result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "y": {
+          "alias_of": "source_drill_output_delta_for_cell_input.y",
+          "rule": "Carries y input into wrapper result schema.",
+          "status": "generated",
+          "type": "int"
+        }
+      },
+      "status": "active"
+    },
     "source_drill_output_delta_input": {
       "keys": {
         "dominant_items": {
