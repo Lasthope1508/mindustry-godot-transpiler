@@ -687,6 +687,12 @@ func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Di
 		"color": str(mend_projector.properties.get("baseColor", "")),
 	}
 
+const SOURCE_MEND_PROJECTOR_PLACE_METHOD := "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }"
+const SOURCE_MEND_PROJECTOR_PLACE_SUPER := "super.drawPlace(x, y, rotation, valid);"
+const SOURCE_MEND_PROJECTOR_PLACE_DASH_CIRCLE := "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);"
+const SOURCE_MEND_PROJECTOR_PLACE_EACH_BLOCK := "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));"
+const SOURCE_MEND_PROJECTOR_PLACE_SELECTED_CALL := "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))"
+
 func source_mend_projector_place_state(mend_projector) -> Dictionary:
 	return source_mend_projector_select_state(mend_projector, 0.0)
 

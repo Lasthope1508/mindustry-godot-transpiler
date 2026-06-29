@@ -40990,6 +40990,160 @@
         }
       },
       "status": "active"
+    },
+    "source_mend_projector_place_state_input": {
+      "keys": {
+        "tileX": {
+          "java_expr": "int x",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java drawPlace tile x explicit input.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_input.tileX"
+        },
+        "tileY": {
+          "java_expr": "int y",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java drawPlace tile y explicit input.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_input.tileY"
+        },
+        "rotation": {
+          "java_expr": "int rotation",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java drawPlace rotation explicit input.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_input.rotation"
+        },
+        "valid": {
+          "java_expr": "boolean valid",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java drawPlace valid flag explicit input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_input.valid"
+        }
+      },
+      "status": "active"
+    },
+    "source_mend_projector_place_state_result": {
+      "keys": {
+        "superDrawPlace": {
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "super.drawPlace call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.superDrawPlace"
+        },
+        "dashCircle": {
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Drawf.dashCircle call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.dashCircle"
+        },
+        "worldX": {
+          "java_expr": "x * tilesize + offset",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Tile x converted to world coordinate.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.worldX"
+        },
+        "worldY": {
+          "java_expr": "y * tilesize + offset",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Tile y converted to world coordinate.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.worldY"
+        },
+        "range": {
+          "java_expr": "range",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector range used by drawPlace.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.range"
+        },
+        "color": {
+          "java_expr": "baseColor",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector baseColor used by drawPlace.",
+          "status": "source-backed",
+          "type": "string",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.color"
+        },
+        "eachBlock": {
+          "java_expr": "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Indexer eachBlock call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.eachBlock"
+        },
+        "selected": {
+          "java_expr": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Drawf.selected call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_place_state"
+          ],
+          "godot_symbol": "source_mend_projector_place_state_result.selected"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

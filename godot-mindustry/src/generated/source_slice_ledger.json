@@ -10066,6 +10066,49 @@
       "tests": [
         "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N715": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }",
+        "super.drawPlace(x, y, rotation, valid);",
+        "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+        "x * tilesize + offset",
+        "y * tilesize + offset",
+        "range",
+        "baseColor",
+        "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+        "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+        "int x",
+        "int y",
+        "int rotation",
+        "boolean valid"
+      ],
+      "godot_owner": "PortGame.source_mend_projector_place_state",
+      "java_class": "mindustry.world.blocks.defense.MendProjector",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Backfills SSOT for existing source_mend_projector_place_state helper against Mindustry MendProjector.drawPlace().",
+      "runtime_proof": "/root/Main.source_mend_projector_place_state",
+      "source_symbols": [
+        "mend_projector_place_state.method",
+        "mend_projector_place_state.super_draw_place",
+        "mend_projector_place_state.dash_circle",
+        "mend_projector_place_state.dash_circle_x",
+        "mend_projector_place_state.dash_circle_y",
+        "mend_projector_place_state.range_expr",
+        "mend_projector_place_state.color_expr",
+        "mend_projector_place_state.each_block",
+        "mend_projector_place_state.selected_call",
+        "mend_projector_place_state.tile_x_input",
+        "mend_projector_place_state.tile_y_input",
+        "mend_projector_place_state.rotation_input",
+        "mend_projector_place_state.valid_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mend_projector_place_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

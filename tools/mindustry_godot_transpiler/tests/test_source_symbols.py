@@ -2608,6 +2608,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(light_radius_field["java_expr"], "lightRadius = 50f;")
         self.assertEqual(light_radius_field["godot_symbol"], "source_mend_projector_light_state_input.lightRadius")
 
+    def test_mend_projector_place_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "mend_projector_place_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(method["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_mend_projector_place_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_mend_projector_place_state")
+
+        super_draw_place = source_symbols.source_symbol(registry, "mend_projector_place_state.super_draw_place")
+        self.assertEqual(super_draw_place["java_expr"], "super.drawPlace(x, y, rotation, valid);")
+        self.assertEqual(super_draw_place["godot_symbol"], "source_mend_projector_place_state_result.superDrawPlace")
+
+        dash_circle = source_symbols.source_symbol(registry, "mend_projector_place_state.dash_circle")
+        self.assertEqual(dash_circle["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);")
+        self.assertEqual(dash_circle["godot_symbol"], "source_mend_projector_place_state_result.dashCircle")
+
+        dash_circle_x = source_symbols.source_symbol(registry, "mend_projector_place_state.dash_circle_x")
+        self.assertEqual(dash_circle_x["java_expr"], "x * tilesize + offset")
+        self.assertEqual(dash_circle_x["godot_symbol"], "source_mend_projector_place_state_result.worldX")
+
+        dash_circle_y = source_symbols.source_symbol(registry, "mend_projector_place_state.dash_circle_y")
+        self.assertEqual(dash_circle_y["java_expr"], "y * tilesize + offset")
+        self.assertEqual(dash_circle_y["godot_symbol"], "source_mend_projector_place_state_result.worldY")
+
+        range_expr = source_symbols.source_symbol(registry, "mend_projector_place_state.range_expr")
+        self.assertEqual(range_expr["java_expr"], "range")
+        self.assertEqual(range_expr["godot_symbol"], "source_mend_projector_place_state_result.range")
+
+        color_expr = source_symbols.source_symbol(registry, "mend_projector_place_state.color_expr")
+        self.assertEqual(color_expr["java_expr"], "baseColor")
+        self.assertEqual(color_expr["godot_symbol"], "source_mend_projector_place_state_result.color")
+
+        each_block = source_symbols.source_symbol(registry, "mend_projector_place_state.each_block")
+        self.assertEqual(each_block["java_expr"], "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(each_block["godot_symbol"], "source_mend_projector_place_state_result.eachBlock")
+
+        selected_call = source_symbols.source_symbol(registry, "mend_projector_place_state.selected_call")
+        self.assertEqual(selected_call["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+        self.assertEqual(selected_call["godot_symbol"], "source_mend_projector_place_state_result.selected")
+
+        tile_x_input = source_symbols.source_symbol(registry, "mend_projector_place_state.tile_x_input")
+        self.assertEqual(tile_x_input["status"], "explicit-input")
+        self.assertEqual(tile_x_input["java_expr"], "int x")
+        self.assertEqual(tile_x_input["godot_symbol"], "source_mend_projector_place_state_input.tileX")
+
+        tile_y_input = source_symbols.source_symbol(registry, "mend_projector_place_state.tile_y_input")
+        self.assertEqual(tile_y_input["status"], "explicit-input")
+        self.assertEqual(tile_y_input["java_expr"], "int y")
+        self.assertEqual(tile_y_input["godot_symbol"], "source_mend_projector_place_state_input.tileY")
+
     def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9952,9 +10006,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 312)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 313)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 317)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 318)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10088,6 +10142,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_mathf_lerp_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_light_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mend_projector_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11440,6 +11495,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);", mend_projector_light_state["exact_exprs"])
         self.assertIn("lightRadius * smoothEfficiency", mend_projector_light_state["exact_exprs"])
         self.assertIn("0.7f * smoothEfficiency", mend_projector_light_state["exact_exprs"])
+
+        mend_projector_place_state = source_symbols.source_slice(ledger, "N715")
+        self.assertEqual(mend_projector_place_state["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(mend_projector_place_state["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(mend_projector_place_state["godot_owner"], "PortGame.source_mend_projector_place_state")
+        self.assertIn("public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }", mend_projector_place_state["exact_exprs"])
+        self.assertIn("Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);", mend_projector_place_state["exact_exprs"])
+        self.assertIn("x * tilesize + offset", mend_projector_place_state["exact_exprs"])
+        self.assertIn("Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))", mend_projector_place_state["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14055,6 +14119,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("radius", mend_projector_light_state["return_keys"])
         self.assertIn("alpha", mend_projector_light_state["return_keys"])
         self.assertEqual(mend_projector_light_state["source_method"], "drawLight()")
+
+        mend_projector_place_state = source_symbols.api_contract(contracts, "PortGame.source_mend_projector_place_state")
+        self.assertEqual([param["name"] for param in mend_projector_place_state["params"]], ["mend_projector"])
+        self.assertIn("range", mend_projector_place_state["return_keys"])
+        self.assertIn("color", mend_projector_place_state["return_keys"])
+        self.assertIn("dashCircle", mend_projector_place_state["return_keys"])
+        self.assertIn("eachBlock", mend_projector_place_state["return_keys"])
+        self.assertEqual(mend_projector_place_state["source_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -17045,6 +17117,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_mend_projector_light_state_result["keys"]["radius"]["java_expr"], "lightRadius * smoothEfficiency")
         self.assertEqual(source_mend_projector_light_state_result["keys"]["alpha"]["java_expr"], "0.7f * smoothEfficiency")
         self.assertEqual(source_mend_projector_light_state_result["keys"]["smoothEfficiency"]["alias_of"], "source_mend_projector_light_state_input.smoothEfficiency")
+
+        source_mend_projector_place_state_input = source_symbols.state_schema(schema, "source_mend_projector_place_state_input")
+        self.assertEqual(source_mend_projector_place_state_input["keys"]["tileX"]["java_expr"], "int x")
+        self.assertEqual(source_mend_projector_place_state_input["keys"]["tileY"]["java_expr"], "int y")
+        self.assertEqual(source_mend_projector_place_state_input["keys"]["rotation"]["java_expr"], "int rotation")
+        self.assertEqual(source_mend_projector_place_state_input["keys"]["valid"]["java_expr"], "boolean valid")
+
+        source_mend_projector_place_state_result = source_symbols.state_schema(schema, "source_mend_projector_place_state_result")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["superDrawPlace"]["java_expr"], "super.drawPlace(x, y, rotation, valid);")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["dashCircle"]["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["worldX"]["java_expr"], "x * tilesize + offset")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["worldY"]["java_expr"], "y * tilesize + offset")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["range"]["java_expr"], "range")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["color"]["java_expr"], "baseColor")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["eachBlock"]["java_expr"], "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(source_mend_projector_place_state_result["keys"]["selected"]["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")
