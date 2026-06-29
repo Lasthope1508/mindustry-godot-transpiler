@@ -2107,8 +2107,14 @@ func source_building_configure_menu_visibility_state(_player: Variant) -> Dictio
 func source_building_should_show_configure_state(_player: Variant) -> bool:
 	return bool(source_building_configure_menu_visibility_state(_player)["should_show"])
 
-func source_building_should_hide_configure_state(_player: Variant) -> bool:
-	return bool(source_building_configure_menu_visibility_state(_player)["should_hide"])
+func source_building_should_hide_configure_state(_player: Variant) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public boolean shouldHideConfigure(Player player){",
+		"return_false": "return false;",
+	}
+	var result: Dictionary = {"should_hide": false}
+	result.merge(source_exprs)
+	return result
 func source_building_block_half_extent(block_size_value: int, source_tilesize: float) -> float:
 	return float(block_size_value) * source_tilesize / 2.0
 

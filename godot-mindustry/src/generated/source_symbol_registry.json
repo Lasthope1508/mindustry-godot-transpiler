@@ -24525,6 +24525,58 @@
       "java_expr": "enabled",
       "godot_symbol": "source_building_should_consume_input.enabled_state",
       "rule": "Runtime enabled_state supplies enabled field."
+    },
+    "building_should_hide_configure.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldHideConfigure(Player player)",
+      "godot_owner": "PortGame.source_building_should_hide_configure_state",
+      "tests": [
+        "test_building_should_hide_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_hide_configure_state",
+      "java_expr": "/** Whether this configuration should be hidden now. Called every frame the config is open. */",
+      "godot_symbol": "source_building_should_hide_configure_result.comment",
+      "rule": "BuildingComp shouldHideConfigure source comment."
+    },
+    "building_should_hide_configure.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldHideConfigure(Player player)",
+      "godot_owner": "PortGame.source_building_should_hide_configure_state",
+      "tests": [
+        "test_building_should_hide_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_hide_configure_state",
+      "java_expr": "public boolean shouldHideConfigure(Player player){",
+      "godot_symbol": "source_building_should_hide_configure_result.method",
+      "rule": "BuildingComp shouldHideConfigure method boundary."
+    },
+    "building_should_hide_configure.return_false": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldHideConfigure(Player player)",
+      "godot_owner": "PortGame.source_building_should_hide_configure_state",
+      "tests": [
+        "test_building_should_hide_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_hide_configure_state",
+      "java_expr": "return false;",
+      "godot_symbol": "source_building_should_hide_configure_result.return_false",
+      "rule": "shouldHideConfigure default return statement."
+    },
+    "building_should_hide_configure.player": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldHideConfigure(Player player)",
+      "godot_owner": "PortGame.source_building_should_hide_configure_state",
+      "tests": [
+        "test_building_should_hide_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_hide_configure_state",
+      "java_expr": "player",
+      "godot_symbol": "source_building_should_hide_configure_input.player",
+      "rule": "Runtime _player supplies Player player argument."
     }
   }
 }
