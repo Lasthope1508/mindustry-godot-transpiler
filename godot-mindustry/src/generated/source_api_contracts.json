@@ -8762,6 +8762,47 @@
       ],
       "runtime_proof": "/root/Main.source_building_remove_from_proximity_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.removeFromProximity helper."
+    },
+    "PortGame.source_building_remove_stack_state": {
+      "status": "active",
+      "source_slice": "N631",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "removeStack(Item item, int amount)",
+      "params": [
+        {
+          "name": "has_items_module",
+          "type": "bool",
+          "schema": "source_building_remove_stack_input.has_items_module"
+        },
+        {
+          "name": "item_count",
+          "type": "int",
+          "schema": "source_building_remove_stack_input.item_count"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_building_remove_stack_input.amount"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "null_guard",
+        "min_assign",
+        "no_sleep_call",
+        "items_remove_call",
+        "return_amount",
+        "has_items_module",
+        "item_count",
+        "amount",
+        "removed",
+        "remaining"
+      ],
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.removeStack helper."
     }
   },
   "policy": {

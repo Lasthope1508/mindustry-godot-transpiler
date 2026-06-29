@@ -2939,6 +2939,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(fallback["java_expr"], "return 0;")
         self.assertEqual(fallback["godot_symbol"], "source_building_accept_stack_result.fallback")
 
+    def test_building_remove_stack_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_remove_stack.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "removeStack(Item item, int amount)")
+        self.assertEqual(method["java_expr"], "public int removeStack(Item item, int amount){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_remove_stack_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_remove_stack_state")
+        self.assertEqual(method["godot_symbol"], "source_building_remove_stack_result.method")
+
+        null_guard = source_symbols.source_symbol(registry, "building_remove_stack.null_guard")
+        self.assertEqual(null_guard["java_expr"], "if(items == null) return 0;")
+        self.assertEqual(null_guard["godot_symbol"], "source_building_remove_stack_result.null_guard")
+
+        min_assign = source_symbols.source_symbol(registry, "building_remove_stack.min_assign")
+        self.assertEqual(min_assign["java_expr"], "amount = Math.min(amount, items.get(item));")
+        self.assertEqual(min_assign["godot_symbol"], "source_building_remove_stack_result.min_assign")
+
+        no_sleep = source_symbols.source_symbol(registry, "building_remove_stack.no_sleep")
+        self.assertEqual(no_sleep["java_expr"], "noSleep();")
+        self.assertEqual(no_sleep["godot_symbol"], "source_building_remove_stack_result.no_sleep_call")
+
+        items_remove = source_symbols.source_symbol(registry, "building_remove_stack.items_remove")
+        self.assertEqual(items_remove["java_expr"], "items.remove(item, amount);")
+        self.assertEqual(items_remove["godot_symbol"], "source_building_remove_stack_result.items_remove_call")
+
+        return_amount = source_symbols.source_symbol(registry, "building_remove_stack.return_amount")
+        self.assertEqual(return_amount["java_expr"], "return amount;")
+        self.assertEqual(return_amount["godot_symbol"], "source_building_remove_stack_result.return_amount")
+
+        has_items_module = source_symbols.source_symbol(registry, "building_remove_stack.has_items_module")
+        self.assertEqual(has_items_module["status"], "explicit-input")
+        self.assertEqual(has_items_module["java_expr"], "items != null")
+        self.assertEqual(has_items_module["godot_symbol"], "source_building_remove_stack_input.has_items_module")
+
+        item_count = source_symbols.source_symbol(registry, "building_remove_stack.item_count")
+        self.assertEqual(item_count["status"], "explicit-input")
+        self.assertEqual(item_count["java_expr"], "items.get(item)")
+        self.assertEqual(item_count["godot_symbol"], "source_building_remove_stack_input.item_count")
+
+        amount = source_symbols.source_symbol(registry, "building_remove_stack.amount")
+        self.assertEqual(amount["status"], "explicit-input")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_building_remove_stack_input.amount")
+
     def test_building_maximum_accepted_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6596,9 +6645,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 228)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 229)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 233)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 234)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6760,6 +6809,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_remove_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
@@ -7742,6 +7792,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(acceptItem(self(), item) && block.hasItems && (source == null || source.team() == team)){", building_accept_stack["exact_exprs"])
         self.assertIn("return Math.min(getMaximumAccepted(item) - items.get(item), amount);", building_accept_stack["exact_exprs"])
         self.assertIn("return 0;", building_accept_stack["exact_exprs"])
+
+        building_remove_stack = source_symbols.source_slice(ledger, "N631")
+        self.assertEqual(building_remove_stack["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_remove_stack["java_method"], "removeStack(Item item, int amount)")
+        self.assertEqual(building_remove_stack["godot_owner"], "PortGame.source_building_remove_stack_state")
+        self.assertIn("Remove a stack from this inventory, and return the amount removed.", building_remove_stack["exact_exprs"])
+        self.assertIn("public int removeStack(Item item, int amount){", building_remove_stack["exact_exprs"])
+        self.assertIn("if(items == null) return 0;", building_remove_stack["exact_exprs"])
+        self.assertIn("amount = Math.min(amount, items.get(item));", building_remove_stack["exact_exprs"])
+        self.assertIn("noSleep();", building_remove_stack["exact_exprs"])
+        self.assertIn("items.remove(item, amount);", building_remove_stack["exact_exprs"])
+        self.assertIn("return amount;", building_remove_stack["exact_exprs"])
 
         building_maximum_accepted = source_symbols.source_slice(ledger, "N603")
         self.assertEqual(building_maximum_accepted["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9838,6 +9900,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("acceptStack", building_accept_stack["return_keys"])
         self.assertIn("fallback", building_accept_stack["return_keys"])
         self.assertEqual(building_accept_stack["source_method"], "acceptStack(Item item, int amount, Teamc source)")
+
+        building_remove_stack = source_symbols.api_contract(contracts, "PortGame.source_building_remove_stack_state")
+        self.assertEqual([param["name"] for param in building_remove_stack["params"]], ["has_items_module", "item_count", "amount"])
+        self.assertEqual(building_remove_stack["params"][0]["schema"], "source_building_remove_stack_input.has_items_module")
+        self.assertEqual(building_remove_stack["params"][1]["schema"], "source_building_remove_stack_input.item_count")
+        self.assertEqual(building_remove_stack["params"][2]["schema"], "source_building_remove_stack_input.amount")
+        self.assertIn("method", building_remove_stack["return_keys"])
+        self.assertIn("null_guard", building_remove_stack["return_keys"])
+        self.assertIn("min_assign", building_remove_stack["return_keys"])
+        self.assertIn("no_sleep_call", building_remove_stack["return_keys"])
+        self.assertIn("items_remove_call", building_remove_stack["return_keys"])
+        self.assertIn("return_amount", building_remove_stack["return_keys"])
+        self.assertIn("removed", building_remove_stack["return_keys"])
+        self.assertIn("remaining", building_remove_stack["return_keys"])
+        self.assertEqual(building_remove_stack["source_method"], "removeStack(Item item, int amount)")
 
         building_maximum_accepted = source_symbols.api_contract(contracts, "PortGame.source_building_maximum_accepted")
         self.assertEqual([param["name"] for param in building_maximum_accepted["params"]], ["block_item_capacity"])
@@ -12073,6 +12150,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_accept_stack_result["keys"]["acceptStack"]["java_expr"], "return Math.min(getMaximumAccepted(item) - items.get(item), amount);")
         self.assertEqual(source_building_accept_stack_result["keys"]["fallback"]["java_expr"], "return 0;")
         self.assertEqual(source_building_accept_stack_result["keys"]["acceptsItem"]["alias_of"], "source_building_accept_stack_input.acceptsItem")
+
+        source_building_remove_stack_input = source_symbols.state_schema(schema, "source_building_remove_stack_input")
+        self.assertEqual(source_building_remove_stack_input["keys"]["has_items_module"]["java_expr"], "items != null")
+        self.assertEqual(source_building_remove_stack_input["keys"]["has_items_module"]["status"], "explicit-input")
+        self.assertEqual(source_building_remove_stack_input["keys"]["item_count"]["java_expr"], "items.get(item)")
+        self.assertEqual(source_building_remove_stack_input["keys"]["amount"]["java_expr"], "amount")
+
+        source_building_remove_stack_result = source_symbols.state_schema(schema, "source_building_remove_stack_result")
+        self.assertEqual(source_building_remove_stack_result["keys"]["method"]["java_expr"], "public int removeStack(Item item, int amount){")
+        self.assertEqual(source_building_remove_stack_result["keys"]["null_guard"]["java_expr"], "if(items == null) return 0;")
+        self.assertEqual(source_building_remove_stack_result["keys"]["min_assign"]["java_expr"], "amount = Math.min(amount, items.get(item));")
+        self.assertEqual(source_building_remove_stack_result["keys"]["no_sleep_call"]["java_expr"], "noSleep();")
+        self.assertEqual(source_building_remove_stack_result["keys"]["items_remove_call"]["java_expr"], "items.remove(item, amount);")
+        self.assertEqual(source_building_remove_stack_result["keys"]["return_amount"]["java_expr"], "return amount;")
+        self.assertEqual(source_building_remove_stack_result["keys"]["has_items_module"]["alias_of"], "source_building_remove_stack_input.has_items_module")
+        self.assertEqual(source_building_remove_stack_result["keys"]["item_count"]["alias_of"], "source_building_remove_stack_input.item_count")
+        self.assertEqual(source_building_remove_stack_result["keys"]["amount"]["alias_of"], "source_building_remove_stack_input.amount")
 
         source_building_maximum_accepted_input = source_symbols.state_schema(schema, "source_building_maximum_accepted_input")
         self.assertEqual(source_building_maximum_accepted_input["keys"]["block_item_capacity"]["java_expr"], "block.itemCapacity")

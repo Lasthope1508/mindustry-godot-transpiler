@@ -1292,9 +1292,33 @@ func source_building_accept_stack_state(accepts_item: bool, has_items: bool, sam
 
 func source_building_remove_stack_state(has_items_module: bool, item_count: int, amount: int) -> Dictionary:
 	if not has_items_module:
-		return {"removed": 0, "remaining": item_count}
+		return {
+			"method": "public int removeStack(Item item, int amount){",
+			"null_guard": "if(items == null) return 0;",
+			"min_assign": "",
+			"no_sleep_call": "",
+			"items_remove_call": "",
+			"return_amount": "return 0;",
+			"has_items_module": has_items_module,
+			"item_count": item_count,
+			"amount": amount,
+			"removed": 0,
+			"remaining": item_count,
+		}
 	var removed := mini(amount, item_count)
-	return {"removed": removed, "remaining": item_count - removed}
+	return {
+		"method": "public int removeStack(Item item, int amount){",
+		"null_guard": "",
+		"min_assign": "amount = Math.min(amount, items.get(item));",
+		"no_sleep_call": "noSleep();",
+		"items_remove_call": "items.remove(item, amount);",
+		"return_amount": "return amount;",
+		"has_items_module": has_items_module,
+		"item_count": item_count,
+		"amount": amount,
+		"removed": removed,
+		"remaining": item_count - removed,
+	}
 
 func source_building_accept_payload_state() -> bool:
 	return false

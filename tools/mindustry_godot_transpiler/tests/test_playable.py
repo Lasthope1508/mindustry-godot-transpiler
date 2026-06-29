@@ -1248,9 +1248,15 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_remove_stack_state(has_items_module: bool, item_count: int, amount: int) -> Dictionary:", source)
         self.assertIn("if not has_items_module:", source)
-        self.assertIn('return {"removed": 0, "remaining": item_count}', source)
+        self.assertIn('"method": "public int removeStack(Item item, int amount){",', source)
+        self.assertIn('"null_guard": "if(items == null) return 0;",', source)
+        self.assertIn('"min_assign": "amount = Math.min(amount, items.get(item));",', source)
+        self.assertIn('"no_sleep_call": "noSleep();",', source)
+        self.assertIn('"items_remove_call": "items.remove(item, amount);",', source)
+        self.assertIn('"return_amount": "return amount;",', source)
+        self.assertIn('"has_items_module": has_items_module', source)
         self.assertIn("var removed := mini(amount, item_count)", source)
-        self.assertIn('return {"removed": removed, "remaining": item_count - removed}', source)
+        self.assertIn('"remaining": item_count - removed', source)
 
     def test_port_game_exposes_source_building_payload_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

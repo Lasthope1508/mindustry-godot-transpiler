@@ -22185,6 +22185,123 @@
       "java_expr": "other != null",
       "godot_symbol": "source_building_remove_from_proximity_input.removable_count",
       "rule": "Runtime removable_count supplies the count of non-null world.build results queued into tmpTiles."
+    },
+    "building_remove_stack.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "public int removeStack(Item item, int amount){",
+      "godot_symbol": "source_building_remove_stack_result.method",
+      "rule": "BuildingComp removeStack method boundary."
+    },
+    "building_remove_stack.null_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "if(items == null) return 0;",
+      "godot_symbol": "source_building_remove_stack_result.null_guard",
+      "rule": "removeStack returns 0 when the items module is absent."
+    },
+    "building_remove_stack.min_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "amount = Math.min(amount, items.get(item));",
+      "godot_symbol": "source_building_remove_stack_result.min_assign",
+      "rule": "removeStack caps amount by current items.get(item)."
+    },
+    "building_remove_stack.no_sleep": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "noSleep();",
+      "godot_symbol": "source_building_remove_stack_result.no_sleep_call",
+      "rule": "removeStack wakes the building before mutating item storage."
+    },
+    "building_remove_stack.items_remove": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "items.remove(item, amount);",
+      "godot_symbol": "source_building_remove_stack_result.items_remove_call",
+      "rule": "removeStack removes the capped amount from item storage."
+    },
+    "building_remove_stack.return_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "return amount;",
+      "godot_symbol": "source_building_remove_stack_result.return_amount",
+      "rule": "removeStack returns the capped removed amount."
+    },
+    "building_remove_stack.has_items_module": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "items != null",
+      "godot_symbol": "source_building_remove_stack_input.has_items_module",
+      "rule": "Runtime has_items_module supplies positive form of items null guard."
+    },
+    "building_remove_stack.item_count": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_building_remove_stack_input.item_count",
+      "rule": "Runtime item_count supplies items.get(item)."
+    },
+    "building_remove_stack.amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "java_expr": "amount",
+      "godot_symbol": "source_building_remove_stack_input.amount",
+      "rule": "Runtime amount supplies method parameter amount."
     }
   }
 }

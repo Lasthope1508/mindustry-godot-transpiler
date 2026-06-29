@@ -7247,6 +7247,46 @@
       ],
       "runtime_proof": "/root/Main.source_building_remove_from_proximity_state",
       "rule": "Backfills SSOT for existing canonical source_building_remove_from_proximity_state helper against BuildingComp.removeFromProximity()."
+    },
+    "N631": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "removeStack(Item item, int amount)",
+      "godot_owner": "PortGame.source_building_remove_stack_state",
+      "exact_exprs": [
+        "Remove a stack from this inventory, and return the amount removed.",
+        "public int removeStack(Item item, int amount){",
+        "Item item",
+        "int amount",
+        "if(items == null) return 0;",
+        "amount = Math.min(amount, items.get(item));",
+        "noSleep();",
+        "items.remove(item, amount);",
+        "return amount;",
+        "items != null",
+        "items.get(item)",
+        "amount"
+      ],
+      "deferred_exprs": [
+        "Concrete items.remove mutation remains owned by inventory runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_remove_stack.method",
+        "building_remove_stack.null_guard",
+        "building_remove_stack.min_assign",
+        "building_remove_stack.no_sleep",
+        "building_remove_stack.items_remove",
+        "building_remove_stack.return_amount",
+        "building_remove_stack.has_items_module",
+        "building_remove_stack.item_count",
+        "building_remove_stack.amount"
+      ],
+      "tests": [
+        "test_building_remove_stack_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_remove_stack_state",
+      "rule": "Backfills SSOT for existing canonical source_building_remove_stack_state helper against BuildingComp.removeStack(Item item, int amount)."
     }
   },
   "version": 1
