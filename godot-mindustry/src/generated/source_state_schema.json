@@ -27431,6 +27431,118 @@
           "rule": "Carries current_state input into no-op result schema."
         }
       }
+    },
+    "source_building_on_repaired_input": {
+      "status": "active",
+      "keys": {
+        "has_fog_radius": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "block.flags.contains(BlockFlag.hasFogRadius)",
+          "godot_symbol": "source_building_on_repaired_input.has_fog_radius",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "Runtime has_fog_radius supplies source block flag membership."
+        }
+      }
+    },
+    "source_building_on_repaired_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "public void onRepaired(){",
+          "godot_symbol": "source_building_on_repaired_result.method",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "BuildingComp onRepaired method boundary."
+        },
+        "call_super": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "@CallSuper",
+          "godot_symbol": "source_building_on_repaired_result.call_super",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "BuildingComp onRepaired requires superclass call contract."
+        },
+        "placed_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "placed();",
+          "godot_symbol": "source_building_on_repaired_result.placed_call",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "onRepaired always calls placed()."
+        },
+        "fog_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "if(block.flags.contains(BlockFlag.hasFogRadius)){",
+          "godot_symbol": "source_building_on_repaired_result.fog_gate",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "Fog update gate marker when hasFogRadius passes."
+        },
+        "fog_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "fogControl.forceUpdate(team, self());",
+          "godot_symbol": "source_building_on_repaired_result.fog_call",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "Fog update call when hasFogRadius gate passes."
+        },
+        "has_fog_radius": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_on_repaired_input.has_fog_radius",
+          "rule": "Carries has_fog_radius input into result schema."
+        },
+        "placed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "placed();",
+          "godot_symbol": "source_building_on_repaired_result.placed",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "Placed call is always scheduled by onRepaired."
+        },
+        "fog_force_update": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onRepaired()",
+          "java_expr": "if(block.flags.contains(BlockFlag.hasFogRadius)){",
+          "godot_symbol": "source_building_on_repaired_result.fog_force_update",
+          "used_by": [
+            "PortGame.source_building_on_repaired_state"
+          ],
+          "rule": "Fog force update boolean follows hasFogRadius gate."
+        }
+      }
     }
   },
   "version": 1

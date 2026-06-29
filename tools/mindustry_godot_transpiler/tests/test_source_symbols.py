@@ -3971,6 +3971,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_state["java_expr"], "public void onRemoved(){")
         self.assertEqual(current_state["godot_symbol"], "source_building_on_removed_input.current_state")
 
+    def test_building_on_repaired_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_repaired.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "onRepaired()")
+        self.assertEqual(method["java_expr"], "public void onRepaired(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_repaired_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_repaired_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_repaired_result.method")
+
+        call_super = source_symbols.source_symbol(registry, "building_on_repaired.call_super")
+        self.assertEqual(call_super["java_expr"], "@CallSuper")
+        self.assertEqual(call_super["godot_symbol"], "source_building_on_repaired_result.call_super")
+
+        placed_call = source_symbols.source_symbol(registry, "building_on_repaired.placed_call")
+        self.assertEqual(placed_call["java_expr"], "placed();")
+        self.assertEqual(placed_call["godot_symbol"], "source_building_on_repaired_result.placed_call")
+
+        fog_gate = source_symbols.source_symbol(registry, "building_on_repaired.fog_gate")
+        self.assertEqual(fog_gate["java_expr"], "if(block.flags.contains(BlockFlag.hasFogRadius)){")
+        self.assertEqual(fog_gate["godot_symbol"], "source_building_on_repaired_result.fog_force_update")
+
+        fog_call = source_symbols.source_symbol(registry, "building_on_repaired.fog_call")
+        self.assertEqual(fog_call["java_expr"], "fogControl.forceUpdate(team, self());")
+        self.assertEqual(fog_call["godot_symbol"], "source_building_on_repaired_result.fog_call")
+
+        has_fog_radius = source_symbols.source_symbol(registry, "building_on_repaired.has_fog_radius")
+        self.assertEqual(has_fog_radius["status"], "explicit-input")
+        self.assertEqual(has_fog_radius["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")
+        self.assertEqual(has_fog_radius["godot_symbol"], "source_building_on_repaired_input.has_fog_radius")
+
     def test_building_on_destroyed_base_sound_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6197,9 +6232,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 216)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 217)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 221)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 222)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6233,6 +6268,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_on_destroyed_splash_liquid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_nearby_build_added_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_on_removed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_on_repaired_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7658,6 +7694,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_on_removed["java_method"], "onRemoved()")
         self.assertEqual(building_on_removed["godot_owner"], "PortGame.source_building_on_removed_state")
         self.assertIn("public void onRemoved(){", building_on_removed["exact_exprs"])
+
+        building_on_repaired = source_symbols.source_slice(ledger, "N619")
+        self.assertEqual(building_on_repaired["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_repaired["java_method"], "onRepaired()")
+        self.assertEqual(building_on_repaired["godot_owner"], "PortGame.source_building_on_repaired_state")
+        self.assertIn("@CallSuper", building_on_repaired["exact_exprs"])
+        self.assertIn("public void onRepaired(){", building_on_repaired["exact_exprs"])
+        self.assertIn("placed();", building_on_repaired["exact_exprs"])
+        self.assertIn("if(block.flags.contains(BlockFlag.hasFogRadius)){", building_on_repaired["exact_exprs"])
+        self.assertIn("fogControl.forceUpdate(team, self());", building_on_repaired["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9635,6 +9681,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("no_op", building_on_removed["return_keys"])
         self.assertIn("current_state", building_on_removed["return_keys"])
         self.assertEqual(building_on_removed["source_method"], "onRemoved()")
+
+        building_on_repaired = source_symbols.api_contract(contracts, "PortGame.source_building_on_repaired_state")
+        self.assertEqual([param["name"] for param in building_on_repaired["params"]], ["has_fog_radius"])
+        self.assertEqual(building_on_repaired["params"][0]["schema"], "source_building_on_repaired_input.has_fog_radius")
+        self.assertIn("method", building_on_repaired["return_keys"])
+        self.assertIn("call_super", building_on_repaired["return_keys"])
+        self.assertIn("placed_call", building_on_repaired["return_keys"])
+        self.assertIn("fog_gate", building_on_repaired["return_keys"])
+        self.assertIn("fog_call", building_on_repaired["return_keys"])
+        self.assertIn("has_fog_radius", building_on_repaired["return_keys"])
+        self.assertIn("placed", building_on_repaired["return_keys"])
+        self.assertIn("fog_force_update", building_on_repaired["return_keys"])
+        self.assertEqual(building_on_repaired["source_method"], "onRepaired()")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -11819,6 +11878,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_removed_result["keys"]["method"]["java_expr"], "public void onRemoved(){")
         self.assertEqual(source_building_on_removed_result["keys"]["no_op"]["java_expr"], "public void onRemoved(){")
         self.assertEqual(source_building_on_removed_result["keys"]["current_state"]["alias_of"], "source_building_on_removed_input.current_state")
+
+        source_building_on_repaired_input = source_symbols.state_schema(schema, "source_building_on_repaired_input")
+        self.assertEqual(source_building_on_repaired_input["keys"]["has_fog_radius"]["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")
+
+        source_building_on_repaired_result = source_symbols.state_schema(schema, "source_building_on_repaired_result")
+        self.assertEqual(source_building_on_repaired_result["keys"]["method"]["java_expr"], "public void onRepaired(){")
+        self.assertEqual(source_building_on_repaired_result["keys"]["call_super"]["java_expr"], "@CallSuper")
+        self.assertEqual(source_building_on_repaired_result["keys"]["placed_call"]["java_expr"], "placed();")
+        self.assertEqual(source_building_on_repaired_result["keys"]["fog_force_update"]["java_expr"], "if(block.flags.contains(BlockFlag.hasFogRadius)){")
+        self.assertEqual(source_building_on_repaired_result["keys"]["fog_call"]["java_expr"], "fogControl.forceUpdate(team, self());")
+        self.assertEqual(source_building_on_repaired_result["keys"]["has_fog_radius"]["alias_of"], "source_building_on_repaired_input.has_fog_radius")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

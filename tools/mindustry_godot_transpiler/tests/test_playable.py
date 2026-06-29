@@ -1573,6 +1573,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public void onRepaired(){"', source)
+        self.assertIn('"call_super": "@CallSuper"', source)
+        self.assertIn('"placed_call": "placed();"', source)
+        self.assertIn('"fog_gate": "if(block.flags.contains(BlockFlag.hasFogRadius)){" if has_fog_radius else ""', source)
+        self.assertIn('"fog_call": "fogControl.forceUpdate(team, self());" if has_fog_radius else ""', source)
+        self.assertIn('"has_fog_radius": has_fog_radius', source)
         self.assertIn('"placed": true', source)
         self.assertIn('"fog_force_update": has_fog_radius', source)
 

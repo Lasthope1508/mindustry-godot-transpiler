@@ -6867,6 +6867,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_removed_state",
       "rule": "Backfills SSOT for existing canonical source_building_on_removed_state helper against BuildingComp.onRemoved() no-op."
+    },
+    "N619": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onRepaired()",
+      "godot_owner": "PortGame.source_building_on_repaired_state",
+      "exact_exprs": [
+        "/** Called when this block is derelict repaired. */",
+        "@CallSuper",
+        "public void onRepaired(){",
+        "placed();",
+        "if(block.flags.contains(BlockFlag.hasFogRadius)){",
+        "fogControl.forceUpdate(team, self());",
+        "BlockFlag.hasFogRadius"
+      ],
+      "deferred_exprs": [
+        "Concrete placed() body and fogControl.forceUpdate side effects remain covered by adjacent placed/fog runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_on_repaired.method",
+        "building_on_repaired.call_super",
+        "building_on_repaired.placed_call",
+        "building_on_repaired.fog_gate",
+        "building_on_repaired.fog_call",
+        "building_on_repaired.has_fog_radius"
+      ],
+      "tests": [
+        "test_building_on_repaired_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_repaired_state",
+      "rule": "Backfills SSOT for existing canonical source_building_on_repaired_state helper against BuildingComp.onRepaired() placed and fog update behavior."
     }
   },
   "version": 1

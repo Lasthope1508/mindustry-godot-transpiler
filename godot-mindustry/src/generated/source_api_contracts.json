@@ -8341,6 +8341,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_on_removed_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.onRemoved no-op helper."
+    },
+    "PortGame.source_building_on_repaired_state": {
+      "status": "active",
+      "source_slice": "N619",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "onRepaired()",
+      "params": [
+        {
+          "name": "has_fog_radius",
+          "type": "bool",
+          "schema": "source_building_on_repaired_input.has_fog_radius"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "call_super",
+        "placed_call",
+        "fog_gate",
+        "fog_call",
+        "has_fog_radius",
+        "placed",
+        "fog_force_update"
+      ],
+      "tests": [
+        "test_building_on_repaired_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_on_repaired_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.onRepaired helper."
     }
   },
   "policy": {

@@ -1641,7 +1641,16 @@ func source_building_placed_state(net_client: bool, consumes_power: bool, output
 	return {"returned": false, "power_link_scan": true, "configure": configure, "configure_pos": source_pos if configure else -1}
 
 func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:
-	return {"placed": true, "fog_force_update": has_fog_radius}
+	return {
+		"method": "public void onRepaired(){",
+		"call_super": "@CallSuper",
+		"placed_call": "placed();",
+		"fog_gate": "if(block.flags.contains(BlockFlag.hasFogRadius)){" if has_fog_radius else "",
+		"fog_call": "fogControl.forceUpdate(team, self());" if has_fog_radius else "",
+		"has_fog_radius": has_fog_radius,
+		"placed": true,
+		"fog_force_update": has_fog_radius,
+	}
 
 func source_building_is_commandable_state(block_commandable: bool) -> bool:
 	return block_commandable
