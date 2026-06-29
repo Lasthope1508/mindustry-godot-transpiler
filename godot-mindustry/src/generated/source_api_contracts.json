@@ -10867,6 +10867,34 @@
       "tests": [
         "test_drill_delay_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_dump_interval": {
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_dump_interval_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "time_scale",
+          "schema": "source_drill_dump_interval_input.time_scale",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "dumpInterval",
+        "dumpTime",
+        "timeScale"
+      ],
+      "rule": "Public runtime contract for DrillBuild updateTile timer interval dumpTime / timeScale.",
+      "runtime_proof": "/root/Main.source_drill_dump_interval",
+      "source_method": "DrillBuild.updateTile()",
+      "source_slice": "N691",
+      "status": "active",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

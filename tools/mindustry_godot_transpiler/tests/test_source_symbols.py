@@ -3021,6 +3021,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(item_id["java_expr"], "Item item")
         self.assertEqual(item_id["godot_symbol"], "source_drill_delay_input.item_id")
 
+    def test_drill_dump_interval_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        timer_gate = source_symbols.source_symbol(registry, "drill_dump_interval.timer_gate")
+        self.assertEqual(timer_gate["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(timer_gate["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(timer_gate["java_expr"], "if(timer(timerDump, dumpTime / timeScale)){")
+        self.assertEqual(timer_gate["godot_owner"], "PortGame.source_drill_dump_interval")
+        self.assertEqual(timer_gate["runtime_proof"], "/root/Main.source_drill_dump_interval")
+        self.assertEqual(timer_gate["godot_symbol"], "source_drill_dump_interval_result.timerGate")
+
+        dump_call = source_symbols.source_symbol(registry, "drill_dump_interval.dump_call")
+        self.assertEqual(dump_call["java_expr"], "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);")
+        self.assertEqual(dump_call["godot_symbol"], "source_drill_dump_interval_result.dumpCall")
+
+        timer_field = source_symbols.source_symbol(registry, "drill_dump_interval.timer_dump_field")
+        self.assertEqual(timer_field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(timer_field["java_expr"], "protected final int timerDump = timers++;")
+        self.assertEqual(timer_field["godot_symbol"], "source_drill_dump_interval_result.timerDumpField")
+
+        dump_time_field = source_symbols.source_symbol(registry, "drill_dump_interval.dump_time_field")
+        self.assertEqual(dump_time_field["java_expr"], "public int dumpTime = 5;")
+        self.assertEqual(dump_time_field["godot_symbol"], "source_drill_dump_interval_result.dumpTimeField")
+
+        block_id = source_symbols.source_symbol(registry, "drill_dump_interval.block_id")
+        self.assertEqual(block_id["status"], "explicit-input")
+        self.assertEqual(block_id["java_expr"], "Block block")
+        self.assertEqual(block_id["godot_symbol"], "source_drill_dump_interval_input.block_id")
+
+        time_scale = source_symbols.source_symbol(registry, "drill_dump_interval.time_scale")
+        self.assertEqual(time_scale["status"], "explicit-input")
+        self.assertEqual(time_scale["java_expr"], "timeScale")
+        self.assertEqual(time_scale["godot_symbol"], "source_drill_dump_interval_input.time_scale")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8951,9 +8988,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 288)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 289)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 293)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 294)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9149,6 +9186,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_core_accept_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_core_handle_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -10168,6 +10206,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float drillTime = 300;", drill_delay["exact_exprs"])
         self.assertIn("public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();", drill_delay["exact_exprs"])
         self.assertIn("public int hardness = 0;", drill_delay["exact_exprs"])
+
+        drill_dump_interval = source_symbols.source_slice(ledger, "N691")
+        self.assertEqual(drill_dump_interval["java_source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(drill_dump_interval["java_method"], "DrillBuild.updateTile()")
+        self.assertEqual(drill_dump_interval["godot_owner"], "PortGame.source_drill_dump_interval")
+        self.assertIn("if(timer(timerDump, dumpTime / timeScale)){", drill_dump_interval["exact_exprs"])
+        self.assertIn("dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);", drill_dump_interval["exact_exprs"])
+        self.assertIn("protected final int timerDump = timers++;", drill_dump_interval["exact_exprs"])
+        self.assertIn("public int dumpTime = 5;", drill_dump_interval["exact_exprs"])
+        self.assertIn("timeScale", drill_dump_interval["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12895,6 +12943,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("itemHardness", drill_delay["return_keys"])
         self.assertIn("drillMultiplier", drill_delay["return_keys"])
         self.assertEqual(drill_delay["source_method"], "getDrillTime(Item item)")
+
+        drill_dump_interval = source_symbols.api_contract(contracts, "PortGame.source_drill_dump_interval")
+        self.assertEqual([param["name"] for param in drill_dump_interval["params"]], ["block_id", "time_scale"])
+        self.assertEqual(drill_dump_interval["params"][0]["schema"], "source_drill_dump_interval_input.block_id")
+        self.assertEqual(drill_dump_interval["params"][1]["schema"], "source_drill_dump_interval_input.time_scale")
+        self.assertIn("dumpInterval", drill_dump_interval["return_keys"])
+        self.assertIn("dumpTime", drill_dump_interval["return_keys"])
+        self.assertIn("timeScale", drill_dump_interval["return_keys"])
+        self.assertEqual(drill_dump_interval["source_method"], "DrillBuild.updateTile()")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -15721,6 +15778,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_drill_delay_result["keys"]["drillMultiplier"]["java_expr"], "drillMultipliers.get(item, 1f)")
         self.assertEqual(source_drill_delay_result["keys"]["block_id"]["alias_of"], "source_drill_delay_input.block_id")
         self.assertEqual(source_drill_delay_result["keys"]["item_id"]["alias_of"], "source_drill_delay_input.item_id")
+
+        source_drill_dump_interval_input = source_symbols.state_schema(schema, "source_drill_dump_interval_input")
+        self.assertEqual(source_drill_dump_interval_input["keys"]["block_id"]["java_expr"], "Block block")
+        self.assertEqual(source_drill_dump_interval_input["keys"]["block_id"]["status"], "explicit-input")
+        self.assertEqual(source_drill_dump_interval_input["keys"]["time_scale"]["java_expr"], "timeScale")
+        self.assertEqual(source_drill_dump_interval_input["keys"]["time_scale"]["status"], "explicit-input")
+
+        source_drill_dump_interval_result = source_symbols.state_schema(schema, "source_drill_dump_interval_result")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["timerGate"]["java_expr"], "if(timer(timerDump, dumpTime / timeScale)){")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["dumpCall"]["java_expr"], "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["timerDumpField"]["java_expr"], "protected final int timerDump = timers++;")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["dumpTimeField"]["java_expr"], "public int dumpTime = 5;")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["dumpInterval"]["java_expr"], "dumpTime / timeScale")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["dumpTime"]["java_expr"], "dumpTime")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["timeScale"]["java_expr"], "timeScale")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["block_id"]["alias_of"], "source_drill_dump_interval_input.block_id")
+        self.assertEqual(source_drill_dump_interval_result["keys"]["time_scale"]["alias_of"], "source_drill_dump_interval_input.time_scale")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

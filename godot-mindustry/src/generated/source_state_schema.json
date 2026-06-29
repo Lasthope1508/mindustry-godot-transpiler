@@ -36446,6 +36446,160 @@
       },
       "status": "active"
     },
+    "source_drill_dump_interval_input": {
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_dump_interval_input.block_id",
+          "java_expr": "Block block",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Godot block_id identifies source block dumpTime.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_drill_dump_interval_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Godot time_scale supplies source timeScale.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_drill_dump_interval_result": {
+      "keys": {
+        "block_id": {
+          "alias_of": "source_drill_dump_interval_input.block_id",
+          "rule": "Carries block id input into drill dump interval result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "dumpCall": {
+          "godot_symbol": "source_drill_dump_interval_result.dumpCall",
+          "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source dump call after timer gate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "dumpInterval": {
+          "godot_symbol": "source_drill_dump_interval_result.dumpInterval",
+          "java_expr": "dumpTime / timeScale",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source timer interval expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "dumpTime": {
+          "godot_symbol": "source_drill_dump_interval_result.dumpTime",
+          "java_expr": "dumpTime",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Runtime block dumpTime supplies source dumpTime.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "dumpTimeComment": {
+          "godot_symbol": "source_drill_dump_interval_result.dumpTimeComment",
+          "java_expr": "How often to try dumping items in ticks, e.g. 5 = 12 times/sec",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Block dumpTime comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "dumpTimeField": {
+          "godot_symbol": "source_drill_dump_interval_result.dumpTimeField",
+          "java_expr": "public int dumpTime = 5;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Block dumpTime field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "timeScale": {
+          "godot_symbol": "source_drill_dump_interval_result.timeScale",
+          "java_expr": "timeScale",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source timeScale divisor.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "time_scale": {
+          "alias_of": "source_drill_dump_interval_input.time_scale",
+          "rule": "Carries time scale input into drill dump interval result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "timerDumpComment": {
+          "godot_symbol": "source_drill_dump_interval_result.timerDumpComment",
+          "java_expr": "Dump timer ID.",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Block timerDump comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "timerDumpField": {
+          "godot_symbol": "source_drill_dump_interval_result.timerDumpField",
+          "java_expr": "protected final int timerDump = timers++;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Block timerDump field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "timerGate": {
+          "godot_symbol": "source_drill_dump_interval_result.timerGate",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Source timer gate expression.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

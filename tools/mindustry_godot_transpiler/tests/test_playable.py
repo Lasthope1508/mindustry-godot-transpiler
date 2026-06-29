@@ -5861,6 +5861,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_DRILL_DUMP_INTERVAL_TIMER_GATE := "if(timer(timerDump, dumpTime / timeScale)){"', source)
+        self.assertIn('const SOURCE_DRILL_DUMP_INTERVAL_DUMP_CALL := "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"', source)
+        self.assertIn('const SOURCE_DRILL_DUMP_INTERVAL_TIMER_DUMP_FIELD := "protected final int timerDump = timers++;"', source)
+        self.assertIn('const SOURCE_DRILL_DUMP_INTERVAL_DUMP_TIME_FIELD := "public int dumpTime = 5;"', source)
         self.assertIn("const SOURCE_BLOCK_DUMP_TIME := 5.0", source)
         self.assertIn("func source_block_dump_time(block_id: String) -> float:", source)
         self.assertIn('return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))', source)

@@ -9288,6 +9288,42 @@
         "test_drill_delay_symbols_are_registered_with_source_backing",
         "test_port_game_source_drill_delay_matches_get_drill_time"
       ]
+    },
+    "N691": {
+      "exact_exprs": [
+        "if(timer(timerDump, dumpTime / timeScale)){",
+        "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+        "Dump timer ID.",
+        "protected final int timerDump = timers++;",
+        "How often to try dumping items in ticks, e.g. 5 = 12 times/sec",
+        "public int dumpTime = 5;",
+        "dumpTime / timeScale",
+        "dumpTime",
+        "timeScale",
+        "Block block"
+      ],
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "java_class": "DrillBuild/Block",
+      "java_method": "DrillBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "runtime_proof": "/root/Main.source_drill_dump_interval",
+      "source_symbols": [
+        "drill_dump_interval.block_id",
+        "drill_dump_interval.dump_call",
+        "drill_dump_interval.dump_interval",
+        "drill_dump_interval.dump_time",
+        "drill_dump_interval.dump_time_comment",
+        "drill_dump_interval.dump_time_field",
+        "drill_dump_interval.time_scale",
+        "drill_dump_interval.timer_dump_comment",
+        "drill_dump_interval.timer_dump_field",
+        "drill_dump_interval.timer_gate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_dump_interval"
+      ]
     }
   },
   "version": 1

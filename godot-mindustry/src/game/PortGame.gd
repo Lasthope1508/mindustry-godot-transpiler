@@ -1027,6 +1027,13 @@ func source_block_dump_time(block_id: String) -> float:
 		return SOURCE_BLOCK_DUMP_TIME
 	return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))
 
+const SOURCE_DRILL_DUMP_INTERVAL_TIMER_GATE := "if(timer(timerDump, dumpTime / timeScale)){"
+const SOURCE_DRILL_DUMP_INTERVAL_DUMP_CALL := "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"
+const SOURCE_DRILL_DUMP_INTERVAL_TIMER_DUMP_COMMENT := "Dump timer ID."
+const SOURCE_DRILL_DUMP_INTERVAL_TIMER_DUMP_FIELD := "protected final int timerDump = timers++;"
+const SOURCE_DRILL_DUMP_INTERVAL_DUMP_TIME_COMMENT := "How often to try dumping items in ticks, e.g. 5 = 12 times/sec"
+const SOURCE_DRILL_DUMP_INTERVAL_DUMP_TIME_FIELD := "public int dumpTime = 5;"
+
 func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:
 	return source_block_dump_time(block_id) / time_scale
 
