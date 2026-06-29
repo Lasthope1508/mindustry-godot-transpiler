@@ -11321,6 +11321,46 @@
       "tests": [
         "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_drill_warmup_state": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "source_slice": "N703",
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "params": [
+        {
+          "name": "current_warmup",
+          "type": "float",
+          "schema": "source_drill_warmup_state_input.current_warmup"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_drill_warmup_state_input.speed"
+        },
+        {
+          "name": "warmup_speed",
+          "type": "float",
+          "schema": "source_drill_warmup_state_input.warmup_speed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_drill_warmup_state_input.source_delta"
+        }
+      ],
+      "return_keys": [
+        "warmup",
+        "current_warmup",
+        "speed",
+        "warmup_speed",
+        "source_delta"
+      ],
+      "rule": "Public runtime contract for DrillBuild active warmup approach state.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

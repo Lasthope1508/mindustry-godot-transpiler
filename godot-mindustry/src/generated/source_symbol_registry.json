@@ -30669,6 +30669,71 @@
       "tests": [
         "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "drill_warmup_state.active_warmup": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "godot_symbol": "source_drill_warmup_state_result.warmup",
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "rule": "Drill active branch approaches warmup toward source speed by warmupSpeed.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_warmup_state.current_warmup": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "warmup",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "godot_symbol": "source_drill_warmup_state_input.current_warmup",
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "rule": "Godot current_warmup supplies DrillBuild warmup before active approach.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_warmup_state.speed": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "speed",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "godot_symbol": "source_drill_warmup_state_input.speed",
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "rule": "Godot speed input supplies source active branch speed target.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_warmup_state.warmup_speed": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "java_expr": "warmupSpeed",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "godot_symbol": "source_drill_warmup_state_input.warmup_speed",
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "rule": "Godot warmup_speed input supplies source warmupSpeed field value.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "drill_warmup_state.source_delta": {
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_expr": "Time.delta",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "godot_symbol": "source_drill_warmup_state_input.source_delta",
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "rule": "Godot source_delta supplies Java Time.delta for Mathf.approachDelta.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

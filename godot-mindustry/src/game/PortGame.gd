@@ -1041,6 +1041,11 @@ const SOURCE_DRILL_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."
 const SOURCE_DRILL_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"
 const SOURCE_DRILL_WARMUP_SPEED_KEY := "warmupSpeed"
 const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := 0.015
+const SOURCE_DRILL_WARMUP_STATE_ACTIVE_WARMUP := "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);"
+const SOURCE_DRILL_WARMUP_STATE_CURRENT_WARMUP := "warmup"
+const SOURCE_DRILL_WARMUP_STATE_SPEED := "speed"
+const SOURCE_DRILL_WARMUP_STATE_WARMUP_SPEED := "warmupSpeed"
+const SOURCE_DRILL_WARMUP_STATE_SOURCE_DELTA := "Time.delta"
 
 func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:
 	return source_block_dump_time(block_id) / time_scale

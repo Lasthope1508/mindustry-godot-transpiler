@@ -39563,6 +39563,100 @@
           ]
         }
       }
+    },
+    "source_drill_warmup_state_input": {
+      "status": "active",
+      "keys": {
+        "current_warmup": {
+          "status": "explicit-input",
+          "type": "float",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "DrillBuild.updateTile()",
+          "java_expr": "warmup",
+          "godot_symbol": "source_drill_warmup_state_input.current_warmup",
+          "rule": "Input DrillBuild warmup before active branch approach.",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        },
+        "speed": {
+          "status": "explicit-input",
+          "type": "float",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "DrillBuild.updateTile()",
+          "java_expr": "speed",
+          "godot_symbol": "source_drill_warmup_state_input.speed",
+          "rule": "Input active branch target speed.",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        },
+        "warmup_speed": {
+          "status": "explicit-input",
+          "type": "float",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "DrillBuild.updateTile()",
+          "java_expr": "warmupSpeed",
+          "godot_symbol": "source_drill_warmup_state_input.warmup_speed",
+          "rule": "Input Drill warmupSpeed field value.",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        },
+        "source_delta": {
+          "status": "explicit-input",
+          "type": "float",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_drill_warmup_state_input.source_delta",
+          "rule": "Input Java Time.delta used by Mathf.approachDelta.",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        }
+      }
+    },
+    "source_drill_warmup_state_result": {
+      "status": "active",
+      "keys": {
+        "warmup": {
+          "status": "source-backed",
+          "type": "float",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_method": "DrillBuild.updateTile()",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
+          "godot_symbol": "source_drill_warmup_state_result.warmup",
+          "rule": "Source active branch warmup result.",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        },
+        "current_warmup": {
+          "status": "generated",
+          "type": "float",
+          "alias_of": "source_drill_warmup_state_input.current_warmup",
+          "rule": "Carries current_warmup input into active warmup result schema."
+        },
+        "speed": {
+          "status": "generated",
+          "type": "float",
+          "alias_of": "source_drill_warmup_state_input.speed",
+          "rule": "Carries speed input into active warmup result schema."
+        },
+        "warmup_speed": {
+          "status": "generated",
+          "type": "float",
+          "alias_of": "source_drill_warmup_state_input.warmup_speed",
+          "rule": "Carries warmup_speed input into active warmup result schema."
+        },
+        "source_delta": {
+          "status": "generated",
+          "type": "float",
+          "alias_of": "source_drill_warmup_state_input.source_delta",
+          "rule": "Carries source_delta input into active warmup result schema."
+        }
+      }
     }
   },
   "version": 1

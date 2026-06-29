@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 183,
+  "legacyUnregisteredOwnerCount": 182,
   "legacyUnregisteredOwners": [
-    "PortGame.source_drill_warmup_state",
     "PortGame.source_dump_accumulate_attempt_state",
     "PortGame.source_dump_drill_item_to_core",
     "PortGame.source_dump_payload_index",
@@ -197,7 +196,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 300,
+  "registeredSourceOwnerCount": 301,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_drill_output_rate",
     "PortGame.source_drill_progress_fraction",
     "PortGame.source_drill_time_drilled_delta",
-    "PortGame.source_drill_warmup_speed"
+    "PortGame.source_drill_warmup_speed",
+    "PortGame.source_drill_warmup_state"
   ],
   "sourceFunctions": [
     {
