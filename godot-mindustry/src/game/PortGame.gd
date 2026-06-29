@@ -4774,6 +4774,12 @@ func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, we
 		"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)",
 	}
 
+const SOURCE_STATUS_APPLY_RESULT_METHOD := "public void apply(StatusEffect effect, float duration){"
+const SOURCE_STATUS_APPLY_RESULT_GUARD := "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
+const SOURCE_STATUS_APPLY_RESULT_WEAPON_SHOOT_STATUS_FIELD := "public StatusEffect shootStatus = StatusEffects.none;"
+const SOURCE_STATUS_APPLY_RESULT_WEAPON_DURATION_FIELD := "public float shootStatusDuration = 60f * 5f;"
+const SOURCE_STATUS_APPLY_RESULT_WEAPON_CALL := "unit.apply(shootStatus, shootStatusDuration);"
+
 func source_status_apply_result(status_effect: String, duration: float, status_immune: bool) -> Dictionary:
 	var status_applied := status_effect != "none" and status_effect != "" and not status_immune
 	var status_application: Dictionary = {}

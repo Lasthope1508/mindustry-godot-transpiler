@@ -10765,6 +10765,41 @@
         "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
       ]
+    },
+    "N735": {
+      "bridge_exprs": [
+        "public StatusEffect shootStatus = StatusEffects.none;",
+        "public float shootStatusDuration = 60f * 5f;",
+        "unit.apply(shootStatus, shootStatusDuration);"
+      ],
+      "deferred_exprs": [
+        "effect.unlock();",
+        "statuses.add(entry);"
+      ],
+      "exact_exprs": [
+        "public void apply(StatusEffect effect, float duration){",
+        "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
+      ],
+      "godot_owner": "PortGame.source_status_apply_result",
+      "java_class": "mindustry.entities.comp.StatusComp",
+      "java_method": "apply(StatusEffect effect, float duration)",
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "source_symbols": [
+        "status_apply_result.method",
+        "status_apply_result.guard",
+        "status_apply_result.status_effect",
+        "status_apply_result.duration",
+        "status_apply_result.status_immune",
+        "status_apply_result.weapon_shoot_status_field",
+        "status_apply_result.weapon_duration_field",
+        "status_apply_result.weapon_unit_apply_call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
     }
   },
   "version": 1

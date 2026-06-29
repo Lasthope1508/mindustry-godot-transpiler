@@ -32859,6 +32859,118 @@
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
       ]
     },
+    "status_apply_result.duration": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_input.duration",
+      "java_expr": "float duration / shootStatusDuration",
+      "java_method": "apply(StatusEffect effect, float duration) / shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "rule": "Status duration is explicit input, with Weapon shootStatusDuration as bridge field.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "explicit-input",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
+    "status_apply_result.guard": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_result.statusApplied",
+      "java_expr": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+      "java_method": "apply(StatusEffect effect, float duration)",
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "rule": "Status application is skipped for none, null, or immune effects.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "source-backed",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
+    "status_apply_result.method": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_result.method",
+      "java_expr": "public void apply(StatusEffect effect, float duration){",
+      "java_method": "apply(StatusEffect effect, float duration)",
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "rule": "StatusComp apply method boundary for guarded status application.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "source-backed",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
+    "status_apply_result.status_effect": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_input.statusEffect",
+      "java_expr": "StatusEffect effect / shootStatus",
+      "java_method": "apply(StatusEffect effect, float duration) / shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "rule": "Status effect is explicit input, with Weapon shootStatus as bridge field.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "explicit-input",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
+    "status_apply_result.status_immune": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_input.statusImmune",
+      "java_expr": "isImmune(effect)",
+      "java_method": "apply(StatusEffect effect, float duration)",
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "rule": "Status immunity contributes to apply guard.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "explicit-input",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
+    "status_apply_result.weapon_duration_field": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_input.duration",
+      "java_expr": "public float shootStatusDuration = 60f * 5f;",
+      "java_method": "Weapon field",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon shootStatusDuration field supplies duration when shoot applies status.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "source-backed",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
+    "status_apply_result.weapon_shoot_status_field": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_input.statusEffect",
+      "java_expr": "public StatusEffect shootStatus = StatusEffects.none;",
+      "java_method": "Weapon field",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon shootStatus field supplies status effect when shoot applies status.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "source-backed",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
+    "status_apply_result.weapon_unit_apply_call": {
+      "godot_owner": "PortGame.source_status_apply_result",
+      "godot_symbol": "source_status_apply_result_result.statusApplication",
+      "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+      "java_method": "shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon shoot forwards shootStatus and shootStatusDuration into Unit.apply.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "status": "source-backed",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
+    },
     "test_collision.bullet.team": {
       "godot_owner": "PortGame.source_bullet_type_test_collision_state",
       "godot_symbol": "bullet_state.team",

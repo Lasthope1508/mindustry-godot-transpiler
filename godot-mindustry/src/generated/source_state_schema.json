@@ -42124,6 +42124,116 @@
       },
       "status": "active"
     },
+    "source_status_apply_result_input": {
+      "keys": {
+        "duration": {
+          "godot_symbol": "source_status_apply_result_input.duration",
+          "java_expr": "float duration / shootStatusDuration",
+          "java_method": "apply(StatusEffect effect, float duration) / shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Explicit status duration input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        },
+        "statusEffect": {
+          "godot_symbol": "source_status_apply_result_input.statusEffect",
+          "java_expr": "StatusEffect effect / shootStatus",
+          "java_method": "apply(StatusEffect effect, float duration) / shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Explicit status effect input.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        },
+        "statusImmune": {
+          "godot_symbol": "source_status_apply_result_input.statusImmune",
+          "java_expr": "isImmune(effect)",
+          "java_method": "apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Explicit immunity input for apply guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_status_apply_result_result": {
+      "keys": {
+        "duration": {
+          "alias_of": "source_status_apply_result_input.duration",
+          "status": "alias",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_status_apply_result_result.method",
+          "java_expr": "public void apply(StatusEffect effect, float duration){",
+          "java_method": "apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        },
+        "statusApplication": {
+          "godot_symbol": "source_status_apply_result_result.statusApplication",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Status application payload mirrors Weapon.shoot unit.apply bridge.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        },
+        "statusApplied": {
+          "godot_symbol": "source_status_apply_result_result.statusApplied",
+          "java_expr": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+          "java_method": "apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Boolean result of StatusComp.apply guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        },
+        "statusApplyGuardSource": {
+          "godot_symbol": "source_status_apply_result_result.statusApplyGuardSource",
+          "java_expr": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+          "java_method": "apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Source guard string returned for runtime traceability.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        },
+        "statusEffect": {
+          "alias_of": "source_status_apply_result_input.statusEffect",
+          "status": "alias",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_status_apply_result"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

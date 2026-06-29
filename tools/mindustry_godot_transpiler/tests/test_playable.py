@@ -4396,6 +4396,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_STATUS_APPLY_RESULT_METHOD := "public void apply(StatusEffect effect, float duration){"', source)
+        self.assertIn('const SOURCE_STATUS_APPLY_RESULT_GUARD := "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"', source)
+        self.assertIn('const SOURCE_STATUS_APPLY_RESULT_WEAPON_SHOOT_STATUS_FIELD := "public StatusEffect shootStatus = StatusEffects.none;"', source)
+        self.assertIn('const SOURCE_STATUS_APPLY_RESULT_WEAPON_DURATION_FIELD := "public float shootStatusDuration = 60f * 5f;"', source)
+        self.assertIn('const SOURCE_STATUS_APPLY_RESULT_WEAPON_CALL := "unit.apply(shootStatus, shootStatusDuration);"', source)
         self.assertIn("func source_status_apply_result(status_effect: String, duration: float, status_immune: bool) -> Dictionary:", source)
         self.assertIn('"statusApplyGuardSource": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return"', source)
         self.assertIn("func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:", source)

@@ -4281,6 +4281,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mover_null["java_expr"], "shoot(x, y, rotation, delay, null);")
         self.assertEqual(mover_null["godot_symbol"], "source_shoot_pattern_default_events_result.mover")
 
+    def test_status_apply_result_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "status_apply_result.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(method["java_method"], "apply(StatusEffect effect, float duration)")
+        self.assertEqual(method["java_expr"], "public void apply(StatusEffect effect, float duration){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_status_apply_result")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_status_apply_result")
+        self.assertEqual(method["godot_symbol"], "source_status_apply_result_result.method")
+
+        guard = source_symbols.source_symbol(registry, "status_apply_result.guard")
+        self.assertEqual(guard["java_expr"], "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;")
+        self.assertEqual(guard["godot_symbol"], "source_status_apply_result_result.statusApplied")
+
+        status_effect = source_symbols.source_symbol(registry, "status_apply_result.status_effect")
+        self.assertEqual(status_effect["status"], "explicit-input")
+        self.assertEqual(status_effect["java_expr"], "StatusEffect effect / shootStatus")
+        self.assertEqual(status_effect["godot_symbol"], "source_status_apply_result_input.statusEffect")
+
+        duration = source_symbols.source_symbol(registry, "status_apply_result.duration")
+        self.assertEqual(duration["status"], "explicit-input")
+        self.assertEqual(duration["java_expr"], "float duration / shootStatusDuration")
+        self.assertEqual(duration["godot_symbol"], "source_status_apply_result_input.duration")
+
+        immune = source_symbols.source_symbol(registry, "status_apply_result.status_immune")
+        self.assertEqual(immune["status"], "explicit-input")
+        self.assertEqual(immune["java_expr"], "isImmune(effect)")
+        self.assertEqual(immune["godot_symbol"], "source_status_apply_result_input.statusImmune")
+
+        weapon_call = source_symbols.source_symbol(registry, "status_apply_result.weapon_unit_apply_call")
+        self.assertEqual(weapon_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_call["java_expr"], "unit.apply(shootStatus, shootStatusDuration);")
+        self.assertEqual(weapon_call["godot_symbol"], "source_status_apply_result_result.statusApplication")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10794,9 +10832,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 332)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 333)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 337)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 338)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11010,6 +11048,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_move_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_payload_forward_offset", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_shoot_pattern_default_events", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_status_apply_result", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11117,7 +11156,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_payload_forward_offset", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_shoot_pattern_default_events", audit["legacyUnregisteredOwners"])
-        self.assertIn("PortGame.source_status_apply_result", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_status_apply_result", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_turret_ammo_data", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12266,6 +12306,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("for(int i = 0; i < shots; i++){", shoot_pattern_default_events["exact_exprs"])
         self.assertIn("handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);", shoot_pattern_default_events["exact_exprs"])
         self.assertIn("shoot(x, y, rotation, delay, null);", shoot_pattern_default_events["exact_exprs"])
+
+        status_apply_result = source_symbols.source_slice(ledger, "N735")
+        self.assertEqual(status_apply_result["java_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(status_apply_result["java_method"], "apply(StatusEffect effect, float duration)")
+        self.assertEqual(status_apply_result["godot_owner"], "PortGame.source_status_apply_result")
+        self.assertIn("public void apply(StatusEffect effect, float duration){", status_apply_result["exact_exprs"])
+        self.assertIn("if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;", status_apply_result["exact_exprs"])
+        self.assertIn("unit.apply(shootStatus, shootStatusDuration);", status_apply_result["bridge_exprs"])
+        self.assertIn("effect.unlock();", status_apply_result["deferred_exprs"])
+        self.assertIn("statuses.add(entry);", status_apply_result["deferred_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15369,6 +15419,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("trns", payload_forward_offset["return_keys"])
         self.assertIn("nextTile", payload_forward_offset["return_keys"])
         self.assertEqual(payload_forward_offset["source_method"], "movePayload(Payload todump)")
+
+        status_apply_result = source_symbols.api_contract(contracts, "PortGame.source_status_apply_result")
+        self.assertEqual([param["name"] for param in status_apply_result["params"]], ["status_effect", "duration", "status_immune"])
+        self.assertEqual(status_apply_result["params"][0]["schema"], "source_status_apply_result_input.statusEffect")
+        self.assertEqual(status_apply_result["params"][1]["schema"], "source_status_apply_result_input.duration")
+        self.assertEqual(status_apply_result["params"][2]["schema"], "source_status_apply_result_input.statusImmune")
+        self.assertIn("statusApplied", status_apply_result["return_keys"])
+        self.assertIn("statusApplication", status_apply_result["return_keys"])
+        self.assertIn("statusApplyGuardSource", status_apply_result["return_keys"])
+        self.assertEqual(status_apply_result["source_method"], "apply(StatusEffect effect, float duration)")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -18883,6 +18943,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_payload_forward_offset_result["keys"]["trns"]["java_expr"], "int trns = block.size/2 + 1;")
         self.assertEqual(source_payload_forward_offset_result["keys"]["trns"]["godot_symbol"], "source_payload_forward_offset_result.trns")
         self.assertEqual(source_payload_forward_offset_result["keys"]["nextTile"]["java_expr"], "Tile next = tile.nearby(Geometry.d4(rotation).x * trns, Geometry.d4(rotation).y * trns);")
+
+        source_status_apply_result_input = source_symbols.state_schema(schema, "source_status_apply_result_input")
+        self.assertEqual(source_status_apply_result_input["keys"]["statusEffect"]["java_expr"], "StatusEffect effect / shootStatus")
+        self.assertEqual(source_status_apply_result_input["keys"]["duration"]["java_expr"], "float duration / shootStatusDuration")
+        self.assertEqual(source_status_apply_result_input["keys"]["statusImmune"]["java_expr"], "isImmune(effect)")
+
+        source_status_apply_result_result = source_symbols.state_schema(schema, "source_status_apply_result_result")
+        self.assertEqual(source_status_apply_result_result["keys"]["method"]["java_expr"], "public void apply(StatusEffect effect, float duration){")
+        self.assertEqual(source_status_apply_result_result["keys"]["statusApplied"]["java_expr"], "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;")
+        self.assertEqual(source_status_apply_result_result["keys"]["statusApplication"]["java_expr"], "unit.apply(shootStatus, shootStatusDuration);")
+        self.assertEqual(source_status_apply_result_result["keys"]["statusApplyGuardSource"]["java_expr"], "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;")
+        self.assertEqual(source_status_apply_result_result["keys"]["statusEffect"]["alias_of"], "source_status_apply_result_input.statusEffect")
+        self.assertEqual(source_status_apply_result_result["keys"]["duration"]["alias_of"], "source_status_apply_result_input.duration")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

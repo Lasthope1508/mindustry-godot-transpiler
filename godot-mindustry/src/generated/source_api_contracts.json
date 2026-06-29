@@ -12444,6 +12444,40 @@
         "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
       ]
+    },
+    "PortGame.source_status_apply_result": {
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "params": [
+        {
+          "name": "status_effect",
+          "schema": "source_status_apply_result_input.statusEffect",
+          "type": "String"
+        },
+        {
+          "name": "duration",
+          "schema": "source_status_apply_result_input.duration",
+          "type": "float"
+        },
+        {
+          "name": "status_immune",
+          "schema": "source_status_apply_result_input.statusImmune",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "statusApplied",
+        "statusApplication",
+        "statusApplyGuardSource"
+      ],
+      "rule": "Public runtime contract for StatusComp.apply guard: status applies only when effect is not none/null and unit is not immune; Weapon.shoot bridges shootStatus and shootStatusDuration through unit.apply.",
+      "runtime_proof": "/root/Main.source_status_apply_result",
+      "source_method": "apply(StatusEffect effect, float duration)",
+      "source_slice": "N735",
+      "status": "active",
+      "tests": [
+        "test_status_apply_result_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state"
+      ]
     }
   },
   "policy": {
