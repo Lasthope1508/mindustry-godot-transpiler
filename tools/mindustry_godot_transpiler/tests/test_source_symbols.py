@@ -3275,6 +3275,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value_input["java_expr"], "value")
         self.assertEqual(value_input["godot_symbol"], "source_building_set_prop_team_double_input.value")
 
+    def test_building_set_prop_team_object_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_set_prop_team_object.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "setProp(LAccess prop, Object value)")
+        self.assertEqual(method["java_expr"], "public void setProp(LAccess prop, Object value){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_set_prop_team_object_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_set_prop_team_object_state")
+        self.assertEqual(method["godot_symbol"], "source_building_set_prop_team_object_result.method")
+
+        switch_prop = source_symbols.source_symbol(registry, "building_set_prop_team_object.switch_prop")
+        self.assertEqual(switch_prop["java_expr"], "switch(prop){")
+        self.assertEqual(switch_prop["godot_symbol"], "source_building_set_prop_team_object_result.switch_prop")
+
+        team_case = source_symbols.source_symbol(registry, "building_set_prop_team_object.team_case")
+        self.assertEqual(team_case["java_expr"], "case team -> {")
+        self.assertEqual(team_case["godot_symbol"], "source_building_set_prop_team_object_result.team_case")
+
+        team_gate = source_symbols.source_symbol(registry, "building_set_prop_team_object.team_gate")
+        self.assertEqual(team_gate["java_expr"], "if(value instanceof Team team && this.team != team){")
+        self.assertEqual(team_gate["godot_symbol"], "source_building_set_prop_team_object_result.team_gate")
+
+        change_team_call = source_symbols.source_symbol(registry, "building_set_prop_team_object.change_team_call")
+        self.assertEqual(change_team_call["java_expr"], "changeTeam(team);")
+        self.assertEqual(change_team_call["godot_symbol"], "source_building_set_prop_team_object_result.change_team_call")
+
+        current_team = source_symbols.source_symbol(registry, "building_set_prop_team_object.current_team_value")
+        self.assertEqual(current_team["status"], "explicit-input")
+        self.assertEqual(current_team["java_expr"], "this.team")
+        self.assertEqual(current_team["godot_symbol"], "source_building_set_prop_team_object_input.current_team_value")
+
+        value_is_team = source_symbols.source_symbol(registry, "building_set_prop_team_object.value_is_team")
+        self.assertEqual(value_is_team["status"], "explicit-input")
+        self.assertEqual(value_is_team["java_expr"], "value instanceof Team team")
+        self.assertEqual(value_is_team["godot_symbol"], "source_building_set_prop_team_object_input.value_is_team")
+
+        team_value = source_symbols.source_symbol(registry, "building_set_prop_team_object.team_value")
+        self.assertEqual(team_value["status"], "explicit-input")
+        self.assertEqual(team_value["java_expr"], "team")
+        self.assertEqual(team_value["godot_symbol"], "source_building_set_prop_team_object_input.team_value")
+
     def test_building_set_prop_item_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7140,9 +7185,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 241)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 242)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 246)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 247)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7316,6 +7361,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_set_prop_item_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_liquid_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_team_double_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_set_prop_team_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8416,6 +8462,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Team team = Team.get((int)value);", building_set_prop_team_double["exact_exprs"])
         self.assertIn("if(this.team != team){", building_set_prop_team_double["exact_exprs"])
         self.assertIn("changeTeam(team);", building_set_prop_team_double["exact_exprs"])
+
+        building_set_prop_team_object = source_symbols.source_slice(ledger, "N644")
+        self.assertEqual(building_set_prop_team_object["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_set_prop_team_object["java_method"], "setProp(LAccess prop, Object value)")
+        self.assertEqual(building_set_prop_team_object["godot_owner"], "PortGame.source_building_set_prop_team_object_state")
+        self.assertIn("public void setProp(LAccess prop, Object value){", building_set_prop_team_object["exact_exprs"])
+        self.assertIn("switch(prop){", building_set_prop_team_object["exact_exprs"])
+        self.assertIn("case team -> {", building_set_prop_team_object["exact_exprs"])
+        self.assertIn("if(value instanceof Team team && this.team != team){", building_set_prop_team_object["exact_exprs"])
+        self.assertIn("changeTeam(team);", building_set_prop_team_object["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10702,6 +10758,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("change_team_called", building_set_prop_team_double["return_keys"])
         self.assertIn("change_team", building_set_prop_team_double["return_keys"])
         self.assertEqual(building_set_prop_team_double["source_method"], "setProp(LAccess prop, double value)")
+
+        building_set_prop_team_object = source_symbols.api_contract(contracts, "PortGame.source_building_set_prop_team_object_state")
+        self.assertEqual([param["name"] for param in building_set_prop_team_object["params"]], ["prop", "current_team_value", "value_is_team", "team_value"])
+        self.assertEqual(building_set_prop_team_object["params"][0]["schema"], "source_building_set_prop_team_object_input.prop")
+        self.assertEqual(building_set_prop_team_object["params"][1]["schema"], "source_building_set_prop_team_object_input.current_team_value")
+        self.assertEqual(building_set_prop_team_object["params"][2]["schema"], "source_building_set_prop_team_object_input.value_is_team")
+        self.assertIn("method", building_set_prop_team_object["return_keys"])
+        self.assertIn("switch_prop", building_set_prop_team_object["return_keys"])
+        self.assertIn("team_case", building_set_prop_team_object["return_keys"])
+        self.assertIn("team_gate", building_set_prop_team_object["return_keys"])
+        self.assertIn("change_team_call", building_set_prop_team_object["return_keys"])
+        self.assertIn("team", building_set_prop_team_object["return_keys"])
+        self.assertIn("change_team_called", building_set_prop_team_object["return_keys"])
+        self.assertIn("change_team", building_set_prop_team_object["return_keys"])
+        self.assertEqual(building_set_prop_team_object["source_method"], "setProp(LAccess prop, Object value)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -13149,6 +13220,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_set_prop_team_double_result["keys"]["change_gate"]["java_expr"], "if(this.team != team){")
         self.assertEqual(source_building_set_prop_team_double_result["keys"]["change_team_call"]["java_expr"], "changeTeam(team);")
         self.assertEqual(source_building_set_prop_team_double_result["keys"]["team_id"]["java_expr"], "Team team = Team.get((int)value);")
+
+        source_building_set_prop_team_object_input = source_symbols.state_schema(schema, "source_building_set_prop_team_object_input")
+        self.assertEqual(source_building_set_prop_team_object_input["keys"]["prop"]["java_expr"], "prop")
+        self.assertEqual(source_building_set_prop_team_object_input["keys"]["current_team_value"]["java_expr"], "this.team")
+        self.assertEqual(source_building_set_prop_team_object_input["keys"]["value_is_team"]["java_expr"], "value instanceof Team team")
+        self.assertEqual(source_building_set_prop_team_object_input["keys"]["team_value"]["java_expr"], "team")
+
+        source_building_set_prop_team_object_result = source_symbols.state_schema(schema, "source_building_set_prop_team_object_result")
+        self.assertEqual(source_building_set_prop_team_object_result["keys"]["method"]["java_expr"], "public void setProp(LAccess prop, Object value){")
+        self.assertEqual(source_building_set_prop_team_object_result["keys"]["switch_prop"]["java_expr"], "switch(prop){")
+        self.assertEqual(source_building_set_prop_team_object_result["keys"]["team_case"]["java_expr"], "case team -> {")
+        self.assertEqual(source_building_set_prop_team_object_result["keys"]["team_gate"]["java_expr"], "if(value instanceof Team team && this.team != team){")
+        self.assertEqual(source_building_set_prop_team_object_result["keys"]["change_team_call"]["java_expr"], "changeTeam(team);")
+        self.assertEqual(source_building_set_prop_team_object_result["keys"]["team"]["java_expr"], "team")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

@@ -31583,6 +31583,160 @@
           "rule": "Team payload passed to changeTeam when called."
         }
       }
+    },
+    "source_building_set_prop_team_object_input": {
+      "status": "active",
+      "keys": {
+        "prop": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "prop",
+          "godot_symbol": "source_building_set_prop_team_object_input.prop",
+          "rule": "Runtime prop selects setProp switch case."
+        },
+        "current_team_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "this.team",
+          "godot_symbol": "source_building_set_prop_team_object_input.current_team_value",
+          "rule": "Runtime current_team_value supplies current Team identity."
+        },
+        "value_is_team": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "value instanceof Team team",
+          "godot_symbol": "source_building_set_prop_team_object_input.value_is_team",
+          "rule": "Runtime value_is_team supplies Java instanceof Team gate."
+        },
+        "team_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "team",
+          "godot_symbol": "source_building_set_prop_team_object_input.team_value",
+          "rule": "Runtime team_value supplies Team payload bound by instanceof gate."
+        }
+      }
+    },
+    "source_building_set_prop_team_object_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "public void setProp(LAccess prop, Object value){",
+          "godot_symbol": "source_building_set_prop_team_object_result.method",
+          "rule": "BuildingComp setProp(LAccess,Object) method boundary."
+        },
+        "switch_prop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "switch(prop){",
+          "godot_symbol": "source_building_set_prop_team_object_result.switch_prop",
+          "rule": "setProp object overload switches on prop."
+        },
+        "team_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "case team -> {",
+          "godot_symbol": "source_building_set_prop_team_object_result.team_case",
+          "rule": "setProp object overload team case boundary."
+        },
+        "team_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "if(value instanceof Team team && this.team != team){",
+          "godot_symbol": "source_building_set_prop_team_object_result.team_gate",
+          "rule": "setProp object overload changes only for Team value different from current team."
+        },
+        "change_team_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "changeTeam(team);",
+          "godot_symbol": "source_building_set_prop_team_object_result.change_team_call",
+          "rule": "setProp object overload dispatches changeTeam."
+        },
+        "team": {
+          "type": "Variant",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "team",
+          "godot_symbol": "source_building_set_prop_team_object_result.team",
+          "rule": "Next team when changed, current team otherwise."
+        },
+        "change_team_called": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "changeTeam(team);",
+          "godot_symbol": "source_building_set_prop_team_object_result.change_team_called",
+          "rule": "True when changeTeam branch is called."
+        },
+        "change_team": {
+          "type": "Variant",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, Object value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_object_state"
+          ],
+          "java_expr": "team",
+          "godot_symbol": "source_building_set_prop_team_object_result.change_team",
+          "rule": "Team payload passed to changeTeam when called."
+        }
+      }
     }
   },
   "version": 1

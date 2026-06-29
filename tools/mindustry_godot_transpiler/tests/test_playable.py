@@ -2559,9 +2559,17 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void setProp(LAccess prop, Object value){",', source)
+        self.assertIn('"switch_prop": "switch(prop){",', source)
+        self.assertIn('"team_case": "case team -> {",', source)
+        self.assertIn('"team_gate": "if(value instanceof Team team && this.team != team){",', source)
+        self.assertIn('"change_team_call": "changeTeam(team);",', source)
         self.assertIn('if prop == "team" and value_is_team and current_team_value != team_value:', source)
-        self.assertIn('return {"team": team_value, "change_team_called": true, "change_team": team_value}', source)
-        self.assertIn('return {"team": current_team_value, "change_team_called": false, "change_team": null}', source)
+        self.assertIn('"team": team_value', source)
+        self.assertIn('"change_team_called": true', source)
+        self.assertIn('"change_team": team_value', source)
+        self.assertIn("changed_result.merge(source_exprs)", source)
+        self.assertIn("same_result.merge(source_exprs)", source)
 
     def test_port_game_exposes_source_building_set_prop_item_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

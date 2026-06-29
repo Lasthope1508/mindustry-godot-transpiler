@@ -2722,9 +2722,20 @@ func source_building_set_prop_total_power_state(prop: String, current_power_stat
 	return {"power_status": current_power_status, "updated": false}
 
 func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public void setProp(LAccess prop, Object value){",
+		"switch_prop": "switch(prop){",
+		"team_case": "case team -> {",
+		"team_gate": "if(value instanceof Team team && this.team != team){",
+		"change_team_call": "changeTeam(team);",
+	}
 	if prop == "team" and value_is_team and current_team_value != team_value:
-		return {"team": team_value, "change_team_called": true, "change_team": team_value}
-	return {"team": current_team_value, "change_team_called": false, "change_team": null}
+		var changed_result: Dictionary = {"team": team_value, "change_team_called": true, "change_team": team_value}
+		changed_result.merge(source_exprs)
+		return changed_result
+	var same_result: Dictionary = {"team": current_team_value, "change_team_called": false, "change_team": null}
+	same_result.merge(source_exprs)
+	return same_result
 
 func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
 	var source_exprs: Dictionary = {

@@ -9506,6 +9506,49 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, double value) team helper."
+    },
+    "PortGame.source_building_set_prop_team_object_state": {
+      "status": "active",
+      "source_slice": "N644",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "setProp(LAccess prop, Object value)",
+      "params": [
+        {
+          "name": "prop",
+          "type": "String",
+          "schema": "source_building_set_prop_team_object_input.prop"
+        },
+        {
+          "name": "current_team_value",
+          "type": "Variant",
+          "schema": "source_building_set_prop_team_object_input.current_team_value"
+        },
+        {
+          "name": "value_is_team",
+          "type": "bool",
+          "schema": "source_building_set_prop_team_object_input.value_is_team"
+        },
+        {
+          "name": "team_value",
+          "type": "Variant",
+          "schema": "source_building_set_prop_team_object_input.team_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "switch_prop",
+        "team_case",
+        "team_gate",
+        "change_team_call",
+        "team",
+        "change_team_called",
+        "change_team"
+      ],
+      "tests": [
+        "test_building_set_prop_team_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_object_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, Object value) team helper."
     }
   },
   "policy": {

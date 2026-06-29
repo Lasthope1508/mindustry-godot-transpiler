@@ -7776,6 +7776,40 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
       "rule": "Backfills SSOT for existing canonical source_building_set_prop_team_double_state helper against BuildingComp.setProp(LAccess prop, double value) team case."
+    },
+    "N644": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(LAccess prop, Object value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_object_state",
+      "exact_exprs": [
+        "public void setProp(LAccess prop, Object value){",
+        "switch(prop){",
+        "case team -> {",
+        "if(value instanceof Team team && this.team != team){",
+        "changeTeam(team);",
+        "prop",
+        "this.team",
+        "value instanceof Team team",
+        "team"
+      ],
+      "source_symbols": [
+        "building_set_prop_team_object.method",
+        "building_set_prop_team_object.switch_prop",
+        "building_set_prop_team_object.team_case",
+        "building_set_prop_team_object.team_gate",
+        "building_set_prop_team_object.change_team_call",
+        "building_set_prop_team_object.prop",
+        "building_set_prop_team_object.current_team_value",
+        "building_set_prop_team_object.value_is_team",
+        "building_set_prop_team_object.team_value"
+      ],
+      "tests": [
+        "test_building_set_prop_team_object_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_object_state",
+      "rule": "Backfills SSOT for existing canonical source_building_set_prop_team_object_state helper against BuildingComp.setProp(LAccess prop, Object value) team case."
     }
   },
   "version": 1
