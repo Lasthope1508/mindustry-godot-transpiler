@@ -3235,6 +3235,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(max_health["java_expr"], "maxHealth")
         self.assertEqual(max_health["godot_symbol"], "source_building_set_prop_health_input.max_health_value")
 
+    def test_building_set_prop_team_double_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_set_prop_team_double.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "setProp(LAccess prop, double value)")
+        self.assertEqual(method["java_expr"], "public void setProp(LAccess prop, double value){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_set_prop_team_double_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_set_prop_team_double_state")
+        self.assertEqual(method["godot_symbol"], "source_building_set_prop_team_double_result.method")
+
+        team_case = source_symbols.source_symbol(registry, "building_set_prop_team_double.team_case")
+        self.assertEqual(team_case["java_expr"], "case team -> {")
+        self.assertEqual(team_case["godot_symbol"], "source_building_set_prop_team_double_result.team_case")
+
+        team_lookup = source_symbols.source_symbol(registry, "building_set_prop_team_double.team_lookup")
+        self.assertEqual(team_lookup["java_expr"], "Team team = Team.get((int)value);")
+        self.assertEqual(team_lookup["godot_symbol"], "source_building_set_prop_team_double_result.team_lookup")
+
+        change_gate = source_symbols.source_symbol(registry, "building_set_prop_team_double.change_gate")
+        self.assertEqual(change_gate["java_expr"], "if(this.team != team){")
+        self.assertEqual(change_gate["godot_symbol"], "source_building_set_prop_team_double_result.change_gate")
+
+        change_team_call = source_symbols.source_symbol(registry, "building_set_prop_team_double.change_team_call")
+        self.assertEqual(change_team_call["java_expr"], "changeTeam(team);")
+        self.assertEqual(change_team_call["godot_symbol"], "source_building_set_prop_team_double_result.change_team_call")
+
+        current_team = source_symbols.source_symbol(registry, "building_set_prop_team_double.current_team_id")
+        self.assertEqual(current_team["status"], "explicit-input")
+        self.assertEqual(current_team["java_expr"], "this.team")
+        self.assertEqual(current_team["godot_symbol"], "source_building_set_prop_team_double_input.current_team_id")
+
+        value_input = source_symbols.source_symbol(registry, "building_set_prop_team_double.value")
+        self.assertEqual(value_input["status"], "explicit-input")
+        self.assertEqual(value_input["java_expr"], "value")
+        self.assertEqual(value_input["godot_symbol"], "source_building_set_prop_team_double_input.value")
+
     def test_building_set_prop_item_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7100,9 +7140,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 240)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 241)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 245)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 246)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7275,6 +7315,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_set_prop_health_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_item_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_liquid_content_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_set_prop_team_double_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8365,6 +8406,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("//decreasing amount is always allowed", building_set_prop_liquid_content["exact_exprs"])
         self.assertIn("if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){", building_set_prop_liquid_content["exact_exprs"])
         self.assertIn("liquids.set(liquid, amount);", building_set_prop_liquid_content["exact_exprs"])
+
+        building_set_prop_team_double = source_symbols.source_slice(ledger, "N643")
+        self.assertEqual(building_set_prop_team_double["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_set_prop_team_double["java_method"], "setProp(LAccess prop, double value)")
+        self.assertEqual(building_set_prop_team_double["godot_owner"], "PortGame.source_building_set_prop_team_double_state")
+        self.assertIn("public void setProp(LAccess prop, double value){", building_set_prop_team_double["exact_exprs"])
+        self.assertIn("case team -> {", building_set_prop_team_double["exact_exprs"])
+        self.assertIn("Team team = Team.get((int)value);", building_set_prop_team_double["exact_exprs"])
+        self.assertIn("if(this.team != team){", building_set_prop_team_double["exact_exprs"])
+        self.assertIn("changeTeam(team);", building_set_prop_team_double["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10637,6 +10688,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("liquid", building_set_prop_liquid_content["return_keys"])
         self.assertIn("amount", building_set_prop_liquid_content["return_keys"])
         self.assertEqual(building_set_prop_liquid_content["source_method"], "setProp(UnlockableContent content, double value)")
+
+        building_set_prop_team_double = source_symbols.api_contract(contracts, "PortGame.source_building_set_prop_team_double_state")
+        self.assertEqual([param["name"] for param in building_set_prop_team_double["params"]], ["prop", "current_team_id", "value"])
+        self.assertEqual(building_set_prop_team_double["params"][0]["schema"], "source_building_set_prop_team_double_input.prop")
+        self.assertEqual(building_set_prop_team_double["params"][1]["schema"], "source_building_set_prop_team_double_input.current_team_id")
+        self.assertIn("method", building_set_prop_team_double["return_keys"])
+        self.assertIn("team_case", building_set_prop_team_double["return_keys"])
+        self.assertIn("team_lookup", building_set_prop_team_double["return_keys"])
+        self.assertIn("change_gate", building_set_prop_team_double["return_keys"])
+        self.assertIn("change_team_call", building_set_prop_team_double["return_keys"])
+        self.assertIn("team_id", building_set_prop_team_double["return_keys"])
+        self.assertIn("change_team_called", building_set_prop_team_double["return_keys"])
+        self.assertIn("change_team", building_set_prop_team_double["return_keys"])
+        self.assertEqual(building_set_prop_team_double["source_method"], "setProp(LAccess prop, double value)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -13071,6 +13136,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["set_gate"]["java_expr"], "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){")
         self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["liquids_set_call"]["java_expr"], "liquids.set(liquid, amount);")
         self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["amount"]["java_expr"], "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);")
+
+        source_building_set_prop_team_double_input = source_symbols.state_schema(schema, "source_building_set_prop_team_double_input")
+        self.assertEqual(source_building_set_prop_team_double_input["keys"]["prop"]["java_expr"], "prop")
+        self.assertEqual(source_building_set_prop_team_double_input["keys"]["current_team_id"]["java_expr"], "this.team")
+        self.assertEqual(source_building_set_prop_team_double_input["keys"]["value"]["java_expr"], "value")
+
+        source_building_set_prop_team_double_result = source_symbols.state_schema(schema, "source_building_set_prop_team_double_result")
+        self.assertEqual(source_building_set_prop_team_double_result["keys"]["method"]["java_expr"], "public void setProp(LAccess prop, double value){")
+        self.assertEqual(source_building_set_prop_team_double_result["keys"]["team_case"]["java_expr"], "case team -> {")
+        self.assertEqual(source_building_set_prop_team_double_result["keys"]["team_lookup"]["java_expr"], "Team team = Team.get((int)value);")
+        self.assertEqual(source_building_set_prop_team_double_result["keys"]["change_gate"]["java_expr"], "if(this.team != team){")
+        self.assertEqual(source_building_set_prop_team_double_result["keys"]["change_team_call"]["java_expr"], "changeTeam(team);")
+        self.assertEqual(source_building_set_prop_team_double_result["keys"]["team_id"]["java_expr"], "Team team = Team.get((int)value);")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

@@ -7744,6 +7744,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_liquid_content_state",
       "rule": "Backfills SSOT for existing canonical source_building_set_prop_liquid_content_state helper against BuildingComp.setProp(UnlockableContent content, double value) liquid branch."
+    },
+    "N643": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "exact_exprs": [
+        "public void setProp(LAccess prop, double value){",
+        "case team -> {",
+        "Team team = Team.get((int)value);",
+        "if(this.team != team){",
+        "changeTeam(team);",
+        "prop",
+        "this.team",
+        "value"
+      ],
+      "source_symbols": [
+        "building_set_prop_team_double.method",
+        "building_set_prop_team_double.team_case",
+        "building_set_prop_team_double.team_lookup",
+        "building_set_prop_team_double.change_gate",
+        "building_set_prop_team_double.change_team_call",
+        "building_set_prop_team_double.prop",
+        "building_set_prop_team_double.current_team_id",
+        "building_set_prop_team_double.value"
+      ],
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "rule": "Backfills SSOT for existing canonical source_building_set_prop_team_double_state helper against BuildingComp.setProp(LAccess prop, double value) team case."
     }
   },
   "version": 1

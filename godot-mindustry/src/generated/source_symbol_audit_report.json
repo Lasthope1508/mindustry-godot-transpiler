@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 243,
+  "legacyUnregisteredOwnerCount": 242,
   "legacyUnregisteredOwners": [
-    "PortGame.source_building_set_prop_team_double_state",
     "PortGame.source_building_set_prop_team_object_state",
     "PortGame.source_building_set_prop_total_power_state",
     "PortGame.source_building_should_ambient_sound",
@@ -257,7 +256,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 240,
+  "registeredSourceOwnerCount": 241,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -417,6 +416,7 @@
     "PortGame.source_building_set_prop_health_state",
     "PortGame.source_building_set_prop_item_content_state",
     "PortGame.source_building_set_prop_liquid_content_state",
+    "PortGame.source_building_set_prop_team_double_state",
     "PortGame.source_bullet_type_building_damage_state",
     "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
     "PortGame.source_bullet_type_calculate_range_fallback_state",

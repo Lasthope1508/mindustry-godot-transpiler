@@ -31441,6 +31441,148 @@
           "rule": "Clamped target amount when set, current amount when unchanged."
         }
       }
+    },
+    "source_building_set_prop_team_double_input": {
+      "status": "active",
+      "keys": {
+        "prop": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "prop",
+          "godot_symbol": "source_building_set_prop_team_double_input.prop",
+          "rule": "Runtime prop selects setProp switch case."
+        },
+        "current_team_id": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "this.team",
+          "godot_symbol": "source_building_set_prop_team_double_input.current_team_id",
+          "rule": "Runtime current_team_id supplies normalized current Team identity."
+        },
+        "value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "value",
+          "godot_symbol": "source_building_set_prop_team_double_input.value",
+          "rule": "Runtime value supplies setProp double value."
+        }
+      }
+    },
+    "source_building_set_prop_team_double_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "public void setProp(LAccess prop, double value){",
+          "godot_symbol": "source_building_set_prop_team_double_result.method",
+          "rule": "BuildingComp setProp(LAccess,double) method boundary."
+        },
+        "team_case": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "case team -> {",
+          "godot_symbol": "source_building_set_prop_team_double_result.team_case",
+          "rule": "setProp team case boundary."
+        },
+        "team_lookup": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "Team team = Team.get((int)value);",
+          "godot_symbol": "source_building_set_prop_team_double_result.team_lookup",
+          "rule": "setProp team double casts value to int and looks up Team."
+        },
+        "change_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "if(this.team != team){",
+          "godot_symbol": "source_building_set_prop_team_double_result.change_gate",
+          "rule": "setProp team double changes only when current team differs."
+        },
+        "change_team_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "changeTeam(team);",
+          "godot_symbol": "source_building_set_prop_team_double_result.change_team_call",
+          "rule": "setProp team double dispatches changeTeam."
+        },
+        "team_id": {
+          "type": "int",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "Team team = Team.get((int)value);",
+          "godot_symbol": "source_building_set_prop_team_double_result.team_id",
+          "rule": "Resolved next team id when changed, current team id otherwise."
+        },
+        "change_team_called": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "changeTeam(team);",
+          "godot_symbol": "source_building_set_prop_team_double_result.change_team_called",
+          "rule": "True when changeTeam branch is called."
+        },
+        "change_team": {
+          "type": "Variant",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(LAccess prop, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_team_double_state"
+          ],
+          "java_expr": "team",
+          "godot_symbol": "source_building_set_prop_team_double_result.change_team",
+          "rule": "Team payload passed to changeTeam when called."
+        }
+      }
     }
   },
   "version": 1

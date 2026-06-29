@@ -24083,6 +24083,110 @@
       "java_expr": "block.consumesLiquid(liquid)",
       "godot_symbol": "source_building_set_prop_liquid_content_input.block_consumes_liquid",
       "rule": "Runtime block_consumes_liquid supplies consumesLiquid compatibility gate."
+    },
+    "building_set_prop_team_double.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "public void setProp(LAccess prop, double value){",
+      "godot_symbol": "source_building_set_prop_team_double_result.method",
+      "rule": "BuildingComp setProp(LAccess,double) method boundary."
+    },
+    "building_set_prop_team_double.team_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "case team -> {",
+      "godot_symbol": "source_building_set_prop_team_double_result.team_case",
+      "rule": "setProp team case boundary."
+    },
+    "building_set_prop_team_double.team_lookup": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "Team team = Team.get((int)value);",
+      "godot_symbol": "source_building_set_prop_team_double_result.team_lookup",
+      "rule": "setProp team double casts value to int and looks up Team."
+    },
+    "building_set_prop_team_double.change_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "if(this.team != team){",
+      "godot_symbol": "source_building_set_prop_team_double_result.change_gate",
+      "rule": "setProp team double changes only when current team differs."
+    },
+    "building_set_prop_team_double.change_team_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "changeTeam(team);",
+      "godot_symbol": "source_building_set_prop_team_double_result.change_team_call",
+      "rule": "setProp team double dispatches changeTeam."
+    },
+    "building_set_prop_team_double.prop": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "prop",
+      "godot_symbol": "source_building_set_prop_team_double_input.prop",
+      "rule": "Runtime prop selects setProp switch case."
+    },
+    "building_set_prop_team_double.current_team_id": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "this.team",
+      "godot_symbol": "source_building_set_prop_team_double_input.current_team_id",
+      "rule": "Runtime current_team_id supplies normalized current Team identity."
+    },
+    "building_set_prop_team_double.value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "setProp(LAccess prop, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "java_expr": "value",
+      "godot_symbol": "source_building_set_prop_team_double_input.value",
+      "rule": "Runtime value supplies setProp double value."
     }
   }
 }

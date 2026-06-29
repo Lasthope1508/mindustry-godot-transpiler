@@ -2695,12 +2695,25 @@ func source_building_set_prop_health_state(prop: String, current_health: float, 
 	return changed_result
 
 func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public void setProp(LAccess prop, double value){",
+		"team_case": "case team -> {",
+		"team_lookup": "Team team = Team.get((int)value);",
+		"change_gate": "if(this.team != team){",
+		"change_team_call": "changeTeam(team);",
+	}
 	if prop != "team":
-		return {"team_id": current_team_id, "change_team_called": false, "change_team": null}
+		var non_team_result: Dictionary = {"team_id": current_team_id, "change_team_called": false, "change_team": null}
+		non_team_result.merge(source_exprs)
+		return non_team_result
 	var next_team_id := int(value)
 	if current_team_id != next_team_id:
-		return {"team_id": next_team_id, "change_team_called": true, "change_team": next_team_id}
-	return {"team_id": current_team_id, "change_team_called": false, "change_team": null}
+		var changed_result: Dictionary = {"team_id": next_team_id, "change_team_called": true, "change_team": next_team_id}
+		changed_result.merge(source_exprs)
+		return changed_result
+	var same_result: Dictionary = {"team_id": current_team_id, "change_team_called": false, "change_team": null}
+	same_result.merge(source_exprs)
+	return same_result
 
 func source_building_set_prop_total_power_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
 	if prop == "totalPower" and has_power and has_cons_power and cons_power_buffered:

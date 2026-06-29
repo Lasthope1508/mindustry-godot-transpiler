@@ -9468,6 +9468,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_liquid_content_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.setProp(UnlockableContent content, double value) liquid helper."
+    },
+    "PortGame.source_building_set_prop_team_double_state": {
+      "status": "active",
+      "source_slice": "N643",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "setProp(LAccess prop, double value)",
+      "params": [
+        {
+          "name": "prop",
+          "type": "String",
+          "schema": "source_building_set_prop_team_double_input.prop"
+        },
+        {
+          "name": "current_team_id",
+          "type": "int",
+          "schema": "source_building_set_prop_team_double_input.current_team_id"
+        },
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_building_set_prop_team_double_input.value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "team_case",
+        "team_lookup",
+        "change_gate",
+        "change_team_call",
+        "team_id",
+        "change_team_called",
+        "change_team"
+      ],
+      "tests": [
+        "test_building_set_prop_team_double_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_team_double_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.setProp(LAccess prop, double value) team helper."
     }
   },
   "policy": {

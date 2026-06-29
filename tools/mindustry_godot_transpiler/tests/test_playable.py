@@ -2531,11 +2531,18 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void setProp(LAccess prop, double value){",', source)
+        self.assertIn('"team_case": "case team -> {",', source)
+        self.assertIn('"team_lookup": "Team team = Team.get((int)value);",', source)
+        self.assertIn('"change_gate": "if(this.team != team){",', source)
+        self.assertIn('"change_team_call": "changeTeam(team);",', source)
         self.assertIn('if prop != "team":', source)
         self.assertIn("var next_team_id := int(value)", source)
         self.assertIn("if current_team_id != next_team_id:", source)
-        self.assertIn('return {"team_id": next_team_id, "change_team_called": true, "change_team": next_team_id}', source)
-        self.assertIn('return {"team_id": current_team_id, "change_team_called": false, "change_team": null}', source)
+        self.assertIn('"change_team_called": true', source)
+        self.assertIn('"change_team": next_team_id', source)
+        self.assertIn("changed_result.merge(source_exprs)", source)
+        self.assertIn("same_result.merge(source_exprs)", source)
 
     def test_port_game_exposes_source_building_set_prop_total_power_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
