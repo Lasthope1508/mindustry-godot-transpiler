@@ -2745,16 +2745,30 @@ func source_building_set_prop_item_content_state(content_type: String, has_items
 	negative_result.merge(source_exprs)
 	return negative_result
 
-func source_building_set_prop_liquid_content_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, block_consumes_liquid: bool) -> Dictionary:
+func source_building_set_prop_liquid_content_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public void setProp(UnlockableContent content, double value){",
+		"liquid_gate": "}else if(content instanceof Liquid liquid && liquids != null){",
+		"clamp_assign": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
+		"decreasing_comment": "//decreasing amount is always allowed",
+		"set_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",
+		"liquids_set_call": "liquids.set(liquid, amount);",
+	}
 	if content_type != "liquid" or not has_liquids_module:
-		return {"action": "none", "liquid": liquid_value, "amount": current_amount}
+		var no_liquid_result: Dictionary = {"action": "none", "liquid": liquid_value, "amount": current_amount}
+		no_liquid_result.merge(source_exprs)
+		return no_liquid_result
 	var amount := clampf(value, 0.0, block_liquid_capacity)
 	var can_set := amount < current_amount
 	if not can_set:
-		can_set = accept_liquid_result and (current_liquid_matches or current_amount <= 0.1 or block_consumes_liquid)
+		can_set = accept_liquid_result and (current_liquid_matches or current_liquid_amount <= 0.1 or block_consumes_liquid)
 	if can_set:
-		return {"action": "set_liquid", "liquid": liquid_value, "amount": amount}
-	return {"action": "none", "liquid": liquid_value, "amount": current_amount}
+		var set_result: Dictionary = {"action": "set_liquid", "liquid": liquid_value, "amount": amount}
+		set_result.merge(source_exprs)
+		return set_result
+	var blocked_result: Dictionary = {"action": "none", "liquid": liquid_value, "amount": current_amount}
+	blocked_result.merge(source_exprs)
+	return blocked_result
 
 func source_building_in_fog_initial_gate_state(same_team: bool, rules_fog: bool) -> Dictionary:
 	if same_team or not rules_fog:

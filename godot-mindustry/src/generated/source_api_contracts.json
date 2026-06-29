@@ -9394,6 +9394,80 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.setProp(UnlockableContent content, double value) item helper."
+    },
+    "PortGame.source_building_set_prop_liquid_content_state": {
+      "status": "active",
+      "source_slice": "N642",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "setProp(UnlockableContent content, double value)",
+      "params": [
+        {
+          "name": "content_type",
+          "type": "String",
+          "schema": "source_building_set_prop_liquid_content_input.content_type"
+        },
+        {
+          "name": "has_liquids_module",
+          "type": "bool",
+          "schema": "source_building_set_prop_liquid_content_input.has_liquids_module"
+        },
+        {
+          "name": "liquid_value",
+          "type": "Variant",
+          "schema": "source_building_set_prop_liquid_content_input.liquid_value"
+        },
+        {
+          "name": "current_amount",
+          "type": "float",
+          "schema": "source_building_set_prop_liquid_content_input.current_amount"
+        },
+        {
+          "name": "value",
+          "type": "float",
+          "schema": "source_building_set_prop_liquid_content_input.value"
+        },
+        {
+          "name": "block_liquid_capacity",
+          "type": "float",
+          "schema": "source_building_set_prop_liquid_content_input.block_liquid_capacity"
+        },
+        {
+          "name": "accept_liquid_result",
+          "type": "bool",
+          "schema": "source_building_set_prop_liquid_content_input.accept_liquid_result"
+        },
+        {
+          "name": "current_liquid_matches",
+          "type": "bool",
+          "schema": "source_building_set_prop_liquid_content_input.current_liquid_matches"
+        },
+        {
+          "name": "current_liquid_amount",
+          "type": "float",
+          "schema": "source_building_set_prop_liquid_content_input.current_liquid_amount"
+        },
+        {
+          "name": "block_consumes_liquid",
+          "type": "bool",
+          "schema": "source_building_set_prop_liquid_content_input.block_consumes_liquid"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "liquid_gate",
+        "clamp_assign",
+        "decreasing_comment",
+        "set_gate",
+        "liquids_set_call",
+        "action",
+        "liquid",
+        "amount"
+      ],
+      "tests": [
+        "test_building_set_prop_liquid_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_liquid_content_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.setProp(UnlockableContent content, double value) liquid helper."
     }
   },
   "policy": {

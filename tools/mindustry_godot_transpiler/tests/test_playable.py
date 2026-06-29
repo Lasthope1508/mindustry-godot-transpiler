@@ -2584,12 +2584,19 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_set_prop_liquid_content_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, block_consumes_liquid: bool) -> Dictionary:", source)
+        self.assertIn("func source_building_set_prop_liquid_content_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public void setProp(UnlockableContent content, double value){",', source)
+        self.assertIn('"liquid_gate": "}else if(content instanceof Liquid liquid && liquids != null){",', source)
+        self.assertIn('"clamp_assign": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",', source)
+        self.assertIn('"decreasing_comment": "//decreasing amount is always allowed",', source)
+        self.assertIn('"set_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",', source)
+        self.assertIn('"liquids_set_call": "liquids.set(liquid, amount);",', source)
         self.assertIn('if content_type != "liquid" or not has_liquids_module:', source)
         self.assertIn("var amount := clampf(value, 0.0, block_liquid_capacity)", source)
         self.assertIn("var can_set := amount < current_amount", source)
-        self.assertIn("can_set = accept_liquid_result and (current_liquid_matches or current_amount <= 0.1 or block_consumes_liquid)", source)
-        self.assertIn('return {"action": "set_liquid", "liquid": liquid_value, "amount": amount}', source)
+        self.assertIn("can_set = accept_liquid_result and (current_liquid_matches or current_liquid_amount <= 0.1 or block_consumes_liquid)", source)
+        self.assertIn('"action": "set_liquid"', source)
+        self.assertIn("set_result.merge(source_exprs)", source)
 
     def test_port_game_exposes_source_building_in_fog_initial_gate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

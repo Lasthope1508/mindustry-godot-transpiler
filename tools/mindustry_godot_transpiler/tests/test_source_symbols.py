@@ -3287,6 +3287,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_amount["java_expr"], "items.get(item)")
         self.assertEqual(current_amount["godot_symbol"], "source_building_set_prop_item_content_input.current_amount")
 
+    def test_building_set_prop_liquid_content_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "setProp(UnlockableContent content, double value)")
+        self.assertEqual(method["java_expr"], "public void setProp(UnlockableContent content, double value){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_set_prop_liquid_content_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_set_prop_liquid_content_state")
+        self.assertEqual(method["godot_symbol"], "source_building_set_prop_liquid_content_result.method")
+
+        liquid_gate = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.liquid_gate")
+        self.assertEqual(liquid_gate["java_expr"], "}else if(content instanceof Liquid liquid && liquids != null){")
+        self.assertEqual(liquid_gate["godot_symbol"], "source_building_set_prop_liquid_content_result.liquid_gate")
+
+        clamp_assign = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.clamp_assign")
+        self.assertEqual(clamp_assign["java_expr"], "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);")
+        self.assertEqual(clamp_assign["godot_symbol"], "source_building_set_prop_liquid_content_result.clamp_assign")
+
+        decreasing_comment = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.decreasing_comment")
+        self.assertEqual(decreasing_comment["java_expr"], "//decreasing amount is always allowed")
+        self.assertEqual(decreasing_comment["godot_symbol"], "source_building_set_prop_liquid_content_result.decreasing_comment")
+
+        set_gate = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.set_gate")
+        self.assertEqual(set_gate["java_expr"], "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){")
+        self.assertEqual(set_gate["godot_symbol"], "source_building_set_prop_liquid_content_result.set_gate")
+
+        liquids_set_call = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.liquids_set_call")
+        self.assertEqual(liquids_set_call["java_expr"], "liquids.set(liquid, amount);")
+        self.assertEqual(liquids_set_call["godot_symbol"], "source_building_set_prop_liquid_content_result.liquids_set_call")
+
+        current_liquid_amount = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.current_liquid_amount")
+        self.assertEqual(current_liquid_amount["status"], "explicit-input")
+        self.assertEqual(current_liquid_amount["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(current_liquid_amount["godot_symbol"], "source_building_set_prop_liquid_content_input.current_liquid_amount")
+
+        block_liquid_capacity = source_symbols.source_symbol(registry, "building_set_prop_liquid_content.block_liquid_capacity")
+        self.assertEqual(block_liquid_capacity["status"], "explicit-input")
+        self.assertEqual(block_liquid_capacity["java_expr"], "block.liquidCapacity")
+        self.assertEqual(block_liquid_capacity["godot_symbol"], "source_building_set_prop_liquid_content_input.block_liquid_capacity")
+
     def test_building_sense_payload_size_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7056,9 +7100,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 239)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 240)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 244)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 245)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7230,6 +7274,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_sense_totals_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_health_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_item_content_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_set_prop_liquid_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8309,6 +8354,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handleStack(item, acceptStack(item, amount - items.get(item), null), null);", building_set_prop_item_content["exact_exprs"])
         self.assertIn("}else if(amount >= 0){", building_set_prop_item_content["exact_exprs"])
         self.assertIn("removeStack(item, items.get(item) - amount);", building_set_prop_item_content["exact_exprs"])
+
+        building_set_prop_liquid_content = source_symbols.source_slice(ledger, "N642")
+        self.assertEqual(building_set_prop_liquid_content["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_set_prop_liquid_content["java_method"], "setProp(UnlockableContent content, double value)")
+        self.assertEqual(building_set_prop_liquid_content["godot_owner"], "PortGame.source_building_set_prop_liquid_content_state")
+        self.assertIn("public void setProp(UnlockableContent content, double value){", building_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("}else if(content instanceof Liquid liquid && liquids != null){", building_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);", building_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("//decreasing amount is always allowed", building_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){", building_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("liquids.set(liquid, amount);", building_set_prop_liquid_content["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10566,6 +10622,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("delta", building_set_prop_item_content["return_keys"])
         self.assertIn("accepted", building_set_prop_item_content["return_keys"])
         self.assertEqual(building_set_prop_item_content["source_method"], "setProp(UnlockableContent content, double value)")
+
+        building_set_prop_liquid_content = source_symbols.api_contract(contracts, "PortGame.source_building_set_prop_liquid_content_state")
+        self.assertEqual([param["name"] for param in building_set_prop_liquid_content["params"]], ["content_type", "has_liquids_module", "liquid_value", "current_amount", "value", "block_liquid_capacity", "accept_liquid_result", "current_liquid_matches", "current_liquid_amount", "block_consumes_liquid"])
+        self.assertEqual(building_set_prop_liquid_content["params"][0]["schema"], "source_building_set_prop_liquid_content_input.content_type")
+        self.assertEqual(building_set_prop_liquid_content["params"][8]["schema"], "source_building_set_prop_liquid_content_input.current_liquid_amount")
+        self.assertIn("method", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("liquid_gate", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("clamp_assign", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("decreasing_comment", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("set_gate", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("liquids_set_call", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("action", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("liquid", building_set_prop_liquid_content["return_keys"])
+        self.assertIn("amount", building_set_prop_liquid_content["return_keys"])
+        self.assertEqual(building_set_prop_liquid_content["source_method"], "setProp(UnlockableContent content, double value)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -12980,6 +13051,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_set_prop_item_content_result["keys"]["remove_gate"]["java_expr"], "}else if(amount >= 0){")
         self.assertEqual(source_building_set_prop_item_content_result["keys"]["remove_stack_call"]["java_expr"], "removeStack(item, items.get(item) - amount);")
         self.assertEqual(source_building_set_prop_item_content_result["keys"]["amount"]["java_expr"], "int amount = (int)value;")
+
+        source_building_set_prop_liquid_content_input = source_symbols.state_schema(schema, "source_building_set_prop_liquid_content_input")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["content_type"]["java_expr"], "content instanceof Liquid liquid")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["has_liquids_module"]["java_expr"], "liquids != null")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["liquid_value"]["java_expr"], "liquid")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["current_amount"]["java_expr"], "liquids.get(liquid)")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["current_liquid_amount"]["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["block_liquid_capacity"]["java_expr"], "block.liquidCapacity")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["accept_liquid_result"]["java_expr"], "acceptLiquid(self(), liquid)")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["current_liquid_matches"]["java_expr"], "liquids.current() == liquid")
+        self.assertEqual(source_building_set_prop_liquid_content_input["keys"]["block_consumes_liquid"]["java_expr"], "block.consumesLiquid(liquid)")
+
+        source_building_set_prop_liquid_content_result = source_symbols.state_schema(schema, "source_building_set_prop_liquid_content_result")
+        self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["method"]["java_expr"], "public void setProp(UnlockableContent content, double value){")
+        self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["liquid_gate"]["java_expr"], "}else if(content instanceof Liquid liquid && liquids != null){")
+        self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["clamp_assign"]["java_expr"], "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);")
+        self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["decreasing_comment"]["java_expr"], "//decreasing amount is always allowed")
+        self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["set_gate"]["java_expr"], "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){")
+        self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["liquids_set_call"]["java_expr"], "liquids.set(liquid, amount);")
+        self.assertEqual(source_building_set_prop_liquid_content_result["keys"]["amount"]["java_expr"], "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

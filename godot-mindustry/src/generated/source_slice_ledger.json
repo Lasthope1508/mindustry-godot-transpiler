@@ -7696,6 +7696,54 @@
       ],
       "runtime_proof": "/root/Main.source_building_set_prop_item_content_state",
       "rule": "Backfills SSOT for existing canonical source_building_set_prop_item_content_state helper against BuildingComp.setProp(UnlockableContent content, double value) item branch."
+    },
+    "N642": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "godot_owner": "PortGame.source_building_set_prop_liquid_content_state",
+      "exact_exprs": [
+        "public void setProp(UnlockableContent content, double value){",
+        "}else if(content instanceof Liquid liquid && liquids != null){",
+        "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
+        "//decreasing amount is always allowed",
+        "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",
+        "liquids.set(liquid, amount);",
+        "content instanceof Liquid liquid",
+        "liquids != null",
+        "liquid",
+        "liquids.get(liquid)",
+        "value",
+        "block.liquidCapacity",
+        "acceptLiquid(self(), liquid)",
+        "liquids.current() == liquid",
+        "liquids.currentAmount()",
+        "block.consumesLiquid(liquid)"
+      ],
+      "source_symbols": [
+        "building_set_prop_liquid_content.method",
+        "building_set_prop_liquid_content.liquid_gate",
+        "building_set_prop_liquid_content.clamp_assign",
+        "building_set_prop_liquid_content.decreasing_comment",
+        "building_set_prop_liquid_content.set_gate",
+        "building_set_prop_liquid_content.liquids_set_call",
+        "building_set_prop_liquid_content.content_type",
+        "building_set_prop_liquid_content.has_liquids_module",
+        "building_set_prop_liquid_content.liquid_value",
+        "building_set_prop_liquid_content.current_amount",
+        "building_set_prop_liquid_content.value",
+        "building_set_prop_liquid_content.block_liquid_capacity",
+        "building_set_prop_liquid_content.accept_liquid_result",
+        "building_set_prop_liquid_content.current_liquid_matches",
+        "building_set_prop_liquid_content.current_liquid_amount",
+        "building_set_prop_liquid_content.block_consumes_liquid"
+      ],
+      "tests": [
+        "test_building_set_prop_liquid_content_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_set_prop_liquid_content_state",
+      "rule": "Backfills SSOT for existing canonical source_building_set_prop_liquid_content_state helper against BuildingComp.setProp(UnlockableContent content, double value) liquid branch."
     }
   },
   "version": 1

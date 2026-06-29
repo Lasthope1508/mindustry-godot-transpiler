@@ -31203,6 +31203,244 @@
           "rule": "Accepted stack amount used only by handleStack branch."
         }
       }
+    },
+    "source_building_set_prop_liquid_content_input": {
+      "status": "active",
+      "keys": {
+        "content_type": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "content instanceof Liquid liquid",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.content_type",
+          "rule": "Runtime content_type supplies whether UnlockableContent is Liquid for liquid branch gate."
+        },
+        "has_liquids_module": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquids != null",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.has_liquids_module",
+          "rule": "Runtime has_liquids_module supplies liquids module null gate."
+        },
+        "liquid_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquid",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.liquid_value",
+          "rule": "Runtime liquid_value supplies Liquid liquid payload."
+        },
+        "current_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquids.get(liquid)",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.current_amount",
+          "rule": "Runtime current_amount supplies liquids.get(liquid)."
+        },
+        "value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "value",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.value",
+          "rule": "Runtime value supplies setProp double value."
+        },
+        "block_liquid_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "block.liquidCapacity",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.block_liquid_capacity",
+          "rule": "Runtime block_liquid_capacity supplies clamp upper bound."
+        },
+        "accept_liquid_result": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "acceptLiquid(self(), liquid)",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.accept_liquid_result",
+          "rule": "Runtime accept_liquid_result supplies acceptLiquid(self(), liquid)."
+        },
+        "current_liquid_matches": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquids.current() == liquid",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.current_liquid_matches",
+          "rule": "Runtime current_liquid_matches supplies current liquid compatibility gate."
+        },
+        "current_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquids.currentAmount()",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.current_liquid_amount",
+          "rule": "Runtime current_liquid_amount supplies liquids.currentAmount() for empty-current gate."
+        },
+        "block_consumes_liquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "block.consumesLiquid(liquid)",
+          "godot_symbol": "source_building_set_prop_liquid_content_input.block_consumes_liquid",
+          "rule": "Runtime block_consumes_liquid supplies consumesLiquid compatibility gate."
+        }
+      }
+    },
+    "source_building_set_prop_liquid_content_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "public void setProp(UnlockableContent content, double value){",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.method",
+          "rule": "BuildingComp setProp(UnlockableContent,double) method boundary."
+        },
+        "liquid_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "}else if(content instanceof Liquid liquid && liquids != null){",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.liquid_gate",
+          "rule": "setProp liquid content gate boundary."
+        },
+        "clamp_assign": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.clamp_assign",
+          "rule": "setProp liquid amount clamp against block.liquidCapacity."
+        },
+        "decreasing_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "//decreasing amount is always allowed",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.decreasing_comment",
+          "rule": "Upstream note for allowed liquid decreases."
+        },
+        "set_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.set_gate",
+          "rule": "setProp liquid set gate for decrease or accepted compatible increase."
+        },
+        "liquids_set_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquids.set(liquid, amount);",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.liquids_set_call",
+          "rule": "setProp liquid branch writes clamped amount."
+        },
+        "action": {
+          "type": "String",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquids.set(liquid, amount);",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.action",
+          "rule": "Action record for none or set_liquid branch."
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "liquid",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.liquid",
+          "rule": "Liquid payload carried into result."
+        },
+        "amount": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "setProp(UnlockableContent content, double value)",
+          "used_by": [
+            "PortGame.source_building_set_prop_liquid_content_state"
+          ],
+          "java_expr": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
+          "godot_symbol": "source_building_set_prop_liquid_content_result.amount",
+          "rule": "Clamped target amount when set, current amount when unchanged."
+        }
+      }
     }
   },
   "version": 1
