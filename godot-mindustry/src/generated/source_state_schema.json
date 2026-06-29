@@ -35724,6 +35724,130 @@
       },
       "status": "active"
     },
+    "source_conveyor_path_progress_rate_input": {
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_conveyor_path_progress_rate_input.block_id",
+          "java_expr": "Block block",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Block id selects the source Conveyor block data used for path progress rate.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_conveyor_path_progress_rate_result": {
+      "keys": {
+        "block_id": {
+          "alias_of": "source_conveyor_path_progress_rate_input.block_id",
+          "rule": "Carries block id input into path progress rate result schema.",
+          "status": "generated",
+          "type": "String"
+        },
+        "item_positions": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.item_positions",
+          "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+          "java_method": "ConveyorBuild fields",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source ConveyorBuild normalized item position arrays.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        },
+        "moved": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.moved",
+          "java_expr": "float moved = speed * edelta();",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source conveyor item movement expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        },
+        "pass_threshold": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.pass_threshold",
+          "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source ConveyorBuild normalized pass threshold.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        },
+        "path_length": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.path_length",
+          "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+          "java_method": "ConveyorBuild fields",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Godot bridge length from path_points and tile_size for a multi-tile rendered path.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        },
+        "path_progress_rate": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.path_progress_rate",
+          "java_expr": "float moved = speed * edelta();",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Godot path progress rate normalizes source movement over generated path length.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        },
+        "speed_field": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.speed_field",
+          "java_expr": "public float speed = 0f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source Conveyor speed field default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        },
+        "unit_world_speed": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.unit_world_speed",
+          "java_expr": "float mspeed = speed * tilesize * 55f;",
+          "java_method": "unitOn(Unit unit)",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source conveyor speed expression used by existing world-speed bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        },
+        "ys_add": {
+          "godot_symbol": "source_conveyor_path_progress_rate_result.ys_add",
+          "java_expr": "ys[i] += maxmove;",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Source ConveyorBuild normalized item progress update.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

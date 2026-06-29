@@ -1152,6 +1152,13 @@ func source_conveyor_world_speed(block_id: String) -> float:
 		return 0.0
 	return float(block.properties.get("speed", 0.0)) * float(tile_size) * SOURCE_CONVEYOR_TILE_SPEED_SCALE
 
+const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_SPEED_FIELD := "public float speed = 0f;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_UNIT_WORLD_SPEED := "float mspeed = speed * tilesize * 55f;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_ITEM_POSITIONS := "public float[] xs = new float[capacity], ys = new float[capacity];"
+const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_MOVED := "float moved = speed * edelta();"
+const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_YS_ADD := "ys[i] += maxmove;"
+const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_PASS_THRESHOLD := "if(ys[i] >= 1f && pass(ids[i])){"
+
 func source_conveyor_path_progress_rate(block_id: String) -> float:
 	if path_points.size() < 2:
 		return 0.0

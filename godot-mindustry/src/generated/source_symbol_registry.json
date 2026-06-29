@@ -20345,6 +20345,120 @@
         "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
       ]
     },
+    "conveyor_path_progress_rate.block_id": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_input.block_id",
+      "java_expr": "Block block",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Godot block id selects the source Conveyor block data used for path progress rate.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "explicit-input",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.item_positions": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.item_positions",
+      "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+      "java_method": "ConveyorBuild fields",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source ConveyorBuild stores item progress in normalized ys positions.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.moved": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.moved",
+      "java_expr": "float moved = speed * edelta();",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source conveyor item progress movement per tick.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.pass_threshold": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.pass_threshold",
+      "java_expr": "if(ys[i] >= 1f && pass(ids[i])){",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source conveyor normalized item position passes at 1f.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.path_length": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.path_length",
+      "rule": "Godot bridge length for a multi-tile path; generated from path_points and tile_size, not an upstream Java field.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "generated",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.result": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.path_progress_rate",
+      "java_expr": "float moved = speed * edelta();",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Godot path progress rate normalizes source conveyor movement over the generated path length.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.speed_field": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.speed_field",
+      "java_expr": "public float speed = 0f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Canonical Conveyor speed field default for progress rate.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.unit_world_speed": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.unit_world_speed",
+      "java_expr": "float mspeed = speed * tilesize * 55f;",
+      "java_method": "unitOn(Unit unit)",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source conveyor unit push speed expression supplies the existing Godot world-speed bridge.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "conveyor_path_progress_rate.ys_add": {
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "godot_symbol": "source_conveyor_path_progress_rate_result.ys_add",
+      "java_expr": "ys[i] += maxmove;",
+      "java_method": "updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "rule": "Source conveyor item normalized position advances by maxmove.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "status": "source-backed",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
     "create_aim.aim_gate": {
       "godot_owner": "PortGame.source_bullet_type_create_aim_state",
       "godot_symbol": "create_aim_result.hasAimTile",

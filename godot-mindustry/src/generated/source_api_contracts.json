@@ -10746,6 +10746,28 @@
       "tests": [
         "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_conveyor_path_progress_rate": {
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_conveyor_path_progress_rate_input.block_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "path_progress_rate",
+        "path_length"
+      ],
+      "rule": "Public runtime contract for resolving Conveyor speed into normalized Godot path progress rate over the generated path length.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "source_method": "unitOn(Unit unit)/ConveyorBuild.updateTile()",
+      "source_slice": "N686",
+      "status": "active",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

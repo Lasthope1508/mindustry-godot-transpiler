@@ -9109,6 +9109,38 @@
         "test_conveyor_path_progress_delta_for_cell_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_conveyor_speed_for_item_motion"
       ]
+    },
+    "N686": {
+      "exact_exprs": [
+        "public float speed = 0f;",
+        "float mspeed = speed * tilesize * 55f;",
+        "public float[] xs = new float[capacity], ys = new float[capacity];",
+        "float moved = speed * edelta();",
+        "ys[i] += maxmove;",
+        "if(ys[i] >= 1f && pass(ids[i])){",
+        "Block block"
+      ],
+      "godot_owner": "PortGame.source_conveyor_path_progress_rate",
+      "java_class": "Conveyor/ConveyorBuild",
+      "java_method": "unitOn(Unit unit)/ConveyorBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "source_symbols": [
+        "conveyor_path_progress_rate.block_id",
+        "conveyor_path_progress_rate.item_positions",
+        "conveyor_path_progress_rate.moved",
+        "conveyor_path_progress_rate.pass_threshold",
+        "conveyor_path_progress_rate.path_length",
+        "conveyor_path_progress_rate.result",
+        "conveyor_path_progress_rate.speed_field",
+        "conveyor_path_progress_rate.unit_world_speed",
+        "conveyor_path_progress_rate.ys_add"
+      ],
+      "status": "done",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_conveyor_speed_for_item_motion"
+      ]
     }
   },
   "version": 1
