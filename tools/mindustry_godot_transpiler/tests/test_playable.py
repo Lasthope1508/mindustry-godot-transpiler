@@ -2789,6 +2789,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_FIELD := "private transient float timeScale = 1f, timeScaleDuration;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_METHOD := "public void update(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_GATE := "if((timeScaleDuration -= Time.delta) <= 0f){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_RESET := "timeScale = 1f;"', source)
         self.assertIn("func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
         self.assertIn("var next_duration := current_time_scale_duration - time_delta", source)
         self.assertIn("if next_duration <= 0.0:", source)

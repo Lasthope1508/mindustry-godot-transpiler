@@ -6664,6 +6664,39 @@
         "test_port_game_exposes_source_building_update_tile_gate_state"
       ]
     },
+    "PortGame.source_building_update_timescale_decay_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "current_time_scale",
+          "schema": "source_building_update_timescale_decay_input.current_time_scale",
+          "type": "float"
+        },
+        {
+          "name": "current_time_scale_duration",
+          "schema": "source_building_update_timescale_decay_input.current_duration",
+          "type": "float"
+        },
+        {
+          "name": "time_delta",
+          "schema": "source_building_update_timescale_decay_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "time_scale",
+        "time_scale_duration"
+      ],
+      "rule": "Source-backed helper for BuildingComp.update timeScaleDuration -= Time.delta and timeScale reset when duration expires.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "source_method": "update()",
+      "source_slice": "N670",
+      "status": "active",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
     "PortGame.source_bullet_type_building_damage_state": {
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "params": [

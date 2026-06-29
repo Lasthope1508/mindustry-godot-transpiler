@@ -8615,6 +8615,36 @@
         "test_building_update_tile_gate_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_update_tile_gate_state"
       ]
+    },
+    "N670": {
+      "exact_exprs": [
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "public void update(){",
+        "if((timeScaleDuration -= Time.delta) <= 0f){",
+        "timeScale = 1f;",
+        "timeScaleDuration",
+        "Time.delta"
+      ],
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "java_class": "BuildingComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Backfills SSOT for existing source_building_update_timescale_decay_state helper against BuildingComp.update timeScaleDuration decay and reset.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "source_symbols": [
+        "building_update_timescale_decay.field",
+        "building_update_timescale_decay.method",
+        "building_update_timescale_decay.decay_gate",
+        "building_update_timescale_decay.reset",
+        "building_update_timescale_decay.current_time_scale",
+        "building_update_timescale_decay.current_duration",
+        "building_update_timescale_decay.source_delta"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
     }
   },
   "version": 1

@@ -18429,6 +18429,104 @@
         "test_port_game_exposes_source_building_update_tile_gate_state"
       ]
     },
+    "building_update_timescale_decay.current_duration": {
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "godot_symbol": "source_building_update_timescale_decay_input.current_duration",
+      "java_expr": "timeScaleDuration",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input for current timeScaleDuration.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
+    "building_update_timescale_decay.current_time_scale": {
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "godot_symbol": "source_building_update_timescale_decay_input.current_time_scale",
+      "java_expr": "timeScale",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input for current timeScale.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
+    "building_update_timescale_decay.decay_gate": {
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "godot_symbol": "source_building_update_timescale_decay_result.decay_gate",
+      "java_expr": "if((timeScaleDuration -= Time.delta) <= 0f){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Exact upstream timeScaleDuration decay gate.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
+    "building_update_timescale_decay.field": {
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "godot_symbol": "source_building_update_timescale_decay_result.field",
+      "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp timeScale and timeScaleDuration field declaration.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
+    "building_update_timescale_decay.method": {
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "godot_symbol": "source_building_update_timescale_decay_result.method",
+      "java_expr": "public void update(){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp.update method boundary for timeScaleDuration decay slice.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
+    "building_update_timescale_decay.reset": {
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "godot_symbol": "source_building_update_timescale_decay_result.reset",
+      "java_expr": "timeScale = 1f;",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Exact upstream timeScale reset assignment.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
+    "building_update_timescale_decay.source_delta": {
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "godot_symbol": "source_building_update_timescale_decay_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input for Time.delta.",
+      "runtime_proof": "/root/Main.source_building_update_timescale_decay_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_update_timescale_decay_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_timescale_decay_state"
+      ]
+    },
     "bullet.fin": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_state.fin",

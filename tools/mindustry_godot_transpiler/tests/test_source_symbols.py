@@ -3886,6 +3886,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_delta["java_expr"], "Time.delta")
         self.assertEqual(source_delta["godot_symbol"], "source_building_time_scale_decay_input.source_delta")
 
+    def test_building_update_timescale_decay_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "building_update_timescale_decay.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_building_update_timescale_decay_state")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_building_update_timescale_decay_state")
+        self.assertEqual(field["godot_symbol"], "source_building_update_timescale_decay_result.field")
+
+        method = source_symbols.source_symbol(registry, "building_update_timescale_decay.method")
+        self.assertEqual(method["java_method"], "update()")
+        self.assertEqual(method["java_expr"], "public void update(){")
+        self.assertEqual(method["godot_symbol"], "source_building_update_timescale_decay_result.method")
+
+        decay_gate = source_symbols.source_symbol(registry, "building_update_timescale_decay.decay_gate")
+        self.assertEqual(decay_gate["java_expr"], "if((timeScaleDuration -= Time.delta) <= 0f){")
+        self.assertEqual(decay_gate["godot_symbol"], "source_building_update_timescale_decay_result.decay_gate")
+
+        reset = source_symbols.source_symbol(registry, "building_update_timescale_decay.reset")
+        self.assertEqual(reset["java_expr"], "timeScale = 1f;")
+        self.assertEqual(reset["godot_symbol"], "source_building_update_timescale_decay_result.reset")
+
+        current_time_scale = source_symbols.source_symbol(registry, "building_update_timescale_decay.current_time_scale")
+        self.assertEqual(current_time_scale["status"], "explicit-input")
+        self.assertEqual(current_time_scale["java_expr"], "timeScale")
+        self.assertEqual(current_time_scale["godot_symbol"], "source_building_update_timescale_decay_input.current_time_scale")
+
+        current_duration = source_symbols.source_symbol(registry, "building_update_timescale_decay.current_duration")
+        self.assertEqual(current_duration["status"], "explicit-input")
+        self.assertEqual(current_duration["java_expr"], "timeScaleDuration")
+        self.assertEqual(current_duration["godot_symbol"], "source_building_update_timescale_decay_input.current_duration")
+
+        source_delta = source_symbols.source_symbol(registry, "building_update_timescale_decay.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_expr"], "Time.delta")
+        self.assertEqual(source_delta["godot_symbol"], "source_building_update_timescale_decay_input.source_delta")
+
     def test_building_block_half_extent_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8020,9 +8062,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 267)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 268)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 272)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 273)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8197,6 +8239,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_update_fog_visibility_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_proximity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_tile_gate_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_timescale_decay_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9565,6 +9608,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void update(){", building_update_tile_gate["exact_exprs"])
         self.assertIn("if(enabled || !block.noUpdateDisabled){", building_update_tile_gate["exact_exprs"])
         self.assertIn("updateTile();", building_update_tile_gate["exact_exprs"])
+
+        building_update_timescale_decay = source_symbols.source_slice(ledger, "N670")
+        self.assertEqual(building_update_timescale_decay["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_timescale_decay["java_method"], "update()")
+        self.assertEqual(building_update_timescale_decay["godot_owner"], "PortGame.source_building_update_timescale_decay_state")
+        self.assertIn("private transient float timeScale = 1f, timeScaleDuration;", building_update_timescale_decay["exact_exprs"])
+        self.assertIn("public void update(){", building_update_timescale_decay["exact_exprs"])
+        self.assertIn("if((timeScaleDuration -= Time.delta) <= 0f){", building_update_timescale_decay["exact_exprs"])
+        self.assertIn("timeScale = 1f;", building_update_timescale_decay["exact_exprs"])
+        self.assertIn("timeScaleDuration", building_update_timescale_decay["exact_exprs"])
+        self.assertIn("Time.delta", building_update_timescale_decay["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12562,6 +12616,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("update_tile_called", building_update_tile_gate["return_keys"])
         self.assertEqual(building_update_tile_gate["source_method"], "update()")
 
+        building_update_timescale_decay = source_symbols.api_contract(contracts, "PortGame.source_building_update_timescale_decay_state")
+        self.assertEqual([param["name"] for param in building_update_timescale_decay["params"]], ["current_time_scale", "current_time_scale_duration", "time_delta"])
+        self.assertEqual(building_update_timescale_decay["params"][0]["schema"], "source_building_update_timescale_decay_input.current_time_scale")
+        self.assertEqual(building_update_timescale_decay["params"][1]["schema"], "source_building_update_timescale_decay_input.current_duration")
+        self.assertEqual(building_update_timescale_decay["params"][2]["schema"], "source_building_update_timescale_decay_input.source_delta")
+        self.assertIn("time_scale", building_update_timescale_decay["return_keys"])
+        self.assertIn("time_scale_duration", building_update_timescale_decay["return_keys"])
+        self.assertEqual(building_update_timescale_decay["source_method"], "update()")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -15403,6 +15466,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_update_tile_gate_result["keys"]["update_tile_called"]["java_expr"], "if(enabled || !block.noUpdateDisabled){")
         self.assertEqual(source_building_update_tile_gate_result["keys"]["enabled_state"]["alias_of"], "source_building_update_tile_gate_input.enabled_state")
         self.assertEqual(source_building_update_tile_gate_result["keys"]["block_no_update_disabled"]["alias_of"], "source_building_update_tile_gate_input.block_no_update_disabled")
+
+        source_building_update_timescale_decay_input = source_symbols.state_schema(schema, "source_building_update_timescale_decay_input")
+        self.assertEqual(source_building_update_timescale_decay_input["keys"]["current_time_scale"]["java_expr"], "timeScale")
+        self.assertEqual(source_building_update_timescale_decay_input["keys"]["current_time_scale"]["status"], "explicit-input")
+        self.assertEqual(source_building_update_timescale_decay_input["keys"]["current_duration"]["java_expr"], "timeScaleDuration")
+        self.assertEqual(source_building_update_timescale_decay_input["keys"]["current_duration"]["status"], "explicit-input")
+        self.assertEqual(source_building_update_timescale_decay_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_building_update_timescale_decay_input["keys"]["source_delta"]["status"], "explicit-input")
+
+        source_building_update_timescale_decay_result = source_symbols.state_schema(schema, "source_building_update_timescale_decay_result")
+        self.assertEqual(source_building_update_timescale_decay_result["keys"]["field"]["java_expr"], "private transient float timeScale = 1f, timeScaleDuration;")
+        self.assertEqual(source_building_update_timescale_decay_result["keys"]["method"]["java_expr"], "public void update(){")
+        self.assertEqual(source_building_update_timescale_decay_result["keys"]["decay_gate"]["java_expr"], "if((timeScaleDuration -= Time.delta) <= 0f){")
+        self.assertEqual(source_building_update_timescale_decay_result["keys"]["reset"]["java_expr"], "timeScale = 1f;")
+        self.assertEqual(source_building_update_timescale_decay_result["keys"]["time_scale"]["alias_of"], "source_building_update_timescale_decay_input.current_time_scale")
+        self.assertEqual(source_building_update_timescale_decay_result["keys"]["time_scale_duration"]["java_expr"], "timeScaleDuration -= Time.delta")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

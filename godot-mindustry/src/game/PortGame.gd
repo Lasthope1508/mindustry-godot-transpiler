@@ -2978,6 +2978,11 @@ func source_building_check_allow_update_state(current_enabled: bool, allow_updat
 		return {"enabled": false, "changed": current_enabled}
 	return {"enabled": current_enabled, "changed": false}
 
+const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_FIELD := "private transient float timeScale = 1f, timeScaleDuration;"
+const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_METHOD := "public void update(){"
+const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_GATE := "if((timeScaleDuration -= Time.delta) <= 0f){"
+const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_RESET := "timeScale = 1f;"
+
 func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
 	var next_duration := current_time_scale_duration - time_delta
 	if next_duration <= 0.0:
