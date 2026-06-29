@@ -6780,6 +6780,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_tilesize["java_expr"], "tilesize")
         self.assertEqual(source_tilesize["godot_symbol"], "source_building_hitbox_input.source_tilesize")
 
+    def test_building_to_string_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        override = source_symbols.source_symbol(registry, "building_to_string.override_annotation")
+        self.assertEqual(override["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(override["java_method"], "toString()")
+        self.assertEqual(override["java_expr"], "@Override")
+        self.assertEqual(override["godot_owner"], "PortGame.source_building_to_string_state")
+        self.assertEqual(override["runtime_proof"], "/root/Main.source_building_to_string_state")
+        self.assertEqual(override["godot_symbol"], "source_building_to_string_result.override_annotation")
+
+        replace = source_symbols.source_symbol(registry, "building_to_string.replace_annotation")
+        self.assertEqual(replace["java_expr"], "@Replace")
+        self.assertEqual(replace["godot_symbol"], "source_building_to_string_result.replace_annotation")
+
+        method = source_symbols.source_symbol(registry, "building_to_string.method")
+        self.assertEqual(method["java_expr"], "public String toString(){")
+        self.assertEqual(method["godot_symbol"], "source_building_to_string_result.method")
+
+        return_expr = source_symbols.source_symbol(registry, "building_to_string.return_expr")
+        self.assertEqual(return_expr["java_expr"], 'return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;')
+        self.assertEqual(return_expr["godot_symbol"], "source_building_to_string_result.to_string")
+
+        id_value = source_symbols.source_symbol(registry, "building_to_string.id_value")
+        self.assertEqual(id_value["status"], "explicit-input")
+        self.assertEqual(id_value["java_expr"], "id()")
+        self.assertEqual(id_value["godot_symbol"], "source_building_to_string_input.id_value")
+
+        tile_x = source_symbols.source_symbol(registry, "building_to_string.tile_x_value")
+        self.assertEqual(tile_x["status"], "explicit-input")
+        self.assertEqual(tile_x["java_expr"], "tileX()")
+        self.assertEqual(tile_x["godot_symbol"], "source_building_to_string_input.tile_x_value")
+
+        tile_y = source_symbols.source_symbol(registry, "building_to_string.tile_y_value")
+        self.assertEqual(tile_y["status"], "explicit-input")
+        self.assertEqual(tile_y["java_expr"], "tileY()")
+        self.assertEqual(tile_y["godot_symbol"], "source_building_to_string_input.tile_y_value")
+
+        block_value = source_symbols.source_symbol(registry, "building_to_string.block_value")
+        self.assertEqual(block_value["status"], "explicit-input")
+        self.assertEqual(block_value["java_expr"], "block")
+        self.assertEqual(block_value["godot_symbol"], "source_building_to_string_input.block_value")
+
     def test_building_in_fog_initial_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7460,9 +7506,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 250)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 251)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 255)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 256)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7620,6 +7666,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_time_scale_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_time_scale_duration_at_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_time_scale_decay_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_to_string_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -8834,6 +8881,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("timeScale = 1f;", building_time_scale_decay["exact_exprs"])
         self.assertIn("timeScaleDuration", building_time_scale_decay["exact_exprs"])
         self.assertIn("Time.delta", building_time_scale_decay["exact_exprs"])
+
+        building_to_string = source_symbols.source_slice(ledger, "N653")
+        self.assertEqual(building_to_string["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_to_string["java_method"], "toString()")
+        self.assertEqual(building_to_string["godot_owner"], "PortGame.source_building_to_string_state")
+        self.assertIn("@Override", building_to_string["exact_exprs"])
+        self.assertIn("@Replace", building_to_string["exact_exprs"])
+        self.assertIn("public String toString(){", building_to_string["exact_exprs"])
+        self.assertIn('return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;', building_to_string["exact_exprs"])
+        self.assertIn("id()", building_to_string["exact_exprs"])
+        self.assertIn("tileX()", building_to_string["exact_exprs"])
+        self.assertIn("tileY()", building_to_string["exact_exprs"])
+        self.assertIn("block", building_to_string["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11223,6 +11283,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("time_scale", building_time_scale_decay["return_keys"])
         self.assertIn("time_scale_duration", building_time_scale_decay["return_keys"])
         self.assertEqual(building_time_scale_decay["source_method"], "update()")
+
+        building_to_string = source_symbols.api_contract(contracts, "PortGame.source_building_to_string_state")
+        self.assertEqual([param["name"] for param in building_to_string["params"]], ["id_value", "tile_x_value", "tile_y_value", "block_value"])
+        self.assertEqual(building_to_string["params"][0]["schema"], "source_building_to_string_input.id_value")
+        self.assertEqual(building_to_string["params"][1]["schema"], "source_building_to_string_input.tile_x_value")
+        self.assertEqual(building_to_string["params"][2]["schema"], "source_building_to_string_input.tile_y_value")
+        self.assertEqual(building_to_string["params"][3]["schema"], "source_building_to_string_input.block_value")
+        self.assertIn("to_string", building_to_string["return_keys"])
+        self.assertEqual(building_to_string["source_method"], "toString()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -14984,6 +15053,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_hitbox_result["keys"]["hitbox_size"]["java_expr"], "block.size * tilesize")
         self.assertEqual(source_building_hitbox_result["keys"]["world_x"]["alias_of"], "source_building_hitbox_input.world_x")
         self.assertEqual(source_building_hitbox_result["keys"]["block_size_value"]["alias_of"], "source_building_hitbox_input.block_size_value")
+
+        source_building_to_string_input = source_symbols.state_schema(schema, "source_building_to_string_input")
+        self.assertEqual(source_building_to_string_input["keys"]["id_value"]["java_expr"], "id()")
+        self.assertEqual(source_building_to_string_input["keys"]["id_value"]["status"], "explicit-input")
+        self.assertEqual(source_building_to_string_input["keys"]["tile_x_value"]["java_expr"], "tileX()")
+        self.assertEqual(source_building_to_string_input["keys"]["tile_y_value"]["java_expr"], "tileY()")
+        self.assertEqual(source_building_to_string_input["keys"]["block_value"]["java_expr"], "block")
+
+        source_building_to_string_result = source_symbols.state_schema(schema, "source_building_to_string_result")
+        self.assertEqual(source_building_to_string_result["keys"]["override_annotation"]["java_expr"], "@Override")
+        self.assertEqual(source_building_to_string_result["keys"]["replace_annotation"]["java_expr"], "@Replace")
+        self.assertEqual(source_building_to_string_result["keys"]["method"]["java_expr"], "public String toString(){")
+        self.assertEqual(source_building_to_string_result["keys"]["to_string"]["java_expr"], 'return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;')
+        self.assertEqual(source_building_to_string_result["keys"]["id_value"]["alias_of"], "source_building_to_string_input.id_value")
+        self.assertEqual(source_building_to_string_result["keys"]["block_value"]["alias_of"], "source_building_to_string_input.block_value")
 
         source_building_in_fog_discovery_gate_input = source_symbols.state_schema(schema, "source_building_in_fog_discovery_gate_input")
         self.assertEqual(source_building_in_fog_discovery_gate_input["keys"]["block_size_value"]["java_expr"], "block.size")

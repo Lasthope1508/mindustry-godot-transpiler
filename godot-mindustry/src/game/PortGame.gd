@@ -2938,6 +2938,11 @@ func source_building_hitbox_state(world_x: float, world_y: float, block_size_val
 		"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size},
 	}
 
+const SOURCE_BUILDING_TO_STRING_OVERRIDE := "@Override"
+const SOURCE_BUILDING_TO_STRING_REPLACE := "@Replace"
+const SOURCE_BUILDING_TO_STRING_METHOD := "public String toString(){"
+const SOURCE_BUILDING_TO_STRING_RETURN := "return \"Building#\" + id() + \"[\" + tileX() + \",\" + tileY() + \"]:\" + block;"
+
 func source_building_to_string_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> String:
 	return "Building#" + str(id_value) + "[" + str(tile_x_value) + "," + str(tile_y_value) + "]:" + str(block_value)
 

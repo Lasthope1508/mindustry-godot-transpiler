@@ -8030,6 +8030,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_time_scale_decay_state",
       "rule": "Backfills SSOT for existing canonical source_building_time_scale_decay_state helper against BuildingComp.update timeScaleDuration decay and reset."
+    },
+    "N653": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "toString()",
+      "godot_owner": "PortGame.source_building_to_string_state",
+      "exact_exprs": [
+        "@Override",
+        "@Replace",
+        "public String toString(){",
+        "return \"Building#\" + id() + \"[\" + tileX() + \",\" + tileY() + \"]:\" + block;",
+        "id()",
+        "tileX()",
+        "tileY()",
+        "block"
+      ],
+      "source_symbols": [
+        "building_to_string.override_annotation",
+        "building_to_string.replace_annotation",
+        "building_to_string.method",
+        "building_to_string.return_expr",
+        "building_to_string.id_value",
+        "building_to_string.tile_x_value",
+        "building_to_string.tile_y_value",
+        "building_to_string.block_value"
+      ],
+      "tests": [
+        "test_building_to_string_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_to_string_state",
+      "rule": "Backfills SSOT for existing canonical source_building_to_string_state helper against BuildingComp.toString exact concatenation."
     }
   },
   "version": 1

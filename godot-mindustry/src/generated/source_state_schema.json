@@ -32667,6 +32667,164 @@
           "rule": "Result keeps the decremented duration value from Java pre-decrement gate."
         }
       }
+    },
+    "source_building_to_string_input": {
+      "status": "active",
+      "keys": {
+        "id_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "id()",
+          "godot_symbol": "source_building_to_string_input.id_value",
+          "rule": "Input mirrors id() call."
+        },
+        "tile_x_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "tileX()",
+          "godot_symbol": "source_building_to_string_input.tile_x_value",
+          "rule": "Input mirrors tileX() call."
+        },
+        "tile_y_value": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "tileY()",
+          "godot_symbol": "source_building_to_string_input.tile_y_value",
+          "rule": "Input mirrors tileY() call."
+        },
+        "block_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "block",
+          "godot_symbol": "source_building_to_string_input.block_value",
+          "rule": "Input mirrors block field string value."
+        }
+      }
+    },
+    "source_building_to_string_result": {
+      "status": "active",
+      "keys": {
+        "override_annotation": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "@Override",
+          "godot_symbol": "source_building_to_string_result.override_annotation",
+          "rule": "BuildingComp.toString override annotation."
+        },
+        "replace_annotation": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "@Replace",
+          "godot_symbol": "source_building_to_string_result.replace_annotation",
+          "rule": "BuildingComp.toString replace annotation."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "public String toString(){",
+          "godot_symbol": "source_building_to_string_result.method",
+          "rule": "BuildingComp.toString method boundary."
+        },
+        "to_string": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "return \"Building#\" + id() + \"[\" + tileX() + \",\" + tileY() + \"]:\" + block;",
+          "godot_symbol": "source_building_to_string_result.to_string",
+          "rule": "Result string mirrors BuildingComp.toString return expression."
+        },
+        "id_value": {
+          "type": "int",
+          "status": "alias",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "id()",
+          "godot_symbol": "source_building_to_string_result.id_value",
+          "rule": "Result uses explicit id_value input.",
+          "alias_of": "source_building_to_string_input.id_value"
+        },
+        "tile_x_value": {
+          "type": "int",
+          "status": "alias",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "tileX()",
+          "godot_symbol": "source_building_to_string_result.tile_x_value",
+          "rule": "Result uses explicit tile_x_value input.",
+          "alias_of": "source_building_to_string_input.tile_x_value"
+        },
+        "tile_y_value": {
+          "type": "int",
+          "status": "alias",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "tileY()",
+          "godot_symbol": "source_building_to_string_result.tile_y_value",
+          "rule": "Result uses explicit tile_y_value input.",
+          "alias_of": "source_building_to_string_input.tile_y_value"
+        },
+        "block_value": {
+          "type": "Variant",
+          "status": "alias",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "toString()",
+          "used_by": [
+            "PortGame.source_building_to_string_state"
+          ],
+          "java_expr": "block",
+          "godot_symbol": "source_building_to_string_result.block_value",
+          "rule": "Result uses explicit block_value input.",
+          "alias_of": "source_building_to_string_input.block_value"
+        }
+      }
     }
   },
   "version": 1

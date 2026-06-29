@@ -9808,6 +9808,43 @@
       ],
       "runtime_proof": "/root/Main.source_building_time_scale_decay_state",
       "rule": "Public runtime contract for BuildingComp.update time-scale decay; do not clamp decremented duration unless upstream Java changes."
+    },
+    "PortGame.source_building_to_string_state": {
+      "status": "active",
+      "source_slice": "N653",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "toString()",
+      "params": [
+        {
+          "name": "id_value",
+          "type": "int",
+          "schema": "source_building_to_string_input.id_value"
+        },
+        {
+          "name": "tile_x_value",
+          "type": "int",
+          "schema": "source_building_to_string_input.tile_x_value"
+        },
+        {
+          "name": "tile_y_value",
+          "type": "int",
+          "schema": "source_building_to_string_input.tile_y_value"
+        },
+        {
+          "name": "block_value",
+          "type": "Variant",
+          "schema": "source_building_to_string_input.block_value"
+        }
+      ],
+      "return_keys": [
+        "to_string"
+      ],
+      "tests": [
+        "test_building_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_to_string_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_to_string_state",
+      "rule": "Public runtime contract for BuildingComp.toString; keep return type String and source concatenation order exact."
     }
   },
   "policy": {
