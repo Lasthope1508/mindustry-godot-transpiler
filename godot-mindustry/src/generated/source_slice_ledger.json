@@ -9172,6 +9172,39 @@
         "test_conveyor_world_speed_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_conveyor_speed_for_item_motion"
       ]
+    },
+    "N688": {
+      "exact_exprs": [
+        "public boolean acceptItem(Building source, Item item){",
+        "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);",
+        "public int getMaximumAccepted(Item item){",
+        "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;",
+        "public boolean coreIncinerates = true;",
+        "Item item",
+        "items.get(item)",
+        "storageCapacity"
+      ],
+      "godot_owner": "PortGame.source_core_accept_item",
+      "java_class": "CoreBlock/CoreBuild/Rules",
+      "java_method": "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "source_symbols": [
+        "core_accept_item.core_incinerates",
+        "core_accept_item.item_count",
+        "core_accept_item.item_id",
+        "core_accept_item.maximum_method",
+        "core_accept_item.maximum_result",
+        "core_accept_item.method",
+        "core_accept_item.result",
+        "core_accept_item.rules_core_incinerates_field",
+        "core_accept_item.storage_capacity"
+      ],
+      "status": "done",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing",
+        "test_port_game_dump_respects_source_core_accept_item_capacity"
+      ]
     }
   },
   "version": 1

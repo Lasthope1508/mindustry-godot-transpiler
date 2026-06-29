@@ -20573,6 +20573,123 @@
         "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
       ]
     },
+    "core_accept_item.core_incinerates": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.coreIncinerates",
+      "java_expr": "state.rules.coreIncinerates",
+      "java_method": "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "Runtime core_incinerates supplies source state.rules.coreIncinerates.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.item_count": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.itemCount",
+      "java_expr": "items.get(item)",
+      "java_method": "acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "Runtime core item count supplies source items.get(item).",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.item_id": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_input.item_id",
+      "java_expr": "Item item",
+      "java_method": "acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "Godot item id selects the source Item argument.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "explicit-input",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.maximum_method": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.maximum_method",
+      "java_expr": "public int getMaximumAccepted(Item item){",
+      "java_method": "getMaximumAccepted(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "CoreBuild maximum accepted method boundary used by acceptItem.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.maximum_result": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.maximumAccepted",
+      "java_expr": "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;",
+      "java_method": "getMaximumAccepted(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "Source CoreBuild maximum accepted capacity depends on coreIncinerates.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.method": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.method",
+      "java_expr": "public boolean acceptItem(Building source, Item item){",
+      "java_method": "acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "CoreBuild override acceptItem method boundary.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.result": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.acceptItem",
+      "java_expr": "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);",
+      "java_method": "acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "Source CoreBuild accepts items when rules incinerate cores or stored amount is below maximum accepted.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.rules_core_incinerates_field": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.rules_core_incinerates_field",
+      "java_expr": "public boolean coreIncinerates = true;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "rule": "Source Rules default enables core item incineration.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "core_accept_item.storage_capacity": {
+      "godot_owner": "PortGame.source_core_accept_item",
+      "godot_symbol": "source_core_accept_item_result.storageCapacity",
+      "java_expr": "storageCapacity",
+      "java_method": "getMaximumAccepted(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "rule": "Runtime core item capacity supplies source storageCapacity.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "status": "source-backed",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
+    },
     "create_aim.aim_gate": {
       "godot_owner": "PortGame.source_bullet_type_create_aim_state",
       "godot_symbol": "create_aim_result.hasAimTile",

@@ -10790,6 +10790,29 @@
       "tests": [
         "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_core_accept_item": {
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "params": [
+        {
+          "name": "item_id",
+          "schema": "source_core_accept_item_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "acceptItem",
+        "coreIncinerates",
+        "maximumAccepted"
+      ],
+      "rule": "Public runtime contract for CoreBuild.acceptItem using state.rules.coreIncinerates and storage capacity.",
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "source_method": "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)",
+      "source_slice": "N688",
+      "status": "active",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

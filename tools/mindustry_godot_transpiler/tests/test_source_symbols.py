@@ -2879,6 +2879,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(maximum_accepted["java_expr"], "getMaximumAccepted(item)")
         self.assertEqual(maximum_accepted["godot_symbol"], "source_building_accept_item_input.maximumAccepted")
 
+    def test_core_accept_item_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "core_accept_item.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/storage/CoreBlock.java")
+        self.assertEqual(method["java_method"], "acceptItem(Building source, Item item)")
+        self.assertEqual(method["java_expr"], "public boolean acceptItem(Building source, Item item){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_core_accept_item")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_core_accept_item")
+        self.assertEqual(method["godot_symbol"], "source_core_accept_item_result.method")
+
+        result = source_symbols.source_symbol(registry, "core_accept_item.result")
+        self.assertEqual(result["java_expr"], "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);")
+        self.assertEqual(result["godot_symbol"], "source_core_accept_item_result.acceptItem")
+
+        maximum_method = source_symbols.source_symbol(registry, "core_accept_item.maximum_method")
+        self.assertEqual(maximum_method["java_expr"], "public int getMaximumAccepted(Item item){")
+        self.assertEqual(maximum_method["godot_symbol"], "source_core_accept_item_result.maximum_method")
+
+        maximum_result = source_symbols.source_symbol(registry, "core_accept_item.maximum_result")
+        self.assertEqual(maximum_result["java_expr"], "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;")
+        self.assertEqual(maximum_result["godot_symbol"], "source_core_accept_item_result.maximumAccepted")
+
+        rules_field = source_symbols.source_symbol(registry, "core_accept_item.rules_core_incinerates_field")
+        self.assertEqual(rules_field["java_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(rules_field["java_expr"], "public boolean coreIncinerates = true;")
+        self.assertEqual(rules_field["godot_symbol"], "source_core_accept_item_result.rules_core_incinerates_field")
+
+        item_id = source_symbols.source_symbol(registry, "core_accept_item.item_id")
+        self.assertEqual(item_id["status"], "explicit-input")
+        self.assertEqual(item_id["java_expr"], "Item item")
+        self.assertEqual(item_id["godot_symbol"], "source_core_accept_item_input.item_id")
+
+        item_count = source_symbols.source_symbol(registry, "core_accept_item.item_count")
+        self.assertEqual(item_count["java_expr"], "items.get(item)")
+        self.assertEqual(item_count["godot_symbol"], "source_core_accept_item_result.itemCount")
+
+        core_incinerates = source_symbols.source_symbol(registry, "core_accept_item.core_incinerates")
+        self.assertEqual(core_incinerates["java_expr"], "state.rules.coreIncinerates")
+        self.assertEqual(core_incinerates["godot_symbol"], "source_core_accept_item_result.coreIncinerates")
+
+        storage_capacity = source_symbols.source_symbol(registry, "core_accept_item.storage_capacity")
+        self.assertEqual(storage_capacity["java_expr"], "storageCapacity")
+        self.assertEqual(storage_capacity["godot_symbol"], "source_core_accept_item_result.storageCapacity")
+
     def test_building_accept_liquid_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8809,9 +8857,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 285)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 286)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 290)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 291)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -9004,6 +9052,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_conveyor_path_progress_delta_for_cell", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_conveyor_path_progress_rate", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_conveyor_world_speed", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_core_accept_item", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9990,6 +10039,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("block.consumesItem(item)", building_accept_item["exact_exprs"])
         self.assertIn("items.get(item)", building_accept_item["exact_exprs"])
         self.assertIn("getMaximumAccepted(item)", building_accept_item["exact_exprs"])
+
+        core_accept_item = source_symbols.source_slice(ledger, "N688")
+        self.assertEqual(core_accept_item["java_source"], "core/src/mindustry/world/blocks/storage/CoreBlock.java")
+        self.assertEqual(core_accept_item["java_method"], "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)")
+        self.assertEqual(core_accept_item["godot_owner"], "PortGame.source_core_accept_item")
+        self.assertIn("public boolean acceptItem(Building source, Item item){", core_accept_item["exact_exprs"])
+        self.assertIn("return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);", core_accept_item["exact_exprs"])
+        self.assertIn("public int getMaximumAccepted(Item item){", core_accept_item["exact_exprs"])
+        self.assertIn("return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;", core_accept_item["exact_exprs"])
+        self.assertIn("public boolean coreIncinerates = true;", core_accept_item["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12690,6 +12749,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_accept_item["params"][2]["schema"], "source_building_accept_item_input.maximumAccepted")
         self.assertIn("acceptItem", building_accept_item["return_keys"])
         self.assertEqual(building_accept_item["source_method"], "acceptItem(Building source, Item item)")
+
+        core_accept_item = source_symbols.api_contract(contracts, "PortGame.source_core_accept_item")
+        self.assertEqual([param["name"] for param in core_accept_item["params"]], ["item_id"])
+        self.assertEqual(core_accept_item["params"][0]["schema"], "source_core_accept_item_input.item_id")
+        self.assertIn("acceptItem", core_accept_item["return_keys"])
+        self.assertIn("coreIncinerates", core_accept_item["return_keys"])
+        self.assertIn("maximumAccepted", core_accept_item["return_keys"])
+        self.assertEqual(core_accept_item["source_method"], "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)")
 
         building_accept_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_accept_liquid_state")
         self.assertEqual([param["name"] for param in building_accept_liquid["params"]], ["has_liquids", "consumes_liquid"])
@@ -15465,6 +15532,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_accept_item_result["keys"]["consumesItem"]["alias_of"], "source_building_accept_item_input.consumesItem")
         self.assertEqual(source_building_accept_item_result["keys"]["itemCount"]["alias_of"], "source_building_accept_item_input.itemCount")
         self.assertEqual(source_building_accept_item_result["keys"]["maximumAccepted"]["alias_of"], "source_building_accept_item_input.maximumAccepted")
+
+        source_core_accept_item_input = source_symbols.state_schema(schema, "source_core_accept_item_input")
+        self.assertEqual(source_core_accept_item_input["keys"]["item_id"]["java_expr"], "Item item")
+        self.assertEqual(source_core_accept_item_input["keys"]["item_id"]["status"], "explicit-input")
+
+        source_core_accept_item_result = source_symbols.state_schema(schema, "source_core_accept_item_result")
+        self.assertEqual(source_core_accept_item_result["keys"]["method"]["java_expr"], "public boolean acceptItem(Building source, Item item){")
+        self.assertEqual(source_core_accept_item_result["keys"]["acceptItem"]["java_expr"], "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);")
+        self.assertEqual(source_core_accept_item_result["keys"]["maximum_method"]["java_expr"], "public int getMaximumAccepted(Item item){")
+        self.assertEqual(source_core_accept_item_result["keys"]["maximumAccepted"]["java_expr"], "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;")
+        self.assertEqual(source_core_accept_item_result["keys"]["rules_core_incinerates_field"]["java_expr"], "public boolean coreIncinerates = true;")
+        self.assertEqual(source_core_accept_item_result["keys"]["coreIncinerates"]["java_expr"], "state.rules.coreIncinerates")
+        self.assertEqual(source_core_accept_item_result["keys"]["itemCount"]["java_expr"], "items.get(item)")
+        self.assertEqual(source_core_accept_item_result["keys"]["storageCapacity"]["java_expr"], "storageCapacity")
+        self.assertEqual(source_core_accept_item_result["keys"]["item_id"]["alias_of"], "source_core_accept_item_input.item_id")
 
         source_building_accept_liquid_input = source_symbols.state_schema(schema, "source_building_accept_liquid_input")
         self.assertEqual(source_building_accept_liquid_input["keys"]["hasLiquids"]["java_expr"], "block.hasLiquids")

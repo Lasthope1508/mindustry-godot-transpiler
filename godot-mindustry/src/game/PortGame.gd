@@ -93,6 +93,7 @@ var last_overdrive_projector_boosted_cell := Vector2i.ZERO
 var core_inventory := 0
 var core_items: Dictionary = {"copper": 0}
 var core_item_capacity := 0
+var core_incinerates := true
 var core_max_health := 0.0
 var core_health := 0.0
 var drill_output_item_id := "copper"
@@ -1302,8 +1303,14 @@ func core_item_count(item_id: String) -> int:
 		core_items["copper"] = core_inventory
 	return int(core_items.get(item_id, 0))
 
+const SOURCE_CORE_ACCEPT_ITEM_METHOD := "public boolean acceptItem(Building source, Item item){"
+const SOURCE_CORE_ACCEPT_ITEM_RESULT := "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);"
+const SOURCE_CORE_ACCEPT_ITEM_MAXIMUM_METHOD := "public int getMaximumAccepted(Item item){"
+const SOURCE_CORE_ACCEPT_ITEM_MAXIMUM_RESULT := "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;"
+const SOURCE_CORE_ACCEPT_ITEM_RULES_CORE_INCINERATES_FIELD := "public boolean coreIncinerates = true;"
+
 func source_core_accept_item(item_id: String) -> bool:
-	return core_item_count(item_id) < core_item_capacity
+	return core_incinerates or core_item_count(item_id) < core_item_capacity
 
 func source_core_handle_item(item_id: String) -> bool:
 	if not source_core_accept_item(item_id):

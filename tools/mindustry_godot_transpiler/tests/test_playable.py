@@ -1212,8 +1212,14 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn("var core_incinerates := true", source)
+        self.assertIn('const SOURCE_CORE_ACCEPT_ITEM_METHOD := "public boolean acceptItem(Building source, Item item){"', source)
+        self.assertIn('const SOURCE_CORE_ACCEPT_ITEM_RESULT := "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);"', source)
+        self.assertIn('const SOURCE_CORE_ACCEPT_ITEM_MAXIMUM_METHOD := "public int getMaximumAccepted(Item item){"', source)
+        self.assertIn('const SOURCE_CORE_ACCEPT_ITEM_MAXIMUM_RESULT := "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;"', source)
+        self.assertIn('const SOURCE_CORE_ACCEPT_ITEM_RULES_CORE_INCINERATES_FIELD := "public boolean coreIncinerates = true;"', source)
         self.assertIn("func source_core_accept_item(item_id: String) -> bool:", source)
-        self.assertIn("return core_item_count(item_id) < core_item_capacity", source)
+        self.assertIn("return core_incinerates or core_item_count(item_id) < core_item_capacity", source)
         self.assertIn("if not source_core_accept_item(item_id):", source)
         self.assertIn("return false", source)
         dump_start = source.index("func source_dump_drill_item_to_core(item_id: String) -> bool:")
