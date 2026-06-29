@@ -11811,6 +11811,37 @@
       "tests": [
         "test_mend_projector_place_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mend_projector_progress": {
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "params": [
+        {
+          "name": "mend_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "charge",
+          "schema": "source_mend_projector_progress_input.charge",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "chargeReloadRatio",
+        "charge",
+        "reload",
+        "sensor",
+        "superSenseDeferred"
+      ],
+      "rule": "Public runtime contract for MendProjector progress sense helper covering LAccess.progress branch; other sensors defer to super.sense.",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "source_method": "sense(LAccess sensor)",
+      "source_slice": "N716",
+      "status": "active",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

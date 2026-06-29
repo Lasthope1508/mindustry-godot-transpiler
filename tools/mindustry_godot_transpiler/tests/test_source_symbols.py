@@ -2662,6 +2662,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(tile_y_input["java_expr"], "int y")
         self.assertEqual(tile_y_input["godot_symbol"], "source_mend_projector_place_state_input.tileY")
 
+    def test_mend_projector_progress_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "mend_projector_progress.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){\n            if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);\n            return super.sense(sensor);\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_mend_projector_progress")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_mend_projector_progress")
+
+        progress_gate = source_symbols.source_symbol(registry, "mend_projector_progress.progress_sensor_gate")
+        self.assertEqual(progress_gate["java_expr"], "if(sensor == LAccess.progress)")
+        self.assertEqual(progress_gate["godot_symbol"], "source_mend_projector_progress_input.sensor")
+
+        clamp_expr = source_symbols.source_symbol(registry, "mend_projector_progress.clamp_expr")
+        self.assertEqual(clamp_expr["java_expr"], "Mathf.clamp(charge / reload)")
+        self.assertEqual(clamp_expr["godot_symbol"], "source_mend_projector_progress_result.progress")
+
+        charge_reload_ratio = source_symbols.source_symbol(registry, "mend_projector_progress.charge_reload_ratio")
+        self.assertEqual(charge_reload_ratio["java_expr"], "charge / reload")
+        self.assertEqual(charge_reload_ratio["godot_symbol"], "source_mend_projector_progress_result.chargeReloadRatio")
+
+        charge_input = source_symbols.source_symbol(registry, "mend_projector_progress.charge_input")
+        self.assertEqual(charge_input["status"], "explicit-input")
+        self.assertEqual(charge_input["java_expr"], "charge")
+        self.assertEqual(charge_input["godot_symbol"], "source_mend_projector_progress_input.charge")
+
+        reload_field = source_symbols.source_symbol(registry, "mend_projector_progress.reload_field")
+        self.assertEqual(reload_field["java_expr"], "public float reload = 250f;")
+        self.assertEqual(reload_field["godot_symbol"], "source_mend_projector_progress_input.reload")
+
+        super_sense = source_symbols.source_symbol(registry, "mend_projector_progress.super_sense")
+        self.assertEqual(super_sense["java_expr"], "return super.sense(sensor);")
+        self.assertEqual(super_sense["godot_symbol"], "source_mend_projector_progress_result.superSenseDeferred")
+
     def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10006,9 +10043,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 313)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 314)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 318)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 319)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10143,6 +10180,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_mend_projector_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_place_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mend_projector_progress", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11504,6 +11542,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);", mend_projector_place_state["exact_exprs"])
         self.assertIn("x * tilesize + offset", mend_projector_place_state["exact_exprs"])
         self.assertIn("Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))", mend_projector_place_state["exact_exprs"])
+
+        mend_projector_progress = source_symbols.source_slice(ledger, "N716")
+        self.assertEqual(mend_projector_progress["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(mend_projector_progress["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(mend_projector_progress["godot_owner"], "PortGame.source_mend_projector_progress")
+        self.assertIn("public double sense(LAccess sensor){\n            if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);\n            return super.sense(sensor);\n        }", mend_projector_progress["exact_exprs"])
+        self.assertIn("if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);", mend_projector_progress["exact_exprs"])
+        self.assertIn("charge / reload", mend_projector_progress["exact_exprs"])
+        self.assertIn("return super.sense(sensor);", mend_projector_progress["deferred_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14127,6 +14174,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("dashCircle", mend_projector_place_state["return_keys"])
         self.assertIn("eachBlock", mend_projector_place_state["return_keys"])
         self.assertEqual(mend_projector_place_state["source_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+
+        mend_projector_progress = source_symbols.api_contract(contracts, "PortGame.source_mend_projector_progress")
+        self.assertEqual([param["name"] for param in mend_projector_progress["params"]], ["mend_projector", "charge"])
+        self.assertEqual(mend_projector_progress["params"][1]["schema"], "source_mend_projector_progress_input.charge")
+        self.assertIn("progress", mend_projector_progress["return_keys"])
+        self.assertIn("chargeReloadRatio", mend_projector_progress["return_keys"])
+        self.assertEqual(mend_projector_progress["source_method"], "sense(LAccess sensor)")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -17133,6 +17187,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_mend_projector_place_state_result["keys"]["color"]["java_expr"], "baseColor")
         self.assertEqual(source_mend_projector_place_state_result["keys"]["eachBlock"]["java_expr"], "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
         self.assertEqual(source_mend_projector_place_state_result["keys"]["selected"]["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+
+        source_mend_projector_progress_input = source_symbols.state_schema(schema, "source_mend_projector_progress_input")
+        self.assertEqual(source_mend_projector_progress_input["keys"]["sensor"]["java_expr"], "LAccess.progress")
+        self.assertEqual(source_mend_projector_progress_input["keys"]["charge"]["java_expr"], "charge")
+        self.assertEqual(source_mend_projector_progress_input["keys"]["reload"]["java_expr"], "public float reload = 250f;")
+
+        source_mend_projector_progress_result = source_symbols.state_schema(schema, "source_mend_projector_progress_result")
+        self.assertEqual(source_mend_projector_progress_result["keys"]["progress"]["java_expr"], "Mathf.clamp(charge / reload)")
+        self.assertEqual(source_mend_projector_progress_result["keys"]["chargeReloadRatio"]["java_expr"], "charge / reload")
+        self.assertEqual(source_mend_projector_progress_result["keys"]["charge"]["alias_of"], "source_mend_projector_progress_input.charge")
+        self.assertEqual(source_mend_projector_progress_result["keys"]["superSenseDeferred"]["java_expr"], "return super.sense(sensor);")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")

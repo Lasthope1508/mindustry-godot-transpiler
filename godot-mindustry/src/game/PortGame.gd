@@ -671,6 +671,12 @@ func source_mend_projector_light_state(mend_projector, smooth_efficiency: float)
 		"alpha": 0.7 * smooth_efficiency,
 	}
 
+const SOURCE_MEND_PROJECTOR_PROGRESS_METHOD := "public double sense(LAccess sensor){\n            if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);\n            return super.sense(sensor);\n        }"
+const SOURCE_MEND_PROJECTOR_PROGRESS_SENSOR_GATE := "if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);"
+const SOURCE_MEND_PROJECTOR_PROGRESS_CLAMP_EXPR := "Mathf.clamp(charge / reload)"
+const SOURCE_MEND_PROJECTOR_PROGRESS_RATIO_EXPR := "charge / reload"
+const SOURCE_MEND_PROJECTOR_PROGRESS_SUPER_SENSE := "return super.sense(sensor);"
+
 func source_mend_projector_progress(mend_projector, charge: float) -> float:
 	if mend_projector == null:
 		return 0.0

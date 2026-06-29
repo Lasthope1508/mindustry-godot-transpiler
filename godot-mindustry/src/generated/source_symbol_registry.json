@@ -32073,6 +32073,97 @@
       "tests": [
         "test_mend_projector_place_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mend_projector_progress.method": {
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "godot_symbol": "source_mend_projector_progress_result.progress",
+      "java_expr": "public double sense(LAccess sensor){\n            if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);\n            return super.sense(sensor);\n        }",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild.sense returns clamped charge/reload for LAccess.progress and defers other sensors to super.",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_progress.progress_sensor_gate": {
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "godot_symbol": "source_mend_projector_progress_input.sensor",
+      "java_expr": "if(sensor == LAccess.progress)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Progress branch is gated by LAccess.progress.",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_progress.clamp_expr": {
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "godot_symbol": "source_mend_projector_progress_result.progress",
+      "java_expr": "Mathf.clamp(charge / reload)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Progress value is Mathf.clamp(charge / reload).",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_progress.charge_reload_ratio": {
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "godot_symbol": "source_mend_projector_progress_result.chargeReloadRatio",
+      "java_expr": "charge / reload",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Progress ratio divides charge by reload before clamp.",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_progress.charge_input": {
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "godot_symbol": "source_mend_projector_progress_input.charge",
+      "java_expr": "charge",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild.charge is an explicit runtime input.",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "status": "explicit-input",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_progress.reload_field": {
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "godot_symbol": "source_mend_projector_progress_input.reload",
+      "java_expr": "public float reload = 250f;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector default reload field backs content reload.",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_progress.super_sense": {
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "godot_symbol": "source_mend_projector_progress_result.superSenseDeferred",
+      "java_expr": "return super.sense(sensor);",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Non-progress sensor fallback is deferred outside source_mend_projector_progress.",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "status": "deferred",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

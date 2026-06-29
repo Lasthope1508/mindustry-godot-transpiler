@@ -10109,6 +10109,39 @@
       "tests": [
         "test_mend_projector_place_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N716": {
+      "deferred_exprs": [
+        "return super.sense(sensor);"
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){\n            if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);\n            return super.sense(sensor);\n        }",
+        "if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);",
+        "Mathf.clamp(charge / reload)",
+        "charge / reload",
+        "charge",
+        "public float reload = 250f;",
+        "LAccess.progress"
+      ],
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "java_class": "mindustry.world.blocks.defense.MendProjector.MendBuild",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Backfills SSOT for existing source_mend_projector_progress helper against Mindustry MendProjector.MendBuild.sense(LAccess.progress).",
+      "runtime_proof": "/root/Main.source_mend_projector_progress",
+      "source_symbols": [
+        "mend_projector_progress.method",
+        "mend_projector_progress.progress_sensor_gate",
+        "mend_projector_progress.clamp_expr",
+        "mend_projector_progress.charge_reload_ratio",
+        "mend_projector_progress.charge_input",
+        "mend_projector_progress.reload_field",
+        "mend_projector_progress.super_sense"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

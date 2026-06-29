@@ -598,6 +598,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_MEND_PROJECTOR_PROGRESS_METHOD := "public double sense(LAccess sensor){\\n            if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);\\n            return super.sense(sensor);\\n        }"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_PROGRESS_SENSOR_GATE := "if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_PROGRESS_CLAMP_EXPR := "Mathf.clamp(charge / reload)"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_PROGRESS_RATIO_EXPR := "charge / reload"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_PROGRESS_SUPER_SENSE := "return super.sense(sensor);"', source)
         self.assertIn("func source_mend_projector_progress(mend_projector, charge: float) -> float:", source)
         self.assertIn('var reload := float(mend_projector.properties.get("reload", 0.0))', source)
         self.assertIn("return clamp(charge / reload, 0.0, 1.0)", source)

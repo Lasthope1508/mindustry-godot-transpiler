@@ -41144,6 +41144,106 @@
         }
       },
       "status": "active"
+    },
+    "source_mend_projector_progress_input": {
+      "keys": {
+        "sensor": {
+          "java_expr": "LAccess.progress",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "This helper covers the LAccess.progress branch.",
+          "status": "source-backed",
+          "type": "string",
+          "used_by": [
+            "PortGame.source_mend_projector_progress"
+          ],
+          "godot_symbol": "source_mend_projector_progress_input.sensor"
+        },
+        "charge": {
+          "java_expr": "charge",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendBuild.charge explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_progress"
+          ],
+          "godot_symbol": "source_mend_projector_progress_input.charge"
+        },
+        "reload": {
+          "java_expr": "public float reload = 250f;",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendProjector.reload field used as denominator.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_progress"
+          ],
+          "godot_symbol": "source_mend_projector_progress_input.reload"
+        }
+      },
+      "status": "active"
+    },
+    "source_mend_projector_progress_result": {
+      "keys": {
+        "progress": {
+          "java_expr": "Mathf.clamp(charge / reload)",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Clamped progress returned for LAccess.progress.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_progress"
+          ],
+          "godot_symbol": "source_mend_projector_progress_result.progress"
+        },
+        "chargeReloadRatio": {
+          "java_expr": "charge / reload",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Raw charge/reload ratio before clamp.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_progress"
+          ],
+          "godot_symbol": "source_mend_projector_progress_result.chargeReloadRatio"
+        },
+        "charge": {
+          "alias_of": "source_mend_projector_progress_input.charge",
+          "rule": "Carries charge input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "reload": {
+          "alias_of": "source_mend_projector_progress_input.reload",
+          "rule": "Carries reload field into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "sensor": {
+          "alias_of": "source_mend_projector_progress_input.sensor",
+          "rule": "Carries sensor branch into result schema.",
+          "status": "generated",
+          "type": "string"
+        },
+        "superSenseDeferred": {
+          "java_expr": "return super.sense(sensor);",
+          "java_method": "sense(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Non-progress sensor fallback is deferred outside this helper.",
+          "status": "deferred",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_progress"
+          ],
+          "godot_symbol": "source_mend_projector_progress_result.superSenseDeferred"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1
