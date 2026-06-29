@@ -33325,6 +33325,49 @@
           "alias_of": "source_building_update_ambient_sound_gate_input.ambient_volume_value"
         }
       }
+    },
+    "source_building_update_consumption_call_result": {
+      "status": "active",
+      "owner": "PortGame.source_building_update_consumption_call_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_call_state",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "update()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_call_state"
+          ],
+          "java_expr": "public void update(){",
+          "godot_symbol": "source_building_update_consumption_call_result.method",
+          "rule": "BuildingComp.update method boundary."
+        },
+        "call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "update()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_call_state"
+          ],
+          "java_expr": "updateConsumption();",
+          "godot_symbol": "source_building_update_consumption_call_result.call",
+          "rule": "Exact updateConsumption call marker."
+        },
+        "update_consumption_called": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "update()",
+          "used_by": [
+            "PortGame.source_building_update_consumption_call_state"
+          ],
+          "java_expr": "updateConsumption();",
+          "godot_symbol": "source_building_update_consumption_call_result.update_consumption_called",
+          "rule": "Generated bool marks that updateConsumption() is reached."
+        }
+      }
     }
   },
   "version": 1

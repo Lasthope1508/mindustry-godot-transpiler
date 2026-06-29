@@ -8171,6 +8171,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state",
       "rule": "Backfills SSOT for existing canonical source_building_update_ambient_sound_gate_state helper against BuildingComp.update ambient sound gate."
+    },
+    "N658": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_building_update_consumption_call_state",
+      "exact_exprs": [
+        "public void update(){",
+        "updateConsumption();"
+      ],
+      "source_symbols": [
+        "building_update_consumption_call.method",
+        "building_update_consumption_call.call",
+        "building_update_consumption_call.update_consumption_called"
+      ],
+      "tests": [
+        "test_building_update_consumption_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_call_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_consumption_call_state helper against BuildingComp.update updateConsumption() call."
     }
   },
   "version": 1

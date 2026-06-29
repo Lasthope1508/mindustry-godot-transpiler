@@ -4972,6 +4972,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(ambient_volume["java_expr"], "ambientVolume()")
         self.assertEqual(ambient_volume["godot_symbol"], "source_building_update_ambient_sound_gate_input.ambient_volume_value")
 
+    def test_building_update_consumption_call_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_update_consumption_call.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "update()")
+        self.assertEqual(method["java_expr"], "public void update(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_update_consumption_call_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_update_consumption_call_state")
+        self.assertEqual(method["godot_symbol"], "source_building_update_consumption_call_result.method")
+
+        call = source_symbols.source_symbol(registry, "building_update_consumption_call.call")
+        self.assertEqual(call["java_expr"], "updateConsumption();")
+        self.assertEqual(call["godot_symbol"], "source_building_update_consumption_call_result.call")
+
+        marker = source_symbols.source_symbol(registry, "building_update_consumption_call.update_consumption_called")
+        self.assertEqual(marker["status"], "generated")
+        self.assertEqual(marker["java_expr"], "updateConsumption();")
+        self.assertEqual(marker["godot_symbol"], "source_building_update_consumption_call_result.update_consumption_called")
+
     def test_building_on_repaired_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7643,9 +7666,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 255)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 256)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 260)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 261)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7808,6 +7831,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_unit_on_any_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_removed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_ambient_sound_gate_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_consumption_call_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9071,6 +9095,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){", building_update_ambient_sound_gate["exact_exprs"])
         self.assertIn("control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());", building_update_ambient_sound_gate["exact_exprs"])
         self.assertIn("block.ambientSoundVolume * ambientVolume()", building_update_ambient_sound_gate["exact_exprs"])
+
+        building_update_consumption_call = source_symbols.source_slice(ledger, "N658")
+        self.assertEqual(building_update_consumption_call["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_consumption_call["java_method"], "update()")
+        self.assertEqual(building_update_consumption_call["godot_owner"], "PortGame.source_building_update_consumption_call_state")
+        self.assertIn("public void update(){", building_update_consumption_call["exact_exprs"])
+        self.assertIn("updateConsumption();", building_update_consumption_call["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11496,6 +11527,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("sound", building_update_ambient_sound_gate["return_keys"])
         self.assertIn("volume", building_update_ambient_sound_gate["return_keys"])
         self.assertEqual(building_update_ambient_sound_gate["source_method"], "update()")
+
+        building_update_consumption_call = source_symbols.api_contract(contracts, "PortGame.source_building_update_consumption_call_state")
+        self.assertEqual([param["name"] for param in building_update_consumption_call["params"]], [])
+        self.assertIn("update_consumption_called", building_update_consumption_call["return_keys"])
+        self.assertEqual(building_update_consumption_call["source_method"], "update()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -14544,6 +14580,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["volume_expr"]["java_expr"], "block.ambientSoundVolume * ambientVolume()")
         self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["headless_mode"]["alias_of"], "source_building_update_ambient_sound_gate_input.headless_mode")
         self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["ambient_volume_value"]["alias_of"], "source_building_update_ambient_sound_gate_input.ambient_volume_value")
+
+        source_building_update_consumption_call_result = source_symbols.state_schema(schema, "source_building_update_consumption_call_result")
+        self.assertEqual(source_building_update_consumption_call_result["keys"]["method"]["java_expr"], "public void update(){")
+        self.assertEqual(source_building_update_consumption_call_result["keys"]["call"]["java_expr"], "updateConsumption();")
+        self.assertEqual(source_building_update_consumption_call_result["keys"]["update_consumption_called"]["java_expr"], "updateConsumption();")
 
         source_building_on_repaired_input = source_symbols.state_schema(schema, "source_building_on_repaired_input")
         self.assertEqual(source_building_on_repaired_input["keys"]["has_fog_radius"]["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")

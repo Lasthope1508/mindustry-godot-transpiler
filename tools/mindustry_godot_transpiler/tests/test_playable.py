@@ -2753,6 +2753,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_CALL_METHOD := "public void update(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_CALL := "updateConsumption();"', source)
         self.assertIn("func source_building_update_consumption_call_state() -> Dictionary:", source)
         self.assertIn('return {"update_consumption_called": true}', source)
 

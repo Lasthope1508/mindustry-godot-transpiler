@@ -25305,6 +25305,46 @@
         "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_consumption_call.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "public void update(){",
+      "godot_symbol": "source_building_update_consumption_call_result.method",
+      "godot_owner": "PortGame.source_building_update_consumption_call_state",
+      "rule": "BuildingComp.update method boundary for updateConsumption call slice.",
+      "tests": [
+        "test_building_update_consumption_call_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_call_state"
+    },
+    "building_update_consumption_call.call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "updateConsumption();",
+      "godot_symbol": "source_building_update_consumption_call_result.call",
+      "godot_owner": "PortGame.source_building_update_consumption_call_state",
+      "rule": "Exact upstream updateConsumption call marker.",
+      "tests": [
+        "test_building_update_consumption_call_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_call_state"
+    },
+    "building_update_consumption_call.update_consumption_called": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "updateConsumption();",
+      "godot_symbol": "source_building_update_consumption_call_result.update_consumption_called",
+      "godot_owner": "PortGame.source_building_update_consumption_call_state",
+      "rule": "Generated bool marks that BuildingComp.update reaches updateConsumption().",
+      "tests": [
+        "test_building_update_consumption_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_call_state"
     }
   }
 }
