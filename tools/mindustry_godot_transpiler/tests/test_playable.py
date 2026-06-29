@@ -1685,6 +1685,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UNIT_REMOVED_COMMENT := "/** Called when a unit that spawned at this tile is removed. */"', source)
+        self.assertIn('const SOURCE_BUILDING_UNIT_REMOVED_METHOD := "public void unitRemoved(Unit unit){"', source)
+        self.assertIn('const SOURCE_BUILDING_UNIT_REMOVED_EMPTY_BODY := "public void unitRemoved(Unit unit){\\n    }"', source)
         self.assertIn("func source_building_unit_removed_state(unit_state: Variant) -> Variant:", source)
         self.assertIn("return unit_state", source)
 

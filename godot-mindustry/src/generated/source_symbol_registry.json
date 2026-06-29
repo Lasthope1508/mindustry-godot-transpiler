@@ -25046,6 +25046,19 @@
       "runtime_proof": "/root/Main.source_building_unit_on_state",
       "rule": "Exact upstream BuildingComp.unitOn source token registered for canonical Godot helper."
     },
+    "building_unit_removed.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitRemoved(Unit unit)",
+      "java_expr": "/** Called when a unit that spawned at this tile is removed. */",
+      "godot_symbol": "source_building_unit_removed_result.comment",
+      "godot_owner": "PortGame.source_building_unit_removed_state",
+      "tests": [
+        "test_building_unit_removed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_removed_state",
+      "rule": "Exact upstream BuildingComp.unitRemoved source token registered for canonical Godot helper."
+    },
     "building_unit_on_any.method": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
@@ -25071,6 +25084,19 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_on_state",
       "rule": "Exact upstream BuildingComp.unitOn source token registered for canonical Godot helper."
+    },
+    "building_unit_removed.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitRemoved(Unit unit)",
+      "java_expr": "public void unitRemoved(Unit unit){",
+      "godot_symbol": "source_building_unit_removed_result.method",
+      "godot_owner": "PortGame.source_building_unit_removed_state",
+      "tests": [
+        "test_building_unit_removed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_removed_state",
+      "rule": "Exact upstream BuildingComp.unitRemoved source token registered for canonical Godot helper."
     },
     "building_unit_on_any.empty_body": {
       "status": "source-backed",
@@ -25098,6 +25124,19 @@
       "runtime_proof": "/root/Main.source_building_unit_on_state",
       "rule": "Exact upstream BuildingComp.unitOn source token registered for canonical Godot helper."
     },
+    "building_unit_removed.empty_body": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitRemoved(Unit unit)",
+      "java_expr": "public void unitRemoved(Unit unit){\n    }",
+      "godot_symbol": "source_building_unit_removed_result.empty_body",
+      "godot_owner": "PortGame.source_building_unit_removed_state",
+      "tests": [
+        "test_building_unit_removed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_removed_state",
+      "rule": "Exact upstream BuildingComp.unitRemoved source token registered for canonical Godot helper."
+    },
     "building_unit_on_any.unit_state": {
       "status": "explicit-input",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
@@ -25122,6 +25161,19 @@
         "test_building_unit_on_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_unit_on_state",
+      "rule": "Represent Unit unit as explicit input until Unit runtime body is ported."
+    },
+    "building_unit_removed.unit_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "unitRemoved(Unit unit)",
+      "java_expr": "unit",
+      "godot_symbol": "source_building_unit_removed_input.unit_state",
+      "godot_owner": "PortGame.source_building_unit_removed_state",
+      "tests": [
+        "test_building_unit_removed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_removed_state",
       "rule": "Represent Unit unit as explicit input until Unit runtime body is ported."
     }
   }

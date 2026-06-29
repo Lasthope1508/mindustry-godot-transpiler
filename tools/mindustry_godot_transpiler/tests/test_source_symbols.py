@@ -4889,6 +4889,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_state["java_expr"], "unit")
         self.assertEqual(unit_state["godot_symbol"], "source_building_unit_on_any_input.unit_state")
 
+    def test_building_unit_removed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_unit_removed.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "unitRemoved(Unit unit)")
+        self.assertEqual(comment["java_expr"], "/** Called when a unit that spawned at this tile is removed. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_unit_removed_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_unit_removed_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_unit_removed_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_unit_removed.method")
+        self.assertEqual(method["java_expr"], "public void unitRemoved(Unit unit){")
+        self.assertEqual(method["godot_symbol"], "source_building_unit_removed_result.method")
+
+        empty_body = source_symbols.source_symbol(registry, "building_unit_removed.empty_body")
+        self.assertEqual(empty_body["java_expr"], "public void unitRemoved(Unit unit){\n    }")
+        self.assertEqual(empty_body["godot_symbol"], "source_building_unit_removed_result.empty_body")
+
+        unit_state = source_symbols.source_symbol(registry, "building_unit_removed.unit_state")
+        self.assertEqual(unit_state["status"], "explicit-input")
+        self.assertEqual(unit_state["java_expr"], "unit")
+        self.assertEqual(unit_state["godot_symbol"], "source_building_unit_removed_input.unit_state")
+
     def test_building_on_repaired_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7560,9 +7587,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 253)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 254)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 258)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 259)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7723,6 +7750,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_to_string_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_on_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_on_any_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_unit_removed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -8968,6 +8996,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void unitOn(Unit unit){", building_unit_on["exact_exprs"])
         self.assertIn("public void unitOn(Unit unit){\n    }", building_unit_on["exact_exprs"])
         self.assertIn("unit", building_unit_on["exact_exprs"])
+
+        building_unit_removed = source_symbols.source_slice(ledger, "N656")
+        self.assertEqual(building_unit_removed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_unit_removed["java_method"], "unitRemoved(Unit unit)")
+        self.assertEqual(building_unit_removed["godot_owner"], "PortGame.source_building_unit_removed_state")
+        self.assertIn("/** Called when a unit that spawned at this tile is removed. */", building_unit_removed["exact_exprs"])
+        self.assertIn("public void unitRemoved(Unit unit){", building_unit_removed["exact_exprs"])
+        self.assertIn("public void unitRemoved(Unit unit){\n    }", building_unit_removed["exact_exprs"])
+        self.assertIn("unit", building_unit_removed["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11378,6 +11415,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_unit_on_any["params"][0]["schema"], "source_building_unit_on_any_input.unit_state")
         self.assertIn("unit_state", building_unit_on_any["return_keys"])
         self.assertEqual(building_unit_on_any["source_method"], "unitOnAny(Unit unit)")
+
+        building_unit_removed = source_symbols.api_contract(contracts, "PortGame.source_building_unit_removed_state")
+        self.assertEqual([param["name"] for param in building_unit_removed["params"]], ["unit_state"])
+        self.assertEqual(building_unit_removed["params"][0]["schema"], "source_building_unit_removed_input.unit_state")
+        self.assertIn("unit_state", building_unit_removed["return_keys"])
+        self.assertEqual(building_unit_removed["source_method"], "unitRemoved(Unit unit)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -14400,6 +14443,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_unit_on_any_result["keys"]["method"]["java_expr"], "public void unitOnAny(Unit unit){")
         self.assertEqual(source_building_unit_on_any_result["keys"]["empty_body"]["java_expr"], "public void unitOnAny(Unit unit){\n    }")
         self.assertEqual(source_building_unit_on_any_result["keys"]["unit_state"]["alias_of"], "source_building_unit_on_any_input.unit_state")
+
+        source_building_unit_removed_input = source_symbols.state_schema(schema, "source_building_unit_removed_input")
+        self.assertEqual(source_building_unit_removed_input["keys"]["unit_state"]["java_expr"], "unit")
+        self.assertEqual(source_building_unit_removed_input["keys"]["unit_state"]["status"], "explicit-input")
+
+        source_building_unit_removed_result = source_symbols.state_schema(schema, "source_building_unit_removed_result")
+        self.assertEqual(source_building_unit_removed_result["keys"]["comment"]["java_expr"], "/** Called when a unit that spawned at this tile is removed. */")
+        self.assertEqual(source_building_unit_removed_result["keys"]["method"]["java_expr"], "public void unitRemoved(Unit unit){")
+        self.assertEqual(source_building_unit_removed_result["keys"]["empty_body"]["java_expr"], "public void unitRemoved(Unit unit){\n    }")
+        self.assertEqual(source_building_unit_removed_result["keys"]["unit_state"]["alias_of"], "source_building_unit_removed_input.unit_state")
 
         source_building_on_repaired_input = source_symbols.state_schema(schema, "source_building_on_repaired_input")
         self.assertEqual(source_building_on_repaired_input["keys"]["has_fog_radius"]["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")

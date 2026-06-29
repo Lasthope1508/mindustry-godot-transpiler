@@ -1751,6 +1751,10 @@ const SOURCE_BUILDING_UNIT_ON_ANY_EMPTY_BODY := "public void unitOnAny(Unit unit
 func source_building_unit_on_any_state(unit_state: Variant) -> Variant:
 	return unit_state
 
+const SOURCE_BUILDING_UNIT_REMOVED_COMMENT := "/** Called when a unit that spawned at this tile is removed. */"
+const SOURCE_BUILDING_UNIT_REMOVED_METHOD := "public void unitRemoved(Unit unit){"
+const SOURCE_BUILDING_UNIT_REMOVED_EMPTY_BODY := "public void unitRemoved(Unit unit){\n    }"
+
 func source_building_unit_removed_state(unit_state: Variant) -> Variant:
 	return unit_state
 

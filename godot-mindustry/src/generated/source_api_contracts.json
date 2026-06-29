@@ -9889,6 +9889,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_on_state",
       "rule": "Backfills SSOT for existing canonical source_building_unit_on_state helper against BuildingComp.unitOn no-op body."
+    },
+    "PortGame.source_building_unit_removed_state": {
+      "status": "active",
+      "source_slice": "N656",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "unitRemoved(Unit unit)",
+      "params": [
+        {
+          "name": "unit_state",
+          "type": "Variant",
+          "schema": "source_building_unit_removed_input.unit_state"
+        }
+      ],
+      "return_keys": [
+        "unit_state"
+      ],
+      "tests": [
+        "test_building_unit_removed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_unit_removed_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_unit_removed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_unit_removed_state helper against BuildingComp.unitRemoved no-op body."
     }
   },
   "policy": {
