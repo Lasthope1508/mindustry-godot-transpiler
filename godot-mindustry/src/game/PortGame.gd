@@ -10153,6 +10153,10 @@ func source_bullet_velocity(data: Dictionary, shoot_angle_degrees: float) -> Vec
 func source_bullet_hit_size(data: Dictionary) -> float:
 	return float(data.get("hitSize", 4.0))
 
+const SOURCE_BULLET_DAMAGE_FIELD := "public float damage = 1f;"
+const SOURCE_BULLET_DAMAGE_KEY := "damage"
+const SOURCE_BULLET_DAMAGE_DEFAULT := 1.0
+
 func source_bullet_damage(data: Dictionary) -> float:
 	return float(data.get("damage", 1.0))
 

@@ -18661,6 +18661,71 @@
         "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_damage.data": {
+      "godot_owner": "PortGame.source_bullet_damage",
+      "godot_symbol": "source_bullet_damage_input.data",
+      "java_expr": "BulletType data",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Runtime data dictionary supplies BulletType damage field state.",
+      "runtime_proof": "/root/Main.source_bullet_damage",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_damage.default": {
+      "godot_owner": "PortGame.source_bullet_damage",
+      "godot_symbol": "source_bullet_damage_result.default_value",
+      "java_expr": "1f",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot fallback preserves BulletType.damage default value.",
+      "runtime_proof": "/root/Main.source_bullet_damage",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_damage.field": {
+      "godot_owner": "PortGame.source_bullet_damage",
+      "godot_symbol": "source_bullet_damage_result.field",
+      "java_expr": "public float damage = 1f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Canonical BulletType damage field declaration.",
+      "runtime_proof": "/root/Main.source_bullet_damage",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_damage.key": {
+      "godot_owner": "PortGame.source_bullet_damage",
+      "godot_symbol": "source_bullet_damage_result.key",
+      "java_expr": "damage",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Godot dictionary key maps to BulletType.damage exactly.",
+      "runtime_proof": "/root/Main.source_bullet_damage",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_damage.result": {
+      "godot_owner": "PortGame.source_bullet_damage",
+      "godot_symbol": "source_bullet_damage_result.damage",
+      "java_expr": "damage",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Return damage from BulletType.damage runtime data or default.",
+      "runtime_proof": "/root/Main.source_bullet_damage",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",

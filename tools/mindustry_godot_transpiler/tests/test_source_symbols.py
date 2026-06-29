@@ -4013,6 +4013,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "ammoMultiplier")
         self.assertEqual(result["godot_symbol"], "source_bullet_ammo_multiplier_result.ammo_multiplier")
 
+    def test_bullet_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "bullet_damage.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "public float damage = 1f;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_bullet_damage")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_bullet_damage")
+        self.assertEqual(field["godot_symbol"], "source_bullet_damage_result.field")
+
+        data = source_symbols.source_symbol(registry, "bullet_damage.data")
+        self.assertEqual(data["status"], "explicit-input")
+        self.assertEqual(data["java_expr"], "BulletType data")
+        self.assertEqual(data["godot_symbol"], "source_bullet_damage_input.data")
+
+        key = source_symbols.source_symbol(registry, "bullet_damage.key")
+        self.assertEqual(key["java_expr"], "damage")
+        self.assertEqual(key["godot_symbol"], "source_bullet_damage_result.key")
+
+        default_value = source_symbols.source_symbol(registry, "bullet_damage.default")
+        self.assertEqual(default_value["java_expr"], "1f")
+        self.assertEqual(default_value["godot_symbol"], "source_bullet_damage_result.default_value")
+
+        result = source_symbols.source_symbol(registry, "bullet_damage.result")
+        self.assertEqual(result["java_expr"], "damage")
+        self.assertEqual(result["godot_symbol"], "source_bullet_damage_result.damage")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8097,9 +8128,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 269)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 270)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 274)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 275)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8276,6 +8307,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_update_tile_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_update_timescale_decay_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_ammo_multiplier", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_damage", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9664,6 +9696,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float ammoMultiplier = 2f;", bullet_ammo_multiplier["exact_exprs"])
         self.assertIn("ammoMultiplier", bullet_ammo_multiplier["exact_exprs"])
         self.assertIn("2f", bullet_ammo_multiplier["exact_exprs"])
+
+        bullet_damage = source_symbols.source_slice(ledger, "N672")
+        self.assertEqual(bullet_damage["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_damage["java_method"], "field declaration")
+        self.assertEqual(bullet_damage["godot_owner"], "PortGame.source_bullet_damage")
+        self.assertIn("public float damage = 1f;", bullet_damage["exact_exprs"])
+        self.assertIn("damage", bullet_damage["exact_exprs"])
+        self.assertIn("1f", bullet_damage["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12676,6 +12716,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("ammo_multiplier", bullet_ammo_multiplier["return_keys"])
         self.assertEqual(bullet_ammo_multiplier["source_method"], "field declaration")
 
+        bullet_damage = source_symbols.api_contract(contracts, "PortGame.source_bullet_damage")
+        self.assertEqual([param["name"] for param in bullet_damage["params"]], ["data"])
+        self.assertEqual(bullet_damage["params"][0]["schema"], "source_bullet_damage_input.data")
+        self.assertIn("damage", bullet_damage["return_keys"])
+        self.assertEqual(bullet_damage["source_method"], "field declaration")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -15545,6 +15591,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_ammo_multiplier_result["keys"]["default_value"]["java_expr"], "2f")
         self.assertEqual(source_bullet_ammo_multiplier_result["keys"]["ammo_multiplier"]["java_expr"], "ammoMultiplier")
         self.assertEqual(source_bullet_ammo_multiplier_result["keys"]["data"]["alias_of"], "source_bullet_ammo_multiplier_input.data")
+
+        source_bullet_damage_input = source_symbols.state_schema(schema, "source_bullet_damage_input")
+        self.assertEqual(source_bullet_damage_input["keys"]["data"]["java_expr"], "BulletType data")
+        self.assertEqual(source_bullet_damage_input["keys"]["data"]["status"], "explicit-input")
+
+        source_bullet_damage_result = source_symbols.state_schema(schema, "source_bullet_damage_result")
+        self.assertEqual(source_bullet_damage_result["keys"]["field"]["java_expr"], "public float damage = 1f;")
+        self.assertEqual(source_bullet_damage_result["keys"]["key"]["java_expr"], "damage")
+        self.assertEqual(source_bullet_damage_result["keys"]["default_value"]["java_expr"], "1f")
+        self.assertEqual(source_bullet_damage_result["keys"]["damage"]["java_expr"], "damage")
+        self.assertEqual(source_bullet_damage_result["keys"]["data"]["alias_of"], "source_bullet_damage_input.data")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

@@ -752,6 +752,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BULLET_DAMAGE_FIELD := "public float damage = 1f;"', source)
+        self.assertIn('const SOURCE_BULLET_DAMAGE_KEY := "damage"', source)
+        self.assertIn("const SOURCE_BULLET_DAMAGE_DEFAULT := 1.0", source)
         self.assertIn("func source_bullet_damage(data: Dictionary) -> float:", source)
         self.assertIn('return float(data.get("damage", 1.0))', source)
         self.assertIn('"damage": source_bullet_damage(data)', source)

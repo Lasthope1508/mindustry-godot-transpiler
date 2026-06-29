@@ -8672,6 +8672,31 @@
         "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_ammo_multiplier"
       ]
+    },
+    "N672": {
+      "exact_exprs": [
+        "public float damage = 1f;",
+        "BulletType data",
+        "damage",
+        "1f"
+      ],
+      "godot_owner": "PortGame.source_bullet_damage",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_damage",
+      "source_symbols": [
+        "bullet_damage.field",
+        "bullet_damage.data",
+        "bullet_damage.key",
+        "bullet_damage.default",
+        "bullet_damage.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_damage"
+      ]
     }
   },
   "version": 1
