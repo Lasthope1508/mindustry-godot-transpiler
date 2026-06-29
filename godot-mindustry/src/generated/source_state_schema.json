@@ -41209,6 +41209,148 @@
       },
       "status": "active"
     },
+    "source_overdrive_projector_light_state_input": {
+      "keys": {
+        "baseColor": {
+          "godot_symbol": "source_overdrive_projector_light_state_input.baseColor",
+          "java_expr": "public Color baseColor = Color.valueOf(\"feb380\");",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source baseColor field used by drawLight.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "emitLight": {
+          "godot_symbol": "source_overdrive_projector_light_state_input.emitLight",
+          "java_expr": "emitLight = true;",
+          "java_method": "constructor",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Constructor enables light emission.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "lightRadius": {
+          "godot_symbol": "source_overdrive_projector_light_state_input.lightRadius",
+          "java_expr": "lightRadius = 50f;",
+          "java_method": "constructor",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Constructor lightRadius used by drawLight.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "smoothEfficiency": {
+          "godot_symbol": "source_overdrive_projector_light_state_input.smoothEfficiency",
+          "java_expr": "smoothEfficiency",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Explicit smoothEfficiency input used by drawLight radius and alpha.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "smoothEfficiencyField": {
+          "godot_symbol": "source_overdrive_projector_light_state_input.smoothEfficiencyField",
+          "java_expr": "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source field declaration containing smoothEfficiency.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_overdrive_projector_light_state_result": {
+      "keys": {
+        "alpha": {
+          "godot_symbol": "source_overdrive_projector_light_state_result.alpha",
+          "java_expr": "0.7f * smoothEfficiency",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source light alpha expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_overdrive_projector_light_state_result.call",
+          "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source Drawf.light call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "color": {
+          "alias_of": "source_overdrive_projector_light_state_input.baseColor",
+          "rule": "Runtime echo of source baseColor property.",
+          "status": "generated",
+          "type": "String"
+        },
+        "emitLight": {
+          "alias_of": "source_overdrive_projector_light_state_input.emitLight",
+          "rule": "Runtime gate follows source emitLight property.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "lightRadius": {
+          "alias_of": "source_overdrive_projector_light_state_input.lightRadius",
+          "rule": "Runtime echo of source lightRadius property.",
+          "status": "generated",
+          "type": "float"
+        },
+        "method": {
+          "godot_symbol": "source_overdrive_projector_light_state_result.method",
+          "java_expr": "public void drawLight(){",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "radius": {
+          "godot_symbol": "source_overdrive_projector_light_state_result.radius",
+          "java_expr": "lightRadius * smoothEfficiency",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "rule": "Source light radius expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_overdrive_projector_light_state"
+          ]
+        },
+        "smoothEfficiency": {
+          "alias_of": "source_overdrive_projector_light_state_input.smoothEfficiency",
+          "rule": "Runtime echo of smoothEfficiency input.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

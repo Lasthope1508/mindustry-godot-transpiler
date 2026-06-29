@@ -10519,6 +10519,40 @@
         "test_overdrive_projector_draw_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_draw_state_like_source"
       ]
+    },
+    "N727": {
+      "exact_exprs": [
+        "public void drawLight(){",
+        "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+        "emitLight = true;",
+        "lightRadius = 50f;",
+        "public Color baseColor = Color.valueOf(\"feb380\");",
+        "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;",
+        "smoothEfficiency",
+        "lightRadius * smoothEfficiency",
+        "0.7f * smoothEfficiency"
+      ],
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "java_class": "mindustry.world.blocks.defense.OverdriveProjector.OverdriveBuild",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "source_symbols": [
+        "overdrive_projector_light_state.method",
+        "overdrive_projector_light_state.light_call",
+        "overdrive_projector_light_state.emit_light",
+        "overdrive_projector_light_state.light_radius",
+        "overdrive_projector_light_state.base_color",
+        "overdrive_projector_light_state.smooth_efficiency",
+        "overdrive_projector_light_state.smooth_efficiency_field",
+        "overdrive_projector_light_state.radius",
+        "overdrive_projector_light_state.alpha"
+      ],
+      "status": "done",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
     }
   },
   "version": 1

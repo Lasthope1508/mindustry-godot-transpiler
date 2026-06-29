@@ -4317,6 +4317,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(efficiency["java_expr"], "efficiency")
         self.assertEqual(efficiency["godot_symbol"], "source_overdrive_projector_boost_bar_input.efficiency")
 
+    def test_overdrive_projector_light_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "overdrive_projector_light_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(method["java_method"], "drawLight()")
+        self.assertEqual(method["java_expr"], "public void drawLight(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_overdrive_projector_light_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_overdrive_projector_light_state")
+        self.assertEqual(method["godot_symbol"], "source_overdrive_projector_light_state_result.method")
+
+        call = source_symbols.source_symbol(registry, "overdrive_projector_light_state.light_call")
+        self.assertEqual(call["java_expr"], "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);")
+        self.assertEqual(call["godot_symbol"], "source_overdrive_projector_light_state_result.call")
+
+        emit_light = source_symbols.source_symbol(registry, "overdrive_projector_light_state.emit_light")
+        self.assertEqual(emit_light["java_expr"], "emitLight = true;")
+        self.assertEqual(emit_light["godot_symbol"], "source_overdrive_projector_light_state_input.emitLight")
+
+        light_radius = source_symbols.source_symbol(registry, "overdrive_projector_light_state.light_radius")
+        self.assertEqual(light_radius["java_expr"], "lightRadius = 50f;")
+        self.assertEqual(light_radius["godot_symbol"], "source_overdrive_projector_light_state_input.lightRadius")
+
+        base_color = source_symbols.source_symbol(registry, "overdrive_projector_light_state.base_color")
+        self.assertEqual(base_color["java_expr"], "public Color baseColor = Color.valueOf(\"feb380\");")
+        self.assertEqual(base_color["godot_symbol"], "source_overdrive_projector_light_state_input.baseColor")
+
+        smooth_efficiency = source_symbols.source_symbol(registry, "overdrive_projector_light_state.smooth_efficiency")
+        self.assertEqual(smooth_efficiency["status"], "explicit-input")
+        self.assertEqual(smooth_efficiency["java_expr"], "smoothEfficiency")
+        self.assertEqual(smooth_efficiency["godot_symbol"], "source_overdrive_projector_light_state_input.smoothEfficiency")
+
+        radius = source_symbols.source_symbol(registry, "overdrive_projector_light_state.radius")
+        self.assertEqual(radius["java_expr"], "lightRadius * smoothEfficiency")
+        self.assertEqual(radius["godot_symbol"], "source_overdrive_projector_light_state_result.radius")
+
+        alpha = source_symbols.source_symbol(registry, "overdrive_projector_light_state.alpha")
+        self.assertEqual(alpha["java_expr"], "0.7f * smoothEfficiency")
+        self.assertEqual(alpha["godot_symbol"], "source_overdrive_projector_light_state_result.alpha")
+
     def test_overdrive_projector_draw_state_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10498,9 +10541,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 324)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 325)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 329)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 330)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10715,6 +10758,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_overdrive_projector_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_delay", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_dump_interval", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_drill_inactive_warmup_state", audit["registeredSourceOwners"])
@@ -11980,6 +12024,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Lines.stroke((2f * f + 0.1f) * heat);", overdrive_draw_state["exact_exprs"])
         self.assertIn("float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;", overdrive_draw_state["exact_exprs"])
         self.assertIn("for(int i = 0; i < 4; i++){", overdrive_draw_state["deferred_exprs"])
+
+        overdrive_light_state = source_symbols.source_slice(ledger, "N727")
+        self.assertEqual(overdrive_light_state["java_source"], "core/src/mindustry/world/blocks/defense/OverdriveProjector.java")
+        self.assertEqual(overdrive_light_state["java_method"], "drawLight()")
+        self.assertEqual(overdrive_light_state["godot_owner"], "PortGame.source_overdrive_projector_light_state")
+        self.assertIn("public void drawLight(){", overdrive_light_state["exact_exprs"])
+        self.assertIn("Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);", overdrive_light_state["exact_exprs"])
+        self.assertIn("emitLight = true;", overdrive_light_state["exact_exprs"])
+        self.assertIn("lightRadius = 50f;", overdrive_light_state["exact_exprs"])
+        self.assertIn("public Color baseColor = Color.valueOf(\"feb380\");", overdrive_light_state["exact_exprs"])
+        self.assertIn("smoothEfficiency", overdrive_light_state["exact_exprs"])
 
         dump_drill_item_to_core = source_symbols.source_slice(ledger, "N705")
         self.assertEqual(dump_drill_item_to_core["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15011,6 +15066,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("line_r", overdrive_draw_state["return_keys"])
         self.assertIn("line_w", overdrive_draw_state["return_keys"])
         self.assertEqual(overdrive_draw_state["source_method"], "draw()")
+
+        overdrive_light_state = source_symbols.api_contract(contracts, "PortGame.source_overdrive_projector_light_state")
+        self.assertEqual([param["name"] for param in overdrive_light_state["params"]], ["overdrive_projector", "smooth_efficiency"])
+        self.assertEqual(overdrive_light_state["params"][0]["schema"], "content_block_state")
+        self.assertEqual(overdrive_light_state["params"][1]["schema"], "source_overdrive_projector_light_state_input.smoothEfficiency")
+        self.assertIn("color", overdrive_light_state["return_keys"])
+        self.assertIn("radius", overdrive_light_state["return_keys"])
+        self.assertIn("alpha", overdrive_light_state["return_keys"])
+        self.assertEqual(overdrive_light_state["source_method"], "drawLight()")
 
         drill_delay = source_symbols.api_contract(contracts, "PortGame.source_drill_delay")
         self.assertEqual([param["name"] for param in drill_delay["params"]], ["block_id", "item_id"])
@@ -18473,6 +18537,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_overdrive_projector_draw_state_result["keys"]["line_w"]["java_expr"], "float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;")
         self.assertEqual(source_overdrive_projector_draw_state_result["keys"]["phaseHeat"]["alias_of"], "source_overdrive_projector_draw_state_input.phaseHeat")
         self.assertEqual(source_overdrive_projector_draw_state_result["keys"]["lodAlpha2"]["alias_of"], "source_overdrive_projector_draw_state_input.lodAlpha2")
+
+        source_overdrive_projector_light_state_input = source_symbols.state_schema(schema, "source_overdrive_projector_light_state_input")
+        self.assertEqual(source_overdrive_projector_light_state_input["keys"]["smoothEfficiency"]["java_expr"], "smoothEfficiency")
+        self.assertEqual(source_overdrive_projector_light_state_input["keys"]["emitLight"]["java_expr"], "emitLight = true;")
+        self.assertEqual(source_overdrive_projector_light_state_input["keys"]["lightRadius"]["java_expr"], "lightRadius = 50f;")
+        self.assertEqual(source_overdrive_projector_light_state_input["keys"]["baseColor"]["java_expr"], "public Color baseColor = Color.valueOf(\"feb380\");")
+
+        source_overdrive_projector_light_state_result = source_symbols.state_schema(schema, "source_overdrive_projector_light_state_result")
+        self.assertEqual(source_overdrive_projector_light_state_result["keys"]["method"]["java_expr"], "public void drawLight(){")
+        self.assertEqual(source_overdrive_projector_light_state_result["keys"]["call"]["java_expr"], "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);")
+        self.assertEqual(source_overdrive_projector_light_state_result["keys"]["radius"]["java_expr"], "lightRadius * smoothEfficiency")
+        self.assertEqual(source_overdrive_projector_light_state_result["keys"]["alpha"]["java_expr"], "0.7f * smoothEfficiency")
+        self.assertEqual(source_overdrive_projector_light_state_result["keys"]["color"]["alias_of"], "source_overdrive_projector_light_state_input.baseColor")
+        self.assertEqual(source_overdrive_projector_light_state_result["keys"]["smoothEfficiency"]["alias_of"], "source_overdrive_projector_light_state_input.smoothEfficiency")
 
         source_dump_drill_item_to_core_input = source_symbols.state_schema(schema, "source_dump_drill_item_to_core_input")
         self.assertEqual(source_dump_drill_item_to_core_input["keys"]["item_id"]["java_expr"], "todump")

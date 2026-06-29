@@ -12209,6 +12209,35 @@
         "test_overdrive_projector_draw_state_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_overdrive_projector_draw_state_like_source"
       ]
+    },
+    "PortGame.source_overdrive_projector_light_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "params": [
+        {
+          "name": "overdrive_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "smooth_efficiency",
+          "schema": "source_overdrive_projector_light_state_input.smoothEfficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "color",
+        "radius",
+        "alpha"
+      ],
+      "rule": "Public runtime contract for OverdriveProjector drawLight summary state.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "source_method": "drawLight()",
+      "source_slice": "N727",
+      "status": "active",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
     }
   },
   "policy": {

@@ -31665,6 +31665,132 @@
         "test_port_game_exposes_overdrive_projector_draw_state_like_source"
       ]
     },
+    "overdrive_projector_light_state.alpha": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_result.alpha",
+      "java_expr": "0.7f * smoothEfficiency",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source light alpha expression.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.base_color": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_input.baseColor",
+      "java_expr": "public Color baseColor = Color.valueOf(\"feb380\");",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source baseColor field used by drawLight.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.emit_light": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_input.emitLight",
+      "java_expr": "emitLight = true;",
+      "java_method": "constructor",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Constructor enables light emission for OverdriveProjector.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.light_call": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_result.call",
+      "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source Drawf.light call with radius and alpha formulas.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.light_radius": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_input.lightRadius",
+      "java_expr": "lightRadius = 50f;",
+      "java_method": "constructor",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Constructor light radius value used by drawLight.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.method": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_result.method",
+      "java_expr": "public void drawLight(){",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "OverdriveProjector drawLight method boundary.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.radius": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_result.radius",
+      "java_expr": "lightRadius * smoothEfficiency",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source light radius expression.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.smooth_efficiency": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_input.smoothEfficiency",
+      "java_expr": "smoothEfficiency",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Explicit smoothEfficiency input used by drawLight radius and alpha.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
+    "overdrive_projector_light_state.smooth_efficiency_field": {
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "godot_symbol": "source_overdrive_projector_light_state_input.smoothEfficiencyField",
+      "java_expr": "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "rule": "Source field declaration containing smoothEfficiency.",
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ]
+    },
     "removed.frag_dispatch.building_damage_boundary": {
       "godot_owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
       "godot_symbol": "removed_frag_dispatch_result.buildingDamageBoundarySource",

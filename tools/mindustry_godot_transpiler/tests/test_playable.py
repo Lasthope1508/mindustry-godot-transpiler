@@ -324,6 +324,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_METHOD := "public void drawLight(){"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_CALL := "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_EMIT_FIELD := "emitLight = true;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_RADIUS_FIELD := "lightRadius = 50f;"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_BASE_COLOR_FIELD := "public Color baseColor = Color.valueOf(\\"feb380\\");"', source)
+        self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_SMOOTH_EFFICIENCY_FIELD := "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;"', source)
         self.assertIn("func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:", source)
         self.assertIn('if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):', source)
         self.assertIn('"color": str(overdrive_projector.properties.get("baseColor", ""))', source)

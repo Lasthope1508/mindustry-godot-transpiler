@@ -517,6 +517,13 @@ func source_building_delta(source_delta: float, time_scale: float) -> float:
 func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:
 	return efficiency * source_building_delta(source_delta, time_scale)
 
+const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_METHOD := "public void drawLight(){"
+const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_CALL := "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);"
+const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_EMIT_FIELD := "emitLight = true;"
+const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_RADIUS_FIELD := "lightRadius = 50f;"
+const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_BASE_COLOR_FIELD := "public Color baseColor = Color.valueOf(\"feb380\");"
+const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_SMOOTH_EFFICIENCY_FIELD := "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;"
+
 func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:
 	if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):
 		return {"color": "", "radius": 0.0, "alpha": 0.0}
