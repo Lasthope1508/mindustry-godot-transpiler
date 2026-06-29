@@ -24486,6 +24486,45 @@
       "java_expr": "shouldConsume()",
       "godot_symbol": "source_building_should_ambient_sound_input.should_consume_state",
       "rule": "Runtime should_consume_state supplies shouldConsume() return value."
+    },
+    "building_should_consume.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldConsume()",
+      "godot_owner": "PortGame.source_building_should_consume_state",
+      "tests": [
+        "test_building_should_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_consume_state",
+      "java_expr": "public boolean shouldConsume(){",
+      "godot_symbol": "source_building_should_consume_result.method",
+      "rule": "BuildingComp shouldConsume method boundary."
+    },
+    "building_should_consume.return_enabled": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldConsume()",
+      "godot_owner": "PortGame.source_building_should_consume_state",
+      "tests": [
+        "test_building_should_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_consume_state",
+      "java_expr": "return enabled;",
+      "godot_symbol": "source_building_should_consume_result.return_enabled",
+      "rule": "shouldConsume returns enabled field."
+    },
+    "building_should_consume.enabled_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldConsume()",
+      "godot_owner": "PortGame.source_building_should_consume_state",
+      "tests": [
+        "test_building_should_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_consume_state",
+      "java_expr": "enabled",
+      "godot_symbol": "source_building_should_consume_input.enabled_state",
+      "rule": "Runtime enabled_state supplies enabled field."
     }
   }
 }

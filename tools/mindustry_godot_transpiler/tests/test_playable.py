@@ -1309,8 +1309,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_should_consume_state(enabled_state: bool) -> bool:", source)
-        self.assertIn("return enabled_state", source)
+        self.assertIn("func source_building_should_consume_state(enabled_state: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean shouldConsume(){",', source)
+        self.assertIn('"return_enabled": "return enabled;",', source)
+        self.assertIn('"should_consume": enabled_state', source)
+        self.assertIn("result.merge(source_exprs)", source)
         self.assertIn("func source_building_production_valid_state() -> Dictionary:", source)
         self.assertIn('"method": "public boolean productionValid(){",', source)
         self.assertIn('"default_return": "return true;",', source)

@@ -7870,6 +7870,28 @@
       ],
       "runtime_proof": "/root/Main.source_building_should_ambient_sound",
       "rule": "Backfills SSOT for existing canonical source_building_should_ambient_sound helper against BuildingComp.shouldAmbientSound direct shouldConsume return."
+    },
+    "N647": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "shouldConsume()",
+      "godot_owner": "PortGame.source_building_should_consume_state",
+      "exact_exprs": [
+        "public boolean shouldConsume(){",
+        "return enabled;",
+        "enabled"
+      ],
+      "source_symbols": [
+        "building_should_consume.method",
+        "building_should_consume.return_enabled",
+        "building_should_consume.enabled_state"
+      ],
+      "tests": [
+        "test_building_should_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_consume_state",
+      "rule": "Backfills SSOT for existing canonical source_building_should_consume_state helper against BuildingComp.shouldConsume direct enabled return."
     }
   },
   "version": 1

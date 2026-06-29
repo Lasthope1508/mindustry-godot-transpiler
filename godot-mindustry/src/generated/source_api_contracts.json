@@ -9628,6 +9628,29 @@
       ],
       "runtime_proof": "/root/Main.source_building_should_ambient_sound",
       "rule": "Public runtime contract for Mindustry BuildingComp.shouldAmbientSound helper."
+    },
+    "PortGame.source_building_should_consume_state": {
+      "status": "active",
+      "source_slice": "N647",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "shouldConsume()",
+      "params": [
+        {
+          "name": "enabled_state",
+          "type": "bool",
+          "schema": "source_building_should_consume_input.enabled_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_enabled",
+        "should_consume"
+      ],
+      "tests": [
+        "test_building_should_consume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_consume_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.shouldConsume helper."
     }
   },
   "policy": {

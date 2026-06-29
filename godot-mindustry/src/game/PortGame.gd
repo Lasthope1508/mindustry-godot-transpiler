@@ -1357,8 +1357,14 @@ func source_block_can_replace_state(existing_always_replace: bool, existing_priv
 func source_building_can_be_replaced_state(other_can_replace_block: bool) -> bool:
 	return other_can_replace_block
 
-func source_building_should_consume_state(enabled_state: bool) -> bool:
-	return enabled_state
+func source_building_should_consume_state(enabled_state: bool) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"method": "public boolean shouldConsume(){",
+		"return_enabled": "return enabled;",
+	}
+	var result: Dictionary = {"should_consume": enabled_state}
+	result.merge(source_exprs)
+	return result
 
 func source_building_production_valid_state() -> Dictionary:
 	return {

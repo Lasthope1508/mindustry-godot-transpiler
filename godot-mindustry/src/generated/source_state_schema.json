@@ -31974,6 +31974,77 @@
           "rule": "Result aliases explicit shouldConsume input."
         }
       }
+    },
+    "source_building_should_consume_input": {
+      "status": "active",
+      "keys": {
+        "enabled_state": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldConsume()",
+          "used_by": [
+            "PortGame.source_building_should_consume_state"
+          ],
+          "java_expr": "enabled",
+          "godot_symbol": "source_building_should_consume_input.enabled_state",
+          "rule": "Runtime enabled_state supplies enabled field."
+        }
+      }
+    },
+    "source_building_should_consume_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldConsume()",
+          "used_by": [
+            "PortGame.source_building_should_consume_state"
+          ],
+          "java_expr": "public boolean shouldConsume(){",
+          "godot_symbol": "source_building_should_consume_result.method",
+          "rule": "BuildingComp shouldConsume method boundary."
+        },
+        "return_enabled": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldConsume()",
+          "used_by": [
+            "PortGame.source_building_should_consume_state"
+          ],
+          "java_expr": "return enabled;",
+          "godot_symbol": "source_building_should_consume_result.return_enabled",
+          "rule": "shouldConsume return statement."
+        },
+        "should_consume": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldConsume()",
+          "used_by": [
+            "PortGame.source_building_should_consume_state"
+          ],
+          "java_expr": "return enabled;",
+          "godot_symbol": "source_building_should_consume_result.should_consume",
+          "rule": "Return value mirrors enabled."
+        },
+        "enabled_state": {
+          "type": "bool",
+          "status": "alias",
+          "alias_of": "source_building_should_consume_input.enabled_state",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "shouldConsume()",
+          "used_by": [
+            "PortGame.source_building_should_consume_state"
+          ],
+          "java_expr": "enabled",
+          "godot_symbol": "source_building_should_consume_result.enabled_state",
+          "rule": "Result aliases explicit enabled input."
+        }
+      }
     }
   },
   "version": 1

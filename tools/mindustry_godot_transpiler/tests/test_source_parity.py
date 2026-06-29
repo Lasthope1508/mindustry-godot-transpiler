@@ -476,6 +476,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_should_consume_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_should_consume_source"))
+        report = source_parity.verify_building_should_consume_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "should_consume_method": "public boolean shouldConsume(){",
+            "should_consume_return": "return enabled;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_progress_display_ambient_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_progress_display_ambient_source"))
         report = source_parity.verify_building_progress_display_ambient_source(ROOT / "mindustry-upstream")

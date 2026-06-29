@@ -3404,6 +3404,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(should_consume["java_expr"], "shouldConsume()")
         self.assertEqual(should_consume["godot_symbol"], "source_building_should_ambient_sound_input.should_consume_state")
 
+    def test_building_should_consume_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_should_consume.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "shouldConsume()")
+        self.assertEqual(method["java_expr"], "public boolean shouldConsume(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_should_consume_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_should_consume_state")
+        self.assertEqual(method["godot_symbol"], "source_building_should_consume_result.method")
+
+        return_enabled = source_symbols.source_symbol(registry, "building_should_consume.return_enabled")
+        self.assertEqual(return_enabled["java_expr"], "return enabled;")
+        self.assertEqual(return_enabled["godot_symbol"], "source_building_should_consume_result.return_enabled")
+
+        enabled_state = source_symbols.source_symbol(registry, "building_should_consume.enabled_state")
+        self.assertEqual(enabled_state["status"], "explicit-input")
+        self.assertEqual(enabled_state["java_expr"], "enabled")
+        self.assertEqual(enabled_state["godot_symbol"], "source_building_should_consume_input.enabled_state")
+
     def test_building_set_prop_item_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7269,9 +7292,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 244)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 245)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 249)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 250)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7448,6 +7471,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_set_prop_team_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_set_prop_total_power_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_should_ambient_sound", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_should_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8575,6 +8599,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean shouldAmbientSound(){", building_should_ambient_sound["exact_exprs"])
         self.assertIn("return shouldConsume();", building_should_ambient_sound["exact_exprs"])
         self.assertIn("shouldConsume()", building_should_ambient_sound["exact_exprs"])
+
+        building_should_consume = source_symbols.source_slice(ledger, "N647")
+        self.assertEqual(building_should_consume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_should_consume["java_method"], "shouldConsume()")
+        self.assertEqual(building_should_consume["godot_owner"], "PortGame.source_building_should_consume_state")
+        self.assertIn("public boolean shouldConsume(){", building_should_consume["exact_exprs"])
+        self.assertIn("return enabled;", building_should_consume["exact_exprs"])
+        self.assertIn("enabled", building_should_consume["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10897,6 +10929,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return_should_consume", building_should_ambient_sound["return_keys"])
         self.assertIn("should_ambient_sound", building_should_ambient_sound["return_keys"])
         self.assertEqual(building_should_ambient_sound["source_method"], "shouldAmbientSound()")
+
+        building_should_consume = source_symbols.api_contract(contracts, "PortGame.source_building_should_consume_state")
+        self.assertEqual([param["name"] for param in building_should_consume["params"]], ["enabled_state"])
+        self.assertEqual(building_should_consume["params"][0]["schema"], "source_building_should_consume_input.enabled_state")
+        self.assertIn("method", building_should_consume["return_keys"])
+        self.assertIn("return_enabled", building_should_consume["return_keys"])
+        self.assertIn("should_consume", building_should_consume["return_keys"])
+        self.assertEqual(building_should_consume["source_method"], "shouldConsume()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -13385,6 +13425,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_should_ambient_sound_result["keys"]["return_should_consume"]["java_expr"], "return shouldConsume();")
         self.assertEqual(source_building_should_ambient_sound_result["keys"]["should_ambient_sound"]["java_expr"], "return shouldConsume();")
         self.assertEqual(source_building_should_ambient_sound_result["keys"]["should_consume_state"]["alias_of"], "source_building_should_ambient_sound_input.should_consume_state")
+
+        source_building_should_consume_input = source_symbols.state_schema(schema, "source_building_should_consume_input")
+        self.assertEqual(source_building_should_consume_input["keys"]["enabled_state"]["java_expr"], "enabled")
+        self.assertEqual(source_building_should_consume_input["keys"]["enabled_state"]["status"], "explicit-input")
+
+        source_building_should_consume_result = source_symbols.state_schema(schema, "source_building_should_consume_result")
+        self.assertEqual(source_building_should_consume_result["keys"]["method"]["java_expr"], "public boolean shouldConsume(){")
+        self.assertEqual(source_building_should_consume_result["keys"]["return_enabled"]["java_expr"], "return enabled;")
+        self.assertEqual(source_building_should_consume_result["keys"]["should_consume"]["java_expr"], "return enabled;")
+        self.assertEqual(source_building_should_consume_result["keys"]["enabled_state"]["alias_of"], "source_building_should_consume_input.enabled_state")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")
