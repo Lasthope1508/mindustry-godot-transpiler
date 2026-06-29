@@ -3045,6 +3045,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(last_power_capacity["java_expr"], "power.graph.getLastCapacity()")
         self.assertEqual(last_power_capacity["godot_symbol"], "source_building_sense_capacity_power_net_input.last_power_capacity")
 
+    def test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_sense_enabled_controlled.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_sense_enabled_controlled_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_sense_enabled_controlled_state")
+        self.assertEqual(method["godot_symbol"], "source_building_sense_enabled_controlled_result.method")
+
+        enabled_case = source_symbols.source_symbol(registry, "building_sense_enabled_controlled.enabled_case")
+        self.assertEqual(enabled_case["java_expr"], "case enabled -> enabled ? 1 : 0;")
+        self.assertEqual(enabled_case["godot_symbol"], "source_building_sense_enabled_controlled_result.enabled_case")
+
+        controlled_case = source_symbols.source_symbol(registry, "building_sense_enabled_controlled.controlled_case")
+        self.assertEqual(controlled_case["java_expr"], "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;")
+        self.assertEqual(controlled_case["godot_symbol"], "source_building_sense_enabled_controlled_result.controlled_case")
+
+        enabled_state = source_symbols.source_symbol(registry, "building_sense_enabled_controlled.enabled_state")
+        self.assertEqual(enabled_state["status"], "explicit-input")
+        self.assertEqual(enabled_state["java_expr"], "enabled")
+        self.assertEqual(enabled_state["godot_symbol"], "source_building_sense_enabled_controlled_input.enabled_state")
+
+        ctrl_player = source_symbols.source_symbol(registry, "building_sense_enabled_controlled.ctrl_player_value")
+        self.assertEqual(ctrl_player["status"], "explicit-input")
+        self.assertEqual(ctrl_player["java_expr"], "GlobalVars.ctrlPlayer")
+        self.assertEqual(ctrl_player["godot_symbol"], "source_building_sense_enabled_controlled_input.ctrl_player_value")
+
     def test_building_sense_content_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6750,9 +6782,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 231)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 232)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 236)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 237)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6917,6 +6949,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_remove_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_capacity_power_net_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_content_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_sense_enabled_controlled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_ambient_volume", audit["registeredSourceOwners"])
@@ -7936,6 +7969,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(content instanceof UnitType u) return getPayloads().get(u);", building_sense_content["exact_exprs"])
         self.assertIn("if(content instanceof Block b) return getPayloads().get(b);", building_sense_content["exact_exprs"])
         self.assertIn("return Float.NaN; //invalid sense", building_sense_content["exact_exprs"])
+
+        building_sense_enabled_controlled = source_symbols.source_slice(ledger, "N634")
+        self.assertEqual(building_sense_enabled_controlled["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_sense_enabled_controlled["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_sense_enabled_controlled["godot_owner"], "PortGame.source_building_sense_enabled_controlled_state")
+        self.assertIn("public double sense(LAccess sensor){", building_sense_enabled_controlled["exact_exprs"])
+        self.assertIn("case enabled -> enabled ? 1 : 0;", building_sense_enabled_controlled["exact_exprs"])
+        self.assertIn("case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;", building_sense_enabled_controlled["exact_exprs"])
+        self.assertIn("enabled", building_sense_enabled_controlled["exact_exprs"])
+        self.assertIn("this instanceof ControlBlock c", building_sense_enabled_controlled["exact_exprs"])
+        self.assertIn("c.isControlled()", building_sense_enabled_controlled["exact_exprs"])
+        self.assertIn("GlobalVars.ctrlPlayer", building_sense_enabled_controlled["exact_exprs"])
 
         building_maximum_accepted = source_symbols.source_slice(ledger, "N603")
         self.assertEqual(building_maximum_accepted["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10073,6 +10118,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("sensed", building_sense_content["return_keys"])
         self.assertIn("value", building_sense_content["return_keys"])
         self.assertEqual(building_sense_content["source_method"], "sense(Content content)")
+
+        building_sense_enabled_controlled = source_symbols.api_contract(contracts, "PortGame.source_building_sense_enabled_controlled_state")
+        self.assertEqual([param["name"] for param in building_sense_enabled_controlled["params"]], ["enabled_state", "is_control_block", "is_controlled", "ctrl_player_value"])
+        self.assertEqual(building_sense_enabled_controlled["params"][0]["schema"], "source_building_sense_enabled_controlled_input.enabled_state")
+        self.assertEqual(building_sense_enabled_controlled["params"][3]["schema"], "source_building_sense_enabled_controlled_input.ctrl_player_value")
+        self.assertIn("method", building_sense_enabled_controlled["return_keys"])
+        self.assertIn("enabled_case", building_sense_enabled_controlled["return_keys"])
+        self.assertIn("controlled_case", building_sense_enabled_controlled["return_keys"])
+        self.assertIn("enabled", building_sense_enabled_controlled["return_keys"])
+        self.assertIn("controlled", building_sense_enabled_controlled["return_keys"])
+        self.assertEqual(building_sense_enabled_controlled["source_method"], "sense(LAccess sensor)")
 
         building_maximum_accepted = source_symbols.api_contract(contracts, "PortGame.source_building_maximum_accepted")
         self.assertEqual([param["name"] for param in building_maximum_accepted["params"]], ["block_item_capacity"])
@@ -12366,6 +12422,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_sense_content_result["keys"]["invalid_return"]["java_expr"], "return Float.NaN; //invalid sense")
         self.assertEqual(source_building_sense_content_result["keys"]["content_type"]["alias_of"], "source_building_sense_content_input.content_type")
         self.assertEqual(source_building_sense_content_result["keys"]["payload_amount"]["alias_of"], "source_building_sense_content_input.payload_amount")
+
+        source_building_sense_enabled_controlled_input = source_symbols.state_schema(schema, "source_building_sense_enabled_controlled_input")
+        self.assertEqual(source_building_sense_enabled_controlled_input["keys"]["enabled_state"]["java_expr"], "enabled")
+        self.assertEqual(source_building_sense_enabled_controlled_input["keys"]["is_control_block"]["java_expr"], "this instanceof ControlBlock c")
+        self.assertEqual(source_building_sense_enabled_controlled_input["keys"]["is_controlled"]["java_expr"], "c.isControlled()")
+        self.assertEqual(source_building_sense_enabled_controlled_input["keys"]["ctrl_player_value"]["java_expr"], "GlobalVars.ctrlPlayer")
+
+        source_building_sense_enabled_controlled_result = source_symbols.state_schema(schema, "source_building_sense_enabled_controlled_result")
+        self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["method"]["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["enabled_case"]["java_expr"], "case enabled -> enabled ? 1 : 0;")
+        self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["controlled_case"]["java_expr"], "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;")
+        self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["enabled_state"]["alias_of"], "source_building_sense_enabled_controlled_input.enabled_state")
+        self.assertEqual(source_building_sense_enabled_controlled_result["keys"]["ctrl_player_value"]["alias_of"], "source_building_sense_enabled_controlled_input.ctrl_player_value")
 
         source_building_maximum_accepted_input = source_symbols.state_schema(schema, "source_building_maximum_accepted_input")
         self.assertEqual(source_building_maximum_accepted_input["keys"]["block_item_capacity"]["java_expr"], "block.itemCapacity")

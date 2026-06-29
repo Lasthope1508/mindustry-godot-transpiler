@@ -8965,6 +8965,50 @@
       ],
       "runtime_proof": "/root/Main.source_building_sense_content_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.sense(Content content) helper."
+    },
+    "PortGame.source_building_sense_enabled_controlled_state": {
+      "status": "active",
+      "source_slice": "N634",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "sense(LAccess sensor)",
+      "params": [
+        {
+          "name": "enabled_state",
+          "type": "bool",
+          "schema": "source_building_sense_enabled_controlled_input.enabled_state"
+        },
+        {
+          "name": "is_control_block",
+          "type": "bool",
+          "schema": "source_building_sense_enabled_controlled_input.is_control_block"
+        },
+        {
+          "name": "is_controlled",
+          "type": "bool",
+          "schema": "source_building_sense_enabled_controlled_input.is_controlled"
+        },
+        {
+          "name": "ctrl_player_value",
+          "type": "float",
+          "schema": "source_building_sense_enabled_controlled_input.ctrl_player_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "enabled_case",
+        "controlled_case",
+        "enabled_state",
+        "is_control_block",
+        "is_controlled",
+        "ctrl_player_value",
+        "enabled",
+        "controlled"
+      ],
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) enabled/controlled helper."
     }
   },
   "policy": {

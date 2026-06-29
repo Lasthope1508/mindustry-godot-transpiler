@@ -2396,8 +2396,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_sense_enabled_controlled_state(enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float) -> Dictionary:", source)
-        self.assertIn('"enabled": 1.0 if enabled_state else 0.0', source)
-        self.assertIn('"controlled": ctrl_player_value if is_control_block and is_controlled else 0.0', source)
+        self.assertIn('"method": "public double sense(LAccess sensor){",', source)
+        self.assertIn('"enabled_case": "case enabled -> enabled ? 1 : 0;",', source)
+        self.assertIn('"controlled_case": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;",', source)
+        self.assertIn('source_state["enabled"] = 1.0 if enabled_state else 0.0', source)
+        self.assertIn('source_state["controlled"] = ctrl_player_value if is_control_block and is_controlled else 0.0', source)
+        self.assertIn("return source_state", source)
 
     def test_port_game_exposes_source_building_sense_payload_size_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

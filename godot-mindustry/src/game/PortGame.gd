@@ -2527,10 +2527,18 @@ func source_building_sense_capacity_power_net_state(block_has_items: bool, block
 	}
 
 func source_building_sense_enabled_controlled_state(enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float) -> Dictionary:
-	return {
-		"enabled": 1.0 if enabled_state else 0.0,
-		"controlled": ctrl_player_value if is_control_block and is_controlled else 0.0,
+	var source_state := {
+		"method": "public double sense(LAccess sensor){",
+		"enabled_case": "case enabled -> enabled ? 1 : 0;",
+		"controlled_case": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;",
+		"enabled_state": enabled_state,
+		"is_control_block": is_control_block,
+		"is_controlled": is_controlled,
+		"ctrl_player_value": ctrl_player_value,
 	}
+	source_state["enabled"] = 1.0 if enabled_state else 0.0
+	source_state["controlled"] = ctrl_player_value if is_control_block and is_controlled else 0.0
+	return source_state
 
 func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float) -> Dictionary:
 	var payload_count := 0.0

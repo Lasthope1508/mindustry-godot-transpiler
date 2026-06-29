@@ -22731,6 +22731,97 @@
       "java_expr": "getPayloads().get(u) / getPayloads().get(b)",
       "godot_symbol": "source_building_sense_content_input.payload_amount",
       "rule": "Runtime payload_amount supplies getPayloads().get(u) / getPayloads().get(b)."
+    },
+    "building_sense_enabled_controlled.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "java_expr": "public double sense(LAccess sensor){",
+      "godot_symbol": "source_building_sense_enabled_controlled_result.method",
+      "rule": "BuildingComp sense(LAccess) method boundary."
+    },
+    "building_sense_enabled_controlled.enabled_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "java_expr": "case enabled -> enabled ? 1 : 0;",
+      "godot_symbol": "source_building_sense_enabled_controlled_result.enabled_case",
+      "rule": "sense(LAccess) returns 1 when enabled, otherwise 0."
+    },
+    "building_sense_enabled_controlled.controlled_case": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "java_expr": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;",
+      "godot_symbol": "source_building_sense_enabled_controlled_result.controlled_case",
+      "rule": "sense(LAccess) returns GlobalVars.ctrlPlayer only for controlled ControlBlock."
+    },
+    "building_sense_enabled_controlled.enabled_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "java_expr": "enabled",
+      "godot_symbol": "source_building_sense_enabled_controlled_input.enabled_state",
+      "rule": "Runtime enabled_state supplies enabled."
+    },
+    "building_sense_enabled_controlled.is_control_block": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "java_expr": "this instanceof ControlBlock c",
+      "godot_symbol": "source_building_sense_enabled_controlled_input.is_control_block",
+      "rule": "Runtime is_control_block supplies this instanceof ControlBlock c."
+    },
+    "building_sense_enabled_controlled.is_controlled": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "java_expr": "c.isControlled()",
+      "godot_symbol": "source_building_sense_enabled_controlled_input.is_controlled",
+      "rule": "Runtime is_controlled supplies c.isControlled()."
+    },
+    "building_sense_enabled_controlled.ctrl_player_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "tests": [
+        "test_building_sense_enabled_controlled_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_sense_enabled_controlled_state",
+      "java_expr": "GlobalVars.ctrlPlayer",
+      "godot_symbol": "source_building_sense_enabled_controlled_input.ctrl_player_value",
+      "rule": "Runtime ctrl_player_value supplies GlobalVars.ctrlPlayer."
     }
   }
 }
