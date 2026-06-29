@@ -8697,6 +8697,31 @@
         "test_bullet_damage_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_damage"
       ]
+    },
+    "N673": {
+      "exact_exprs": [
+        "public float hitSize = 4;",
+        "BulletType data",
+        "hitSize",
+        "4"
+      ],
+      "godot_owner": "PortGame.source_bullet_hit_size",
+      "java_class": "BulletType",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "runtime_proof": "/root/Main.source_bullet_hit_size",
+      "source_symbols": [
+        "bullet_hit_size.field",
+        "bullet_hit_size.data",
+        "bullet_hit_size.key",
+        "bullet_hit_size.default",
+        "bullet_hit_size.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_hit_size"
+      ]
     }
   },
   "version": 1

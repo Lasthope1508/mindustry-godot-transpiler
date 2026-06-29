@@ -740,6 +740,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BULLET_HIT_SIZE_FIELD := "public float hitSize = 4;"', source)
+        self.assertIn('const SOURCE_BULLET_HIT_SIZE_KEY := "hitSize"', source)
+        self.assertIn("const SOURCE_BULLET_HIT_SIZE_DEFAULT := 4.0", source)
         self.assertIn("func source_bullet_hit_size(data: Dictionary) -> float:", source)
         self.assertIn('return float(data.get("hitSize", 4.0))', source)
         self.assertIn('"hit_size": source_bullet_hit_size(data)', source)

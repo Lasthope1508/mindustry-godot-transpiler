@@ -34196,6 +34196,82 @@
       },
       "status": "active"
     },
+    "source_bullet_hit_size_input": {
+      "keys": {
+        "data": {
+          "godot_symbol": "source_bullet_hit_size_input.data",
+          "java_expr": "BulletType data",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime data dictionary supplies BulletType hitSize field state.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_bullet_hit_size"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_bullet_hit_size_result": {
+      "keys": {
+        "data": {
+          "alias_of": "source_bullet_hit_size_input.data",
+          "rule": "Carries BulletType data input into hitSize result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "default_value": {
+          "godot_symbol": "source_bullet_hit_size_result.default_value",
+          "java_expr": "4",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot fallback preserves BulletType.hitSize default value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_hit_size"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_bullet_hit_size_result.field",
+          "java_expr": "public float hitSize = 4;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Canonical BulletType hitSize field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_hit_size"
+          ]
+        },
+        "hit_size": {
+          "godot_symbol": "source_bullet_hit_size_result.hit_size",
+          "java_expr": "hitSize",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Return hit size from BulletType.hitSize runtime data or default.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_hit_size"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_bullet_hit_size_result.key",
+          "java_expr": "hitSize",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Godot dictionary key maps to BulletType.hitSize exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_bullet_hit_size"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

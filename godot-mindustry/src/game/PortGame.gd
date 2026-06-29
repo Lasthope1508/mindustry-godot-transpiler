@@ -10150,6 +10150,10 @@ func source_bullet_world_speed(data: Dictionary) -> float:
 func source_bullet_velocity(data: Dictionary, shoot_angle_degrees: float) -> Vector2:
 	return Vector2.RIGHT.rotated(deg_to_rad(shoot_angle_degrees)) * source_bullet_world_speed(data)
 
+const SOURCE_BULLET_HIT_SIZE_FIELD := "public float hitSize = 4;"
+const SOURCE_BULLET_HIT_SIZE_KEY := "hitSize"
+const SOURCE_BULLET_HIT_SIZE_DEFAULT := 4.0
+
 func source_bullet_hit_size(data: Dictionary) -> float:
 	return float(data.get("hitSize", 4.0))
 
