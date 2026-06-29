@@ -6294,12 +6294,17 @@ func source_bullet_type_update_weaving_circle_shooter_state(rotate_speed_state: 
 		"circleShooterVelocitySource": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)",
 	}
 
+const SOURCE_BULLET_ROTATION_COMMENT := "/** @return the bullet's rotation. */"
+const SOURCE_BULLET_ROTATION_METHOD := "public float rotation(){"
+const SOURCE_BULLET_ROTATION_RETURN := "return vel.isZero(0.001f) ? rotation : vel.angle();"
+const SOURCE_BULLET_ROTATION_ZERO_MARGIN := 0.001
+
 func source_bullet_rotation_degrees(bullet_state: Dictionary) -> float:
 	var velocity_state: Dictionary = bullet_state.get("velocity", {})
 	var velocity_x := float(velocity_state.get("x", 0.0))
 	var velocity_y := float(velocity_state.get("y", 0.0))
 	var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y
-	if velocity_len2 < 0.001:
+	if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:
 		return float(bullet_state.get("rotation", 0.0))
 	return source_arc_angles_angle(0.0, 0.0, velocity_x, velocity_y)
 

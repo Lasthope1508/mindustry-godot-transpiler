@@ -19116,6 +19116,123 @@
         "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
       ]
     },
+    "bullet_rotation_degrees.comment": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.comment",
+      "java_expr": "/** @return the bullet's rotation. */",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Canonical BulletComp rotation method comment.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.data": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_input.bullet_state",
+      "java_expr": "Bullet bullet_state",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Runtime bullet_state supplies Bullet velocity and fallback rotation.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "explicit-input",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.fallback_rotation": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.fallback_rotation",
+      "java_expr": "rotation",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Use stored bullet rotation when velocity is zero.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.method": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.method",
+      "java_expr": "public float rotation(){",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Canonical BulletComp rotation method declaration.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.result": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.rotation_degrees",
+      "java_expr": "vel.isZero(0.001f) ? rotation : vel.angle()",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Return BulletComp rotation from velocity angle unless velocity is zero.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.return": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.return_line",
+      "java_expr": "return vel.isZero(0.001f) ? rotation : vel.angle();",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Canonical BulletComp rotation return expression.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.vec2_is_zero": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.vec2_is_zero",
+      "java_expr": "return len2() < margin;",
+      "java_method": "isZero(final float margin)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 zero check compares squared length against margin.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.velocity_angle": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.velocity_angle",
+      "java_expr": "vel.angle()",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "Use velocity angle when Bullet velocity is non-zero.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "bullet_rotation_degrees.zero_margin": {
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "godot_symbol": "source_bullet_rotation_degrees_result.zero_margin",
+      "java_expr": "0.001f",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "rule": "BulletComp rotation zero-velocity margin.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "status": "source-backed",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
     "bullet_type.parts": {
       "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
       "godot_symbol": "bullet_type_state.parts",

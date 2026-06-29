@@ -8832,6 +8832,39 @@
         "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_reload_multiplier"
       ]
+    },
+    "N678": {
+      "exact_exprs": [
+        "/** @return the bullet's rotation. */",
+        "public float rotation(){",
+        "return vel.isZero(0.001f) ? rotation : vel.angle();",
+        "Bullet bullet_state",
+        "0.001f",
+        "return len2() < margin;",
+        "vel.angle()",
+        "rotation"
+      ],
+      "godot_owner": "PortGame.source_bullet_rotation_degrees",
+      "java_class": "BulletComp",
+      "java_method": "rotation()",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "source_symbols": [
+        "bullet_rotation_degrees.comment",
+        "bullet_rotation_degrees.data",
+        "bullet_rotation_degrees.fallback_rotation",
+        "bullet_rotation_degrees.method",
+        "bullet_rotation_degrees.result",
+        "bullet_rotation_degrees.return",
+        "bullet_rotation_degrees.vec2_is_zero",
+        "bullet_rotation_degrees.velocity_angle",
+        "bullet_rotation_degrees.zero_margin"
+      ],
+      "status": "done",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state"
+      ]
     }
   },
   "version": 1

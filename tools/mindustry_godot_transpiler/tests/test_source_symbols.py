@@ -4219,6 +4219,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "reloadMultiplier")
         self.assertEqual(result["godot_symbol"], "source_bullet_reload_multiplier_result.reload_multiplier")
 
+    def test_bullet_rotation_degrees_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "bullet_rotation_degrees.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(comment["java_method"], "rotation()")
+        self.assertEqual(comment["java_expr"], "/** @return the bullet's rotation. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_bullet_rotation_degrees")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_bullet_rotation_degrees")
+        self.assertEqual(comment["godot_symbol"], "source_bullet_rotation_degrees_result.comment")
+
+        method = source_symbols.source_symbol(registry, "bullet_rotation_degrees.method")
+        self.assertEqual(method["java_expr"], "public float rotation(){")
+        self.assertEqual(method["godot_symbol"], "source_bullet_rotation_degrees_result.method")
+
+        return_line = source_symbols.source_symbol(registry, "bullet_rotation_degrees.return")
+        self.assertEqual(return_line["java_expr"], "return vel.isZero(0.001f) ? rotation : vel.angle();")
+        self.assertEqual(return_line["godot_symbol"], "source_bullet_rotation_degrees_result.return_line")
+
+        data = source_symbols.source_symbol(registry, "bullet_rotation_degrees.data")
+        self.assertEqual(data["status"], "explicit-input")
+        self.assertEqual(data["java_expr"], "Bullet bullet_state")
+        self.assertEqual(data["godot_symbol"], "source_bullet_rotation_degrees_input.bullet_state")
+
+        zero_margin = source_symbols.source_symbol(registry, "bullet_rotation_degrees.zero_margin")
+        self.assertEqual(zero_margin["java_expr"], "0.001f")
+        self.assertEqual(zero_margin["godot_symbol"], "source_bullet_rotation_degrees_result.zero_margin")
+
+        vec2_is_zero = source_symbols.source_symbol(registry, "bullet_rotation_degrees.vec2_is_zero")
+        self.assertEqual(vec2_is_zero["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_is_zero["java_expr"], "return len2() < margin;")
+        self.assertEqual(vec2_is_zero["godot_symbol"], "source_bullet_rotation_degrees_result.vec2_is_zero")
+
+        velocity_angle = source_symbols.source_symbol(registry, "bullet_rotation_degrees.velocity_angle")
+        self.assertEqual(velocity_angle["java_expr"], "vel.angle()")
+        self.assertEqual(velocity_angle["godot_symbol"], "source_bullet_rotation_degrees_result.velocity_angle")
+
+        fallback = source_symbols.source_symbol(registry, "bullet_rotation_degrees.fallback_rotation")
+        self.assertEqual(fallback["java_expr"], "rotation")
+        self.assertEqual(fallback["godot_symbol"], "source_bullet_rotation_degrees_result.fallback_rotation")
+
+        result = source_symbols.source_symbol(registry, "bullet_rotation_degrees.result")
+        self.assertEqual(result["java_expr"], "vel.isZero(0.001f) ? rotation : vel.angle()")
+        self.assertEqual(result["godot_symbol"], "source_bullet_rotation_degrees_result.rotation_degrees")
+
     def test_building_can_be_replaced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -8303,9 +8351,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 275)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 276)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 280)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 281)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -8488,6 +8536,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_bullet_lifetime_seconds", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_range_change", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_reload_multiplier", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_bullet_rotation_degrees", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9929,6 +9978,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float reloadMultiplier = 1f;", bullet_reload_multiplier["exact_exprs"])
         self.assertIn("reloadMultiplier", bullet_reload_multiplier["exact_exprs"])
         self.assertIn("1f", bullet_reload_multiplier["exact_exprs"])
+
+        bullet_rotation_degrees = source_symbols.source_slice(ledger, "N678")
+        self.assertEqual(bullet_rotation_degrees["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(bullet_rotation_degrees["java_method"], "rotation()")
+        self.assertEqual(bullet_rotation_degrees["godot_owner"], "PortGame.source_bullet_rotation_degrees")
+        self.assertIn("/** @return the bullet's rotation. */", bullet_rotation_degrees["exact_exprs"])
+        self.assertIn("public float rotation(){", bullet_rotation_degrees["exact_exprs"])
+        self.assertIn("return vel.isZero(0.001f) ? rotation : vel.angle();", bullet_rotation_degrees["exact_exprs"])
+        self.assertIn("return len2() < margin;", bullet_rotation_degrees["exact_exprs"])
 
         building_update_consumption_non_optional = source_symbols.source_slice(ledger, "N662")
         self.assertEqual(building_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -12977,6 +13035,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("reload_multiplier", bullet_reload_multiplier["return_keys"])
         self.assertEqual(bullet_reload_multiplier["source_method"], "field declaration")
 
+        bullet_rotation_degrees = source_symbols.api_contract(contracts, "PortGame.source_bullet_rotation_degrees")
+        self.assertEqual([param["name"] for param in bullet_rotation_degrees["params"]], ["bullet_state"])
+        self.assertEqual(bullet_rotation_degrees["params"][0]["schema"], "source_bullet_rotation_degrees_input.bullet_state")
+        self.assertIn("rotation_degrees", bullet_rotation_degrees["return_keys"])
+        self.assertEqual(bullet_rotation_degrees["source_method"], "rotation()")
+
         building_placed = source_symbols.api_contract(contracts, "PortGame.source_building_placed_state")
         self.assertEqual([param["name"] for param in building_placed["params"]], ["net_client", "consumes_power", "outputs_power", "has_power", "connected_power", "linked_to_self", "source_pos"])
         self.assertEqual(building_placed["params"][0]["schema"], "source_building_placed_input.net_client")
@@ -15917,6 +15981,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_bullet_reload_multiplier_result["keys"]["default_value"]["java_expr"], "1f")
         self.assertEqual(source_bullet_reload_multiplier_result["keys"]["reload_multiplier"]["java_expr"], "reloadMultiplier")
         self.assertEqual(source_bullet_reload_multiplier_result["keys"]["data"]["alias_of"], "source_bullet_reload_multiplier_input.data")
+
+        source_bullet_rotation_degrees_input = source_symbols.state_schema(schema, "source_bullet_rotation_degrees_input")
+        self.assertEqual(source_bullet_rotation_degrees_input["keys"]["bullet_state"]["java_expr"], "Bullet bullet_state")
+        self.assertEqual(source_bullet_rotation_degrees_input["keys"]["bullet_state"]["status"], "explicit-input")
+
+        source_bullet_rotation_degrees_result = source_symbols.state_schema(schema, "source_bullet_rotation_degrees_result")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["comment"]["java_expr"], "/** @return the bullet's rotation. */")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["method"]["java_expr"], "public float rotation(){")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["return_line"]["java_expr"], "return vel.isZero(0.001f) ? rotation : vel.angle();")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["zero_margin"]["java_expr"], "0.001f")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["vec2_is_zero"]["java_expr"], "return len2() < margin;")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["velocity_angle"]["java_expr"], "vel.angle()")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["fallback_rotation"]["java_expr"], "rotation")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["rotation_degrees"]["java_expr"], "vel.isZero(0.001f) ? rotation : vel.angle()")
+        self.assertEqual(source_bullet_rotation_degrees_result["keys"]["bullet_state"]["alias_of"], "source_bullet_rotation_degrees_input.bullet_state")
 
         source_building_placed_input = source_symbols.state_schema(schema, "source_building_placed_input")
         self.assertEqual(source_building_placed_input["keys"]["net_client"]["java_expr"], "net.client()")

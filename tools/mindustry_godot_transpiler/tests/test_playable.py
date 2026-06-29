@@ -4722,6 +4722,14 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn("func source_bullet_rotation_degrees(bullet_state: Dictionary) -> float:", source)
+        self.assertIn('const SOURCE_BULLET_ROTATION_COMMENT := "/** @return the bullet\'s rotation. */"', source)
+        self.assertIn('const SOURCE_BULLET_ROTATION_METHOD := "public float rotation(){"', source)
+        self.assertIn('const SOURCE_BULLET_ROTATION_RETURN := "return vel.isZero(0.001f) ? rotation : vel.angle();"', source)
+        self.assertIn("const SOURCE_BULLET_ROTATION_ZERO_MARGIN := 0.001", source)
+        self.assertIn("if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:", source)
+        self.assertIn('return float(bullet_state.get("rotation", 0.0))', source)
+        self.assertIn("return source_arc_angles_angle(0.0, 0.0, velocity_x, velocity_y)", source)
         self.assertIn("func source_bullet_type_update_trail_effects_chance_state(bullet_state: Dictionary, bullet_type_state: Dictionary, chance_delta_result: bool, random_offset_state: Dictionary) -> Dictionary:", source)
         self.assertIn("var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y", source)
         self.assertIn("var can_spawn := trail_min_velocity <= 0.0 or velocity_len2 >= trail_min_velocity * trail_min_velocity", source)

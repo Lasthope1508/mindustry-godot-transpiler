@@ -6844,6 +6844,27 @@
         "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_bullet_rotation_degrees": {
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "source_bullet_rotation_degrees_input.bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "rotation_degrees"
+      ],
+      "rule": "Public runtime contract for BulletComp rotation helper.",
+      "runtime_proof": "/root/Main.source_bullet_rotation_degrees",
+      "source_method": "rotation()",
+      "source_slice": "N678",
+      "status": "active",
+      "tests": [
+        "test_bullet_rotation_degrees_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_bullet_type_building_damage_state": {
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "params": [
