@@ -11979,6 +11979,39 @@
         "test_source_move_angle_toward_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
       ]
+    },
+    "PortGame.source_move_forward_accept_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "has_front",
+          "schema": "source_move_forward_accept_input.hasFront",
+          "type": "bool"
+        },
+        {
+          "name": "same_team",
+          "schema": "source_move_forward_accept_input.sameTeam",
+          "type": "bool"
+        },
+        {
+          "name": "front_accepts",
+          "schema": "source_move_forward_accept_input.frontAccepts",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "moveForward",
+        "handleDeferred"
+      ],
+      "rule": "Public runtime contract for BuildingComp.moveForward(Item item) accept gate before deferred handleItem side effect.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "source_method": "moveForward(Item item)",
+      "source_slice": "N721",
+      "status": "active",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
     }
   },
   "policy": {

@@ -41674,6 +41674,142 @@
         }
       },
       "status": "active"
+    },
+    "source_move_forward_accept_input": {
+      "keys": {
+        "hasFront": {
+          "godot_symbol": "source_move_forward_accept_input.hasFront",
+          "java_expr": "other != null",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit bool input for front() non-null gate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "sameTeam": {
+          "godot_symbol": "source_move_forward_accept_input.sameTeam",
+          "java_expr": "other.team == team",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit bool input for same-team gate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "frontAccepts": {
+          "godot_symbol": "source_move_forward_accept_input.frontAccepts",
+          "java_expr": "other.acceptItem(self(), item)",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit bool input for target acceptItem call result.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_move_forward_accept_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_move_forward_accept_result.method",
+          "java_expr": "public boolean moveForward(Item item){",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "front": {
+          "godot_symbol": "source_move_forward_accept_result.front",
+          "java_expr": "Building other = front();",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Facing building lookup.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "moveForward": {
+          "godot_symbol": "source_move_forward_accept_result.moveForward",
+          "java_expr": "if(other != null && other.team == team && other.acceptItem(self(), item)){",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Gate result returned by this runtime helper.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "handleDeferred": {
+          "godot_symbol": "source_move_forward_accept_result.handleDeferred",
+          "java_expr": "other.handleItem(self(), item);",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Side effect pinned but deferred from accept-state helper.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "returnTrue": {
+          "godot_symbol": "source_move_forward_accept_result.returnTrue",
+          "java_expr": "return true;",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Accepted branch return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "returnFalse": {
+          "godot_symbol": "source_move_forward_accept_result.returnFalse",
+          "java_expr": "return false;",
+          "java_method": "moveForward(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Rejected branch return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_move_forward_accept_state"
+          ]
+        },
+        "hasFront": {
+          "alias_of": "source_move_forward_accept_input.hasFront",
+          "rule": "Runtime echo of input hasFront.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "sameTeam": {
+          "alias_of": "source_move_forward_accept_input.sameTeam",
+          "rule": "Runtime echo of input sameTeam.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "frontAccepts": {
+          "alias_of": "source_move_forward_accept_input.frontAccepts",
+          "rule": "Runtime echo of input frontAccepts.",
+          "status": "generated",
+          "type": "bool"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

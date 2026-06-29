@@ -32546,6 +32546,132 @@
         "test_source_move_angle_toward_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
       ]
+    },
+    "move_forward_accept.method": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_result.method",
+      "java_expr": "public boolean moveForward(Item item){",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp moveForward method boundary for facing-direction item transfer.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.front_call": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_result.front",
+      "java_expr": "Building other = front();",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "moveForward reads only the facing building through front().",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.gate": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_result.moveForward",
+      "java_expr": "if(other != null && other.team == team && other.acceptItem(self(), item)){",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "moveForward success gate requires front building, same team, and target acceptItem result.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.handle_deferred": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_result.handleDeferred",
+      "java_expr": "other.handleItem(self(), item);",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Handling side effect belongs to following moveForward-to-core/runtime transfer slices; this slice pins the gate only.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "deferred",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.return_true": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_result.moveForward",
+      "java_expr": "return true;",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "moveForward returns true only inside the accepted front transfer branch.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.return_false": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_result.moveForward",
+      "java_expr": "return false;",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "moveForward returns false when the front transfer branch does not pass.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "source-backed",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.has_front": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_input.hasFront",
+      "java_expr": "other != null",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime has_front parameter maps to Java other != null subexpression.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.same_team": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_input.sameTeam",
+      "java_expr": "other.team == team",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime same_team parameter maps to Java same-team gate.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
+    },
+    "move_forward_accept.front_accepts": {
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "godot_symbol": "source_move_forward_accept_input.frontAccepts",
+      "java_expr": "other.acceptItem(self(), item)",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime front_accepts parameter maps to Java target acceptItem call result.",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
     }
   },
   "version": 1

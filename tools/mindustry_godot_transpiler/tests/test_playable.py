@@ -1410,6 +1410,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"', source)
+        self.assertIn('const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"', source)
+        self.assertIn('const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"', source)
+        self.assertIn('const SOURCE_MOVE_FORWARD_ACCEPT_HANDLE_DEFERRED := "other.handleItem(self(), item);"', source)
         self.assertIn("func source_move_forward_accept_state(has_front: bool, same_team: bool, front_accepts: bool) -> bool:", source)
         self.assertIn("return has_front and same_team and front_accepts", source)
         self.assertIn("func source_move_forward_to_core(item_id: String, has_front := true, same_team := true) -> bool:", source)

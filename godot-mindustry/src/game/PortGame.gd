@@ -3271,6 +3271,13 @@ func source_building_handle_liquid_amount(current_amount: float, amount: float) 
 func source_building_accept_liquid_state(has_liquids: bool, consumes_liquid: bool) -> bool:
 	return has_liquids and consumes_liquid
 
+const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
+const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
+const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"
+const SOURCE_MOVE_FORWARD_ACCEPT_HANDLE_DEFERRED := "other.handleItem(self(), item);"
+const SOURCE_MOVE_FORWARD_ACCEPT_RETURN_TRUE := "return true;"
+const SOURCE_MOVE_FORWARD_ACCEPT_RETURN_FALSE := "return false;"
+
 func source_move_forward_accept_state(has_front: bool, same_team: bool, front_accepts: bool) -> bool:
 	return has_front and same_team and front_accepts
 

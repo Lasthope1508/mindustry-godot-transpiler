@@ -10272,6 +10272,39 @@
         "test_source_move_angle_toward_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
       ]
+    },
+    "N721": {
+      "deferred_exprs": [
+        "other.handleItem(self(), item);"
+      ],
+      "exact_exprs": [
+        "public boolean moveForward(Item item){",
+        "Building other = front();",
+        "if(other != null && other.team == team && other.acceptItem(self(), item)){",
+        "return true;",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_move_forward_accept_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "moveForward(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_move_forward_accept_state",
+      "source_symbols": [
+        "move_forward_accept.method",
+        "move_forward_accept.front_call",
+        "move_forward_accept.gate",
+        "move_forward_accept.handle_deferred",
+        "move_forward_accept.return_true",
+        "move_forward_accept.return_false",
+        "move_forward_accept.has_front",
+        "move_forward_accept.same_team",
+        "move_forward_accept.front_accepts"
+      ],
+      "status": "done",
+      "tests": [
+        "test_move_forward_accept_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_move_forward_to_core"
+      ]
     }
   },
   "version": 1
