@@ -4225,6 +4225,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(player["java_expr"], "player")
         self.assertEqual(player["godot_symbol"], "source_building_configure_menu_visibility_input.player")
 
+    def test_building_should_show_configure_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "building_should_show_configure.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(comment["java_method"], "shouldShowConfigure(Player player)")
+        self.assertEqual(comment["java_expr"], "/** Returns whether this config menu should show when the specified player taps it. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_building_should_show_configure_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_building_should_show_configure_state")
+        self.assertEqual(comment["godot_symbol"], "source_building_should_show_configure_result.comment")
+
+        method = source_symbols.source_symbol(registry, "building_should_show_configure.method")
+        self.assertEqual(method["java_expr"], "public boolean shouldShowConfigure(Player player){")
+        self.assertEqual(method["godot_symbol"], "source_building_should_show_configure_result.method")
+
+        return_true = source_symbols.source_symbol(registry, "building_should_show_configure.return_true")
+        self.assertEqual(return_true["java_expr"], "return true;")
+        self.assertEqual(return_true["godot_symbol"], "source_building_should_show_configure_result.return_true")
+
+        player = source_symbols.source_symbol(registry, "building_should_show_configure.player")
+        self.assertEqual(player["status"], "explicit-input")
+        self.assertEqual(player["java_expr"], "player")
+        self.assertEqual(player["godot_symbol"], "source_building_should_show_configure_input.player")
+
     def test_building_should_hide_configure_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7315,9 +7342,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 246)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 247)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 251)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 252)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7496,6 +7523,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_should_ambient_sound", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_should_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_should_hide_configure_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_should_show_configure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_object_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_after_picked_up_state", audit["registeredSourceOwners"])
@@ -8640,6 +8668,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean shouldHideConfigure(Player player){", building_should_hide_configure["exact_exprs"])
         self.assertIn("return false;", building_should_hide_configure["exact_exprs"])
         self.assertIn("player", building_should_hide_configure["exact_exprs"])
+
+        building_should_show_configure = source_symbols.source_slice(ledger, "N649")
+        self.assertEqual(building_should_show_configure["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_should_show_configure["java_method"], "shouldShowConfigure(Player player)")
+        self.assertEqual(building_should_show_configure["godot_owner"], "PortGame.source_building_should_show_configure_state")
+        self.assertIn("/** Returns whether this config menu should show when the specified player taps it. */", building_should_show_configure["exact_exprs"])
+        self.assertIn("public boolean shouldShowConfigure(Player player){", building_should_show_configure["exact_exprs"])
+        self.assertIn("return true;", building_should_show_configure["exact_exprs"])
+        self.assertIn("player", building_should_show_configure["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -10978,6 +11015,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return_false", building_should_hide_configure["return_keys"])
         self.assertIn("should_hide", building_should_hide_configure["return_keys"])
         self.assertEqual(building_should_hide_configure["source_method"], "shouldHideConfigure(Player player)")
+
+        building_should_show_configure = source_symbols.api_contract(contracts, "PortGame.source_building_should_show_configure_state")
+        self.assertEqual([param["name"] for param in building_should_show_configure["params"]], ["_player"])
+        self.assertEqual(building_should_show_configure["params"][0]["schema"], "source_building_should_show_configure_input.player")
+        self.assertIn("comment", building_should_show_configure["return_keys"])
+        self.assertIn("method", building_should_show_configure["return_keys"])
+        self.assertIn("return_true", building_should_show_configure["return_keys"])
+        self.assertIn("should_show", building_should_show_configure["return_keys"])
+        self.assertEqual(building_should_show_configure["source_method"], "shouldShowConfigure(Player player)")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -13486,6 +13532,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_should_hide_configure_result["keys"]["return_false"]["java_expr"], "return false;")
         self.assertEqual(source_building_should_hide_configure_result["keys"]["should_hide"]["java_expr"], "return false;")
         self.assertEqual(source_building_should_hide_configure_result["keys"]["player"]["alias_of"], "source_building_should_hide_configure_input.player")
+
+        source_building_should_show_configure_input = source_symbols.state_schema(schema, "source_building_should_show_configure_input")
+        self.assertEqual(source_building_should_show_configure_input["keys"]["player"]["java_expr"], "player")
+        self.assertEqual(source_building_should_show_configure_input["keys"]["player"]["status"], "explicit-input")
+
+        source_building_should_show_configure_result = source_symbols.state_schema(schema, "source_building_should_show_configure_result")
+        self.assertEqual(source_building_should_show_configure_result["keys"]["comment"]["java_expr"], "/** Returns whether this config menu should show when the specified player taps it. */")
+        self.assertEqual(source_building_should_show_configure_result["keys"]["method"]["java_expr"], "public boolean shouldShowConfigure(Player player){")
+        self.assertEqual(source_building_should_show_configure_result["keys"]["return_true"]["java_expr"], "return true;")
+        self.assertEqual(source_building_should_show_configure_result["keys"]["should_show"]["java_expr"], "return true;")
+        self.assertEqual(source_building_should_show_configure_result["keys"]["player"]["alias_of"], "source_building_should_show_configure_input.player")
 
         source_building_sense_payload_size_input = source_symbols.state_schema(schema, "source_building_sense_payload_size_input")
         self.assertEqual(source_building_sense_payload_size_input["keys"]["has_payload_seq"]["java_expr"], "getPayloads() != null")

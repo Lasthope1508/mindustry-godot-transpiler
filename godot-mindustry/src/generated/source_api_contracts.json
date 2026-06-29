@@ -9674,6 +9674,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_should_hide_configure_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.shouldHideConfigure helper."
+    },
+    "PortGame.source_building_should_show_configure_state": {
+      "status": "active",
+      "source_slice": "N649",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "shouldShowConfigure(Player player)",
+      "params": [
+        {
+          "name": "_player",
+          "type": "Variant",
+          "schema": "source_building_should_show_configure_input.player"
+        }
+      ],
+      "return_keys": [
+        "comment",
+        "method",
+        "return_true",
+        "should_show"
+      ],
+      "tests": [
+        "test_building_should_show_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_show_configure_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.shouldShowConfigure helper."
     }
   },
   "policy": {

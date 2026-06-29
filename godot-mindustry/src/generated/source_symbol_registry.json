@@ -24577,6 +24577,58 @@
       "java_expr": "player",
       "godot_symbol": "source_building_should_hide_configure_input.player",
       "rule": "Runtime _player supplies Player player argument."
+    },
+    "building_should_show_configure.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player)",
+      "java_expr": "/** Returns whether this config menu should show when the specified player taps it. */",
+      "godot_symbol": "source_building_should_show_configure_result.comment",
+      "godot_owner": "PortGame.source_building_should_show_configure_state",
+      "tests": [
+        "test_building_should_show_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_show_configure_state",
+      "rule": "BuildingComp shouldShowConfigure source comment."
+    },
+    "building_should_show_configure.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player)",
+      "java_expr": "public boolean shouldShowConfigure(Player player){",
+      "godot_symbol": "source_building_should_show_configure_result.method",
+      "godot_owner": "PortGame.source_building_should_show_configure_state",
+      "tests": [
+        "test_building_should_show_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_show_configure_state",
+      "rule": "BuildingComp shouldShowConfigure method boundary."
+    },
+    "building_should_show_configure.return_true": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player)",
+      "java_expr": "return true;",
+      "godot_symbol": "source_building_should_show_configure_result.return_true",
+      "godot_owner": "PortGame.source_building_should_show_configure_state",
+      "tests": [
+        "test_building_should_show_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_show_configure_state",
+      "rule": "shouldShowConfigure default return statement."
+    },
+    "building_should_show_configure.player": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldShowConfigure(Player player)",
+      "java_expr": "player",
+      "godot_symbol": "source_building_should_show_configure_input.player",
+      "godot_owner": "PortGame.source_building_should_show_configure_state",
+      "tests": [
+        "test_building_should_show_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_show_configure_state",
+      "rule": "Runtime _player supplies Player player argument."
     }
   }
 }

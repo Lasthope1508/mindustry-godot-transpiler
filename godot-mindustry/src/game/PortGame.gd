@@ -2104,8 +2104,15 @@ func source_building_on_configure_closed_state() -> Dictionary:
 func source_building_configure_menu_visibility_state(_player: Variant) -> Dictionary:
 	return {"should_show": true, "should_hide": false}
 
-func source_building_should_show_configure_state(_player: Variant) -> bool:
-	return bool(source_building_configure_menu_visibility_state(_player)["should_show"])
+func source_building_should_show_configure_state(_player: Variant) -> Dictionary:
+	var source_exprs: Dictionary = {
+		"comment": "/** Returns whether this config menu should show when the specified player taps it. */",
+		"method": "public boolean shouldShowConfigure(Player player){",
+		"return_true": "return true;",
+	}
+	var result: Dictionary = {"should_show": true}
+	result.merge(source_exprs)
+	return result
 
 func source_building_should_hide_configure_state(_player: Variant) -> Dictionary:
 	var source_exprs: Dictionary = {

@@ -7916,6 +7916,30 @@
       ],
       "runtime_proof": "/root/Main.source_building_should_hide_configure_state",
       "rule": "Backfills SSOT for existing canonical source_building_should_hide_configure_state helper against BuildingComp.shouldHideConfigure default false return."
+    },
+    "N649": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "shouldShowConfigure(Player player)",
+      "godot_owner": "PortGame.source_building_should_show_configure_state",
+      "exact_exprs": [
+        "/** Returns whether this config menu should show when the specified player taps it. */",
+        "public boolean shouldShowConfigure(Player player){",
+        "return true;",
+        "player"
+      ],
+      "source_symbols": [
+        "building_should_show_configure.comment",
+        "building_should_show_configure.method",
+        "building_should_show_configure.return_true",
+        "building_should_show_configure.player"
+      ],
+      "tests": [
+        "test_building_should_show_configure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_should_show_configure_state",
+      "rule": "Backfills SSOT for existing canonical source_building_should_show_configure_state helper against BuildingComp.shouldShowConfigure default true return."
     }
   },
   "version": 1
