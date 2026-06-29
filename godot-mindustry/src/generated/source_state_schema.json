@@ -41598,6 +41598,82 @@
         }
       },
       "status": "active"
+    },
+    "source_move_angle_toward_input": {
+      "keys": {
+        "currentDegrees": {
+          "java_expr": "angle",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward angle input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_move_angle_toward"
+          ],
+          "godot_symbol": "source_move_angle_toward_input.currentDegrees"
+        },
+        "targetDegrees": {
+          "java_expr": "to",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward to input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_move_angle_toward"
+          ],
+          "godot_symbol": "source_move_angle_toward_input.targetDegrees"
+        },
+        "maxDelta": {
+          "java_expr": "speed",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward speed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_move_angle_toward"
+          ],
+          "godot_symbol": "source_move_angle_toward_input.maxDelta"
+        }
+      },
+      "status": "active"
+    },
+    "source_move_angle_toward_result": {
+      "keys": {
+        "moveToward": {
+          "java_expr": "source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Delegated canonical Arc moveToward result.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_move_angle_toward"
+          ],
+          "godot_symbol": "source_move_angle_toward_result.moveToward"
+        },
+        "currentDegrees": {
+          "alias_of": "source_move_angle_toward_input.currentDegrees",
+          "rule": "Carries currentDegrees input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "targetDegrees": {
+          "alias_of": "source_move_angle_toward_input.targetDegrees",
+          "rule": "Carries targetDegrees input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "maxDelta": {
+          "alias_of": "source_move_angle_toward_input.maxDelta",
+          "rule": "Carries maxDelta input into result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

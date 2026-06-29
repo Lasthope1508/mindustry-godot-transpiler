@@ -11944,6 +11944,41 @@
       "tests": [
         "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_move_angle_toward": {
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "params": [
+        {
+          "name": "current_degrees",
+          "schema": "source_move_angle_toward_input.currentDegrees",
+          "type": "float"
+        },
+        {
+          "name": "target_degrees",
+          "schema": "source_move_angle_toward_input.targetDegrees",
+          "type": "float"
+        },
+        {
+          "name": "max_delta",
+          "schema": "source_move_angle_toward_input.maxDelta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "moveToward",
+        "currentDegrees",
+        "targetDegrees",
+        "maxDelta"
+      ],
+      "rule": "Public runtime contract for legacy turret move angle helper backed by canonical Arc Angles.moveToward.",
+      "runtime_proof": "/root/Main.source_move_angle_toward",
+      "source_method": "moveToward(float angle, float to, float speed)",
+      "source_slice": "N720",
+      "status": "active",
+      "tests": [
+        "test_source_move_angle_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ]
     }
   },
   "policy": {

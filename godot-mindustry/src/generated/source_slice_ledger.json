@@ -10244,6 +10244,34 @@
       "tests": [
         "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N720": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public static float moveToward(float angle, float to, float speed){\n        if(Math.abs(angleDist(angle, to)) < speed) return to;\n        angle = Mathf.mod(angle, 360f);\n        to = Mathf.mod(to, 360f);\n\n        if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){\n            angle -= speed;\n        }else{\n            angle += speed;\n        }\n\n        return angle;\n    }",
+        "source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)",
+        "angle",
+        "to",
+        "speed"
+      ],
+      "godot_owner": "PortGame.source_move_angle_toward",
+      "java_class": "arc.math.Angles",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Backfills SSOT for source_move_angle_toward wrapper and aligns it to canonical Arc Angles.moveToward behavior.",
+      "runtime_proof": "/root/Main.source_move_angle_toward",
+      "source_symbols": [
+        "source_move_angle_toward.method",
+        "source_move_angle_toward.canonical_wrapper",
+        "source_move_angle_toward.current_degrees_input",
+        "source_move_angle_toward.target_degrees_input",
+        "source_move_angle_toward.max_delta_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_source_move_angle_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ]
     }
   },
   "version": 1

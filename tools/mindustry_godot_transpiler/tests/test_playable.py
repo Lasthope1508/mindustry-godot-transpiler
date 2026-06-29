@@ -1056,6 +1056,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return source_arc_angles_angle(origin_x, origin_y, sprite.position.x, sprite.position.y)", source)
         self.assertIn("func source_angle_distance(current_degrees: float, target_degrees: float) -> float:", source)
         self.assertIn("func source_move_angle_toward(current_degrees: float, target_degrees: float, max_delta: float) -> float:", source)
+        self.assertIn('const SOURCE_MOVE_ANGLE_TOWARD_CANONICAL_WRAPPER := "source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)"', source)
+        self.assertIn("return source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)", source)
         self.assertIn("var target_rotation := source_angle_to_target(grid_to_world(cell), target)", source)
         self.assertIn("var current_rotation := float(turret_rotations.get(key, target_rotation))", source)
         self.assertIn("current_rotation = source_move_angle_toward(current_rotation, target_rotation, source_turret_rotate_speed(duo) * delta * SOURCE_TICK_RATE)", source)

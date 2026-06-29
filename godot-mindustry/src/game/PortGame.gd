@@ -10385,11 +10385,10 @@ func source_angle_to_target(origin, target) -> float:
 func source_angle_distance(current_degrees: float, target_degrees: float) -> float:
 	return abs(wrapf(target_degrees - current_degrees, -180.0, 180.0))
 
+const SOURCE_MOVE_ANGLE_TOWARD_CANONICAL_WRAPPER := "source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)"
+
 func source_move_angle_toward(current_degrees: float, target_degrees: float, max_delta: float) -> float:
-	var delta := wrapf(target_degrees - current_degrees, -180.0, 180.0)
-	if abs(delta) <= max_delta:
-		return target_degrees
-	return current_degrees + sign(delta) * max_delta
+	return source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)
 
 const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"
 const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"
