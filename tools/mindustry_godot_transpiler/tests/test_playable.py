@@ -2216,6 +2216,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_METHOD := "public void updateConsumption(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_COMMENT := "//everything is valid when cheating"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_GUARD := "if(!block.hasConsumers || cheating()){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_POTENTIAL := "potentialEfficiency = enabled && productionValid() ? 1f : 0f;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_EFFICIENCY := "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_MULTIPLIER := "updateEfficiencyMultiplier();"', source)
         self.assertIn("func source_building_update_consumption_initial_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:", source)
         self.assertIn("if has_consumers and not cheating:", source)
         self.assertIn("var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0", source)

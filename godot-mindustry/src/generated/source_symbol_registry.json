@@ -25704,6 +25704,258 @@
         "test_building_update_consumption_efficiency_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_update_consumption_efficiency_state"
       ]
+    },
+    "building_update_consumption_initial.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "public void updateConsumption(){",
+      "godot_symbol": "source_building_update_consumption_initial_result.method",
+      "rule": "BuildingComp.updateConsumption method boundary for initial branch slice.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "//everything is valid when cheating",
+      "godot_symbol": "source_building_update_consumption_initial_result.comment",
+      "rule": "Exact upstream initial branch comment.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "if(!block.hasConsumers || cheating()){",
+      "godot_symbol": "source_building_update_consumption_initial_result.guard",
+      "rule": "Exact upstream no-consumer/cheating guard.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.potential": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "godot_symbol": "source_building_update_consumption_initial_result.potential",
+      "rule": "Exact upstream potentialEfficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.efficiency": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "godot_symbol": "source_building_update_consumption_initial_result.efficiency_assign",
+      "rule": "Exact upstream efficiency and optionalEfficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.power": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "shouldConsumePower = true;",
+      "godot_symbol": "source_building_update_consumption_initial_result.power",
+      "rule": "Exact upstream shouldConsumePower true assignment.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "updateEfficiencyMultiplier();",
+      "godot_symbol": "source_building_update_consumption_initial_result.multiplier",
+      "rule": "Exact upstream updateEfficiencyMultiplier call.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "return;",
+      "godot_symbol": "source_building_update_consumption_initial_result.return",
+      "rule": "Exact upstream initial branch return.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.has_consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "block.hasConsumers",
+      "godot_symbol": "source_building_update_consumption_initial_input.has_consumers",
+      "rule": "Explicit runtime input for upstream block.hasConsumers.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.cheating": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "cheating()",
+      "godot_symbol": "source_building_update_consumption_initial_input.cheating",
+      "rule": "Explicit runtime input for upstream cheating().",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.enabled_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "enabled",
+      "godot_symbol": "source_building_update_consumption_initial_input.enabled_state",
+      "rule": "Explicit runtime input for upstream enabled field.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.production_valid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "productionValid()",
+      "godot_symbol": "source_building_update_consumption_initial_input.production_valid",
+      "rule": "Explicit runtime input for upstream productionValid().",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.should_consume_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "shouldConsume()",
+      "godot_symbol": "source_building_update_consumption_initial_input.should_consume_state",
+      "rule": "Explicit runtime input for upstream shouldConsume().",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.efficiency_scale": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "efficiencyScale()",
+      "godot_symbol": "source_building_update_consumption_initial_input.efficiency_scale",
+      "rule": "Explicit runtime input for existing updateEfficiencyMultiplier scaling helper.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_update_consumption_initial.potential_efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+      "godot_symbol": "source_building_update_consumption_initial_result.potential_efficiency",
+      "rule": "Generated value mirrors potentialEfficiency assignment.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_initial_state"
+      ]
+    },
+    "building_update_consumption_initial.efficiency_value": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "godot_symbol": "source_building_update_consumption_initial_result.efficiency",
+      "rule": "Generated value mirrors efficiency assignment after multiplier helper.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_initial_state"
+      ]
+    },
+    "building_update_consumption_initial.optional_efficiency": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+      "godot_symbol": "source_building_update_consumption_initial_result.optional_efficiency",
+      "rule": "Generated value mirrors optionalEfficiency assignment after multiplier helper.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_initial_state"
+      ]
+    },
+    "building_update_consumption_initial.should_consume_power": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "shouldConsumePower = true;",
+      "godot_symbol": "source_building_update_consumption_initial_result.should_consume_power",
+      "rule": "Generated bool mirrors shouldConsumePower assignment.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_initial_state"
+      ]
+    },
+    "building_update_consumption_initial.returned": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "updateConsumption()",
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "java_expr": "return;",
+      "godot_symbol": "source_building_update_consumption_initial_result.returned",
+      "rule": "Generated bool marks branch return.",
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_initial_state"
+      ]
     }
   }
 }

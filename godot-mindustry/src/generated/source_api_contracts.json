@@ -10036,6 +10036,57 @@
       ],
       "runtime_proof": "/root/Main.source_building_update_consumption_efficiency_state",
       "rule": "Backfills SSOT for updateConsumption efficiency/potential/no-update zero assignment; multiplier and second pass remain separate slices."
+    },
+    "PortGame.source_building_update_consumption_initial_state": {
+      "status": "active",
+      "source_slice": "N661",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "updateConsumption()",
+      "params": [
+        {
+          "name": "has_consumers",
+          "type": "bool",
+          "schema": "source_building_update_consumption_initial_input.has_consumers"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_building_update_consumption_initial_input.cheating"
+        },
+        {
+          "name": "enabled_state",
+          "type": "bool",
+          "schema": "source_building_update_consumption_initial_input.enabled_state"
+        },
+        {
+          "name": "production_valid",
+          "type": "bool",
+          "schema": "source_building_update_consumption_initial_input.production_valid"
+        },
+        {
+          "name": "should_consume_state",
+          "type": "bool",
+          "schema": "source_building_update_consumption_initial_input.should_consume_state"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_building_update_consumption_initial_input.efficiency_scale"
+        }
+      ],
+      "return_keys": [
+        "potential_efficiency",
+        "efficiency",
+        "optional_efficiency",
+        "should_consume_power",
+        "returned"
+      ],
+      "tests": [
+        "test_building_update_consumption_initial_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_consumption_initial_state",
+      "rule": "Backfills SSOT for updateConsumption initial no-consumer/cheating branch; later consumer passes remain separate slices."
     }
   },
   "policy": {

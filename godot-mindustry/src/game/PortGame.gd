@@ -2363,6 +2363,15 @@ func source_building_update_efficiency_multiplier_state(efficiency: float, optio
 		"optional_efficiency": optional_efficiency * efficiency_scale,
 	}
 
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_METHOD := "public void updateConsumption(){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_COMMENT := "//everything is valid when cheating"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_GUARD := "if(!block.hasConsumers || cheating()){"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_POTENTIAL := "potentialEfficiency = enabled && productionValid() ? 1f : 0f;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_EFFICIENCY := "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_POWER := "shouldConsumePower = true;"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_MULTIPLIER := "updateEfficiencyMultiplier();"
+const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_RETURN := "return;"
+
 func source_building_update_consumption_initial_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:
 	if has_consumers and not cheating:
 		return {"returned": false}
