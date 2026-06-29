@@ -4112,6 +4112,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(linked_to_self["java_expr"], "other.power.links.contains(pos())")
         self.assertEqual(linked_to_self["godot_symbol"], "source_building_placed_input.linked_to_self")
 
+    def test_building_player_placed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_player_placed.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "playerPlaced(Object config)")
+        self.assertEqual(method["java_expr"], "public void playerPlaced(Object config){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_player_placed_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_player_placed_state")
+        self.assertEqual(method["godot_symbol"], "source_building_player_placed_result.method")
+
+        comment = source_symbols.source_symbol(registry, "building_player_placed.comment")
+        self.assertEqual(comment["java_expr"], "Called after the block is placed by this client.")
+        self.assertEqual(comment["godot_symbol"], "source_building_player_placed_result.comment")
+
+        call_super = source_symbols.source_symbol(registry, "building_player_placed.call_super")
+        self.assertEqual(call_super["java_expr"], "@CallSuper")
+        self.assertEqual(call_super["godot_symbol"], "source_building_player_placed_result.call_super")
+
+        no_op = source_symbols.source_symbol(registry, "building_player_placed.no_op")
+        self.assertEqual(no_op["java_expr"], "public void playerPlaced(Object config){")
+        self.assertEqual(no_op["godot_symbol"], "source_building_player_placed_result.no_op")
+
+        config_state = source_symbols.source_symbol(registry, "building_player_placed.config_state")
+        self.assertEqual(config_state["status"], "explicit-input")
+        self.assertEqual(config_state["java_expr"], "Object config")
+        self.assertEqual(config_state["godot_symbol"], "source_building_player_placed_input.config_state")
+
     def test_building_payload_draw_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -6373,9 +6404,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 221)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 222)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 226)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 227)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -6414,6 +6445,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_payload_draw_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_placed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_player_placed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_test_collision_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_heal_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_hit_tile_fire_state", audit["registeredSourceOwners"])
@@ -7891,6 +7923,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PowerNode.getNodeLinks(tile, block, team, other -> {", building_placed["exact_exprs"])
         self.assertIn("if(!other.power.links.contains(pos())){", building_placed["exact_exprs"])
         self.assertIn("other.configureAny(pos());", building_placed["exact_exprs"])
+
+        building_player_placed = source_symbols.source_slice(ledger, "N624")
+        self.assertEqual(building_player_placed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_player_placed["java_method"], "playerPlaced(Object config)")
+        self.assertEqual(building_player_placed["godot_owner"], "PortGame.source_building_player_placed_state")
+        self.assertIn("Called after the block is placed by this client.", building_player_placed["exact_exprs"])
+        self.assertIn("@CallSuper", building_player_placed["exact_exprs"])
+        self.assertIn("public void playerPlaced(Object config){", building_player_placed["exact_exprs"])
+        self.assertIn("Object config", building_player_placed["exact_exprs"])
 
         building_on_destroyed_base_sound = source_symbols.source_slice(ledger, "N608")
         self.assertEqual(building_on_destroyed_base_sound["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -9929,6 +9970,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("configure", building_placed["return_keys"])
         self.assertIn("configure_pos", building_placed["return_keys"])
         self.assertEqual(building_placed["source_method"], "placed()")
+
+        building_player_placed = source_symbols.api_contract(contracts, "PortGame.source_building_player_placed_state")
+        self.assertEqual([param["name"] for param in building_player_placed["params"]], ["config_state"])
+        self.assertEqual(building_player_placed["params"][0]["schema"], "source_building_player_placed_input.config_state")
+        self.assertIn("method", building_player_placed["return_keys"])
+        self.assertIn("comment", building_player_placed["return_keys"])
+        self.assertIn("call_super", building_player_placed["return_keys"])
+        self.assertIn("no_op", building_player_placed["return_keys"])
+        self.assertIn("config_state", building_player_placed["return_keys"])
+        self.assertEqual(building_player_placed["source_method"], "playerPlaced(Object config)")
 
         building_on_destroyed_base_sound = source_symbols.api_contract(contracts, "PortGame.source_building_on_destroyed_base_sound_state")
         self.assertEqual([param["name"] for param in building_on_destroyed_base_sound["params"]], ["headless", "destroy_sound", "destroy_pitch_min", "destroy_pitch_max", "destroy_sound_volume"])
@@ -12176,6 +12227,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_placed_result["keys"]["configure_call"]["java_expr"], "other.configureAny(pos());")
         self.assertEqual(source_building_placed_result["keys"]["net_client"]["alias_of"], "source_building_placed_input.net_client")
         self.assertEqual(source_building_placed_result["keys"]["linked_to_self"]["alias_of"], "source_building_placed_input.linked_to_self")
+
+        source_building_player_placed_input = source_symbols.state_schema(schema, "source_building_player_placed_input")
+        self.assertEqual(source_building_player_placed_input["keys"]["config_state"]["java_expr"], "Object config")
+
+        source_building_player_placed_result = source_symbols.state_schema(schema, "source_building_player_placed_result")
+        self.assertEqual(source_building_player_placed_result["keys"]["method"]["java_expr"], "public void playerPlaced(Object config){")
+        self.assertEqual(source_building_player_placed_result["keys"]["comment"]["java_expr"], "Called after the block is placed by this client.")
+        self.assertEqual(source_building_player_placed_result["keys"]["call_super"]["java_expr"], "@CallSuper")
+        self.assertEqual(source_building_player_placed_result["keys"]["no_op"]["java_expr"], "public void playerPlaced(Object config){")
+        self.assertEqual(source_building_player_placed_result["keys"]["config_state"]["alias_of"], "source_building_player_placed_input.config_state")
 
         source_building_on_destroyed_base_sound_input = source_symbols.state_schema(schema, "source_building_on_destroyed_base_sound_input")
         self.assertEqual(source_building_on_destroyed_base_sound_input["keys"]["headless"]["java_expr"], "headless")

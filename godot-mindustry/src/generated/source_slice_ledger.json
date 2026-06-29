@@ -7043,6 +7043,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_placed_state",
       "rule": "Backfills SSOT for existing canonical source_building_placed_state helper against BuildingComp.placed() client guard and power-link configure branch."
+    },
+    "N624": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "playerPlaced(Object config)",
+      "godot_owner": "PortGame.source_building_player_placed_state",
+      "exact_exprs": [
+        "Called after the block is placed by this client.",
+        "@CallSuper",
+        "public void playerPlaced(Object config){",
+        "Object config"
+      ],
+      "deferred_exprs": [
+        "Concrete subclass playerPlaced overrides remain covered by their own runtime integration slices."
+      ],
+      "source_symbols": [
+        "building_player_placed.comment",
+        "building_player_placed.call_super",
+        "building_player_placed.method",
+        "building_player_placed.no_op",
+        "building_player_placed.config_state"
+      ],
+      "tests": [
+        "test_building_player_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_player_placed_state",
+      "rule": "Backfills SSOT for existing canonical source_building_player_placed_state helper against BuildingComp.playerPlaced(Object config) no-op."
     }
   },
   "version": 1

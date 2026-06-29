@@ -8574,6 +8574,31 @@
       ],
       "runtime_proof": "/root/Main.source_building_placed_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.placed helper."
+    },
+    "PortGame.source_building_player_placed_state": {
+      "status": "active",
+      "source_slice": "N624",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "playerPlaced(Object config)",
+      "params": [
+        {
+          "name": "config_state",
+          "type": "Variant",
+          "schema": "source_building_player_placed_input.config_state"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "call_super",
+        "no_op",
+        "config_state"
+      ],
+      "tests": [
+        "test_building_player_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_player_placed_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.playerPlaced no-op helper."
     }
   },
   "policy": {

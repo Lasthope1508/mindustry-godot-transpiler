@@ -21717,6 +21717,71 @@
       "java_expr": "pos()",
       "godot_symbol": "source_building_placed_input.source_pos",
       "rule": "Runtime source_pos supplies pos()."
+    },
+    "building_player_placed.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "playerPlaced(Object config)",
+      "godot_owner": "PortGame.source_building_player_placed_state",
+      "tests": [
+        "test_building_player_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_player_placed_state",
+      "java_expr": "Called after the block is placed by this client.",
+      "godot_symbol": "source_building_player_placed_result.comment",
+      "rule": "Source comment documents playerPlaced timing."
+    },
+    "building_player_placed.call_super": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "playerPlaced(Object config)",
+      "godot_owner": "PortGame.source_building_player_placed_state",
+      "tests": [
+        "test_building_player_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_player_placed_state",
+      "java_expr": "@CallSuper",
+      "godot_symbol": "source_building_player_placed_result.call_super",
+      "rule": "Source annotation requires subclasses call super."
+    },
+    "building_player_placed.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "playerPlaced(Object config)",
+      "godot_owner": "PortGame.source_building_player_placed_state",
+      "tests": [
+        "test_building_player_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_player_placed_state",
+      "java_expr": "public void playerPlaced(Object config){",
+      "godot_symbol": "source_building_player_placed_result.method",
+      "rule": "BuildingComp playerPlaced method boundary."
+    },
+    "building_player_placed.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "playerPlaced(Object config)",
+      "godot_owner": "PortGame.source_building_player_placed_state",
+      "tests": [
+        "test_building_player_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_player_placed_state",
+      "java_expr": "public void playerPlaced(Object config){",
+      "godot_symbol": "source_building_player_placed_result.no_op",
+      "rule": "Base playerPlaced implementation is empty."
+    },
+    "building_player_placed.config_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "playerPlaced(Object config)",
+      "godot_owner": "PortGame.source_building_player_placed_state",
+      "tests": [
+        "test_building_player_placed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_player_placed_state",
+      "java_expr": "Object config",
+      "godot_symbol": "source_building_player_placed_input.config_state",
+      "rule": "Runtime config_state supplies Object config and is passed through because base playerPlaced has no side effects."
     }
   }
 }

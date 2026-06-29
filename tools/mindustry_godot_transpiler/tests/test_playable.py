@@ -1560,8 +1560,12 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_player_placed_state(config_state: Variant) -> Variant:", source)
-        self.assertIn("return config_state", source)
+        self.assertIn("func source_building_player_placed_state(config_state: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void playerPlaced(Object config){",', source)
+        self.assertIn('"comment": "Called after the block is placed by this client.",', source)
+        self.assertIn('"call_super": "@CallSuper",', source)
+        self.assertIn('"no_op": true,', source)
+        self.assertIn('"config_state": config_state,', source)
 
     def test_port_game_exposes_source_building_placed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

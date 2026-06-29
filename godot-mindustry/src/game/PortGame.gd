@@ -1628,8 +1628,14 @@ func source_building_check_suppression_state(block_suppressable: bool, source_ti
 	var chance_threshold := source_arc_chance_delta_threshold(0.03, source_delta)
 	return {"suppressed": true, "particle_visible": "chanceDelta", "chance_threshold": chance_threshold, "effect": "regenSuppressParticle", "color": suppress_color, "particle_range": particle_range, "x_min": source_x - particle_range, "x_max": source_x + particle_range, "y_min": source_y - particle_range, "y_max": source_y + particle_range}
 
-func source_building_player_placed_state(config_state: Variant) -> Variant:
-	return config_state
+func source_building_player_placed_state(config_state: Variant) -> Dictionary:
+	return {
+		"method": "public void playerPlaced(Object config){",
+		"comment": "Called after the block is placed by this client.",
+		"call_super": "@CallSuper",
+		"no_op": true,
+		"config_state": config_state,
+	}
 
 func source_building_placed_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:
 	var should_link_power := (consumes_power or outputs_power) and has_power and connected_power
