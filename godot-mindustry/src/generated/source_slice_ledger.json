@@ -8134,6 +8134,43 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_removed_state",
       "rule": "Backfills SSOT for existing canonical source_building_unit_removed_state helper against BuildingComp.unitRemoved no-op body."
+    },
+    "N657": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "BuildingComp",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "exact_exprs": [
+        "public void update(){",
+        "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){",
+        "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+        "block.ambientSoundVolume * ambientVolume()",
+        "headless",
+        "block.ambientSound",
+        "Sounds.none",
+        "shouldAmbientSound()",
+        "block.ambientSoundVolume",
+        "ambientVolume()"
+      ],
+      "source_symbols": [
+        "building_update_ambient_sound_gate.method",
+        "building_update_ambient_sound_gate.gate",
+        "building_update_ambient_sound_gate.loop_call",
+        "building_update_ambient_sound_gate.volume_expr",
+        "building_update_ambient_sound_gate.headless",
+        "building_update_ambient_sound_gate.ambient_sound",
+        "building_update_ambient_sound_gate.sounds_none",
+        "building_update_ambient_sound_gate.should_ambient_sound",
+        "building_update_ambient_sound_gate.block_ambient_sound_volume",
+        "building_update_ambient_sound_gate.ambient_volume"
+      ],
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_ambient_sound_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_ambient_sound_gate_state helper against BuildingComp.update ambient sound gate."
     }
   },
   "version": 1

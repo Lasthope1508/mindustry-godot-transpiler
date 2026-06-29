@@ -2740,6 +2740,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_METHOD := "public void update(){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_GATE := "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_LOOP := "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());"', source)
+        self.assertIn('const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_VOLUME_EXPR := "block.ambientSoundVolume * ambientVolume()"', source)
         self.assertIn("func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", source)
         self.assertIn("var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result", source)
         self.assertIn('return {"loop_called": false, "sound": ambient_sound_value, "volume": 0.0}', source)

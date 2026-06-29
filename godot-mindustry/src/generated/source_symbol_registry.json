@@ -25175,6 +25175,136 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_removed_state",
       "rule": "Represent Unit unit as explicit input until Unit runtime body is ported."
+    },
+    "building_update_ambient_sound_gate.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "public void update(){",
+      "godot_symbol": "source_building_update_ambient_sound_gate_result.method",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "BuildingComp.update method boundary for ambient sound gate slice.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){",
+      "godot_symbol": "source_building_update_ambient_sound_gate_result.gate",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Exact upstream ambient sound gate condition.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.loop_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+      "godot_symbol": "source_building_update_ambient_sound_gate_result.loop_call",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Exact upstream ambient sound loop call.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.volume_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "block.ambientSoundVolume * ambientVolume()",
+      "godot_symbol": "source_building_update_ambient_sound_gate_result.volume_expr",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Exact upstream ambient sound volume multiplication.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.headless": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "headless",
+      "godot_symbol": "source_building_update_ambient_sound_gate_input.headless_mode",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Represent headless as explicit runtime input.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.ambient_sound": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "block.ambientSound",
+      "godot_symbol": "source_building_update_ambient_sound_gate_input.ambient_sound_value",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Represent block.ambientSound as explicit runtime input.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.sounds_none": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "Sounds.none",
+      "godot_symbol": "source_building_update_ambient_sound_gate_input.sounds_none_value",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Represent Sounds.none as explicit runtime input.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.should_ambient_sound": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "shouldAmbientSound()",
+      "godot_symbol": "source_building_update_ambient_sound_gate_input.should_ambient_sound_result",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Represent shouldAmbientSound() as explicit runtime input.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.block_ambient_sound_volume": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "block.ambientSoundVolume",
+      "godot_symbol": "source_building_update_ambient_sound_gate_input.block_ambient_sound_volume",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Represent block.ambientSoundVolume as explicit runtime input.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
+    },
+    "building_update_ambient_sound_gate.ambient_volume": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "update()",
+      "java_expr": "ambientVolume()",
+      "godot_symbol": "source_building_update_ambient_sound_gate_input.ambient_volume_value",
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "rule": "Represent ambientVolume() as explicit runtime input.",
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state"
     }
   }
 }

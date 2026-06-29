@@ -9911,6 +9911,55 @@
       ],
       "runtime_proof": "/root/Main.source_building_unit_removed_state",
       "rule": "Backfills SSOT for existing canonical source_building_unit_removed_state helper against BuildingComp.unitRemoved no-op body."
+    },
+    "PortGame.source_building_update_ambient_sound_gate_state": {
+      "status": "active",
+      "source_slice": "N657",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "update()",
+      "params": [
+        {
+          "name": "headless_mode",
+          "type": "bool",
+          "schema": "source_building_update_ambient_sound_gate_input.headless_mode"
+        },
+        {
+          "name": "ambient_sound_value",
+          "type": "Variant",
+          "schema": "source_building_update_ambient_sound_gate_input.ambient_sound_value"
+        },
+        {
+          "name": "sounds_none_value",
+          "type": "Variant",
+          "schema": "source_building_update_ambient_sound_gate_input.sounds_none_value"
+        },
+        {
+          "name": "should_ambient_sound_result",
+          "type": "bool",
+          "schema": "source_building_update_ambient_sound_gate_input.should_ambient_sound_result"
+        },
+        {
+          "name": "block_ambient_sound_volume",
+          "type": "float",
+          "schema": "source_building_update_ambient_sound_gate_input.block_ambient_sound_volume"
+        },
+        {
+          "name": "ambient_volume_value",
+          "type": "float",
+          "schema": "source_building_update_ambient_sound_gate_input.ambient_volume_value"
+        }
+      ],
+      "return_keys": [
+        "loop_called",
+        "sound",
+        "volume"
+      ],
+      "tests": [
+        "test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_ambient_sound_gate_state"
+      ],
+      "runtime_proof": "/root/Main.source_building_update_ambient_sound_gate_state",
+      "rule": "Backfills SSOT for existing canonical source_building_update_ambient_sound_gate_state helper against BuildingComp.update ambient sound gate."
     }
   },
   "policy": {

@@ -4916,6 +4916,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_state["java_expr"], "unit")
         self.assertEqual(unit_state["godot_symbol"], "source_building_unit_removed_input.unit_state")
 
+    def test_building_update_ambient_sound_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "update()")
+        self.assertEqual(method["java_expr"], "public void update(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_update_ambient_sound_gate_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_update_ambient_sound_gate_state")
+        self.assertEqual(method["godot_symbol"], "source_building_update_ambient_sound_gate_result.method")
+
+        gate = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.gate")
+        self.assertEqual(gate["java_expr"], "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){")
+        self.assertEqual(gate["godot_symbol"], "source_building_update_ambient_sound_gate_result.gate")
+
+        loop_call = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.loop_call")
+        self.assertEqual(loop_call["java_expr"], "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());")
+        self.assertEqual(loop_call["godot_symbol"], "source_building_update_ambient_sound_gate_result.loop_call")
+
+        volume_expr = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.volume_expr")
+        self.assertEqual(volume_expr["java_expr"], "block.ambientSoundVolume * ambientVolume()")
+        self.assertEqual(volume_expr["godot_symbol"], "source_building_update_ambient_sound_gate_result.volume_expr")
+
+        headless = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.headless")
+        self.assertEqual(headless["status"], "explicit-input")
+        self.assertEqual(headless["java_expr"], "headless")
+        self.assertEqual(headless["godot_symbol"], "source_building_update_ambient_sound_gate_input.headless_mode")
+
+        ambient_sound = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.ambient_sound")
+        self.assertEqual(ambient_sound["status"], "explicit-input")
+        self.assertEqual(ambient_sound["java_expr"], "block.ambientSound")
+        self.assertEqual(ambient_sound["godot_symbol"], "source_building_update_ambient_sound_gate_input.ambient_sound_value")
+
+        sounds_none = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.sounds_none")
+        self.assertEqual(sounds_none["status"], "explicit-input")
+        self.assertEqual(sounds_none["java_expr"], "Sounds.none")
+        self.assertEqual(sounds_none["godot_symbol"], "source_building_update_ambient_sound_gate_input.sounds_none_value")
+
+        should_ambient_sound = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.should_ambient_sound")
+        self.assertEqual(should_ambient_sound["status"], "explicit-input")
+        self.assertEqual(should_ambient_sound["java_expr"], "shouldAmbientSound()")
+        self.assertEqual(should_ambient_sound["godot_symbol"], "source_building_update_ambient_sound_gate_input.should_ambient_sound_result")
+
+        block_ambient_sound_volume = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.block_ambient_sound_volume")
+        self.assertEqual(block_ambient_sound_volume["status"], "explicit-input")
+        self.assertEqual(block_ambient_sound_volume["java_expr"], "block.ambientSoundVolume")
+        self.assertEqual(block_ambient_sound_volume["godot_symbol"], "source_building_update_ambient_sound_gate_input.block_ambient_sound_volume")
+
+        ambient_volume = source_symbols.source_symbol(registry, "building_update_ambient_sound_gate.ambient_volume")
+        self.assertEqual(ambient_volume["status"], "explicit-input")
+        self.assertEqual(ambient_volume["java_expr"], "ambientVolume()")
+        self.assertEqual(ambient_volume["godot_symbol"], "source_building_update_ambient_sound_gate_input.ambient_volume_value")
+
     def test_building_on_repaired_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -7587,9 +7643,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 254)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 255)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 259)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 260)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -7751,6 +7807,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_unit_on_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_on_any_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_unit_removed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_update_ambient_sound_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_absorb_lasers_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_accept_liquid_state", audit["registeredSourceOwners"])
@@ -9005,6 +9062,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void unitRemoved(Unit unit){", building_unit_removed["exact_exprs"])
         self.assertIn("public void unitRemoved(Unit unit){\n    }", building_unit_removed["exact_exprs"])
         self.assertIn("unit", building_unit_removed["exact_exprs"])
+
+        building_update_ambient_sound_gate = source_symbols.source_slice(ledger, "N657")
+        self.assertEqual(building_update_ambient_sound_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_ambient_sound_gate["java_method"], "update()")
+        self.assertEqual(building_update_ambient_sound_gate["godot_owner"], "PortGame.source_building_update_ambient_sound_gate_state")
+        self.assertIn("public void update(){", building_update_ambient_sound_gate["exact_exprs"])
+        self.assertIn("if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){", building_update_ambient_sound_gate["exact_exprs"])
+        self.assertIn("control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());", building_update_ambient_sound_gate["exact_exprs"])
+        self.assertIn("block.ambientSoundVolume * ambientVolume()", building_update_ambient_sound_gate["exact_exprs"])
 
         building_sense_health_process = source_symbols.source_slice(ledger, "N635")
         self.assertEqual(building_sense_health_process["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -11421,6 +11487,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_unit_removed["params"][0]["schema"], "source_building_unit_removed_input.unit_state")
         self.assertIn("unit_state", building_unit_removed["return_keys"])
         self.assertEqual(building_unit_removed["source_method"], "unitRemoved(Unit unit)")
+
+        building_update_ambient_sound_gate = source_symbols.api_contract(contracts, "PortGame.source_building_update_ambient_sound_gate_state")
+        self.assertEqual([param["name"] for param in building_update_ambient_sound_gate["params"]], ["headless_mode", "ambient_sound_value", "sounds_none_value", "should_ambient_sound_result", "block_ambient_sound_volume", "ambient_volume_value"])
+        self.assertEqual(building_update_ambient_sound_gate["params"][0]["schema"], "source_building_update_ambient_sound_gate_input.headless_mode")
+        self.assertEqual(building_update_ambient_sound_gate["params"][5]["schema"], "source_building_update_ambient_sound_gate_input.ambient_volume_value")
+        self.assertIn("loop_called", building_update_ambient_sound_gate["return_keys"])
+        self.assertIn("sound", building_update_ambient_sound_gate["return_keys"])
+        self.assertIn("volume", building_update_ambient_sound_gate["return_keys"])
+        self.assertEqual(building_update_ambient_sound_gate["source_method"], "update()")
 
         building_sense_payload_size = source_symbols.api_contract(contracts, "PortGame.source_building_sense_payload_size_state")
         self.assertEqual([param["name"] for param in building_sense_payload_size["params"]], ["has_payload_seq", "payload_seq_total", "has_single_payload", "block_size_value"])
@@ -14453,6 +14528,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_unit_removed_result["keys"]["method"]["java_expr"], "public void unitRemoved(Unit unit){")
         self.assertEqual(source_building_unit_removed_result["keys"]["empty_body"]["java_expr"], "public void unitRemoved(Unit unit){\n    }")
         self.assertEqual(source_building_unit_removed_result["keys"]["unit_state"]["alias_of"], "source_building_unit_removed_input.unit_state")
+
+        source_building_update_ambient_sound_gate_input = source_symbols.state_schema(schema, "source_building_update_ambient_sound_gate_input")
+        self.assertEqual(source_building_update_ambient_sound_gate_input["keys"]["headless_mode"]["java_expr"], "headless")
+        self.assertEqual(source_building_update_ambient_sound_gate_input["keys"]["ambient_sound_value"]["java_expr"], "block.ambientSound")
+        self.assertEqual(source_building_update_ambient_sound_gate_input["keys"]["sounds_none_value"]["java_expr"], "Sounds.none")
+        self.assertEqual(source_building_update_ambient_sound_gate_input["keys"]["should_ambient_sound_result"]["java_expr"], "shouldAmbientSound()")
+        self.assertEqual(source_building_update_ambient_sound_gate_input["keys"]["block_ambient_sound_volume"]["java_expr"], "block.ambientSoundVolume")
+        self.assertEqual(source_building_update_ambient_sound_gate_input["keys"]["ambient_volume_value"]["java_expr"], "ambientVolume()")
+
+        source_building_update_ambient_sound_gate_result = source_symbols.state_schema(schema, "source_building_update_ambient_sound_gate_result")
+        self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["method"]["java_expr"], "public void update(){")
+        self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["gate"]["java_expr"], "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){")
+        self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["loop_call"]["java_expr"], "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());")
+        self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["volume_expr"]["java_expr"], "block.ambientSoundVolume * ambientVolume()")
+        self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["headless_mode"]["alias_of"], "source_building_update_ambient_sound_gate_input.headless_mode")
+        self.assertEqual(source_building_update_ambient_sound_gate_result["keys"]["ambient_volume_value"]["alias_of"], "source_building_update_ambient_sound_gate_input.ambient_volume_value")
 
         source_building_on_repaired_input = source_symbols.state_schema(schema, "source_building_on_repaired_input")
         self.assertEqual(source_building_on_repaired_input["keys"]["has_fog_radius"]["java_expr"], "block.flags.contains(BlockFlag.hasFogRadius)")
