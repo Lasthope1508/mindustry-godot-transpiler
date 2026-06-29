@@ -2567,6 +2567,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(time_input["java_expr"], "Time.time")
         self.assertEqual(time_input["godot_symbol"], "source_mend_projector_draw_state_input.sourceTimeTicks")
 
+    def test_mend_projector_light_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "mend_projector_light_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(method["java_expr"], "public void drawLight(){\n            Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_mend_projector_light_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_mend_projector_light_state")
+
+        light_call = source_symbols.source_symbol(registry, "mend_projector_light_state.light_call")
+        self.assertEqual(light_call["java_expr"], "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);")
+        self.assertEqual(light_call["godot_symbol"], "source_mend_projector_light_state_result.light")
+
+        radius_expr = source_symbols.source_symbol(registry, "mend_projector_light_state.radius_expr")
+        self.assertEqual(radius_expr["java_expr"], "lightRadius * smoothEfficiency")
+        self.assertEqual(radius_expr["godot_symbol"], "source_mend_projector_light_state_result.radius")
+
+        color_expr = source_symbols.source_symbol(registry, "mend_projector_light_state.color_expr")
+        self.assertEqual(color_expr["java_expr"], "baseColor")
+        self.assertEqual(color_expr["godot_symbol"], "source_mend_projector_light_state_result.color")
+
+        alpha_expr = source_symbols.source_symbol(registry, "mend_projector_light_state.alpha_expr")
+        self.assertEqual(alpha_expr["java_expr"], "0.7f * smoothEfficiency")
+        self.assertEqual(alpha_expr["godot_symbol"], "source_mend_projector_light_state_result.alpha")
+
+        smooth_efficiency_input = source_symbols.source_symbol(registry, "mend_projector_light_state.smooth_efficiency_input")
+        self.assertEqual(smooth_efficiency_input["status"], "explicit-input")
+        self.assertEqual(smooth_efficiency_input["java_expr"], "smoothEfficiency")
+        self.assertEqual(smooth_efficiency_input["godot_symbol"], "source_mend_projector_light_state_input.smoothEfficiency")
+
+        emit_light_field = source_symbols.source_symbol(registry, "mend_projector_light_state.emit_light_field")
+        self.assertEqual(emit_light_field["java_expr"], "emitLight = true;")
+        self.assertEqual(emit_light_field["godot_symbol"], "source_mend_projector_light_state_input.emitLight")
+
+        light_radius_field = source_symbols.source_symbol(registry, "mend_projector_light_state.light_radius_field")
+        self.assertEqual(light_radius_field["java_expr"], "lightRadius = 50f;")
+        self.assertEqual(light_radius_field["godot_symbol"], "source_mend_projector_light_state_input.lightRadius")
+
     def test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -9911,9 +9952,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 311)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 312)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 316)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 317)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10046,6 +10087,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_mathf_dst", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mathf_lerp_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_draw_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mend_projector_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11389,6 +11431,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Draw.color(baseColor, phaseColor, phaseHeat);", mend_projector_draw_state["exact_exprs"])
         self.assertIn("Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);", mend_projector_draw_state["exact_exprs"])
         self.assertIn("Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));", mend_projector_draw_state["exact_exprs"])
+
+        mend_projector_light_state = source_symbols.source_slice(ledger, "N714")
+        self.assertEqual(mend_projector_light_state["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(mend_projector_light_state["java_method"], "drawLight()")
+        self.assertEqual(mend_projector_light_state["godot_owner"], "PortGame.source_mend_projector_light_state")
+        self.assertIn("public void drawLight(){\n            Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);\n        }", mend_projector_light_state["exact_exprs"])
+        self.assertIn("Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);", mend_projector_light_state["exact_exprs"])
+        self.assertIn("lightRadius * smoothEfficiency", mend_projector_light_state["exact_exprs"])
+        self.assertIn("0.7f * smoothEfficiency", mend_projector_light_state["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -13996,6 +14047,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("squareStroke", mend_projector_draw_state["return_keys"])
         self.assertIn("squareRadius", mend_projector_draw_state["return_keys"])
         self.assertEqual(mend_projector_draw_state["source_method"], "draw()")
+
+        mend_projector_light_state = source_symbols.api_contract(contracts, "PortGame.source_mend_projector_light_state")
+        self.assertEqual([param["name"] for param in mend_projector_light_state["params"]], ["mend_projector", "smooth_efficiency"])
+        self.assertEqual(mend_projector_light_state["params"][1]["schema"], "source_mend_projector_light_state_input.smoothEfficiency")
+        self.assertIn("color", mend_projector_light_state["return_keys"])
+        self.assertIn("radius", mend_projector_light_state["return_keys"])
+        self.assertIn("alpha", mend_projector_light_state["return_keys"])
+        self.assertEqual(mend_projector_light_state["source_method"], "drawLight()")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -16974,6 +17033,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_mend_projector_draw_state_result["keys"]["squareAlpha"]["java_expr"], "Draw.alpha(Lod.alpha2);")
         self.assertEqual(source_mend_projector_draw_state_result["keys"]["squareStroke"]["java_expr"], "Lines.stroke((2f * f + 0.2f) * heat);")
         self.assertEqual(source_mend_projector_draw_state_result["keys"]["squareRadius"]["java_expr"], "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));")
+
+        source_mend_projector_light_state_input = source_symbols.state_schema(schema, "source_mend_projector_light_state_input")
+        self.assertEqual(source_mend_projector_light_state_input["keys"]["smoothEfficiency"]["java_expr"], "smoothEfficiency")
+        self.assertEqual(source_mend_projector_light_state_input["keys"]["emitLight"]["java_expr"], "emitLight = true;")
+        self.assertEqual(source_mend_projector_light_state_input["keys"]["lightRadius"]["java_expr"], "lightRadius = 50f;")
+
+        source_mend_projector_light_state_result = source_symbols.state_schema(schema, "source_mend_projector_light_state_result")
+        self.assertEqual(source_mend_projector_light_state_result["keys"]["light"]["java_expr"], "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);")
+        self.assertEqual(source_mend_projector_light_state_result["keys"]["color"]["java_expr"], "baseColor")
+        self.assertEqual(source_mend_projector_light_state_result["keys"]["radius"]["java_expr"], "lightRadius * smoothEfficiency")
+        self.assertEqual(source_mend_projector_light_state_result["keys"]["alpha"]["java_expr"], "0.7f * smoothEfficiency")
+        self.assertEqual(source_mend_projector_light_state_result["keys"]["smoothEfficiency"]["alias_of"], "source_mend_projector_light_state_input.smoothEfficiency")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")

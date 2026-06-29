@@ -40878,6 +40878,118 @@
         }
       },
       "status": "active"
+    },
+    "source_mend_projector_light_state_input": {
+      "keys": {
+        "smoothEfficiency": {
+          "java_expr": "smoothEfficiency",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Java MendBuild.smoothEfficiency explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_light_state"
+          ],
+          "godot_symbol": "source_mend_projector_light_state_input.smoothEfficiency"
+        },
+        "emitLight": {
+          "java_expr": "emitLight = true;",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector constructor enables light emission.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_light_state"
+          ],
+          "godot_symbol": "source_mend_projector_light_state_input.emitLight"
+        },
+        "lightRadius": {
+          "java_expr": "lightRadius = 50f;",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector constructor sets lightRadius.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_light_state"
+          ],
+          "godot_symbol": "source_mend_projector_light_state_input.lightRadius"
+        }
+      },
+      "status": "active"
+    },
+    "source_mend_projector_light_state_result": {
+      "keys": {
+        "light": {
+          "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Drawf.light call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_light_state"
+          ],
+          "godot_symbol": "source_mend_projector_light_state_result.light"
+        },
+        "color": {
+          "java_expr": "baseColor",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Light color uses baseColor.",
+          "status": "source-backed",
+          "type": "string",
+          "used_by": [
+            "PortGame.source_mend_projector_light_state"
+          ],
+          "godot_symbol": "source_mend_projector_light_state_result.color"
+        },
+        "radius": {
+          "java_expr": "lightRadius * smoothEfficiency",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Light radius expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_light_state"
+          ],
+          "godot_symbol": "source_mend_projector_light_state_result.radius"
+        },
+        "alpha": {
+          "java_expr": "0.7f * smoothEfficiency",
+          "java_method": "drawLight()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Light alpha expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_light_state"
+          ],
+          "godot_symbol": "source_mend_projector_light_state_result.alpha"
+        },
+        "smoothEfficiency": {
+          "alias_of": "source_mend_projector_light_state_input.smoothEfficiency",
+          "rule": "Carries Java smoothEfficiency input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "emitLight": {
+          "alias_of": "source_mend_projector_light_state_input.emitLight",
+          "rule": "Carries Java emitLight field into result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "lightRadius": {
+          "alias_of": "source_mend_projector_light_state_input.lightRadius",
+          "rule": "Carries Java lightRadius field into result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

@@ -11751,6 +11751,38 @@
       "tests": [
         "test_mend_projector_draw_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mend_projector_light_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "params": [
+        {
+          "name": "mend_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "smooth_efficiency",
+          "schema": "source_mend_projector_light_state_input.smoothEfficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "color",
+        "radius",
+        "alpha",
+        "light",
+        "smoothEfficiency",
+        "emitLight",
+        "lightRadius"
+      ],
+      "rule": "Public runtime contract for MendProjector drawLight state helper.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "source_method": "drawLight()",
+      "source_slice": "N714",
+      "status": "active",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -583,6 +583,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_MEND_PROJECTOR_LIGHT_METHOD := "public void drawLight(){\\n            Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);\\n        }"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_LIGHT_CALL := "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_LIGHT_RADIUS_EXPR := "lightRadius * smoothEfficiency"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_LIGHT_ALPHA_EXPR := "0.7f * smoothEfficiency"', source)
         self.assertIn("func source_mend_projector_light_state(mend_projector, smooth_efficiency: float) -> Dictionary:", source)
         self.assertIn('"color": str(mend_projector.properties.get("baseColor", ""))', source)
         self.assertIn('"radius": float(mend_projector.properties.get("lightRadius", 0.0)) * smooth_efficiency', source)

@@ -31800,6 +31800,110 @@
       "tests": [
         "test_mend_projector_draw_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mend_projector_light_state.method": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_result.light",
+      "java_expr": "public void drawLight(){\n            Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);\n        }",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild.drawLight delegates to Drawf.light with radius, color, and alpha derived from source state.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_light_state.light_call": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_result.light",
+      "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Drawf.light call represented as light-state output.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_light_state.radius_expr": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_result.radius",
+      "java_expr": "lightRadius * smoothEfficiency",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Light radius multiplies block lightRadius by MendBuild.smoothEfficiency.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_light_state.color_expr": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_result.color",
+      "java_expr": "baseColor",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Light color uses MendProjector.baseColor.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_light_state.alpha_expr": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_result.alpha",
+      "java_expr": "0.7f * smoothEfficiency",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Light alpha multiplies source 0.7f by smoothEfficiency.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_light_state.smooth_efficiency_input": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_input.smoothEfficiency",
+      "java_expr": "smoothEfficiency",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Runtime smooth_efficiency supplies MendBuild.smoothEfficiency.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_light_state.emit_light_field": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_input.emitLight",
+      "java_expr": "emitLight = true;",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector constructor enables light emission for runtime guard.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_light_state.light_radius_field": {
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "godot_symbol": "source_mend_projector_light_state_input.lightRadius",
+      "java_expr": "lightRadius = 50f;",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector constructor sets default lightRadius used by drawLight.",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

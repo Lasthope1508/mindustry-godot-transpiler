@@ -10033,6 +10033,39 @@
       "tests": [
         "test_mend_projector_draw_state_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N714": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public void drawLight(){\n            Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);\n        }",
+        "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+        "lightRadius * smoothEfficiency",
+        "baseColor",
+        "0.7f * smoothEfficiency",
+        "smoothEfficiency",
+        "emitLight = true;",
+        "lightRadius = 50f;"
+      ],
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "java_class": "mindustry.world.blocks.defense.MendProjector.MendBuild",
+      "java_method": "drawLight()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Backfills SSOT for existing source_mend_projector_light_state helper against Mindustry MendProjector.MendBuild.drawLight().",
+      "runtime_proof": "/root/Main.source_mend_projector_light_state",
+      "source_symbols": [
+        "mend_projector_light_state.method",
+        "mend_projector_light_state.light_call",
+        "mend_projector_light_state.radius_expr",
+        "mend_projector_light_state.color_expr",
+        "mend_projector_light_state.alpha_expr",
+        "mend_projector_light_state.smooth_efficiency_input",
+        "mend_projector_light_state.emit_light_field",
+        "mend_projector_light_state.light_radius_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

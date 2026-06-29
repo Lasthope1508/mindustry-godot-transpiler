@@ -654,6 +654,14 @@ func source_mend_projector_repair_amount(mend_projector, target_block, phase_hea
 	var target_health := float(target_block.properties.get("health", 0.0))
 	return target_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency
 
+const SOURCE_MEND_PROJECTOR_LIGHT_METHOD := "public void drawLight(){\n            Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);\n        }"
+const SOURCE_MEND_PROJECTOR_LIGHT_CALL := "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);"
+const SOURCE_MEND_PROJECTOR_LIGHT_RADIUS_EXPR := "lightRadius * smoothEfficiency"
+const SOURCE_MEND_PROJECTOR_LIGHT_ALPHA_EXPR := "0.7f * smoothEfficiency"
+const SOURCE_MEND_PROJECTOR_LIGHT_BASE_COLOR := "baseColor"
+const SOURCE_MEND_PROJECTOR_LIGHT_EMIT_LIGHT := "emitLight = true;"
+const SOURCE_MEND_PROJECTOR_LIGHT_RADIUS_FIELD := "lightRadius = 50f;"
+
 func source_mend_projector_light_state(mend_projector, smooth_efficiency: float) -> Dictionary:
 	if mend_projector == null or not bool(mend_projector.properties.get("emitLight", false)):
 		return {"color": "", "radius": 0.0, "alpha": 0.0}
