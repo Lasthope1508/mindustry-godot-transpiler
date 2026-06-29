@@ -624,6 +624,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Dictionary:", source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_SELECT_METHOD := "public void drawSelect(){\\n            float realRange = range + phaseHeat * phaseRangeBoost;\\n\\n            indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\\n\\n            Drawf.dashCircle(x, y, realRange, baseColor);\\n        }"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_SELECT_REAL_RANGE := "float realRange = range + phaseHeat * phaseRangeBoost;"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_SELECT_EACH_BLOCK := "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_SELECT_SELECTED_CALL := "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_SELECT_DASH_CIRCLE := "Drawf.dashCircle(x, y, realRange, baseColor);"', source)
+        self.assertIn('const SOURCE_MEND_PROJECTOR_SELECT_BASE_COLOR_FIELD := "public Color baseColor = Color.valueOf(\\"84f491\\");"', source)
         self.assertIn('"range": source_mend_projector_range(mend_projector, phase_heat)', source)
         self.assertIn('"color": str(mend_projector.properties.get("baseColor", ""))', source)
         self.assertIn('const SOURCE_MEND_PROJECTOR_PLACE_METHOD := "public void drawPlace(int x, int y, int rotation, boolean valid){\\n        super.drawPlace(x, y, rotation, valid);\\n\\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\\n\\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\\n    }"', source)

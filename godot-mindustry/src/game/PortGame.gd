@@ -691,6 +691,13 @@ func source_mend_projector_progress(mend_projector, charge: float) -> float:
 		return 0.0
 	return clamp(charge / reload, 0.0, 1.0)
 
+const SOURCE_MEND_PROJECTOR_SELECT_METHOD := "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }"
+const SOURCE_MEND_PROJECTOR_SELECT_REAL_RANGE := "float realRange = range + phaseHeat * phaseRangeBoost;"
+const SOURCE_MEND_PROJECTOR_SELECT_EACH_BLOCK := "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));"
+const SOURCE_MEND_PROJECTOR_SELECT_SELECTED_CALL := "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))"
+const SOURCE_MEND_PROJECTOR_SELECT_DASH_CIRCLE := "Drawf.dashCircle(x, y, realRange, baseColor);"
+const SOURCE_MEND_PROJECTOR_SELECT_BASE_COLOR_FIELD := "public Color baseColor = Color.valueOf(\"84f491\");"
+
 func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Dictionary:
 	if mend_projector == null:
 		return {"range": 0.0, "color": ""}

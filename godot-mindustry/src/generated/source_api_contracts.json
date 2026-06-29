@@ -11912,6 +11912,38 @@
       "tests": [
         "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_mend_projector_select_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "params": [
+        {
+          "name": "mend_projector",
+          "schema": "content_block_state",
+          "type": "object"
+        },
+        {
+          "name": "phase_heat",
+          "schema": "source_mend_projector_select_state_input.phaseHeat",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "range",
+        "color",
+        "dashCircle",
+        "eachBlock",
+        "selected",
+        "phaseHeat",
+        "phaseRangeBoost"
+      ],
+      "rule": "Public runtime contract for MendProjector drawSelect state helper using source realRange and baseColor.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "source_method": "drawSelect()",
+      "source_slice": "N719",
+      "status": "active",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

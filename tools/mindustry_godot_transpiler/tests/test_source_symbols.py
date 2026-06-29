@@ -2662,6 +2662,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(tile_y_input["java_expr"], "int y")
         self.assertEqual(tile_y_input["godot_symbol"], "source_mend_projector_place_state_input.tileY")
 
+    def test_mend_projector_select_state_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "mend_projector_select_state.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(method["java_expr"], "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_mend_projector_select_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_mend_projector_select_state")
+
+        real_range = source_symbols.source_symbol(registry, "mend_projector_select_state.real_range_expr")
+        self.assertEqual(real_range["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
+        self.assertEqual(real_range["godot_symbol"], "source_mend_projector_select_state_result.range")
+
+        each_block = source_symbols.source_symbol(registry, "mend_projector_select_state.each_block")
+        self.assertEqual(each_block["java_expr"], "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(each_block["godot_symbol"], "source_mend_projector_select_state_result.eachBlock")
+
+        selected_call = source_symbols.source_symbol(registry, "mend_projector_select_state.selected_call")
+        self.assertEqual(selected_call["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+        self.assertEqual(selected_call["godot_symbol"], "source_mend_projector_select_state_result.selected")
+
+        dash_circle = source_symbols.source_symbol(registry, "mend_projector_select_state.dash_circle")
+        self.assertEqual(dash_circle["java_expr"], "Drawf.dashCircle(x, y, realRange, baseColor);")
+        self.assertEqual(dash_circle["godot_symbol"], "source_mend_projector_select_state_result.dashCircle")
+
+        x_field = source_symbols.source_symbol(registry, "mend_projector_select_state.x_field")
+        self.assertEqual(x_field["java_expr"], "x")
+        self.assertEqual(x_field["godot_symbol"], "source_mend_projector_select_state_input.x")
+
+        y_field = source_symbols.source_symbol(registry, "mend_projector_select_state.y_field")
+        self.assertEqual(y_field["java_expr"], "y")
+        self.assertEqual(y_field["godot_symbol"], "source_mend_projector_select_state_input.y")
+
+        range_field = source_symbols.source_symbol(registry, "mend_projector_select_state.range_field")
+        self.assertEqual(range_field["java_expr"], "public float range = 60f;")
+        self.assertEqual(range_field["godot_symbol"], "source_mend_projector_select_state_input.range")
+
+        phase_range_boost_field = source_symbols.source_symbol(registry, "mend_projector_select_state.phase_range_boost_field")
+        self.assertEqual(phase_range_boost_field["java_expr"], "public float phaseRangeBoost = 50f;")
+        self.assertEqual(phase_range_boost_field["godot_symbol"], "source_mend_projector_select_state_input.phaseRangeBoost")
+
+        phase_heat_input = source_symbols.source_symbol(registry, "mend_projector_select_state.phase_heat_input")
+        self.assertEqual(phase_heat_input["status"], "explicit-input")
+        self.assertEqual(phase_heat_input["java_expr"], "phaseHeat")
+        self.assertEqual(phase_heat_input["godot_symbol"], "source_mend_projector_select_state_input.phaseHeat")
+
+        base_color_field = source_symbols.source_symbol(registry, "mend_projector_select_state.base_color_field")
+        self.assertEqual(base_color_field["java_expr"], 'public Color baseColor = Color.valueOf("84f491");')
+        self.assertEqual(base_color_field["godot_symbol"], "source_mend_projector_select_state_input.baseColor")
+
     def test_mend_projector_progress_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10114,9 +10167,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 316)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 317)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 321)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 322)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -10254,6 +10307,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_mend_projector_progress", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_range", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_mend_projector_repair_amount", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_mend_projector_select_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_backward_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_forward_distance", audit["registeredSourceOwners"])
@@ -11643,6 +11697,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency", mend_projector_repair_amount["exact_exprs"])
         self.assertIn("public float healPercent = 12f;", mend_projector_repair_amount["exact_exprs"])
         self.assertIn("public float phaseBoost = 12f;", mend_projector_repair_amount["exact_exprs"])
+
+        mend_projector_select_state = source_symbols.source_slice(ledger, "N719")
+        self.assertEqual(mend_projector_select_state["java_source"], "core/src/mindustry/world/blocks/defense/MendProjector.java")
+        self.assertEqual(mend_projector_select_state["java_method"], "drawSelect()")
+        self.assertEqual(mend_projector_select_state["godot_owner"], "PortGame.source_mend_projector_select_state")
+        self.assertIn("public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }", mend_projector_select_state["exact_exprs"])
+        self.assertIn("float realRange = range + phaseHeat * phaseRangeBoost;", mend_projector_select_state["exact_exprs"])
+        self.assertIn("indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));", mend_projector_select_state["exact_exprs"])
+        self.assertIn("Drawf.dashCircle(x, y, realRange, baseColor);", mend_projector_select_state["exact_exprs"])
+        self.assertIn('public Color baseColor = Color.valueOf("84f491");', mend_projector_select_state["exact_exprs"])
 
         building_accept_liquid = source_symbols.source_slice(ledger, "N522")
         self.assertEqual(building_accept_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -14291,6 +14355,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("healPercent", mend_projector_repair_amount["return_keys"])
         self.assertIn("phaseBoost", mend_projector_repair_amount["return_keys"])
         self.assertEqual(mend_projector_repair_amount["source_method"], "updateTile()")
+
+        mend_projector_select_state = source_symbols.api_contract(contracts, "PortGame.source_mend_projector_select_state")
+        self.assertEqual([param["name"] for param in mend_projector_select_state["params"]], ["mend_projector", "phase_heat"])
+        self.assertEqual(mend_projector_select_state["params"][1]["schema"], "source_mend_projector_select_state_input.phaseHeat")
+        self.assertIn("range", mend_projector_select_state["return_keys"])
+        self.assertIn("color", mend_projector_select_state["return_keys"])
+        self.assertIn("dashCircle", mend_projector_select_state["return_keys"])
+        self.assertIn("eachBlock", mend_projector_select_state["return_keys"])
+        self.assertIn("selected", mend_projector_select_state["return_keys"])
+        self.assertIn("phaseRangeBoost", mend_projector_select_state["return_keys"])
+        self.assertEqual(mend_projector_select_state["source_method"], "drawSelect()")
 
         arc_mathf_cos_lookup = source_symbols.api_contract(contracts, "PortGame.source_arc_mathf_cos_lookup")
         self.assertEqual([param["name"] for param in arc_mathf_cos_lookup["params"]], ["radians"])
@@ -17332,6 +17407,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_mend_projector_repair_amount_result["keys"]["targetMaxHealth"]["alias_of"], "source_mend_projector_repair_amount_input.targetMaxHealth")
         self.assertEqual(source_mend_projector_repair_amount_result["keys"]["phaseHeat"]["alias_of"], "source_mend_projector_repair_amount_input.phaseHeat")
         self.assertEqual(source_mend_projector_repair_amount_result["keys"]["efficiency"]["alias_of"], "source_mend_projector_repair_amount_input.efficiency")
+
+        source_mend_projector_select_state_input = source_symbols.state_schema(schema, "source_mend_projector_select_state_input")
+        self.assertEqual(source_mend_projector_select_state_input["keys"]["range"]["java_expr"], "public float range = 60f;")
+        self.assertEqual(source_mend_projector_select_state_input["keys"]["phaseHeat"]["java_expr"], "phaseHeat")
+        self.assertEqual(source_mend_projector_select_state_input["keys"]["phaseRangeBoost"]["java_expr"], "public float phaseRangeBoost = 50f;")
+        self.assertEqual(source_mend_projector_select_state_input["keys"]["baseColor"]["java_expr"], 'public Color baseColor = Color.valueOf("84f491");')
+        self.assertEqual(source_mend_projector_select_state_input["keys"]["x"]["java_expr"], "x")
+        self.assertEqual(source_mend_projector_select_state_input["keys"]["y"]["java_expr"], "y")
+
+        source_mend_projector_select_state_result = source_symbols.state_schema(schema, "source_mend_projector_select_state_result")
+        self.assertEqual(source_mend_projector_select_state_result["keys"]["range"]["java_expr"], "float realRange = range + phaseHeat * phaseRangeBoost;")
+        self.assertEqual(source_mend_projector_select_state_result["keys"]["eachBlock"]["java_expr"], "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));")
+        self.assertEqual(source_mend_projector_select_state_result["keys"]["selected"]["java_expr"], "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))")
+        self.assertEqual(source_mend_projector_select_state_result["keys"]["dashCircle"]["java_expr"], "Drawf.dashCircle(x, y, realRange, baseColor);")
+        self.assertEqual(source_mend_projector_select_state_result["keys"]["color"]["alias_of"], "source_mend_projector_select_state_input.baseColor")
+        self.assertEqual(source_mend_projector_select_state_result["keys"]["phaseHeat"]["alias_of"], "source_mend_projector_select_state_input.phaseHeat")
 
         source_arc_mathf_cos_lookup_input = source_symbols.state_schema(schema, "source_arc_mathf_cos_lookup_input")
         self.assertEqual(source_arc_mathf_cos_lookup_input["keys"]["radians"]["java_expr"], "radians")

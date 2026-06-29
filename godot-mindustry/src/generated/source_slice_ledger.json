@@ -10205,6 +10205,45 @@
       "tests": [
         "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N719": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }",
+        "float realRange = range + phaseHeat * phaseRangeBoost;",
+        "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+        "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+        "Drawf.dashCircle(x, y, realRange, baseColor);",
+        "x",
+        "y",
+        "public float range = 60f;",
+        "public float phaseRangeBoost = 50f;",
+        "phaseHeat",
+        "public Color baseColor = Color.valueOf(\"84f491\");"
+      ],
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "java_class": "mindustry.world.blocks.defense.MendProjector.MendBuild",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "Backfills SSOT for existing source_mend_projector_select_state helper against Mindustry MendProjector drawSelect().",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "source_symbols": [
+        "mend_projector_select_state.method",
+        "mend_projector_select_state.real_range_expr",
+        "mend_projector_select_state.each_block",
+        "mend_projector_select_state.selected_call",
+        "mend_projector_select_state.dash_circle",
+        "mend_projector_select_state.x_field",
+        "mend_projector_select_state.y_field",
+        "mend_projector_select_state.range_field",
+        "mend_projector_select_state.phase_range_boost_field",
+        "mend_projector_select_state.phase_heat_input",
+        "mend_projector_select_state.base_color_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

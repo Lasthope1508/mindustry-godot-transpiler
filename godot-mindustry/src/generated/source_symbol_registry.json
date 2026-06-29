@@ -32333,6 +32333,149 @@
       "tests": [
         "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
       ]
+    },
+    "mend_projector_select_state.method": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_result.range",
+      "java_expr": "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild.drawSelect computes realRange, selects nearby blocks, and draws a dash circle.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.real_range_expr": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_result.range",
+      "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "drawSelect realRange adds phaseHeat * phaseRangeBoost to base range.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.each_block": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_result.eachBlock",
+      "java_expr": "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "drawSelect scans blocks in realRange before selected draw calls.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.selected_call": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_result.selected",
+      "java_expr": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "drawSelect marks each nearby block with Drawf.selected and baseColor alpha.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.dash_circle": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_result.dashCircle",
+      "java_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "drawSelect draws a dash circle at build x/y with realRange and baseColor.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.x_field": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_input.x",
+      "java_expr": "x",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild x field is the dash circle center x.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.y_field": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_input.y",
+      "java_expr": "y",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild y field is the dash circle center y.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.range_field": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_input.range",
+      "java_expr": "public float range = 60f;",
+      "java_method": "MendProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector range field contributes to drawSelect realRange.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.phase_range_boost_field": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_input.phaseRangeBoost",
+      "java_expr": "public float phaseRangeBoost = 50f;",
+      "java_method": "MendProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector phaseRangeBoost field expands drawSelect realRange with phaseHeat.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.phase_heat_input": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_input.phaseHeat",
+      "java_expr": "phaseHeat",
+      "java_method": "drawSelect()",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendBuild phaseHeat is explicit runtime input for drawSelect realRange.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mend_projector_select_state.base_color_field": {
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "godot_symbol": "source_mend_projector_select_state_input.baseColor",
+      "java_expr": "public Color baseColor = Color.valueOf(\"84f491\");",
+      "java_method": "MendProjector fields",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "rule": "MendProjector baseColor field colors selected blocks and dash circle.",
+      "runtime_proof": "/root/Main.source_mend_projector_select_state",
+      "status": "source-backed",
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

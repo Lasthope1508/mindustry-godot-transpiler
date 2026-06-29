@@ -41438,6 +41438,166 @@
         }
       },
       "status": "active"
+    },
+    "source_mend_projector_select_state_input": {
+      "keys": {
+        "range": {
+          "java_expr": "public float range = 60f;",
+          "java_method": "MendProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector range field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_input.range"
+        },
+        "phaseHeat": {
+          "java_expr": "phaseHeat",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendBuild phaseHeat explicit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_input.phaseHeat"
+        },
+        "phaseRangeBoost": {
+          "java_expr": "public float phaseRangeBoost = 50f;",
+          "java_method": "MendProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector phaseRangeBoost field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_input.phaseRangeBoost"
+        },
+        "baseColor": {
+          "java_expr": "public Color baseColor = Color.valueOf(\"84f491\");",
+          "java_method": "MendProjector fields",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendProjector baseColor field.",
+          "status": "source-backed",
+          "type": "string",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_input.baseColor"
+        },
+        "x": {
+          "java_expr": "x",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendBuild x field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_input.x"
+        },
+        "y": {
+          "java_expr": "y",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "MendBuild y field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_input.y"
+        }
+      },
+      "status": "active"
+    },
+    "source_mend_projector_select_state_result": {
+      "keys": {
+        "range": {
+          "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Real range used by drawSelect.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_result.range"
+        },
+        "eachBlock": {
+          "java_expr": "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Indexer eachBlock call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_result.eachBlock"
+        },
+        "selected": {
+          "java_expr": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Drawf.selected call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_result.selected"
+        },
+        "dashCircle": {
+          "java_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+          "java_method": "drawSelect()",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "rule": "Drawf.dashCircle call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_mend_projector_select_state"
+          ],
+          "godot_symbol": "source_mend_projector_select_state_result.dashCircle"
+        },
+        "color": {
+          "alias_of": "source_mend_projector_select_state_input.baseColor",
+          "rule": "Carries baseColor field into result schema.",
+          "status": "generated",
+          "type": "string"
+        },
+        "phaseHeat": {
+          "alias_of": "source_mend_projector_select_state_input.phaseHeat",
+          "rule": "Carries phaseHeat input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "phaseRangeBoost": {
+          "alias_of": "source_mend_projector_select_state_input.phaseRangeBoost",
+          "rule": "Carries phaseRangeBoost field into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "x": {
+          "alias_of": "source_mend_projector_select_state_input.x",
+          "rule": "Carries x field into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "y": {
+          "alias_of": "source_mend_projector_select_state_input.y",
+          "rule": "Carries y field into result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1
