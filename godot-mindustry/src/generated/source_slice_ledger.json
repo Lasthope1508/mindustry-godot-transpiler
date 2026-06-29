@@ -7940,6 +7940,44 @@
       ],
       "runtime_proof": "/root/Main.source_building_should_show_configure_state",
       "rule": "Backfills SSOT for existing canonical source_building_should_show_configure_state helper against BuildingComp.shouldShowConfigure default true return."
+    },
+    "N650": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "exact_exprs": [
+        "public void splashLiquid(Liquid liquid, float amount){",
+        "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
+        "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
+        "Time.run(i / 2f, () -> {",
+        "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));",
+        "if(other != null){",
+        "Puddles.deposit(other, liquid, splash);",
+        "liquid",
+        "amount",
+        "block.size",
+        "tilesize"
+      ],
+      "source_symbols": [
+        "building_splash_liquid.method",
+        "building_splash_liquid.splash",
+        "building_splash_liquid.loop",
+        "building_splash_liquid.delay",
+        "building_splash_liquid.tile_world",
+        "building_splash_liquid.deposit_guard",
+        "building_splash_liquid.deposit",
+        "building_splash_liquid.liquid",
+        "building_splash_liquid.amount",
+        "building_splash_liquid.block_size",
+        "building_splash_liquid.tilesize"
+      ],
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Backfills SSOT for existing canonical source_building_splash_liquid_state helper against BuildingComp.splashLiquid scheduling and deposit expressions."
     }
   },
   "version": 1

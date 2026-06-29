@@ -1752,7 +1752,14 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("func source_building_splash_liquid_state(amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("func source_building_splash_liquid_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void splashLiquid(Liquid liquid, float amount){",', source)
+        self.assertIn('"splash_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",', source)
+        self.assertIn('"loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",', source)
+        self.assertIn('"delay_expr": "Time.run(i / 2f, () -> {",', source)
+        self.assertIn('"tile_world": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));",', source)
+        self.assertIn('"deposit": "Puddles.deposit(other, liquid, splash);",', source)
+        self.assertIn('"liquid": liquid', source)
         self.assertIn("var splash := clampf(amount / 4.0, 0.0, 10.0)", source)
         self.assertIn("var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))", source)
         self.assertIn("delays.append(float(i) / 2.0)", source)

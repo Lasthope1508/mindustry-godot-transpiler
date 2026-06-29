@@ -24629,6 +24629,149 @@
       ],
       "runtime_proof": "/root/Main.source_building_should_show_configure_state",
       "rule": "Runtime _player supplies Player player argument."
+    },
+    "building_splash_liquid.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "public void splashLiquid(Liquid liquid, float amount){",
+      "godot_symbol": "source_building_splash_liquid_result.method",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "BuildingComp splashLiquid method boundary."
+    },
+    "building_splash_liquid.splash": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
+      "godot_symbol": "source_building_splash_liquid_result.splash",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Splash amount clamps amount divided by 4."
+    },
+    "building_splash_liquid.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
+      "godot_symbol": "source_building_splash_liquid_result.deposit_count",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Deposit scheduling loop count comes from clamped amount divided by 5."
+    },
+    "building_splash_liquid.delay": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "Time.run(i / 2f, () -> {",
+      "godot_symbol": "source_building_splash_liquid_result.delays",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Each scheduled splash uses i / 2f delay."
+    },
+    "building_splash_liquid.tile_world": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));",
+      "godot_symbol": "source_building_splash_liquid_result.random_range",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Random world tile search range uses block.size * tilesize / 2."
+    },
+    "building_splash_liquid.deposit_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "if(other != null){",
+      "godot_symbol": "source_building_splash_liquid_result.deposit_if_tile_exists",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Puddle deposit only happens when tile lookup returns a tile."
+    },
+    "building_splash_liquid.deposit": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "Puddles.deposit(other, liquid, splash);",
+      "godot_symbol": "source_building_splash_liquid_result.deposit",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Deposit call passes other tile, liquid, and splash amount."
+    },
+    "building_splash_liquid.liquid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "liquid",
+      "godot_symbol": "source_building_splash_liquid_input.liquid",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Runtime liquid supplies Liquid liquid argument."
+    },
+    "building_splash_liquid.amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "amount",
+      "godot_symbol": "source_building_splash_liquid_input.amount",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Runtime amount supplies float amount argument."
+    },
+    "building_splash_liquid.block_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "block.size",
+      "godot_symbol": "source_building_splash_liquid_input.source_block_size",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Runtime source_block_size supplies block.size used by tile range."
+    },
+    "building_splash_liquid.tilesize": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "splashLiquid(Liquid liquid, float amount)",
+      "java_expr": "tilesize",
+      "godot_symbol": "source_building_splash_liquid_input.source_tilesize",
+      "godot_owner": "PortGame.source_building_splash_liquid_state",
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Runtime source_tilesize supplies tilesize used by tile range."
     }
   }
 }

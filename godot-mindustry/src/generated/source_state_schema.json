@@ -32211,6 +32211,260 @@
           "rule": "Result aliases explicit player input."
         }
       }
+    },
+    "source_building_splash_liquid_input": {
+      "status": "active",
+      "keys": {
+        "liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "liquid",
+          "godot_symbol": "source_building_splash_liquid_input.liquid",
+          "rule": "Runtime liquid supplies Liquid liquid argument."
+        },
+        "amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "amount",
+          "godot_symbol": "source_building_splash_liquid_input.amount",
+          "rule": "Runtime amount supplies float amount argument."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_splash_liquid_input.source_block_size",
+          "rule": "Runtime source_block_size supplies block.size used by tile range."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_splash_liquid_input.source_tilesize",
+          "rule": "Runtime source_tilesize supplies tilesize used by tile range."
+        }
+      }
+    },
+    "source_building_splash_liquid_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "public void splashLiquid(Liquid liquid, float amount){",
+          "godot_symbol": "source_building_splash_liquid_result.method",
+          "rule": "BuildingComp splashLiquid method boundary."
+        },
+        "splash_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
+          "godot_symbol": "source_building_splash_liquid_result.splash_expr",
+          "rule": "Exact splash clamp expression."
+        },
+        "loop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
+          "godot_symbol": "source_building_splash_liquid_result.loop",
+          "rule": "Exact scheduling loop expression."
+        },
+        "delay_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "Time.run(i / 2f, () -> {",
+          "godot_symbol": "source_building_splash_liquid_result.delay_expr",
+          "rule": "Exact Time.run delay expression."
+        },
+        "tile_world": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));",
+          "godot_symbol": "source_building_splash_liquid_result.tile_world",
+          "rule": "Exact tile lookup expression."
+        },
+        "deposit_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "if(other != null){",
+          "godot_symbol": "source_building_splash_liquid_result.deposit_guard",
+          "rule": "Exact deposit tile guard."
+        },
+        "deposit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "Puddles.deposit(other, liquid, splash);",
+          "godot_symbol": "source_building_splash_liquid_result.deposit",
+          "rule": "Exact Puddles.deposit expression."
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "alias",
+          "alias_of": "source_building_splash_liquid_input.liquid",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "liquid",
+          "godot_symbol": "source_building_splash_liquid_result.liquid",
+          "rule": "Result aliases explicit liquid input."
+        },
+        "amount": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_splash_liquid_input.amount",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "amount",
+          "godot_symbol": "source_building_splash_liquid_result.amount",
+          "rule": "Result aliases explicit amount input."
+        },
+        "source_block_size": {
+          "type": "int",
+          "status": "alias",
+          "alias_of": "source_building_splash_liquid_input.source_block_size",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "block.size",
+          "godot_symbol": "source_building_splash_liquid_result.source_block_size",
+          "rule": "Result aliases explicit block size input."
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "alias",
+          "alias_of": "source_building_splash_liquid_input.source_tilesize",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "tilesize",
+          "godot_symbol": "source_building_splash_liquid_result.source_tilesize",
+          "rule": "Result aliases explicit tilesize input."
+        },
+        "splash": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
+          "godot_symbol": "source_building_splash_liquid_result.splash",
+          "rule": "Computed splash clamp result."
+        },
+        "deposit_count": {
+          "type": "int",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
+          "godot_symbol": "source_building_splash_liquid_result.deposit_count",
+          "rule": "Computed number of scheduled loop iterations."
+        },
+        "delays": {
+          "type": "Array[float]",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "Time.run(i / 2f, () -> {",
+          "godot_symbol": "source_building_splash_liquid_result.delays",
+          "rule": "Computed Time.run delays."
+        },
+        "random_range": {
+          "type": "float",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "block.size * tilesize / 2",
+          "godot_symbol": "source_building_splash_liquid_result.random_range",
+          "rule": "Computed random range bound for both axes."
+        },
+        "deposit_if_tile_exists": {
+          "type": "bool",
+          "status": "generated",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "splashLiquid(Liquid liquid, float amount)",
+          "used_by": [
+            "PortGame.source_building_splash_liquid_state"
+          ],
+          "java_expr": "if(other != null){",
+          "godot_symbol": "source_building_splash_liquid_result.deposit_if_tile_exists",
+          "rule": "Deposit guarded by other tile existence."
+        }
+      }
     }
   },
   "version": 1

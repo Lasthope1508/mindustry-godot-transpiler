@@ -9698,6 +9698,54 @@
       ],
       "runtime_proof": "/root/Main.source_building_should_show_configure_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.shouldShowConfigure helper."
+    },
+    "PortGame.source_building_splash_liquid_state": {
+      "status": "active",
+      "source_slice": "N650",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "splashLiquid(Liquid liquid, float amount)",
+      "params": [
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_building_splash_liquid_input.liquid"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_building_splash_liquid_input.amount"
+        },
+        {
+          "name": "source_block_size",
+          "type": "int",
+          "schema": "source_building_splash_liquid_input.source_block_size"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_building_splash_liquid_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "splash_expr",
+        "loop",
+        "delay_expr",
+        "tile_world",
+        "deposit_guard",
+        "deposit",
+        "liquid",
+        "splash",
+        "deposit_count",
+        "delays",
+        "random_range",
+        "deposit_if_tile_exists"
+      ],
+      "tests": [
+        "test_building_splash_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_splash_liquid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.splashLiquid helper."
     }
   },
   "policy": {

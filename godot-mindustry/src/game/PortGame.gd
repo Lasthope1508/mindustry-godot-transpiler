@@ -1803,13 +1803,21 @@ func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bul
 func source_building_explosion_item_cap_state(item_capacity: int) -> int:
 	return item_capacity
 
-func source_building_splash_liquid_state(amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
+func source_building_splash_liquid_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
 	var splash := clampf(amount / 4.0, 0.0, 10.0)
 	var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))
 	var delays: Array[float] = []
 	for i in deposit_count:
 		delays.append(float(i) / 2.0)
 	return {
+		"method": "public void splashLiquid(Liquid liquid, float amount){",
+		"splash_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
+		"loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
+		"delay_expr": "Time.run(i / 2f, () -> {",
+		"tile_world": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));",
+		"deposit_guard": "if(other != null){",
+		"deposit": "Puddles.deposit(other, liquid, splash);",
+		"liquid": liquid,
 		"splash": splash,
 		"deposit_count": deposit_count,
 		"delays": delays,
