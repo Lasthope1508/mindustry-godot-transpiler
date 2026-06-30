@@ -14864,6 +14864,61 @@
         "test_unit_player_controllable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_player_controllable_state"
       ]
+    },
+    "PortGame.source_unit_remove_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "trail_exists",
+          "schema": "source_unit_remove_input.trail_exists",
+          "type": "bool"
+        },
+        {
+          "name": "trail_size",
+          "schema": "source_unit_remove_input.trail_size",
+          "type": "int"
+        },
+        {
+          "name": "trail_width",
+          "schema": "source_unit_remove_input.trail_width",
+          "type": "float"
+        },
+        {
+          "name": "type_trail_color_exists",
+          "schema": "source_unit_remove_input.type_trail_color_exists",
+          "type": "bool"
+        },
+        {
+          "name": "team_color",
+          "schema": "source_unit_remove_input.team_color",
+          "type": "String"
+        },
+        {
+          "name": "type_trail_color",
+          "schema": "source_unit_remove_input.type_trail_color",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "updateCount",
+        "controllerRemoved",
+        "trailGuard",
+        "trail",
+        "trailColor",
+        "trailFade",
+        "trailFadeCall",
+        "call_order"
+      ],
+      "rule": "Public runtime contract for UnitComp.remove() count decrement, controller removal, and guarded trail fade call.",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "source_method": "UnitComp.remove()",
+      "source_slice": "N797",
+      "status": "active",
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ]
     }
   },
   "policy": {

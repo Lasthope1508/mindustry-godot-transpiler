@@ -41040,6 +41040,76 @@
         "test_port_game_exposes_source_unit_player_controllable_state"
       ]
     },
+    "unit_remove.controller_removed": {
+      "godot_owner": "PortGame.source_unit_remove_state",
+      "godot_symbol": "source_unit_remove_result.controllerRemoved",
+      "java_expr": "controller.removed(self());",
+      "java_method": "UnitComp.remove()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp remove notifies current UnitController with self().",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ]
+    },
+    "unit_remove.method": {
+      "godot_owner": "PortGame.source_unit_remove_state",
+      "godot_symbol": "source_unit_remove_result.method",
+      "java_expr": "@Override\n    public void remove(){",
+      "java_method": "UnitComp.remove()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp remove override method boundary.",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ]
+    },
+    "unit_remove.trail_fade": {
+      "godot_owner": "PortGame.source_unit_remove_state",
+      "godot_symbol": "source_unit_remove_result.trailFadeCall",
+      "java_expr": "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());",
+      "java_method": "UnitComp.remove()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp remove emits Fx.trailFade with trail width, selected team/type color, and trail copy.",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ]
+    },
+    "unit_remove.trail_guard": {
+      "godot_owner": "PortGame.source_unit_remove_state",
+      "godot_symbol": "source_unit_remove_result.trailGuard",
+      "java_expr": "if(trail != null && trail.size() > 0){",
+      "java_method": "UnitComp.remove()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp remove gates trail fade on non-null trail and positive trail size.",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ]
+    },
+    "unit_remove.update_count": {
+      "godot_owner": "PortGame.source_unit_remove_state",
+      "godot_symbol": "source_unit_remove_result.updateCount",
+      "java_expr": "team.data().updateCount(type, -1);",
+      "java_method": "UnitComp.remove()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp remove decrements team UnitType count through TeamData.updateCount.",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

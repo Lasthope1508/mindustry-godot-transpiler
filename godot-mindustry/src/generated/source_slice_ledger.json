@@ -13220,6 +13220,50 @@
         "test_unit_player_controllable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_player_controllable_state"
       ]
+    },
+    "N797": {
+      "bridge_exprs": [
+        "public void updateCount(UnitType type, int amount){",
+        "unitCount = Math.max(amount + unitCount, 0);",
+        "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+        "default void removed(Unit unit){",
+        "trailFade = new Effect(400f, e -> {",
+        "if(!(e.data instanceof Trail trail)) return;",
+        "public @Nullable Color trailColor;",
+        "public Trail copy(){",
+        "public float width(){",
+        "public int size(){"
+      ],
+      "deferred_exprs": [
+        "TeamData updateCount clamp remains owned by Teams.TeamData bridge/runtime owner.",
+        "Fx.trailFade rendering remains effect-system owned; this slice records source-backed call gate and call arguments.",
+        "Trail object internals remain Trail owner; this slice accepts size, width, and copy() as runtime bridge inputs."
+      ],
+      "exact_exprs": [
+        "@Override\n    public void remove(){",
+        "team.data().updateCount(type, -1);",
+        "controller.removed(self());",
+        "make sure trail doesn't just go poof",
+        "if(trail != null && trail.size() > 0){",
+        "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());"
+      ],
+      "godot_owner": "PortGame.source_unit_remove_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.remove()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "source_symbols": [
+        "unit_remove.method",
+        "unit_remove.update_count",
+        "unit_remove.controller_removed",
+        "unit_remove.trail_guard",
+        "unit_remove.trail_fade"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_remove_state"
+      ]
     }
   },
   "version": 1

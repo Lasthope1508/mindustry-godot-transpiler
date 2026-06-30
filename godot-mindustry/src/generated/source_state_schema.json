@@ -52006,6 +52006,200 @@
       "runtime_proof": "/root/Main.source_unit_player_controllable_state",
       "status": "active"
     },
+    "source_unit_remove_input": {
+      "keys": {
+        "team_color": {
+          "godot_symbol": "source_unit_remove_input.team_color",
+          "java_expr": "team.color",
+          "java_method": "Team.color",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "rule": "Runtime bridge input for UnitComp.remove trail color fallback.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trail_exists": {
+          "godot_symbol": "source_unit_remove_input.trail_exists",
+          "java_expr": "trail != null",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for UnitComp.remove trail null guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trail_size": {
+          "godot_symbol": "source_unit_remove_input.trail_size",
+          "java_expr": "trail.size()",
+          "java_method": "Trail.size()",
+          "java_source": "core/src/mindustry/graphics/Trail.java",
+          "rule": "Runtime bridge input for UnitComp.remove positive trail size guard.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trail_width": {
+          "godot_symbol": "source_unit_remove_input.trail_width",
+          "java_expr": "trail.width()",
+          "java_method": "Trail.width()",
+          "java_source": "core/src/mindustry/graphics/Trail.java",
+          "rule": "Runtime bridge input for UnitComp.remove trailFade rotation argument.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "type_trail_color": {
+          "godot_symbol": "source_unit_remove_input.type_trail_color",
+          "java_expr": "type.trailColor",
+          "java_method": "UnitType.trailColor",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitComp.remove trail color preferred value.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "type_trail_color_exists": {
+          "godot_symbol": "source_unit_remove_input.type_trail_color_exists",
+          "java_expr": "type.trailColor != null",
+          "java_method": "UnitType.trailColor",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitComp.remove trail color ternary null check.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_remove_state",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "status": "active"
+    },
+    "source_unit_remove_result": {
+      "keys": {
+        "call_order": {
+          "godot_symbol": "source_unit_remove_result.call_order",
+          "java_expr": "team.data().updateCount(type, -1); controller.removed(self()); Fx.trailFade.at(...)",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source order of side-effect calls.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "controllerRemoved": {
+          "godot_symbol": "source_unit_remove_result.controllerRemoved",
+          "java_expr": "controller.removed(self());",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Recorded UnitController.removed(self()) side-effect call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_remove_result.method",
+          "java_expr": "@Override\n    public void remove(){",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp remove override method header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trail": {
+          "godot_symbol": "source_unit_remove_result.trail",
+          "java_expr": "trail",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Recorded runtime bridge Trail state used by guard and trailFade arguments.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trailColor": {
+          "godot_symbol": "source_unit_remove_result.trailColor",
+          "java_expr": "type.trailColor == null ? team.color : type.trailColor",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Recorded trailFade color ternary result.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trailFade": {
+          "godot_symbol": "source_unit_remove_result.trailFade",
+          "java_expr": "trail != null && trail.size() > 0",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Computed guard result for whether Fx.trailFade.at is emitted.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trailFadeCall": {
+          "godot_symbol": "source_unit_remove_result.trailFadeCall",
+          "java_expr": "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Recorded Fx.trailFade.at call arguments when guard passes.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "trailGuard": {
+          "godot_symbol": "source_unit_remove_result.trailGuard",
+          "java_expr": "if(trail != null && trail.size() > 0){",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Recorded source trail fade guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        },
+        "updateCount": {
+          "godot_symbol": "source_unit_remove_result.updateCount",
+          "java_expr": "team.data().updateCount(type, -1);",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Recorded TeamData.updateCount decrement side-effect call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_remove_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_remove_state",
+      "runtime_proof": "/root/Main.source_unit_remove_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

@@ -3669,6 +3669,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: float, type_trail_color_exists: bool, team_color: String, type_trail_color: String) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_REMOVE_METHOD := "@Override\\n    public void remove(){"', source)
+        self.assertIn('const SOURCE_UNIT_REMOVE_UPDATE_COUNT := "team.data().updateCount(type, -1);"', source)
+        self.assertIn('const SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED := "controller.removed(self());"', source)
+        self.assertIn('const SOURCE_UNIT_REMOVE_TRAIL_GUARD := "if(trail != null && trail.size() > 0){"', source)
+        self.assertIn('const SOURCE_UNIT_REMOVE_TRAIL_FADE := "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());"', source)
         self.assertIn("var fade_trail := trail_exists and trail_size > 0", source)
         self.assertIn("var trail_color := type_trail_color if type_trail_color_exists else team_color", source)
         self.assertIn("var trail_fade_call: Variant = null", source)
@@ -3676,6 +3681,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"rotationArg": "trail.width()"', source)
         self.assertIn('"dataArg": "trail.copy()"', source)
         self.assertIn('"call_order": ["team.data().updateCount(-1)", "controller.removed", "Fx.trailFade.at"] if fade_trail else ["team.data().updateCount(-1)", "controller.removed"]', source)
+        self.assertIn('"method": SOURCE_UNIT_REMOVE_METHOD', source)
+        self.assertIn('"trailGuard": SOURCE_UNIT_REMOVE_TRAIL_GUARD', source)
         self.assertIn('"controllerRemoved": {"call": "controller.removed(self())", "arg": "self()"}', source)
         self.assertIn('"trailFade": fade_trail', source)
 

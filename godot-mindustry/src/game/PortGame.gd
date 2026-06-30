@@ -9228,6 +9228,12 @@ func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_va
 		"call_order": ["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"] if over_cap else ["team.data().updateCount(+1)"],
 	}
 
+const SOURCE_UNIT_REMOVE_METHOD := "@Override\n    public void remove(){"
+const SOURCE_UNIT_REMOVE_UPDATE_COUNT := "team.data().updateCount(type, -1);"
+const SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED := "controller.removed(self());"
+const SOURCE_UNIT_REMOVE_TRAIL_GUARD := "if(trail != null && trail.size() > 0){"
+const SOURCE_UNIT_REMOVE_TRAIL_FADE := "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());"
+
 func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: float, type_trail_color_exists: bool, team_color: String, type_trail_color: String) -> Dictionary:
 	var fade_trail := trail_exists and trail_size > 0
 	var trail_color := type_trail_color if type_trail_color_exists else team_color
@@ -9243,8 +9249,11 @@ func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: 
 			"dataArg": "trail.copy()",
 		}
 	return {
-		"updateCount": {"call": "team.data().updateCount(type, -1)", "amount": -1},
+		"method": SOURCE_UNIT_REMOVE_METHOD,
+		"updateCount": {"call": "team.data().updateCount(type, -1)", "source": SOURCE_UNIT_REMOVE_UPDATE_COUNT, "amount": -1},
 		"controllerRemoved": {"call": "controller.removed(self())", "arg": "self()"},
+		"trailGuard": SOURCE_UNIT_REMOVE_TRAIL_GUARD,
+		"trailColor": trail_color,
 		"trail": {
 			"exists": trail_exists,
 			"size": trail_size,
