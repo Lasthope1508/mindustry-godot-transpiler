@@ -13328,6 +13328,35 @@
         "test_port_game_exposes_source_unit_grounded_flying_target_state"
       ]
     },
+    "PortGame.source_unit_controller_predicates_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "controller_is_ai_controller",
+          "schema": "source_unit_controller_predicates_input.controller_is_ai_controller",
+          "type": "bool"
+        },
+        {
+          "name": "controller_is_command_ai",
+          "schema": "source_unit_controller_predicates_input.controller_is_command_ai",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "is_ai",
+        "allow_command",
+        "is_commandable"
+      ],
+      "rule": "Public runtime contract for UnitComp controller predicate methods.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "source_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
+      "source_slice": "N764",
+      "status": "active",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
     "PortGame.source_unit_can_target_state": {
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
       "params": [

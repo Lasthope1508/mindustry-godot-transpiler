@@ -3413,6 +3413,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_controller_predicates_state(controller_is_ai_controller: bool, controller_is_command_ai: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_CONTROLLER_PREDICATES_IS_AI_METHOD := "public boolean isAI(){"', source)
+        self.assertIn('const SOURCE_UNIT_CONTROLLER_PREDICATES_IS_AI_RETURN := "return controller instanceof AIController;"', source)
+        self.assertIn('const SOURCE_UNIT_CONTROLLER_PREDICATES_ALLOW_COMMAND_METHOD := "public boolean allowCommand(){"', source)
+        self.assertIn('const SOURCE_UNIT_CONTROLLER_PREDICATES_COMMAND_AI_RETURN := "return controller instanceof CommandAI;"', source)
+        self.assertIn('const SOURCE_UNIT_CONTROLLER_PREDICATES_IS_COMMANDABLE_METHOD := "public boolean isCommandable(){"', source)
+        self.assertIn('const SOURCE_UNIT_CONTROLLER_PREDICATES_AI_CONTROLLER_CLASS := "public class AIController implements UnitController{"', source)
+        self.assertIn('const SOURCE_UNIT_CONTROLLER_PREDICATES_COMMAND_AI_CLASS := "public class CommandAI extends AIController{"', source)
         self.assertIn('"is_ai": controller_is_ai_controller', source)
         self.assertIn('"allow_command": controller_is_command_ai', source)
         self.assertIn('"is_commandable": controller_is_command_ai', source)

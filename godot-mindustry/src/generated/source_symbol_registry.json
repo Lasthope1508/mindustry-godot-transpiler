@@ -37034,6 +37034,146 @@
         "test_port_game_exposes_source_unit_grounded_flying_target_state"
       ]
     },
+    "unit_controller_predicates.is_ai_method": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.isAIMethod",
+      "java_expr": "public boolean isAI(){",
+      "java_method": "UnitComp.isAI()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp isAI method boundary.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.is_ai_return": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.isAIReturn",
+      "java_expr": "return controller instanceof AIController;",
+      "java_method": "UnitComp.isAI()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp isAI exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.allow_command_method": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.allowCommandMethod",
+      "java_expr": "public boolean allowCommand(){",
+      "java_method": "UnitComp.allowCommand()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp allowCommand method boundary.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.allow_command_return": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.allowCommandReturn",
+      "java_expr": "return controller instanceof CommandAI;",
+      "java_method": "UnitComp.allowCommand()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp allowCommand exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.is_commandable_method": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.isCommandableMethod",
+      "java_expr": "public boolean isCommandable(){",
+      "java_method": "UnitComp.isCommandable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp isCommandable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.is_commandable_return": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.isCommandableReturn",
+      "java_expr": "return controller instanceof CommandAI;",
+      "java_method": "UnitComp.isCommandable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp isCommandable exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.ai_controller_class": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.aiControllerClass",
+      "java_expr": "public class AIController implements UnitController{",
+      "java_method": "AIController class declaration",
+      "java_source": "core/src/mindustry/entities/units/AIController.java",
+      "rule": "AIController class identity used by UnitComp.isAI().",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.command_ai_class": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_result.commandAiClass",
+      "java_expr": "public class CommandAI extends AIController{",
+      "java_method": "CommandAI class declaration",
+      "java_source": "core/src/mindustry/ai/types/CommandAI.java",
+      "rule": "CommandAI class identity used by UnitComp allowCommand/isCommandable().",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.controller_is_ai_controller": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_input.controller_is_ai_controller",
+      "java_expr": "controller instanceof AIController",
+      "java_method": "UnitComp.isAI()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit projection of controller instanceof AIController.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
+    "unit_controller_predicates.controller_is_command_ai": {
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "godot_symbol": "source_unit_controller_predicates_input.controller_is_command_ai",
+      "java_expr": "controller instanceof CommandAI",
+      "java_method": "UnitComp.allowCommand()/isCommandable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit projection of controller instanceof CommandAI.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
     "unit_can_target.method": {
       "godot_owner": "PortGame.source_unit_can_target_state",
       "godot_symbol": "source_unit_can_target_result.method",

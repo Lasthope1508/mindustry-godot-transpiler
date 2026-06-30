@@ -47294,6 +47294,179 @@
       "runtime_proof": "/root/Main.source_unit_check_target_state",
       "status": "active"
     },
+    "source_unit_controller_predicates_input": {
+      "keys": {
+        "controller_is_ai_controller": {
+          "godot_symbol": "source_unit_controller_predicates_input.controller_is_ai_controller",
+          "java_expr": "controller instanceof AIController",
+          "java_method": "UnitComp.isAI()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit AIController controller branch input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "controller_is_command_ai": {
+          "godot_symbol": "source_unit_controller_predicates_input.controller_is_command_ai",
+          "java_expr": "controller instanceof CommandAI",
+          "java_method": "UnitComp.allowCommand()/isCommandable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit CommandAI controller branch input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_controller_predicates_state",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "active"
+    },
+    "source_unit_controller_predicates_result": {
+      "keys": {
+        "isAIMethod": {
+          "godot_symbol": "source_unit_controller_predicates_result.isAIMethod",
+          "java_expr": "public boolean isAI(){",
+          "java_method": "UnitComp.isAI()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isAI method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "isAIReturn": {
+          "godot_symbol": "source_unit_controller_predicates_result.isAIReturn",
+          "java_expr": "return controller instanceof AIController;",
+          "java_method": "UnitComp.isAI()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isAI exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "allowCommandMethod": {
+          "godot_symbol": "source_unit_controller_predicates_result.allowCommandMethod",
+          "java_expr": "public boolean allowCommand(){",
+          "java_method": "UnitComp.allowCommand()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp allowCommand method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "allowCommandReturn": {
+          "godot_symbol": "source_unit_controller_predicates_result.allowCommandReturn",
+          "java_expr": "return controller instanceof CommandAI;",
+          "java_method": "UnitComp.allowCommand()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp allowCommand exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "isCommandableMethod": {
+          "godot_symbol": "source_unit_controller_predicates_result.isCommandableMethod",
+          "java_expr": "public boolean isCommandable(){",
+          "java_method": "UnitComp.isCommandable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isCommandable method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "isCommandableReturn": {
+          "godot_symbol": "source_unit_controller_predicates_result.isCommandableReturn",
+          "java_expr": "return controller instanceof CommandAI;",
+          "java_method": "UnitComp.isCommandable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isCommandable exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "aiControllerClass": {
+          "godot_symbol": "source_unit_controller_predicates_result.aiControllerClass",
+          "java_expr": "public class AIController implements UnitController{",
+          "java_method": "AIController class declaration",
+          "java_source": "core/src/mindustry/entities/units/AIController.java",
+          "rule": "AIController class identity for isAI().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "commandAiClass": {
+          "godot_symbol": "source_unit_controller_predicates_result.commandAiClass",
+          "java_expr": "public class CommandAI extends AIController{",
+          "java_method": "CommandAI class declaration",
+          "java_source": "core/src/mindustry/ai/types/CommandAI.java",
+          "rule": "CommandAI class identity for allowCommand()/isCommandable().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ]
+        },
+        "is_ai": {
+          "godot_symbol": "source_unit_controller_predicates_result.is_ai",
+          "java_expr": "return controller instanceof AIController;",
+          "java_method": "UnitComp.isAI()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for isAI().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ],
+          "alias_of": "source_unit_controller_predicates_input.controller_is_ai_controller"
+        },
+        "allow_command": {
+          "godot_symbol": "source_unit_controller_predicates_result.allow_command",
+          "java_expr": "return controller instanceof CommandAI;",
+          "java_method": "UnitComp.allowCommand()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for allowCommand().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ],
+          "alias_of": "source_unit_controller_predicates_input.controller_is_command_ai"
+        },
+        "is_commandable": {
+          "godot_symbol": "source_unit_controller_predicates_result.is_commandable",
+          "java_expr": "return controller instanceof CommandAI;",
+          "java_method": "UnitComp.isCommandable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for isCommandable().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_controller_predicates_state"
+          ],
+          "alias_of": "source_unit_controller_predicates_input.controller_is_command_ai"
+        }
+      },
+      "owner": "PortGame.source_unit_controller_predicates_state",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "status": "active"
+    },
     "source_unit_can_target_input": {
       "keys": {
         "other_exists": {

@@ -11667,6 +11667,48 @@
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
     },
+    "N764": {
+      "deferred_exprs": [
+        "UnitComp.command() cast and exception branch remain owned by source_unit_command_state",
+        "CommandAI queue and behavior internals remain owned by future CommandAI behavior slices"
+      ],
+      "exact_exprs": [
+        "public boolean isAI(){",
+        "return controller instanceof AIController;",
+        "public boolean allowCommand(){",
+        "return controller instanceof CommandAI;",
+        "public boolean isCommandable(){",
+        "return controller instanceof CommandAI;"
+      ],
+      "bridge_exprs": [
+        "public class AIController implements UnitController{",
+        "public class CommandAI extends AIController{",
+        "controller instanceof AIController",
+        "controller instanceof CommandAI"
+      ],
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "source_symbols": [
+        "unit_controller_predicates.is_ai_method",
+        "unit_controller_predicates.is_ai_return",
+        "unit_controller_predicates.allow_command_method",
+        "unit_controller_predicates.allow_command_return",
+        "unit_controller_predicates.is_commandable_method",
+        "unit_controller_predicates.is_commandable_return",
+        "unit_controller_predicates.ai_controller_class",
+        "unit_controller_predicates.command_ai_class",
+        "unit_controller_predicates.controller_is_ai_controller",
+        "unit_controller_predicates.controller_is_command_ai"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
+      ]
+    },
     "N760": {
       "deferred_exprs": [
         "UnitComp.checkTarget(boolean targetAir, boolean targetGround) body is owned by source_unit_check_target_state"

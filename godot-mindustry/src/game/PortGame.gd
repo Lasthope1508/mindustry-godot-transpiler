@@ -4037,6 +4037,14 @@ func source_unit_look_at_xy_state(current_rotation: float, unit_x: float, unit_y
 		"rotation": angle_state["rotation"],
 	}
 
+const SOURCE_UNIT_CONTROLLER_PREDICATES_IS_AI_METHOD := "public boolean isAI(){"
+const SOURCE_UNIT_CONTROLLER_PREDICATES_IS_AI_RETURN := "return controller instanceof AIController;"
+const SOURCE_UNIT_CONTROLLER_PREDICATES_ALLOW_COMMAND_METHOD := "public boolean allowCommand(){"
+const SOURCE_UNIT_CONTROLLER_PREDICATES_COMMAND_AI_RETURN := "return controller instanceof CommandAI;"
+const SOURCE_UNIT_CONTROLLER_PREDICATES_IS_COMMANDABLE_METHOD := "public boolean isCommandable(){"
+const SOURCE_UNIT_CONTROLLER_PREDICATES_AI_CONTROLLER_CLASS := "public class AIController implements UnitController{"
+const SOURCE_UNIT_CONTROLLER_PREDICATES_COMMAND_AI_CLASS := "public class CommandAI extends AIController{"
+
 func source_unit_controller_predicates_state(controller_is_ai_controller: bool, controller_is_command_ai: bool) -> Dictionary:
 	return {
 		"is_ai": controller_is_ai_controller,
