@@ -15530,6 +15530,48 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
       "rule": "Backfills SSOT for existing Weapon.bullet heat tail wrapper against exact upstream source."
+    },
+    "N844": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "exact_exprs": [
+        "protected void bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover){",
+        "if(!unit.isAdded()) return;",
+        "mount.charging = false;"
+      ],
+      "bridge_exprs": [
+        "public boolean charging;",
+        "private transient boolean added;",
+        "boolean isAdded(){\n        return added;\n    }",
+        "void add(){\n        added = true;\n    }",
+        "void remove(){\n        added = false;\n    }"
+      ],
+      "deferred_exprs": [
+        "Geometry block remains owned by source_weapon_bullet_geometry_state."
+      ],
+      "source_symbols": [
+        "weapon_bullet_initial_guard.method",
+        "weapon_bullet_initial_guard.unit_state",
+        "weapon_bullet_initial_guard.mount_state",
+        "weapon_bullet_initial_guard.unit_added_guard",
+        "weapon_bullet_initial_guard.charging_reset",
+        "weapon_bullet_initial_guard.geometry_reserved",
+        "weapon_bullet_initial_guard.mount_charging_field",
+        "weapon_bullet_initial_guard.entity_added_field",
+        "weapon_bullet_initial_guard.entity_is_added",
+        "weapon_bullet_initial_guard.entity_add",
+        "weapon_bullet_initial_guard.entity_remove"
+      ],
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet initial unit-added guard and charging reset wrapper against exact upstream source."
     }
   },
   "version": 1

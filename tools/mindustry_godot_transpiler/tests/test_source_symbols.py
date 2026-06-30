@@ -3238,6 +3238,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(method_complete["java_expr"], "mount.heat = 1f;")
         self.assertEqual(method_complete["godot_symbol"], "source_weapon_bullet_heat_result.bulletMethodComplete")
 
+    def test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "weapon_bullet_initial_guard.unit_added_guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(guard["java_expr"], "if(!unit.isAdded()) return;")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_weapon_bullet_initial_guard_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_weapon_bullet_initial_guard_state")
+        self.assertEqual(guard["godot_symbol"], "source_weapon_bullet_initial_guard_result.bulletContinues")
+
+        charging_reset = source_symbols.source_symbol(registry, "weapon_bullet_initial_guard.charging_reset")
+        self.assertEqual(charging_reset["java_expr"], "mount.charging = false;")
+        self.assertEqual(charging_reset["godot_symbol"], "source_weapon_bullet_initial_guard_result.mountCharging")
+
+        entity_is_added = source_symbols.source_symbol(registry, "weapon_bullet_initial_guard.entity_is_added")
+        self.assertEqual(entity_is_added["java_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(entity_is_added["java_expr"], "boolean isAdded(){\n        return added;\n    }")
+        self.assertEqual(entity_is_added["godot_symbol"], "source_weapon_bullet_initial_guard_input.unit_state.isAdded")
+
+        mount_charging = source_symbols.source_symbol(registry, "weapon_bullet_initial_guard.mount_charging_field")
+        self.assertEqual(mount_charging["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_charging["java_expr"], "public boolean charging;")
+        self.assertEqual(mount_charging["godot_symbol"], "source_weapon_bullet_initial_guard_input.mount_state.charging")
+
     def test_weapon_bullet_effects_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15133,9 +15160,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 441)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 442)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 446)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 447)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15188,6 +15215,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_geometry_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_handle_call_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_heat_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_initial_guard_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17916,6 +17944,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("mount.heat = 1f;", weapon_bullet_heat["exact_exprs"])
         self.assertIn("public float heat;", weapon_bullet_heat["bridge_exprs"])
         self.assertIn("Heat assignment completes the currently registered Weapon.bullet pure state tail.", weapon_bullet_heat["deferred_exprs"])
+
+        weapon_bullet_initial_guard = source_symbols.source_slice(ledger, "N844")
+        self.assertEqual(weapon_bullet_initial_guard["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_initial_guard["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard")
+        self.assertEqual(weapon_bullet_initial_guard["godot_owner"], "PortGame.source_weapon_bullet_initial_guard_state")
+        self.assertIn("if(!unit.isAdded()) return;", weapon_bullet_initial_guard["exact_exprs"])
+        self.assertIn("mount.charging = false;", weapon_bullet_initial_guard["exact_exprs"])
+        self.assertIn("boolean isAdded(){\n        return added;\n    }", weapon_bullet_initial_guard["bridge_exprs"])
+        self.assertIn("Geometry block remains owned by source_weapon_bullet_geometry_state.", weapon_bullet_initial_guard["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21015,6 +21052,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("mountHeatApplied", weapon_bullet_heat["return_keys"])
         self.assertIn("bulletMethodComplete", weapon_bullet_heat["return_keys"])
         self.assertEqual(weapon_bullet_heat["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail")
+
+        weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
+        self.assertEqual(weapon_bullet_initial_guard["params"][0]["schema"], "source_weapon_bullet_initial_guard_input.unit_state")
+        self.assertEqual(weapon_bullet_initial_guard["params"][1]["schema"], "source_weapon_bullet_initial_guard_input.mount_state")
+        self.assertIn("unitAdded", weapon_bullet_initial_guard["return_keys"])
+        self.assertIn("bulletContinues", weapon_bullet_initial_guard["return_keys"])
+        self.assertIn("mountCharging", weapon_bullet_initial_guard["return_keys"])
+        self.assertEqual(weapon_bullet_initial_guard["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard")
 
         block_can_replace = source_symbols.api_contract(contracts, "PortGame.source_block_can_replace_state")
         self.assertEqual([param["name"] for param in block_can_replace["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
@@ -25500,6 +25546,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_heat_result["keys"]["mountHeat"]["java_expr"], "mount.heat = 1f;")
         self.assertEqual(source_weapon_bullet_heat_result["keys"]["mountHeatBefore"]["java_expr"], "mount.heat")
         self.assertEqual(source_weapon_bullet_heat_result["keys"]["bulletMethodComplete"]["java_expr"], "mount.heat = 1f;")
+
+        source_weapon_bullet_initial_guard_input = source_symbols.state_schema(schema, "source_weapon_bullet_initial_guard_input")
+        self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["isAdded"]["java_expr"], "boolean isAdded(){\n        return added;\n    }")
+        self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["charging"]["java_expr"], "public boolean charging;")
+
+        source_weapon_bullet_initial_guard_result = source_symbols.state_schema(schema, "source_weapon_bullet_initial_guard_result")
+        self.assertEqual(source_weapon_bullet_initial_guard_result["keys"]["bulletContinues"]["java_expr"], "if(!unit.isAdded()) return;")
+        self.assertEqual(source_weapon_bullet_initial_guard_result["keys"]["mountCharging"]["java_expr"], "mount.charging = false;")
+        self.assertEqual(source_weapon_bullet_initial_guard_result["keys"]["geometryReservedSource"]["java_expr"], "float\n        xSpread = Mathf.range(xRand),")
 
         source_block_can_replace_input = source_symbols.state_schema(schema, "source_block_can_replace_input")
         self.assertEqual(source_block_can_replace_input["keys"]["otherAlwaysReplace"]["java_expr"], "other.alwaysReplace")

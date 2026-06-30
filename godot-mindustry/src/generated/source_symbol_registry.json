@@ -53403,6 +53403,171 @@
       "godot_symbol": "source_weapon_bullet_heat_result.bulletMethodCloseSource",
       "status": "deferred",
       "rule": "Weapon.bullet method close marker after heat assignment."
+    },
+    "weapon_bullet_initial_guard.method": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "protected void bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover){",
+      "godot_symbol": "source_weapon_bullet_initial_guard_result.bulletMethodSource",
+      "status": "source-backed",
+      "rule": "Weapon.bullet method boundary for initial guard slice."
+    },
+    "weapon_bullet_initial_guard.unit_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "Unit unit",
+      "godot_symbol": "source_weapon_bullet_initial_guard_input.unit_state",
+      "status": "explicit-input",
+      "rule": "Source Unit input carrying isAdded state."
+    },
+    "weapon_bullet_initial_guard.mount_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "WeaponMount mount",
+      "godot_symbol": "source_weapon_bullet_initial_guard_input.mount_state",
+      "status": "explicit-input",
+      "rule": "Source WeaponMount input carrying charging state."
+    },
+    "weapon_bullet_initial_guard.unit_added_guard": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(!unit.isAdded()) return;",
+      "godot_symbol": "source_weapon_bullet_initial_guard_result.bulletContinues",
+      "status": "source-backed",
+      "rule": "Initial guard returns when unit is not added."
+    },
+    "weapon_bullet_initial_guard.charging_reset": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.charging = false;",
+      "godot_symbol": "source_weapon_bullet_initial_guard_result.mountCharging",
+      "status": "source-backed",
+      "rule": "Mount charging resets only after unit-added guard passes."
+    },
+    "weapon_bullet_initial_guard.geometry_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float\n        xSpread = Mathf.range(xRand),",
+      "godot_symbol": "source_weapon_bullet_initial_guard_result.geometryReservedSource",
+      "status": "deferred",
+      "rule": "Following geometry block remains owned by source_weapon_bullet_geometry_state."
+    },
+    "weapon_bullet_initial_guard.mount_charging_field": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean charging;",
+      "godot_symbol": "source_weapon_bullet_initial_guard_input.mount_state.charging",
+      "status": "source-backed",
+      "rule": "WeaponMount charging field read and reset by guard slice."
+    },
+    "weapon_bullet_initial_guard.entity_added_field": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "java_expr": "private transient boolean added;",
+      "godot_symbol": "source_weapon_bullet_initial_guard_input.unit_state.added",
+      "status": "source-backed",
+      "rule": "EntityComp backing added field for Unit.isAdded()."
+    },
+    "weapon_bullet_initial_guard.entity_is_added": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "java_expr": "boolean isAdded(){\n        return added;\n    }",
+      "godot_symbol": "source_weapon_bullet_initial_guard_input.unit_state.isAdded",
+      "status": "source-backed",
+      "rule": "EntityComp isAdded returns added."
+    },
+    "weapon_bullet_initial_guard.entity_add": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "java_expr": "void add(){\n        added = true;\n    }",
+      "godot_symbol": "source_weapon_bullet_initial_guard_input.unit_state.add",
+      "status": "source-backed",
+      "rule": "EntityComp add sets added true."
+    },
+    "weapon_bullet_initial_guard.entity_remove": {
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "java_expr": "void remove(){\n        added = false;\n    }",
+      "godot_symbol": "source_weapon_bullet_initial_guard_input.unit_state.remove",
+      "status": "source-backed",
+      "rule": "EntityComp remove sets added false."
     }
   },
   "version": 1
