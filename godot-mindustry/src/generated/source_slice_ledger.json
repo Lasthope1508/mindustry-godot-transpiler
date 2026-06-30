@@ -15345,6 +15345,58 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
       "rule": "Backfills SSOT for existing Weapon.bullet BulletType.create call wrapper against exact upstream source."
+    },
+    "N840": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "exact_exprs": [
+        "if(mount.allowShootEffects){",
+        "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));",
+        "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+        "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);"
+      ],
+      "bridge_exprs": [
+        "public Effect ejectEffect = Fx.none;",
+        "public float x = 5f, y = 0f;",
+        "public boolean allowShootEffects = true;",
+        "public Effect shootEffect = Fx.shootSmall;",
+        "public Effect smokeEffect = Fx.shootSmallSmoke;",
+        "public Color hitColor = Color.white;",
+        "return (f < 0 ? -1 : 1);"
+      ],
+      "deferred_exprs": [
+        "Effect side effects remain recorded as runtime effectCalls; actual renderer/effect dispatch stays owned by later effect integration slices.",
+        "Recoil, shake, mount recoil slots, and heat remain owned by later registered Weapon.bullet slices."
+      ],
+      "source_symbols": [
+        "weapon_bullet_effects.bullet_hit_color",
+        "weapon_bullet_effects.bullet_shoot_effect_default",
+        "weapon_bullet_effects.bullet_smoke_effect_default",
+        "weapon_bullet_effects.bullet_state",
+        "weapon_bullet_effects.create_call_state",
+        "weapon_bullet_effects.eject_effect_call",
+        "weapon_bullet_effects.eject_effect_default",
+        "weapon_bullet_effects.gate",
+        "weapon_bullet_effects.mathf_sign",
+        "weapon_bullet_effects.mount_allow_shoot_effects",
+        "weapon_bullet_effects.mount_state",
+        "weapon_bullet_effects.recoil_reserved",
+        "weapon_bullet_effects.shoot_effect_call",
+        "weapon_bullet_effects.smoke_effect_call",
+        "weapon_bullet_effects.unit_state",
+        "weapon_bullet_effects.weapon_state",
+        "weapon_bullet_effects.weapon_x_default"
+      ],
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet shoot effects branch wrapper against exact upstream source."
     }
   },
   "version": 1

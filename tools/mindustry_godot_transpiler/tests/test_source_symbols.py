@@ -3141,6 +3141,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(target["java_expr"], "mount.target")
         self.assertEqual(target["godot_symbol"], "source_weapon_bullet_create_call_result.target")
 
+    def test_weapon_bullet_effects_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        effects_gate = source_symbols.source_symbol(registry, "weapon_bullet_effects.gate")
+        self.assertEqual(effects_gate["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(effects_gate["java_expr"], "if(mount.allowShootEffects){")
+        self.assertEqual(effects_gate["godot_owner"], "PortGame.source_weapon_bullet_effects_state")
+        self.assertEqual(effects_gate["runtime_proof"], "/root/Main.source_weapon_bullet_effects_state")
+        self.assertEqual(effects_gate["godot_symbol"], "source_weapon_bullet_effects_result.effectsGate")
+
+        eject_call = source_symbols.source_symbol(registry, "weapon_bullet_effects.eject_effect_call")
+        self.assertEqual(eject_call["java_expr"], "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));")
+        self.assertEqual(eject_call["godot_symbol"], "source_weapon_bullet_effects_result.effectCalls[0]")
+
+        shoot_call = source_symbols.source_symbol(registry, "weapon_bullet_effects.shoot_effect_call")
+        self.assertEqual(shoot_call["java_expr"], "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);")
+        self.assertEqual(shoot_call["godot_symbol"], "source_weapon_bullet_effects_result.effectCalls[1]")
+
+        smoke_call = source_symbols.source_symbol(registry, "weapon_bullet_effects.smoke_effect_call")
+        self.assertEqual(smoke_call["java_expr"], "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);")
+        self.assertEqual(smoke_call["godot_symbol"], "source_weapon_bullet_effects_result.effectCalls[2]")
+
+        x_sign = source_symbols.source_symbol(registry, "weapon_bullet_effects.mathf_sign")
+        self.assertEqual(x_sign["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(x_sign["java_expr"], "return (f < 0 ? -1 : 1);")
+        self.assertEqual(x_sign["godot_symbol"], "source_weapon_bullet_effects_result.xSign")
+
+        allow_shoot_effects = source_symbols.source_symbol(registry, "weapon_bullet_effects.mount_allow_shoot_effects")
+        self.assertEqual(allow_shoot_effects["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(allow_shoot_effects["java_expr"], "public boolean allowShootEffects = true;")
+        self.assertEqual(allow_shoot_effects["godot_symbol"], "source_weapon_bullet_effects_input.mount_state.allowShootEffects")
+
+        hit_color = source_symbols.source_symbol(registry, "weapon_bullet_effects.bullet_hit_color")
+        self.assertEqual(hit_color["java_expr"], "public Color hitColor = Color.white;")
+        self.assertEqual(hit_color["godot_symbol"], "source_weapon_bullet_effects_input.bullet_state.hitColor")
+
     def test_block_can_replace_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14997,9 +15036,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 437)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 438)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 442)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 443)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15048,6 +15087,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_vec2_limit", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_angle_life_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_create_call_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_effects_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17738,6 +17778,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);", weapon_bullet_create_call["exact_exprs"])
         self.assertIn("public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){", weapon_bullet_create_call["bridge_exprs"])
         self.assertIn("Mathf.random(velocityRnd) remains explicit velocity_random input; live Arc RNG stream is not reconstructed in this wrapper.", weapon_bullet_create_call["deferred_exprs"])
+
+        weapon_bullet_effects = source_symbols.source_slice(ledger, "N840")
+        self.assertEqual(weapon_bullet_effects["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_effects["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch")
+        self.assertEqual(weapon_bullet_effects["godot_owner"], "PortGame.source_weapon_bullet_effects_state")
+        self.assertIn("if(mount.allowShootEffects){", weapon_bullet_effects["exact_exprs"])
+        self.assertIn("ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));", weapon_bullet_effects["exact_exprs"])
+        self.assertIn("bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);", weapon_bullet_effects["exact_exprs"])
+        self.assertIn("bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);", weapon_bullet_effects["exact_exprs"])
+        self.assertIn("return (f < 0 ? -1 : 1);", weapon_bullet_effects["bridge_exprs"])
+        self.assertIn("Effect side effects remain recorded as runtime effectCalls; actual renderer/effect dispatch stays owned by later effect integration slices.", weapon_bullet_effects["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20801,6 +20852,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("velocityScl", weapon_bullet_create_call["return_keys"])
         self.assertIn("angleLifeState", weapon_bullet_create_call["return_keys"])
         self.assertEqual(weapon_bullet_create_call["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call")
+
+        weapon_bullet_effects = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_effects_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_effects["params"]], ["create_call_state", "mount_state", "weapon_state", "bullet_state", "unit_state"])
+        self.assertEqual(weapon_bullet_effects["params"][0]["schema"], "source_weapon_bullet_effects_input.create_call_state")
+        self.assertEqual(weapon_bullet_effects["params"][4]["schema"], "source_weapon_bullet_effects_input.unit_state")
+        self.assertIn("effectsGate", weapon_bullet_effects["return_keys"])
+        self.assertIn("effectCalls", weapon_bullet_effects["return_keys"])
+        self.assertIn("xSign", weapon_bullet_effects["return_keys"])
+        self.assertEqual(weapon_bullet_effects["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch")
 
         block_can_replace = source_symbols.api_contract(contracts, "PortGame.source_block_can_replace_state")
         self.assertEqual([param["name"] for param in block_can_replace["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
@@ -25234,6 +25294,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_create_call_result["keys"]["lifetimeScl"]["java_expr"], "lifeScl")
         self.assertEqual(source_weapon_bullet_create_call_result["keys"]["target"]["java_expr"], "mount.target")
         self.assertEqual(source_weapon_bullet_create_call_result["keys"]["velocityRandom"]["alias_of"], "source_weapon_bullet_create_call_input.velocity_random")
+
+        source_weapon_bullet_effects_input = source_symbols.state_schema(schema, "source_weapon_bullet_effects_input")
+        self.assertEqual(source_weapon_bullet_effects_input["keys"]["create_call_state"]["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(source_weapon_bullet_effects_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_bullet_effects_input["keys"]["weapon_state"]["java_expr"], "this")
+        self.assertEqual(source_weapon_bullet_effects_input["keys"]["bullet_state"]["java_expr"], "bullet")
+        self.assertEqual(source_weapon_bullet_effects_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+
+        source_weapon_bullet_effects_result = source_symbols.state_schema(schema, "source_weapon_bullet_effects_result")
+        self.assertEqual(source_weapon_bullet_effects_result["keys"]["effectsGate"]["java_expr"], "if(mount.allowShootEffects){")
+        self.assertEqual(source_weapon_bullet_effects_result["keys"]["ejectEffectCall"]["java_expr"], "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));")
+        self.assertEqual(source_weapon_bullet_effects_result["keys"]["shootEffectCall"]["java_expr"], "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);")
+        self.assertEqual(source_weapon_bullet_effects_result["keys"]["smokeEffectCall"]["java_expr"], "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);")
+        self.assertEqual(source_weapon_bullet_effects_result["keys"]["xSign"]["java_expr"], "return (f < 0 ? -1 : 1);")
+        self.assertEqual(source_weapon_bullet_effects_result["keys"]["createCallState"]["alias_of"], "source_weapon_bullet_effects_input.create_call_state")
 
         source_block_can_replace_input = source_symbols.state_schema(schema, "source_block_can_replace_input")
         self.assertEqual(source_block_can_replace_input["keys"]["otherAlwaysReplace"]["java_expr"], "other.alwaysReplace")

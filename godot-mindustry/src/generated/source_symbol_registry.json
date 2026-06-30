@@ -52578,6 +52578,261 @@
         "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
         "test_weapon_bullet_create_call_matches_upstream_source"
       ]
+    },
+    "weapon_bullet_effects.gate": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_result.effectsGate",
+      "java_expr": "if(mount.allowShootEffects){",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet gates shoot effects on mount.allowShootEffects.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.eject_effect_call": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_result.effectCalls[0]",
+      "java_expr": "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon eject effect uses mount coordinates and x-sign adjusted angle.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.shoot_effect_call": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_result.effectCalls[1]",
+      "java_expr": "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Bullet shoot effect uses bullet coordinates, angle, hitColor, and unit.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.smoke_effect_call": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_result.effectCalls[2]",
+      "java_expr": "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Bullet smoke effect uses bullet coordinates, angle, hitColor, and unit.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.recoil_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_result.recoilReservedSource",
+      "java_expr": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Next Weapon.bullet recoil line is reserved for later registered slice.",
+      "status": "deferred"
+    },
+    "weapon_bullet_effects.eject_effect_default": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.weapon_state.ejectEffect",
+      "java_expr": "public Effect ejectEffect = Fx.none;",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon ejectEffect default backs runtime weapon_state.ejectEffect.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.weapon_x_default": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.weapon_state.x",
+      "java_expr": "public float x = 5f, y = 0f;",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon x default backs Mathf.sign(this.x).",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.mount_allow_shoot_effects": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "WeaponMount field declaration",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.mount_state.allowShootEffects",
+      "java_expr": "public boolean allowShootEffects = true;",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "rule": "WeaponMount allowShootEffects default backs effects gate.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.bullet_shoot_effect_default": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "BulletType field declaration",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.bullet_state.shootEffect",
+      "java_expr": "public Effect shootEffect = Fx.shootSmall;",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "BulletType shootEffect default backs runtime bullet_state.shootEffect.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.bullet_smoke_effect_default": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "BulletType field declaration",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.bullet_state.smokeEffect",
+      "java_expr": "public Effect smokeEffect = Fx.shootSmallSmoke;",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "BulletType smokeEffect default backs runtime bullet_state.smokeEffect.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.bullet_hit_color": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "BulletType field declaration",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.bullet_state.hitColor",
+      "java_expr": "public Color hitColor = Color.white;",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "BulletType hitColor default backs shoot/smoke effect color.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.mathf_sign": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "sign(float f)",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_result.xSign",
+      "java_expr": "return (f < 0 ? -1 : 1);",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.sign(float) backs eject effect x sign.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_effects.create_call_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.create_call_state",
+      "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime create_call_state carries prior registered create call and geometry facts.",
+      "status": "generated"
+    },
+    "weapon_bullet_effects.mount_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.mount_state",
+      "java_expr": "WeaponMount mount",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime mount_state maps to Java WeaponMount mount.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_effects.weapon_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.weapon_state",
+      "java_expr": "this",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime weapon_state maps to Java this Weapon.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_effects.bullet_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.bullet_state",
+      "java_expr": "bullet",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime bullet_state maps to Java BulletType bullet.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_effects.unit_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_effects_input.unit_state",
+      "java_expr": "Unit unit",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime unit_state maps to Java Unit unit.",
+      "status": "explicit-input"
     }
   },
   "version": 1

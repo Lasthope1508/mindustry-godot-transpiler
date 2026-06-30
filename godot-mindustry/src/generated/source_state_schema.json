@@ -61280,6 +61280,178 @@
           "type": "Dictionary"
         }
       }
+    },
+    "source_weapon_bullet_effects_input": {
+      "status": "active",
+      "keys": {
+        "create_call_state": {
+          "godot_symbol": "source_weapon_bullet_effects_input.create_call_state",
+          "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Carries prior registered create call and geometry state.",
+          "status": "generated",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "mount_state": {
+          "godot_symbol": "source_weapon_bullet_effects_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_bullet_effects_input.weapon_state",
+          "java_expr": "this",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_bullet_effects_input.bullet_state",
+          "java_expr": "bullet",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source BulletType input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "unit_state": {
+          "godot_symbol": "source_weapon_bullet_effects_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Unit input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_effects_result": {
+      "status": "active",
+      "keys": {
+        "effectsGate": {
+          "godot_symbol": "source_weapon_bullet_effects_result.effectsGate",
+          "java_expr": "if(mount.allowShootEffects){",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Shoot effects gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "effectCalls": {
+          "godot_symbol": "source_weapon_bullet_effects_result.effectCalls",
+          "java_expr": "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x)); bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit); bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Ordered effect call records for the source effects branch.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "ejectEffectCall": {
+          "godot_symbol": "source_weapon_bullet_effects_result.effectCalls[0]",
+          "java_expr": "ejectEffect.at(mountX, mountY, angle * Mathf.sign(this.x));",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Eject effect call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "shootEffectCall": {
+          "godot_symbol": "source_weapon_bullet_effects_result.effectCalls[1]",
+          "java_expr": "bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Shoot effect call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "smokeEffectCall": {
+          "godot_symbol": "source_weapon_bullet_effects_result.effectCalls[2]",
+          "java_expr": "bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Smoke effect call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "xSign": {
+          "godot_symbol": "source_weapon_bullet_effects_result.xSign",
+          "java_expr": "return (f < 0 ? -1 : 1);",
+          "java_method": "sign(float f)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Mathf.sign(this.x) result.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_effects_state"
+          ]
+        },
+        "createCallState": {
+          "alias_of": "source_weapon_bullet_effects_input.create_call_state",
+          "rule": "Carries prior create call state.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "mount_state": {
+          "alias_of": "source_weapon_bullet_effects_input.mount_state",
+          "rule": "Carries mount input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "weapon_state": {
+          "alias_of": "source_weapon_bullet_effects_input.weapon_state",
+          "rule": "Carries weapon input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "bullet_state": {
+          "alias_of": "source_weapon_bullet_effects_input.bullet_state",
+          "rule": "Carries bullet input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "unit_state": {
+          "alias_of": "source_weapon_bullet_effects_input.unit_state",
+          "rule": "Carries unit input.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      }
     }
   },
   "version": 1
