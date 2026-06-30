@@ -45965,6 +45965,236 @@
       "owner": "PortGame.source_unit_after_read_all_state",
       "runtime_proof": "/root/Main.source_unit_after_read_all_state",
       "status": "active"
+    },
+    "source_unit_after_read_input": {
+      "keys": {
+        "type_id": {
+          "godot_symbol": "source_unit_after_read_input.type_id",
+          "java_expr": "this.type",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Serialized unit type id/input passed to setType(this.type).",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "controller_is_ai_controller": {
+          "godot_symbol": "source_unit_after_read_input.controller_is_ai_controller",
+          "java_expr": "controller instanceof AIController ai",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime projection of AIController pattern match in reset guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "ai_keep_state": {
+          "godot_symbol": "source_unit_after_read_input.ai_keep_state",
+          "java_expr": "ai.keepState()",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime projection of AIController.keepState() guard term.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "controller_exists": {
+          "godot_symbol": "source_unit_after_read_input.controller_exists",
+          "java_expr": "controller",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime projection of UnitComp controller availability.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_after_read_state",
+      "runtime_proof": "/root/Main.source_unit_after_read_state",
+      "status": "active"
+    },
+    "source_unit_after_read_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_after_read_result.method",
+          "java_expr": "public void afterRead(){",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp.afterRead method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "setTypeCall": {
+          "godot_symbol": "source_unit_after_read_result.setTypeCall",
+          "java_expr": "setType(this.type);",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed type restore call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "controllerUnitCall": {
+          "godot_symbol": "source_unit_after_read_result.controllerUnitCall",
+          "java_expr": "controller.unit(self());",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed controller self binding call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "resetComment": {
+          "godot_symbol": "source_unit_after_read_result.resetComment",
+          "java_expr": "reset controller state",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source comment for reset branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "resetGuard": {
+          "godot_symbol": "source_unit_after_read_result.resetGuard",
+          "java_expr": "if(!(controller instanceof AIController ai && ai.keepState())){",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed reset guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "createControllerCall": {
+          "godot_symbol": "source_unit_after_read_result.createControllerCall",
+          "java_expr": "controller(type.createController(self()));",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed reset branch controller factory call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "resetController": {
+          "godot_symbol": "source_unit_after_read_result.resetController",
+          "java_expr": "!(controller instanceof AIController ai && ai.keepState())",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Godot boolean preserves Java negated reset guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "call_order": {
+          "godot_symbol": "source_unit_after_read_result.call_order",
+          "java_expr": "setType(this.type); -> controller.unit(self()); -> controller(type.createController(self()));",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source call order, with reset branch conditional on reset guard.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "setType_arg": {
+          "godot_symbol": "source_unit_after_read_result.setType_arg",
+          "java_expr": "this.type",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Argument to setType call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "controllerUnitArg": {
+          "godot_symbol": "source_unit_after_read_result.controllerUnitArg",
+          "java_expr": "self()",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Argument to controller.unit call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "createControllerArg": {
+          "godot_symbol": "source_unit_after_read_result.createControllerArg",
+          "java_expr": "self()",
+          "java_method": "UnitComp.afterRead()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Argument to type.createController call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "unitControllerUnitMethod": {
+          "godot_symbol": "source_unit_after_read_result.unitControllerUnitMethod",
+          "java_expr": "void unit(Unit unit);",
+          "java_method": "UnitController.unit(Unit unit)",
+          "java_source": "core/src/mindustry/entities/units/UnitController.java",
+          "rule": "UnitController.unit callback signature.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "aiControllerKeepStateMethod": {
+          "godot_symbol": "source_unit_after_read_result.aiControllerKeepStateMethod",
+          "java_expr": "public boolean keepState(){",
+          "java_method": "AIController.keepState()",
+          "java_source": "core/src/mindustry/entities/units/AIController.java",
+          "rule": "AIController.keepState method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        },
+        "unitTypeCreateControllerMethod": {
+          "godot_symbol": "source_unit_after_read_result.unitTypeCreateControllerMethod",
+          "java_expr": "public UnitController createController(Unit unit){",
+          "java_method": "UnitType.createController(Unit unit)",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType.createController method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_after_read_state",
+      "runtime_proof": "/root/Main.source_unit_after_read_state",
+      "status": "active"
     }
   },
   "version": 1

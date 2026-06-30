@@ -4521,6 +4521,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(controller_after_read_method["java_source"], "core/src/mindustry/entities/units/UnitController.java")
         self.assertEqual(controller_after_read_method["godot_symbol"], "source_unit_after_read_all_result.unitControllerAfterReadMethod")
 
+    def test_unit_after_read_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_after_read.method")
+        self.assertEqual(method["java_expr"], "public void afterRead(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_after_read_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_after_read_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_after_read_result.method")
+
+        set_type_call = source_symbols.source_symbol(registry, "unit_after_read.set_type_call")
+        self.assertEqual(set_type_call["java_expr"], "setType(this.type);")
+        self.assertEqual(set_type_call["godot_symbol"], "source_unit_after_read_result.setTypeCall")
+
+        controller_unit = source_symbols.source_symbol(registry, "unit_after_read.controller_unit_call")
+        self.assertEqual(controller_unit["java_expr"], "controller.unit(self());")
+        self.assertEqual(controller_unit["godot_symbol"], "source_unit_after_read_result.controllerUnitCall")
+
+        reset_guard = source_symbols.source_symbol(registry, "unit_after_read.reset_guard")
+        self.assertEqual(reset_guard["java_expr"], "if(!(controller instanceof AIController ai && ai.keepState())){")
+        self.assertEqual(reset_guard["godot_symbol"], "source_unit_after_read_result.resetGuard")
+
+        create_controller = source_symbols.source_symbol(registry, "unit_after_read.create_controller_call")
+        self.assertEqual(create_controller["java_expr"], "controller(type.createController(self()));")
+        self.assertEqual(create_controller["godot_symbol"], "source_unit_after_read_result.createControllerCall")
+
+        keep_state = source_symbols.source_symbol(registry, "unit_after_read.ai_controller_keep_state_method")
+        self.assertEqual(keep_state["java_expr"], "public boolean keepState(){")
+        self.assertEqual(keep_state["java_source"], "core/src/mindustry/entities/units/AIController.java")
+
+        create_controller_method = source_symbols.source_symbol(registry, "unit_after_read.unit_type_create_controller_method")
+        self.assertEqual(create_controller_method["java_expr"], "public UnitController createController(Unit unit){")
+        self.assertEqual(create_controller_method["java_source"], "core/src/mindustry/type/UnitType.java")
+
     def test_turret_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11495,9 +11531,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 351)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 352)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 356)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 357)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11730,6 +11766,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_total_inaccuracy", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_add_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_after_read_all_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11855,6 +11892,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_total_inaccuracy", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_add_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_after_read_all_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_after_read_state", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -13210,6 +13248,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void afterReadAll(){", unit_after_read_all["exact_exprs"])
         self.assertIn("controller.afterRead(self());", unit_after_read_all["exact_exprs"])
         self.assertIn("default void afterRead(Unit unit){", unit_after_read_all["bridge_exprs"])
+
+        unit_after_read = source_symbols.source_slice(ledger, "N754")
+        self.assertEqual(unit_after_read["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_after_read["java_method"], "UnitComp.afterRead()")
+        self.assertEqual(unit_after_read["godot_owner"], "PortGame.source_unit_after_read_state")
+        self.assertIn("setType(this.type);", unit_after_read["exact_exprs"])
+        self.assertIn("controller.unit(self());", unit_after_read["exact_exprs"])
+        self.assertIn("if(!(controller instanceof AIController ai && ai.keepState())){", unit_after_read["exact_exprs"])
+        self.assertIn("controller(type.createController(self()));", unit_after_read["exact_exprs"])
+        self.assertIn("public boolean keepState(){", unit_after_read["bridge_exprs"])
+        self.assertIn("public UnitController createController(Unit unit){", unit_after_read["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -16477,6 +16526,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("call", unit_after_read_all["return_keys"])
         self.assertIn("afterReadArg", unit_after_read_all["return_keys"])
         self.assertEqual(unit_after_read_all["source_method"], "UnitComp.afterReadAll()")
+
+        unit_after_read = source_symbols.api_contract(contracts, "PortGame.source_unit_after_read_state")
+        self.assertEqual([param["name"] for param in unit_after_read["params"]], ["type_id", "controller_is_ai_controller", "ai_keep_state", "controller_exists"])
+        self.assertEqual(unit_after_read["params"][0]["schema"], "source_unit_after_read_input.type_id")
+        self.assertEqual(unit_after_read["params"][1]["schema"], "source_unit_after_read_input.controller_is_ai_controller")
+        self.assertEqual(unit_after_read["params"][2]["schema"], "source_unit_after_read_input.ai_keep_state")
+        self.assertEqual(unit_after_read["params"][3]["schema"], "source_unit_after_read_input.controller_exists")
+        self.assertIn("resetController", unit_after_read["return_keys"])
+        self.assertIn("call_order", unit_after_read["return_keys"])
+        self.assertIn("createControllerArg", unit_after_read["return_keys"])
+        self.assertEqual(unit_after_read["source_method"], "UnitComp.afterRead()")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -20246,6 +20306,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_after_read_all_result["keys"]["call"]["java_expr"], "controller.afterRead(self());")
         self.assertEqual(source_unit_after_read_all_result["keys"]["afterReadArg"]["java_expr"], "self()")
         self.assertEqual(source_unit_after_read_all_result["keys"]["unitControllerAfterReadMethod"]["java_expr"], "default void afterRead(Unit unit){")
+
+        source_unit_after_read_input = source_symbols.state_schema(schema, "source_unit_after_read_input")
+        self.assertEqual(source_unit_after_read_input["keys"]["type_id"]["java_expr"], "this.type")
+        self.assertEqual(source_unit_after_read_input["keys"]["controller_is_ai_controller"]["java_expr"], "controller instanceof AIController ai")
+        self.assertEqual(source_unit_after_read_input["keys"]["ai_keep_state"]["java_expr"], "ai.keepState()")
+        self.assertEqual(source_unit_after_read_input["keys"]["controller_exists"]["java_expr"], "controller")
+
+        source_unit_after_read_result = source_symbols.state_schema(schema, "source_unit_after_read_result")
+        self.assertEqual(source_unit_after_read_result["keys"]["setTypeCall"]["java_expr"], "setType(this.type);")
+        self.assertEqual(source_unit_after_read_result["keys"]["controllerUnitCall"]["java_expr"], "controller.unit(self());")
+        self.assertEqual(source_unit_after_read_result["keys"]["resetGuard"]["java_expr"], "if(!(controller instanceof AIController ai && ai.keepState())){")
+        self.assertEqual(source_unit_after_read_result["keys"]["createControllerCall"]["java_expr"], "controller(type.createController(self()));")
+        self.assertEqual(source_unit_after_read_result["keys"]["resetController"]["java_expr"], "!(controller instanceof AIController ai && ai.keepState())")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

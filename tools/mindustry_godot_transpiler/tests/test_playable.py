@@ -3515,10 +3515,17 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_after_read_state(type_id: int, controller_is_ai_controller: bool, ai_keep_state: bool, controller_exists: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_METHOD := "public void afterRead(){"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_SET_TYPE_CALL := "setType(this.type);"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_CONTROLLER_UNIT_CALL := "controller.unit(self());"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_RESET_GUARD := "if(!(controller instanceof AIController ai && ai.keepState())){"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_CREATE_CONTROLLER_CALL := "controller(type.createController(self()));"', source)
         self.assertIn("var reset_controller := not (controller_is_ai_controller and ai_keep_state)", source)
         self.assertIn('"call_order": ["setType", "controller.unit", "controller(type.createController)"] if reset_controller else ["setType", "controller.unit"]', source)
         self.assertIn('"resetController": reset_controller', source)
-        self.assertIn('"createControllerArg": "self()"', source)
+        self.assertIn('"setType_arg": SOURCE_UNIT_AFTER_READ_SET_TYPE_ARG', source)
+        self.assertIn('"controllerUnitArg": SOURCE_UNIT_AFTER_READ_SELF_ARG', source)
+        self.assertIn('"createControllerArg": SOURCE_UNIT_AFTER_READ_SELF_ARG', source)
         self.assertIn('"type_id": type_id', source)
 
     def test_port_game_exposes_source_unit_after_read_all_state(self):

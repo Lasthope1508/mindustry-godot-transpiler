@@ -9011,6 +9011,17 @@ func source_unit_after_sync_state(type_id: int, controller_exists: bool) -> Dict
 		"controllerUnitArg": "self()",
 	}
 
+const SOURCE_UNIT_AFTER_READ_METHOD := "public void afterRead(){"
+const SOURCE_UNIT_AFTER_READ_SET_TYPE_CALL := "setType(this.type);"
+const SOURCE_UNIT_AFTER_READ_SET_TYPE_ARG := "this.type"
+const SOURCE_UNIT_AFTER_READ_CONTROLLER_UNIT_CALL := "controller.unit(self());"
+const SOURCE_UNIT_AFTER_READ_SELF_ARG := "self()"
+const SOURCE_UNIT_AFTER_READ_RESET_COMMENT := "reset controller state"
+const SOURCE_UNIT_AFTER_READ_RESET_GUARD := "if(!(controller instanceof AIController ai && ai.keepState())){"
+const SOURCE_UNIT_AFTER_READ_CREATE_CONTROLLER_CALL := "controller(type.createController(self()));"
+const SOURCE_UNIT_AFTER_READ_AI_KEEP_STATE_METHOD := "public boolean keepState(){"
+const SOURCE_UNIT_AFTER_READ_UNIT_TYPE_CREATE_CONTROLLER_METHOD := "public UnitController createController(Unit unit){"
+
 func source_unit_after_read_state(type_id: int, controller_is_ai_controller: bool, ai_keep_state: bool, controller_exists: bool) -> Dictionary:
 	var reset_controller := not (controller_is_ai_controller and ai_keep_state)
 	return {
@@ -9020,9 +9031,9 @@ func source_unit_after_read_state(type_id: int, controller_is_ai_controller: boo
 		"aiKeepState": ai_keep_state,
 		"resetController": reset_controller,
 		"call_order": ["setType", "controller.unit", "controller(type.createController)"] if reset_controller else ["setType", "controller.unit"],
-		"setType_arg": "this.type",
-		"controllerUnitArg": "self()",
-		"createControllerArg": "self()",
+		"setType_arg": SOURCE_UNIT_AFTER_READ_SET_TYPE_ARG,
+		"controllerUnitArg": SOURCE_UNIT_AFTER_READ_SELF_ARG,
+		"createControllerArg": SOURCE_UNIT_AFTER_READ_SELF_ARG,
 	}
 
 const SOURCE_UNIT_AFTER_READ_ALL_OVERRIDE := "@Override"

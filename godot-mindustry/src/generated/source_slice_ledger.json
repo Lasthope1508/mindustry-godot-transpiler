@@ -11453,6 +11453,46 @@
         "test_unit_after_read_all_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_after_read_all_state"
       ]
+    },
+    "N754": {
+      "deferred_exprs": [
+        "AIController.unit(Unit unit) side effects this.unit = unit; init(); stay in controller implementation slice",
+        "UnitType.createController factory internals controller.get(unit) stay in unit type controller slice"
+      ],
+      "exact_exprs": [
+        "public void afterRead(){",
+        "setType(this.type);",
+        "controller.unit(self());",
+        "reset controller state",
+        "if(!(controller instanceof AIController ai && ai.keepState())){",
+        "controller(type.createController(self()));"
+      ],
+      "bridge_exprs": [
+        "void unit(Unit unit);",
+        "public boolean keepState(){",
+        "public UnitController createController(Unit unit){"
+      ],
+      "godot_owner": "PortGame.source_unit_after_read_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_after_read_state",
+      "source_symbols": [
+        "unit_after_read.method",
+        "unit_after_read.set_type_call",
+        "unit_after_read.controller_unit_call",
+        "unit_after_read.reset_comment",
+        "unit_after_read.reset_guard",
+        "unit_after_read.create_controller_call",
+        "unit_after_read.unit_controller_unit_method",
+        "unit_after_read.ai_controller_keep_state_method",
+        "unit_after_read.unit_type_create_controller_method"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_after_read_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_state"
+      ]
     }
   },
   "version": 1

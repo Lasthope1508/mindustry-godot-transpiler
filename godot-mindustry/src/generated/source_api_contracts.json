@@ -13073,6 +13073,51 @@
         "test_unit_after_read_all_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_after_read_all_state"
       ]
+    },
+    "PortGame.source_unit_after_read_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_id",
+          "schema": "source_unit_after_read_input.type_id",
+          "type": "int"
+        },
+        {
+          "name": "controller_is_ai_controller",
+          "schema": "source_unit_after_read_input.controller_is_ai_controller",
+          "type": "bool"
+        },
+        {
+          "name": "ai_keep_state",
+          "schema": "source_unit_after_read_input.ai_keep_state",
+          "type": "bool"
+        },
+        {
+          "name": "controller_exists",
+          "schema": "source_unit_after_read_input.controller_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "type_id",
+        "controller_exists",
+        "controllerIsAIController",
+        "aiKeepState",
+        "resetController",
+        "call_order",
+        "setType_arg",
+        "controllerUnitArg",
+        "createControllerArg"
+      ],
+      "rule": "Public runtime contract for UnitComp.afterRead type restore, controller self binding, and reset-controller guard.",
+      "runtime_proof": "/root/Main.source_unit_after_read_state",
+      "source_method": "UnitComp.afterRead()",
+      "source_slice": "N754",
+      "status": "active",
+      "tests": [
+        "test_unit_after_read_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_state"
+      ]
     }
   },
   "policy": {
