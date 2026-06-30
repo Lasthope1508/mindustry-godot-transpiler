@@ -10422,10 +10422,16 @@ func source_turret_inaccuracy(turret) -> float:
 		return 0.0
 	return float(turret.properties.get(SOURCE_TURRET_INACCURACY_KEY, SOURCE_TURRET_INACCURACY_DEFAULT))
 
+const SOURCE_TURRET_ROTATE_SPEED_FIELD := "public float rotateSpeed = 5;"
+const SOURCE_TURRET_ROTATE_SPEED_KEY := "rotateSpeed"
+const SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 5.0
+const SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE := "rotateSpeed = 10f;"
+const SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET := "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"
+
 func source_turret_rotate_speed(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get("rotateSpeed", 5.0))
+	return float(turret.properties.get(SOURCE_TURRET_ROTATE_SPEED_KEY, SOURCE_TURRET_ROTATE_SPEED_DEFAULT))
 
 func source_turret_shoot_cone(turret) -> float:
 	if turret == null:

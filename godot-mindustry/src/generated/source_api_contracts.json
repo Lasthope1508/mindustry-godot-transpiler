@@ -12849,6 +12849,34 @@
         "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_reload_multiplier"
       ]
+    },
+    "PortGame.source_turret_rotate_speed": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_rotate_speed_input.turret",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "rotateSpeed",
+        "duoValue",
+        "turnToTarget",
+        "field",
+        "key",
+        "default_value",
+        "turret"
+      ],
+      "rule": "Public runtime contract for turret rotateSpeed helper.",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "source_method": "field declaration/TurretBuild.turnToTarget()",
+      "source_slice": "N747",
+      "status": "active",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ]
     }
   },
   "policy": {

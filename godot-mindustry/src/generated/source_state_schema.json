@@ -45077,6 +45077,100 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_rotate_speed_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_recoil_input.turret",
+          "rule": "Carries Turret input into rotateSpeed helper.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_rotate_speed_result": {
+      "keys": {
+        "field": {
+          "godot_symbol": "source_turret_rotate_speed_result.field",
+          "java_expr": "public float rotateSpeed = 5;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "BaseTurret.rotateSpeed field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_rotate_speed"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_turret_rotate_speed_result.key",
+          "java_expr": "rotateSpeed",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Godot property key mirrors Java field name.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_rotate_speed"
+          ]
+        },
+        "default_value": {
+          "godot_symbol": "source_turret_rotate_speed_result.default_value",
+          "java_expr": "5",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Default rotateSpeed fallback.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_rotate_speed"
+          ]
+        },
+        "duoValue": {
+          "godot_symbol": "source_turret_rotate_speed_result.duoValue",
+          "java_expr": "rotateSpeed = 10f;",
+          "java_method": "Blocks.duo",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo rotateSpeed override.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_rotate_speed"
+          ]
+        },
+        "turnToTarget": {
+          "godot_symbol": "source_turret_rotate_speed_result.turnToTarget",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);",
+          "java_method": "TurretBuild.turnToTarget()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Turret rotation update formula.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_rotate_speed"
+          ]
+        },
+        "rotateSpeed": {
+          "godot_symbol": "source_turret_rotate_speed_result.rotateSpeed",
+          "java_expr": "rotateSpeed",
+          "java_method": "field declaration/TurretBuild.turnToTarget()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Returned rotateSpeed value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_rotate_speed"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_rotate_speed_input.turret",
+          "rule": "Carries Turret input into rotateSpeed result schema.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

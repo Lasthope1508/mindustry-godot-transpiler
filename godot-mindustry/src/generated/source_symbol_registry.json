@@ -35699,6 +35699,90 @@
       "rule": "Reuses canonical BulletType.reloadMultiplier result instead of duplicating the field owner.",
       "status": "source-backed",
       "alias_of": "bullet_reload_multiplier.result"
+    },
+    "turret_rotate_speed.field": {
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "godot_symbol": "source_turret_rotate_speed_result.field",
+      "java_method": "field declaration",
+      "java_expr": "public float rotateSpeed = 5;",
+      "rule": "BaseTurret.rotateSpeed field default is the turret rotation speed fallback."
+    },
+    "turret_rotate_speed.key": {
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "godot_symbol": "source_turret_rotate_speed_result.key",
+      "java_method": "field declaration",
+      "java_expr": "rotateSpeed",
+      "rule": "Godot content property key mirrors Java field name."
+    },
+    "turret_rotate_speed.default": {
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "godot_symbol": "source_turret_rotate_speed_result.default_value",
+      "java_method": "field declaration",
+      "java_expr": "5",
+      "rule": "BaseTurret.rotateSpeed default fallback is 5 degrees per tick unit."
+    },
+    "turret_rotate_speed.duo_value": {
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "godot_symbol": "source_turret_rotate_speed_result.duoValue",
+      "java_method": "Blocks.duo",
+      "java_expr": "rotateSpeed = 10f;",
+      "rule": "Duo overrides rotateSpeed to 10f in Blocks.java."
+    },
+    "turret_rotate_speed.turn_to_target": {
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_rotate_speed_result.turnToTarget",
+      "java_method": "TurretBuild.turnToTarget()",
+      "java_expr": "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);",
+      "rule": "Turret rotation moves toward target by rotateSpeed scaled by delta and potentialEfficiency."
+    },
+    "turret_rotate_speed.result": {
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "godot_symbol": "source_turret_rotate_speed_result.rotateSpeed",
+      "java_method": "field declaration/TurretBuild.turnToTarget()",
+      "java_expr": "rotateSpeed",
+      "rule": "Runtime helper returns source-backed turret rotateSpeed value."
     }
   },
   "version": 1

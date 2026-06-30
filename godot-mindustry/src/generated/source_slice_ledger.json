@@ -11201,6 +11201,37 @@
         "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_bullet_reload_multiplier"
       ]
+    },
+    "N747": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public float rotateSpeed = 5;",
+        "rotateSpeed",
+        "5",
+        "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"
+      ],
+      "bridge_exprs": [
+        "rotateSpeed = 10f;",
+        "source_move_angle_toward(current_rotation, target_rotation, source_turret_rotate_speed(duo) * delta * SOURCE_TICK_RATE)"
+      ],
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "field declaration/TurretBuild.turnToTarget()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "runtime_proof": "/root/Main.source_turret_rotate_speed",
+      "source_symbols": [
+        "turret_rotate_speed.field",
+        "turret_rotate_speed.key",
+        "turret_rotate_speed.default",
+        "turret_rotate_speed.duo_value",
+        "turret_rotate_speed.turn_to_target",
+        "turret_rotate_speed.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ]
     }
   },
   "version": 1
