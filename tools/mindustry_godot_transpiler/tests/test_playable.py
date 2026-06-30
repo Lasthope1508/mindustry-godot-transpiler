@@ -3477,6 +3477,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_UNIT_IS_MISSILE_METHOD := "public boolean isMissile(){"', source)
+        self.assertIn('const SOURCE_UNIT_IS_MISSILE_RETURN := "return this instanceof TimedKillc;"', source)
+        self.assertIn('const SOURCE_UNIT_IS_MISSILE_ENTITY_DEF := "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;"', source)
         self.assertIn("func source_unit_is_missile_state(unit_is_timed_killc: bool) -> Dictionary:", source)
         self.assertIn('"is_missile": unit_is_timed_killc', source)
         self.assertIn('"instanceof": "TimedKillc"', source)

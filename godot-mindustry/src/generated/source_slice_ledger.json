@@ -12750,6 +12750,36 @@
         "test_unit_is_grounded_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_grounded_flying_target_state"
       ]
+    },
+    "N785": {
+      "bridge_exprs": [
+        "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;"
+      ],
+      "deferred_exprs": [
+        "TimedKillc lifecycle remains owned by TimedKill component slices",
+        "MissileAI behavior remains owned by missile controller slices"
+      ],
+      "exact_exprs": [
+        "public boolean isMissile(){",
+        "return this instanceof TimedKillc;"
+      ],
+      "godot_owner": "PortGame.source_unit_is_missile_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.isMissile()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_is_missile_state",
+      "source_symbols": [
+        "unit_is_missile.entity_def",
+        "unit_is_missile.method",
+        "unit_is_missile.return",
+        "unit_is_missile.result",
+        "unit_is_missile.timed_killc_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_is_missile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_is_missile_state"
+      ]
     }
   },
   "version": 1

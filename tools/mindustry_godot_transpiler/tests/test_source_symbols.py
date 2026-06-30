@@ -5020,6 +5020,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(grounded["java_expr"], "return elevation < 0.001f;")
         self.assertEqual(grounded["godot_symbol"], "source_unit_is_grounded_result.grounded")
 
+    def test_unit_is_missile_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_is_missile.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["java_expr"], "public boolean isMissile(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_is_missile_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_is_missile_state")
+        self.assertEqual(method["godot_symbol"], "SOURCE_UNIT_IS_MISSILE_METHOD")
+
+        timed_killc = source_symbols.source_symbol(registry, "unit_is_missile.timed_killc_input")
+        self.assertEqual(timed_killc["status"], "explicit-input")
+        self.assertEqual(timed_killc["java_expr"], "this instanceof TimedKillc")
+        self.assertEqual(timed_killc["godot_symbol"], "source_unit_is_missile_input.unit_is_timed_killc")
+
+        return_expr = source_symbols.source_symbol(registry, "unit_is_missile.return")
+        self.assertEqual(return_expr["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(return_expr["java_expr"], "return this instanceof TimedKillc;")
+        self.assertEqual(return_expr["godot_symbol"], "SOURCE_UNIT_IS_MISSILE_RETURN")
+
+        entity_def = source_symbols.source_symbol(registry, "unit_is_missile.entity_def")
+        self.assertEqual(entity_def["java_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(entity_def["java_expr"], "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;")
+        self.assertEqual(entity_def["godot_symbol"], "SOURCE_UNIT_IS_MISSILE_ENTITY_DEF")
+
+        result = source_symbols.source_symbol(registry, "unit_is_missile.result")
+        self.assertEqual(result["java_expr"], "return this instanceof TimedKillc;")
+        self.assertEqual(result["godot_symbol"], "source_unit_is_missile_result.is_missile")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12910,9 +12942,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 382)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 383)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 387)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 388)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12952,6 +12984,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_icon_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_is_flying", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_is_grounded", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_is_missile_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14926,6 +14959,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean isGrounded(){", unit_is_grounded["exact_exprs"])
         self.assertIn("return elevation < 0.001f;", unit_is_grounded["exact_exprs"])
         self.assertIn("source_unit_is_flying remains separate owner", unit_is_grounded["deferred_exprs"])
+
+        unit_is_missile = source_symbols.source_slice(ledger, "N785")
+        self.assertEqual(unit_is_missile["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_is_missile["java_method"], "UnitComp.isMissile()")
+        self.assertEqual(unit_is_missile["godot_owner"], "PortGame.source_unit_is_missile_state")
+        self.assertIn("public boolean isMissile(){", unit_is_missile["exact_exprs"])
+        self.assertIn("return this instanceof TimedKillc;", unit_is_missile["exact_exprs"])
+        self.assertIn("public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;", unit_is_missile["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18346,6 +18387,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_is_grounded["params"][0]["schema"], "source_unit_is_grounded_input.elevation_value")
         self.assertIn("grounded", unit_is_grounded["return_keys"])
         self.assertEqual(unit_is_grounded["source_method"], "UnitComp.isGrounded()")
+
+        unit_is_missile = source_symbols.api_contract(contracts, "PortGame.source_unit_is_missile_state")
+        self.assertEqual([param["name"] for param in unit_is_missile["params"]], ["unit_is_timed_killc"])
+        self.assertEqual(unit_is_missile["params"][0]["schema"], "source_unit_is_missile_input.unit_is_timed_killc")
+        self.assertIn("is_missile", unit_is_missile["return_keys"])
+        self.assertIn("instanceof", unit_is_missile["return_keys"])
+        self.assertEqual(unit_is_missile["source_method"], "UnitComp.isMissile()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22495,6 +22543,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_is_grounded_result["keys"]["method"]["java_expr"], "public boolean isGrounded(){")
         self.assertEqual(source_unit_is_grounded_result["keys"]["groundedReturn"]["java_expr"], "return elevation < 0.001f;")
         self.assertEqual(source_unit_is_grounded_result["keys"]["grounded"]["java_expr"], "return elevation < 0.001f;")
+
+        source_unit_is_missile_input = source_symbols.state_schema(schema, "source_unit_is_missile_input")
+        self.assertEqual(source_unit_is_missile_input["keys"]["unit_is_timed_killc"]["java_expr"], "this instanceof TimedKillc")
+
+        source_unit_is_missile_result = source_symbols.state_schema(schema, "source_unit_is_missile_result")
+        self.assertEqual(source_unit_is_missile_result["keys"]["method"]["java_expr"], "public boolean isMissile(){")
+        self.assertEqual(source_unit_is_missile_result["keys"]["return"]["java_expr"], "return this instanceof TimedKillc;")
+        self.assertEqual(source_unit_is_missile_result["keys"]["is_missile"]["java_expr"], "return this instanceof TimedKillc;")
+        self.assertEqual(source_unit_is_missile_result["keys"]["entityDef"]["java_expr"], "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

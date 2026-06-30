@@ -14354,6 +14354,29 @@
         "test_unit_is_grounded_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_grounded_flying_target_state"
       ]
+    },
+    "PortGame.source_unit_is_missile_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "unit_is_timed_killc",
+          "schema": "source_unit_is_missile_input.unit_is_timed_killc",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "is_missile",
+        "instanceof"
+      ],
+      "rule": "Public runtime contract for UnitComp.isMissile() TimedKillc gate.",
+      "runtime_proof": "/root/Main.source_unit_is_missile_state",
+      "source_method": "UnitComp.isMissile()",
+      "source_slice": "N785",
+      "status": "active",
+      "tests": [
+        "test_unit_is_missile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_is_missile_state"
+      ]
     }
   },
   "policy": {

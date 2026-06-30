@@ -49836,6 +49836,92 @@
       "runtime_proof": "/root/Main.source_unit_is_grounded",
       "status": "active"
     },
+    "source_unit_is_missile_input": {
+      "keys": {
+        "unit_is_timed_killc": {
+          "godot_symbol": "source_unit_is_missile_input.unit_is_timed_killc",
+          "java_expr": "this instanceof TimedKillc",
+          "java_method": "UnitComp.isMissile()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit runtime fact for UnitComp TimedKillc instance check.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_is_missile_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_is_missile_state",
+      "runtime_proof": "/root/Main.source_unit_is_missile_state",
+      "status": "active"
+    },
+    "source_unit_is_missile_result": {
+      "keys": {
+        "entityDef": {
+          "godot_symbol": "source_unit_is_missile_result.entityDef",
+          "java_expr": "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;",
+          "java_method": "UnitTypes missile field",
+          "java_source": "core/src/mindustry/content/UnitTypes.java",
+          "rule": "UnitTypes missile entity definition includes TimedKillc component.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_missile_state"
+          ]
+        },
+        "instanceof": {
+          "godot_symbol": "source_unit_is_missile_result.instanceof",
+          "java_expr": "TimedKillc",
+          "java_method": "UnitComp.isMissile()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime exposes checked component name.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_missile_state"
+          ]
+        },
+        "is_missile": {
+          "godot_symbol": "source_unit_is_missile_result.is_missile",
+          "java_expr": "return this instanceof TimedKillc;",
+          "java_method": "UnitComp.isMissile()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for UnitComp.isMissile().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_is_missile_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_is_missile_result.method",
+          "java_expr": "public boolean isMissile(){",
+          "java_method": "UnitComp.isMissile()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isMissile method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_missile_state"
+          ]
+        },
+        "return": {
+          "godot_symbol": "source_unit_is_missile_result.return",
+          "java_expr": "return this instanceof TimedKillc;",
+          "java_method": "UnitComp.isMissile()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isMissile exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_missile_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_is_missile_state",
+      "runtime_proof": "/root/Main.source_unit_is_missile_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

@@ -4119,6 +4119,10 @@ func source_unit_command_state(controller_is_command_ai: bool) -> Dictionary:
 		"message": "Unit cannot be commanded - check isCommandable() first.",
 	}
 
+const SOURCE_UNIT_IS_MISSILE_METHOD := "public boolean isMissile(){"
+const SOURCE_UNIT_IS_MISSILE_RETURN := "return this instanceof TimedKillc;"
+const SOURCE_UNIT_IS_MISSILE_ENTITY_DEF := "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;"
+
 func source_unit_is_missile_state(unit_is_timed_killc: bool) -> Dictionary:
 	return {
 		"is_missile": unit_is_timed_killc,
