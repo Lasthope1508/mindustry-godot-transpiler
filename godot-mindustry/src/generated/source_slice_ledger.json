@@ -15020,6 +15020,47 @@
         "test_unit_update_walk_effect_matches_upstream_source"
       ],
       "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "N833": {
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_class": "arc.math.geom.Vec2",
+      "java_method": "Vec2.angle()",
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "exact_exprs": [
+        "public float angle(){",
+        "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+        "if(angle < 0) angle += 360;",
+        "return angle;"
+      ],
+      "bridge_exprs": [
+        "if(!vec.isZero()){",
+        "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+        "public static float atan2(float x, final float y){",
+        "public static final float radiansToDegrees = 180f / PI;"
+      ],
+      "deferred_exprs": [
+        "Native Godot atan2 keeps exact public runtime cardinal semantics; Arc approximation internals remain delegated to registered Mathf source.",
+        "Zero-vector rotateMove behavior remains owned by UnitComp.rotateMove non-zero guard."
+      ],
+      "source_symbols": [
+        "unit_vec2_angle.method",
+        "unit_vec2_angle.atan2_expr",
+        "unit_vec2_angle.negative_wrap",
+        "unit_vec2_angle.return_angle",
+        "unit_vec2_angle.x_input",
+        "unit_vec2_angle.y_input",
+        "unit_vec2_angle.mathf_atan2",
+        "unit_vec2_angle.radians_to_degrees",
+        "unit_vec2_angle.rotate_move_guard",
+        "unit_vec2_angle.rotate_move_angle_call"
+      ],
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_vec2_angle"
     }
   },
   "version": 1

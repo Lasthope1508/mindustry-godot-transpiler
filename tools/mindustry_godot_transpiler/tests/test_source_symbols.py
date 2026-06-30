@@ -6268,6 +6268,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_random_body["java_source"], "arc-core/src/arc/math/Mathf.java")
         self.assertEqual(mathf_random_body["godot_symbol"], "source_unit_update_walk_effect_input.random_pitch_value")
 
+    def test_unit_vec2_angle_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_vec2_angle.method")
+        self.assertEqual(method["java_expr"], "public float angle(){\n        float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;\n        if(angle < 0) angle += 360;\n        return angle;\n    }")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(method["java_method"], "Vec2.angle()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_vec2_angle")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_vec2_angle")
+        self.assertEqual(method["godot_symbol"], "source_unit_vec2_angle_result.angle")
+
+        atan2_expr = source_symbols.source_symbol(registry, "unit_vec2_angle.atan2_expr")
+        self.assertEqual(atan2_expr["java_expr"], "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;")
+        self.assertEqual(atan2_expr["godot_symbol"], "source_unit_vec2_angle_result.rawAngle")
+
+        negative_wrap = source_symbols.source_symbol(registry, "unit_vec2_angle.negative_wrap")
+        self.assertEqual(negative_wrap["java_expr"], "if(angle < 0) angle += 360;")
+        self.assertEqual(negative_wrap["godot_symbol"], "source_unit_vec2_angle_result.negativeWrap")
+
+        vec_x = source_symbols.source_symbol(registry, "unit_vec2_angle.x_input")
+        self.assertEqual(vec_x["status"], "explicit-input")
+        self.assertEqual(vec_x["java_expr"], "x")
+        self.assertEqual(vec_x["godot_symbol"], "source_unit_vec2_angle_input.vec_x")
+
+        vec_y = source_symbols.source_symbol(registry, "unit_vec2_angle.y_input")
+        self.assertEqual(vec_y["status"], "explicit-input")
+        self.assertEqual(vec_y["java_expr"], "y")
+        self.assertEqual(vec_y["godot_symbol"], "source_unit_vec2_angle_input.vec_y")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14740,9 +14772,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 430)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 431)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 435)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 436)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14784,6 +14816,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_type_hook_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_unsupported_env_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_walk_effect_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_vec2_angle", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17401,6 +17434,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return (float)Math.sqrt(x1 * x1 + y1*y1);", unit_update_walk_effect["bridge_exprs"])
         self.assertIn("return start + rand.nextFloat() * (end - start);", unit_update_walk_effect["bridge_exprs"])
         self.assertIn("Live effect rendering, sound playback, and random pitch sampling remain explicit inputs/call records.", unit_update_walk_effect["deferred_exprs"])
+
+        unit_vec2_angle = source_symbols.source_slice(ledger, "N833")
+        self.assertEqual(unit_vec2_angle["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(unit_vec2_angle["java_method"], "Vec2.angle()")
+        self.assertEqual(unit_vec2_angle["godot_owner"], "PortGame.source_unit_vec2_angle")
+        self.assertIn("public float angle(){", unit_vec2_angle["exact_exprs"])
+        self.assertIn("float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;", unit_vec2_angle["exact_exprs"])
+        self.assertIn("if(angle < 0) angle += 360;", unit_vec2_angle["exact_exprs"])
+        self.assertIn("return angle;", unit_vec2_angle["exact_exprs"])
+        self.assertIn("public static float atan2(float x, final float y){", unit_vec2_angle["bridge_exprs"])
+        self.assertIn("public static final float radiansToDegrees = 180f / PI;", unit_vec2_angle["bridge_exprs"])
+        self.assertIn("Native Godot atan2 keeps exact public runtime cardinal semantics; Arc approximation internals remain delegated to registered Mathf source.", unit_vec2_angle["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21478,6 +21523,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_walk_effect["return_keys"])
         self.assertNotIn("current_splash_timer", unit_update_walk_effect["return_keys"])
         self.assertEqual(unit_update_walk_effect["source_method"], "UnitComp.update() walk effect")
+
+        unit_vec2_angle = source_symbols.api_contract(contracts, "PortGame.source_unit_vec2_angle")
+        self.assertEqual([param["name"] for param in unit_vec2_angle["params"]], ["vec_x", "vec_y"])
+        self.assertEqual(unit_vec2_angle["params"][0]["schema"], "source_unit_vec2_angle_input.vec_x")
+        self.assertEqual(unit_vec2_angle["params"][1]["schema"], "source_unit_vec2_angle_input.vec_y")
+        self.assertIn("angle", unit_vec2_angle["return_keys"])
+        self.assertEqual(unit_vec2_angle["source_method"], "Vec2.angle()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -26398,6 +26450,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_walk_effect_result["keys"]["walkEffect"]["java_expr"], "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);")
         self.assertEqual(source_unit_update_walk_effect_result["keys"]["walkSound"]["java_expr"], "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);")
         self.assertNotIn("current_splash_timer", source_unit_update_walk_effect_result["keys"])
+
+        source_unit_vec2_angle_input = source_symbols.state_schema(schema, "source_unit_vec2_angle_input")
+        self.assertEqual(source_unit_vec2_angle_input["keys"]["vec_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_vec2_angle_input["keys"]["vec_y"]["java_expr"], "y")
+
+        source_unit_vec2_angle_result = source_symbols.state_schema(schema, "source_unit_vec2_angle_result")
+        self.assertEqual(source_unit_vec2_angle_result["keys"]["rawAngle"]["java_expr"], "Mathf.atan2(x, y) * Mathf.radiansToDegrees")
+        self.assertEqual(source_unit_vec2_angle_result["keys"]["negativeWrap"]["java_expr"], "if(angle < 0) angle += 360;")
+        self.assertEqual(source_unit_vec2_angle_result["keys"]["angle"]["java_expr"], "return angle;")
+        self.assertNotIn("vec_x", source_unit_vec2_angle_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

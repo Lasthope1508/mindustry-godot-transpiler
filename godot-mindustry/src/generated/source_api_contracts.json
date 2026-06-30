@@ -16696,6 +16696,36 @@
       ],
       "runtime_proof": "/root/Main.source_unit_update_walk_effect_state",
       "rule": "Public runtime contract for UnitComp.update walk effect and sound state."
+    },
+    "PortGame.source_unit_vec2_angle": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "params": [
+        {
+          "name": "vec_x",
+          "schema": "source_unit_vec2_angle_input.vec_x",
+          "type": "float"
+        },
+        {
+          "name": "vec_y",
+          "schema": "source_unit_vec2_angle_input.vec_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "rawAngle",
+        "negativeWrap",
+        "angle"
+      ],
+      "rule": "Public runtime contract for Arc Vec2.angle helper used by UnitComp.rotateMove.",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "source_method": "Vec2.angle()",
+      "source_slice": "N833",
+      "status": "active",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ]
     }
   },
   "policy": {

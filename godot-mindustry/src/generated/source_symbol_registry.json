@@ -51183,6 +51183,156 @@
         "test_unit_update_walk_effect_matches_upstream_source"
       ],
       "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_vec2_angle.method": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Vec2.angle()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_result.angle",
+      "java_expr": "public float angle(){\n        float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;\n        if(angle < 0) angle += 360;\n        return angle;\n    }",
+      "rule": "Vec2.angle computes vector angle in degrees, wraps negative values, and returns the final angle.",
+      "status": "source-backed"
+    },
+    "unit_vec2_angle.atan2_expr": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Vec2.angle()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_result.rawAngle",
+      "java_expr": "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+      "rule": "Raw vector angle before negative wrap.",
+      "status": "source-backed"
+    },
+    "unit_vec2_angle.negative_wrap": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Vec2.angle()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_result.negativeWrap",
+      "java_expr": "if(angle < 0) angle += 360;",
+      "rule": "Negative raw angles are wrapped into the 0..360 range.",
+      "status": "source-backed"
+    },
+    "unit_vec2_angle.return_angle": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Vec2.angle()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_result.angle",
+      "java_expr": "return angle;",
+      "rule": "Final wrapped angle return.",
+      "status": "source-backed"
+    },
+    "unit_vec2_angle.x_input": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Vec2.angle()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_input.vec_x",
+      "java_expr": "x",
+      "rule": "Vec2 x component is passed explicitly into the runtime helper.",
+      "status": "explicit-input"
+    },
+    "unit_vec2_angle.y_input": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Vec2.angle()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_input.vec_y",
+      "java_expr": "y",
+      "rule": "Vec2 y component is passed explicitly into the runtime helper.",
+      "status": "explicit-input"
+    },
+    "unit_vec2_angle.mathf_atan2": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Mathf.atan2(float x, final float y)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_result.rawAngle",
+      "java_expr": "public static float atan2(float x, final float y){",
+      "rule": "Vec2.angle delegates raw angle radians to Arc Mathf.atan2.",
+      "status": "source-backed"
+    },
+    "unit_vec2_angle.radians_to_degrees": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "Mathf.radiansToDegrees constant",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_vec2_angle_result.rawAngle",
+      "java_expr": "public static final float radiansToDegrees = 180f / PI;",
+      "rule": "Vec2.angle converts radians to degrees with the Arc radiansToDegrees constant.",
+      "status": "source-backed"
+    },
+    "unit_vec2_angle.rotate_move_guard": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "UnitComp.rotateMove(Vec2 vec)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_rotate_move_rotation_result.vector_is_zero",
+      "java_expr": "if(!vec.isZero()){",
+      "rule": "Mindustry caller only invokes vec.angle() through the non-zero vector guard.",
+      "status": "source-backed"
+    },
+    "unit_vec2_angle.rotate_move_angle_call": {
+      "godot_owner": "PortGame.source_unit_vec2_angle",
+      "java_method": "UnitComp.rotateMove(Vec2 vec)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_vec2_angle",
+      "tests": [
+        "test_unit_vec2_angle_symbols_are_registered_with_source_backing",
+        "test_unit_vec2_angle_matches_upstream_source",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ],
+      "godot_symbol": "source_unit_rotate_move_rotation_result.target_rotation",
+      "java_expr": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+      "rule": "Unit rotation target uses Vec2.angle inside rotateMove.",
+      "status": "source-backed"
     }
   },
   "version": 1

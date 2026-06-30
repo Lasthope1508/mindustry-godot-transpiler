@@ -148,6 +148,25 @@ class SourceParityTests(unittest.TestCase):
             "progress": "progress += delta() * dominantItems * speed * warmup;",
         })
 
+    def test_unit_vec2_angle_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_vec2_angle_source"))
+        report = source_parity.verify_unit_vec2_angle_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(report["vec2_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "rotate_move_guard": "if(!vec.isZero()){",
+            "rotate_move_angle_call": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+            "vec2_angle_method": "public float angle(){",
+            "vec2_angle_expr": "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+            "vec2_angle_negative_wrap": "if(angle < 0) angle += 360;",
+            "vec2_angle_return": "return angle;",
+            "mathf_atan2_method": "public static float atan2(float x, final float y){",
+            "mathf_radians_to_degrees": "public static final float radiansToDegrees = 180f / PI;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_warmup_source"))
         report = source_parity.verify_drill_warmup_source(ROOT / "mindustry-upstream")

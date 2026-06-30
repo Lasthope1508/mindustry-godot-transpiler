@@ -142,6 +142,42 @@ def verify_drill_delta_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_vec2_angle_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    unit_path = Path(upstream_root) / UNIT_COMP_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    unit_source = unit_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "rotate_move_guard": "if(!vec.isZero()){",
+        "rotate_move_angle_call": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+        "vec2_angle_method": "public float angle(){",
+        "vec2_angle_expr": "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+        "vec2_angle_negative_wrap": "if(angle < 0) angle += 360;",
+        "vec2_angle_return": "return angle;",
+        "mathf_atan2_method": "public static float atan2(float x, final float y){",
+        "mathf_radians_to_degrees": "public static final float radiansToDegrees = 180f / PI;",
+    }
+    source_by_key = {
+        "rotate_move_guard": unit_source,
+        "rotate_move_angle_call": unit_source,
+        "vec2_angle_method": vec2_source,
+        "vec2_angle_expr": vec2_source,
+        "vec2_angle_negative_wrap": vec2_source,
+        "vec2_angle_return": vec2_source,
+        "mathf_atan2_method": mathf_source,
+        "mathf_radians_to_degrees": mathf_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": UNIT_COMP_SOURCE,
+        "vec2_source": ARC_VEC2_SOURCE,
+        "mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_drill_warmup_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / DRILL_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

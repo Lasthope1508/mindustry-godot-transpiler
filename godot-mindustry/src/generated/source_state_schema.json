@@ -60196,6 +60196,76 @@
           "rule": "Recorded floor walk sound call when sound gate passes."
         }
       }
+    },
+    "source_unit_vec2_angle_input": {
+      "status": "active",
+      "keys": {
+        "vec_x": {
+          "godot_symbol": "source_unit_vec2_angle_input.vec_x",
+          "java_expr": "x",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 x component runtime input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_vec2_angle"
+          ]
+        },
+        "vec_y": {
+          "godot_symbol": "source_unit_vec2_angle_input.vec_y",
+          "java_expr": "y",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 y component runtime input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_vec2_angle"
+          ]
+        }
+      }
+    },
+    "source_unit_vec2_angle_result": {
+      "status": "active",
+      "keys": {
+        "rawAngle": {
+          "godot_symbol": "source_unit_vec2_angle_result.rawAngle",
+          "java_expr": "Mathf.atan2(x, y) * Mathf.radiansToDegrees",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Raw Vec2 angle before negative wrap.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_vec2_angle"
+          ]
+        },
+        "negativeWrap": {
+          "godot_symbol": "source_unit_vec2_angle_result.negativeWrap",
+          "java_expr": "if(angle < 0) angle += 360;",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Whether Vec2.angle applies negative angle wrap.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_vec2_angle"
+          ]
+        },
+        "angle": {
+          "godot_symbol": "source_unit_vec2_angle_result.angle",
+          "java_expr": "return angle;",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Final Vec2.angle return value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_vec2_angle"
+          ]
+        }
+      }
     }
   },
   "version": 1
