@@ -9086,9 +9086,14 @@ func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_s
 		"initBoundarySource": "public void init(Bullet b){",
 	}
 
+const SOURCE_UNIT_PLAYER_CONTROLLABLE_METHOD := "public boolean playerControllable(){"
+const SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN := "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);"
+
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
 	return {
+		"method": SOURCE_UNIT_PLAYER_CONTROLLABLE_METHOD,
+		"returnExpr": SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN,
 		"playerControllable": type_player_controllable and not logic_privileged_blocked,
 		"logicPrivilegedBlocked": logic_privileged_blocked,
 		"call": "playerControllable()",

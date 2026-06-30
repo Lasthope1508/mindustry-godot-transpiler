@@ -3553,7 +3553,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_PLAYER_CONTROLLABLE_METHOD := "public boolean playerControllable(){"', source)
+        self.assertIn('const SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN := "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);"', source)
         self.assertIn("var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged", source)
+        self.assertIn('"method": SOURCE_UNIT_PLAYER_CONTROLLABLE_METHOD', source)
+        self.assertIn('"returnExpr": SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN', source)
         self.assertIn('"playerControllable": type_player_controllable and not logic_privileged_blocked', source)
         self.assertIn('"logicPrivilegedBlocked": logic_privileged_blocked', source)
         self.assertIn('"call": "playerControllable()"', source)

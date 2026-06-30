@@ -4809,6 +4809,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rotate_move_call["java_expr"], "rotateMove(movement);")
         self.assertEqual(rotate_move_call["godot_symbol"], "source_unit_move_pref_result.rotateMoveCall")
 
+    def test_unit_player_controllable_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_player_controllable.method")
+        self.assertEqual(method["java_expr"], "public boolean playerControllable(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_player_controllable_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_player_controllable_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_player_controllable_result.method")
+
+        source_return = source_symbols.source_symbol(registry, "unit_player_controllable.return")
+        self.assertEqual(source_return["java_expr"], "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);")
+        self.assertEqual(source_return["godot_symbol"], "source_unit_player_controllable_result.returnExpr")
+
+        type_field = source_symbols.source_symbol(registry, "unit_player_controllable.type_field")
+        self.assertEqual(type_field["java_expr"], "playerControllable = true,")
+        self.assertEqual(type_field["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        block_privileged = source_symbols.source_symbol(registry, "unit_player_controllable.block_privileged")
+        self.assertEqual(block_privileged["java_expr"], "public boolean privileged = false;")
+        self.assertEqual(block_privileged["java_source"], "core/src/mindustry/world/Block.java")
+
     def test_unit_approach_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13153,9 +13177,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 393)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 394)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 398)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 399)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13206,6 +13230,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_move_at_default_accel_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_move_at_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_move_pref_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_player_controllable_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15309,6 +15334,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotateMove(movement);", unit_move_pref["exact_exprs"])
         self.assertIn("UnitComp.moveAt(Vec2 vector)", unit_move_pref["deferred_exprs"])
         self.assertIn("UnitComp.rotateMove(Vec2 vec)", unit_move_pref["deferred_exprs"])
+
+        unit_player_controllable = source_symbols.source_slice(ledger, "N796")
+        self.assertEqual(unit_player_controllable["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_player_controllable["java_method"], "UnitComp.playerControllable()")
+        self.assertEqual(unit_player_controllable["godot_owner"], "PortGame.source_unit_player_controllable_state")
+        self.assertIn("public boolean playerControllable(){", unit_player_controllable["exact_exprs"])
+        self.assertIn("return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);", unit_player_controllable["exact_exprs"])
+        self.assertIn("playerControllable = true,", unit_player_controllable["bridge_exprs"])
+        self.assertIn("public class LogicAI extends AIController{", unit_player_controllable["bridge_exprs"])
+        self.assertIn("public @Nullable Building controller;", unit_player_controllable["bridge_exprs"])
+        self.assertIn("public boolean privileged = false;", unit_player_controllable["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18869,6 +18905,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("movement", unit_move_pref["return_keys"])
         self.assertIn("call", unit_move_pref["return_keys"])
         self.assertEqual(unit_move_pref["source_method"], "UnitComp.movePref(Vec2 movement)")
+
+        unit_player_controllable = source_symbols.api_contract(contracts, "PortGame.source_unit_player_controllable_state")
+        self.assertEqual([param["name"] for param in unit_player_controllable["params"]], ["type_player_controllable", "controller_is_logic_ai", "logic_controller_exists", "logic_controller_block_privileged"])
+        self.assertEqual(unit_player_controllable["params"][0]["schema"], "source_unit_player_controllable_input.type_player_controllable")
+        self.assertEqual(unit_player_controllable["params"][1]["schema"], "source_unit_player_controllable_input.controller_is_logic_ai")
+        self.assertEqual(unit_player_controllable["params"][2]["schema"], "source_unit_player_controllable_input.logic_controller_exists")
+        self.assertEqual(unit_player_controllable["params"][3]["schema"], "source_unit_player_controllable_input.logic_controller_block_privileged")
+        self.assertIn("method", unit_player_controllable["return_keys"])
+        self.assertIn("returnExpr", unit_player_controllable["return_keys"])
+        self.assertIn("playerControllable", unit_player_controllable["return_keys"])
+        self.assertIn("logicPrivilegedBlocked", unit_player_controllable["return_keys"])
+        self.assertIn("call", unit_player_controllable["return_keys"])
+        self.assertEqual(unit_player_controllable["source_method"], "UnitComp.playerControllable()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23166,6 +23215,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_move_pref_result["keys"]["moveAtCall"]["java_expr"], "moveAt(movement);")
         self.assertEqual(source_unit_move_pref_result["keys"]["rotateMoveCall"]["java_expr"], "rotateMove(movement);")
         self.assertEqual(source_unit_move_pref_result["keys"]["call"]["java_expr"], "type.omniMovement ? moveAt(movement) : rotateMove(movement)")
+
+        source_unit_player_controllable_input = source_symbols.state_schema(schema, "source_unit_player_controllable_input")
+        self.assertEqual(source_unit_player_controllable_input["keys"]["type_player_controllable"]["java_expr"], "type.playerControllable")
+        self.assertEqual(source_unit_player_controllable_input["keys"]["controller_is_logic_ai"]["java_expr"], "controller instanceof LogicAI ai")
+        self.assertEqual(source_unit_player_controllable_input["keys"]["logic_controller_exists"]["java_expr"], "ai.controller != null")
+        self.assertEqual(source_unit_player_controllable_input["keys"]["logic_controller_block_privileged"]["java_expr"], "ai.controller.block.privileged")
+
+        source_unit_player_controllable_result = source_symbols.state_schema(schema, "source_unit_player_controllable_result")
+        self.assertEqual(source_unit_player_controllable_result["keys"]["method"]["java_expr"], "public boolean playerControllable(){")
+        self.assertEqual(source_unit_player_controllable_result["keys"]["returnExpr"]["java_expr"], "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);")
+        self.assertEqual(source_unit_player_controllable_result["keys"]["logicPrivilegedBlocked"]["java_expr"], "controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged")
+        self.assertEqual(source_unit_player_controllable_result["keys"]["playerControllable"]["java_expr"], "type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged)")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

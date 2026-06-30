@@ -51884,6 +51884,128 @@
       "runtime_proof": "/root/Main.source_unit_move_pref_state",
       "status": "active"
     },
+    "source_unit_player_controllable_input": {
+      "keys": {
+        "controller_is_logic_ai": {
+          "godot_symbol": "source_unit_player_controllable_input.controller_is_logic_ai",
+          "java_expr": "controller instanceof LogicAI ai",
+          "java_method": "LogicAI",
+          "java_source": "core/src/mindustry/ai/types/LogicAI.java",
+          "rule": "Runtime controller LogicAI type check.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        },
+        "logic_controller_block_privileged": {
+          "godot_symbol": "source_unit_player_controllable_input.logic_controller_block_privileged",
+          "java_expr": "ai.controller.block.privileged",
+          "java_method": "Block.privileged",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Runtime LogicAI controller block privileged value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        },
+        "logic_controller_exists": {
+          "godot_symbol": "source_unit_player_controllable_input.logic_controller_exists",
+          "java_expr": "ai.controller != null",
+          "java_method": "LogicAI.controller",
+          "java_source": "core/src/mindustry/ai/types/LogicAI.java",
+          "rule": "Runtime LogicAI controller null check.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        },
+        "type_player_controllable": {
+          "godot_symbol": "source_unit_player_controllable_input.type_player_controllable",
+          "java_expr": "type.playerControllable",
+          "java_method": "UnitType.playerControllable",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime UnitType.playerControllable value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_player_controllable_state",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "active"
+    },
+    "source_unit_player_controllable_result": {
+      "keys": {
+        "call": {
+          "godot_symbol": "source_unit_player_controllable_result.call",
+          "java_expr": "playerControllable()",
+          "java_method": "UnitComp.playerControllable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime call label.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        },
+        "logicPrivilegedBlocked": {
+          "godot_symbol": "source_unit_player_controllable_result.logicPrivilegedBlocked",
+          "java_expr": "controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged",
+          "java_method": "UnitComp.playerControllable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Logic controller privileged block subpredicate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_player_controllable_result.method",
+          "java_expr": "public boolean playerControllable(){",
+          "java_method": "UnitComp.playerControllable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp playerControllable method header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        },
+        "playerControllable": {
+          "godot_symbol": "source_unit_player_controllable_result.playerControllable",
+          "java_expr": "type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged)",
+          "java_method": "UnitComp.playerControllable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source return predicate value.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        },
+        "returnExpr": {
+          "godot_symbol": "source_unit_player_controllable_result.returnExpr",
+          "java_expr": "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);",
+          "java_method": "UnitComp.playerControllable()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Exact source return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_player_controllable_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_player_controllable_state",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

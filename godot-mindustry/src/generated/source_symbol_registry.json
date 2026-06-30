@@ -40956,6 +40956,90 @@
         "test_port_game_exposes_source_unit_move_pref_state"
       ]
     },
+    "unit_player_controllable.block_privileged": {
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "godot_symbol": "source_unit_player_controllable_input.logic_controller_block_privileged",
+      "java_expr": "public boolean privileged = false;",
+      "java_method": "Block.privileged",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Block privileged field backing.",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
+    },
+    "unit_player_controllable.logic_ai_class": {
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "godot_symbol": "source_unit_player_controllable_input.controller_is_logic_ai",
+      "java_expr": "public class LogicAI extends AIController{",
+      "java_method": "LogicAI",
+      "java_source": "core/src/mindustry/ai/types/LogicAI.java",
+      "rule": "LogicAI type check backing.",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
+    },
+    "unit_player_controllable.logic_ai_controller": {
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "godot_symbol": "source_unit_player_controllable_input.logic_controller_exists",
+      "java_expr": "public @Nullable Building controller;",
+      "java_method": "LogicAI.controller",
+      "java_source": "core/src/mindustry/ai/types/LogicAI.java",
+      "rule": "LogicAI controller field backing.",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
+    },
+    "unit_player_controllable.method": {
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "godot_symbol": "source_unit_player_controllable_result.method",
+      "java_expr": "public boolean playerControllable(){",
+      "java_method": "UnitComp.playerControllable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp playerControllable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
+    },
+    "unit_player_controllable.return": {
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "godot_symbol": "source_unit_player_controllable_result.returnExpr",
+      "java_expr": "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);",
+      "java_method": "UnitComp.playerControllable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp playerControllable return predicate.",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
+    },
+    "unit_player_controllable.type_field": {
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "godot_symbol": "source_unit_player_controllable_input.type_player_controllable",
+      "java_expr": "playerControllable = true,",
+      "java_method": "UnitType.playerControllable",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType playerControllable backing field.",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

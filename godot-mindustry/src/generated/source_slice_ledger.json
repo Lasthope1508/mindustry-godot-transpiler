@@ -13186,6 +13186,40 @@
         "test_unit_move_pref_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_move_pref_state"
       ]
+    },
+    "N796": {
+      "bridge_exprs": [
+        "playerControllable = true,",
+        "public class LogicAI extends AIController{",
+        "public @Nullable Building controller;",
+        "public boolean privileged = false;"
+      ],
+      "deferred_exprs": [
+        "Controller creation and LogicAI behavior remain separate owners",
+        "Block privilege meaning remains world Block owner"
+      ],
+      "exact_exprs": [
+        "public boolean playerControllable(){",
+        "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);"
+      ],
+      "godot_owner": "PortGame.source_unit_player_controllable_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.playerControllable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "source_symbols": [
+        "unit_player_controllable.block_privileged",
+        "unit_player_controllable.logic_ai_class",
+        "unit_player_controllable.logic_ai_controller",
+        "unit_player_controllable.method",
+        "unit_player_controllable.return",
+        "unit_player_controllable.type_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
     }
   },
   "version": 1

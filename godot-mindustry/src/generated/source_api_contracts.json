@@ -14823,6 +14823,47 @@
         "test_unit_move_pref_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_move_pref_state"
       ]
+    },
+    "PortGame.source_unit_player_controllable_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_player_controllable",
+          "schema": "source_unit_player_controllable_input.type_player_controllable",
+          "type": "bool"
+        },
+        {
+          "name": "controller_is_logic_ai",
+          "schema": "source_unit_player_controllable_input.controller_is_logic_ai",
+          "type": "bool"
+        },
+        {
+          "name": "logic_controller_exists",
+          "schema": "source_unit_player_controllable_input.logic_controller_exists",
+          "type": "bool"
+        },
+        {
+          "name": "logic_controller_block_privileged",
+          "schema": "source_unit_player_controllable_input.logic_controller_block_privileged",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "returnExpr",
+        "playerControllable",
+        "logicPrivilegedBlocked",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.playerControllable() logic-controller privileged block gate.",
+      "runtime_proof": "/root/Main.source_unit_player_controllable_state",
+      "source_method": "UnitComp.playerControllable()",
+      "source_slice": "N796",
+      "status": "active",
+      "tests": [
+        "test_unit_player_controllable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_player_controllable_state"
+      ]
     }
   },
   "policy": {
