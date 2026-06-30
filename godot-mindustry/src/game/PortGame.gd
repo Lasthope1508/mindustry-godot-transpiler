@@ -10169,6 +10169,16 @@ func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, mo
 		"call": "moveAt" if type_omni_movement else "rotateMove",
 	}
 
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_METHOD := "public float floorSpeedMultiplier(){"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_FLOOR_CHOICE := "Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_RETURN := "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_TYPE_HOVERING := "type.hovering"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_FLOOR_SPEED := "on.speedMultiplier"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_TYPE_FLOOR_MULTIPLIER := "floorMultiplier = 1f,"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_FLOOR_SPEED_DEFAULT := "public float speedMultiplier = 1f;"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_BLOCK_AS_FLOOR := "public Floor asFloor(){"
+const SOURCE_UNIT_FLOOR_SPEED_MULTIPLIER_SPEED_MULTIPLIER := "speedMultiplier"
+
 func source_unit_floor_speed_multiplier_state(elevation_value: float, type_hovering: bool, floor_on_speed_multiplier: float, type_floor_multiplier: float, speed_multiplier_value: float) -> Dictionary:
 	var flying: bool = source_unit_is_flying(elevation_value)
 	var uses_air_floor: bool = flying or type_hovering

@@ -12475,6 +12475,50 @@
         "test_unit_drown_floor_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_drown_floor_state"
       ]
+    },
+    "N777": {
+      "bridge_exprs": [
+        "isFlying()",
+        "type.hovering",
+        "Blocks.air.asFloor()",
+        "floorOn()",
+        "public Floor asFloor(){",
+        "public float speedMultiplier = 1f;",
+        "floorMultiplier = 1f,",
+        "speedMultiplier"
+      ],
+      "deferred_exprs": [
+        "UnitComp.isFlying() body remains owned by source_unit_is_flying.",
+        "floorOn() mechanics remain owned by N776/floor lookup/runtime tile slices.",
+        "Tank/Crawl/WaterMove/WaterCrawl floorSpeedMultiplier overrides remain separate component slices",
+        "StatusComp.update() speedMultiplier status pipeline remains separate status slice"
+      ],
+      "exact_exprs": [
+        "public float floorSpeedMultiplier(){",
+        "Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();",
+        "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;"
+      ],
+      "godot_owner": "PortGame.source_unit_floor_speed_multiplier_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.floorSpeedMultiplier()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_floor_speed_multiplier_state",
+      "source_symbols": [
+        "unit_floor_speed_multiplier.block_as_floor",
+        "unit_floor_speed_multiplier.floor_choice",
+        "unit_floor_speed_multiplier.floor_on_speed_multiplier",
+        "unit_floor_speed_multiplier.floor_speed_multiplier_default",
+        "unit_floor_speed_multiplier.method",
+        "unit_floor_speed_multiplier.return",
+        "unit_floor_speed_multiplier.speed_multiplier",
+        "unit_floor_speed_multiplier.type_floor_multiplier",
+        "unit_floor_speed_multiplier.type_hovering"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_floor_speed_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_floor_speed_multiplier_state"
+      ]
     }
   },
   "version": 1

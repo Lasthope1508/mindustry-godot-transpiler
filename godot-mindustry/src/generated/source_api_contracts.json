@@ -14112,6 +14112,51 @@
         "test_unit_drown_floor_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_drown_floor_state"
       ]
+    },
+    "PortGame.source_unit_floor_speed_multiplier_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_floor_speed_multiplier_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_hovering",
+          "schema": "source_unit_floor_speed_multiplier_input.type_hovering",
+          "type": "bool"
+        },
+        {
+          "name": "floor_on_speed_multiplier",
+          "schema": "source_unit_floor_speed_multiplier_input.floor_on_speed_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "type_floor_multiplier",
+          "schema": "source_unit_floor_speed_multiplier_input.type_floor_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_floor_speed_multiplier_input.speed_multiplier_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "flying",
+        "uses_air_floor",
+        "on_speed_multiplier",
+        "speed_multiplier"
+      ],
+      "rule": "Public runtime contract for UnitComp.floorSpeedMultiplier terrain speed calculation.",
+      "runtime_proof": "/root/Main.source_unit_floor_speed_multiplier_state",
+      "source_method": "UnitComp.floorSpeedMultiplier()",
+      "source_slice": "N777",
+      "status": "active",
+      "tests": [
+        "test_unit_floor_speed_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_floor_speed_multiplier_state"
+      ]
     }
   },
   "policy": {

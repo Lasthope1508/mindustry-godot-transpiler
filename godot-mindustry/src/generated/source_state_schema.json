@@ -49017,6 +49017,190 @@
       "runtime_proof": "/root/Main.source_unit_drown_floor_state",
       "status": "active"
     },
+    "source_unit_floor_speed_multiplier_input": {
+      "keys": {
+        "elevation_value": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.isFlying()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Elevation input consumed by isFlying().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "floor_on_speed_multiplier": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_input.floor_on_speed_multiplier",
+          "java_expr": "on.speedMultiplier",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Floor speedMultiplier input after source floor choice.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "speed_multiplier_value": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_input.speed_multiplier_value",
+          "java_expr": "speedMultiplier",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit speedMultiplier input multiplied into result.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "type_floor_multiplier": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_input.type_floor_multiplier",
+          "java_expr": "floorMultiplier = 1f,",
+          "java_method": "UnitType field declaration",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType floorMultiplier runtime input with upstream default.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "type_hovering": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_input.type_hovering",
+          "java_expr": "type.hovering",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitType hovering input for source floor choice.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_floor_speed_multiplier_state",
+      "runtime_proof": "/root/Main.source_unit_floor_speed_multiplier_state",
+      "status": "active"
+    },
+    "source_unit_floor_speed_multiplier_result": {
+      "keys": {
+        "blockAsFloor": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.blockAsFloor",
+          "java_expr": "public Floor asFloor(){",
+          "java_method": "Block.asFloor()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Block asFloor bridge for Blocks.air.asFloor().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "floorChoice": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.floorChoice",
+          "java_expr": "Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source floor choice expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "floorSpeedMultiplierDefault": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.floorSpeedMultiplierDefault",
+          "java_expr": "public float speedMultiplier = 1f;",
+          "java_method": "Floor field declaration",
+          "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+          "rule": "Floor speedMultiplier default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "flying": {
+          "alias_of": "source_unit_is_flying_result.flying",
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.flying",
+          "java_expr": "isFlying()",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime isFlying result reused from canonical helper.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.method",
+          "java_expr": "public float floorSpeedMultiplier(){",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp floorSpeedMultiplier method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "on_speed_multiplier": {
+          "alias_of": "source_unit_floor_speed_multiplier_input.floor_on_speed_multiplier",
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.on_speed_multiplier",
+          "java_expr": "on.speedMultiplier",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime selected floor speedMultiplier.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "speed_multiplier": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.speed_multiplier",
+          "java_expr": "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime floorSpeedMultiplier result.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "typeFloorMultiplierDefault": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.typeFloorMultiplierDefault",
+          "java_expr": "floorMultiplier = 1f,",
+          "java_method": "UnitType field declaration",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType floorMultiplier default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        },
+        "uses_air_floor": {
+          "godot_symbol": "source_unit_floor_speed_multiplier_result.uses_air_floor",
+          "java_expr": "isFlying() || type.hovering",
+          "java_method": "UnitComp.floorSpeedMultiplier()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime air floor choice gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_floor_speed_multiplier_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_floor_speed_multiplier_state",
+      "runtime_proof": "/root/Main.source_unit_floor_speed_multiplier_state",
+      "status": "active"
+    },
     "source_unit_is_flying_input": {
       "keys": {
         "elevation_value": {

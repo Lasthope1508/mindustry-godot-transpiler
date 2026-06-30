@@ -4738,6 +4738,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(floor_class["java_expr"], "public class Floor extends Block{")
         self.assertEqual(floor_class["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
 
+    def test_unit_floor_speed_multiplier_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.method")
+        self.assertEqual(method["java_expr"], "public float floorSpeedMultiplier(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_floor_speed_multiplier_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_floor_speed_multiplier_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_floor_speed_multiplier_result.method")
+
+        floor_choice = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.floor_choice")
+        self.assertEqual(floor_choice["java_expr"], "Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();")
+        self.assertEqual(floor_choice["godot_symbol"], "source_unit_floor_speed_multiplier_result.floorChoice")
+
+        return_expr = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.return")
+        self.assertEqual(return_expr["java_expr"], "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;")
+        self.assertEqual(return_expr["godot_symbol"], "source_unit_floor_speed_multiplier_result.speed_multiplier")
+
+        type_hovering = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.type_hovering")
+        self.assertEqual(type_hovering["status"], "explicit-input")
+        self.assertEqual(type_hovering["java_expr"], "type.hovering")
+        self.assertEqual(type_hovering["godot_symbol"], "source_unit_floor_speed_multiplier_input.type_hovering")
+
+        floor_on_speed = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.floor_on_speed_multiplier")
+        self.assertEqual(floor_on_speed["status"], "explicit-input")
+        self.assertEqual(floor_on_speed["java_expr"], "on.speedMultiplier")
+        self.assertEqual(floor_on_speed["godot_symbol"], "source_unit_floor_speed_multiplier_input.floor_on_speed_multiplier")
+
+        type_floor_multiplier = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.type_floor_multiplier")
+        self.assertEqual(type_floor_multiplier["java_expr"], "floorMultiplier = 1f,")
+        self.assertEqual(type_floor_multiplier["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(type_floor_multiplier["godot_symbol"], "source_unit_floor_speed_multiplier_input.type_floor_multiplier")
+
+        floor_speed_default = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.floor_speed_multiplier_default")
+        self.assertEqual(floor_speed_default["java_expr"], "public float speedMultiplier = 1f;")
+        self.assertEqual(floor_speed_default["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+
+        block_as_floor = source_symbols.source_symbol(registry, "unit_floor_speed_multiplier.block_as_floor")
+        self.assertEqual(block_as_floor["java_expr"], "public Floor asFloor(){")
+        self.assertEqual(block_as_floor["java_source"], "core/src/mindustry/world/Block.java")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12628,9 +12671,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 374)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 375)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 379)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 380)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12662,6 +12705,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_type_killed_remove_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_visual_effects_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_wreck_decal_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_floor_speed_multiplier_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14564,6 +14608,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public @Nullable Floor drownFloor(){", unit_drown_floor["exact_exprs"])
         self.assertIn("return floorOn();", unit_drown_floor["exact_exprs"])
         self.assertIn("floorOn() behavior remains owned by floor lookup/runtime tile slices", unit_drown_floor["deferred_exprs"])
+
+        unit_floor_speed_multiplier = source_symbols.source_slice(ledger, "N777")
+        self.assertEqual(unit_floor_speed_multiplier["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_floor_speed_multiplier["java_method"], "UnitComp.floorSpeedMultiplier()")
+        self.assertEqual(unit_floor_speed_multiplier["godot_owner"], "PortGame.source_unit_floor_speed_multiplier_state")
+        self.assertIn("public float floorSpeedMultiplier(){", unit_floor_speed_multiplier["exact_exprs"])
+        self.assertIn("Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();", unit_floor_speed_multiplier["exact_exprs"])
+        self.assertIn("return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;", unit_floor_speed_multiplier["exact_exprs"])
+        self.assertIn("Tank/Crawl/WaterMove/WaterCrawl floorSpeedMultiplier overrides remain separate component slices", unit_floor_speed_multiplier["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17955,6 +18008,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_drown_floor["params"][0]["schema"], "source_unit_drown_floor_input.floor_on_value")
         self.assertIn("floor", unit_drown_floor["return_keys"])
         self.assertEqual(unit_drown_floor["source_method"], "UnitComp.drownFloor()")
+
+        unit_floor_speed_multiplier = source_symbols.api_contract(contracts, "PortGame.source_unit_floor_speed_multiplier_state")
+        self.assertEqual([param["name"] for param in unit_floor_speed_multiplier["params"]], ["elevation_value", "type_hovering", "floor_on_speed_multiplier", "type_floor_multiplier", "speed_multiplier_value"])
+        self.assertEqual(unit_floor_speed_multiplier["params"][0]["schema"], "source_unit_floor_speed_multiplier_input.elevation_value")
+        self.assertEqual(unit_floor_speed_multiplier["params"][2]["schema"], "source_unit_floor_speed_multiplier_input.floor_on_speed_multiplier")
+        self.assertEqual(unit_floor_speed_multiplier["params"][4]["schema"], "source_unit_floor_speed_multiplier_input.speed_multiplier_value")
+        self.assertIn("uses_air_floor", unit_floor_speed_multiplier["return_keys"])
+        self.assertIn("on_speed_multiplier", unit_floor_speed_multiplier["return_keys"])
+        self.assertIn("speed_multiplier", unit_floor_speed_multiplier["return_keys"])
+        self.assertEqual(unit_floor_speed_multiplier["source_method"], "UnitComp.floorSpeedMultiplier()")
 
         unit_check_target = source_symbols.api_contract(contracts, "PortGame.source_unit_check_target_state")
         self.assertEqual([param["name"] for param in unit_check_target["params"]], ["elevation_value", "target_air", "target_ground"])
@@ -21986,6 +22049,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_drown_floor_result["keys"]["tileLookup"]["java_expr"], "Tile tile = tileOn();")
         self.assertEqual(source_unit_drown_floor_result["keys"]["floorOnReturn"]["java_expr"], "return tile == null || tile.block() != Blocks.air ? (Floor)Blocks.air : tile.floor();")
         self.assertEqual(source_unit_drown_floor_result["keys"]["tileWorldLookup"]["java_expr"], "return world.tileWorld(x, y);")
+
+        source_unit_floor_speed_multiplier_input = source_symbols.state_schema(schema, "source_unit_floor_speed_multiplier_input")
+        self.assertEqual(source_unit_floor_speed_multiplier_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_floor_speed_multiplier_input["keys"]["type_hovering"]["java_expr"], "type.hovering")
+        self.assertEqual(source_unit_floor_speed_multiplier_input["keys"]["floor_on_speed_multiplier"]["java_expr"], "on.speedMultiplier")
+        self.assertEqual(source_unit_floor_speed_multiplier_input["keys"]["type_floor_multiplier"]["java_expr"], "floorMultiplier = 1f,")
+        self.assertEqual(source_unit_floor_speed_multiplier_input["keys"]["speed_multiplier_value"]["java_expr"], "speedMultiplier")
+
+        source_unit_floor_speed_multiplier_result = source_symbols.state_schema(schema, "source_unit_floor_speed_multiplier_result")
+        self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["method"]["java_expr"], "public float floorSpeedMultiplier(){")
+        self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["floorChoice"]["java_expr"], "Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();")
+        self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["speed_multiplier"]["java_expr"], "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;")
+        self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["uses_air_floor"]["java_expr"], "isFlying() || type.hovering")
+        self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["on_speed_multiplier"]["java_expr"], "on.speedMultiplier")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
