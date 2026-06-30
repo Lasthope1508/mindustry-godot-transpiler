@@ -10405,10 +10405,17 @@ func source_turret_range(turret) -> float:
 		return 0.0
 	return float(turret.properties.get(SOURCE_TURRET_RANGE_KEY, SOURCE_TURRET_RANGE_DEFAULT))
 
+const SOURCE_TURRET_SHOOT_Y_COMMENT := "/** Turret shoot point. */"
+const SOURCE_TURRET_SHOOT_Y_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"
+const SOURCE_TURRET_SHOOT_Y_KEY := "shootY"
+const SOURCE_TURRET_SHOOT_Y_SENTINEL := "Float.NEGATIVE_INFINITY"
+const SOURCE_TURRET_SHOOT_Y_INIT_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"
+const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := "shootY = 3f;"
+
 func source_turret_shoot_y(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get("shootY", 0.0))
+	return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, 0.0))
 
 const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"
 const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"

@@ -11305,6 +11305,40 @@
         "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_shoot_alternate_pattern"
       ]
+    },
+    "N750": {
+      "deferred_exprs": [
+        "behavioral fallback change from 0.0 to size * tilesize / 2f for missing generated shootY data"
+      ],
+      "exact_exprs": [
+        "/** Turret shoot point. */",
+        "shootY",
+        "Float.NEGATIVE_INFINITY"
+      ],
+      "bridge_exprs": [
+        "shootY = 3f;",
+        "turret_bullet_origin.shoot_point_field",
+        "turret_bullet_origin.shoot_y_default"
+      ],
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "field declaration/init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "source_symbols": [
+        "turret_shoot_y.comment",
+        "turret_shoot_y.field",
+        "turret_shoot_y.key",
+        "turret_shoot_y.default_sentinel",
+        "turret_shoot_y.init_default",
+        "turret_shoot_y.duo_value",
+        "turret_shoot_y.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ]
     }
   },
   "version": 1

@@ -36007,6 +36007,106 @@
       "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
       "java_expr": "if(barrelIncrementer != null) barrelIncrementer.run();",
       "rule": "ShootAlternate advances barrel counter when incrementer exists."
+    },
+    "turret_shoot_y.comment": {
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_y_result.comment",
+      "java_method": "field declaration",
+      "java_expr": "/** Turret shoot point. */",
+      "rule": "Turret shoot point comment documents shootX/shootY local origin."
+    },
+    "turret_shoot_y.field": {
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "status": "generated",
+      "alias_of": "turret_bullet_origin.shoot_point_field",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_y_result.field",
+      "java_method": "field declaration",
+      "java_expr": "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;",
+      "rule": "Reuses canonical N737 shoot point field for shootY helper."
+    },
+    "turret_shoot_y.key": {
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_y_result.key",
+      "java_method": "field declaration",
+      "java_expr": "shootY",
+      "rule": "Godot content property key mirrors Java shootY field."
+    },
+    "turret_shoot_y.default_sentinel": {
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_y_result.defaultSentinel",
+      "java_method": "field declaration",
+      "java_expr": "Float.NEGATIVE_INFINITY",
+      "rule": "Source sentinel marks unset shootY before init fallback."
+    },
+    "turret_shoot_y.init_default": {
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "status": "generated",
+      "alias_of": "turret_bullet_origin.shoot_y_default",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_y_result.initDefault",
+      "java_method": "init()",
+      "java_expr": "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+      "rule": "Reuses canonical N737 init fallback for unset shootY."
+    },
+    "turret_shoot_y.duo_value": {
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "godot_symbol": "source_turret_shoot_y_result.duoValue",
+      "java_method": "Blocks.duo",
+      "java_expr": "shootY = 3f;",
+      "rule": "Duo overrides turret shootY to 3f."
+    },
+    "turret_shoot_y.result": {
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "runtime_proof": "/root/Main.source_turret_shoot_y",
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_y_result.shootY",
+      "java_method": "field declaration/init()",
+      "java_expr": "shootY",
+      "rule": "Runtime helper returns source-backed turret shootY value."
     }
   },
   "version": 1
