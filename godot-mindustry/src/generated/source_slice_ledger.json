@@ -12624,6 +12624,45 @@
         "test_unit_hit_size_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
       ]
+    },
+    "N781": {
+      "bridge_exprs": [
+        "public boolean hittable(Unit unit){",
+        "return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());",
+        "hittable = true,",
+        "vulnerableWithPayloads = false,",
+        "boolean hasPayload(){",
+        "return payloads.size > 0;"
+      ],
+      "deferred_exprs": [
+        "UnderwaterMoveComp.hittable() remains a separate override slice",
+        "UnitTypes evoke/incite/emanate content assignments remain owned by generated content extraction"
+      ],
+      "exact_exprs": [
+        "public boolean hittable(){",
+        "return type.hittable(self());"
+      ],
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.hittable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "source_symbols": [
+        "unit_hittable.has_payload",
+        "unit_hittable.method",
+        "unit_hittable.payload_hittable",
+        "unit_hittable.payload_instance",
+        "unit_hittable.type_hittable",
+        "unit_hittable.type_method",
+        "unit_hittable.type_return",
+        "unit_hittable.type_vulnerable_with_payloads",
+        "unit_hittable.unit_return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
     }
   },
   "version": 1

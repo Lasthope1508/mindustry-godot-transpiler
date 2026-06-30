@@ -9079,12 +9079,23 @@ func source_unit_killable_state(type_killable: bool) -> Dictionary:
 		"call": "type.killable(self())",
 	}
 
+const SOURCE_UNIT_HITTABLE_METHOD := "public boolean hittable(){"
+const SOURCE_UNIT_HITTABLE_UNIT_RETURN := "return type.hittable(self());"
+const SOURCE_UNIT_HITTABLE_TYPE_METHOD := "public boolean hittable(Unit unit){"
+const SOURCE_UNIT_HITTABLE_TYPE_RETURN := "return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());"
+const SOURCE_UNIT_HITTABLE_TYPE_HITTABLE_DEFAULT := "hittable = true,"
+const SOURCE_UNIT_HITTABLE_TYPE_VULNERABLE_WITH_PAYLOADS_DEFAULT := "vulnerableWithPayloads = false,"
+const SOURCE_UNIT_HITTABLE_PAYLOAD_INSTANCE := "unit instanceof Payloadc p"
+const SOURCE_UNIT_HITTABLE_PAYLOAD_HAS_PAYLOAD_RETURN := "return payloads.size > 0;"
+const SOURCE_UNIT_HITTABLE_PAYLOAD_HITTABLE := "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()"
+const SOURCE_UNIT_HITTABLE_CALL := "type.hittable(self())"
+
 func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool) -> Dictionary:
 	var payload_hittable := type_vulnerable_with_payloads and unit_is_payloadc and unit_has_payload
 	return {
 		"hittable": type_hittable or payload_hittable,
 		"payloadHittable": payload_hittable,
-		"call": "type.hittable(self())",
+		"call": SOURCE_UNIT_HITTABLE_CALL,
 	}
 
 const SOURCE_UNIT_AFTER_SYNC_METHOD := "public void afterSync(){"

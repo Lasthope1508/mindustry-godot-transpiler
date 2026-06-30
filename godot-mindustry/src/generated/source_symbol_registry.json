@@ -39178,6 +39178,132 @@
         "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
       ]
     },
+    "unit_hittable.has_payload": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_input.unit_has_payload",
+      "java_expr": "return payloads.size > 0;",
+      "java_method": "PayloadComp.hasPayload()",
+      "java_source": "core/src/mindustry/entities/comp/PayloadComp.java",
+      "rule": "Explicit runtime payload presence input backed by PayloadComp.hasPayload().",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.method": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_result.method",
+      "java_expr": "public boolean hittable(){",
+      "java_method": "UnitComp.hittable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp hittable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.payload_hittable": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_result.payloadHittable",
+      "java_expr": "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()",
+      "java_method": "UnitType.hittable(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType payload hittable branch gate.",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.payload_instance": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_input.unit_is_payloadc",
+      "java_expr": "unit instanceof Payloadc p",
+      "java_method": "UnitType.hittable(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Explicit runtime Payloadc instance gate input.",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.type_hittable": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_input.type_hittable",
+      "java_expr": "hittable = true,",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Explicit UnitType hittable input with upstream default.",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.type_method": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_result.typeMethod",
+      "java_expr": "public boolean hittable(Unit unit){",
+      "java_method": "UnitType.hittable(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType hittable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.type_return": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_result.hittable",
+      "java_expr": "return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());",
+      "java_method": "UnitType.hittable(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType hittable exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.type_vulnerable_with_payloads": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_input.type_vulnerable_with_payloads",
+      "java_expr": "vulnerableWithPayloads = false,",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Explicit UnitType vulnerableWithPayloads input with upstream default.",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
+    "unit_hittable.unit_return": {
+      "godot_owner": "PortGame.source_unit_hittable_state",
+      "godot_symbol": "source_unit_hittable_result.unitReturn",
+      "java_expr": "return type.hittable(self());",
+      "java_method": "UnitComp.hittable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp hittable delegates to UnitType.hittable(self()).",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

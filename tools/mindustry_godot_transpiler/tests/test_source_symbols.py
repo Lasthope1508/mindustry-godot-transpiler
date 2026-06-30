@@ -4882,6 +4882,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "UnitType.hitSize")
         self.assertEqual(result["godot_symbol"], "source_unit_hit_size_result.hitSize")
 
+    def test_unit_hittable_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_hittable.method")
+        self.assertEqual(method["java_expr"], "public boolean hittable(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_hittable_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_hittable_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_hittable_result.method")
+
+        unit_return = source_symbols.source_symbol(registry, "unit_hittable.unit_return")
+        self.assertEqual(unit_return["java_expr"], "return type.hittable(self());")
+        self.assertEqual(unit_return["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_return["godot_symbol"], "source_unit_hittable_result.unitReturn")
+
+        type_method = source_symbols.source_symbol(registry, "unit_hittable.type_method")
+        self.assertEqual(type_method["java_expr"], "public boolean hittable(Unit unit){")
+        self.assertEqual(type_method["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(type_method["godot_symbol"], "source_unit_hittable_result.typeMethod")
+
+        type_return = source_symbols.source_symbol(registry, "unit_hittable.type_return")
+        self.assertEqual(type_return["java_expr"], "return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());")
+        self.assertEqual(type_return["godot_symbol"], "source_unit_hittable_result.hittable")
+
+        type_hittable = source_symbols.source_symbol(registry, "unit_hittable.type_hittable")
+        self.assertEqual(type_hittable["java_expr"], "hittable = true,")
+        self.assertEqual(type_hittable["godot_symbol"], "source_unit_hittable_input.type_hittable")
+
+        vulnerable = source_symbols.source_symbol(registry, "unit_hittable.type_vulnerable_with_payloads")
+        self.assertEqual(vulnerable["java_expr"], "vulnerableWithPayloads = false,")
+        self.assertEqual(vulnerable["godot_symbol"], "source_unit_hittable_input.type_vulnerable_with_payloads")
+
+        payload_instance = source_symbols.source_symbol(registry, "unit_hittable.payload_instance")
+        self.assertEqual(payload_instance["java_expr"], "unit instanceof Payloadc p")
+        self.assertEqual(payload_instance["godot_symbol"], "source_unit_hittable_input.unit_is_payloadc")
+
+        has_payload = source_symbols.source_symbol(registry, "unit_hittable.has_payload")
+        self.assertEqual(has_payload["java_expr"], "return payloads.size > 0;")
+        self.assertEqual(has_payload["java_source"], "core/src/mindustry/entities/comp/PayloadComp.java")
+        self.assertEqual(has_payload["godot_symbol"], "source_unit_hittable_input.unit_has_payload")
+
+        payload_hittable = source_symbols.source_symbol(registry, "unit_hittable.payload_hittable")
+        self.assertEqual(payload_hittable["java_expr"], "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()")
+        self.assertEqual(payload_hittable["godot_symbol"], "source_unit_hittable_result.payloadHittable")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12772,9 +12820,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 378)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 379)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 383)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 384)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12810,6 +12858,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_heal_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_health", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_hit_size", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_hittable_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14749,6 +14798,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("hitSize = 6f,", unit_hit_size["exact_exprs"])
         self.assertIn("hitSize = 8f;", unit_hit_size["bridge_exprs"])
         self.assertIn("Other UnitTypes hitSize assignments remain owned by generated content extraction", unit_hit_size["deferred_exprs"])
+
+        unit_hittable = source_symbols.source_slice(ledger, "N781")
+        self.assertEqual(unit_hittable["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_hittable["java_method"], "UnitComp.hittable()")
+        self.assertEqual(unit_hittable["godot_owner"], "PortGame.source_unit_hittable_state")
+        self.assertIn("public boolean hittable(){", unit_hittable["exact_exprs"])
+        self.assertIn("return type.hittable(self());", unit_hittable["exact_exprs"])
+        self.assertIn("return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());", unit_hittable["bridge_exprs"])
+        self.assertIn("UnderwaterMoveComp.hittable() remains a separate override slice", unit_hittable["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18180,6 +18238,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_hit_size["params"][0]["schema"], "source_unit_hit_size_input.unit_type")
         self.assertIn("hitSize", unit_hit_size["return_keys"])
         self.assertEqual(unit_hit_size["source_method"], "UnitType.hitSize field")
+
+        unit_hittable = source_symbols.api_contract(contracts, "PortGame.source_unit_hittable_state")
+        self.assertEqual([param["name"] for param in unit_hittable["params"]], ["type_hittable", "type_vulnerable_with_payloads", "unit_is_payloadc", "unit_has_payload"])
+        self.assertEqual(unit_hittable["params"][0]["schema"], "source_unit_hittable_input.type_hittable")
+        self.assertEqual(unit_hittable["params"][1]["schema"], "source_unit_hittable_input.type_vulnerable_with_payloads")
+        self.assertEqual(unit_hittable["params"][2]["schema"], "source_unit_hittable_input.unit_is_payloadc")
+        self.assertEqual(unit_hittable["params"][3]["schema"], "source_unit_hittable_input.unit_has_payload")
+        self.assertIn("hittable", unit_hittable["return_keys"])
+        self.assertIn("payloadHittable", unit_hittable["return_keys"])
+        self.assertEqual(unit_hittable["source_method"], "UnitComp.hittable()")
 
         unit_check_target = source_symbols.api_contract(contracts, "PortGame.source_unit_check_target_state")
         self.assertEqual([param["name"] for param in unit_check_target["params"]], ["elevation_value", "target_air", "target_ground"])
@@ -22256,6 +22324,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_hit_size_result["keys"]["hitSize"]["java_expr"], "UnitType.hitSize")
         self.assertEqual(source_unit_hit_size_result["keys"]["defaultHitSize"]["java_expr"], "hitSize = 6f,")
         self.assertEqual(source_unit_hit_size_result["keys"]["daggerHitSize"]["java_expr"], "hitSize = 8f;")
+
+        source_unit_hittable_input = source_symbols.state_schema(schema, "source_unit_hittable_input")
+        self.assertEqual(source_unit_hittable_input["keys"]["type_hittable"]["java_expr"], "hittable = true,")
+        self.assertEqual(source_unit_hittable_input["keys"]["type_vulnerable_with_payloads"]["java_expr"], "vulnerableWithPayloads = false,")
+        self.assertEqual(source_unit_hittable_input["keys"]["unit_is_payloadc"]["java_expr"], "unit instanceof Payloadc p")
+        self.assertEqual(source_unit_hittable_input["keys"]["unit_has_payload"]["java_expr"], "return payloads.size > 0;")
+
+        source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
+        self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")
+        self.assertEqual(source_unit_hittable_result["keys"]["unitReturn"]["java_expr"], "return type.hittable(self());")
+        self.assertEqual(source_unit_hittable_result["keys"]["typeMethod"]["java_expr"], "public boolean hittable(Unit unit){")
+        self.assertEqual(source_unit_hittable_result["keys"]["hittable"]["java_expr"], "return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());")
+        self.assertEqual(source_unit_hittable_result["keys"]["payloadHittable"]["java_expr"], "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

@@ -14247,6 +14247,45 @@
         "test_unit_hit_size_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
       ]
+    },
+    "PortGame.source_unit_hittable_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_hittable",
+          "schema": "source_unit_hittable_input.type_hittable",
+          "type": "bool"
+        },
+        {
+          "name": "type_vulnerable_with_payloads",
+          "schema": "source_unit_hittable_input.type_vulnerable_with_payloads",
+          "type": "bool"
+        },
+        {
+          "name": "unit_is_payloadc",
+          "schema": "source_unit_hittable_input.unit_is_payloadc",
+          "type": "bool"
+        },
+        {
+          "name": "unit_has_payload",
+          "schema": "source_unit_hittable_input.unit_has_payload",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "hittable",
+        "payloadHittable",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.hittable delegation through UnitType.hittable(Unit).",
+      "runtime_proof": "/root/Main.source_unit_hittable_state",
+      "source_method": "UnitComp.hittable()",
+      "source_slice": "N781",
+      "status": "active",
+      "tests": [
+        "test_unit_hittable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_hittable_state"
+      ]
     }
   },
   "policy": {
