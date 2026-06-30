@@ -13577,6 +13577,54 @@
         "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_default_event_state"
       ]
+    },
+    "N806": {
+      "bridge_exprs": [
+        "public static int num(boolean b){",
+        "return b ? 1 : 0;",
+        "public static float approachDelta(float from, float to, float speed){",
+        "return approach(from, to, Time.delta * speed);",
+        "public static float approach(float from, float to, float speed){",
+        "return from + Mathf.clamp(to - from, -speed, speed);",
+        "public static float clamp(float value, float min, float max){",
+        "return Math.max(Math.min(value, max), min);"
+      ],
+      "deferred_exprs": [
+        "Unit type rise/descent defaults stay explicit inputs; this slice does not invent UnitType speed values."
+      ],
+      "exact_exprs": [
+        "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)/Mathf.approachDelta",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "source_symbols": [
+        "unit_update_boosting_elevation.elevation_assignment",
+        "unit_update_boosting_elevation.current_elevation",
+        "unit_update_boosting_elevation.type_can_boost",
+        "unit_update_boosting_elevation.should_boost",
+        "unit_update_boosting_elevation.type_rise_speed",
+        "unit_update_boosting_elevation.type_descent_speed",
+        "unit_update_boosting_elevation.source_delta",
+        "unit_update_boosting_elevation.target_elevation",
+        "unit_update_boosting_elevation.speed",
+        "unit_update_boosting_elevation.elevation",
+        "unit_update_boosting_elevation.mathf_num_method",
+        "unit_update_boosting_elevation.mathf_num_return",
+        "unit_update_boosting_elevation.mathf_approach_delta_method",
+        "unit_update_boosting_elevation.mathf_approach_delta_return",
+        "unit_update_boosting_elevation.mathf_approach_method",
+        "unit_update_boosting_elevation.mathf_approach_return",
+        "unit_update_boosting_elevation.mathf_clamp_float_method",
+        "unit_update_boosting_elevation.mathf_clamp_float_return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
     }
   },
   "version": 1

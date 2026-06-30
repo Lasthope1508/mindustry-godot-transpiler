@@ -15277,6 +15277,64 @@
         "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_default_event_state"
       ]
+    },
+    "PortGame.source_unit_update_boosting_elevation_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_elevation",
+          "schema": "source_unit_update_boosting_elevation_input.current_elevation",
+          "type": "float"
+        },
+        {
+          "name": "type_can_boost",
+          "schema": "source_unit_update_boosting_elevation_input.type_can_boost",
+          "type": "bool"
+        },
+        {
+          "name": "should_boost",
+          "schema": "source_unit_update_boosting_elevation_input.should_boost",
+          "type": "bool"
+        },
+        {
+          "name": "type_rise_speed",
+          "schema": "source_unit_update_boosting_elevation_input.type_rise_speed",
+          "type": "float"
+        },
+        {
+          "name": "type_descent_speed",
+          "schema": "source_unit_update_boosting_elevation_input.type_descent_speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_boosting_elevation_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "elevationAssignment",
+        "target_elevation",
+        "speed",
+        "elevation",
+        "mathfNumMethod",
+        "mathfNumReturn",
+        "mathfApproachDeltaMethod",
+        "mathfApproachDeltaReturn",
+        "mathfApproachMethod",
+        "mathfApproachReturn",
+        "mathfClampFloatMethod",
+        "mathfClampFloatReturn"
+      ],
+      "rule": "Public runtime contract for UnitComp.updateBoosting elevation approach assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)/Mathf.approachDelta",
+      "source_slice": "N806",
+      "status": "active",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
     }
   },
   "policy": {

@@ -10431,6 +10431,16 @@ func source_unit_update_boosting_should_boost_state(boost: bool, on_solid_result
 		"should_boost": should_boost,
 	}
 
+const SOURCE_UNIT_UPDATE_BOOSTING_ELEVATION_ASSIGNMENT := "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);"
+const SOURCE_ARC_MATHF_NUM_METHOD := "public static int num(boolean b){"
+const SOURCE_ARC_MATHF_NUM_RETURN := "return b ? 1 : 0;"
+const SOURCE_ARC_MATHF_APPROACH_DELTA_METHOD := "public static float approachDelta(float from, float to, float speed){"
+const SOURCE_ARC_MATHF_APPROACH_DELTA_RETURN := "return approach(from, to, Time.delta * speed);"
+const SOURCE_ARC_MATHF_APPROACH_METHOD := "public static float approach(float from, float to, float speed){"
+const SOURCE_ARC_MATHF_APPROACH_RETURN := "return from + Mathf.clamp(to - from, -speed, speed);"
+const SOURCE_ARC_MATHF_CLAMP_FLOAT_METHOD := "public static float clamp(float value, float min, float max){"
+const SOURCE_ARC_MATHF_CLAMP_FLOAT_RETURN := "return Math.max(Math.min(value, max), min);"
+
 func source_arc_mathf_num(value: bool) -> int:
 	return 1 if value else 0
 
@@ -10439,9 +10449,18 @@ func source_unit_update_boosting_elevation_state(current_elevation: float, type_
 	var speed: float = type_rise_speed if should_boost else type_descent_speed
 	var next_elevation: float = source_approach_delta(current_elevation, target_elevation, speed, source_delta)
 	return {
+		"elevationAssignment": SOURCE_UNIT_UPDATE_BOOSTING_ELEVATION_ASSIGNMENT,
 		"target_elevation": target_elevation,
 		"speed": speed,
 		"elevation": next_elevation,
+		"mathfNumMethod": SOURCE_ARC_MATHF_NUM_METHOD,
+		"mathfNumReturn": SOURCE_ARC_MATHF_NUM_RETURN,
+		"mathfApproachDeltaMethod": SOURCE_ARC_MATHF_APPROACH_DELTA_METHOD,
+		"mathfApproachDeltaReturn": SOURCE_ARC_MATHF_APPROACH_DELTA_RETURN,
+		"mathfApproachMethod": SOURCE_ARC_MATHF_APPROACH_METHOD,
+		"mathfApproachReturn": SOURCE_ARC_MATHF_APPROACH_RETURN,
+		"mathfClampFloatMethod": SOURCE_ARC_MATHF_CLAMP_FLOAT_METHOD,
+		"mathfClampFloatReturn": SOURCE_ARC_MATHF_CLAMP_FLOAT_RETURN,
 	}
 
 func source_unit_update_boosting_event_state(event: bool) -> Dictionary:

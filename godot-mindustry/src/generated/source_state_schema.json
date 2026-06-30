@@ -53685,6 +53685,290 @@
       "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
       "status": "active"
     },
+    "source_unit_update_boosting_elevation_input": {
+      "keys": {
+        "current_elevation": {
+          "godot_symbol": "source_unit_update_boosting_elevation_input.current_elevation",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Current elevation before assignment.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "should_boost": {
+          "godot_symbol": "source_unit_update_boosting_elevation_input.should_boost",
+          "java_expr": "shouldBoost",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Explicit shouldBoost value from previous source-backed slice.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_update_boosting_elevation_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Explicit Time.delta bridge input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "type_can_boost": {
+          "godot_symbol": "source_unit_update_boosting_elevation_input.type_can_boost",
+          "java_expr": "type.canBoost",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Explicit UnitType canBoost branch input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "type_descent_speed": {
+          "godot_symbol": "source_unit_update_boosting_elevation_input.type_descent_speed",
+          "java_expr": "type.descentSpeed",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Explicit UnitType descent speed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "type_rise_speed": {
+          "godot_symbol": "source_unit_update_boosting_elevation_input.type_rise_speed",
+          "java_expr": "type.riseSpeed",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Explicit UnitType rise speed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "active"
+    },
+    "source_unit_update_boosting_elevation_result": {
+      "keys": {
+        "elevation": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.elevation",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Next elevation after approachDelta.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "elevationAssignment": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.elevationAssignment",
+          "java_expr": "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Source elevation assignment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfApproachDeltaMethod": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachDeltaMethod",
+          "java_expr": "public static float approachDelta(float from, float to, float speed){",
+          "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc approachDelta method bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfApproachDeltaReturn": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachDeltaReturn",
+          "java_expr": "return approach(from, to, Time.delta * speed);",
+          "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc approachDelta return bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfApproachMethod": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachMethod",
+          "java_expr": "public static float approach(float from, float to, float speed){",
+          "java_method": "Mathf.approach(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc approach method bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfApproachReturn": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachReturn",
+          "java_expr": "return from + Mathf.clamp(to - from, -speed, speed);",
+          "java_method": "Mathf.approach(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc approach return bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfClampFloatMethod": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfClampFloatMethod",
+          "java_expr": "public static float clamp(float value, float min, float max){",
+          "java_method": "Mathf.clamp(float value, float min, float max)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc clamp method bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfClampFloatReturn": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfClampFloatReturn",
+          "java_expr": "return Math.max(Math.min(value, max), min);",
+          "java_method": "Mathf.clamp(float value, float min, float max)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc clamp return bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfNumMethod": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfNumMethod",
+          "java_expr": "public static int num(boolean b){",
+          "java_method": "Mathf.num(boolean b)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc Mathf.num method bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "mathfNumReturn": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.mathfNumReturn",
+          "java_expr": "return b ? 1 : 0;",
+          "java_method": "Mathf.num(boolean b)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Arc Mathf.num return bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.speed",
+          "java_expr": "shouldBoost ? type.riseSpeed : type.descentSpeed",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Source speed ternary result.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        },
+        "target_elevation": {
+          "godot_symbol": "source_unit_update_boosting_elevation_result.target_elevation",
+          "java_expr": "type.canBoost ? Mathf.num(shouldBoost) : 0f",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ],
+          "rule": "Target elevation ternary result.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_elevation_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

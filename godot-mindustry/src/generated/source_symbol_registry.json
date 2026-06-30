@@ -42020,6 +42020,258 @@
         "test_port_game_exposes_source_unit_update_boosting_default_event_state"
       ]
     },
+    "unit_update_boosting_elevation.current_elevation": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_input.current_elevation",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for current elevation before assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.elevation": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.elevation",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Returned elevation after source assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.elevation_assignment": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.elevationAssignment",
+      "java_expr": "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp updateBoosting elevation assignment uses Arc Mathf.approachDelta with source target and speed ternaries.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_approach_delta_method": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachDeltaMethod",
+      "java_expr": "public static float approachDelta(float from, float to, float speed){",
+      "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc approachDelta method.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_approach_delta_return": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachDeltaReturn",
+      "java_expr": "return approach(from, to, Time.delta * speed);",
+      "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc approachDelta scaling by Time.delta.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_approach_method": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachMethod",
+      "java_expr": "public static float approach(float from, float to, float speed){",
+      "java_method": "Mathf.approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc approach method.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_approach_return": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfApproachReturn",
+      "java_expr": "return from + Mathf.clamp(to - from, -speed, speed);",
+      "java_method": "Mathf.approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc approach clamp expression.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_clamp_float_method": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfClampFloatMethod",
+      "java_expr": "public static float clamp(float value, float min, float max){",
+      "java_method": "Mathf.clamp(float value, float min, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc float clamp method.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_clamp_float_return": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfClampFloatReturn",
+      "java_expr": "return Math.max(Math.min(value, max), min);",
+      "java_method": "Mathf.clamp(float value, float min, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc float clamp return.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_num_method": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfNumMethod",
+      "java_expr": "public static int num(boolean b){",
+      "java_method": "Mathf.num(boolean b)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc Mathf.num method used by target elevation.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.mathf_num_return": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.mathfNumReturn",
+      "java_expr": "return b ? 1 : 0;",
+      "java_method": "Mathf.num(boolean b)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Bridge evidence for Arc Mathf.num return.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.should_boost": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_input.should_boost",
+      "java_expr": "shouldBoost",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for previously source-backed shouldBoost predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.source_delta": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime bridge input for Arc Time.delta used by approachDelta.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.speed": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.speed",
+      "java_expr": "shouldBoost ? type.riseSpeed : type.descentSpeed",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Approach speed ternary from UnitComp updateBoosting assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.target_elevation": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_result.target_elevation",
+      "java_expr": "type.canBoost ? Mathf.num(shouldBoost) : 0f",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Target elevation ternary from UnitComp updateBoosting assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.type_can_boost": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_input.type_can_boost",
+      "java_expr": "type.canBoost",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for UnitType.canBoost branch.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.type_descent_speed": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_input.type_descent_speed",
+      "java_expr": "type.descentSpeed",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for UnitType descent speed; no default invented.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
+    "unit_update_boosting_elevation.type_rise_speed": {
+      "godot_owner": "PortGame.source_unit_update_boosting_elevation_state",
+      "godot_symbol": "source_unit_update_boosting_elevation_input.type_rise_speed",
+      "java_expr": "type.riseSpeed",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for UnitType rise speed; no default invented.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_elevation_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_elevation_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

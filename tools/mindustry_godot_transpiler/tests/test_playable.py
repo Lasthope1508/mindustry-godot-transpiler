@@ -6506,12 +6506,24 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_UNIT_UPDATE_BOOSTING_ELEVATION_ASSIGNMENT := "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_NUM_METHOD := "public static int num(boolean b){"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_NUM_RETURN := "return b ? 1 : 0;"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_APPROACH_DELTA_METHOD := "public static float approachDelta(float from, float to, float speed){"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_APPROACH_DELTA_RETURN := "return approach(from, to, Time.delta * speed);"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_APPROACH_METHOD := "public static float approach(float from, float to, float speed){"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_APPROACH_RETURN := "return from + Mathf.clamp(to - from, -speed, speed);"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_CLAMP_FLOAT_METHOD := "public static float clamp(float value, float min, float max){"', source)
+        self.assertIn('const SOURCE_ARC_MATHF_CLAMP_FLOAT_RETURN := "return Math.max(Math.min(value, max), min);"', source)
         self.assertIn("func source_arc_mathf_num(value: bool) -> int:", source)
         self.assertIn("return 1 if value else 0", source)
         self.assertIn("func source_unit_update_boosting_elevation_state(current_elevation: float, type_can_boost: bool, should_boost: bool, type_rise_speed: float, type_descent_speed: float, source_delta: float) -> Dictionary:", source)
         self.assertIn("var target_elevation: float = float(source_arc_mathf_num(should_boost)) if type_can_boost else 0.0", source)
         self.assertIn("var speed: float = type_rise_speed if should_boost else type_descent_speed", source)
         self.assertIn("var next_elevation: float = source_approach_delta(current_elevation, target_elevation, speed, source_delta)", source)
+        self.assertIn('"elevationAssignment": SOURCE_UNIT_UPDATE_BOOSTING_ELEVATION_ASSIGNMENT', source)
+        self.assertIn('"mathfNumMethod": SOURCE_ARC_MATHF_NUM_METHOD', source)
+        self.assertIn('"mathfApproachDeltaReturn": SOURCE_ARC_MATHF_APPROACH_DELTA_RETURN', source)
 
     def test_port_game_exposes_source_unit_update_boosting_event_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
