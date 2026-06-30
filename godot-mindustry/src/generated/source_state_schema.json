@@ -55687,6 +55687,290 @@
       "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
       "status": "active"
     },
+    "source_unit_update_falling_engine_trail_input": {
+      "keys": {
+        "chance_delta_result": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.chance_delta_result",
+          "java_expr": "Mathf.chanceDelta(0.2)",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit chanceDelta result input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "dead_value": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.dead_value",
+          "java_expr": "dead",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for dead.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "elevation_value": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for elevation.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "engine_range_value": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.engine_range_value",
+          "java_expr": "Mathf.range(type.engineSize)",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit engine range sample input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "health_value": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.health_value",
+          "java_expr": "health",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for health.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "random_rotation_value": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.random_rotation_value",
+          "java_expr": "Mathf.random()",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit random rotation sample input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "source_rotation_degrees": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.source_rotation_degrees",
+          "java_expr": "rotation",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for rotation.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "type_engine_offset": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.type_engine_offset",
+          "java_expr": "type.engineOffset",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for UnitType.engineOffset.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "type_engine_size": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.type_engine_size",
+          "java_expr": "type.engineSize",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for UnitType.engineSize.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "unit_x": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.unit_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "unit_y": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.unit_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit runtime input for y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "x_range_value": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.x_range_value",
+          "java_expr": "Mathf.range(range)",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit x range sample input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "y_range_value": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_input.y_range_value",
+          "java_expr": "Mathf.range(range)",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Explicit y range sample input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_falling_engine_trail_state",
+      "runtime_proof": "/root/Main.source_unit_update_falling_engine_trail_state",
+      "status": "active"
+    },
+    "source_unit_update_falling_engine_trail_result": {
+      "keys": {
+        "angle": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_result.angle",
+          "java_expr": "rotation + 180",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Computed angle for Angles.trnsx/trnsy.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "chance": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_result.chance",
+          "java_expr": "if(Mathf.chanceDelta(0.2)){",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Chance gate call record.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "effect": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_result.effect",
+          "java_expr": "type.fallEngineEffect.at(x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range), y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range), Mathf.random())",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Effect call record when both gates pass.",
+          "status": "source-backed",
+          "type": "Dictionary|null",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "fallingGuard": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_result.fallingGuard",
+          "java_expr": "dead || health <= 0",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Computed source falling guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        },
+        "offset": {
+          "godot_symbol": "source_unit_update_falling_engine_trail_result.offset",
+          "java_expr": "float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;",
+          "java_method": "UnitComp.update() falling engine trail",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ],
+          "rule": "Computed source offset formula.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_engine_trail_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_falling_engine_trail_state",
+      "runtime_proof": "/root/Main.source_unit_update_falling_engine_trail_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

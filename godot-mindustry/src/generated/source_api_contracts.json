@@ -15802,6 +15802,93 @@
         "test_port_game_exposes_source_unit_update_falling_drag_state",
         "test_unit_update_falling_drag_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_falling_engine_trail_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_engine_trail_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_engine_trail_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "chance_delta_result",
+          "schema": "source_unit_update_falling_engine_trail_input.chance_delta_result",
+          "type": "bool"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_update_falling_engine_trail_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_update_falling_engine_trail_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "schema": "source_unit_update_falling_engine_trail_input.source_rotation_degrees",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_falling_engine_trail_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_engine_offset",
+          "schema": "source_unit_update_falling_engine_trail_input.type_engine_offset",
+          "type": "float"
+        },
+        {
+          "name": "type_engine_size",
+          "schema": "source_unit_update_falling_engine_trail_input.type_engine_size",
+          "type": "float"
+        },
+        {
+          "name": "engine_range_value",
+          "schema": "source_unit_update_falling_engine_trail_input.engine_range_value",
+          "type": "float"
+        },
+        {
+          "name": "x_range_value",
+          "schema": "source_unit_update_falling_engine_trail_input.x_range_value",
+          "type": "float"
+        },
+        {
+          "name": "y_range_value",
+          "schema": "source_unit_update_falling_engine_trail_input.y_range_value",
+          "type": "float"
+        },
+        {
+          "name": "random_rotation_value",
+          "schema": "source_unit_update_falling_engine_trail_input.random_rotation_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "fallingGuard",
+        "chance",
+        "angle",
+        "offset",
+        "effect"
+      ],
+      "rule": "Public runtime contract for UnitComp.update falling engine trail state.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_engine_trail_state",
+      "source_method": "UnitComp.update() falling engine trail",
+      "source_slice": "N816",
+      "status": "active",
+      "tests": [
+        "test_unit_update_falling_engine_trail_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_engine_trail_state",
+        "test_unit_update_falling_engine_trail_matches_upstream_source"
+      ]
     }
   },
   "policy": {

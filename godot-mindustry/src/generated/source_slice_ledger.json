@@ -14072,6 +14072,79 @@
         "test_port_game_exposes_source_unit_update_falling_drag_state",
         "test_unit_update_falling_drag_matches_upstream_source"
       ]
+    },
+    "N816": {
+      "bridge_exprs": [
+        "public Effect fallEngineEffect = Fx.fallSmoke;",
+        "engineOffset = 5f,",
+        "engineSize = 2.5f,",
+        "public static boolean chanceDelta(double d){",
+        "public static float range(float range){",
+        "public static float random(){",
+        "public static float trnsx(float angle, float len){",
+        "return len * Mathf.cosDeg(angle);",
+        "public static float trnsy(float angle, float len){",
+        "return len * Mathf.sinDeg(angle);"
+      ],
+      "deferred_exprs": [
+        "Falling drag, smoke, descent, and destroy trigger are adjacent source slices; chance/range/random are explicit inputs instead of invented RNG."
+      ],
+      "exact_exprs": [
+        "//thruster fall trail",
+        "if(Mathf.chanceDelta(0.2)){",
+        "float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;",
+        "float range = Mathf.range(type.engineSize);",
+        "type.fallEngineEffect.at(",
+        "x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range),",
+        "y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range),",
+        "Mathf.random()"
+      ],
+      "godot_owner": "PortGame.source_unit_update_falling_engine_trail_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() falling engine trail",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_falling_engine_trail_state",
+      "source_symbols": [
+        "unit_update_falling_engine_trail.angle",
+        "unit_update_falling_engine_trail.angles_trnsx",
+        "unit_update_falling_engine_trail.angles_trnsx_body",
+        "unit_update_falling_engine_trail.angles_trnsy",
+        "unit_update_falling_engine_trail.angles_trnsy_body",
+        "unit_update_falling_engine_trail.chance_delta_result",
+        "unit_update_falling_engine_trail.dead_value",
+        "unit_update_falling_engine_trail.elevation_value",
+        "unit_update_falling_engine_trail.engine_range_value",
+        "unit_update_falling_engine_trail.falling_guard",
+        "unit_update_falling_engine_trail.health_value",
+        "unit_update_falling_engine_trail.mathf_chance_delta",
+        "unit_update_falling_engine_trail.mathf_random",
+        "unit_update_falling_engine_trail.mathf_range_float",
+        "unit_update_falling_engine_trail.random_rotation_value",
+        "unit_update_falling_engine_trail.source_rotation_degrees",
+        "unit_update_falling_engine_trail.thruster_chance",
+        "unit_update_falling_engine_trail.thruster_effect_call",
+        "unit_update_falling_engine_trail.thruster_effect_rotation",
+        "unit_update_falling_engine_trail.thruster_effect_x",
+        "unit_update_falling_engine_trail.thruster_effect_y",
+        "unit_update_falling_engine_trail.thruster_fall_trail_comment",
+        "unit_update_falling_engine_trail.thruster_offset",
+        "unit_update_falling_engine_trail.thruster_range",
+        "unit_update_falling_engine_trail.type_engine_offset",
+        "unit_update_falling_engine_trail.type_engine_size",
+        "unit_update_falling_engine_trail.unit_engine_offset",
+        "unit_update_falling_engine_trail.unit_engine_size",
+        "unit_update_falling_engine_trail.unit_type_fall_engine_effect",
+        "unit_update_falling_engine_trail.unit_x",
+        "unit_update_falling_engine_trail.unit_y",
+        "unit_update_falling_engine_trail.x_range_value",
+        "unit_update_falling_engine_trail.y_range_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_falling_engine_trail_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_engine_trail_state",
+        "test_unit_update_falling_engine_trail_matches_upstream_source"
+      ]
     }
   },
   "version": 1

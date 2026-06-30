@@ -5555,6 +5555,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(current_drag["java_expr"], "drag")
         self.assertEqual(current_drag["godot_symbol"], "source_unit_update_falling_drag_input.current_drag")
 
+    def test_unit_update_falling_engine_trail_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        thruster_chance = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.thruster_chance")
+        self.assertEqual(thruster_chance["java_expr"], "if(Mathf.chanceDelta(0.2)){")
+        self.assertEqual(thruster_chance["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(thruster_chance["java_method"], "UnitComp.update() falling engine trail")
+        self.assertEqual(thruster_chance["godot_owner"], "PortGame.source_unit_update_falling_engine_trail_state")
+        self.assertEqual(thruster_chance["runtime_proof"], "/root/Main.source_unit_update_falling_engine_trail_state")
+        self.assertEqual(thruster_chance["godot_symbol"], "source_unit_update_falling_engine_trail_result.chance")
+
+        offset = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.thruster_offset")
+        self.assertEqual(offset["java_expr"], "float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;")
+        self.assertEqual(offset["godot_symbol"], "source_unit_update_falling_engine_trail_result.offset")
+
+        effect_x = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.thruster_effect_x")
+        self.assertEqual(effect_x["java_expr"], "x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range),")
+        self.assertEqual(effect_x["godot_symbol"], "source_unit_update_falling_engine_trail_result.effect.x")
+
+        effect_y = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.thruster_effect_y")
+        self.assertEqual(effect_y["java_expr"], "y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range),")
+        self.assertEqual(effect_y["godot_symbol"], "source_unit_update_falling_engine_trail_result.effect.y")
+
+        chance_input = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.chance_delta_result")
+        self.assertEqual(chance_input["status"], "explicit-input")
+        self.assertEqual(chance_input["java_expr"], "Mathf.chanceDelta(0.2)")
+        self.assertEqual(chance_input["godot_symbol"], "source_unit_update_falling_engine_trail_input.chance_delta_result")
+
+        engine_range_input = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.engine_range_value")
+        self.assertEqual(engine_range_input["status"], "explicit-input")
+        self.assertEqual(engine_range_input["java_expr"], "Mathf.range(type.engineSize)")
+        self.assertEqual(engine_range_input["godot_symbol"], "source_unit_update_falling_engine_trail_input.engine_range_value")
+
+        fall_engine_effect = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.unit_type_fall_engine_effect")
+        self.assertEqual(fall_engine_effect["java_expr"], "public Effect fallEngineEffect = Fx.fallSmoke;")
+        self.assertEqual(fall_engine_effect["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        mathf_range = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.mathf_range_float")
+        self.assertEqual(mathf_range["java_expr"], "public static float range(float range){")
+        self.assertEqual(mathf_range["java_source"], "arc-core/src/arc/math/Mathf.java")
+
+        angles_trnsx = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.angles_trnsx_body")
+        self.assertEqual(angles_trnsx["java_expr"], "return len * Mathf.cosDeg(angle);")
+        self.assertEqual(angles_trnsx["java_source"], "arc-core/src/arc/math/Angles.java")
+
+        angles_trnsy = source_symbols.source_symbol(registry, "unit_update_falling_engine_trail.angles_trnsy_body")
+        self.assertEqual(angles_trnsy["java_expr"], "return len * Mathf.sinDeg(angle);")
+        self.assertEqual(angles_trnsy["java_source"], "arc-core/src/arc/math/Angles.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14027,9 +14079,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 413)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 414)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 418)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 419)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14054,6 +14106,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_drowning_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_descent_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_drag_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_falling_engine_trail_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16440,6 +16493,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(dead || health <= 0){", unit_update_falling_drag["exact_exprs"])
         self.assertIn("//less drag when dead", unit_update_falling_drag["exact_exprs"])
         self.assertIn("drag = 0.01f;", unit_update_falling_drag["exact_exprs"])
+
+        unit_update_falling_engine_trail = source_symbols.source_slice(ledger, "N816")
+        self.assertEqual(unit_update_falling_engine_trail["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_falling_engine_trail["java_method"], "UnitComp.update() falling engine trail")
+        self.assertEqual(unit_update_falling_engine_trail["godot_owner"], "PortGame.source_unit_update_falling_engine_trail_state")
+        self.assertIn("//thruster fall trail", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("if(Mathf.chanceDelta(0.2)){", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("float range = Mathf.range(type.engineSize);", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("type.fallEngineEffect.at(", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range),", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range),", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("Mathf.random()", unit_update_falling_engine_trail["exact_exprs"])
+        self.assertIn("public Effect fallEngineEffect = Fx.fallSmoke;", unit_update_falling_engine_trail["bridge_exprs"])
+        self.assertIn("return len * Mathf.cosDeg(angle);", unit_update_falling_engine_trail["bridge_exprs"])
+        self.assertIn("return len * Mathf.sinDeg(angle);", unit_update_falling_engine_trail["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20275,6 +20344,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_falling_drag["return_keys"])
         self.assertNotIn("dead_value", unit_update_falling_drag["return_keys"])
         self.assertEqual(unit_update_falling_drag["source_method"], "UnitComp.update() falling drag")
+
+        unit_update_falling_engine_trail = source_symbols.api_contract(contracts, "PortGame.source_unit_update_falling_engine_trail_state")
+        self.assertEqual([param["name"] for param in unit_update_falling_engine_trail["params"]], ["dead_value", "health_value", "chance_delta_result", "unit_x", "unit_y", "source_rotation_degrees", "elevation_value", "type_engine_offset", "type_engine_size", "engine_range_value", "x_range_value", "y_range_value", "random_rotation_value"])
+        self.assertEqual(unit_update_falling_engine_trail["params"][0]["schema"], "source_unit_update_falling_engine_trail_input.dead_value")
+        self.assertEqual(unit_update_falling_engine_trail["params"][2]["schema"], "source_unit_update_falling_engine_trail_input.chance_delta_result")
+        self.assertEqual(unit_update_falling_engine_trail["params"][12]["schema"], "source_unit_update_falling_engine_trail_input.random_rotation_value")
+        for key in ["fallingGuard", "chance", "angle", "offset", "effect"]:
+            self.assertIn(key, unit_update_falling_engine_trail["return_keys"])
+        self.assertNotIn("dead_value", unit_update_falling_engine_trail["return_keys"])
+        self.assertEqual(unit_update_falling_engine_trail["source_method"], "UnitComp.update() falling engine trail")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24504,6 +24583,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_drag_input["keys"]["health_value"]["java_expr"], "health")
         self.assertEqual(source_unit_update_falling_drag_input["keys"]["current_drag"]["java_expr"], "drag")
 
+        source_unit_update_falling_engine_trail_input = source_symbols.state_schema(schema, "source_unit_update_falling_engine_trail_input")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["health_value"]["java_expr"], "health")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["chance_delta_result"]["java_expr"], "Mathf.chanceDelta(0.2)")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["unit_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["unit_y"]["java_expr"], "y")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["source_rotation_degrees"]["java_expr"], "rotation")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["type_engine_offset"]["java_expr"], "type.engineOffset")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["type_engine_size"]["java_expr"], "type.engineSize")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["engine_range_value"]["java_expr"], "Mathf.range(type.engineSize)")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["x_range_value"]["java_expr"], "Mathf.range(range)")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["y_range_value"]["java_expr"], "Mathf.range(range)")
+        self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["random_rotation_value"]["java_expr"], "Mathf.random()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24923,6 +25017,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_drag_result["keys"]["call"]["java_expr"], "drag = 0.01f;")
         self.assertEqual(source_unit_update_falling_drag_result["keys"]["source"]["java_expr"], "if(dead || health <= 0){")
         self.assertNotIn("dead_value", source_unit_update_falling_drag_result["keys"])
+
+        source_unit_update_falling_engine_trail_result = source_symbols.state_schema(schema, "source_unit_update_falling_engine_trail_result")
+        self.assertEqual(source_unit_update_falling_engine_trail_result["keys"]["fallingGuard"]["java_expr"], "dead || health <= 0")
+        self.assertEqual(source_unit_update_falling_engine_trail_result["keys"]["chance"]["java_expr"], "if(Mathf.chanceDelta(0.2)){")
+        self.assertEqual(source_unit_update_falling_engine_trail_result["keys"]["angle"]["java_expr"], "rotation + 180")
+        self.assertEqual(source_unit_update_falling_engine_trail_result["keys"]["offset"]["java_expr"], "float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;")
+        self.assertEqual(source_unit_update_falling_engine_trail_result["keys"]["effect"]["java_expr"], "type.fallEngineEffect.at(x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range), y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range), Mathf.random())")
+        self.assertNotIn("dead_value", source_unit_update_falling_engine_trail_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
