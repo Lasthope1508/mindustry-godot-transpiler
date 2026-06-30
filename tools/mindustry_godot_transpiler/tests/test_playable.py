@@ -3348,6 +3348,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_aim_look_position_state(pos_x: float, pos_y: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_AIM_LOOK_POSITION_METHOD := "public void aimLook(Position pos){"', source)
+        self.assertIn('const SOURCE_UNIT_AIM_LOOK_POSITION_AIM_CALL := "aim(pos);"', source)
+        self.assertIn('const SOURCE_UNIT_AIM_LOOK_POSITION_LOOK_AT_CALL := "lookAt(pos);"', source)
+        self.assertIn('const SOURCE_UNIT_AIM_LOOK_POSITION_POS_ARG := "pos"', source)
         self.assertIn('"aim_call": "aim(Position)"', source)
         self.assertIn('"look_at_call": "lookAt(Position)"', source)
         self.assertIn("func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictionary:", source)

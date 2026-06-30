@@ -36627,6 +36627,62 @@
         "test_unit_after_sync_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_after_sync_state"
       ]
+    },
+    "unit_aim_look_position.method": {
+      "godot_owner": "PortGame.source_unit_aim_look_position_state",
+      "godot_symbol": "source_unit_aim_look_position_result.method",
+      "java_expr": "public void aimLook(Position pos){",
+      "java_method": "UnitComp.aimLook(Position pos)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp aimLook(Position) method boundary.",
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
+    },
+    "unit_aim_look_position.pos_input": {
+      "godot_owner": "PortGame.source_unit_aim_look_position_state",
+      "godot_symbol": "source_unit_aim_look_position_input.pos",
+      "java_expr": "pos",
+      "java_method": "UnitComp.aimLook(Position pos)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Position object parameter passed through to aim(pos) and lookAt(pos).",
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
+    },
+    "unit_aim_look_position.aim_call": {
+      "godot_owner": "PortGame.source_unit_aim_look_position_state",
+      "godot_symbol": "source_unit_aim_look_position_result.aimCall",
+      "java_expr": "aim(pos);",
+      "java_method": "UnitComp.aimLook(Position pos)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "First aimLook(Position) source call.",
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
+    },
+    "unit_aim_look_position.look_at_call": {
+      "godot_owner": "PortGame.source_unit_aim_look_position_state",
+      "godot_symbol": "source_unit_aim_look_position_result.lookAtCall",
+      "java_expr": "lookAt(pos);",
+      "java_method": "UnitComp.aimLook(Position pos)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Second aimLook(Position) source call.",
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
     }
   },
   "version": 1

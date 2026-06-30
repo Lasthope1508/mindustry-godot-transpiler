@@ -3952,6 +3952,11 @@ func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: floa
 		"rotation": next_rotation,
 	}
 
+const SOURCE_UNIT_AIM_LOOK_POSITION_METHOD := "public void aimLook(Position pos){"
+const SOURCE_UNIT_AIM_LOOK_POSITION_POS_ARG := "pos"
+const SOURCE_UNIT_AIM_LOOK_POSITION_AIM_CALL := "aim(pos);"
+const SOURCE_UNIT_AIM_LOOK_POSITION_LOOK_AT_CALL := "lookAt(pos);"
+
 func source_unit_aim_look_position_state(pos_x: float, pos_y: float) -> Dictionary:
 	return {
 		"target": {"x": pos_x, "y": pos_y},

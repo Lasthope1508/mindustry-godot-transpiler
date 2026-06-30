@@ -46349,6 +46349,130 @@
       "owner": "PortGame.source_unit_after_sync_state",
       "runtime_proof": "/root/Main.source_unit_after_sync_state",
       "status": "active"
+    },
+    "source_unit_aim_look_position_input": {
+      "keys": {
+        "pos": {
+          "godot_symbol": "source_unit_aim_look_position_input.pos",
+          "java_expr": "pos",
+          "java_method": "UnitComp.aimLook(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source Position parameter for aimLook(Position).",
+          "status": "source-backed",
+          "type": "Position",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "pos_x": {
+          "alias_of": "source_unit_aim_look_position_input.pos",
+          "godot_symbol": "source_unit_aim_look_position_input.pos_x",
+          "rule": "Runtime projection of Position x coordinate for Godot bridge target dictionary.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "pos_y": {
+          "alias_of": "source_unit_aim_look_position_input.pos",
+          "godot_symbol": "source_unit_aim_look_position_input.pos_y",
+          "rule": "Runtime projection of Position y coordinate for Godot bridge target dictionary.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_aim_look_position_state",
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
+      "status": "active"
+    },
+    "source_unit_aim_look_position_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_aim_look_position_result.method",
+          "java_expr": "public void aimLook(Position pos){",
+          "java_method": "UnitComp.aimLook(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp aimLook(Position) method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "aimCall": {
+          "godot_symbol": "source_unit_aim_look_position_result.aimCall",
+          "java_expr": "aim(pos);",
+          "java_method": "UnitComp.aimLook(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "First aimLook(Position) source call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "lookAtCall": {
+          "godot_symbol": "source_unit_aim_look_position_result.lookAtCall",
+          "java_expr": "lookAt(pos);",
+          "java_method": "UnitComp.aimLook(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Second aimLook(Position) source call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "call_order": {
+          "godot_symbol": "source_unit_aim_look_position_result.call_order",
+          "java_expr": "aim(pos); -> lookAt(pos);",
+          "java_method": "UnitComp.aimLook(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source call order for aimLook(Position).",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "target": {
+          "alias_of": "source_unit_aim_look_position_input.pos",
+          "godot_symbol": "source_unit_aim_look_position_result.target",
+          "rule": "Godot bridge target dictionary projected from Position input.",
+          "status": "generated",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "aim_call": {
+          "alias_of": "source_unit_aim_look_position_result.aimCall",
+          "godot_symbol": "source_unit_aim_look_position_result.aim_call",
+          "rule": "Godot runtime label for aim(Position) overload identity.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        },
+        "look_at_call": {
+          "alias_of": "source_unit_aim_look_position_result.lookAtCall",
+          "godot_symbol": "source_unit_aim_look_position_result.look_at_call",
+          "rule": "Godot runtime label for lookAt(Position) overload identity.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_position_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_aim_look_position_state",
+      "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
+      "status": "active"
     }
   },
   "version": 1
