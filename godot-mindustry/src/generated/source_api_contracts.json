@@ -14571,6 +14571,67 @@
         "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_look_at_angle_state"
       ]
+    },
+    "PortGame.source_unit_look_at_position_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_look_at_position_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_look_at_position_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_look_at_position_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "target_x",
+          "schema": "source_unit_look_at_position_input.target_x",
+          "type": "float"
+        },
+        {
+          "name": "target_y",
+          "schema": "source_unit_look_at_position_input.target_y",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_look_at_position_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_look_at_position_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_look_at_position_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "call",
+        "target",
+        "target_angle",
+        "rotation_speed",
+        "rotation"
+      ],
+      "rule": "Public runtime contract for UnitComp.lookAt(Position pos) wrapper through Position.angleTo(Position) and UnitComp.lookAt(float).",
+      "runtime_proof": "/root/Main.source_unit_look_at_position_state",
+      "source_method": "UnitComp.lookAt(Position pos)",
+      "source_slice": "N791",
+      "status": "active",
+      "tests": [
+        "test_unit_look_at_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_position_state"
+      ]
     }
   },
   "policy": {

@@ -50820,6 +50820,265 @@
       "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
       "status": "active"
     },
+    "source_unit_look_at_position_input": {
+      "keys": {
+        "current_rotation": {
+          "godot_symbol": "source_unit_look_at_position_input.current_rotation",
+          "java_expr": "rotation",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Imported UnitComp rotation field before wrapper call.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "pos": {
+          "godot_symbol": "source_unit_look_at_position_input.pos",
+          "java_expr": "pos",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp lookAt(Position) target parameter.",
+          "status": "explicit-input",
+          "type": "Position",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "source_delta": {
+          "alias_of": "source_unit_look_at_angle_input.source_delta",
+          "godot_symbol": "source_unit_look_at_position_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Forwarded UnitComp.lookAt(float) Time.delta input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "speed_multiplier_value": {
+          "alias_of": "source_unit_look_at_angle_input.speed_multiplier_value",
+          "godot_symbol": "source_unit_look_at_position_input.speed_multiplier_value",
+          "java_expr": "speedMultiplier()",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Forwarded UnitComp.lookAt(float) speed multiplier input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "target_x": {
+          "godot_symbol": "source_unit_look_at_position_input.target_x",
+          "java_expr": "other.getX()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Position.angleTo(Position) target x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "target_y": {
+          "godot_symbol": "source_unit_look_at_position_input.target_y",
+          "java_expr": "other.getY()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Position.angleTo(Position) target y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "type_rotate_speed": {
+          "alias_of": "source_unit_look_at_angle_input.type_rotate_speed",
+          "godot_symbol": "source_unit_look_at_position_input.type_rotate_speed",
+          "java_expr": "type.rotateSpeed",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Forwarded UnitComp.lookAt(float) rotate speed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "unit_x": {
+          "godot_symbol": "source_unit_look_at_position_input.unit_x",
+          "java_expr": "getX()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Position.angleTo(Position) origin x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "unit_y": {
+          "godot_symbol": "source_unit_look_at_position_input.unit_y",
+          "java_expr": "getY()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Position.angleTo(Position) origin y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_look_at_position_state",
+      "runtime_proof": "/root/Main.source_unit_look_at_position_state",
+      "status": "active"
+    },
+    "source_unit_look_at_position_result": {
+      "keys": {
+        "angleToCall": {
+          "godot_symbol": "source_unit_look_at_position_result.angleToCall",
+          "java_expr": "angleTo(pos)",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Wrapper computes target angle through Position.angleTo(Position).",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "arcAngle": {
+          "godot_symbol": "source_unit_look_at_position_result.arcAngle",
+          "java_expr": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Arc Angles.angle atan2 expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "arcAngleMethod": {
+          "godot_symbol": "source_unit_look_at_position_result.arcAngleMethod",
+          "java_expr": "public static float angle(float x, float y, float x2, float y2){",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Arc Angles.angle method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "arcAngleWrap": {
+          "godot_symbol": "source_unit_look_at_position_result.arcAngleWrap",
+          "java_expr": "if(ang < 0) ang += 360f;",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Arc Angles.angle negative-angle wrap.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_look_at_position_result.call",
+          "java_expr": "lookAt(angleTo(pos));",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Wrapper delegates to lookAt(float angle).",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_look_at_position_result.method",
+          "java_expr": "public void lookAt(Position pos){",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp lookAt(Position) method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "positionAngleTo": {
+          "godot_symbol": "source_unit_look_at_position_result.positionAngleTo",
+          "java_expr": "return Angles.angle(getX(), getY(), other.getX(), other.getY());",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Position.angleTo(Position) return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "rotation": {
+          "alias_of": "source_unit_look_at_angle_result.rotation",
+          "godot_symbol": "source_unit_look_at_position_result.rotation",
+          "java_expr": "Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier())",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Forwarded UnitComp.lookAt(float) rotation result.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "rotation_speed": {
+          "alias_of": "source_unit_look_at_angle_result.rotation_speed",
+          "godot_symbol": "source_unit_look_at_position_result.rotation_speed",
+          "java_expr": "type.rotateSpeed * Time.delta * speedMultiplier()",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Forwarded UnitComp.lookAt(float) rotation speed.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "target": {
+          "godot_symbol": "source_unit_look_at_position_result.target",
+          "java_expr": "pos",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime target Position surrogate.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        },
+        "target_angle": {
+          "godot_symbol": "source_unit_look_at_position_result.target_angle",
+          "java_expr": "Angles.angle(getX(), getY(), other.getX(), other.getY())",
+          "java_method": "UnitComp.lookAt(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Computed target angle forwarded to lookAt(float).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_look_at_position_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_look_at_position_state",
+      "runtime_proof": "/root/Main.source_unit_look_at_position_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
