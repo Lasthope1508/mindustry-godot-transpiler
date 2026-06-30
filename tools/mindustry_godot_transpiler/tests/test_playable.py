@@ -3396,8 +3396,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_look_at_angle_state(current_rotation: float, target_angle: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_LOOK_AT_ANGLE_METHOD := "public void lookAt(float angle){"', source)
+        self.assertIn('const SOURCE_UNIT_LOOK_AT_ANGLE_ROTATION := "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());"', source)
+        self.assertIn('const SOURCE_UNIT_LOOK_AT_ANGLE_ROTATION_SPEED := "type.rotateSpeed * Time.delta * speedMultiplier()"', source)
         self.assertIn("var rotation_speed := type_rotate_speed * source_delta * speed_multiplier_value", source)
         self.assertIn("var next_rotation := source_arc_angles_move_toward(current_rotation, target_angle, rotation_speed)", source)
+        self.assertIn('"method": SOURCE_UNIT_LOOK_AT_ANGLE_METHOD', source)
+        self.assertIn('"source": SOURCE_UNIT_LOOK_AT_ANGLE_ROTATION', source)
         self.assertIn('"target_angle": target_angle', source)
         self.assertIn('"rotation": next_rotation', source)
 

@@ -14525,6 +14525,52 @@
         "test_unit_landed_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_landed_state"
       ]
+    },
+    "PortGame.source_unit_look_at_angle_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_look_at_angle_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "target_angle",
+          "schema": "source_unit_look_at_angle_input.target_angle",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_look_at_angle_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_look_at_angle_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_look_at_angle_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "source",
+        "target_angle",
+        "rotation_speed",
+        "rotation"
+      ],
+      "rule": "Public runtime contract for UnitComp.lookAt(float angle) rotation movement through Arc Angles.moveToward.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "source_method": "UnitComp.lookAt(float angle)",
+      "source_slice": "N790",
+      "status": "active",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
     }
   },
   "policy": {

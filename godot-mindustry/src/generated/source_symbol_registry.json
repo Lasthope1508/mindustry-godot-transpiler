@@ -40242,6 +40242,118 @@
         "test_port_game_exposes_source_unit_landed_state"
       ]
     },
+    "unit_look_at_angle.angle_input": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_input.target_angle",
+      "java_expr": "angle",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Input target angle maps to UnitComp lookAt angle parameter.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
+    "unit_look_at_angle.method": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_result.method",
+      "java_expr": "public void lookAt(float angle){",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp lookAt(float) method boundary.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
+    "unit_look_at_angle.rotate_speed_input": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_input.type_rotate_speed",
+      "java_expr": "type.rotateSpeed",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitType rotateSpeed multiplier used by UnitComp lookAt(float).",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
+    "unit_look_at_angle.rotation_assignment": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_result.rotation",
+      "java_expr": "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact UnitComp lookAt(float) rotation assignment via Angles.moveToward.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
+    "unit_look_at_angle.rotation_input": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_input.current_rotation",
+      "java_expr": "rotation",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Imported UnitComp rotation field before moveToward.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
+    "unit_look_at_angle.rotation_speed": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_result.rotation_speed",
+      "java_expr": "type.rotateSpeed * Time.delta * speedMultiplier()",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact UnitComp lookAt(float) rotation speed expression.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
+    "unit_look_at_angle.speed_multiplier_input": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_input.speed_multiplier_value",
+      "java_expr": "speedMultiplier()",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp speedMultiplier() accessor remains explicit input.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
+    "unit_look_at_angle.time_delta_input": {
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "godot_symbol": "source_unit_look_at_angle_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Arc Time.delta multiplier remains explicit input.",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

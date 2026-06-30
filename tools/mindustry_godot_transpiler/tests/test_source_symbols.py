@@ -4637,6 +4637,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(look_at_call["java_expr"], "lookAt(x, y);")
         self.assertEqual(look_at_call["godot_symbol"], "source_unit_aim_look_xy_result.lookAtCall")
 
+    def test_unit_look_at_angle_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_look_at_angle.method")
+        self.assertEqual(method["java_expr"], "public void lookAt(float angle){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_look_at_angle_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_look_at_angle_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_look_at_angle_result.method")
+
+        angle_input = source_symbols.source_symbol(registry, "unit_look_at_angle.angle_input")
+        self.assertEqual(angle_input["java_expr"], "angle")
+        self.assertEqual(angle_input["godot_symbol"], "source_unit_look_at_angle_input.target_angle")
+
+        rotation_input = source_symbols.source_symbol(registry, "unit_look_at_angle.rotation_input")
+        self.assertEqual(rotation_input["java_expr"], "rotation")
+        self.assertEqual(rotation_input["godot_symbol"], "source_unit_look_at_angle_input.current_rotation")
+
+        rotate_speed_input = source_symbols.source_symbol(registry, "unit_look_at_angle.rotate_speed_input")
+        self.assertEqual(rotate_speed_input["java_expr"], "type.rotateSpeed")
+        self.assertEqual(rotate_speed_input["godot_symbol"], "source_unit_look_at_angle_input.type_rotate_speed")
+
+        rotation_speed = source_symbols.source_symbol(registry, "unit_look_at_angle.rotation_speed")
+        self.assertEqual(rotation_speed["java_expr"], "type.rotateSpeed * Time.delta * speedMultiplier()")
+        self.assertEqual(rotation_speed["godot_symbol"], "source_unit_look_at_angle_result.rotation_speed")
+
+        rotation_assignment = source_symbols.source_symbol(registry, "unit_look_at_angle.rotation_assignment")
+        self.assertEqual(rotation_assignment["java_expr"], "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());")
+        self.assertEqual(rotation_assignment["godot_symbol"], "source_unit_look_at_angle_result.rotation")
+
     def test_unit_approach_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12981,9 +13013,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 387)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 388)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 392)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 393)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13028,6 +13060,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_killable_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_killed_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_landed_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_look_at_angle_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15060,6 +15093,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void landed(Unit unit){}", unit_landed["bridge_exprs"])
         self.assertIn("public static void shake(float intensity, float duration, Position loc){", unit_landed["bridge_exprs"])
         self.assertIn("Camera shake math remains Effect.shake runtime boundary", unit_landed["deferred_exprs"])
+
+        unit_look_at_angle = source_symbols.source_slice(ledger, "N790")
+        self.assertEqual(unit_look_at_angle["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_look_at_angle["java_method"], "UnitComp.lookAt(float angle)")
+        self.assertEqual(unit_look_at_angle["godot_owner"], "PortGame.source_unit_look_at_angle_state")
+        self.assertIn("public void lookAt(float angle){", unit_look_at_angle["exact_exprs"])
+        self.assertIn("rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());", unit_look_at_angle["exact_exprs"])
+        self.assertIn("public static float moveToward(float angle, float to, float speed){", unit_look_at_angle["bridge_exprs"])
+        self.assertIn("if(Math.abs(angleDist(angle, to)) < speed) return to;", unit_look_at_angle["bridge_exprs"])
+        self.assertIn("return ((f % n) + n) % n;", unit_look_at_angle["bridge_exprs"])
+        self.assertIn("rotateSpeed = 5f,", unit_look_at_angle["bridge_exprs"])
+        self.assertIn("public static float delta = 1f;", unit_look_at_angle["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18526,6 +18571,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shakeCall", unit_landed["return_keys"])
         self.assertIn("typeLanded", unit_landed["return_keys"])
         self.assertEqual(unit_landed["source_method"], "UnitComp.landed()")
+
+        unit_look_at_angle = source_symbols.api_contract(contracts, "PortGame.source_unit_look_at_angle_state")
+        self.assertEqual([param["name"] for param in unit_look_at_angle["params"]], ["current_rotation", "target_angle", "type_rotate_speed", "speed_multiplier_value", "source_delta"])
+        self.assertEqual(unit_look_at_angle["params"][0]["schema"], "source_unit_look_at_angle_input.current_rotation")
+        self.assertEqual(unit_look_at_angle["params"][1]["schema"], "source_unit_look_at_angle_input.target_angle")
+        self.assertEqual(unit_look_at_angle["params"][2]["schema"], "source_unit_look_at_angle_input.type_rotate_speed")
+        self.assertEqual(unit_look_at_angle["params"][3]["schema"], "source_unit_look_at_angle_input.speed_multiplier_value")
+        self.assertEqual(unit_look_at_angle["params"][4]["schema"], "source_unit_look_at_angle_input.source_delta")
+        self.assertIn("method", unit_look_at_angle["return_keys"])
+        self.assertIn("source", unit_look_at_angle["return_keys"])
+        self.assertIn("target_angle", unit_look_at_angle["return_keys"])
+        self.assertIn("rotation_speed", unit_look_at_angle["return_keys"])
+        self.assertIn("rotation", unit_look_at_angle["return_keys"])
+        self.assertEqual(unit_look_at_angle["source_method"], "UnitComp.lookAt(float angle)")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22737,6 +22796,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_landed_result["keys"]["typeLanded"]["java_expr"], "type.landed(self());")
         self.assertEqual(source_unit_landed_result["keys"]["mechLandShakeDefault"]["java_expr"], "public float mechLandShake = 0f;")
         self.assertEqual(source_unit_landed_result["keys"]["unitTypeLandedDefault"]["java_expr"], "public void landed(Unit unit){}")
+
+        source_unit_look_at_angle_input = source_symbols.state_schema(schema, "source_unit_look_at_angle_input")
+        self.assertEqual(source_unit_look_at_angle_input["keys"]["current_rotation"]["java_expr"], "rotation")
+        self.assertEqual(source_unit_look_at_angle_input["keys"]["target_angle"]["java_expr"], "angle")
+        self.assertEqual(source_unit_look_at_angle_input["keys"]["type_rotate_speed"]["java_expr"], "type.rotateSpeed")
+        self.assertEqual(source_unit_look_at_angle_input["keys"]["speed_multiplier_value"]["java_expr"], "speedMultiplier()")
+        self.assertEqual(source_unit_look_at_angle_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+
+        source_unit_look_at_angle_result = source_symbols.state_schema(schema, "source_unit_look_at_angle_result")
+        self.assertEqual(source_unit_look_at_angle_result["keys"]["method"]["java_expr"], "public void lookAt(float angle){")
+        self.assertEqual(source_unit_look_at_angle_result["keys"]["source"]["java_expr"], "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());")
+        self.assertEqual(source_unit_look_at_angle_result["keys"]["target_angle"]["java_expr"], "angle")
+        self.assertEqual(source_unit_look_at_angle_result["keys"]["rotation_speed"]["java_expr"], "type.rotateSpeed * Time.delta * speedMultiplier()")
+        self.assertEqual(source_unit_look_at_angle_result["keys"]["rotation"]["java_expr"], "Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier())")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

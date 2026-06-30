@@ -12953,6 +12953,44 @@
         "test_unit_landed_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_landed_state"
       ]
+    },
+    "N790": {
+      "bridge_exprs": [
+        "public static float moveToward(float angle, float to, float speed){",
+        "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){",
+        "return ((f % n) + n) % n;",
+        "rotateSpeed = 5f,",
+        "public static float delta = 1f;"
+      ],
+      "deferred_exprs": [
+        "UnitComp speedMultiplier() generated accessor internals remain explicit input until its owner slice",
+        "Arc Angles.moveToward remains canonical helper owner"
+      ],
+      "exact_exprs": [
+        "public void lookAt(float angle){",
+        "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());"
+      ],
+      "godot_owner": "PortGame.source_unit_look_at_angle_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.lookAt(float angle)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_look_at_angle_state",
+      "source_symbols": [
+        "unit_look_at_angle.angle_input",
+        "unit_look_at_angle.method",
+        "unit_look_at_angle.rotate_speed_input",
+        "unit_look_at_angle.rotation_assignment",
+        "unit_look_at_angle.rotation_input",
+        "unit_look_at_angle.rotation_speed",
+        "unit_look_at_angle.speed_multiplier_input",
+        "unit_look_at_angle.time_delta_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_look_at_angle_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_angle_state"
+      ]
     }
   },
   "version": 1

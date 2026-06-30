@@ -4024,10 +4024,16 @@ func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictiona
 		"call_order": ["aim", "lookAt"],
 	}
 
+const SOURCE_UNIT_LOOK_AT_ANGLE_METHOD := "public void lookAt(float angle){"
+const SOURCE_UNIT_LOOK_AT_ANGLE_ROTATION := "rotation = Angles.moveToward(rotation, angle, type.rotateSpeed * Time.delta * speedMultiplier());"
+const SOURCE_UNIT_LOOK_AT_ANGLE_ROTATION_SPEED := "type.rotateSpeed * Time.delta * speedMultiplier()"
+
 func source_unit_look_at_angle_state(current_rotation: float, target_angle: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
 	var rotation_speed := type_rotate_speed * source_delta * speed_multiplier_value
 	var next_rotation := source_arc_angles_move_toward(current_rotation, target_angle, rotation_speed)
 	return {
+		"method": SOURCE_UNIT_LOOK_AT_ANGLE_METHOD,
+		"source": SOURCE_UNIT_LOOK_AT_ANGLE_ROTATION,
 		"target_angle": target_angle,
 		"rotation_speed": rotation_speed,
 		"rotation": next_rotation,
