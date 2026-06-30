@@ -3385,8 +3385,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:", source)
         self.assertIn("var angle := rad_to_deg(atan2(vec_y, vec_x))", source)
         self.assertIn("func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_ROTATE_MOVE_ROTATION_GATE := "if(!vec.isZero()){"', source)
+        self.assertIn('const SOURCE_UNIT_ROTATE_MOVE_ROTATION_ASSIGNMENT := "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);"', source)
+        self.assertIn('const SOURCE_UNIT_ROTATE_MOVE_VEC2_IS_ZERO := "return x == 0 && y == 0;"', source)
+        self.assertIn('const SOURCE_UNIT_ROTATE_MOVE_VEC2_ANGLE := "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;"', source)
         self.assertIn("var vector_is_zero := vec_x == 0.0 and vec_y == 0.0", source)
         self.assertIn("next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, type_rotate_speed * source_delta * speed_multiplier_value)", source)
+        self.assertIn('"gate": SOURCE_UNIT_ROTATE_MOVE_ROTATION_GATE', source)
+        self.assertIn('"rotationAssignment": SOURCE_UNIT_ROTATE_MOVE_ROTATION_ASSIGNMENT', source)
+        self.assertIn('"vec2IsZero": SOURCE_UNIT_ROTATE_MOVE_VEC2_IS_ZERO', source)
+        self.assertIn('"vec2Angle": SOURCE_UNIT_ROTATE_MOVE_VEC2_ANGLE', source)
 
     def test_port_game_exposes_source_unit_aim_look_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

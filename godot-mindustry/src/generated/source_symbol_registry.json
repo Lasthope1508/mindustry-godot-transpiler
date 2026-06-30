@@ -41166,6 +41166,62 @@
         "test_port_game_exposes_source_unit_rotate_move_motion_state"
       ]
     },
+    "unit_rotate_move_rotation.gate": {
+      "godot_owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "godot_symbol": "source_unit_rotate_move_rotation_result.gate",
+      "java_expr": "if(!vec.isZero()){",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp rotateMove rotation branch gate.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ]
+    },
+    "unit_rotate_move_rotation.rotation_assignment": {
+      "godot_owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "godot_symbol": "source_unit_rotate_move_rotation_result.rotationAssignment",
+      "java_expr": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp rotateMove rotation assignment through Angles.moveToward.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ]
+    },
+    "unit_rotate_move_rotation.vec2_angle": {
+      "godot_owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "godot_symbol": "source_unit_rotate_move_rotation_result.vec2Angle",
+      "java_expr": "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+      "java_method": "Vec2.angle()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2.angle target rotation expression used by rotateMove.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ]
+    },
+    "unit_rotate_move_rotation.vec2_is_zero": {
+      "godot_owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "godot_symbol": "source_unit_rotate_move_rotation_result.vec2IsZero",
+      "java_expr": "return x == 0 && y == 0;",
+      "java_method": "Vec2.isZero()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2.isZero exact zero predicate used by rotateMove gate.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

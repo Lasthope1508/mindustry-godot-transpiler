@@ -13308,6 +13308,43 @@
         "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_rotate_move_motion_state"
       ]
+    },
+    "N799": {
+      "bridge_exprs": [
+        "return x == 0 && y == 0;",
+        "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+        "if(angle < 0) angle += 360;",
+        "public static float moveToward(float angle, float to, float speed){",
+        "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){",
+        "return Math.abs(angle1 - angle2);",
+        "return 360 - Math.abs(angle1 - angle2);",
+        "return ((f % n) + n) % n;"
+      ],
+      "deferred_exprs": [
+        "moveAt(Tmp.v2.trns(rotation, vec.len())); is owned by N798 PortGame.source_unit_rotate_move_motion_state.",
+        "Unit type rotateSpeed, Time.delta, and speedMultiplier are represented as explicit runtime inputs until full Unit runtime state is ported."
+      ],
+      "exact_exprs": [
+        "if(!vec.isZero()){",
+        "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);"
+      ],
+      "godot_owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "source_symbols": [
+        "unit_rotate_move_rotation.gate",
+        "unit_rotate_move_rotation.rotation_assignment",
+        "unit_rotate_move_rotation.vec2_is_zero",
+        "unit_rotate_move_rotation.vec2_angle"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ]
     }
   },
   "version": 1

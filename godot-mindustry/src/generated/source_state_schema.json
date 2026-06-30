@@ -52322,6 +52322,176 @@
       "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
       "status": "active"
     },
+    "source_unit_rotate_move_rotation_input": {
+      "keys": {
+        "current_rotation": {
+          "godot_symbol": "source_unit_rotate_move_rotation_input.current_rotation",
+          "java_expr": "rotation",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for UnitComp.rotation.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_rotate_move_rotation_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "Time.delta",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Runtime bridge input for Arc Time.delta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "speed_multiplier_value": {
+          "godot_symbol": "source_unit_rotate_move_rotation_input.speed_multiplier_value",
+          "java_expr": "speedMultiplier",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for UnitComp speedMultiplier field/value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "type_rotate_speed": {
+          "godot_symbol": "source_unit_rotate_move_rotation_input.type_rotate_speed",
+          "java_expr": "type.rotateSpeed",
+          "java_method": "UnitType.rotateSpeed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType.rotateSpeed.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "vec_x": {
+          "godot_symbol": "source_unit_rotate_move_rotation_input.vec_x",
+          "java_expr": "vec.x",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for Vec2 x used by isZero() and angle().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "vec_y": {
+          "godot_symbol": "source_unit_rotate_move_rotation_input.vec_y",
+          "java_expr": "vec.y",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for Vec2 y used by isZero() and angle().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "status": "active"
+    },
+    "source_unit_rotate_move_rotation_result": {
+      "keys": {
+        "gate": {
+          "godot_symbol": "source_unit_rotate_move_rotation_result.gate",
+          "java_expr": "if(!vec.isZero()){",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp rotateMove nonzero-vector gate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_unit_rotate_move_rotation_result.rotation",
+          "java_expr": "Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier)",
+          "java_method": "Angles.moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Runtime rotation after Angles.moveToward branch.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "rotationAssignment": {
+          "godot_symbol": "source_unit_rotate_move_rotation_result.rotationAssignment",
+          "java_expr": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp rotateMove rotation assignment source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "target_rotation": {
+          "godot_symbol": "source_unit_rotate_move_rotation_result.target_rotation",
+          "java_expr": "vec.angle()",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Runtime Vec2.angle target rotation.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "vec2Angle": {
+          "godot_symbol": "source_unit_rotate_move_rotation_result.vec2Angle",
+          "java_expr": "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.angle target angle expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "vec2IsZero": {
+          "godot_symbol": "source_unit_rotate_move_rotation_result.vec2IsZero",
+          "java_expr": "return x == 0 && y == 0;",
+          "java_method": "Vec2.isZero()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.isZero exact zero predicate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        },
+        "vector_is_zero": {
+          "godot_symbol": "source_unit_rotate_move_rotation_result.vector_is_zero",
+          "java_expr": "vec.isZero()",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime result of Vec2.isZero gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_rotation_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_rotate_move_rotation_state",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

@@ -4006,6 +4006,11 @@ func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:
 		angle += 360.0
 	return angle
 
+const SOURCE_UNIT_ROTATE_MOVE_ROTATION_GATE := "if(!vec.isZero()){"
+const SOURCE_UNIT_ROTATE_MOVE_ROTATION_ASSIGNMENT := "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);"
+const SOURCE_UNIT_ROTATE_MOVE_VEC2_IS_ZERO := "return x == 0 && y == 0;"
+const SOURCE_UNIT_ROTATE_MOVE_VEC2_ANGLE := "float angle = Mathf.atan2(x, y) * Mathf.radiansToDegrees;"
+
 func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
 	var vector_is_zero := vec_x == 0.0 and vec_y == 0.0
 	var target_rotation := source_unit_vec2_angle(vec_x, vec_y) if not vector_is_zero else current_rotation
@@ -4013,6 +4018,10 @@ func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: floa
 	if not vector_is_zero:
 		next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, type_rotate_speed * source_delta * speed_multiplier_value)
 	return {
+		"gate": SOURCE_UNIT_ROTATE_MOVE_ROTATION_GATE,
+		"rotationAssignment": SOURCE_UNIT_ROTATE_MOVE_ROTATION_ASSIGNMENT,
+		"vec2IsZero": SOURCE_UNIT_ROTATE_MOVE_VEC2_IS_ZERO,
+		"vec2Angle": SOURCE_UNIT_ROTATE_MOVE_VEC2_ANGLE,
 		"vector_is_zero": vector_is_zero,
 		"target_rotation": target_rotation,
 		"rotation": next_rotation,

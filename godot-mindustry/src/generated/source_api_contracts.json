@@ -14956,6 +14956,59 @@
         "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_rotate_move_motion_state"
       ]
+    },
+    "PortGame.source_unit_rotate_move_rotation_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_rotate_move_rotation_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "vec_x",
+          "schema": "source_unit_rotate_move_rotation_input.vec_x",
+          "type": "float"
+        },
+        {
+          "name": "vec_y",
+          "schema": "source_unit_rotate_move_rotation_input.vec_y",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_rotate_move_rotation_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_rotate_move_rotation_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_rotate_move_rotation_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "rotationAssignment",
+        "vec2IsZero",
+        "vec2Angle",
+        "vector_is_zero",
+        "target_rotation",
+        "rotation"
+      ],
+      "rule": "Public runtime contract for UnitComp.rotateMove(Vec2 vec) nonzero vector rotation branch.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
+      "source_method": "UnitComp.rotateMove(Vec2 vec) rotation",
+      "source_slice": "N799",
+      "status": "active",
+      "tests": [
+        "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_rotation_state"
+      ]
     }
   },
   "policy": {
