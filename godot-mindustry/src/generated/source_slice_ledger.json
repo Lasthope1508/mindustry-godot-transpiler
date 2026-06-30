@@ -15222,6 +15222,66 @@
       ],
       "runtime_proof": "/root/Main.source_vec2_limit",
       "rule": "Backfills SSOT for existing source_vec2_limit dictionary wrapper against Arc Vec2.limit(float)."
+    },
+    "N838": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+      "godot_owner": "PortGame.source_weapon_bullet_angle_life_state",
+      "exact_exprs": [
+        "protected void bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover){",
+        "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+        "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f,",
+        "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy);",
+        "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+        "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;"
+      ],
+      "bridge_exprs": [
+        "public float inaccuracy = 0f;",
+        "public boolean scaleLife;",
+        "public float range = 0f;",
+        "public static float dst(float x1, float y1, float x2, float y2){",
+        "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+        "public static float range(float range){\n        return random(-range, range);\n    }"
+      ],
+      "deferred_exprs": [
+        "Mathf.range(inaccuracy + bullet.inaccuracy) remains explicit angle_spread input; live Arc RNG stream is not reconstructed in this wrapper.",
+        "Geometry and not-added guard stay owned by source_weapon_bullet_geometry_state; create call and handleBullet remain owned by later registered weapon bullet slices."
+      ],
+      "source_symbols": [
+        "weapon_bullet_angle_life.angle",
+        "weapon_bullet_angle_life.angle_offset",
+        "weapon_bullet_angle_life.angle_spread",
+        "weapon_bullet_angle_life.bullet_inaccuracy",
+        "weapon_bullet_angle_life.bullet_range",
+        "weapon_bullet_angle_life.bullet_rotation_method",
+        "weapon_bullet_angle_life.bullet_rotation_return",
+        "weapon_bullet_angle_life.bullet_scale_life",
+        "weapon_bullet_angle_life.bullet_state",
+        "weapon_bullet_angle_life.life_scl",
+        "weapon_bullet_angle_life.mathf_clamp_unit",
+        "weapon_bullet_angle_life.mathf_dst",
+        "weapon_bullet_angle_life.mathf_range",
+        "weapon_bullet_angle_life.method",
+        "weapon_bullet_angle_life.mount_state",
+        "weapon_bullet_angle_life.shoot_angle",
+        "weapon_bullet_angle_life.unit_state",
+        "weapon_bullet_angle_life.weapon_inaccuracy",
+        "weapon_bullet_angle_life.weapon_state",
+        "weapon_bullet_angle_life.x_offset",
+        "weapon_bullet_angle_life.x_spread",
+        "weapon_bullet_angle_life.y_offset",
+        "weapon_bullet_angle_life.y_spread",
+        "weapon_bullet_angle_life.inaccuracy_range"
+      ],
+      "tests": [
+        "test_weapon_bullet_angle_life_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_angle_life_state",
+        "test_weapon_bullet_angle_life_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_angle_life_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet angle and lifetime scale wrapper against exact upstream source."
     }
   },
   "version": 1

@@ -60750,6 +60750,262 @@
           ]
         }
       }
+    },
+    "source_weapon_bullet_angle_life_input": {
+      "status": "active",
+      "keys": {
+        "unit_state": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Unit input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "mount_state": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.weapon_state",
+          "java_expr": "this",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.bullet_state",
+          "java_expr": "bullet",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source BulletType input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "x_offset": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.x_offset",
+          "java_expr": "xOffset",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source shoot x offset input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "y_offset": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.y_offset",
+          "java_expr": "yOffset",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source shoot y offset input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "x_spread": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.x_spread",
+          "java_expr": "xSpread = Mathf.range(xRand)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit xRand range draw input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "y_spread": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.y_spread",
+          "java_expr": "ySpread = Mathf.range(yRand)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit yRand range draw input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "angle_offset": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.angle_offset",
+          "java_expr": "angleOffset",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source angle offset input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "angle_spread": {
+          "godot_symbol": "source_weapon_bullet_angle_life_input.angle_spread",
+          "java_expr": "Mathf.range(inaccuracy + bullet.inaccuracy)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit source angle range draw input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_angle_life_result": {
+      "status": "active",
+      "keys": {
+        "shootAngle": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.shootAngle",
+          "java_expr": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed shoot angle.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "lifeScl": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.lifeScl",
+          "java_expr": "lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY) / bullet.range) : 1f,",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed lifetime scale.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "angle": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.angle",
+          "java_expr": "angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Final bullet angle.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "bulletRotation": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.bulletRotation",
+          "java_expr": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+          "java_method": "bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY)",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Bullet rotation formula.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "inaccuracyRange": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.inaccuracyRange",
+          "java_expr": "inaccuracy + bullet.inaccuracy",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Range passed into Mathf.range.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "angleSpread": {
+          "alias_of": "source_weapon_bullet_angle_life_input.angle_spread",
+          "rule": "Carries explicit source angle random draw.",
+          "status": "generated",
+          "type": "float"
+        },
+        "bulletScaleLife": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.bulletScaleLife",
+          "java_expr": "public boolean scaleLife;",
+          "java_method": "BulletType.scaleLife field",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType scaleLife gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "bulletRange": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.bulletRange",
+          "java_expr": "public float range = 0f;",
+          "java_method": "BulletType.range field",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType range denominator.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "targetDistance": {
+          "godot_symbol": "source_weapon_bullet_angle_life_result.targetDistance",
+          "java_expr": "public static float dst(float x1, float y1, float x2, float y2){",
+          "java_method": "dst(float x1, float y1, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Distance from bullet to aim point.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_angle_life_state"
+          ]
+        },
+        "unit_state": {
+          "alias_of": "source_weapon_bullet_angle_life_input.unit_state",
+          "rule": "Carries unit input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "mount_state": {
+          "alias_of": "source_weapon_bullet_angle_life_input.mount_state",
+          "rule": "Carries mount input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "weapon_state": {
+          "alias_of": "source_weapon_bullet_angle_life_input.weapon_state",
+          "rule": "Carries weapon input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "bullet_state": {
+          "alias_of": "source_weapon_bullet_angle_life_input.bullet_state",
+          "rule": "Carries bullet input.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      }
     }
   },
   "version": 1
