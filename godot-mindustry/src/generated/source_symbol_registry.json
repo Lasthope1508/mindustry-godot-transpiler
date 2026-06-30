@@ -43084,6 +43084,246 @@
         "test_port_game_exposes_source_unit_update_bounds_state"
       ]
     },
+    "unit_update_captured_sector_death.captured_comment": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "//die on captured sectors immediately",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring captured-sector death block.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.captured_guard": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "if(team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()){",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Captured-sector death guard.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.kill": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.kill",
+      "java_expr": "team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime boolean result of captured-sector death guard.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.kill_call": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.call",
+      "java_expr": "kill();",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source kill call under captured-sector death guard.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.sector_is_captured": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_input.sector_is_captured",
+      "java_expr": "state.getSector().isCaptured()",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for state.getSector().isCaptured().",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.sector_is_captured_method": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "public boolean isCaptured(){",
+      "java_method": "Sector.isCaptured()",
+      "java_source": "core/src/mindustry/type/Sector.java",
+      "rule": "Sector.isCaptured method anchor.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.sector_playing_capture": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;",
+      "java_method": "Sector.isCaptured()",
+      "java_source": "core/src/mindustry/type/Sector.java",
+      "rule": "Sector.isCaptured live-sector return branch.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.sector_save_capture": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "return save != null && !info.waves && !info.attack;",
+      "java_method": "Sector.isCaptured()",
+      "java_source": "core/src/mindustry/type/Sector.java",
+      "rule": "Sector.isCaptured saved-sector return branch.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.state_get_sector_body": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "return rules.sector;",
+      "java_method": "GameState.getSector()",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "rule": "GameState.getSector return expression.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.state_get_sector_method": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "public @Nullable Sector getSector(){",
+      "java_method": "GameState.getSector()",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "rule": "GameState.getSector method anchor.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.state_is_campaign": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_input.state_is_campaign",
+      "java_expr": "state.isCampaign()",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for state.isCampaign().",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.state_is_campaign_body": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "return rules.sector != null;",
+      "java_method": "GameState.isCampaign()",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "rule": "GameState.isCampaign return expression.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.state_is_campaign_method": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "public boolean isCampaign(){",
+      "java_method": "GameState.isCampaign()",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "rule": "GameState.isCampaign method anchor.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.team_is_only_ai": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_input.team_is_only_ai",
+      "java_expr": "team.isOnlyAI()",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for team.isOnlyAI().",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.team_is_only_ai_body": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "return isAI() && data().players.size == 0;",
+      "java_method": "Team.isOnlyAI()",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "rule": "Team.isOnlyAI return expression.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
+    "unit_update_captured_sector_death.team_is_only_ai_method": {
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "godot_symbol": "source_unit_update_captured_sector_death_result.guard",
+      "java_expr": "public boolean isOnlyAI(){",
+      "java_method": "Team.isOnlyAI()",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "rule": "Team.isOnlyAI method anchor.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

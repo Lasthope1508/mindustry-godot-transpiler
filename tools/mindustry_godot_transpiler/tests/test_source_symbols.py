@@ -5288,6 +5288,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_delta["java_expr"], "Time.delta")
         self.assertEqual(source_delta["godot_symbol"], "source_unit_update_bounds_input.source_delta")
 
+    def test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        captured_guard = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.captured_guard")
+        self.assertEqual(captured_guard["java_expr"], "if(team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()){")
+        self.assertEqual(captured_guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(captured_guard["java_method"], "UnitComp.update() captured-sector death")
+        self.assertEqual(captured_guard["godot_owner"], "PortGame.source_unit_update_captured_sector_death_state")
+        self.assertEqual(captured_guard["runtime_proof"], "/root/Main.source_unit_update_captured_sector_death_state")
+        self.assertEqual(captured_guard["godot_symbol"], "source_unit_update_captured_sector_death_result.guard")
+
+        kill_call = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.kill_call")
+        self.assertEqual(kill_call["java_expr"], "kill();")
+        self.assertEqual(kill_call["godot_symbol"], "source_unit_update_captured_sector_death_result.call")
+
+        team_is_only_ai = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.team_is_only_ai")
+        self.assertEqual(team_is_only_ai["status"], "explicit-input")
+        self.assertEqual(team_is_only_ai["java_expr"], "team.isOnlyAI()")
+        self.assertEqual(team_is_only_ai["godot_symbol"], "source_unit_update_captured_sector_death_input.team_is_only_ai")
+
+        state_is_campaign = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.state_is_campaign")
+        self.assertEqual(state_is_campaign["status"], "explicit-input")
+        self.assertEqual(state_is_campaign["java_expr"], "state.isCampaign()")
+        self.assertEqual(state_is_campaign["godot_symbol"], "source_unit_update_captured_sector_death_input.state_is_campaign")
+
+        sector_is_captured = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.sector_is_captured")
+        self.assertEqual(sector_is_captured["status"], "explicit-input")
+        self.assertEqual(sector_is_captured["java_expr"], "state.getSector().isCaptured()")
+        self.assertEqual(sector_is_captured["godot_symbol"], "source_unit_update_captured_sector_death_input.sector_is_captured")
+
+        team_is_only_ai_body = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.team_is_only_ai_body")
+        self.assertEqual(team_is_only_ai_body["java_expr"], "return isAI() && data().players.size == 0;")
+        self.assertEqual(team_is_only_ai_body["java_source"], "core/src/mindustry/game/Team.java")
+
+        state_is_campaign_body = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.state_is_campaign_body")
+        self.assertEqual(state_is_campaign_body["java_expr"], "return rules.sector != null;")
+        self.assertEqual(state_is_campaign_body["java_source"], "core/src/mindustry/core/GameState.java")
+
+        sector_playing_capture = source_symbols.source_symbol(registry, "unit_update_captured_sector_death.sector_playing_capture")
+        self.assertEqual(sector_playing_capture["java_expr"], "if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;")
+        self.assertEqual(sector_playing_capture["java_source"], "core/src/mindustry/type/Sector.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13760,9 +13805,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 408)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 409)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 413)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 414)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13828,6 +13873,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_boosting_guard_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_boosting_should_boost_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_bounds_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_captured_sector_death_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -16107,6 +16153,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("velAddNet(dx * Time.delta, dy * Time.delta);", unit_update_bounds["exact_exprs"])
         self.assertIn("if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){", unit_update_bounds["exact_exprs"])
         self.assertIn("world.unitHeight()/unitWidth(), Rules limitMapArea rectangle, Mathf.clamp, Time.delta, tilesize, and finalWorldBounds are bridge-backed by their source declarations.", unit_update_bounds["bridge_exprs"])
+
+        unit_update_captured_sector_death = source_symbols.source_slice(ledger, "N811")
+        self.assertEqual(unit_update_captured_sector_death["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_captured_sector_death["java_method"], "UnitComp.update() captured-sector death")
+        self.assertEqual(unit_update_captured_sector_death["godot_owner"], "PortGame.source_unit_update_captured_sector_death_state")
+        self.assertIn("//die on captured sectors immediately", unit_update_captured_sector_death["exact_exprs"])
+        self.assertIn("if(team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()){", unit_update_captured_sector_death["exact_exprs"])
+        self.assertIn("kill();", unit_update_captured_sector_death["exact_exprs"])
+        self.assertIn("return isAI() && data().players.size == 0;", unit_update_captured_sector_death["bridge_exprs"])
+        self.assertIn("return rules.sector != null;", unit_update_captured_sector_death["bridge_exprs"])
+        self.assertIn("if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;", unit_update_captured_sector_death["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19891,6 +19948,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_bounds["return_keys"])
         self.assertNotIn("source_delta", unit_update_bounds["return_keys"])
         self.assertEqual(unit_update_bounds["source_method"], "UnitComp.update() bounds")
+
+        unit_update_captured_sector_death = source_symbols.api_contract(contracts, "PortGame.source_unit_update_captured_sector_death_state")
+        self.assertEqual([param["name"] for param in unit_update_captured_sector_death["params"]], ["team_is_only_ai", "state_is_campaign", "sector_is_captured"])
+        self.assertEqual(unit_update_captured_sector_death["params"][0]["schema"], "source_unit_update_captured_sector_death_input.team_is_only_ai")
+        self.assertEqual(unit_update_captured_sector_death["params"][1]["schema"], "source_unit_update_captured_sector_death_input.state_is_campaign")
+        self.assertEqual(unit_update_captured_sector_death["params"][2]["schema"], "source_unit_update_captured_sector_death_input.sector_is_captured")
+        self.assertIn("guard", unit_update_captured_sector_death["return_keys"])
+        self.assertIn("kill", unit_update_captured_sector_death["return_keys"])
+        self.assertIn("call", unit_update_captured_sector_death["return_keys"])
+        self.assertNotIn("team_is_only_ai", unit_update_captured_sector_death["return_keys"])
+        self.assertEqual(unit_update_captured_sector_death["source_method"], "UnitComp.update() captured-sector death")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24079,6 +24147,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_bounds_input["keys"]["is_local"]["java_expr"], "isLocal()")
         self.assertEqual(source_unit_update_bounds_input["keys"]["source_delta"]["java_expr"], "Time.delta")
 
+        source_unit_update_captured_sector_death_input = source_symbols.state_schema(schema, "source_unit_update_captured_sector_death_input")
+        self.assertEqual(source_unit_update_captured_sector_death_input["keys"]["team_is_only_ai"]["java_expr"], "team.isOnlyAI()")
+        self.assertEqual(source_unit_update_captured_sector_death_input["keys"]["team_is_only_ai"]["status"], "explicit-input")
+        self.assertEqual(source_unit_update_captured_sector_death_input["keys"]["state_is_campaign"]["java_expr"], "state.isCampaign()")
+        self.assertEqual(source_unit_update_captured_sector_death_input["keys"]["sector_is_captured"]["java_expr"], "state.getSector().isCaptured()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24455,6 +24529,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_bounds_result["keys"]["grounded"]["java_expr"], "if(isGrounded()){")
         self.assertEqual(source_unit_update_bounds_result["keys"]["kill"]["java_expr"], "if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){")
         self.assertNotIn("source_delta", source_unit_update_bounds_result["keys"])
+
+        source_unit_update_captured_sector_death_result = source_symbols.state_schema(schema, "source_unit_update_captured_sector_death_result")
+        self.assertEqual(source_unit_update_captured_sector_death_result["keys"]["guard"]["java_expr"], "if(team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()){")
+        self.assertEqual(source_unit_update_captured_sector_death_result["keys"]["kill"]["java_expr"], "team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()")
+        self.assertEqual(source_unit_update_captured_sector_death_result["keys"]["call"]["java_expr"], "kill();")
+        self.assertNotIn("sector_is_captured", source_unit_update_captured_sector_death_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

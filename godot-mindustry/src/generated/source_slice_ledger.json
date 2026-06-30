@@ -13802,6 +13802,56 @@
         "test_unit_update_bounds_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_bounds_state"
       ]
+    },
+    "N811": {
+      "bridge_exprs": [
+        "public boolean isOnlyAI(){",
+        "return isAI() && data().players.size == 0;",
+        "public boolean isCampaign(){",
+        "return rules.sector != null;",
+        "public @Nullable Sector getSector(){",
+        "return rules.sector;",
+        "public boolean isCaptured(){",
+        "if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;",
+        "return save != null && !info.waves && !info.attack;"
+      ],
+      "deferred_exprs": [
+        "Team, GameState, and Sector internals stay bridge-backed; this slice consumes their boolean results as explicit runtime inputs."
+      ],
+      "exact_exprs": [
+        "//die on captured sectors immediately",
+        "if(team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()){",
+        "kill();"
+      ],
+      "godot_owner": "PortGame.source_unit_update_captured_sector_death_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() captured-sector death",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "source_symbols": [
+        "unit_update_captured_sector_death.captured_comment",
+        "unit_update_captured_sector_death.captured_guard",
+        "unit_update_captured_sector_death.kill",
+        "unit_update_captured_sector_death.kill_call",
+        "unit_update_captured_sector_death.team_is_only_ai",
+        "unit_update_captured_sector_death.state_is_campaign",
+        "unit_update_captured_sector_death.sector_is_captured",
+        "unit_update_captured_sector_death.team_is_only_ai_method",
+        "unit_update_captured_sector_death.team_is_only_ai_body",
+        "unit_update_captured_sector_death.state_is_campaign_method",
+        "unit_update_captured_sector_death.state_is_campaign_body",
+        "unit_update_captured_sector_death.state_get_sector_method",
+        "unit_update_captured_sector_death.state_get_sector_body",
+        "unit_update_captured_sector_death.sector_is_captured_method",
+        "unit_update_captured_sector_death.sector_playing_capture",
+        "unit_update_captured_sector_death.sector_save_capture"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
     }
   },
   "version": 1

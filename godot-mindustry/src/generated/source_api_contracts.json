@@ -15539,6 +15539,41 @@
         "test_unit_update_bounds_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_bounds_state"
       ]
+    },
+    "PortGame.source_unit_update_captured_sector_death_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "team_is_only_ai",
+          "schema": "source_unit_update_captured_sector_death_input.team_is_only_ai",
+          "type": "bool"
+        },
+        {
+          "name": "state_is_campaign",
+          "schema": "source_unit_update_captured_sector_death_input.state_is_campaign",
+          "type": "bool"
+        },
+        {
+          "name": "sector_is_captured",
+          "schema": "source_unit_update_captured_sector_death_input.sector_is_captured",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "kill",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.update captured-sector death state.",
+      "runtime_proof": "/root/Main.source_unit_update_captured_sector_death_state",
+      "source_method": "UnitComp.update() captured-sector death",
+      "source_slice": "N811",
+      "status": "active",
+      "tests": [
+        "test_unit_update_captured_sector_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_captured_sector_death_state",
+        "test_unit_update_captured_sector_death_matches_upstream_source"
+      ]
     }
   },
   "policy": {
