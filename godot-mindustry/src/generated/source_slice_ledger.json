@@ -13971,6 +13971,64 @@
         "test_port_game_exposes_source_unit_update_drowning_state",
         "test_unit_update_drowning_matches_upstream_source"
       ]
+    },
+    "N814": {
+      "bridge_exprs": [
+        "fallSpeed = 0.018f,",
+        "wreckHealthMultiplier = 0.25f,",
+        "public static float delta = 1f;",
+        "@Remote(called = Loc.server)",
+        "public static void unitDestroy(int uid){",
+        "unit.destroy();"
+      ],
+      "deferred_exprs": [
+        "Falling drag, fall smoke, engine trail, and destroy() body are owned by adjacent source slices; this slice records only descent and Call.unitDestroy(id) trigger."
+      ],
+      "exact_exprs": [
+        "//simulate falling down",
+        "if(dead || health <= 0){",
+        "//move down",
+        "elevation -= type.fallSpeed * Time.delta;",
+        "if(isGrounded() || health <= -maxHealth * type.wreckHealthMultiplier){",
+        "Call.unitDestroy(id);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "source_symbols": [
+        "unit_update_falling_descent.dead",
+        "unit_update_falling_descent.descent",
+        "unit_update_falling_descent.destroy_guard",
+        "unit_update_falling_descent.elevation",
+        "unit_update_falling_descent.elevation_before",
+        "unit_update_falling_descent.fall_speed",
+        "unit_update_falling_descent.falling_guard",
+        "unit_update_falling_descent.health",
+        "unit_update_falling_descent.is_grounded",
+        "unit_update_falling_descent.max_health",
+        "unit_update_falling_descent.move_down_comment",
+        "unit_update_falling_descent.simulate_falling_comment",
+        "unit_update_falling_descent.source_delta",
+        "unit_update_falling_descent.time_delta_default",
+        "unit_update_falling_descent.type_wreck_health_multiplier",
+        "unit_update_falling_descent.unit_destroy_call",
+        "unit_update_falling_descent.unit_id",
+        "unit_update_falling_descent.unit_type_fall_speed_default",
+        "unit_update_falling_descent.unit_type_wreck_health_multiplier_default",
+        "unit_update_falling_descent.units_destroy_body",
+        "unit_update_falling_descent.units_unit_destroy_method",
+        "unit_update_falling_descent.units_unit_destroy_remote",
+        "unit_update_falling_descent.wreck_health_multiplier",
+        "unit_update_falling_descent.wreck_health_threshold"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
     }
   },
   "version": 1

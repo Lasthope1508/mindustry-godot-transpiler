@@ -5455,6 +5455,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(clamp_unit["java_expr"], "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }")
         self.assertEqual(clamp_unit["java_source"], "arc-core/src/arc/math/Mathf.java")
 
+    def test_unit_update_falling_descent_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        falling_guard = source_symbols.source_symbol(registry, "unit_update_falling_descent.falling_guard")
+        self.assertEqual(falling_guard["java_expr"], "if(dead || health <= 0){")
+        self.assertEqual(falling_guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(falling_guard["java_method"], "UnitComp.update() falling descent")
+        self.assertEqual(falling_guard["godot_owner"], "PortGame.source_unit_update_falling_descent_state")
+        self.assertEqual(falling_guard["runtime_proof"], "/root/Main.source_unit_update_falling_descent_state")
+        self.assertEqual(falling_guard["godot_symbol"], "source_unit_update_falling_descent_result.fallingGuard")
+
+        descent = source_symbols.source_symbol(registry, "unit_update_falling_descent.descent")
+        self.assertEqual(descent["java_expr"], "elevation -= type.fallSpeed * Time.delta;")
+        self.assertEqual(descent["godot_symbol"], "source_unit_update_falling_descent_result.descent")
+
+        elevation = source_symbols.source_symbol(registry, "unit_update_falling_descent.elevation")
+        self.assertEqual(elevation["java_expr"], "elevation -= type.fallSpeed * Time.delta;")
+        self.assertEqual(elevation["godot_symbol"], "source_unit_update_falling_descent_result.elevation")
+
+        destroy_guard = source_symbols.source_symbol(registry, "unit_update_falling_descent.destroy_guard")
+        self.assertEqual(destroy_guard["java_expr"], "if(isGrounded() || health <= -maxHealth * type.wreckHealthMultiplier){")
+        self.assertEqual(destroy_guard["godot_symbol"], "source_unit_update_falling_descent_result.destroy")
+
+        unit_destroy_call = source_symbols.source_symbol(registry, "unit_update_falling_descent.unit_destroy_call")
+        self.assertEqual(unit_destroy_call["java_expr"], "Call.unitDestroy(id);")
+        self.assertEqual(unit_destroy_call["godot_symbol"], "source_unit_update_falling_descent_result.destroy")
+
+        dead = source_symbols.source_symbol(registry, "unit_update_falling_descent.dead")
+        self.assertEqual(dead["status"], "explicit-input")
+        self.assertEqual(dead["java_expr"], "dead")
+        self.assertEqual(dead["godot_symbol"], "source_unit_update_falling_descent_input.dead_value")
+
+        fall_speed_default = source_symbols.source_symbol(registry, "unit_update_falling_descent.unit_type_fall_speed_default")
+        self.assertEqual(fall_speed_default["java_expr"], "fallSpeed = 0.018f,")
+        self.assertEqual(fall_speed_default["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        wreck_multiplier_default = source_symbols.source_symbol(registry, "unit_update_falling_descent.unit_type_wreck_health_multiplier_default")
+        self.assertEqual(wreck_multiplier_default["java_expr"], "wreckHealthMultiplier = 0.25f,")
+        self.assertEqual(wreck_multiplier_default["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        time_delta = source_symbols.source_symbol(registry, "unit_update_falling_descent.time_delta_default")
+        self.assertEqual(time_delta["java_expr"], "public static float delta = 1f;")
+        self.assertEqual(time_delta["java_source"], "arc-core/src/arc/util/Time.java")
+
+        remote = source_symbols.source_symbol(registry, "unit_update_falling_descent.units_unit_destroy_remote")
+        self.assertEqual(remote["java_expr"], "@Remote(called = Loc.server)")
+        self.assertEqual(remote["java_source"], "core/src/mindustry/entities/Units.java")
+
+        unit_destroy_method = source_symbols.source_symbol(registry, "unit_update_falling_descent.units_unit_destroy_method")
+        self.assertEqual(unit_destroy_method["java_expr"], "public static void unitDestroy(int uid){")
+        self.assertEqual(unit_destroy_method["java_source"], "core/src/mindustry/entities/Units.java")
+
+        destroy_body = source_symbols.source_symbol(registry, "unit_update_falling_descent.units_destroy_body")
+        self.assertEqual(destroy_body["java_expr"], "unit.destroy();")
+        self.assertEqual(destroy_body["java_source"], "core/src/mindustry/entities/Units.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13927,9 +13986,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 411)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 412)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 416)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 417)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13952,6 +14011,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_count_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_drown_floor_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_drowning_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_falling_descent_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16312,6 +16372,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float drownTime = 0f;", unit_update_drowning["bridge_exprs"])
         self.assertIn("public Effect drownUpdateEffect = Fx.bubble;", unit_update_drowning["bridge_exprs"])
         self.assertIn("drownTimeMultiplier = 1f,", unit_update_drowning["bridge_exprs"])
+
+        unit_update_falling_descent = source_symbols.source_slice(ledger, "N814")
+        self.assertEqual(unit_update_falling_descent["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_falling_descent["java_method"], "UnitComp.update() falling descent")
+        self.assertEqual(unit_update_falling_descent["godot_owner"], "PortGame.source_unit_update_falling_descent_state")
+        self.assertIn("//simulate falling down", unit_update_falling_descent["exact_exprs"])
+        self.assertIn("if(dead || health <= 0){", unit_update_falling_descent["exact_exprs"])
+        self.assertIn("//move down", unit_update_falling_descent["exact_exprs"])
+        self.assertIn("elevation -= type.fallSpeed * Time.delta;", unit_update_falling_descent["exact_exprs"])
+        self.assertIn("if(isGrounded() || health <= -maxHealth * type.wreckHealthMultiplier){", unit_update_falling_descent["exact_exprs"])
+        self.assertIn("Call.unitDestroy(id);", unit_update_falling_descent["exact_exprs"])
+        self.assertIn("fallSpeed = 0.018f,", unit_update_falling_descent["bridge_exprs"])
+        self.assertIn("wreckHealthMultiplier = 0.25f,", unit_update_falling_descent["bridge_exprs"])
+        self.assertIn("public static float delta = 1f;", unit_update_falling_descent["bridge_exprs"])
+        self.assertIn("public static void unitDestroy(int uid){", unit_update_falling_descent["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20127,6 +20202,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_drowning["return_keys"])
         self.assertNotIn("can_drown_value", unit_update_drowning["return_keys"])
         self.assertEqual(unit_update_drowning["source_method"], "UnitComp.updateDrowning()")
+
+        unit_update_falling_descent = source_symbols.api_contract(contracts, "PortGame.source_unit_update_falling_descent_state")
+        self.assertEqual([param["name"] for param in unit_update_falling_descent["params"]], ["dead_value", "health_value", "elevation_value", "type_fall_speed", "source_delta", "is_grounded_value", "max_health", "type_wreck_health_multiplier", "unit_id"])
+        self.assertEqual(unit_update_falling_descent["params"][0]["schema"], "source_unit_update_falling_descent_input.dead_value")
+        self.assertEqual(unit_update_falling_descent["params"][3]["schema"], "source_unit_update_falling_descent_input.type_fall_speed")
+        self.assertEqual(unit_update_falling_descent["params"][8]["schema"], "source_unit_update_falling_descent_input.unit_id")
+        for key in ["fallingGuard", "elevationBefore", "elevation", "descent", "grounded", "wreckHealthThreshold", "destroy"]:
+            self.assertIn(key, unit_update_falling_descent["return_keys"])
+        self.assertNotIn("dead_value", unit_update_falling_descent["return_keys"])
+        self.assertEqual(unit_update_falling_descent["source_method"], "UnitComp.update() falling descent")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24340,6 +24425,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_drowning_input["keys"]["chance_delta_result"]["java_expr"], "Mathf.chanceDelta(0.05f)")
         self.assertEqual(source_unit_update_drowning_input["keys"]["net_client"]["java_expr"], "net.client()")
 
+        source_unit_update_falling_descent_input = source_symbols.state_schema(schema, "source_unit_update_falling_descent_input")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["health_value"]["java_expr"], "health")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["type_fall_speed"]["java_expr"], "type.fallSpeed")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["is_grounded_value"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["max_health"]["java_expr"], "maxHealth")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["type_wreck_health_multiplier"]["java_expr"], "type.wreckHealthMultiplier")
+        self.assertEqual(source_unit_update_falling_descent_input["keys"]["unit_id"]["java_expr"], "id")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24742,6 +24838,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_drowning_result["keys"]["eventCall"]["java_expr"], "Events.fire(new UnitDrownEvent(self()));")
         self.assertEqual(source_unit_update_drowning_result["keys"]["netClient"]["java_expr"], "net.client()")
         self.assertNotIn("can_drown_value", source_unit_update_drowning_result["keys"])
+
+        source_unit_update_falling_descent_result = source_symbols.state_schema(schema, "source_unit_update_falling_descent_result")
+        self.assertEqual(source_unit_update_falling_descent_result["keys"]["fallingGuard"]["java_expr"], "dead || health <= 0")
+        self.assertEqual(source_unit_update_falling_descent_result["keys"]["elevationBefore"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_falling_descent_result["keys"]["elevation"]["java_expr"], "elevation -= type.fallSpeed * Time.delta;")
+        self.assertEqual(source_unit_update_falling_descent_result["keys"]["descent"]["java_expr"], "elevation -= type.fallSpeed * Time.delta;")
+        self.assertEqual(source_unit_update_falling_descent_result["keys"]["grounded"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_update_falling_descent_result["keys"]["wreckHealthThreshold"]["java_expr"], "-maxHealth * type.wreckHealthMultiplier")
+        self.assertEqual(source_unit_update_falling_descent_result["keys"]["destroy"]["java_expr"], "Call.unitDestroy(id);")
+        self.assertNotIn("dead_value", source_unit_update_falling_descent_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

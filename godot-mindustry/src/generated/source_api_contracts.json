@@ -15697,6 +15697,75 @@
         "test_port_game_exposes_source_unit_update_drowning_state",
         "test_unit_update_drowning_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_falling_descent_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_descent_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_descent_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_falling_descent_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_fall_speed",
+          "schema": "source_unit_update_falling_descent_input.type_fall_speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_falling_descent_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "is_grounded_value",
+          "schema": "source_unit_update_falling_descent_input.is_grounded_value",
+          "type": "bool"
+        },
+        {
+          "name": "max_health",
+          "schema": "source_unit_update_falling_descent_input.max_health",
+          "type": "float"
+        },
+        {
+          "name": "type_wreck_health_multiplier",
+          "schema": "source_unit_update_falling_descent_input.type_wreck_health_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_falling_descent_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "fallingGuard",
+        "elevationBefore",
+        "elevation",
+        "descent",
+        "grounded",
+        "wreckHealthThreshold",
+        "destroy"
+      ],
+      "rule": "Public runtime contract for UnitComp.update falling descent state.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "source_method": "UnitComp.update() falling descent",
+      "source_slice": "N814",
+      "status": "active",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
     }
   },
   "policy": {

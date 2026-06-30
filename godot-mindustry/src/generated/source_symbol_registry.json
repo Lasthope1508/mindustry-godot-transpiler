@@ -44014,6 +44014,366 @@
         "test_unit_update_drowning_matches_upstream_source"
       ]
     },
+    "unit_update_falling_descent.dead": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.dead_value",
+      "java_expr": "dead",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for imported dead flag.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.descent": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.descent",
+      "java_expr": "elevation -= type.fallSpeed * Time.delta;",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact source descent assignment record.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.destroy_guard": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.destroy",
+      "java_expr": "if(isGrounded() || health <= -maxHealth * type.wreckHealthMultiplier){",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact source destroy guard.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.elevation": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.elevation",
+      "java_expr": "elevation -= type.fallSpeed * Time.delta;",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Next elevation after source descent.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.elevation_before": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.elevation_value",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for elevation before descent.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.fall_speed": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.type_fall_speed",
+      "java_expr": "type.fallSpeed",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for UnitType.fallSpeed.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.falling_guard": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.fallingGuard",
+      "java_expr": "if(dead || health <= 0){",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact source falling guard.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.health": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.health_value",
+      "java_expr": "health",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for imported health.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.is_grounded": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.is_grounded_value",
+      "java_expr": "isGrounded()",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for isGrounded() result.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.max_health": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.max_health",
+      "java_expr": "maxHealth",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for imported maxHealth.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.move_down_comment": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.descent",
+      "java_expr": "//move down",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring descent sub-slice.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.simulate_falling_comment": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.fallingGuard",
+      "java_expr": "//simulate falling down",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring falling block.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.source_delta": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for Time.delta.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.time_delta_default": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.source_delta",
+      "java_expr": "public static float delta = 1f;",
+      "java_method": "Time.delta",
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "rule": "Arc Time.delta default bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.type_wreck_health_multiplier": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.type_wreck_health_multiplier",
+      "java_expr": "type.wreckHealthMultiplier",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for UnitType.wreckHealthMultiplier.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.unit_destroy_call": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.destroy",
+      "java_expr": "Call.unitDestroy(id);",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source remote destroy trigger call.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.unit_id": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.unit_id",
+      "java_expr": "id",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for unit id.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.unit_type_fall_speed_default": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.type_fall_speed",
+      "java_expr": "fallSpeed = 0.018f,",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType.fallSpeed default source.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.unit_type_wreck_health_multiplier_default": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.type_wreck_health_multiplier",
+      "java_expr": "wreckHealthMultiplier = 0.25f,",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType.wreckHealthMultiplier default source.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.units_destroy_body": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.destroy",
+      "java_expr": "unit.destroy();",
+      "java_method": "Units.unitDestroy(int uid)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Units.unitDestroy handler body calls unit.destroy().",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.units_unit_destroy_method": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.destroy",
+      "java_expr": "public static void unitDestroy(int uid){",
+      "java_method": "Units.unitDestroy(int uid)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Units.unitDestroy method source.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.units_unit_destroy_remote": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.destroy",
+      "java_expr": "@Remote(called = Loc.server)",
+      "java_method": "Units.unitDestroy(int uid)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Units.unitDestroy remote annotation source.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.wreck_health_multiplier": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_input.type_wreck_health_multiplier",
+      "java_expr": "type.wreckHealthMultiplier",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for wreck health multiplier.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_descent.wreck_health_threshold": {
+      "godot_owner": "PortGame.source_unit_update_falling_descent_state",
+      "godot_symbol": "source_unit_update_falling_descent_result.wreckHealthThreshold",
+      "java_expr": "-maxHealth * type.wreckHealthMultiplier",
+      "java_method": "UnitComp.update() falling descent",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed wreck health destroy threshold.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_descent_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_descent_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_descent_state",
+        "test_unit_update_falling_descent_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",
