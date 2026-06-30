@@ -53568,6 +53568,171 @@
       "godot_symbol": "source_weapon_bullet_initial_guard_input.unit_state.remove",
       "status": "source-backed",
       "rule": "EntityComp remove sets added false."
+    },
+    "weapon_bullet_mount_recoil.assignment": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.recoil = 1f;",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_result.mountRecoil",
+      "status": "source-backed",
+      "rule": "Weapon.bullet assigns mount recoil to 1f after recoil velocity and shake."
+    },
+    "weapon_bullet_mount_recoil.create_call_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_input.create_call_state",
+      "status": "generated",
+      "rule": "Carries prior create call state so bulletContinues gates mount recoil assignment."
+    },
+    "weapon_bullet_mount_recoil.mount_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "WeaponMount mount",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_input.mount_state",
+      "status": "explicit-input",
+      "rule": "Source WeaponMount input carrying current recoil."
+    },
+    "weapon_bullet_mount_recoil.mount_recoil_field": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float recoil;",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_input.mount_state.recoil",
+      "status": "source-backed",
+      "rule": "WeaponMount recoil field read before mount recoil assignment."
+    },
+    "weapon_bullet_mount_recoil.mount_recoil_before": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "mount.recoil",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_result.mountRecoilBefore",
+      "status": "source-backed",
+      "rule": "Runtime record of mount recoil before assignment."
+    },
+    "weapon_bullet_mount_recoil.mount_recoil_applied": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.recoil = 1f;",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_result.mountRecoilApplied",
+      "status": "source-backed",
+      "rule": "Applied flag mirrors execution of mount recoil assignment."
+    },
+    "weapon_bullet_mount_recoil.recoil_slots_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(recoils > 0){",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_result.recoilSlotsReservedSource",
+      "status": "deferred",
+      "rule": "Following recoil slot branch remains owned by source_weapon_bullet_recoil_slots_state."
+    },
+    "weapon_bullet_mount_recoil.recoil_slot_assignment_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.recoils[mount.barrelCounter % recoils] = 1f;",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_result.recoilSlotsReservedSource",
+      "status": "deferred",
+      "rule": "Following recoil slot assignment remains owned by source_weapon_bullet_recoil_slots_state."
+    },
+    "weapon_bullet_mount_recoil.heat_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.heat = 1f;",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_result.heatReservedSource",
+      "status": "deferred",
+      "rule": "Following heat assignment remains owned by source_weapon_bullet_heat_state."
+    },
+    "weapon_bullet_mount_recoil.mount_recoils_field": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable float[] recoils;",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_input.mount_state.recoils",
+      "status": "source-backed",
+      "rule": "WeaponMount nullable recoil slots field is bridge evidence for reserved recoil slot branch."
+    },
+    "weapon_bullet_mount_recoil.weapon_recoils_default": {
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public int recoils = -1;",
+      "godot_symbol": "source_weapon_bullet_mount_recoil_input.weapon_state.recoils",
+      "status": "source-backed",
+      "rule": "Weapon recoils default is bridge evidence for reserved recoil slot branch."
     }
   },
   "version": 1

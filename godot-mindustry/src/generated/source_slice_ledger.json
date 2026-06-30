@@ -15572,6 +15572,45 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
       "rule": "Backfills SSOT for existing Weapon.bullet initial unit-added guard and charging reset wrapper against exact upstream source."
+    },
+    "N845": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "exact_exprs": [
+        "mount.recoil = 1f;"
+      ],
+      "bridge_exprs": [
+        "public float recoil;",
+        "public @Nullable float[] recoils;",
+        "public int recoils = -1;"
+      ],
+      "deferred_exprs": [
+        "Recoil slot branch and heat assignment remain owned by later registered Weapon.bullet slices.",
+        "Live WeaponMount mutation remains represented as returned state until full entity graph wiring owns mount instances."
+      ],
+      "source_symbols": [
+        "weapon_bullet_mount_recoil.assignment",
+        "weapon_bullet_mount_recoil.create_call_state",
+        "weapon_bullet_mount_recoil.mount_state",
+        "weapon_bullet_mount_recoil.mount_recoil_field",
+        "weapon_bullet_mount_recoil.mount_recoil_before",
+        "weapon_bullet_mount_recoil.mount_recoil_applied",
+        "weapon_bullet_mount_recoil.recoil_slots_reserved",
+        "weapon_bullet_mount_recoil.recoil_slot_assignment_reserved",
+        "weapon_bullet_mount_recoil.heat_reserved",
+        "weapon_bullet_mount_recoil.mount_recoils_field",
+        "weapon_bullet_mount_recoil.weapon_recoils_default"
+      ],
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet mount recoil assignment wrapper against exact upstream source."
     }
   },
   "version": 1
