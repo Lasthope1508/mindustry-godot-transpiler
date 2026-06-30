@@ -4945,6 +4945,79 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(ability_ids["java_expr"], "abilities")
         self.assertEqual(ability_ids["godot_symbol"], "source_unit_update_abilities_loop_input.ability_ids")
 
+    def test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.comment")
+        self.assertEqual(comment["java_expr"], "//AI only updates on the server")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(comment["java_method"], "UnitComp.update()")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_unit_update_ai_controller_server_gate_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_unit_update_ai_controller_server_gate_state")
+        self.assertEqual(comment["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.comment")
+
+        guard = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.guard")
+        self.assertEqual(guard["java_expr"], "if(!net.client() && !dead && shouldUpdateController()){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.guardSource")
+
+        update_call = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.update_call")
+        self.assertEqual(update_call["java_expr"], "controller.updateUnit();")
+        self.assertEqual(update_call["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.controllerUpdateCall")
+
+        controller_field = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.controller_field")
+        self.assertEqual(controller_field["java_expr"], "private UnitController controller;")
+        self.assertEqual(controller_field["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.controllerField")
+
+        dead_import = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.dead_import")
+        self.assertEqual(dead_import["java_expr"], "@Import boolean dead, disarmed;")
+        self.assertEqual(dead_import["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.deadImport")
+
+        should_update_method = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.should_update_method")
+        self.assertEqual(should_update_method["java_expr"], "public boolean shouldUpdateController(){")
+        self.assertEqual(should_update_method["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.shouldUpdateMethod")
+
+        should_update_default = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.should_update_default")
+        self.assertEqual(should_update_default["java_expr"], "return true;")
+        self.assertEqual(should_update_default["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.shouldUpdateDefault")
+
+        unit_controller_update = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.unit_controller_update")
+        self.assertEqual(unit_controller_update["java_source"], "core/src/mindustry/entities/units/UnitController.java")
+        self.assertEqual(unit_controller_update["java_expr"], "default void updateUnit(){")
+        self.assertEqual(unit_controller_update["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.unitControllerUpdate")
+
+        net_client_method = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.net_client_method")
+        self.assertEqual(net_client_method["java_source"], "core/src/mindustry/net/Net.java")
+        self.assertEqual(net_client_method["java_expr"], "public boolean client(){")
+        self.assertEqual(net_client_method["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.netClientMethod")
+
+        net_client_body = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.net_client_body")
+        self.assertEqual(net_client_body["java_source"], "core/src/mindustry/net/Net.java")
+        self.assertEqual(net_client_body["java_expr"], "return !server && active;")
+        self.assertEqual(net_client_body["godot_symbol"], "source_unit_update_ai_controller_server_gate_result.netClientBody")
+
+        net_client = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.net_client")
+        self.assertEqual(net_client["status"], "explicit-input")
+        self.assertEqual(net_client["java_expr"], "net.client()")
+        self.assertEqual(net_client["godot_symbol"], "source_unit_update_ai_controller_server_gate_input.net_client_value")
+
+        dead = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.dead")
+        self.assertEqual(dead["status"], "explicit-input")
+        self.assertEqual(dead["java_expr"], "dead")
+        self.assertEqual(dead["godot_symbol"], "source_unit_update_ai_controller_server_gate_input.dead_value")
+
+        should_update_controller = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.should_update_controller")
+        self.assertEqual(should_update_controller["status"], "explicit-input")
+        self.assertEqual(should_update_controller["java_expr"], "shouldUpdateController()")
+        self.assertEqual(should_update_controller["godot_symbol"], "source_unit_update_ai_controller_server_gate_input.should_update_controller_value")
+
+        unit_id = source_symbols.source_symbol(registry, "unit_update_ai_controller_server_gate.unit_id")
+        self.assertEqual(unit_id["status"], "explicit-input")
+        self.assertEqual(unit_id["java_expr"], "self()")
+        self.assertEqual(unit_id["godot_symbol"], "source_unit_update_ai_controller_server_gate_input.unit_id")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13417,9 +13490,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 401)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 402)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 406)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 407)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13478,6 +13551,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_targetable_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_unloaded_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_abilities_loop_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_ai_controller_server_gate_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15690,6 +15764,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("a.update(self());", unit_update_abilities_loop["exact_exprs"])
         self.assertIn("public void update(Unit unit){}", unit_update_abilities_loop["bridge_exprs"])
         self.assertIn("Concrete Ability.update overrides stay deferred; this slice preserves ordered dispatch only.", unit_update_abilities_loop["deferred_exprs"])
+
+        unit_update_ai_controller_server_gate = source_symbols.source_slice(ledger, "N804")
+        self.assertEqual(unit_update_ai_controller_server_gate["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_ai_controller_server_gate["java_method"], "UnitComp.update()/UnitController.updateUnit()/Net.client()")
+        self.assertEqual(unit_update_ai_controller_server_gate["godot_owner"], "PortGame.source_unit_update_ai_controller_server_gate_state")
+        self.assertIn("//AI only updates on the server", unit_update_ai_controller_server_gate["exact_exprs"])
+        self.assertIn("if(!net.client() && !dead && shouldUpdateController()){", unit_update_ai_controller_server_gate["exact_exprs"])
+        self.assertIn("controller.updateUnit();", unit_update_ai_controller_server_gate["exact_exprs"])
+        self.assertIn("private UnitController controller;", unit_update_ai_controller_server_gate["bridge_exprs"])
+        self.assertIn("@Import boolean dead, disarmed;", unit_update_ai_controller_server_gate["bridge_exprs"])
+        self.assertIn("public boolean shouldUpdateController(){", unit_update_ai_controller_server_gate["bridge_exprs"])
+        self.assertIn("return true;", unit_update_ai_controller_server_gate["bridge_exprs"])
+        self.assertIn("default void updateUnit(){", unit_update_ai_controller_server_gate["bridge_exprs"])
+        self.assertIn("public boolean client(){", unit_update_ai_controller_server_gate["bridge_exprs"])
+        self.assertIn("return !server && active;", unit_update_ai_controller_server_gate["bridge_exprs"])
+        self.assertIn("Concrete controller.updateUnit() behavior stays deferred to controller-specific slices.", unit_update_ai_controller_server_gate["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19378,6 +19468,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("updates", unit_update_abilities_loop["return_keys"])
         self.assertIn("updateCount", unit_update_abilities_loop["return_keys"])
         self.assertEqual(unit_update_abilities_loop["source_method"], "UnitComp.update()/Ability.update(Unit unit)")
+
+        unit_update_ai_controller_server_gate = source_symbols.api_contract(contracts, "PortGame.source_unit_update_ai_controller_server_gate_state")
+        self.assertEqual([param["name"] for param in unit_update_ai_controller_server_gate["params"]], ["net_client_value", "dead_value", "should_update_controller_value", "unit_id"])
+        self.assertEqual(unit_update_ai_controller_server_gate["params"][0]["schema"], "source_unit_update_ai_controller_server_gate_input.net_client_value")
+        self.assertEqual(unit_update_ai_controller_server_gate["params"][1]["schema"], "source_unit_update_ai_controller_server_gate_input.dead_value")
+        self.assertEqual(unit_update_ai_controller_server_gate["params"][2]["schema"], "source_unit_update_ai_controller_server_gate_input.should_update_controller_value")
+        self.assertEqual(unit_update_ai_controller_server_gate["params"][3]["schema"], "source_unit_update_ai_controller_server_gate_input.unit_id")
+        self.assertIn("guard", unit_update_ai_controller_server_gate["return_keys"])
+        self.assertIn("controllerUpdate", unit_update_ai_controller_server_gate["return_keys"])
+        self.assertIn("guardSource", unit_update_ai_controller_server_gate["return_keys"])
+        self.assertIn("controllerUpdateCall", unit_update_ai_controller_server_gate["return_keys"])
+        self.assertEqual(unit_update_ai_controller_server_gate["source_method"], "UnitComp.update()/UnitController.updateUnit()/Net.client()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23516,6 +23618,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_abilities_loop_input["keys"]["ability_ids"]["java_expr"], "abilities")
         self.assertEqual(source_unit_update_abilities_loop_input["keys"]["ability_ids"]["status"], "explicit-input")
 
+        source_unit_update_ai_controller_server_gate_input = source_symbols.state_schema(schema, "source_unit_update_ai_controller_server_gate_input")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_input["keys"]["net_client_value"]["java_expr"], "net.client()")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_input["keys"]["should_update_controller_value"]["java_expr"], "shouldUpdateController()")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_input["keys"]["unit_id"]["java_expr"], "self()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -23811,6 +23919,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_abilities_loop_result["keys"]["abilityUpdateMethod"]["java_expr"], "public void update(Unit unit){}")
         self.assertEqual(source_unit_update_abilities_loop_result["keys"]["updates"]["java_expr"], "a.update(self());")
         self.assertEqual(source_unit_update_abilities_loop_result["keys"]["updateCount"]["status"], "generated")
+
+        source_unit_update_ai_controller_server_gate_result = source_symbols.state_schema(schema, "source_unit_update_ai_controller_server_gate_result")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["comment"]["java_expr"], "//AI only updates on the server")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["guardSource"]["java_expr"], "if(!net.client() && !dead && shouldUpdateController()){")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["controllerUpdateCall"]["java_expr"], "controller.updateUnit();")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["controllerField"]["java_expr"], "private UnitController controller;")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["deadImport"]["java_expr"], "@Import boolean dead, disarmed;")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["shouldUpdateMethod"]["java_expr"], "public boolean shouldUpdateController(){")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["shouldUpdateDefault"]["java_expr"], "return true;")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["unitControllerUpdate"]["java_expr"], "default void updateUnit(){")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["netClientMethod"]["java_expr"], "public boolean client(){")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["netClientBody"]["java_expr"], "return !server && active;")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["guard"]["java_expr"], "if(!net.client() && !dead && shouldUpdateController()){")
+        self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["controllerUpdate"]["java_expr"], "controller.updateUnit();")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

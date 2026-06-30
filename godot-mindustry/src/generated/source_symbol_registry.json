@@ -41754,6 +41754,202 @@
         "test_port_game_exposes_source_unit_update_abilities_loop_state"
       ]
     },
+    "unit_update_ai_controller_server_gate.comment": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.comment",
+      "java_expr": "//AI only updates on the server",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.update AI server-gate comment.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.controller_field": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.controllerField",
+      "java_expr": "private UnitController controller;",
+      "java_method": "UnitComp field declaration",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp stores current UnitController.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.dead": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_input.dead_value",
+      "java_expr": "dead",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input supplies dead flag for AI server gate.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.dead_import": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.deadImport",
+      "java_expr": "@Import boolean dead, disarmed;",
+      "java_method": "UnitComp import section",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp imports dead state used by the AI server gate.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.guard": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.guardSource",
+      "java_expr": "if(!net.client() && !dead && shouldUpdateController()){",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.update AI server-gate condition.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.net_client": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_input.net_client_value",
+      "java_expr": "net.client()",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input supplies net.client() result for AI server gate.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.net_client_body": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.netClientBody",
+      "java_expr": "return !server && active;",
+      "java_method": "Net.client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net.client source return expression.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.net_client_method": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.netClientMethod",
+      "java_expr": "public boolean client(){",
+      "java_method": "Net.client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net.client method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.should_update_controller": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_input.should_update_controller_value",
+      "java_expr": "shouldUpdateController()",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input supplies shouldUpdateController() result for AI server gate.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.should_update_default": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.shouldUpdateDefault",
+      "java_expr": "return true;",
+      "java_method": "UnitComp.shouldUpdateController()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp default controller update gate returns true.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.should_update_method": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.shouldUpdateMethod",
+      "java_expr": "public boolean shouldUpdateController(){",
+      "java_method": "UnitComp.shouldUpdateController()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp exposes controller update gate method.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.unit_controller_update": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.unitControllerUpdate",
+      "java_expr": "default void updateUnit(){",
+      "java_method": "UnitController.updateUnit()",
+      "java_source": "core/src/mindustry/entities/units/UnitController.java",
+      "rule": "UnitController default updateUnit method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.unit_id": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input identifies the unit passed to controller.updateUnit() record.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
+    "unit_update_ai_controller_server_gate.update_call": {
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "godot_symbol": "source_unit_update_ai_controller_server_gate_result.controllerUpdateCall",
+      "java_expr": "controller.updateUnit();",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.update dispatches controller.updateUnit() when the gate passes.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

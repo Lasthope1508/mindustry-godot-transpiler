@@ -15200,6 +15200,57 @@
         "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_abilities_loop_state"
       ]
+    },
+    "PortGame.source_unit_update_ai_controller_server_gate_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "net_client_value",
+          "schema": "source_unit_update_ai_controller_server_gate_input.net_client_value",
+          "type": "bool"
+        },
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_ai_controller_server_gate_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "should_update_controller_value",
+          "schema": "source_unit_update_ai_controller_server_gate_input.should_update_controller_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_ai_controller_server_gate_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "controllerField",
+        "deadImport",
+        "comment",
+        "guardSource",
+        "controllerUpdateCall",
+        "shouldUpdateMethod",
+        "shouldUpdateDefault",
+        "unitControllerUpdate",
+        "netClientMethod",
+        "netClientBody",
+        "guard",
+        "netClient",
+        "dead",
+        "shouldUpdateController",
+        "controllerUpdate"
+      ],
+      "rule": "Public runtime contract for UnitComp.update AI controller server gate record.",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "source_method": "UnitComp.update()/UnitController.updateUnit()/Net.client()",
+      "source_slice": "N804",
+      "status": "active",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
     }
   },
   "policy": {

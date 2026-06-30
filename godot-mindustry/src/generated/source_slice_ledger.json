@@ -13503,6 +13503,51 @@
         "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_abilities_loop_state"
       ]
+    },
+    "N804": {
+      "bridge_exprs": [
+        "private UnitController controller;",
+        "@Import boolean dead, disarmed;",
+        "public boolean shouldUpdateController(){",
+        "return true;",
+        "default void updateUnit(){",
+        "public boolean client(){",
+        "return !server && active;"
+      ],
+      "deferred_exprs": [
+        "Concrete controller.updateUnit() behavior stays deferred to controller-specific slices."
+      ],
+      "exact_exprs": [
+        "//AI only updates on the server",
+        "if(!net.client() && !dead && shouldUpdateController()){",
+        "controller.updateUnit();"
+      ],
+      "godot_owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update()/UnitController.updateUnit()/Net.client()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
+      "source_symbols": [
+        "unit_update_ai_controller_server_gate.comment",
+        "unit_update_ai_controller_server_gate.guard",
+        "unit_update_ai_controller_server_gate.update_call",
+        "unit_update_ai_controller_server_gate.controller_field",
+        "unit_update_ai_controller_server_gate.dead_import",
+        "unit_update_ai_controller_server_gate.should_update_method",
+        "unit_update_ai_controller_server_gate.should_update_default",
+        "unit_update_ai_controller_server_gate.unit_controller_update",
+        "unit_update_ai_controller_server_gate.net_client_method",
+        "unit_update_ai_controller_server_gate.net_client_body",
+        "unit_update_ai_controller_server_gate.net_client",
+        "unit_update_ai_controller_server_gate.dead",
+        "unit_update_ai_controller_server_gate.should_update_controller",
+        "unit_update_ai_controller_server_gate.unit_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
+      ]
     }
   },
   "version": 1

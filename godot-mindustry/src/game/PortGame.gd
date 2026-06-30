@@ -9676,15 +9676,36 @@ func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on
 		"kill": kill_call,
 	}
 
+const SOURCE_UNIT_UPDATE_AI_CONTROLLER_FIELD := "private UnitController controller;"
+const SOURCE_UNIT_UPDATE_AI_DEAD_IMPORT := "@Import boolean dead, disarmed;"
+const SOURCE_UNIT_UPDATE_AI_COMMENT := "//AI only updates on the server"
+const SOURCE_UNIT_UPDATE_AI_GUARD := "if(!net.client() && !dead && shouldUpdateController()){"
+const SOURCE_UNIT_UPDATE_AI_CONTROLLER_CALL := "controller.updateUnit();"
+const SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_METHOD := "public boolean shouldUpdateController(){"
+const SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_DEFAULT := "return true;"
+const SOURCE_UNIT_UPDATE_AI_UNIT_CONTROLLER_UPDATE := "default void updateUnit(){"
+const SOURCE_UNIT_UPDATE_AI_NET_CLIENT_METHOD := "public boolean client(){"
+const SOURCE_UNIT_UPDATE_AI_NET_CLIENT_BODY := "return !server && active;"
+
 func source_unit_update_ai_controller_server_gate_state(net_client_value: bool, dead_value: bool, should_update_controller_value: bool, unit_id: int) -> Dictionary:
 	var guard := (not net_client_value) and (not dead_value) and should_update_controller_value
 	var controller_update: Variant = null
 	if guard:
 		controller_update = {
-			"call": "controller.updateUnit()",
+			"call": SOURCE_UNIT_UPDATE_AI_CONTROLLER_CALL,
 			"unit": unit_id,
 		}
 	return {
+		"controllerField": SOURCE_UNIT_UPDATE_AI_CONTROLLER_FIELD,
+		"deadImport": SOURCE_UNIT_UPDATE_AI_DEAD_IMPORT,
+		"comment": SOURCE_UNIT_UPDATE_AI_COMMENT,
+		"guardSource": SOURCE_UNIT_UPDATE_AI_GUARD,
+		"controllerUpdateCall": SOURCE_UNIT_UPDATE_AI_CONTROLLER_CALL,
+		"shouldUpdateMethod": SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_METHOD,
+		"shouldUpdateDefault": SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_DEFAULT,
+		"unitControllerUpdate": SOURCE_UNIT_UPDATE_AI_UNIT_CONTROLLER_UPDATE,
+		"netClientMethod": SOURCE_UNIT_UPDATE_AI_NET_CLIENT_METHOD,
+		"netClientBody": SOURCE_UNIT_UPDATE_AI_NET_CLIENT_BODY,
 		"guard": guard,
 		"netClient": net_client_value,
 		"dead": dead_value,
