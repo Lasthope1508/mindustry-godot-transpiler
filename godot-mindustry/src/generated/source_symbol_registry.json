@@ -40466,6 +40466,132 @@
         "test_port_game_exposes_source_unit_look_at_position_state"
       ]
     },
+    "unit_look_at_xy.angle_to_call": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_result.angleToCall",
+      "java_expr": "angleTo(x, y)",
+      "java_method": "UnitComp.lookAt(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Coordinate target is converted through angleTo(x,y).",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.arc_angle": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_result.arcAngle",
+      "java_expr": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+      "java_method": "angle(float x, float y, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Arc Angles.angle atan2 expression.",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.arc_angle_method": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_result.arcAngleMethod",
+      "java_expr": "public static float angle(float x, float y, float x2, float y2){",
+      "java_method": "angle(float x, float y, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Arc Angles.angle method boundary.",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.arc_angle_wrap": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_result.arcAngleWrap",
+      "java_expr": "if(ang < 0) ang += 360f;",
+      "java_method": "angle(float x, float y, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Arc Angles.angle negative-angle wrap.",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.look_at_call": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_result.call",
+      "java_expr": "lookAt(angleTo(x, y));",
+      "java_method": "UnitComp.lookAt(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp lookAt(float,float) delegates to lookAt(float angle).",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.method": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_result.method",
+      "java_expr": "public void lookAt(float x, float y){",
+      "java_method": "UnitComp.lookAt(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp lookAt(float,float) method boundary.",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.position_angle_to": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_result.target_angle",
+      "java_expr": "return Angles.angle(getX(), getY(), x, y);",
+      "java_method": "angleTo(float x, float y)",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "rule": "Position.angleTo(float,float) delegates to Angles.angle.",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.x_input": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_input.target_x",
+      "java_expr": "x",
+      "java_method": "UnitComp.lookAt(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp lookAt(float,float) x parameter.",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
+    "unit_look_at_xy.y_input": {
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "godot_symbol": "source_unit_look_at_xy_input.target_y",
+      "java_expr": "y",
+      "java_method": "UnitComp.lookAt(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp lookAt(float,float) y parameter.",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

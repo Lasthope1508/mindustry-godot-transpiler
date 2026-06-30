@@ -14632,6 +14632,67 @@
         "test_unit_look_at_position_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_look_at_position_state"
       ]
+    },
+    "PortGame.source_unit_look_at_xy_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_rotation",
+          "schema": "source_unit_look_at_xy_input.current_rotation",
+          "type": "float"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_look_at_xy_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_look_at_xy_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "target_x",
+          "schema": "source_unit_look_at_xy_input.target_x",
+          "type": "float"
+        },
+        {
+          "name": "target_y",
+          "schema": "source_unit_look_at_xy_input.target_y",
+          "type": "float"
+        },
+        {
+          "name": "type_rotate_speed",
+          "schema": "source_unit_look_at_xy_input.type_rotate_speed",
+          "type": "float"
+        },
+        {
+          "name": "speed_multiplier_value",
+          "schema": "source_unit_look_at_xy_input.speed_multiplier_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_look_at_xy_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "call",
+        "target",
+        "target_angle",
+        "rotation_speed",
+        "rotation"
+      ],
+      "rule": "Public runtime contract for UnitComp.lookAt(float x, float y) wrapper through Position.angleTo(float,float) and UnitComp.lookAt(float).",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "source_method": "UnitComp.lookAt(float x, float y)",
+      "source_slice": "N792",
+      "status": "active",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
     }
   },
   "policy": {

@@ -13029,6 +13029,45 @@
         "test_unit_look_at_position_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_look_at_position_state"
       ]
+    },
+    "N792": {
+      "bridge_exprs": [
+        "default float angleTo(float x, float y){",
+        "return Angles.angle(getX(), getY(), x, y);",
+        "public static float angle(float x, float y, float x2, float y2){",
+        "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+        "if(ang < 0) ang += 360f;",
+        "return ang;"
+      ],
+      "deferred_exprs": [
+        "Concrete coordinate caller semantics remain explicit numeric inputs",
+        "UnitComp.lookAt(float angle) rotation movement remains N790 owner"
+      ],
+      "exact_exprs": [
+        "public void lookAt(float x, float y){",
+        "lookAt(angleTo(x, y));"
+      ],
+      "godot_owner": "PortGame.source_unit_look_at_xy_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.lookAt(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_look_at_xy_state",
+      "source_symbols": [
+        "unit_look_at_xy.angle_to_call",
+        "unit_look_at_xy.arc_angle",
+        "unit_look_at_xy.arc_angle_method",
+        "unit_look_at_xy.arc_angle_wrap",
+        "unit_look_at_xy.look_at_call",
+        "unit_look_at_xy.method",
+        "unit_look_at_xy.position_angle_to",
+        "unit_look_at_xy.x_input",
+        "unit_look_at_xy.y_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_look_at_xy_state"
+      ]
     }
   },
   "version": 1
