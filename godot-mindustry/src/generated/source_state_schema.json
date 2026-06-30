@@ -44988,6 +44988,95 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_reload_seconds_for_ammo_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_reload_seconds_input.turret",
+          "rule": "Carries Turret input into ammo reload seconds helper.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "data": {
+          "alias_of": "source_bullet_reload_multiplier_input.data",
+          "rule": "Carries BulletType data into ammo reload seconds helper.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_reload_seconds_for_ammo_result": {
+      "keys": {
+        "updateReload": {
+          "godot_symbol": "source_turret_reload_seconds_for_ammo_result.updateReload",
+          "java_expr": "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();",
+          "java_method": "TurretBuild.updateReload()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Reload speed is multiplied by ammoReloadMultiplier during TurretBuild.updateReload().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds_for_ammo"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_turret_reload_seconds_for_ammo_result.method",
+          "java_expr": "protected float ammoReloadMultiplier(){",
+          "java_method": "ammoReloadMultiplier()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "TurretBuild ammo reload multiplier helper boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds_for_ammo"
+          ]
+        },
+        "returnLine": {
+          "godot_symbol": "source_turret_reload_seconds_for_ammo_result.returnLine",
+          "java_expr": "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;",
+          "java_method": "ammoReloadMultiplier()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Ammo reload multiplier uses peekAmmo().reloadMultiplier or default 1f.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds_for_ammo"
+          ]
+        },
+        "reloadMultiplier": {
+          "alias_of": "source_bullet_reload_multiplier_result.reload_multiplier",
+          "godot_symbol": "source_turret_reload_seconds_for_ammo_result.reloadMultiplier",
+          "rule": "Carries canonical BulletType.reloadMultiplier result into turret ammo reload helper.",
+          "status": "generated",
+          "type": "float"
+        },
+        "seconds": {
+          "godot_symbol": "source_turret_reload_seconds_for_ammo_result.seconds",
+          "java_expr": "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)",
+          "java_method": "TurretBuild.updateReload()/ammoReloadMultiplier()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Returned ammo-adjusted reload seconds value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds_for_ammo"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_reload_seconds_for_ammo_input.turret",
+          "rule": "Carries Turret input into ammo reload seconds result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "data": {
+          "alias_of": "source_turret_reload_seconds_for_ammo_input.data",
+          "rule": "Carries BulletType data input into ammo reload seconds result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

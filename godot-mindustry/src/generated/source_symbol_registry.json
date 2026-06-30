@@ -35628,6 +35628,77 @@
       "java_expr": "reload / Time.toSeconds",
       "rule": "Godot helper returns reload ticks converted to seconds.",
       "status": "source-backed"
+    },
+    "turret_reload_seconds_for_ammo.update_reload": {
+      "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo",
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_reload_seconds_for_ammo_result.updateReload",
+      "java_method": "TurretBuild.updateReload()",
+      "java_expr": "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();",
+      "rule": "Reload speed is multiplied by ammoReloadMultiplier during TurretBuild.updateReload().",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds_for_ammo.method": {
+      "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo",
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_reload_seconds_for_ammo_result.method",
+      "java_method": "ammoReloadMultiplier()",
+      "java_expr": "protected float ammoReloadMultiplier(){",
+      "rule": "TurretBuild ammo reload multiplier helper boundary.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds_for_ammo.return_line": {
+      "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo",
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_reload_seconds_for_ammo_result.returnLine",
+      "java_method": "ammoReloadMultiplier()",
+      "java_expr": "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;",
+      "rule": "Ammo reload multiplier uses peekAmmo().reloadMultiplier or default 1f.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds_for_ammo.formula": {
+      "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo",
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_reload_seconds_for_ammo_result.seconds",
+      "java_method": "TurretBuild.updateReload()/ammoReloadMultiplier()",
+      "java_expr": "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)",
+      "rule": "Godot cooldown seconds mirror faster reloadCounter growth by dividing base seconds by ammo reloadMultiplier.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds_for_ammo.reload_multiplier": {
+      "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo",
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "godot_symbol": "source_turret_reload_seconds_for_ammo_result.reloadMultiplier",
+      "java_method": "field declaration/ammoReloadMultiplier()",
+      "java_expr": "reloadMultiplier",
+      "rule": "Reuses canonical BulletType.reloadMultiplier result instead of duplicating the field owner.",
+      "status": "source-backed",
+      "alias_of": "bullet_reload_multiplier.result"
     }
   },
   "version": 1

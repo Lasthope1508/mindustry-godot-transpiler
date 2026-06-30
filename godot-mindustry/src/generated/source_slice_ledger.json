@@ -11171,6 +11171,36 @@
         "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_reload"
       ]
+    },
+    "N746": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();",
+        "protected float ammoReloadMultiplier(){",
+        "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;",
+        "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"
+      ],
+      "bridge_exprs": [
+        "bullet_reload_multiplier.result",
+        "PortGame.source_turret_reload_seconds"
+      ],
+      "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "TurretBuild.updateReload()/ammoReloadMultiplier()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo",
+      "source_symbols": [
+        "turret_reload_seconds_for_ammo.update_reload",
+        "turret_reload_seconds_for_ammo.method",
+        "turret_reload_seconds_for_ammo.return_line",
+        "turret_reload_seconds_for_ammo.formula",
+        "turret_reload_seconds_for_ammo.reload_multiplier"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ]
     }
   },
   "version": 1

@@ -12816,6 +12816,39 @@
         "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_reload"
       ]
+    },
+    "PortGame.source_turret_reload_seconds_for_ammo": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_reload_seconds_for_ammo_input.turret",
+          "type": "Variant"
+        },
+        {
+          "name": "data",
+          "schema": "source_turret_reload_seconds_for_ammo_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "seconds",
+        "reloadMultiplier",
+        "updateReload",
+        "method",
+        "returnLine",
+        "turret",
+        "data"
+      ],
+      "rule": "Public runtime contract for ammo-adjusted turret reload seconds helper.",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo",
+      "source_method": "TurretBuild.updateReload()/ammoReloadMultiplier()",
+      "source_slice": "N746",
+      "status": "active",
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ]
     }
   },
   "policy": {

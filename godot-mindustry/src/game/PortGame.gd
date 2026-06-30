@@ -10384,6 +10384,11 @@ func source_turret_reload_seconds(turret) -> float:
 		return 0.0
 	return float(turret.properties.get(SOURCE_TURRET_RELOAD_KEY, SOURCE_TURRET_RELOAD_DEFAULT)) / SOURCE_TICK_RATE
 
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD := "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();"
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_METHOD := "protected float ammoReloadMultiplier(){"
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_RETURN := "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;"
+const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_FORMULA := "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"
+
 func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:
 	if data.is_empty():
 		return source_turret_reload_seconds(turret)
