@@ -13519,6 +13519,34 @@
         "test_unit_count_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_count_state"
       ]
+    },
+    "PortGame.source_unit_destroy_ability_death_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "ability_states",
+          "schema": "source_unit_destroy_ability_death_input.ability_states",
+          "type": "Array"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_destroy_ability_death_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "loop",
+        "calls"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy ability death hook dispatch.",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "source_method": "UnitComp.destroy()/Ability.death(Unit unit)",
+      "source_slice": "N766",
+      "status": "active",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ]
     }
   },
   "policy": {

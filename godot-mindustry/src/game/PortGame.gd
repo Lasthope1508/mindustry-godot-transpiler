@@ -9771,6 +9771,13 @@ func source_unit_destroy_wreck_decal_state(headless_value: bool, type_create_sco
 		"decals": decals,
 	}
 
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_IMPORT := "import mindustry.entities.abilities.*;"
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_FIELD := "Ability[] abilities = {};"
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP := "for(Ability a : abilities){"
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL := "a.death(self());"
+const SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT := "public void death(Unit unit){}"
+
 func source_unit_destroy_ability_death_state(ability_states: Array, unit_id: int) -> Dictionary:
 	var calls: Array = []
 	for index in ability_states.size():
@@ -9778,12 +9785,12 @@ func source_unit_destroy_ability_death_state(ability_states: Array, unit_id: int
 		calls.append({
 			"index": index,
 			"ability": str(ability_state.get("ability", "ability%d" % index)),
-			"call": "a.death(self())",
+			"call": SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL,
 			"unit": unit_id,
-			"abilityDefault": "public void death(Unit unit){}",
+			"abilityDefault": SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT,
 		})
 	return {
-		"loop": "for(Ability a : abilities)",
+		"loop": SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP,
 		"calls": calls,
 	}
 

@@ -48149,6 +48149,138 @@
       },
       "owner": "PortGame.source_unit_count_state",
       "status": "active"
+    },
+    "source_unit_destroy_ability_death_input": {
+      "keys": {
+        "ability_states": {
+          "godot_symbol": "source_unit_destroy_ability_death_input.ability_states",
+          "java_expr": "abilities",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Projection of UnitComp abilities array for runtime bridge.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_destroy_ability_death_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Identifier for UnitComp self() passed into Ability.death.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_destroy_ability_death_state",
+      "status": "active"
+    },
+    "source_unit_destroy_ability_death_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.method",
+          "java_expr": "public void destroy(){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Canonical UnitComp.destroy method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "abilityImport": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.abilityImport",
+          "java_expr": "import mindustry.entities.abilities.*;",
+          "java_method": "UnitComp import section",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp ability import.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "abilitiesField": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.abilitiesField",
+          "java_expr": "Ability[] abilities = {};",
+          "java_method": "UnitComp field declaration",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp abilities field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "abilityLoop": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.abilityLoop",
+          "java_expr": "for(Ability a : abilities){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Ability death loop boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "deathCall": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.deathCall",
+          "java_expr": "a.death(self());",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Per-ability death dispatch call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "abilityDeathDefault": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.abilityDeathDefault",
+          "java_expr": "public void death(Unit unit){}",
+          "java_method": "Ability.death(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "rule": "Default Ability death hook body.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.loop",
+          "java_expr": "for(Ability a : abilities){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Returned loop label preserves exact Java ability loop.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        },
+        "calls": {
+          "godot_symbol": "source_unit_destroy_ability_death_result.calls",
+          "java_expr": "a.death(self());",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Returned call records preserve per-ability death(self()) dispatches.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_ability_death_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_destroy_ability_death_state",
+      "status": "active"
     }
   },
   "version": 1

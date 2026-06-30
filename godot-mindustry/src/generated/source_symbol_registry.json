@@ -37537,6 +37537,118 @@
       "java_method": "UnitComp.count()",
       "java_expr": "type.id",
       "rule": "Runtime bridge input carries the UnitType id used by TeamData.countType bounds lookup."
+    },
+    "unit_destroy_ability_death.method": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_ability_death_result.method",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "public void destroy(){",
+      "rule": "Canonical UnitComp.destroy method boundary for ability death loop slice."
+    },
+    "unit_destroy_ability_death.ability_import": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_ability_death_result.abilityImport",
+      "java_method": "UnitComp import section",
+      "java_expr": "import mindustry.entities.abilities.*;",
+      "rule": "UnitComp imports Ability types used by the abilities field and destroy loop."
+    },
+    "unit_destroy_ability_death.abilities_field": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_ability_death_result.abilitiesField",
+      "java_method": "UnitComp field declaration",
+      "java_expr": "Ability[] abilities = {};",
+      "rule": "UnitComp stores attached abilities in the abilities array."
+    },
+    "unit_destroy_ability_death.ability_loop": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_ability_death_result.abilityLoop",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "for(Ability a : abilities){",
+      "rule": "Destroy iterates every attached Ability."
+    },
+    "unit_destroy_ability_death.death_call": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_ability_death_result.deathCall",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "a.death(self());",
+      "rule": "Destroy dispatches death(self()) to each ability."
+    },
+    "unit_destroy_ability_death.ability_death_default": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "godot_symbol": "source_unit_destroy_ability_death_result.abilityDeathDefault",
+      "java_method": "Ability.death(Unit unit)",
+      "java_expr": "public void death(Unit unit){}",
+      "rule": "Ability default death hook is empty unless concrete abilities override it."
+    },
+    "unit_destroy_ability_death.ability_states": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_ability_death_input.ability_states",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "abilities",
+      "rule": "Runtime bridge input supplies the ability array projection without inventing concrete ability side effects."
+    },
+    "unit_destroy_ability_death.unit_id": {
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_ability_death_input.unit_id",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "self()",
+      "rule": "Runtime bridge input identifies the unit passed to Ability.death(self())."
     }
   },
   "version": 1

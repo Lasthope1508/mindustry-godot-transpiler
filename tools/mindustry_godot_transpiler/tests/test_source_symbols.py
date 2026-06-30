@@ -4880,6 +4880,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(type_id["java_expr"], "type.id")
         self.assertEqual(type_id["godot_symbol"], "source_unit_count_input.type_id")
 
+    def test_unit_destroy_ability_death_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_ability_death.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_ability_death_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_ability_death_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_ability_death_result.method")
+
+        ability_import = source_symbols.source_symbol(registry, "unit_destroy_ability_death.ability_import")
+        self.assertEqual(ability_import["java_expr"], "import mindustry.entities.abilities.*;")
+        self.assertEqual(ability_import["godot_symbol"], "source_unit_destroy_ability_death_result.abilityImport")
+
+        abilities_field = source_symbols.source_symbol(registry, "unit_destroy_ability_death.abilities_field")
+        self.assertEqual(abilities_field["java_expr"], "Ability[] abilities = {};")
+        self.assertEqual(abilities_field["godot_symbol"], "source_unit_destroy_ability_death_result.abilitiesField")
+
+        ability_loop = source_symbols.source_symbol(registry, "unit_destroy_ability_death.ability_loop")
+        self.assertEqual(ability_loop["java_expr"], "for(Ability a : abilities){")
+        self.assertEqual(ability_loop["godot_symbol"], "source_unit_destroy_ability_death_result.abilityLoop")
+
+        death_call = source_symbols.source_symbol(registry, "unit_destroy_ability_death.death_call")
+        self.assertEqual(death_call["java_expr"], "a.death(self());")
+        self.assertEqual(death_call["godot_symbol"], "source_unit_destroy_ability_death_result.deathCall")
+
+        ability_death_default = source_symbols.source_symbol(registry, "unit_destroy_ability_death.ability_death_default")
+        self.assertEqual(ability_death_default["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(ability_death_default["java_expr"], "public void death(Unit unit){}")
+        self.assertEqual(ability_death_default["godot_symbol"], "source_unit_destroy_ability_death_result.abilityDeathDefault")
+
+        ability_states = source_symbols.source_symbol(registry, "unit_destroy_ability_death.ability_states")
+        self.assertEqual(ability_states["status"], "explicit-input")
+        self.assertEqual(ability_states["java_expr"], "abilities")
+        self.assertEqual(ability_states["godot_symbol"], "source_unit_destroy_ability_death_input.ability_states")
+
+        unit_id = source_symbols.source_symbol(registry, "unit_destroy_ability_death.unit_id")
+        self.assertEqual(unit_id["status"], "explicit-input")
+        self.assertEqual(unit_id["java_expr"], "self()")
+        self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_ability_death_input.unit_id")
+
     def test_unit_cap_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11886,9 +11929,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 363)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 364)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 368)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 369)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11909,6 +11952,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_command_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_controller_predicates_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_count_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -13669,6 +13713,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return state.teams.get(this);", unit_count["bridge_exprs"])
         self.assertIn("public int countType(UnitType type){", unit_count["bridge_exprs"])
         self.assertIn("return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];", unit_count["bridge_exprs"])
+
+        unit_destroy_ability_death = source_symbols.source_slice(ledger, "N766")
+        self.assertEqual(unit_destroy_ability_death["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_ability_death["java_method"], "UnitComp.destroy()/Ability.death(Unit unit)")
+        self.assertEqual(unit_destroy_ability_death["godot_owner"], "PortGame.source_unit_destroy_ability_death_state")
+        self.assertIn("public void destroy(){", unit_destroy_ability_death["exact_exprs"])
+        self.assertIn("import mindustry.entities.abilities.*;", unit_destroy_ability_death["exact_exprs"])
+        self.assertIn("Ability[] abilities = {};", unit_destroy_ability_death["exact_exprs"])
+        self.assertIn("for(Ability a : abilities){", unit_destroy_ability_death["exact_exprs"])
+        self.assertIn("a.death(self());", unit_destroy_ability_death["exact_exprs"])
+        self.assertIn("public void death(Unit unit){}", unit_destroy_ability_death["bridge_exprs"])
+        self.assertIn("type.killed(self());", unit_destroy_ability_death["deferred_exprs"])
+        self.assertIn("remove();", unit_destroy_ability_death["deferred_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -17046,6 +17103,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("type_id", unit_count["return_keys"])
         self.assertIn("call", unit_count["return_keys"])
         self.assertEqual(unit_count["source_method"], "UnitComp.count()/Team.data()/Teams.TeamData.countType(UnitType type)")
+
+        unit_destroy_ability_death = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_ability_death_state")
+        self.assertEqual([param["name"] for param in unit_destroy_ability_death["params"]], ["ability_states", "unit_id"])
+        self.assertEqual(unit_destroy_ability_death["params"][0]["schema"], "source_unit_destroy_ability_death_input.ability_states")
+        self.assertEqual(unit_destroy_ability_death["params"][1]["schema"], "source_unit_destroy_ability_death_input.unit_id")
+        self.assertIn("loop", unit_destroy_ability_death["return_keys"])
+        self.assertIn("calls", unit_destroy_ability_death["return_keys"])
+        self.assertEqual(unit_destroy_ability_death["source_method"], "UnitComp.destroy()/Ability.death(Unit unit)")
 
         unit_cap = source_symbols.api_contract(contracts, "PortGame.source_unit_cap_state")
         self.assertEqual([param["name"] for param in unit_cap["params"]], ["team_is_wave_team", "rules_pvp", "state_is_campaign", "rules_disable_unit_cap", "team_ignore_unit_cap", "rules_unit_cap_variable", "rules_unit_cap", "team_data_unit_cap"])
@@ -20973,6 +21038,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_count_result["keys"]["count"]["alias_of"], "source_unit_count_input.team_data_count_type_result")
         self.assertEqual(source_unit_count_result["keys"]["type_id"]["alias_of"], "source_unit_count_input.type_id")
         self.assertEqual(source_unit_count_result["keys"]["call"]["java_expr"], "team.data().countType(type)")
+
+        source_unit_destroy_ability_death_input = source_symbols.state_schema(schema, "source_unit_destroy_ability_death_input")
+        self.assertEqual(source_unit_destroy_ability_death_input["keys"]["ability_states"]["java_expr"], "abilities")
+        self.assertEqual(source_unit_destroy_ability_death_input["keys"]["unit_id"]["java_expr"], "self()")
+
+        source_unit_destroy_ability_death_result = source_symbols.state_schema(schema, "source_unit_destroy_ability_death_result")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["abilityImport"]["java_expr"], "import mindustry.entities.abilities.*;")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["abilitiesField"]["java_expr"], "Ability[] abilities = {};")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["abilityLoop"]["java_expr"], "for(Ability a : abilities){")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["deathCall"]["java_expr"], "a.death(self());")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["abilityDeathDefault"]["java_expr"], "public void death(Unit unit){}")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["calls"]["java_expr"], "a.death(self());")
+        self.assertEqual(source_unit_destroy_ability_death_result["keys"]["loop"]["java_expr"], "for(Ability a : abilities){")
 
         source_unit_cap_input = source_symbols.state_schema(schema, "source_unit_cap_input")
         self.assertEqual(source_unit_cap_input["keys"]["team_is_wave_team"]["java_expr"], "team == state.rules.waveTeam")

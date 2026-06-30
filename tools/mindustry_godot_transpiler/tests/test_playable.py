@@ -4009,10 +4009,16 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_destroy_ability_death_state(ability_states: Array, unit_id: int) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_ABILITY_DEATH_METHOD := "public void destroy(){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_ABILITY_DEATH_IMPORT := "import mindustry.entities.abilities.*;"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_ABILITY_DEATH_FIELD := "Ability[] abilities = {};"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP := "for(Ability a : abilities){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL := "a.death(self());"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT := "public void death(Unit unit){}"', source)
         self.assertIn("for index in ability_states.size():", source)
-        self.assertIn('"loop": "for(Ability a : abilities)"', source)
-        self.assertIn('"call": "a.death(self())"', source)
-        self.assertIn('"abilityDefault": "public void death(Unit unit){}"', source)
+        self.assertIn('"loop": SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP', source)
+        self.assertIn('"call": SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL', source)
+        self.assertIn('"abilityDefault": SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT', source)
         self.assertIn('"unit": unit_id', source)
 
     def test_port_game_exposes_source_unit_destroy_type_killed_remove_state(self):

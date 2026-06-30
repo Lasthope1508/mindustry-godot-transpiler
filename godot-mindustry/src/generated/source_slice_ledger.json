@@ -11896,6 +11896,52 @@
         "test_unit_count_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_count_state"
       ]
+    },
+    "N766": {
+      "deferred_exprs": [
+        "Damage.dynamicExplosion(...)",
+        "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);",
+        "type.deathSound.at(this, 1f, type.deathSoundVolume);",
+        "Events.fire(new UnitDestroyEvent(self()));",
+        "Events.fire(Trigger.suicideBomb);",
+        "mount.weapon.update(self(), mount);",
+        "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);",
+        "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);",
+        "type.killed(self());",
+        "remove();"
+      ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "import mindustry.entities.abilities.*;",
+        "Ability[] abilities = {};",
+        "for(Ability a : abilities){",
+        "a.death(self());"
+      ],
+      "bridge_exprs": [
+        "public void death(Unit unit){}",
+        "abilities",
+        "self()"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy()/Ability.death(Unit unit)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_ability_death_state",
+      "source_symbols": [
+        "unit_destroy_ability_death.method",
+        "unit_destroy_ability_death.ability_import",
+        "unit_destroy_ability_death.abilities_field",
+        "unit_destroy_ability_death.ability_loop",
+        "unit_destroy_ability_death.death_call",
+        "unit_destroy_ability_death.ability_death_default",
+        "unit_destroy_ability_death.ability_states",
+        "unit_destroy_ability_death.unit_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_ability_death_state"
+      ]
     }
   },
   "version": 1
