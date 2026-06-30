@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 55,
+  "legacyUnregisteredOwnerCount": 54,
   "legacyUnregisteredOwners": [
-    "PortGame.source_unit_update_unsupported_env_state",
     "PortGame.source_unit_update_walk_effect_state",
     "PortGame.source_unit_vec2_angle",
     "PortGame.source_unit_weapon_damage",
@@ -69,7 +68,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 428,
+  "registeredSourceOwnerCount": 429,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_unit_update_tile_unit_on_any_state",
     "PortGame.source_unit_update_tile_unit_on_state",
     "PortGame.source_unit_update_trail_position_state",
-    "PortGame.source_unit_update_type_hook_state"
+    "PortGame.source_unit_update_type_hook_state",
+    "PortGame.source_unit_update_unsupported_env_state"
   ],
   "sourceFunctions": [
     {

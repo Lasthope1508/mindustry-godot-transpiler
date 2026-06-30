@@ -50373,6 +50373,261 @@
         "test_port_game_exposes_source_unit_update_type_hook_state",
         "test_unit_update_type_hook_matches_upstream_source"
       ]
+    },
+    "unit_update_unsupported_env.comment": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.guard",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "java_expr": "//check if environment is unsupported",
+      "rule": "Unsupported environment branch source comment.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.envDeath",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "java_expr": "if(!type.supportsEnv(state.rules.env) && !dead){",
+      "rule": "Unsupported environment death gate.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.type_supports_env_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_unsupported_env_input.type_supports_env",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "java_expr": "type.supportsEnv(state.rules.env)",
+      "rule": "Runtime type_supports_env parameter maps to UnitType.supportsEnv(state.rules.env).",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.dead_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_unsupported_env_input.dead_value",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "java_expr": "dead",
+      "rule": "Runtime dead_value parameter maps to UnitComp dead import.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.unit_env_death_call": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.unitEnvDeath",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "java_expr": "Call.unitEnvDeath(self());",
+      "rule": "Recorded environment death remote call.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.update_count_negative": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.updateCount",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "java_expr": "team.data().updateCount(type, -1);",
+      "rule": "Recorded unit count rollback call.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.call_order": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.callOrder",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() unsupported environment",
+      "java_expr": "Call.unitEnvDeath(self()); -> team.data().updateCount(type, -1);",
+      "rule": "Recorded call order follows upstream block order.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.supports_env_method": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_input.type_supports_env",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.supportsEnv(int env)",
+      "java_expr": "public boolean supportsEnv(int env){",
+      "rule": "UnitType supportsEnv method boundary for explicit input.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.supports_env_body": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_input.type_supports_env",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.supportsEnv(int env)",
+      "java_expr": "return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);",
+      "rule": "Exact UnitType environment support bit-mask expression.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.units_unit_env_death": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.unitEnvDeath",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.unitEnvDeath(Unit unit)",
+      "java_expr": "public static void unitEnvDeath(Unit unit){",
+      "rule": "Units.unitEnvDeath remote method boundary.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.units_unit_env_dead": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.unitEnvDeath",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.unitEnvDeath(Unit unit)",
+      "java_expr": "unit.dead = true;",
+      "rule": "Bridge evidence for UnitEnvDeath live dead mutation; runtime records only.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.units_unit_env_effect": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.unitEnvDeath",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.unitEnvDeath(Unit unit)",
+      "java_expr": "Fx.unitEnvKill.at(unit);",
+      "rule": "Bridge evidence for UnitEnvDeath effect; runtime records only.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.units_unit_env_destroy": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.unitEnvDeath",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.unitEnvDeath(Unit unit)",
+      "java_expr": "Core.app.post(() -> Call.unitDestroy(unit.id));",
+      "rule": "Bridge evidence for deferred unitDestroy call; runtime records only.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.team_data_update_count": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.updateCount",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_expr": "public void updateCount(UnitType type, int amount){",
+      "rule": "TeamData.updateCount method boundary for count rollback.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.team_data_update_count_null_guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.updateCount",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_expr": "if(type == null) return;",
+      "rule": "Bridge evidence for null guard in TeamData.updateCount.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.team_data_update_count_total": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.updateCount",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_expr": "unitCount = Math.max(amount + unitCount, 0);",
+      "rule": "Bridge evidence for clamped total unit count update.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_unsupported_env.team_data_update_count_type": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_unsupported_env_result.updateCount",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_expr": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+      "rule": "Bridge evidence for clamped per-type unit count update.",
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
     }
   },
   "version": 1

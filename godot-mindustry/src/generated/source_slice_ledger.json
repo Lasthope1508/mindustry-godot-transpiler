@@ -14884,6 +14884,60 @@
         "test_port_game_exposes_source_unit_update_type_hook_state",
         "test_unit_update_type_hook_matches_upstream_source"
       ]
+    },
+    "N831": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() unsupported environment",
+      "godot_owner": "PortGame.source_unit_update_unsupported_env_state",
+      "exact_exprs": [
+        "//check if environment is unsupported",
+        "if(!type.supportsEnv(state.rules.env) && !dead){",
+        "Call.unitEnvDeath(self());",
+        "team.data().updateCount(type, -1);"
+      ],
+      "bridge_exprs": [
+        "public boolean supportsEnv(int env){",
+        "return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);",
+        "public static void unitEnvDeath(Unit unit){",
+        "unit.dead = true;",
+        "Fx.unitEnvKill.at(unit);",
+        "Core.app.post(() -> Call.unitDestroy(unit.id));",
+        "public void updateCount(UnitType type, int amount){",
+        "if(type == null) return;",
+        "unitCount = Math.max(amount + unitCount, 0);",
+        "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);"
+      ],
+      "deferred_exprs": [
+        "Live unit death, effects, destroy call, and team counts remain recorded call state only.",
+        "Environment bit-field evaluation remains explicit input through type.supportsEnv(state.rules.env)."
+      ],
+      "source_symbols": [
+        "unit_update_unsupported_env.comment",
+        "unit_update_unsupported_env.guard",
+        "unit_update_unsupported_env.type_supports_env_input",
+        "unit_update_unsupported_env.dead_input",
+        "unit_update_unsupported_env.unit_env_death_call",
+        "unit_update_unsupported_env.update_count_negative",
+        "unit_update_unsupported_env.call_order",
+        "unit_update_unsupported_env.supports_env_method",
+        "unit_update_unsupported_env.supports_env_body",
+        "unit_update_unsupported_env.units_unit_env_death",
+        "unit_update_unsupported_env.units_unit_env_dead",
+        "unit_update_unsupported_env.units_unit_env_effect",
+        "unit_update_unsupported_env.units_unit_env_destroy",
+        "unit_update_unsupported_env.team_data_update_count",
+        "unit_update_unsupported_env.team_data_update_count_null_guard",
+        "unit_update_unsupported_env.team_data_update_count_total",
+        "unit_update_unsupported_env.team_data_update_count_type"
+      ],
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
     }
   },
   "version": 1

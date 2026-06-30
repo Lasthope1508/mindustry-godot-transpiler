@@ -59764,6 +59764,118 @@
       "owner": "PortGame.source_unit_update_type_hook_state",
       "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
       "status": "active"
+    },
+    "source_unit_update_unsupported_env_input": {
+      "status": "active",
+      "owner": "PortGame.source_unit_update_unsupported_env_state",
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state",
+      "keys": {
+        "type_supports_env": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() unsupported environment",
+          "java_expr": "type.supportsEnv(state.rules.env)",
+          "owners": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "rule": "Explicit runtime input for UnitType supportsEnv(state.rules.env) result."
+        },
+        "dead_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() unsupported environment",
+          "java_expr": "dead",
+          "owners": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "rule": "Explicit runtime input for UnitComp dead value."
+        }
+      }
+    },
+    "source_unit_update_unsupported_env_result": {
+      "status": "active",
+      "owner": "PortGame.source_unit_update_unsupported_env_state",
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state",
+      "keys": {
+        "envDeath": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() unsupported environment",
+          "java_expr": "if(!type.supportsEnv(state.rules.env) && !dead){",
+          "owners": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "rule": "Computed unsupported environment death gate."
+        },
+        "guard": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() unsupported environment",
+          "java_expr": "if(!type.supportsEnv(state.rules.env) && !dead){",
+          "owners": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "rule": "Recorded guard components for unsupported environment death branch."
+        },
+        "unitEnvDeath": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() unsupported environment",
+          "java_expr": "Call.unitEnvDeath(self());",
+          "owners": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "rule": "Recorded Call.unitEnvDeath(self()) call when guard passes."
+        },
+        "updateCount": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() unsupported environment",
+          "java_expr": "team.data().updateCount(type, -1);",
+          "owners": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "rule": "Recorded team count rollback call when guard passes."
+        },
+        "callOrder": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() unsupported environment",
+          "java_expr": "Call.unitEnvDeath(self()); -> team.data().updateCount(type, -1);",
+          "owners": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_unsupported_env_state"
+          ],
+          "rule": "Recorded upstream call order for unsupported environment death branch."
+        }
+      }
     }
   },
   "version": 1

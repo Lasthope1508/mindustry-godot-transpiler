@@ -16565,6 +16565,38 @@
         "test_port_game_exposes_source_unit_update_type_hook_state",
         "test_unit_update_type_hook_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_unsupported_env_state": {
+      "status": "active",
+      "source_slice": "N831",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() unsupported environment",
+      "params": [
+        {
+          "name": "type_supports_env",
+          "type": "bool",
+          "schema": "source_unit_update_unsupported_env_input.type_supports_env"
+        },
+        {
+          "name": "dead_value",
+          "type": "bool",
+          "schema": "source_unit_update_unsupported_env_input.dead_value"
+        }
+      ],
+      "return_keys": [
+        "envDeath",
+        "guard",
+        "unitEnvDeath",
+        "updateCount",
+        "callOrder"
+      ],
+      "tests": [
+        "test_unit_update_unsupported_env_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_unsupported_env_state",
+        "test_unit_update_unsupported_env_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state",
+      "rule": "Public runtime contract for UnitComp.update unsupported environment death state."
     }
   },
   "policy": {

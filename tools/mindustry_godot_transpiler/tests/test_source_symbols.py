@@ -6156,6 +6156,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(hook["java_source"], "core/src/mindustry/type/UnitType.java")
         self.assertEqual(hook["godot_symbol"], "source_unit_update_type_hook_result.unitTypeHook")
 
+    def test_unit_update_unsupported_env_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "unit_update_unsupported_env.comment")
+        self.assertEqual(comment["java_expr"], "//check if environment is unsupported")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(comment["java_method"], "UnitComp.update() unsupported environment")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_unit_update_unsupported_env_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_unit_update_unsupported_env_state")
+        self.assertEqual(comment["godot_symbol"], "source_unit_update_unsupported_env_result.guard")
+
+        guard = source_symbols.source_symbol(registry, "unit_update_unsupported_env.guard")
+        self.assertEqual(guard["java_expr"], "if(!type.supportsEnv(state.rules.env) && !dead){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_unsupported_env_result.envDeath")
+
+        type_supports_env = source_symbols.source_symbol(registry, "unit_update_unsupported_env.type_supports_env_input")
+        self.assertEqual(type_supports_env["status"], "explicit-input")
+        self.assertEqual(type_supports_env["java_expr"], "type.supportsEnv(state.rules.env)")
+        self.assertEqual(type_supports_env["godot_symbol"], "source_unit_update_unsupported_env_input.type_supports_env")
+
+        dead = source_symbols.source_symbol(registry, "unit_update_unsupported_env.dead_input")
+        self.assertEqual(dead["status"], "explicit-input")
+        self.assertEqual(dead["java_expr"], "dead")
+        self.assertEqual(dead["godot_symbol"], "source_unit_update_unsupported_env_input.dead_value")
+
+        unit_env_death = source_symbols.source_symbol(registry, "unit_update_unsupported_env.unit_env_death_call")
+        self.assertEqual(unit_env_death["java_expr"], "Call.unitEnvDeath(self());")
+        self.assertEqual(unit_env_death["godot_symbol"], "source_unit_update_unsupported_env_result.unitEnvDeath")
+
+        update_count = source_symbols.source_symbol(registry, "unit_update_unsupported_env.update_count_negative")
+        self.assertEqual(update_count["java_expr"], "team.data().updateCount(type, -1);")
+        self.assertEqual(update_count["godot_symbol"], "source_unit_update_unsupported_env_result.updateCount")
+
+        supports_env_body = source_symbols.source_symbol(registry, "unit_update_unsupported_env.supports_env_body")
+        self.assertEqual(supports_env_body["java_expr"], "return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);")
+        self.assertEqual(supports_env_body["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(supports_env_body["godot_symbol"], "source_unit_update_unsupported_env_input.type_supports_env")
+
+        units_env_death_dead = source_symbols.source_symbol(registry, "unit_update_unsupported_env.units_unit_env_dead")
+        self.assertEqual(units_env_death_dead["java_expr"], "unit.dead = true;")
+        self.assertEqual(units_env_death_dead["java_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(units_env_death_dead["godot_symbol"], "source_unit_update_unsupported_env_result.unitEnvDeath")
+
+        teams_update_count_type = source_symbols.source_symbol(registry, "unit_update_unsupported_env.team_data_update_count_type")
+        self.assertEqual(teams_update_count_type["java_expr"], "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);")
+        self.assertEqual(teams_update_count_type["java_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(teams_update_count_type["godot_symbol"], "source_unit_update_unsupported_env_result.updateCount")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14628,9 +14679,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 428)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 429)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 433)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 434)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14670,6 +14721,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_tile_unit_on_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_trail_position_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_type_hook_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_unsupported_env_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17259,6 +17311,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("type.update(self());", unit_update_type_hook["exact_exprs"])
         self.assertIn("public void update(Unit unit){", unit_update_type_hook["bridge_exprs"])
         self.assertIn("UnitType subclass update side effects remain separate source slices.", unit_update_type_hook["deferred_exprs"])
+
+        unit_update_unsupported_env = source_symbols.source_slice(ledger, "N831")
+        self.assertEqual(unit_update_unsupported_env["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_unsupported_env["java_method"], "UnitComp.update() unsupported environment")
+        self.assertEqual(unit_update_unsupported_env["godot_owner"], "PortGame.source_unit_update_unsupported_env_state")
+        self.assertIn("//check if environment is unsupported", unit_update_unsupported_env["exact_exprs"])
+        self.assertIn("if(!type.supportsEnv(state.rules.env) && !dead){", unit_update_unsupported_env["exact_exprs"])
+        self.assertIn("Call.unitEnvDeath(self());", unit_update_unsupported_env["exact_exprs"])
+        self.assertIn("team.data().updateCount(type, -1);", unit_update_unsupported_env["exact_exprs"])
+        self.assertIn("return (envEnabled & env) != 0 && (envDisabled & env) == 0 && (envRequired == 0 || (envRequired & env) == envRequired);", unit_update_unsupported_env["bridge_exprs"])
+        self.assertIn("unit.dead = true;", unit_update_unsupported_env["bridge_exprs"])
+        self.assertIn("typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);", unit_update_unsupported_env["bridge_exprs"])
+        self.assertIn("Live unit death, effects, destroy call, and team counts remain recorded call state only.", unit_update_unsupported_env["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21295,6 +21360,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         for key in ["call", "arg", "unitTypeHook", "order"]:
             self.assertIn(key, unit_update_type_hook["return_keys"])
         self.assertEqual(unit_update_type_hook["source_method"], "UnitComp.update() type hook")
+
+        unit_update_unsupported_env = source_symbols.api_contract(contracts, "PortGame.source_unit_update_unsupported_env_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_unsupported_env["params"]],
+            ["type_supports_env", "dead_value"],
+        )
+        self.assertEqual(unit_update_unsupported_env["params"][0]["schema"], "source_unit_update_unsupported_env_input.type_supports_env")
+        self.assertEqual(unit_update_unsupported_env["params"][1]["schema"], "source_unit_update_unsupported_env_input.dead_value")
+        for key in ["envDeath", "guard", "unitEnvDeath", "updateCount", "callOrder"]:
+            self.assertIn(key, unit_update_unsupported_env["return_keys"])
+        self.assertNotIn("state_rules_env", unit_update_unsupported_env["return_keys"])
+        self.assertEqual(unit_update_unsupported_env["source_method"], "UnitComp.update() unsupported environment")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -26176,6 +26253,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_type_hook_result["keys"]["unitTypeHook"]["java_expr"], "public void update(Unit unit){")
         self.assertEqual(source_unit_update_type_hook_result["keys"]["order"]["java_expr"], "type.update(self());")
         self.assertNotIn("type_update_self", source_unit_update_type_hook_result["keys"])
+
+        source_unit_update_unsupported_env_input = source_symbols.state_schema(schema, "source_unit_update_unsupported_env_input")
+        self.assertEqual(source_unit_update_unsupported_env_input["keys"]["type_supports_env"]["java_expr"], "type.supportsEnv(state.rules.env)")
+        self.assertEqual(source_unit_update_unsupported_env_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertNotIn("state_rules_env", source_unit_update_unsupported_env_input["keys"])
+
+        source_unit_update_unsupported_env_result = source_symbols.state_schema(schema, "source_unit_update_unsupported_env_result")
+        self.assertEqual(source_unit_update_unsupported_env_result["keys"]["envDeath"]["java_expr"], "if(!type.supportsEnv(state.rules.env) && !dead){")
+        self.assertEqual(source_unit_update_unsupported_env_result["keys"]["guard"]["java_expr"], "if(!type.supportsEnv(state.rules.env) && !dead){")
+        self.assertEqual(source_unit_update_unsupported_env_result["keys"]["unitEnvDeath"]["java_expr"], "Call.unitEnvDeath(self());")
+        self.assertEqual(source_unit_update_unsupported_env_result["keys"]["updateCount"]["java_expr"], "team.data().updateCount(type, -1);")
+        self.assertEqual(source_unit_update_unsupported_env_result["keys"]["callOrder"]["java_expr"], "Call.unitEnvDeath(self()); -> team.data().updateCount(type, -1);")
+        self.assertNotIn("type_supports_env", source_unit_update_unsupported_env_result["keys"])
+        self.assertNotIn("typeSupportsEnv", source_unit_update_unsupported_env_result["keys"])
+        self.assertNotIn("dead", source_unit_update_unsupported_env_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
