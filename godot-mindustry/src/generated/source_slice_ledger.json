@@ -14730,6 +14730,57 @@
         "test_port_game_exposes_source_unit_update_tile_unit_on_any_state",
         "test_unit_update_tile_unit_on_any_matches_upstream_source"
       ]
+    },
+    "N828": {
+      "bridge_exprs": [
+        "public @Nullable Building build;",
+        "hovering = false,",
+        "public boolean isGrounded(){",
+        "return elevation < 0.001f;",
+        "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */",
+        "public void unitOn(Unit unit){"
+      ],
+      "deferred_exprs": [
+        "Floor damage branch remains separate source slice.",
+        "Building subclass unitOn side effects remain separate source slices.",
+        "Live Tile and Building object lifetime remains explicit input state."
+      ],
+      "exact_exprs": [
+        "if(tile != null && isGrounded() && !type.hovering){",
+        "//unit block update",
+        "if(tile.build != null){",
+        "tile.build.unitOn(self());",
+        "//apply damage"
+      ],
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "source_symbols": [
+        "unit_update_tile_unit_on.apply_damage_boundary",
+        "unit_update_tile_unit_on.building_unit_on",
+        "unit_update_tile_unit_on.building_unit_on_comment",
+        "unit_update_tile_unit_on.call",
+        "unit_update_tile_unit_on.comment",
+        "unit_update_tile_unit_on.guard",
+        "unit_update_tile_unit_on.is_grounded_body",
+        "unit_update_tile_unit_on.is_grounded_method",
+        "unit_update_tile_unit_on.is_grounded_value",
+        "unit_update_tile_unit_on.tile_build_exists",
+        "unit_update_tile_unit_on.tile_build_field",
+        "unit_update_tile_unit_on.tile_build_guard",
+        "unit_update_tile_unit_on.tile_exists",
+        "unit_update_tile_unit_on.type_hovering",
+        "unit_update_tile_unit_on.unit_id",
+        "unit_update_tile_unit_on.unit_type_hovering_default"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
     }
   },
   "version": 1

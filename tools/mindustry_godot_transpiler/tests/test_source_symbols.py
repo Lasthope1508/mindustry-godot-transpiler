@@ -6028,6 +6028,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_method["godot_symbol"], "source_unit_update_tile_unit_on_any_result.unitOnAny")
 
+    def test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_tile_unit_on.guard")
+        self.assertEqual(guard["java_expr"], "if(tile != null && isGrounded() && !type.hovering){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() tile unitOn")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_tile_unit_on_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_tile_unit_on_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_tile_unit_on_result.guard")
+
+        inner_guard = source_symbols.source_symbol(registry, "unit_update_tile_unit_on.tile_build_guard")
+        self.assertEqual(inner_guard["java_expr"], "if(tile.build != null){")
+        self.assertEqual(inner_guard["godot_symbol"], "source_unit_update_tile_unit_on_input.tile_build_exists")
+
+        call = source_symbols.source_symbol(registry, "unit_update_tile_unit_on.call")
+        self.assertEqual(call["java_expr"], "tile.build.unitOn(self());")
+        self.assertEqual(call["godot_symbol"], "source_unit_update_tile_unit_on_result.unitOn")
+
+        hovering = source_symbols.source_symbol(registry, "unit_update_tile_unit_on.unit_type_hovering_default")
+        self.assertEqual(hovering["java_expr"], "hovering = false,")
+        self.assertEqual(hovering["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(hovering["godot_symbol"], "source_unit_update_tile_unit_on_input.type_hovering")
+
+        building_method = source_symbols.source_symbol(registry, "unit_update_tile_unit_on.building_unit_on")
+        self.assertEqual(building_method["java_expr"], "public void unitOn(Unit unit){")
+        self.assertEqual(building_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_method["godot_symbol"], "source_unit_update_tile_unit_on_result.unitOn")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14500,9 +14532,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 425)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 426)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 430)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 431)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14539,6 +14571,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_spawn_knockback_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_spawned_core_despawn_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_tile_unit_on_any_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_tile_unit_on_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17084,6 +17117,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("/** Called every frame a unit is on this. Applies to any unit.  */", unit_update_tile_unit_on_any["bridge_exprs"])
         self.assertIn("public void unitOnAny(Unit unit){", unit_update_tile_unit_on_any["bridge_exprs"])
         self.assertIn("Building subclass unitOnAny side effects remain separate source slices.", unit_update_tile_unit_on_any["deferred_exprs"])
+
+        unit_update_tile_unit_on = source_symbols.source_slice(ledger, "N828")
+        self.assertEqual(unit_update_tile_unit_on["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_tile_unit_on["java_method"], "UnitComp.update() tile unitOn")
+        self.assertEqual(unit_update_tile_unit_on["godot_owner"], "PortGame.source_unit_update_tile_unit_on_state")
+        self.assertIn("if(tile != null && isGrounded() && !type.hovering){", unit_update_tile_unit_on["exact_exprs"])
+        self.assertIn("//unit block update", unit_update_tile_unit_on["exact_exprs"])
+        self.assertIn("if(tile.build != null){", unit_update_tile_unit_on["exact_exprs"])
+        self.assertIn("tile.build.unitOn(self());", unit_update_tile_unit_on["exact_exprs"])
+        self.assertIn("//apply damage", unit_update_tile_unit_on["exact_exprs"])
+        self.assertIn("public @Nullable Building build;", unit_update_tile_unit_on["bridge_exprs"])
+        self.assertIn("hovering = false,", unit_update_tile_unit_on["bridge_exprs"])
+        self.assertIn("/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */", unit_update_tile_unit_on["bridge_exprs"])
+        self.assertIn("public void unitOn(Unit unit){", unit_update_tile_unit_on["bridge_exprs"])
+        self.assertIn("Floor damage branch remains separate source slice.", unit_update_tile_unit_on["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21072,6 +21120,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_tile_unit_on_any["return_keys"])
         self.assertNotIn("unit_id", unit_update_tile_unit_on_any["return_keys"])
         self.assertEqual(unit_update_tile_unit_on_any["source_method"], "UnitComp.update() tile unitOnAny")
+
+        unit_update_tile_unit_on = source_symbols.api_contract(contracts, "PortGame.source_unit_update_tile_unit_on_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_tile_unit_on["params"]],
+            ["tile_exists", "is_grounded_value", "type_hovering", "tile_build_exists", "unit_id"],
+        )
+        self.assertEqual(unit_update_tile_unit_on["params"][0]["schema"], "source_unit_update_tile_unit_on_input.tile_exists")
+        self.assertEqual(unit_update_tile_unit_on["params"][1]["schema"], "source_unit_update_tile_unit_on_input.is_grounded_value")
+        self.assertEqual(unit_update_tile_unit_on["params"][2]["schema"], "source_unit_update_tile_unit_on_input.type_hovering")
+        self.assertEqual(unit_update_tile_unit_on["params"][3]["schema"], "source_unit_update_tile_unit_on_input.tile_build_exists")
+        self.assertEqual(unit_update_tile_unit_on["params"][4]["schema"], "source_unit_update_tile_unit_on_input.unit_id")
+        for key in ["guard", "tileExists", "isGrounded", "typeHovering", "tileBuildExists", "unitOn"]:
+            self.assertIn(key, unit_update_tile_unit_on["return_keys"])
+        self.assertNotIn("unit_id", unit_update_tile_unit_on["return_keys"])
+        self.assertEqual(unit_update_tile_unit_on["source_method"], "UnitComp.update() tile unitOn")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -25400,6 +25463,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["tile_build_exists"]["java_expr"], "tile.build != null")
         self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["unit_id"]["java_expr"], "self()")
 
+        source_unit_update_tile_unit_on_input = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_input")
+        self.assertEqual(source_unit_update_tile_unit_on_input["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_unit_update_tile_unit_on_input["keys"]["is_grounded_value"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_update_tile_unit_on_input["keys"]["type_hovering"]["java_expr"], "type.hovering")
+        self.assertEqual(source_unit_update_tile_unit_on_input["keys"]["tile_build_exists"]["java_expr"], "tile.build != null")
+        self.assertEqual(source_unit_update_tile_unit_on_input["keys"]["unit_id"]["java_expr"], "self()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25908,6 +25978,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["tileBuildExists"]["alias_of"], "source_unit_update_tile_unit_on_any_input.tile_build_exists")
         self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["unitOnAny"]["java_expr"], "tile.build.unitOnAny(self());")
         self.assertNotIn("unit_id", source_unit_update_tile_unit_on_any_result["keys"])
+
+        source_unit_update_tile_unit_on_result = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_result")
+        self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["guard"]["java_expr"], "if(tile != null && isGrounded() && !type.hovering){")
+        self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["tileExists"]["alias_of"], "source_unit_update_tile_unit_on_input.tile_exists")
+        self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["isGrounded"]["alias_of"], "source_unit_update_tile_unit_on_input.is_grounded_value")
+        self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["typeHovering"]["alias_of"], "source_unit_update_tile_unit_on_input.type_hovering")
+        self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["tileBuildExists"]["alias_of"], "source_unit_update_tile_unit_on_input.tile_build_exists")
+        self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["unitOn"]["java_expr"], "tile.build.unitOn(self());")
+        self.assertNotIn("unit_id", source_unit_update_tile_unit_on_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

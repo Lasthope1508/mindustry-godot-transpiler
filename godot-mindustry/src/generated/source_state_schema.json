@@ -57765,6 +57765,177 @@
       "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_any_state",
       "status": "active"
     },
+    "source_unit_update_tile_unit_on_input": {
+      "keys": {
+        "is_grounded_value": {
+          "godot_symbol": "source_unit_update_tile_unit_on_input.is_grounded_value",
+          "java_expr": "isGrounded()",
+          "java_method": "UnitComp.update() tile unitOn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Explicit isGrounded() input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "tile_build_exists": {
+          "godot_symbol": "source_unit_update_tile_unit_on_input.tile_build_exists",
+          "java_expr": "tile.build != null",
+          "java_method": "UnitComp.update() tile unitOn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Explicit tile.build existence input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "tile_exists": {
+          "godot_symbol": "source_unit_update_tile_unit_on_input.tile_exists",
+          "java_expr": "tile != null",
+          "java_method": "UnitComp.update() tile unitOn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Explicit tile existence input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "type_hovering": {
+          "godot_symbol": "source_unit_update_tile_unit_on_input.type_hovering",
+          "java_expr": "type.hovering",
+          "java_method": "UnitComp.update() tile unitOn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Explicit type.hovering input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_update_tile_unit_on_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.update() tile unitOn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Explicit self() unit identity input used for callback record.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "active"
+    },
+    "source_unit_update_tile_unit_on_result": {
+      "keys": {
+        "guard": {
+          "godot_symbol": "source_unit_update_tile_unit_on_result.guard",
+          "java_expr": "if(tile != null && isGrounded() && !type.hovering){",
+          "java_method": "UnitComp.update() tile unitOn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Computed grounded tile unitOn guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "isGrounded": {
+          "alias_of": "source_unit_update_tile_unit_on_input.is_grounded_value",
+          "godot_symbol": "source_unit_update_tile_unit_on_result.isGrounded",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Runtime camelCase mirror of is_grounded_value.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "tileBuildExists": {
+          "alias_of": "source_unit_update_tile_unit_on_input.tile_build_exists",
+          "godot_symbol": "source_unit_update_tile_unit_on_result.tileBuildExists",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Runtime camelCase mirror of tile_build_exists.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "tileExists": {
+          "alias_of": "source_unit_update_tile_unit_on_input.tile_exists",
+          "godot_symbol": "source_unit_update_tile_unit_on_result.tileExists",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Runtime camelCase mirror of tile_exists.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "typeHovering": {
+          "alias_of": "source_unit_update_tile_unit_on_input.type_hovering",
+          "godot_symbol": "source_unit_update_tile_unit_on_result.typeHovering",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Runtime camelCase mirror of type_hovering.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        },
+        "unitOn": {
+          "godot_symbol": "source_unit_update_tile_unit_on_result.unitOn",
+          "java_expr": "tile.build.unitOn(self());",
+          "java_method": "UnitComp.update() tile unitOn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ],
+          "rule": "Recorded tile.build.unitOn callback state.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_tile_unit_on_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

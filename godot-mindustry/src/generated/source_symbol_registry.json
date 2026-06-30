@@ -48064,6 +48064,246 @@
         "test_unit_update_spawned_core_despawn_matches_upstream_source"
       ]
     },
+    "unit_update_tile_unit_on.apply_damage_boundary": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_result.unitOn",
+      "java_expr": "//apply damage",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Boundary marker before floor damage slice.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.building_unit_on": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_result.unitOn",
+      "java_expr": "public void unitOn(Unit unit){",
+      "java_method": "BuildingComp.unitOn(Unit)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Building unitOn method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.building_unit_on_comment": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_result.unitOn",
+      "java_expr": "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */",
+      "java_method": "BuildingComp.unitOn(Unit)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Building unitOn source comment.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.call": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_result.unitOn",
+      "java_expr": "tile.build.unitOn(self());",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Recorded tile.build.unitOn callback call.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.comment": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_result.unitOn",
+      "java_expr": "//unit block update",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment for unit block update.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.guard": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_result.guard",
+      "java_expr": "if(tile != null && isGrounded() && !type.hovering){",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed grounded tile unitOn guard.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.is_grounded_body": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.is_grounded_value",
+      "java_expr": "return elevation < 0.001f;",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source isGrounded body backing input.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.is_grounded_method": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.is_grounded_value",
+      "java_expr": "public boolean isGrounded(){",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source isGrounded method backing input.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.is_grounded_value": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.is_grounded_value",
+      "java_expr": "isGrounded()",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit isGrounded() input.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.tile_build_exists": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.tile_build_exists",
+      "java_expr": "tile.build != null",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit tile.build existence input from inner guard.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.tile_build_field": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.tile_build_exists",
+      "java_expr": "public @Nullable Building build;",
+      "java_method": "Tile.build field",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "rule": "Tile build field backing tile_build_exists input.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.tile_build_guard": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.tile_build_exists",
+      "java_expr": "if(tile.build != null){",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Inner tile.build guard.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.tile_exists": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.tile_exists",
+      "java_expr": "tile != null",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit tile existence input.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.type_hovering": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.type_hovering",
+      "java_expr": "type.hovering",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit type.hovering input.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.unit_id": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update() tile unitOn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit self() unit identity input used for callback record.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
+    "unit_update_tile_unit_on.unit_type_hovering_default": {
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_state",
+      "godot_symbol": "source_unit_update_tile_unit_on_input.type_hovering",
+      "java_expr": "hovering = false,",
+      "java_method": "UnitType field declarations",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType hovering default backing input.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_tile_unit_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_state",
+        "test_unit_update_tile_unit_on_matches_upstream_source"
+      ]
+    },
     "unit_update_tile_unit_on_any.building_unit_on_any": {
       "godot_owner": "PortGame.source_unit_update_tile_unit_on_any_state",
       "godot_symbol": "source_unit_update_tile_unit_on_any_result.unitOnAny",
