@@ -15282,6 +15282,69 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_angle_life_state",
       "rule": "Backfills SSOT for existing Weapon.bullet angle and lifetime scale wrapper against exact upstream source."
+    },
+    "N839": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "exact_exprs": [
+        "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+        "(1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity",
+        "-1f",
+        "lifeScl",
+        "null",
+        "mover",
+        "mount.aimX",
+        "mount.aimY",
+        "mount.target"
+      ],
+      "bridge_exprs": [
+        "public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){",
+        "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit",
+        "return rand.nextFloat() * range"
+      ],
+      "deferred_exprs": [
+        "Mathf.random(velocityRnd) remains explicit velocity_random input; live Arc RNG stream is not reconstructed in this wrapper.",
+        "BulletType.create internals and handleBullet(unit, mount, mount.bullet) remain owned by later registered slices."
+      ],
+      "source_symbols": [
+        "weapon_bullet_create_call.aim_x",
+        "weapon_bullet_create_call.aim_y",
+        "weapon_bullet_create_call.angle",
+        "weapon_bullet_create_call.angle_life_state",
+        "weapon_bullet_create_call.bullet_type_create_overload",
+        "weapon_bullet_create_call.bullet_state",
+        "weapon_bullet_create_call.call",
+        "weapon_bullet_create_call.controller_state",
+        "weapon_bullet_create_call.damage_arg",
+        "weapon_bullet_create_call.data_arg",
+        "weapon_bullet_create_call.extra_velocity",
+        "weapon_bullet_create_call.lifetime_scl",
+        "weapon_bullet_create_call.mathf_random",
+        "weapon_bullet_create_call.mount_state",
+        "weapon_bullet_create_call.mover",
+        "weapon_bullet_create_call.owner",
+        "weapon_bullet_create_call.shooter",
+        "weapon_bullet_create_call.shooter_state",
+        "weapon_bullet_create_call.target",
+        "weapon_bullet_create_call.team",
+        "weapon_bullet_create_call.unit_state",
+        "weapon_bullet_create_call.velocity_random",
+        "weapon_bullet_create_call.velocity_rnd",
+        "weapon_bullet_create_call.velocity_scl",
+        "weapon_bullet_create_call.weapon_state",
+        "weapon_bullet_create_call.x_arg",
+        "weapon_bullet_create_call.y_arg"
+      ],
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_create_call_state",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet BulletType.create call wrapper against exact upstream source."
     }
   },
   "version": 1

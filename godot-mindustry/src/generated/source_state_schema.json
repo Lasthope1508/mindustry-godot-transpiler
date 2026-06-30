@@ -61006,6 +61006,280 @@
           "type": "Dictionary"
         }
       }
+    },
+    "source_weapon_bullet_create_call_input": {
+      "status": "active",
+      "keys": {
+        "unit_state": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Unit input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "mount_state": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.weapon_state",
+          "java_expr": "this",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.bullet_state",
+          "java_expr": "bullet",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source BulletType input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "controller_state": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.controller_state",
+          "java_expr": "unit.controller()",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source unit controller input for shooter selection.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "x_offset": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.x_offset",
+          "java_expr": "xOffset",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source shoot x offset input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "y_offset": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.y_offset",
+          "java_expr": "yOffset",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source shoot y offset input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "x_spread": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.x_spread",
+          "java_expr": "xSpread = Mathf.range(xRand)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit xRand range draw input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "y_spread": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.y_spread",
+          "java_expr": "ySpread = Mathf.range(yRand)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit yRand range draw input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "angle_offset": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.angle_offset",
+          "java_expr": "angleOffset",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source angle offset input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "angle_spread": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.angle_spread",
+          "java_expr": "Mathf.range(inaccuracy + bullet.inaccuracy)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit source angle range draw input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "velocity_random": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.velocity_random",
+          "java_expr": "Mathf.random(velocityRnd)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit source velocity random draw input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "mover": {
+          "godot_symbol": "source_weapon_bullet_create_call_input.mover",
+          "java_expr": "Mover mover",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source mover input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_create_call_result": {
+      "status": "active",
+      "keys": {
+        "bulletCreateCall": {
+          "godot_symbol": "source_weapon_bullet_create_call_result.bulletCreateCall",
+          "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Full Weapon.bullet create call assignment.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "velocityScl": {
+          "godot_symbol": "source_weapon_bullet_create_call_result.velocityScl",
+          "java_expr": "(1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Velocity scale expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "damage": {
+          "godot_symbol": "source_weapon_bullet_create_call_result.damage",
+          "java_expr": "-1f",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Damage sentinel argument.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "data": {
+          "godot_symbol": "source_weapon_bullet_create_call_result.data",
+          "java_expr": "null",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Data argument.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "lifetimeScl": {
+          "godot_symbol": "source_weapon_bullet_create_call_result.lifetimeScl",
+          "java_expr": "lifeScl",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Lifetime scale argument from angle/life state.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "target": {
+          "godot_symbol": "source_weapon_bullet_create_call_result.target",
+          "java_expr": "mount.target",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Target argument.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_create_call_state"
+          ]
+        },
+        "velocityRandom": {
+          "alias_of": "source_weapon_bullet_create_call_input.velocity_random",
+          "rule": "Carries explicit source velocity random draw.",
+          "status": "generated",
+          "type": "float"
+        },
+        "mover": {
+          "alias_of": "source_weapon_bullet_create_call_input.mover",
+          "rule": "Carries source mover argument.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "unit_state": {
+          "alias_of": "source_weapon_bullet_create_call_input.unit_state",
+          "rule": "Carries unit input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "mount_state": {
+          "alias_of": "source_weapon_bullet_create_call_input.mount_state",
+          "rule": "Carries mount input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "weapon_state": {
+          "alias_of": "source_weapon_bullet_create_call_input.weapon_state",
+          "rule": "Carries weapon input.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "bullet_state": {
+          "alias_of": "source_weapon_bullet_create_call_input.bullet_state",
+          "rule": "Carries bullet input.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      }
     }
   },
   "version": 1

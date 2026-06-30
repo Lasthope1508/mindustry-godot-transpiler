@@ -52200,6 +52200,384 @@
         "test_weapon_bullet_angle_life_symbols_are_registered_with_source_backing",
         "test_weapon_bullet_angle_life_matches_upstream_source"
       ]
+    },
+    "weapon_bullet_create_call.aim_x": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.aimX",
+      "java_expr": "mount.aimX",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create aimX argument comes from mount.aimX.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.aim_y": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.aimY",
+      "java_expr": "mount.aimY",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create aimY argument comes from mount.aimY.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.angle": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.angle",
+      "java_expr": "angle",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create angle argument comes from prior angle/life state.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.angle_life_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.angle_life_state",
+      "java_expr": "shootAngle/lifeScl/angle block",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime derives create call args from registered angle/life helper.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "generated",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.bullet_type_create_overload": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.createOverload",
+      "java_expr": "public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){",
+      "java_method": "create(owner, shooter, team, x, y, angle, damage, velocityScl, lifetimeScl, data, mover, aimX, aimY, target)",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "Target BulletType.create overload signature for Weapon.bullet call.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.bullet_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.bullet_state",
+      "java_expr": "bullet",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime bullet_state maps to Weapon.bullet BulletType.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.call": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.bulletCreateCall",
+      "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet assigns mount.bullet from BulletType.create.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.controller_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.controller_state",
+      "java_expr": "unit.controller()",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime controller_state supplies MissileAI shooter selection source.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.damage_arg": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.damage",
+      "java_expr": "-1f",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet passes -1f damage sentinel into BulletType.create.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.data_arg": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.data",
+      "java_expr": "null",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet passes null data into BulletType.create.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.extra_velocity": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.extraVelocity",
+      "java_expr": "extraVelocity",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon extraVelocity contributes to velocityScl.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.lifetime_scl": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.lifetimeScl",
+      "java_expr": "lifeScl",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create lifetimeScl argument comes from prior angle/life state.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.mathf_random": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.mathfRandom",
+      "java_expr": "return rand.nextFloat() * range",
+      "java_method": "random(float range)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.random(range) scales random float by range.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.mount_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.mount_state",
+      "java_expr": "WeaponMount mount",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime mount_state maps to Java WeaponMount mount.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.mover": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.mover",
+      "java_expr": "Mover mover",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime mover maps to Java Mover mover.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.owner": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.owner",
+      "java_expr": "unit",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create owner argument is unit.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.shooter": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.shooter",
+      "java_expr": "shooter",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create shooter argument comes from shooter selection.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.shooter_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.shooter_state",
+      "java_expr": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime shooter state is produced by registered shooter helper.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "generated",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.target": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.target",
+      "java_expr": "mount.target",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create target argument comes from mount.target.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.team": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.team",
+      "java_expr": "unit.team",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create team argument is unit.team.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.unit_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.unit_state",
+      "java_expr": "Unit unit",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime unit_state maps to Java Unit unit.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.velocity_random": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.velocity_random",
+      "java_expr": "Mathf.random(velocityRnd)",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime velocity_random carries the source random velocity draw explicitly.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.velocity_rnd": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.velocityRnd",
+      "java_expr": "velocityRnd",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon velocityRnd field contributes to velocityScl.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.velocity_scl": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.velocityScl",
+      "java_expr": "(1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Velocity scale formula passed to BulletType.create.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.weapon_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_input.weapon_state",
+      "java_expr": "this",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime weapon_state maps to Java this Weapon.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.x_arg": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.x",
+      "java_expr": "bulletX",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create x argument comes from computed bulletX.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
+    },
+    "weapon_bullet_create_call.y_arg": {
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "godot_symbol": "source_weapon_bullet_create_call_result.y",
+      "java_expr": "bulletY",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "BulletType.create y argument comes from computed bulletY.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "status": "source-backed",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
     }
   },
   "version": 1

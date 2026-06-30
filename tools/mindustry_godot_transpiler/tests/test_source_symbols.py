@@ -3107,6 +3107,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(angle_spread["java_expr"], "Mathf.range(inaccuracy + bullet.inaccuracy)")
         self.assertEqual(angle_spread["godot_symbol"], "source_weapon_bullet_angle_life_input.angle_spread")
 
+    def test_weapon_bullet_create_call_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        create_call = source_symbols.source_symbol(registry, "weapon_bullet_create_call.call")
+        self.assertEqual(create_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(create_call["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(create_call["godot_owner"], "PortGame.source_weapon_bullet_create_call_state")
+        self.assertEqual(create_call["runtime_proof"], "/root/Main.source_weapon_bullet_create_call_state")
+        self.assertEqual(create_call["godot_symbol"], "source_weapon_bullet_create_call_result.bulletCreateCall")
+
+        velocity_scl = source_symbols.source_symbol(registry, "weapon_bullet_create_call.velocity_scl")
+        self.assertEqual(velocity_scl["java_expr"], "(1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity")
+        self.assertEqual(velocity_scl["godot_symbol"], "source_weapon_bullet_create_call_result.velocityScl")
+
+        velocity_random = source_symbols.source_symbol(registry, "weapon_bullet_create_call.velocity_random")
+        self.assertEqual(velocity_random["status"], "explicit-input")
+        self.assertEqual(velocity_random["java_expr"], "Mathf.random(velocityRnd)")
+        self.assertEqual(velocity_random["godot_symbol"], "source_weapon_bullet_create_call_input.velocity_random")
+
+        damage = source_symbols.source_symbol(registry, "weapon_bullet_create_call.damage_arg")
+        self.assertEqual(damage["java_expr"], "-1f")
+        self.assertEqual(damage["godot_symbol"], "source_weapon_bullet_create_call_result.damage")
+
+        lifetime_scl = source_symbols.source_symbol(registry, "weapon_bullet_create_call.lifetime_scl")
+        self.assertEqual(lifetime_scl["java_expr"], "lifeScl")
+        self.assertEqual(lifetime_scl["godot_symbol"], "source_weapon_bullet_create_call_result.lifetimeScl")
+
+        target = source_symbols.source_symbol(registry, "weapon_bullet_create_call.target")
+        self.assertEqual(target["java_expr"], "mount.target")
+        self.assertEqual(target["godot_symbol"], "source_weapon_bullet_create_call_result.target")
+
     def test_block_can_replace_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14963,9 +14997,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 436)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 437)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 441)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 442)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15013,6 +15047,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_world_speed", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_vec2_limit", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_angle_life_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_create_call_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17695,6 +17730,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("angle = shootAngle + Mathf.range(inaccuracy + bullet.inaccuracy);", weapon_bullet_angle_life["exact_exprs"])
         self.assertIn("return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;", weapon_bullet_angle_life["exact_exprs"])
         self.assertIn("Mathf.range(inaccuracy + bullet.inaccuracy) remains explicit angle_spread input; live Arc RNG stream is not reconstructed in this wrapper.", weapon_bullet_angle_life["deferred_exprs"])
+
+        weapon_bullet_create_call = source_symbols.source_slice(ledger, "N839")
+        self.assertEqual(weapon_bullet_create_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_create_call["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call")
+        self.assertEqual(weapon_bullet_create_call["godot_owner"], "PortGame.source_weapon_bullet_create_call_state")
+        self.assertIn("mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);", weapon_bullet_create_call["exact_exprs"])
+        self.assertIn("public @Nullable Bullet create(\n        @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,\n        float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target\n    ){", weapon_bullet_create_call["bridge_exprs"])
+        self.assertIn("Mathf.random(velocityRnd) remains explicit velocity_random input; live Arc RNG stream is not reconstructed in this wrapper.", weapon_bullet_create_call["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20748,6 +20791,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("angle", weapon_bullet_angle_life["return_keys"])
         self.assertIn("inaccuracyRange", weapon_bullet_angle_life["return_keys"])
         self.assertEqual(weapon_bullet_angle_life["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block")
+
+        weapon_bullet_create_call = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_create_call_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_create_call["params"]], ["unit_state", "mount_state", "weapon_state", "bullet_state", "controller_state", "x_offset", "y_offset", "x_spread", "y_spread", "angle_offset", "angle_spread", "velocity_random", "mover"])
+        self.assertEqual(weapon_bullet_create_call["params"][0]["schema"], "source_weapon_bullet_create_call_input.unit_state")
+        self.assertEqual(weapon_bullet_create_call["params"][11]["schema"], "source_weapon_bullet_create_call_input.velocity_random")
+        self.assertIn("bulletCreateCall", weapon_bullet_create_call["return_keys"])
+        self.assertIn("mountBulletSetFromCreateCall", weapon_bullet_create_call["return_keys"])
+        self.assertIn("velocityScl", weapon_bullet_create_call["return_keys"])
+        self.assertIn("angleLifeState", weapon_bullet_create_call["return_keys"])
+        self.assertEqual(weapon_bullet_create_call["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call")
 
         block_can_replace = source_symbols.api_contract(contracts, "PortGame.source_block_can_replace_state")
         self.assertEqual([param["name"] for param in block_can_replace["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
@@ -25163,6 +25216,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_angle_life_result["keys"]["bulletRotation"]["java_expr"], "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;")
         self.assertEqual(source_weapon_bullet_angle_life_result["keys"]["inaccuracyRange"]["java_expr"], "inaccuracy + bullet.inaccuracy")
         self.assertEqual(source_weapon_bullet_angle_life_result["keys"]["angleSpread"]["alias_of"], "source_weapon_bullet_angle_life_input.angle_spread")
+
+        source_weapon_bullet_create_call_input = source_symbols.state_schema(schema, "source_weapon_bullet_create_call_input")
+        self.assertEqual(source_weapon_bullet_create_call_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_bullet_create_call_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_bullet_create_call_input["keys"]["weapon_state"]["java_expr"], "this")
+        self.assertEqual(source_weapon_bullet_create_call_input["keys"]["bullet_state"]["java_expr"], "bullet")
+        self.assertEqual(source_weapon_bullet_create_call_input["keys"]["controller_state"]["java_expr"], "unit.controller()")
+        self.assertEqual(source_weapon_bullet_create_call_input["keys"]["velocity_random"]["java_expr"], "Mathf.random(velocityRnd)")
+        self.assertEqual(source_weapon_bullet_create_call_input["keys"]["mover"]["java_expr"], "Mover mover")
+
+        source_weapon_bullet_create_call_result = source_symbols.state_schema(schema, "source_weapon_bullet_create_call_result")
+        self.assertEqual(source_weapon_bullet_create_call_result["keys"]["bulletCreateCall"]["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(source_weapon_bullet_create_call_result["keys"]["velocityScl"]["java_expr"], "(1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity")
+        self.assertEqual(source_weapon_bullet_create_call_result["keys"]["damage"]["java_expr"], "-1f")
+        self.assertEqual(source_weapon_bullet_create_call_result["keys"]["data"]["java_expr"], "null")
+        self.assertEqual(source_weapon_bullet_create_call_result["keys"]["lifetimeScl"]["java_expr"], "lifeScl")
+        self.assertEqual(source_weapon_bullet_create_call_result["keys"]["target"]["java_expr"], "mount.target")
+        self.assertEqual(source_weapon_bullet_create_call_result["keys"]["velocityRandom"]["alias_of"], "source_weapon_bullet_create_call_input.velocity_random")
 
         source_block_can_replace_input = source_symbols.state_schema(schema, "source_block_can_replace_input")
         self.assertEqual(source_block_can_replace_input["keys"]["otherAlwaysReplace"]["java_expr"], "other.alwaysReplace")

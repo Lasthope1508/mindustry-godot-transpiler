@@ -16945,6 +16945,98 @@
         "test_port_game_exposes_source_weapon_bullet_angle_life_state",
         "test_weapon_bullet_angle_life_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_bullet_create_call_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_create_call_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_create_call_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_create_call_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_bullet_create_call_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "controller_state",
+          "schema": "source_weapon_bullet_create_call_input.controller_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "x_offset",
+          "schema": "source_weapon_bullet_create_call_input.x_offset",
+          "type": "float"
+        },
+        {
+          "name": "y_offset",
+          "schema": "source_weapon_bullet_create_call_input.y_offset",
+          "type": "float"
+        },
+        {
+          "name": "x_spread",
+          "schema": "source_weapon_bullet_create_call_input.x_spread",
+          "type": "float"
+        },
+        {
+          "name": "y_spread",
+          "schema": "source_weapon_bullet_create_call_input.y_spread",
+          "type": "float"
+        },
+        {
+          "name": "angle_offset",
+          "schema": "source_weapon_bullet_create_call_input.angle_offset",
+          "type": "float"
+        },
+        {
+          "name": "angle_spread",
+          "schema": "source_weapon_bullet_create_call_input.angle_spread",
+          "type": "float"
+        },
+        {
+          "name": "velocity_random",
+          "schema": "source_weapon_bullet_create_call_input.velocity_random",
+          "type": "float"
+        },
+        {
+          "name": "mover",
+          "schema": "source_weapon_bullet_create_call_input.mover",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "mountCharging",
+        "bulletCreateCall",
+        "mountBulletSetFromCreateCall",
+        "velocityRnd",
+        "velocityRandom",
+        "extraVelocity",
+        "velocityScl",
+        "angleLifeState",
+        "shooterState"
+      ],
+      "rule": "Public runtime contract for Weapon.bullet BulletType.create call arguments.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "source_slice": "N839",
+      "status": "active",
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_create_call_state",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ]
     }
   },
   "policy": {
