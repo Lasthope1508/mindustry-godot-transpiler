@@ -17308,6 +17308,47 @@
         "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
         "test_weapon_bullet_mount_recoil_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_bullet_recoil_slots_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_recoil_slots_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_recoil_slots_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_recoil_slots_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "recoilSlotsApplied",
+        "recoils",
+        "recoilIndex",
+        "recoilsCount",
+        "barrelCounter",
+        "recoilSlotsSource",
+        "updateInitSource",
+        "heatReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.bullet recoil slot branch.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_slots_state",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil slots",
+      "source_slice": "N846",
+      "status": "active",
+      "tests": [
+        "test_weapon_bullet_recoil_slots_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_slots_state",
+        "test_weapon_bullet_recoil_slots_matches_upstream_source"
+      ]
     }
   },
   "policy": {

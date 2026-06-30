@@ -15611,6 +15611,50 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
       "rule": "Backfills SSOT for existing Weapon.bullet mount recoil assignment wrapper against exact upstream source."
+    },
+    "N846": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil slots",
+      "godot_owner": "PortGame.source_weapon_bullet_recoil_slots_state",
+      "exact_exprs": [
+        "if(recoils > 0){",
+        "mount.recoils[mount.barrelCounter % recoils] = 1f;"
+      ],
+      "bridge_exprs": [
+        "public int recoils = -1;",
+        "public @Nullable float[] recoils;",
+        "public int barrelCounter;",
+        "if(mount.recoils == null) mount.recoils = new float[recoils];"
+      ],
+      "deferred_exprs": [
+        "Heat assignment remains owned by source_weapon_bullet_heat_state.",
+        "Live WeaponMount mutation remains represented as returned state until full entity graph wiring owns mount instances."
+      ],
+      "source_symbols": [
+        "weapon_bullet_recoil_slots.branch",
+        "weapon_bullet_recoil_slots.assignment",
+        "weapon_bullet_recoil_slots.create_call_state",
+        "weapon_bullet_recoil_slots.mount_state",
+        "weapon_bullet_recoil_slots.weapon_state",
+        "weapon_bullet_recoil_slots.mount_recoils_field",
+        "weapon_bullet_recoil_slots.mount_barrel_counter_field",
+        "weapon_bullet_recoil_slots.weapon_recoils_default",
+        "weapon_bullet_recoil_slots.recoil_index",
+        "weapon_bullet_recoil_slots.recoil_slots_applied",
+        "weapon_bullet_recoil_slots.recoil_slots_before",
+        "weapon_bullet_recoil_slots.recoil_slots",
+        "weapon_bullet_recoil_slots.update_initializer",
+        "weapon_bullet_recoil_slots.heat_reserved"
+      ],
+      "tests": [
+        "test_weapon_bullet_recoil_slots_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_slots_state",
+        "test_weapon_bullet_recoil_slots_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_slots_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet recoil slot branch wrapper against exact upstream source."
     }
   },
   "version": 1
