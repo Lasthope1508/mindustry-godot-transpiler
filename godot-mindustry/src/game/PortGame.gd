@@ -10421,10 +10421,16 @@ func source_turret_shoot_cone(turret) -> float:
 		return 0.0
 	return float(turret.properties.get("shootCone", 8.0))
 
+const SOURCE_TURRET_RECOIL_COMMENT := "/** Visual amount by which the turret recoils back per shot. */"
+const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"
+const SOURCE_TURRET_RECOIL_KEY := "recoil"
+const SOURCE_TURRET_RECOIL_DEFAULT := 1.0
+const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"
+
 func source_turret_recoil(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get("recoil", 1.0))
+	return float(turret.properties.get(SOURCE_TURRET_RECOIL_KEY, SOURCE_TURRET_RECOIL_DEFAULT))
 
 func source_turret_recoils(turret) -> int:
 	if turret == null:

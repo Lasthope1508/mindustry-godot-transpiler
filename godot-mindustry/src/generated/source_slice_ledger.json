@@ -10978,6 +10978,46 @@
         "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_range"
       ]
+    },
+    "N741": {
+      "deferred_exprs": [
+        "public int recoils = -1;",
+        "recoils = 2;",
+        "public float recoilTime = -1f;",
+        "if(recoilTime < 0f) recoilTime = reload;",
+        "public float recoilPow = 1.8f;",
+        "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);",
+        "curRecoil = 1f;",
+        "curRecoils[barrelCounter % recoils] = 1f;"
+      ],
+      "exact_exprs": [
+        "/** Visual amount by which the turret recoils back per shot. */",
+        "public float recoil = 1f;",
+        "recoil",
+        "1f"
+      ],
+      "bridge_exprs": [
+        "recoil = 0.5f;"
+      ],
+      "godot_owner": "PortGame.source_turret_recoil",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_recoil",
+      "source_symbols": [
+        "turret_recoil.comment",
+        "turret_recoil.field",
+        "turret_recoil.turret",
+        "turret_recoil.key",
+        "turret_recoil.default",
+        "turret_recoil.result",
+        "turret_recoil.duo_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ]
     }
   },
   "version": 1

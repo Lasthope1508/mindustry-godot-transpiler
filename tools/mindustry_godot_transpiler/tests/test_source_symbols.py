@@ -4485,6 +4485,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(data["godot_symbol"], "source_turret_range_for_ammo_input.data")
         self.assertEqual(data["java_expr"], "peekAmmo()")
 
+    def test_turret_recoil_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "turret_recoil.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(comment["java_method"], "field declaration")
+        self.assertEqual(comment["java_expr"], "/** Visual amount by which the turret recoils back per shot. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_turret_recoil")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_turret_recoil")
+        self.assertEqual(comment["godot_symbol"], "source_turret_recoil_result.comment")
+
+        field = source_symbols.source_symbol(registry, "turret_recoil.field")
+        self.assertEqual(field["java_expr"], "public float recoil = 1f;")
+        self.assertEqual(field["godot_symbol"], "source_turret_recoil_result.field")
+
+        key = source_symbols.source_symbol(registry, "turret_recoil.key")
+        self.assertEqual(key["java_expr"], "recoil")
+        self.assertEqual(key["godot_symbol"], "source_turret_recoil_result.key")
+
+        default_value = source_symbols.source_symbol(registry, "turret_recoil.default")
+        self.assertEqual(default_value["java_expr"], "1f")
+        self.assertEqual(default_value["godot_symbol"], "source_turret_recoil_result.default_value")
+
+        duo_value = source_symbols.source_symbol(registry, "turret_recoil.duo_value")
+        self.assertEqual(duo_value["java_source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(duo_value["java_expr"], "recoil = 0.5f;")
+        self.assertEqual(duo_value["godot_symbol"], "source_turret_recoil_result.duoValue")
+
+        result = source_symbols.source_symbol(registry, "turret_recoil.result")
+        self.assertEqual(result["java_expr"], "recoil")
+        self.assertEqual(result["godot_symbol"], "source_turret_recoil_result.recoil")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10998,9 +11033,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 338)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 339)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 343)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 344)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11220,6 +11255,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_inaccuracy", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_range", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_range_for_ammo", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_recoil", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11332,6 +11368,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_inaccuracy", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_range", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_range_for_ammo", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_turret_recoil", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12539,6 +12576,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return range + peekAmmo().rangeChange;", turret_range_for_ammo["exact_exprs"])
         self.assertIn("return range;", turret_range_for_ammo["exact_exprs"])
         self.assertIn("rangeChange = 16f;", turret_range_for_ammo["bridge_exprs"])
+
+        turret_recoil = source_symbols.source_slice(ledger, "N741")
+        self.assertEqual(turret_recoil["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(turret_recoil["java_method"], "field declaration")
+        self.assertEqual(turret_recoil["godot_owner"], "PortGame.source_turret_recoil")
+        self.assertIn("/** Visual amount by which the turret recoils back per shot. */", turret_recoil["exact_exprs"])
+        self.assertIn("public float recoil = 1f;", turret_recoil["exact_exprs"])
+        self.assertIn("recoil", turret_recoil["exact_exprs"])
+        self.assertIn("1f", turret_recoil["exact_exprs"])
+        self.assertIn("recoil = 0.5f;", turret_recoil["bridge_exprs"])
+        self.assertIn("recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);", turret_recoil["deferred_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15693,6 +15741,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("ammoRange", turret_range_for_ammo["return_keys"])
         self.assertIn("fallbackRange", turret_range_for_ammo["return_keys"])
         self.assertEqual(turret_range_for_ammo["source_method"], "range()")
+
+        turret_recoil = source_symbols.api_contract(contracts, "PortGame.source_turret_recoil")
+        self.assertEqual([param["name"] for param in turret_recoil["params"]], ["turret"])
+        self.assertEqual(turret_recoil["params"][0]["schema"], "source_turret_recoil_input.turret")
+        self.assertIn("recoil", turret_recoil["return_keys"])
+        self.assertIn("duoValue", turret_recoil["return_keys"])
+        self.assertEqual(turret_recoil["source_method"], "field declaration")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -19285,6 +19340,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_range_for_ammo_result["keys"]["fallbackRange"]["java_expr"], "return range;")
         self.assertEqual(source_turret_range_for_ammo_result["keys"]["turret"]["alias_of"], "source_turret_range_for_ammo_input.turret")
         self.assertEqual(source_turret_range_for_ammo_result["keys"]["data"]["alias_of"], "source_turret_range_for_ammo_input.data")
+
+        source_turret_recoil_input = source_symbols.state_schema(schema, "source_turret_recoil_input")
+        self.assertEqual(source_turret_recoil_input["keys"]["turret"]["java_expr"], "Turret block")
+
+        source_turret_recoil_result = source_symbols.state_schema(schema, "source_turret_recoil_result")
+        self.assertEqual(source_turret_recoil_result["keys"]["comment"]["java_expr"], "/** Visual amount by which the turret recoils back per shot. */")
+        self.assertEqual(source_turret_recoil_result["keys"]["field"]["java_expr"], "public float recoil = 1f;")
+        self.assertEqual(source_turret_recoil_result["keys"]["key"]["java_expr"], "recoil")
+        self.assertEqual(source_turret_recoil_result["keys"]["default_value"]["java_expr"], "1f")
+        self.assertEqual(source_turret_recoil_result["keys"]["duoValue"]["java_expr"], "recoil = 0.5f;")
+        self.assertEqual(source_turret_recoil_result["keys"]["recoil"]["java_expr"], "recoil")
+        self.assertEqual(source_turret_recoil_result["keys"]["turret"]["alias_of"], "source_turret_recoil_input.turret")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

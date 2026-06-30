@@ -44416,6 +44416,106 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_recoil_input": {
+      "keys": {
+        "turret": {
+          "godot_symbol": "source_turret_recoil_input.turret",
+          "java_expr": "Turret block",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime turret input supplies Turret.recoil field state.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_recoil"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_recoil_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_turret_recoil_result.comment",
+          "java_expr": "/** Visual amount by which the turret recoils back per shot. */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Turret.recoil source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_turret_recoil_result.field",
+          "java_expr": "public float recoil = 1f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Turret.recoil field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_turret_recoil_result.key",
+          "java_expr": "recoil",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Godot dictionary key maps to Turret.recoil exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil"
+          ]
+        },
+        "default_value": {
+          "godot_symbol": "source_turret_recoil_result.default_value",
+          "java_expr": "1f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Godot fallback preserves Turret.recoil default value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_recoil"
+          ]
+        },
+        "duoValue": {
+          "godot_symbol": "source_turret_recoil_result.duoValue",
+          "java_expr": "recoil = 0.5f;",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo block override for Turret.recoil.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_recoil"
+          ]
+        },
+        "recoil": {
+          "godot_symbol": "source_turret_recoil_result.recoil",
+          "java_expr": "recoil",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Returned Turret recoil value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_recoil"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_recoil_input.turret",
+          "rule": "Carries Turret input into recoil result schema.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1
