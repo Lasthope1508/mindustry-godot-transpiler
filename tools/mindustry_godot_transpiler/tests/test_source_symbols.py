@@ -4930,6 +4930,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(payload_hittable["java_expr"], "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()")
         self.assertEqual(payload_hittable["godot_symbol"], "source_unit_hittable_result.payloadHittable")
 
+    def test_unit_icon_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "unit_icon.comment")
+        self.assertEqual(comment["java_expr"], "/** @return a preview UI icon for this unit. */")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_unit_icon_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_unit_icon_state")
+        self.assertEqual(comment["godot_symbol"], "SOURCE_UNIT_ICON_COMMENT")
+
+        method = source_symbols.source_symbol(registry, "unit_icon.method")
+        self.assertEqual(method["java_expr"], "public TextureRegion icon(){")
+        self.assertEqual(method["godot_symbol"], "SOURCE_UNIT_ICON_METHOD")
+
+        return_expr = source_symbols.source_symbol(registry, "unit_icon.return")
+        self.assertEqual(return_expr["java_expr"], "return type.uiIcon;")
+        self.assertEqual(return_expr["godot_symbol"], "SOURCE_UNIT_ICON_RETURN")
+
+        ui_icon = source_symbols.source_symbol(registry, "unit_icon.type_ui_icon")
+        self.assertEqual(ui_icon["status"], "explicit-input")
+        self.assertEqual(ui_icon["java_expr"], "type.uiIcon")
+        self.assertEqual(ui_icon["godot_symbol"], "source_unit_icon_input.type_ui_icon")
+
+        ui_icon_field = source_symbols.source_symbol(registry, "unit_icon.ui_icon_field")
+        self.assertEqual(ui_icon_field["java_expr"], "public TextureRegion uiIcon;")
+        self.assertEqual(ui_icon_field["java_source"], "core/src/mindustry/ctype/UnlockableContent.java")
+        self.assertEqual(ui_icon_field["godot_symbol"], "SOURCE_UNIT_ICON_UI_ICON_FIELD")
+
+        ui_icon_load = source_symbols.source_symbol(registry, "unit_icon.ui_icon_load")
+        self.assertEqual(ui_icon_load["java_expr"], "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);")
+        self.assertEqual(ui_icon_load["java_source"], "core/src/mindustry/ctype/UnlockableContent.java")
+        self.assertEqual(ui_icon_load["godot_symbol"], "SOURCE_UNIT_ICON_UI_ICON_LOAD")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12820,9 +12856,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 379)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 380)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 384)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 385)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12859,6 +12895,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_health", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_hit_size", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_hittable_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_icon_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14807,6 +14844,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return type.hittable(self());", unit_hittable["exact_exprs"])
         self.assertIn("return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());", unit_hittable["bridge_exprs"])
         self.assertIn("UnderwaterMoveComp.hittable() remains a separate override slice", unit_hittable["deferred_exprs"])
+
+        unit_icon = source_symbols.source_slice(ledger, "N782")
+        self.assertEqual(unit_icon["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_icon["java_method"], "UnitComp.icon()")
+        self.assertEqual(unit_icon["godot_owner"], "PortGame.source_unit_icon_state")
+        self.assertIn("/** @return a preview UI icon for this unit. */", unit_icon["exact_exprs"])
+        self.assertIn("public TextureRegion icon(){", unit_icon["exact_exprs"])
+        self.assertIn("return type.uiIcon;", unit_icon["exact_exprs"])
+        self.assertIn("uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);", unit_icon["bridge_exprs"])
+        self.assertIn("Texture atlas lookup remains content loading boundary", unit_icon["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18208,6 +18255,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("on_speed_multiplier", unit_floor_speed_multiplier["return_keys"])
         self.assertIn("speed_multiplier", unit_floor_speed_multiplier["return_keys"])
         self.assertEqual(unit_floor_speed_multiplier["source_method"], "UnitComp.floorSpeedMultiplier()")
+
+        unit_icon = source_symbols.api_contract(contracts, "PortGame.source_unit_icon_state")
+        self.assertEqual([param["name"] for param in unit_icon["params"]], ["type_ui_icon"])
+        self.assertEqual(unit_icon["params"][0]["schema"], "source_unit_icon_input.type_ui_icon")
+        self.assertIn("uiIcon", unit_icon["return_keys"])
+        self.assertIn("call", unit_icon["return_keys"])
+        self.assertEqual(unit_icon["source_method"], "UnitComp.icon()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22330,6 +22384,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_hittable_input["keys"]["type_vulnerable_with_payloads"]["java_expr"], "vulnerableWithPayloads = false,")
         self.assertEqual(source_unit_hittable_input["keys"]["unit_is_payloadc"]["java_expr"], "unit instanceof Payloadc p")
         self.assertEqual(source_unit_hittable_input["keys"]["unit_has_payload"]["java_expr"], "return payloads.size > 0;")
+
+        source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
+        self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
+
+        source_unit_icon_result = source_symbols.state_schema(schema, "source_unit_icon_result")
+        self.assertEqual(source_unit_icon_result["keys"]["comment"]["java_expr"], "/** @return a preview UI icon for this unit. */")
+        self.assertEqual(source_unit_icon_result["keys"]["method"]["java_expr"], "public TextureRegion icon(){")
+        self.assertEqual(source_unit_icon_result["keys"]["return"]["java_expr"], "return type.uiIcon;")
+        self.assertEqual(source_unit_icon_result["keys"]["uiIcon"]["java_expr"], "type.uiIcon")
+        self.assertEqual(source_unit_icon_result["keys"]["uiIconField"]["java_expr"], "public TextureRegion uiIcon;")
+        self.assertEqual(source_unit_icon_result["keys"]["uiIconLoad"]["java_expr"], "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

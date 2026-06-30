@@ -12663,6 +12663,39 @@
         "test_unit_hittable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_hittable_state"
       ]
+    },
+    "N782": {
+      "bridge_exprs": [
+        "public TextureRegion uiIcon;",
+        "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);"
+      ],
+      "deferred_exprs": [
+        "Texture atlas lookup remains content loading boundary",
+        "fullIcon loading and atlas fallback remain UnlockableContent loading behavior"
+      ],
+      "exact_exprs": [
+        "/** @return a preview UI icon for this unit. */",
+        "public TextureRegion icon(){",
+        "return type.uiIcon;"
+      ],
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.icon()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "source_symbols": [
+        "unit_icon.comment",
+        "unit_icon.method",
+        "unit_icon.return",
+        "unit_icon.type_ui_icon",
+        "unit_icon.ui_icon_field",
+        "unit_icon.ui_icon_load"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
     }
   },
   "version": 1

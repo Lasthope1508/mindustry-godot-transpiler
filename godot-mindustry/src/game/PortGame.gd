@@ -9606,10 +9606,18 @@ func source_unit_update_spawned_core_despawn_state(spawned_by_core_value: bool, 
 		"despawn": despawn_call,
 	}
 
+const SOURCE_UNIT_ICON_COMMENT := "/** @return a preview UI icon for this unit. */"
+const SOURCE_UNIT_ICON_METHOD := "public TextureRegion icon(){"
+const SOURCE_UNIT_ICON_RETURN := "return type.uiIcon;"
+const SOURCE_UNIT_ICON_UI_ICON_FIELD := "public TextureRegion uiIcon;"
+const SOURCE_UNIT_ICON_UI_ICON_LOAD := "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);"
+const SOURCE_UNIT_ICON_CALL := "icon()"
+const SOURCE_UNIT_ICON_RETURN_VALUE := "type.uiIcon"
+
 func source_unit_icon_state(type_ui_icon: String) -> Dictionary:
 	return {
-		"call": "icon()",
-		"return": "type.uiIcon",
+		"call": SOURCE_UNIT_ICON_CALL,
+		"return": SOURCE_UNIT_ICON_RETURN_VALUE,
 		"uiIcon": type_ui_icon,
 	}
 

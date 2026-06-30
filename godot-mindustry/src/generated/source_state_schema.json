@@ -49601,6 +49601,117 @@
       "runtime_proof": "/root/Main.source_unit_hittable_state",
       "status": "active"
     },
+    "source_unit_icon_input": {
+      "keys": {
+        "type_ui_icon": {
+          "godot_symbol": "source_unit_icon_input.type_ui_icon",
+          "java_expr": "type.uiIcon",
+          "java_method": "UnitComp.icon()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitType uiIcon input returned by UnitComp.icon().",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_icon_state",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "active"
+    },
+    "source_unit_icon_result": {
+      "keys": {
+        "call": {
+          "godot_symbol": "source_unit_icon_result.call",
+          "java_expr": "icon()",
+          "java_method": "UnitComp.icon()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime icon() call label.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_unit_icon_result.comment",
+          "java_expr": "/** @return a preview UI icon for this unit. */",
+          "java_method": "UnitComp.icon()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp icon comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_icon_result.method",
+          "java_expr": "public TextureRegion icon(){",
+          "java_method": "UnitComp.icon()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp icon method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        },
+        "return": {
+          "godot_symbol": "source_unit_icon_result.return",
+          "java_expr": "return type.uiIcon;",
+          "java_method": "UnitComp.icon()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp icon return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        },
+        "uiIcon": {
+          "alias_of": "source_unit_icon_input.type_ui_icon",
+          "godot_symbol": "source_unit_icon_result.uiIcon",
+          "java_expr": "type.uiIcon",
+          "java_method": "UnitComp.icon()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime returned uiIcon value.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        },
+        "uiIconField": {
+          "godot_symbol": "source_unit_icon_result.uiIconField",
+          "java_expr": "public TextureRegion uiIcon;",
+          "java_method": "UnlockableContent field declaration",
+          "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+          "rule": "UnlockableContent uiIcon field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        },
+        "uiIconLoad": {
+          "godot_symbol": "source_unit_icon_result.uiIconLoad",
+          "java_expr": "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);",
+          "java_method": "UnlockableContent.loadIcon()",
+          "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+          "rule": "UnlockableContent atlas lookup for uiIcon.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_icon_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_icon_state",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "active"
+    },
     "source_unit_is_flying_input": {
       "keys": {
         "elevation_value": {

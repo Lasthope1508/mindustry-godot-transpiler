@@ -14286,6 +14286,30 @@
         "test_unit_hittable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_hittable_state"
       ]
+    },
+    "PortGame.source_unit_icon_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_ui_icon",
+          "schema": "source_unit_icon_input.type_ui_icon",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "call",
+        "return",
+        "uiIcon"
+      ],
+      "rule": "Public runtime contract for UnitComp.icon() returning type.uiIcon.",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "source_method": "UnitComp.icon()",
+      "source_slice": "N782",
+      "status": "active",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
     }
   },
   "policy": {

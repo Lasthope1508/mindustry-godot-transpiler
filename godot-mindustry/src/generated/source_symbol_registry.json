@@ -39304,6 +39304,90 @@
         "test_port_game_exposes_source_unit_hittable_state"
       ]
     },
+    "unit_icon.comment": {
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "godot_symbol": "SOURCE_UNIT_ICON_COMMENT",
+      "java_expr": "/** @return a preview UI icon for this unit. */",
+      "java_method": "UnitComp.icon()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp icon preview UI comment.",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
+    },
+    "unit_icon.method": {
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "godot_symbol": "SOURCE_UNIT_ICON_METHOD",
+      "java_expr": "public TextureRegion icon(){",
+      "java_method": "UnitComp.icon()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp icon method boundary.",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
+    },
+    "unit_icon.return": {
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "godot_symbol": "SOURCE_UNIT_ICON_RETURN",
+      "java_expr": "return type.uiIcon;",
+      "java_method": "UnitComp.icon()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp icon exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
+    },
+    "unit_icon.type_ui_icon": {
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "godot_symbol": "source_unit_icon_input.type_ui_icon",
+      "java_expr": "type.uiIcon",
+      "java_method": "UnitComp.icon()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType uiIcon input returned by UnitComp.icon().",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
+    },
+    "unit_icon.ui_icon_field": {
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "godot_symbol": "SOURCE_UNIT_ICON_UI_ICON_FIELD",
+      "java_expr": "public TextureRegion uiIcon;",
+      "java_method": "UnlockableContent field declaration",
+      "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+      "rule": "UnlockableContent uiIcon field used by UnitType inheritance.",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
+    },
+    "unit_icon.ui_icon_load": {
+      "godot_owner": "PortGame.source_unit_icon_state",
+      "godot_symbol": "SOURCE_UNIT_ICON_UI_ICON_LOAD",
+      "java_expr": "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);",
+      "java_method": "UnlockableContent.loadIcon()",
+      "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+      "rule": "UnlockableContent loads uiIcon from atlas with fullIcon fallback.",
+      "runtime_proof": "/root/Main.source_unit_icon_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_icon_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_icon_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

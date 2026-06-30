@@ -3915,8 +3915,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_icon_state(type_ui_icon: String) -> Dictionary:", source)
-        self.assertIn('"call": "icon()"', source)
-        self.assertIn('"return": "type.uiIcon"', source)
+        self.assertIn('const SOURCE_UNIT_ICON_COMMENT := "/** @return a preview UI icon for this unit. */"', source)
+        self.assertIn('const SOURCE_UNIT_ICON_METHOD := "public TextureRegion icon(){"', source)
+        self.assertIn('const SOURCE_UNIT_ICON_RETURN := "return type.uiIcon;"', source)
+        self.assertIn('const SOURCE_UNIT_ICON_UI_ICON_FIELD := "public TextureRegion uiIcon;"', source)
+        self.assertIn('const SOURCE_UNIT_ICON_UI_ICON_LOAD := "uiIcon = Core.atlas.find(getContentType().name() + \\"-\\" + name + \\"-ui\\", fullIcon);"', source)
+        self.assertIn('"call": SOURCE_UNIT_ICON_CALL', source)
+        self.assertIn('"return": SOURCE_UNIT_ICON_RETURN_VALUE', source)
         self.assertIn('"uiIcon": type_ui_icon', source)
 
     def test_port_game_exposes_source_unit_destroy_initial_payload_state(self):
