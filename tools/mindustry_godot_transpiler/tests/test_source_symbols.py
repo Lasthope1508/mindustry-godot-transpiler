@@ -4966,6 +4966,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(ui_icon_load["java_source"], "core/src/mindustry/ctype/UnlockableContent.java")
         self.assertEqual(ui_icon_load["godot_symbol"], "SOURCE_UNIT_ICON_UI_ICON_LOAD")
 
+    def test_unit_is_flying_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_is_flying.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["java_expr"], "public boolean isFlying(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_is_flying")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_is_flying")
+        self.assertEqual(method["godot_symbol"], "SOURCE_UNIT_IS_FLYING_METHOD")
+
+        elevation = source_symbols.source_symbol(registry, "unit_is_flying.elevation")
+        self.assertEqual(elevation["status"], "explicit-input")
+        self.assertEqual(elevation["java_expr"], "elevation")
+        self.assertEqual(elevation["godot_symbol"], "source_unit_is_flying_input.elevation_value")
+
+        flying_return = source_symbols.source_symbol(registry, "unit_is_flying.return")
+        self.assertEqual(flying_return["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(flying_return["java_expr"], "return elevation >= 0.09f;")
+        self.assertEqual(flying_return["godot_symbol"], "SOURCE_UNIT_IS_FLYING_RETURN")
+
+        flying = source_symbols.source_symbol(registry, "unit_is_flying.result")
+        self.assertEqual(flying["java_expr"], "return elevation >= 0.09f;")
+        self.assertEqual(flying["godot_symbol"], "source_unit_is_flying_result.flying")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12856,9 +12883,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 380)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 381)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 385)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 386)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12896,6 +12923,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_hit_size", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_hittable_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_icon_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_is_flying", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14854,6 +14882,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return type.uiIcon;", unit_icon["exact_exprs"])
         self.assertIn("uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);", unit_icon["bridge_exprs"])
         self.assertIn("Texture atlas lookup remains content loading boundary", unit_icon["deferred_exprs"])
+
+        unit_is_flying = source_symbols.source_slice(ledger, "N783")
+        self.assertEqual(unit_is_flying["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_is_flying["java_method"], "UnitComp.isFlying()")
+        self.assertEqual(unit_is_flying["godot_owner"], "PortGame.source_unit_is_flying")
+        self.assertIn("public boolean isFlying(){", unit_is_flying["exact_exprs"])
+        self.assertIn("return elevation >= 0.09f;", unit_is_flying["exact_exprs"])
+        self.assertIn("source_unit_is_grounded remains separate owner", unit_is_flying["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18262,6 +18298,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("uiIcon", unit_icon["return_keys"])
         self.assertIn("call", unit_icon["return_keys"])
         self.assertEqual(unit_icon["source_method"], "UnitComp.icon()")
+
+        unit_is_flying = source_symbols.api_contract(contracts, "PortGame.source_unit_is_flying")
+        self.assertEqual([param["name"] for param in unit_is_flying["params"]], ["elevation_value"])
+        self.assertEqual(unit_is_flying["params"][0]["schema"], "source_unit_is_flying_input.elevation_value")
+        self.assertIn("flying", unit_is_flying["return_keys"])
+        self.assertEqual(unit_is_flying["source_method"], "UnitComp.isFlying()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22395,6 +22437,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_icon_result["keys"]["uiIcon"]["java_expr"], "type.uiIcon")
         self.assertEqual(source_unit_icon_result["keys"]["uiIconField"]["java_expr"], "public TextureRegion uiIcon;")
         self.assertEqual(source_unit_icon_result["keys"]["uiIconLoad"]["java_expr"], "uiIcon = Core.atlas.find(getContentType().name() + \"-\" + name + \"-ui\", fullIcon);")
+
+        source_unit_is_flying_input = source_symbols.state_schema(schema, "source_unit_is_flying_input")
+        self.assertEqual(source_unit_is_flying_input["keys"]["elevation_value"]["java_expr"], "elevation")
+
+        source_unit_is_flying_result = source_symbols.state_schema(schema, "source_unit_is_flying_result")
+        self.assertEqual(source_unit_is_flying_result["keys"]["method"]["java_expr"], "public boolean isFlying(){")
+        self.assertEqual(source_unit_is_flying_result["keys"]["flyingReturn"]["java_expr"], "return elevation >= 0.09f;")
+        self.assertEqual(source_unit_is_flying_result["keys"]["flying"]["java_expr"], "return elevation >= 0.09f;")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

@@ -3251,6 +3251,8 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_unit_is_grounded(elevation_value: float) -> bool:", source)
         self.assertIn("return elevation_value < 0.001", source)
+        self.assertIn('const SOURCE_UNIT_IS_FLYING_METHOD := "public boolean isFlying(){"', source)
+        self.assertIn('const SOURCE_UNIT_IS_FLYING_RETURN := "return elevation >= 0.09f;"', source)
         self.assertIn("func source_unit_is_flying(elevation_value: float) -> bool:", source)
         self.assertIn("return elevation_value >= 0.09", source)
         self.assertIn("func source_unit_check_target_state(elevation_value: float, target_air: bool, target_ground: bool) -> Dictionary:", source)

@@ -12696,6 +12696,33 @@
         "test_unit_icon_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_icon_state"
       ]
+    },
+    "N783": {
+      "bridge_exprs": [],
+      "deferred_exprs": [
+        "source_unit_is_grounded remains separate owner",
+        "mid-elevation state is neither grounded nor flying"
+      ],
+      "exact_exprs": [
+        "public boolean isFlying(){",
+        "return elevation >= 0.09f;"
+      ],
+      "godot_owner": "PortGame.source_unit_is_flying",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.isFlying()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_is_flying",
+      "source_symbols": [
+        "unit_is_flying.elevation",
+        "unit_is_flying.method",
+        "unit_is_flying.return",
+        "unit_is_flying.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_is_flying_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
     }
   },
   "version": 1

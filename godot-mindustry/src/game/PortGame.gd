@@ -3828,6 +3828,9 @@ func source_unit_health(unit_type) -> float:
 func source_unit_is_grounded(elevation_value: float) -> bool:
 	return elevation_value < 0.001
 
+const SOURCE_UNIT_IS_FLYING_METHOD := "public boolean isFlying(){"
+const SOURCE_UNIT_IS_FLYING_RETURN := "return elevation >= 0.09f;"
+
 func source_unit_is_flying(elevation_value: float) -> bool:
 	return elevation_value >= 0.09
 

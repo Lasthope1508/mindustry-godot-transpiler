@@ -14310,6 +14310,28 @@
         "test_unit_icon_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_icon_state"
       ]
+    },
+    "PortGame.source_unit_is_flying": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_is_flying_input.elevation_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "flying"
+      ],
+      "rule": "Public scalar runtime contract for UnitComp.isFlying() elevation gate.",
+      "runtime_proof": "/root/Main.source_unit_is_flying",
+      "source_method": "UnitComp.isFlying()",
+      "source_slice": "N783",
+      "status": "active",
+      "tests": [
+        "test_unit_is_flying_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
     }
   },
   "policy": {
