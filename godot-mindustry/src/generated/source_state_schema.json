@@ -45277,6 +45277,148 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_shoot_pattern_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_shoot_cone_input.turret",
+          "rule": "Carries Turret input into shootPattern helper.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_shoot_pattern_result": {
+      "keys": {
+        "field": {
+          "godot_symbol": "source_turret_shoot_pattern_result.field",
+          "java_expr": "public ShootPattern shoot = new ShootPattern();",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Source-backed shoot pattern field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_turret_shoot_pattern_result.key",
+          "java_expr": "shootPattern",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Source-backed shoot pattern key.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "duoAssignment": {
+          "godot_symbol": "source_turret_shoot_pattern_result.duoAssignment",
+          "java_expr": "shoot = new ShootAlternate(3.5f);",
+          "java_method": "Blocks.duo",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Source-backed shoot pattern duoAssignment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "bulletOverride": {
+          "godot_symbol": "source_turret_shoot_pattern_result.bulletOverride",
+          "java_expr": "public @Nullable ShootPattern shootPattern = null;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Source-backed shoot pattern bulletOverride.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "selection": {
+          "godot_symbol": "source_turret_shoot_pattern_result.selection",
+          "java_expr": "ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;",
+          "java_method": "TurretBuild.bullet()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Source-backed shoot pattern selection.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "dispatch": {
+          "godot_symbol": "source_turret_shoot_pattern_result.dispatch",
+          "java_expr": "pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+          "java_method": "TurretBuild.bullet()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Source-backed shoot pattern dispatch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "indexFormula": {
+          "godot_symbol": "source_turret_shoot_pattern_result.indexFormula",
+          "java_expr": "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;",
+          "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "rule": "Source-backed shoot pattern indexFormula.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "handlerCall": {
+          "godot_symbol": "source_turret_shoot_pattern_result.handlerCall",
+          "java_expr": "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);",
+          "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "rule": "Source-backed shoot pattern handlerCall.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "barrelIncrementer": {
+          "godot_symbol": "source_turret_shoot_pattern_result.barrelIncrementer",
+          "java_expr": "if(barrelIncrementer != null) barrelIncrementer.run();",
+          "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "rule": "Source-backed shoot pattern barrelIncrementer.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "shootPattern": {
+          "godot_symbol": "source_turret_shoot_pattern_result.shootPattern",
+          "java_expr": "shootPattern",
+          "java_method": "field declaration/TurretBuild.bullet()",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Source-backed shoot pattern shootPattern.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_shoot_pattern"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_shoot_pattern_input.turret",
+          "rule": "Carries Turret input into shootPattern result schema.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

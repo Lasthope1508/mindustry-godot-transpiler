@@ -4787,6 +4787,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "shootCone")
         self.assertEqual(result["godot_symbol"], "source_turret_shoot_cone_result.shootCone")
 
+    def test_turret_shoot_pattern_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "turret_shoot_pattern.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "public ShootPattern shoot = new ShootPattern();")
+        self.assertEqual(field["godot_owner"], "PortGame.source_turret_shoot_pattern")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_turret_shoot_pattern")
+        self.assertEqual(field["godot_symbol"], "source_turret_shoot_pattern_result.field")
+
+        key = source_symbols.source_symbol(registry, "turret_shoot_pattern.key")
+        self.assertEqual(key["java_expr"], "shootPattern")
+        self.assertEqual(key["godot_symbol"], "source_turret_shoot_pattern_result.key")
+
+        duo_assignment = source_symbols.source_symbol(registry, "turret_shoot_pattern.duo_assignment")
+        self.assertEqual(duo_assignment["java_source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(duo_assignment["java_expr"], "shoot = new ShootAlternate(3.5f);")
+        self.assertEqual(duo_assignment["godot_symbol"], "source_turret_shoot_pattern_result.duoAssignment")
+
+        bullet_override = source_symbols.source_symbol(registry, "turret_shoot_pattern.bullet_override_field")
+        self.assertEqual(bullet_override["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_override["java_expr"], "public @Nullable ShootPattern shootPattern = null;")
+        self.assertEqual(bullet_override["godot_symbol"], "source_turret_shoot_pattern_result.bulletOverride")
+
+        selection = source_symbols.source_symbol(registry, "turret_shoot_pattern.selection")
+        self.assertEqual(selection["java_expr"], "ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;")
+        self.assertEqual(selection["godot_symbol"], "source_turret_shoot_pattern_result.selection")
+
+        dispatch = source_symbols.source_symbol(registry, "turret_shoot_pattern.dispatch")
+        self.assertEqual(dispatch["java_expr"], "pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {")
+        self.assertEqual(dispatch["godot_symbol"], "source_turret_shoot_pattern_result.dispatch")
+
+        index_formula = source_symbols.source_symbol(registry, "shoot_alternate.index_formula")
+        self.assertEqual(index_formula["java_source"], "core/src/mindustry/entities/pattern/ShootAlternate.java")
+        self.assertEqual(index_formula["java_expr"], "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;")
+        self.assertEqual(index_formula["godot_symbol"], "source_turret_shoot_pattern_result.indexFormula")
+
+        handler_call = source_symbols.source_symbol(registry, "shoot_alternate.handler_call")
+        self.assertEqual(handler_call["java_expr"], "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);")
+        self.assertEqual(handler_call["godot_symbol"], "source_turret_shoot_pattern_result.handlerCall")
+
+        barrel_incrementer = source_symbols.source_symbol(registry, "shoot_alternate.barrel_incrementer")
+        self.assertEqual(barrel_incrementer["java_expr"], "if(barrelIncrementer != null) barrelIncrementer.run();")
+        self.assertEqual(barrel_incrementer["godot_symbol"], "source_turret_shoot_pattern_result.barrelIncrementer")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11300,9 +11349,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 346)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 347)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 351)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 352)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11530,6 +11579,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_reload_seconds_for_ammo", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_rotate_speed", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_shoot_cone", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_shoot_pattern", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11650,6 +11700,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_reload_seconds_for_ammo", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_rotate_speed", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_shoot_cone", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_turret_shoot_pattern", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12949,6 +13000,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){", turret_shoot_cone["exact_exprs"])
         self.assertIn("shootCone = 15f;", turret_shoot_cone["bridge_exprs"])
         self.assertIn("if angle_delta >= source_turret_shoot_cone(duo):", turret_shoot_cone["bridge_exprs"])
+
+        turret_shoot_pattern = source_symbols.source_slice(ledger, "N749")
+        self.assertEqual(turret_shoot_pattern["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(turret_shoot_pattern["java_method"], "field declaration/TurretBuild.bullet()")
+        self.assertEqual(turret_shoot_pattern["godot_owner"], "PortGame.source_turret_shoot_pattern")
+        self.assertIn("public ShootPattern shoot = new ShootPattern();", turret_shoot_pattern["exact_exprs"])
+        self.assertIn("shootPattern", turret_shoot_pattern["exact_exprs"])
+        self.assertIn("ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;", turret_shoot_pattern["exact_exprs"])
+        self.assertIn("pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {", turret_shoot_pattern["exact_exprs"])
+        self.assertIn("float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;", turret_shoot_pattern["exact_exprs"])
+        self.assertIn("handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);", turret_shoot_pattern["exact_exprs"])
+        self.assertIn("shoot = new ShootAlternate(3.5f);", turret_shoot_pattern["bridge_exprs"])
+        self.assertIn("use_turret_shoot_x_offset(cell, duo)", turret_shoot_pattern["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -16170,6 +16234,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("duoValue", turret_shoot_cone["return_keys"])
         self.assertIn("canShootGate", turret_shoot_cone["return_keys"])
         self.assertEqual(turret_shoot_cone["source_method"], "field declaration/TurretBuild.updateTile()")
+
+        turret_shoot_pattern = source_symbols.api_contract(contracts, "PortGame.source_turret_shoot_pattern")
+        self.assertEqual([param["name"] for param in turret_shoot_pattern["params"]], ["turret"])
+        self.assertEqual(turret_shoot_pattern["params"][0]["schema"], "source_turret_shoot_pattern_input.turret")
+        self.assertIn("shootPattern", turret_shoot_pattern["return_keys"])
+        self.assertIn("duoAssignment", turret_shoot_pattern["return_keys"])
+        self.assertIn("selection", turret_shoot_pattern["return_keys"])
+        self.assertIn("indexFormula", turret_shoot_pattern["return_keys"])
+        self.assertEqual(turret_shoot_pattern["source_method"], "field declaration/TurretBuild.bullet()")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -19869,6 +19942,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_shoot_cone_result["keys"]["canShootGate"]["java_expr"], "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){")
         self.assertEqual(source_turret_shoot_cone_result["keys"]["shootCone"]["java_expr"], "shootCone")
         self.assertEqual(source_turret_shoot_cone_result["keys"]["turret"]["alias_of"], "source_turret_shoot_cone_input.turret")
+
+        source_turret_shoot_pattern_input = source_symbols.state_schema(schema, "source_turret_shoot_pattern_input")
+        self.assertEqual(source_turret_shoot_pattern_input["keys"]["turret"]["alias_of"], "source_turret_shoot_cone_input.turret")
+
+        source_turret_shoot_pattern_result = source_symbols.state_schema(schema, "source_turret_shoot_pattern_result")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["field"]["java_expr"], "public ShootPattern shoot = new ShootPattern();")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["key"]["java_expr"], "shootPattern")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["duoAssignment"]["java_expr"], "shoot = new ShootAlternate(3.5f);")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["bulletOverride"]["java_expr"], "public @Nullable ShootPattern shootPattern = null;")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["selection"]["java_expr"], "ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["dispatch"]["java_expr"], "pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["indexFormula"]["java_expr"], "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["handlerCall"]["java_expr"], "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["barrelIncrementer"]["java_expr"], "if(barrelIncrementer != null) barrelIncrementer.run();")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["shootPattern"]["java_expr"], "shootPattern")
+        self.assertEqual(source_turret_shoot_pattern_result["keys"]["turret"]["alias_of"], "source_turret_shoot_pattern_input.turret")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

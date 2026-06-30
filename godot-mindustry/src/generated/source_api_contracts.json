@@ -12906,6 +12906,38 @@
         "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
       ]
+    },
+    "PortGame.source_turret_shoot_pattern": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_shoot_pattern_input.turret",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "shootPattern",
+        "duoAssignment",
+        "selection",
+        "dispatch",
+        "indexFormula",
+        "handlerCall",
+        "barrelIncrementer",
+        "field",
+        "key",
+        "bulletOverride",
+        "turret"
+      ],
+      "rule": "Public runtime contract for turret shootPattern helper.",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "source_method": "field declaration/TurretBuild.bullet()",
+      "source_slice": "N749",
+      "status": "active",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ]
     }
   },
   "policy": {

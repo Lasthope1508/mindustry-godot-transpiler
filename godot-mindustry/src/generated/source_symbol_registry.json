@@ -35881,6 +35881,132 @@
       "java_method": "field declaration/TurretBuild.updateTile()",
       "java_expr": "shootCone",
       "rule": "Runtime helper returns source-backed turret shootCone value."
+    },
+    "turret_shoot_pattern.field": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.field",
+      "java_method": "field declaration",
+      "java_expr": "public ShootPattern shoot = new ShootPattern();",
+      "rule": "Turret default ShootPattern field."
+    },
+    "turret_shoot_pattern.key": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.key",
+      "java_method": "field declaration",
+      "java_expr": "shootPattern",
+      "rule": "Godot key mirrors BulletType shootPattern override name."
+    },
+    "turret_shoot_pattern.duo_assignment": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.duoAssignment",
+      "java_method": "Blocks.duo",
+      "java_expr": "shoot = new ShootAlternate(3.5f);",
+      "rule": "Duo uses ShootAlternate with spread 3.5f."
+    },
+    "turret_shoot_pattern.bullet_override_field": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.bulletOverride",
+      "java_method": "field declaration",
+      "java_expr": "public @Nullable ShootPattern shootPattern = null;",
+      "rule": "BulletType may override turret shoot pattern."
+    },
+    "turret_shoot_pattern.selection": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.selection",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;",
+      "rule": "Turret selects bullet override shootPattern when present, otherwise turret shoot."
+    },
+    "turret_shoot_pattern.dispatch": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.dispatch",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+      "rule": "Turret dispatches selected ShootPattern with barrelCounter and bullet handler."
+    },
+    "shoot_alternate.index_formula": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.indexFormula",
+      "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
+      "java_expr": "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;",
+      "rule": "ShootAlternate computes barrel index from totalShots, shot offset, barrelOffset, and barrels."
+    },
+    "shoot_alternate.handler_call": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.handlerCall",
+      "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
+      "java_expr": "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);",
+      "rule": "ShootAlternate emits x offset by index, spread, and mirror sign."
+    },
+    "shoot_alternate.barrel_incrementer": {
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+      "godot_symbol": "source_turret_shoot_pattern_result.barrelIncrementer",
+      "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
+      "java_expr": "if(barrelIncrementer != null) barrelIncrementer.run();",
+      "rule": "ShootAlternate advances barrel counter when incrementer exists."
     }
   },
   "version": 1

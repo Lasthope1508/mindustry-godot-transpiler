@@ -10506,10 +10506,20 @@ func apply_turret_recoil_offset(cell: Vector2i, turret, offset: Vector2) -> void
 	if is_instance_valid(sprite):
 		sprite.position = source_block_sprite_base_position(turret, cell) + offset
 
+const SOURCE_TURRET_SHOOT_PATTERN_FIELD := "public ShootPattern shoot = new ShootPattern();"
+const SOURCE_TURRET_SHOOT_PATTERN_KEY := "shootPattern"
+const SOURCE_TURRET_SHOOT_PATTERN_DUO_ASSIGNMENT := "shoot = new ShootAlternate(3.5f);"
+const SOURCE_TURRET_SHOOT_PATTERN_BULLET_OVERRIDE_FIELD := "public @Nullable ShootPattern shootPattern = null;"
+const SOURCE_TURRET_SHOOT_PATTERN_SELECTION := "ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;"
+const SOURCE_TURRET_SHOOT_PATTERN_DISPATCH := "pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {"
+const SOURCE_SHOOT_ALTERNATE_INDEX_FORMULA := "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;"
+const SOURCE_SHOOT_ALTERNATE_HANDLER_CALL := "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);"
+const SOURCE_SHOOT_ALTERNATE_BARREL_INCREMENTER := "if(barrelIncrementer != null) barrelIncrementer.run();"
+
 func source_turret_shoot_pattern(turret) -> Dictionary:
 	if turret == null:
 		return {}
-	return turret.properties.get("shootPattern", {})
+	return turret.properties.get(SOURCE_TURRET_SHOOT_PATTERN_KEY, {})
 
 func use_turret_shoot_x_offset(cell: Vector2i, turret) -> float:
 	var pattern := source_turret_shoot_pattern(turret)

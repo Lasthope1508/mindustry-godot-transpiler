@@ -11265,6 +11265,46 @@
         "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
       ]
+    },
+    "N749": {
+      "deferred_exprs": [
+        "full ShootAlternate fields barrels/barrelOffset/mirror/shots/firstShotDelay/shotDelay extraction beyond current generated duo data"
+      ],
+      "exact_exprs": [
+        "public ShootPattern shoot = new ShootPattern();",
+        "shootPattern",
+        "public @Nullable ShootPattern shootPattern = null;",
+        "ShootPattern pattern = type.shootPattern != null ? type.shootPattern : shoot;",
+        "pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+        "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;",
+        "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);",
+        "if(barrelIncrementer != null) barrelIncrementer.run();"
+      ],
+      "bridge_exprs": [
+        "shoot = new ShootAlternate(3.5f);",
+        "use_turret_shoot_x_offset(cell, duo)"
+      ],
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "field declaration/TurretBuild.bullet()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern",
+      "source_symbols": [
+        "turret_shoot_pattern.field",
+        "turret_shoot_pattern.key",
+        "turret_shoot_pattern.duo_assignment",
+        "turret_shoot_pattern.bullet_override_field",
+        "turret_shoot_pattern.selection",
+        "turret_shoot_pattern.dispatch",
+        "shoot_alternate.index_formula",
+        "shoot_alternate.handler_call",
+        "shoot_alternate.barrel_incrementer"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ]
     }
   },
   "version": 1
