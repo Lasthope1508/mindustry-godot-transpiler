@@ -9653,17 +9653,30 @@ func source_unit_destroy_visual_effects_state(source_x: float, source_y: float, 
 		},
 	}
 
+const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_CALL := "type.deathSound.at(this, 1f, type.deathSoundVolume);"
+const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENT_CALL := "Events.fire(new UnitDestroyEvent(self()));"
+const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION := "public int at(Position pos, float pitch, float volume){"
+const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION_BODY := "return at(pos.getX(), pos.getY(), pitch, volume);"
+const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE := "public static <T> void fire(T type){"
+const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE_BODY := "fire(type.getClass(), type);"
+
 func source_unit_destroy_sound_and_event_state(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:
 	return {
+		"method": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_METHOD,
 		"soundCall": {
-			"call": "type.deathSound.at(this, 1f, type.deathSoundVolume)",
+			"call": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_CALL,
+			"sourcePositionOverload": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION,
+			"sourcePositionBody": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION_BODY,
 			"sound": death_sound,
 			"pitch": 1.0,
 			"volume": death_sound_volume,
 			"unit": unit_id,
 		},
 		"eventCall": {
-			"event": "Events.fire(new UnitDestroyEvent(self()))",
+			"event": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENT_CALL,
+			"eventsFire": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE,
+			"eventsFireBody": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE_BODY,
 			"eventClass": "UnitDestroyEvent",
 			"unit": unit_id,
 		},

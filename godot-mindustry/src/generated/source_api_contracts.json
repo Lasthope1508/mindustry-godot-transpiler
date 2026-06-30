@@ -13840,6 +13840,51 @@
         "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
       ]
+    },
+    "PortGame.source_unit_destroy_sound_and_event_state": {
+      "status": "active",
+      "source_slice": "N771",
+      "source_method": "UnitComp.destroy() sound and event",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "params": [
+        {
+          "name": "death_sound",
+          "type": "String",
+          "schema": "source_unit_destroy_sound_and_event_input.death_sound"
+        },
+        {
+          "name": "death_sound_volume",
+          "type": "float",
+          "schema": "source_unit_destroy_sound_and_event_input.death_sound_volume"
+        },
+        {
+          "name": "unit_id",
+          "type": "int",
+          "schema": "source_unit_destroy_sound_and_event_input.unit_id"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "soundCall",
+        "eventCall",
+        "call",
+        "sound",
+        "pitch",
+        "volume",
+        "unit",
+        "event",
+        "eventClass",
+        "sourcePositionOverload",
+        "sourcePositionBody",
+        "eventsFire",
+        "eventsFireBody"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy death sound and UnitDestroyEvent dispatch.",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ]
     }
   },
   "policy": {

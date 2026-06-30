@@ -39063,6 +39063,216 @@
       "java_method": "UnitComp.destroy()",
       "java_expr": "self()",
       "rule": "Runtime bridge input for self()."
+    },
+    "unit_destroy_sound_and_event.method": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.method",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "public void destroy(){",
+      "rule": "Canonical UnitComp.destroy method boundary for sound and event slice."
+    },
+    "unit_destroy_sound_and_event.death_sound_call": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.soundCall",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "type.deathSound.at(this, 1f, type.deathSoundVolume);",
+      "rule": "UnitComp.destroy plays UnitType deathSound at unit position with pitch 1 and source volume."
+    },
+    "unit_destroy_sound_and_event.unit_destroy_event": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.eventCall",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "Events.fire(new UnitDestroyEvent(self()));",
+      "rule": "UnitComp.destroy fires UnitDestroyEvent for self()."
+    },
+    "unit_destroy_sound_and_event.unit_death_sound_field": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_input.death_sound",
+      "java_method": "UnitType field declaration",
+      "java_expr": "public Sound deathSound = Sounds.unset;",
+      "rule": "UnitType deathSound source field used by destroy sound call."
+    },
+    "unit_destroy_sound_and_event.unit_death_sound_volume": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_input.death_sound_volume",
+      "java_method": "UnitType field declaration",
+      "java_expr": "public float deathSoundVolume = 1f;",
+      "rule": "UnitType deathSoundVolume source field used by destroy sound call."
+    },
+    "unit_destroy_sound_and_event.sound_at_position": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/audio/Sound.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.sourcePositionOverload",
+      "java_method": "Sound.at(Position pos, float pitch, float volume)",
+      "java_expr": "public int at(Position pos, float pitch, float volume){",
+      "rule": "Arc Sound.at Position overload used by UnitComp.destroy."
+    },
+    "unit_destroy_sound_and_event.sound_at_position_body": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/audio/Sound.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.sourcePositionBody",
+      "java_method": "Sound.at(Position pos, float pitch, float volume)",
+      "java_expr": "return at(pos.getX(), pos.getY(), pitch, volume);",
+      "rule": "Arc Sound.at Position overload delegates to coordinate overload."
+    },
+    "unit_destroy_sound_and_event.unit_destroy_event_class": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.eventClass",
+      "java_method": "EventType.UnitDestroyEvent",
+      "java_expr": "public static class UnitDestroyEvent{",
+      "rule": "Mindustry UnitDestroyEvent class fired on destroy."
+    },
+    "unit_destroy_sound_and_event.unit_destroy_event_unit": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.unit",
+      "java_method": "EventType.UnitDestroyEvent",
+      "java_expr": "public final Unit unit;",
+      "rule": "UnitDestroyEvent stores destroyed unit."
+    },
+    "unit_destroy_sound_and_event.unit_destroy_event_constructor": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.eventCall",
+      "java_method": "EventType.UnitDestroyEvent",
+      "java_expr": "public UnitDestroyEvent(Unit unit){",
+      "rule": "UnitDestroyEvent constructor accepts Unit."
+    },
+    "unit_destroy_sound_and_event.arc_events_fire_object": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/Events.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.eventsFire",
+      "java_method": "Events.fire(T type)",
+      "java_expr": "public static <T> void fire(T type){",
+      "rule": "Arc Events.fire object overload dispatches the UnitDestroyEvent instance."
+    },
+    "unit_destroy_sound_and_event.arc_events_fire_object_body": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/Events.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_result.eventsFireBody",
+      "java_method": "Events.fire(T type)",
+      "java_expr": "fire(type.getClass(), type);",
+      "rule": "Arc Events.fire object overload dispatches by runtime class."
+    },
+    "unit_destroy_sound_and_event.death_sound": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_input.death_sound",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "type.deathSound",
+      "rule": "Runtime bridge input for type.deathSound."
+    },
+    "unit_destroy_sound_and_event.death_sound_volume": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_input.death_sound_volume",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "type.deathSoundVolume",
+      "rule": "Runtime bridge input for type.deathSoundVolume."
+    },
+    "unit_destroy_sound_and_event.unit_id": {
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_sound_and_event_input.unit_id",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "self()",
+      "rule": "Runtime bridge input for self()."
     }
   },
   "version": 1

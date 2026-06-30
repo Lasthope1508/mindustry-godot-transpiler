@@ -5098,6 +5098,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_id["java_expr"], "self()")
         self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_input.unit_id")
 
+    def test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_sound_and_event_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_sound_and_event_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_sound_and_event_result.method")
+
+        death_sound_call = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.death_sound_call")
+        self.assertEqual(death_sound_call["java_expr"], "type.deathSound.at(this, 1f, type.deathSoundVolume);")
+        self.assertEqual(death_sound_call["godot_symbol"], "source_unit_destroy_sound_and_event_result.soundCall")
+
+        unit_destroy_event = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.unit_destroy_event")
+        self.assertEqual(unit_destroy_event["java_expr"], "Events.fire(new UnitDestroyEvent(self()));")
+        self.assertEqual(unit_destroy_event["godot_symbol"], "source_unit_destroy_sound_and_event_result.eventCall")
+
+        unit_death_sound_field = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.unit_death_sound_field")
+        self.assertEqual(unit_death_sound_field["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(unit_death_sound_field["java_expr"], "public Sound deathSound = Sounds.unset;")
+
+        unit_death_sound_volume = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.unit_death_sound_volume")
+        self.assertEqual(unit_death_sound_volume["java_expr"], "public float deathSoundVolume = 1f;")
+
+        sound_at_position = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.sound_at_position")
+        self.assertEqual(sound_at_position["java_source"], "arc-core/src/arc/audio/Sound.java")
+        self.assertEqual(sound_at_position["java_expr"], "public int at(Position pos, float pitch, float volume){")
+        self.assertEqual(sound_at_position["godot_symbol"], "source_unit_destroy_sound_and_event_result.sourcePositionOverload")
+
+        sound_at_position_body = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.sound_at_position_body")
+        self.assertEqual(sound_at_position_body["java_expr"], "return at(pos.getX(), pos.getY(), pitch, volume);")
+        self.assertEqual(sound_at_position_body["godot_symbol"], "source_unit_destroy_sound_and_event_result.sourcePositionBody")
+
+        unit_destroy_event_class = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.unit_destroy_event_class")
+        self.assertEqual(unit_destroy_event_class["java_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(unit_destroy_event_class["java_expr"], "public static class UnitDestroyEvent{")
+
+        unit_destroy_event_unit = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.unit_destroy_event_unit")
+        self.assertEqual(unit_destroy_event_unit["java_expr"], "public final Unit unit;")
+
+        unit_destroy_event_constructor = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.unit_destroy_event_constructor")
+        self.assertEqual(unit_destroy_event_constructor["java_expr"], "public UnitDestroyEvent(Unit unit){")
+
+        arc_events_fire = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.arc_events_fire_object")
+        self.assertEqual(arc_events_fire["java_source"], "arc-core/src/arc/Events.java")
+        self.assertEqual(arc_events_fire["java_expr"], "public static <T> void fire(T type){")
+        self.assertEqual(arc_events_fire["godot_symbol"], "source_unit_destroy_sound_and_event_result.eventsFire")
+
+        arc_events_fire_body = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.arc_events_fire_object_body")
+        self.assertEqual(arc_events_fire_body["java_expr"], "fire(type.getClass(), type);")
+        self.assertEqual(arc_events_fire_body["godot_symbol"], "source_unit_destroy_sound_and_event_result.eventsFireBody")
+
+        death_sound = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.death_sound")
+        self.assertEqual(death_sound["status"], "explicit-input")
+        self.assertEqual(death_sound["java_expr"], "type.deathSound")
+        self.assertEqual(death_sound["godot_symbol"], "source_unit_destroy_sound_and_event_input.death_sound")
+
+        unit_id = source_symbols.source_symbol(registry, "unit_destroy_sound_and_event.unit_id")
+        self.assertEqual(unit_id["status"], "explicit-input")
+        self.assertEqual(unit_id["java_expr"], "self()")
+        self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_sound_and_event_input.unit_id")
+
     def test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12265,9 +12330,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 368)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 369)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 373)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 374)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12293,6 +12358,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_initial_payload_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_shoot_on_death_mounts_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_sound_and_event_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14110,6 +14176,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public @Nullable Effect shootOnDeathEffect = null;", unit_destroy_shoot_on_death_mounts["bridge_exprs"])
         self.assertIn("public boolean killShooter = false;", unit_destroy_shoot_on_death_mounts["bridge_exprs"])
         self.assertIn("Crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_shoot_on_death_mounts["deferred_exprs"])
+
+        unit_destroy_sound_and_event = source_symbols.source_slice(ledger, "N771")
+        self.assertEqual(unit_destroy_sound_and_event["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_sound_and_event["java_method"], "UnitComp.destroy() sound and event")
+        self.assertEqual(unit_destroy_sound_and_event["godot_owner"], "PortGame.source_unit_destroy_sound_and_event_state")
+        self.assertIn("public void destroy(){", unit_destroy_sound_and_event["exact_exprs"])
+        self.assertIn("type.deathSound.at(this, 1f, type.deathSoundVolume);", unit_destroy_sound_and_event["exact_exprs"])
+        self.assertIn("Events.fire(new UnitDestroyEvent(self()));", unit_destroy_sound_and_event["exact_exprs"])
+        self.assertIn("public Sound deathSound = Sounds.unset;", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("public float deathSoundVolume = 1f;", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("public int at(Position pos, float pitch, float volume){", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("return at(pos.getX(), pos.getY(), pitch, volume);", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("public static class UnitDestroyEvent{", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("public final Unit unit;", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("public UnitDestroyEvent(Unit unit){", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("public static <T> void fire(T type){", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("fire(type.getClass(), type);", unit_destroy_sound_and_event["bridge_exprs"])
+        self.assertIn("Suicide bomb trigger, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_sound_and_event["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17585,6 +17669,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("effectCall", unit_destroy_shoot_on_death_mounts["return_keys"])
         self.assertIn("update", unit_destroy_shoot_on_death_mounts["return_keys"])
         self.assertEqual(unit_destroy_shoot_on_death_mounts["source_method"], "UnitComp.destroy() shoot-on-death mounts")
+
+        unit_destroy_sound_and_event = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_sound_and_event_state")
+        self.assertEqual([param["name"] for param in unit_destroy_sound_and_event["params"]], ["death_sound", "death_sound_volume", "unit_id"])
+        self.assertEqual(unit_destroy_sound_and_event["params"][0]["schema"], "source_unit_destroy_sound_and_event_input.death_sound")
+        self.assertEqual(unit_destroy_sound_and_event["params"][1]["schema"], "source_unit_destroy_sound_and_event_input.death_sound_volume")
+        self.assertEqual(unit_destroy_sound_and_event["params"][2]["schema"], "source_unit_destroy_sound_and_event_input.unit_id")
+        self.assertIn("method", unit_destroy_sound_and_event["return_keys"])
+        self.assertIn("soundCall", unit_destroy_sound_and_event["return_keys"])
+        self.assertIn("eventCall", unit_destroy_sound_and_event["return_keys"])
+        self.assertIn("eventsFire", unit_destroy_sound_and_event["return_keys"])
+        self.assertEqual(unit_destroy_sound_and_event["source_method"], "UnitComp.destroy() sound and event")
 
         unit_destroy_explosion_dispatch = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_explosion_dispatch_state")
         self.assertEqual([param["name"] for param in unit_destroy_explosion_dispatch["params"]], ["spawned_by_core_value", "source_x", "source_y", "flammability", "explosiveness", "power", "bounds_value", "type_leg_length", "rules_damage_explosions", "rules_unit_crash_damage", "item_flammability", "team_id", "death_explosion_effect"])
@@ -21592,6 +21687,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["reloadSource"]["java_expr"], "mount.reload = 0f;")
         self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["shootSource"]["java_expr"], "mount.shoot = true;")
         self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["update"]["java_expr"], "mount.weapon.update(self(), mount);")
+
+        source_unit_destroy_sound_and_event_input = source_symbols.state_schema(schema, "source_unit_destroy_sound_and_event_input")
+        self.assertEqual(source_unit_destroy_sound_and_event_input["keys"]["death_sound"]["java_expr"], "type.deathSound")
+        self.assertEqual(source_unit_destroy_sound_and_event_input["keys"]["death_sound_volume"]["java_expr"], "type.deathSoundVolume")
+        self.assertEqual(source_unit_destroy_sound_and_event_input["keys"]["unit_id"]["java_expr"], "self()")
+
+        source_unit_destroy_sound_and_event_result = source_symbols.state_schema(schema, "source_unit_destroy_sound_and_event_result")
+        self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["soundCall"]["java_expr"], "type.deathSound.at(this, 1f, type.deathSoundVolume);")
+        self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["eventCall"]["java_expr"], "Events.fire(new UnitDestroyEvent(self()));")
+        self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["sourcePositionOverload"]["java_expr"], "public int at(Position pos, float pitch, float volume){")
+        self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["sourcePositionBody"]["java_expr"], "return at(pos.getX(), pos.getY(), pitch, volume);")
+        self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["eventsFire"]["java_expr"], "public static <T> void fire(T type){")
+        self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["eventsFireBody"]["java_expr"], "fire(type.getClass(), type);")
 
         source_unit_destroy_explosion_dispatch_input = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_input")
         self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")

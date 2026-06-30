@@ -49475,6 +49475,212 @@
           ]
         }
       }
+    },
+    "source_unit_destroy_sound_and_event_input": {
+      "owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "status": "active",
+      "keys": {
+        "death_sound": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_input.death_sound",
+          "java_expr": "type.deathSound",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event input key for death_sound.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "death_sound_volume": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_input.death_sound_volume",
+          "java_expr": "type.deathSoundVolume",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event input key for death_sound_volume.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event input key for unit_id.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        }
+      }
+    },
+    "source_unit_destroy_sound_and_event_result": {
+      "owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.method",
+          "java_expr": "public void destroy(){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "soundCall": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.soundCall",
+          "java_expr": "type.deathSound.at(this, 1f, type.deathSoundVolume);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for soundCall.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "eventCall": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.eventCall",
+          "java_expr": "Events.fire(new UnitDestroyEvent(self()));",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for eventCall.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "sourcePositionOverload": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.sourcePositionOverload",
+          "java_expr": "public int at(Position pos, float pitch, float volume){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for sourcePositionOverload.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "sourcePositionBody": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.sourcePositionBody",
+          "java_expr": "return at(pos.getX(), pos.getY(), pitch, volume);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for sourcePositionBody.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "eventsFire": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.eventsFire",
+          "java_expr": "public static <T> void fire(T type){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for eventsFire.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "eventsFireBody": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.eventsFireBody",
+          "java_expr": "fire(type.getClass(), type);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for eventsFireBody.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "sound": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.sound",
+          "java_expr": "type.deathSound",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for sound.",
+          "status": "derived-runtime",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "pitch": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.pitch",
+          "java_expr": "1f",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for pitch.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "volume": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.volume",
+          "java_expr": "type.deathSoundVolume",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for volume.",
+          "status": "derived-runtime",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "event": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.event",
+          "java_expr": "Events.fire(new UnitDestroyEvent(self()));",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for event.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "eventClass": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.eventClass",
+          "java_expr": "UnitDestroyEvent",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for eventClass.",
+          "status": "derived-runtime",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_unit_destroy_sound_and_event_result.unit",
+          "java_expr": "self()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy sound and event result key for unit.",
+          "status": "derived-runtime",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_sound_and_event_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -12207,6 +12207,54 @@
         "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
       ]
+    },
+    "N771": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() sound and event",
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "exact_exprs": [
+        "public void destroy(){",
+        "type.deathSound.at(this, 1f, type.deathSoundVolume);",
+        "Events.fire(new UnitDestroyEvent(self()));"
+      ],
+      "bridge_exprs": [
+        "public Sound deathSound = Sounds.unset;",
+        "public float deathSoundVolume = 1f;",
+        "public int at(Position pos, float pitch, float volume){",
+        "return at(pos.getX(), pos.getY(), pitch, volume);",
+        "public static class UnitDestroyEvent{",
+        "public final Unit unit;",
+        "public UnitDestroyEvent(Unit unit){",
+        "public static <T> void fire(T type){",
+        "fire(type.getClass(), type);"
+      ],
+      "deferred_exprs": [
+        "Suicide bomb trigger, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
+      ],
+      "source_symbols": [
+        "unit_destroy_sound_and_event.arc_events_fire_object",
+        "unit_destroy_sound_and_event.arc_events_fire_object_body",
+        "unit_destroy_sound_and_event.death_sound",
+        "unit_destroy_sound_and_event.death_sound_call",
+        "unit_destroy_sound_and_event.death_sound_volume",
+        "unit_destroy_sound_and_event.method",
+        "unit_destroy_sound_and_event.sound_at_position",
+        "unit_destroy_sound_and_event.sound_at_position_body",
+        "unit_destroy_sound_and_event.unit_death_sound_field",
+        "unit_destroy_sound_and_event.unit_death_sound_volume",
+        "unit_destroy_sound_and_event.unit_destroy_event",
+        "unit_destroy_sound_and_event.unit_destroy_event_class",
+        "unit_destroy_sound_and_event.unit_destroy_event_constructor",
+        "unit_destroy_sound_and_event.unit_destroy_event_unit",
+        "unit_destroy_sound_and_event.unit_id"
+      ],
+      "tests": [
+        "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
+      ]
     }
   },
   "version": 1
