@@ -12564,6 +12564,36 @@
         "test_unit_heal_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_heal_state"
       ]
+    },
+    "N779": {
+      "bridge_exprs": [
+        "dagger = new UnitType(\"dagger\"){{",
+        "health = 150;",
+        "this.maxHealth = type.health;"
+      ],
+      "deferred_exprs": [
+        "Other UnitTypes health assignments remain owned by generated content extraction",
+        "UnitComp.setType maxHealth assignment remains a separate source-backed slice"
+      ],
+      "exact_exprs": [
+        "health = 200f,"
+      ],
+      "godot_owner": "PortGame.source_unit_health",
+      "java_class": "mindustry.type.UnitType",
+      "java_method": "UnitType.health field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "source_symbols": [
+        "unit_health.default",
+        "unit_health.dagger_assignment",
+        "unit_health.unit_type",
+        "unit_health.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ]
     }
   },
   "version": 1

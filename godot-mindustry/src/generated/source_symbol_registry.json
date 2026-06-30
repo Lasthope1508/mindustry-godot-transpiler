@@ -39066,6 +39066,62 @@
         "test_port_game_exposes_source_unit_heal_state"
       ]
     },
+    "unit_health.dagger_assignment": {
+      "godot_owner": "PortGame.source_unit_health",
+      "godot_symbol": "SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT",
+      "java_expr": "health = 150;",
+      "java_method": "UnitTypes.load() dagger",
+      "java_source": "core/src/mindustry/content/UnitTypes.java",
+      "rule": "Generated dagger content carries the exact upstream UnitTypes health assignment.",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ]
+    },
+    "unit_health.default": {
+      "godot_owner": "PortGame.source_unit_health",
+      "godot_symbol": "SOURCE_UNIT_HEALTH_DEFAULT",
+      "java_expr": "health = 200f,",
+      "java_method": "UnitType.health field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType default health is the source-backed fallback for generated unit health lookup.",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ]
+    },
+    "unit_health.result": {
+      "godot_owner": "PortGame.source_unit_health",
+      "godot_symbol": "source_unit_health_result.health",
+      "java_expr": "UnitType.health",
+      "java_method": "UnitType.health field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime helper returns the source UnitType.health value or source default when absent from generated properties.",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ]
+    },
+    "unit_health.unit_type": {
+      "godot_owner": "PortGame.source_unit_health",
+      "godot_symbol": "source_unit_health_input.unit_type",
+      "java_expr": "UnitType",
+      "java_method": "UnitType.health field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime helper receives a generated UnitType object as explicit input.",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

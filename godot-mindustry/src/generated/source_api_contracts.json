@@ -14203,6 +14203,28 @@
         "test_unit_heal_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_heal_state"
       ]
+    },
+    "PortGame.source_unit_health": {
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_health_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "health"
+      ],
+      "rule": "Public scalar runtime contract for source UnitType.health lookup used by spawned enemy units.",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "source_method": "UnitType.health field",
+      "source_slice": "N779",
+      "status": "active",
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ]
     }
   },
   "policy": {

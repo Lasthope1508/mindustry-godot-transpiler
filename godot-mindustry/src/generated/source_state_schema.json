@@ -49383,6 +49383,48 @@
       "runtime_proof": "/root/Main.source_unit_heal_state",
       "status": "active"
     },
+    "source_unit_health_input": {
+      "keys": {
+        "unit_type": {
+          "java_expr": "UnitType",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "owner": "PortGame.source_unit_health",
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_unit_health",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "status": "active"
+    },
+    "source_unit_health_result": {
+      "keys": {
+        "daggerHealth": {
+          "java_expr": "health = 150;",
+          "java_source": "core/src/mindustry/content/UnitTypes.java",
+          "owner": "PortGame.source_unit_health",
+          "status": "source-backed",
+          "type": "float"
+        },
+        "defaultHealth": {
+          "java_expr": "health = 200f,",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "owner": "PortGame.source_unit_health",
+          "status": "source-backed",
+          "type": "float"
+        },
+        "health": {
+          "java_expr": "UnitType.health",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "owner": "PortGame.source_unit_health",
+          "status": "source-backed",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_unit_health",
+      "runtime_proof": "/root/Main.source_unit_health",
+      "status": "active"
+    },
     "source_unit_is_flying_input": {
       "keys": {
         "elevation_value": {

@@ -3812,10 +3812,14 @@ func source_unit_hit_size(unit_type) -> float:
 		return 0.0
 	return float(unit_type.properties.get("hitSize", 6.0))
 
+const SOURCE_UNIT_HEALTH_DEFAULT := "health = 200f,"
+const SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT := "health = 150;"
+const SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 200.0
+
 func source_unit_health(unit_type) -> float:
 	if unit_type == null:
 		return 0.0
-	return float(unit_type.properties.get("health", 200.0))
+	return float(unit_type.properties.get("health", SOURCE_UNIT_HEALTH_DEFAULT_VALUE))
 
 func source_unit_is_grounded(elevation_value: float) -> bool:
 	return elevation_value < 0.001

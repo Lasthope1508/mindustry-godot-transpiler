@@ -767,7 +767,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_health(unit_type) -> float:", source)
-        self.assertIn('return float(unit_type.properties.get("health", 200.0))', source)
+        self.assertIn('const SOURCE_UNIT_HEALTH_DEFAULT := "health = 200f,"', source)
+        self.assertIn('const SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT := "health = 150;"', source)
+        self.assertIn("const SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 200.0", source)
+        self.assertIn('return float(unit_type.properties.get("health", SOURCE_UNIT_HEALTH_DEFAULT_VALUE))', source)
         self.assertIn('"health": source_unit_health(unit_type)', source)
         self.assertNotIn('"health": float(unit_type.properties.get("health", 100.0))', source)
         self.assertIn('"selected_enemy_health": source_unit_health(selected_enemy_unit())', source)

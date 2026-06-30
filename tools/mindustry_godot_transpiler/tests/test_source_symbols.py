@@ -4828,6 +4828,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(health_comp_clamp["java_expr"], "clampHealth();")
         self.assertEqual(health_comp_clamp["godot_symbol"], "source_unit_heal_result.healthCompClamp")
 
+    def test_unit_health_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        default_health = source_symbols.source_symbol(registry, "unit_health.default")
+        self.assertEqual(default_health["java_expr"], "health = 200f,")
+        self.assertEqual(default_health["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(default_health["godot_owner"], "PortGame.source_unit_health")
+        self.assertEqual(default_health["runtime_proof"], "/root/Main.source_unit_health")
+        self.assertEqual(default_health["godot_symbol"], "SOURCE_UNIT_HEALTH_DEFAULT")
+
+        dagger_health = source_symbols.source_symbol(registry, "unit_health.dagger_assignment")
+        self.assertEqual(dagger_health["java_expr"], "health = 150;")
+        self.assertEqual(dagger_health["java_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(dagger_health["godot_symbol"], "SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT")
+
+        unit_type_input = source_symbols.source_symbol(registry, "unit_health.unit_type")
+        self.assertEqual(unit_type_input["status"], "explicit-input")
+        self.assertEqual(unit_type_input["java_expr"], "UnitType")
+        self.assertEqual(unit_type_input["godot_symbol"], "source_unit_health_input.unit_type")
+
+        result = source_symbols.source_symbol(registry, "unit_health.result")
+        self.assertEqual(result["java_expr"], "UnitType.health")
+        self.assertEqual(result["godot_symbol"], "source_unit_health_result.health")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12718,9 +12745,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 376)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 377)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 381)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 382)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12754,6 +12781,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_wreck_decal_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_floor_speed_multiplier_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_heal_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_health", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14677,6 +14705,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("health += amount;", unit_heal["bridge_exprs"])
         self.assertIn("clampHealth();", unit_heal["bridge_exprs"])
         self.assertIn("healTime visual update remains owned by source_unit_update_heal_time_state", unit_heal["deferred_exprs"])
+
+        unit_health = source_symbols.source_slice(ledger, "N779")
+        self.assertEqual(unit_health["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(unit_health["java_method"], "UnitType.health field")
+        self.assertEqual(unit_health["godot_owner"], "PortGame.source_unit_health")
+        self.assertIn("health = 200f,", unit_health["exact_exprs"])
+        self.assertIn("health = 150;", unit_health["bridge_exprs"])
+        self.assertIn("Other UnitTypes health assignments remain owned by generated content extraction", unit_health["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18096,6 +18132,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("healthMutationSource", unit_heal["return_keys"])
         self.assertIn("override", unit_heal["return_keys"])
         self.assertEqual(unit_heal["source_method"], "UnitComp.heal(float amount)")
+
+        unit_health = source_symbols.api_contract(contracts, "PortGame.source_unit_health")
+        self.assertEqual([param["name"] for param in unit_health["params"]], ["unit_type"])
+        self.assertEqual(unit_health["params"][0]["schema"], "source_unit_health_input.unit_type")
+        self.assertIn("health", unit_health["return_keys"])
+        self.assertEqual(unit_health["source_method"], "UnitType.health field")
 
         unit_check_target = source_symbols.api_contract(contracts, "PortGame.source_unit_check_target_state")
         self.assertEqual([param["name"] for param in unit_check_target["params"]], ["elevation_value", "target_air", "target_ground"])
@@ -22156,6 +22198,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_heal_result["keys"]["healthDelta"]["java_expr"], "health += amount; -> clampHealth();")
         self.assertEqual(source_unit_heal_result["keys"]["healthCompAdd"]["java_expr"], "health += amount;")
         self.assertEqual(source_unit_heal_result["keys"]["healthCompClamp"]["java_expr"], "clampHealth();")
+
+        source_unit_health_input = source_symbols.state_schema(schema, "source_unit_health_input")
+        self.assertEqual(source_unit_health_input["keys"]["unit_type"]["java_expr"], "UnitType")
+
+        source_unit_health_result = source_symbols.state_schema(schema, "source_unit_health_result")
+        self.assertEqual(source_unit_health_result["keys"]["health"]["java_expr"], "UnitType.health")
+        self.assertEqual(source_unit_health_result["keys"]["defaultHealth"]["java_expr"], "health = 200f,")
+        self.assertEqual(source_unit_health_result["keys"]["daggerHealth"]["java_expr"], "health = 150;")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
