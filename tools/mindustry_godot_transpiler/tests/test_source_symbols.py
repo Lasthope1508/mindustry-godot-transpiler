@@ -4993,6 +4993,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(flying["java_expr"], "return elevation >= 0.09f;")
         self.assertEqual(flying["godot_symbol"], "source_unit_is_flying_result.flying")
 
+    def test_unit_is_grounded_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_is_grounded.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["java_expr"], "public boolean isGrounded(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_is_grounded")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_is_grounded")
+        self.assertEqual(method["godot_symbol"], "SOURCE_UNIT_IS_GROUNDED_METHOD")
+
+        elevation = source_symbols.source_symbol(registry, "unit_is_grounded.elevation")
+        self.assertEqual(elevation["status"], "explicit-input")
+        self.assertEqual(elevation["java_expr"], "elevation")
+        self.assertEqual(elevation["godot_symbol"], "source_unit_is_grounded_input.elevation_value")
+
+        grounded_return = source_symbols.source_symbol(registry, "unit_is_grounded.return")
+        self.assertEqual(grounded_return["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(grounded_return["java_expr"], "return elevation < 0.001f;")
+        self.assertEqual(grounded_return["godot_symbol"], "SOURCE_UNIT_IS_GROUNDED_RETURN")
+
+        grounded = source_symbols.source_symbol(registry, "unit_is_grounded.result")
+        self.assertEqual(grounded["java_expr"], "return elevation < 0.001f;")
+        self.assertEqual(grounded["godot_symbol"], "source_unit_is_grounded_result.grounded")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12883,9 +12910,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 381)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 382)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 386)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 387)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12924,6 +12951,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_hittable_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_icon_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_is_flying", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_is_grounded", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14890,6 +14918,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean isFlying(){", unit_is_flying["exact_exprs"])
         self.assertIn("return elevation >= 0.09f;", unit_is_flying["exact_exprs"])
         self.assertIn("source_unit_is_grounded remains separate owner", unit_is_flying["deferred_exprs"])
+
+        unit_is_grounded = source_symbols.source_slice(ledger, "N784")
+        self.assertEqual(unit_is_grounded["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_is_grounded["java_method"], "UnitComp.isGrounded()")
+        self.assertEqual(unit_is_grounded["godot_owner"], "PortGame.source_unit_is_grounded")
+        self.assertIn("public boolean isGrounded(){", unit_is_grounded["exact_exprs"])
+        self.assertIn("return elevation < 0.001f;", unit_is_grounded["exact_exprs"])
+        self.assertIn("source_unit_is_flying remains separate owner", unit_is_grounded["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18304,6 +18340,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_is_flying["params"][0]["schema"], "source_unit_is_flying_input.elevation_value")
         self.assertIn("flying", unit_is_flying["return_keys"])
         self.assertEqual(unit_is_flying["source_method"], "UnitComp.isFlying()")
+
+        unit_is_grounded = source_symbols.api_contract(contracts, "PortGame.source_unit_is_grounded")
+        self.assertEqual([param["name"] for param in unit_is_grounded["params"]], ["elevation_value"])
+        self.assertEqual(unit_is_grounded["params"][0]["schema"], "source_unit_is_grounded_input.elevation_value")
+        self.assertIn("grounded", unit_is_grounded["return_keys"])
+        self.assertEqual(unit_is_grounded["source_method"], "UnitComp.isGrounded()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22445,6 +22487,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_is_flying_result["keys"]["method"]["java_expr"], "public boolean isFlying(){")
         self.assertEqual(source_unit_is_flying_result["keys"]["flyingReturn"]["java_expr"], "return elevation >= 0.09f;")
         self.assertEqual(source_unit_is_flying_result["keys"]["flying"]["java_expr"], "return elevation >= 0.09f;")
+
+        source_unit_is_grounded_input = source_symbols.state_schema(schema, "source_unit_is_grounded_input")
+        self.assertEqual(source_unit_is_grounded_input["keys"]["elevation_value"]["java_expr"], "elevation")
+
+        source_unit_is_grounded_result = source_symbols.state_schema(schema, "source_unit_is_grounded_result")
+        self.assertEqual(source_unit_is_grounded_result["keys"]["method"]["java_expr"], "public boolean isGrounded(){")
+        self.assertEqual(source_unit_is_grounded_result["keys"]["groundedReturn"]["java_expr"], "return elevation < 0.001f;")
+        self.assertEqual(source_unit_is_grounded_result["keys"]["grounded"]["java_expr"], "return elevation < 0.001f;")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

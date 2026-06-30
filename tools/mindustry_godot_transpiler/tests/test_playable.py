@@ -3249,6 +3249,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_UNIT_IS_GROUNDED_METHOD := "public boolean isGrounded(){"', source)
+        self.assertIn('const SOURCE_UNIT_IS_GROUNDED_RETURN := "return elevation < 0.001f;"', source)
         self.assertIn("func source_unit_is_grounded(elevation_value: float) -> bool:", source)
         self.assertIn("return elevation_value < 0.001", source)
         self.assertIn('const SOURCE_UNIT_IS_FLYING_METHOD := "public boolean isFlying(){"', source)

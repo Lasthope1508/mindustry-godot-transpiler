@@ -3825,6 +3825,9 @@ func source_unit_health(unit_type) -> float:
 		return 0.0
 	return float(unit_type.properties.get("health", SOURCE_UNIT_HEALTH_DEFAULT_VALUE))
 
+const SOURCE_UNIT_IS_GROUNDED_METHOD := "public boolean isGrounded(){"
+const SOURCE_UNIT_IS_GROUNDED_RETURN := "return elevation < 0.001f;"
+
 func source_unit_is_grounded(elevation_value: float) -> bool:
 	return elevation_value < 0.001
 

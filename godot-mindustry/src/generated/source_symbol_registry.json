@@ -39444,6 +39444,62 @@
         "test_port_game_exposes_source_unit_grounded_flying_target_state"
       ]
     },
+    "unit_is_grounded.elevation": {
+      "godot_owner": "PortGame.source_unit_is_grounded",
+      "godot_symbol": "source_unit_is_grounded_input.elevation_value",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.isGrounded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Elevation field consumed by UnitComp.isGrounded().",
+      "runtime_proof": "/root/Main.source_unit_is_grounded",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_is_grounded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_is_grounded.method": {
+      "godot_owner": "PortGame.source_unit_is_grounded",
+      "godot_symbol": "SOURCE_UNIT_IS_GROUNDED_METHOD",
+      "java_expr": "public boolean isGrounded(){",
+      "java_method": "UnitComp.isGrounded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp isGrounded method boundary.",
+      "runtime_proof": "/root/Main.source_unit_is_grounded",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_is_grounded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_is_grounded.result": {
+      "godot_owner": "PortGame.source_unit_is_grounded",
+      "godot_symbol": "source_unit_is_grounded_result.grounded",
+      "java_expr": "return elevation < 0.001f;",
+      "java_method": "UnitComp.isGrounded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime boolean result for UnitComp.isGrounded().",
+      "runtime_proof": "/root/Main.source_unit_is_grounded",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_is_grounded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_is_grounded.return": {
+      "godot_owner": "PortGame.source_unit_is_grounded",
+      "godot_symbol": "SOURCE_UNIT_IS_GROUNDED_RETURN",
+      "java_expr": "return elevation < 0.001f;",
+      "java_method": "UnitComp.isGrounded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp isGrounded exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_is_grounded",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_is_grounded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",
