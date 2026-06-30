@@ -56612,6 +56612,95 @@
       "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
       "status": "active"
     },
+    "source_unit_update_invalid_controller_reset_input": {
+      "keys": {
+        "controller_is_valid_value": {
+          "godot_symbol": "source_unit_update_invalid_controller_reset_input.controller_is_valid_value",
+          "java_expr": "controller.isValidController()",
+          "java_method": "UnitComp.update() invalid controller reset",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ],
+          "rule": "Explicit controller.isValidController() input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_update_invalid_controller_reset_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.update() invalid controller reset",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ],
+          "rule": "Explicit self() unit id input.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "active"
+    },
+    "source_unit_update_invalid_controller_reset_result": {
+      "keys": {
+        "controllerIsValid": {
+          "godot_symbol": "source_unit_update_invalid_controller_reset_result.controllerIsValid",
+          "java_expr": "controller.isValidController()",
+          "java_method": "UnitComp.update() invalid controller reset",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ],
+          "rule": "Returned controller validity fact.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_update_invalid_controller_reset_result.guard",
+          "java_expr": "if(!controller.isValidController()){",
+          "java_method": "UnitComp.update() invalid controller reset",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ],
+          "rule": "Computed invalid-controller reset guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ]
+        },
+        "resetController": {
+          "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController",
+          "java_expr": "resetController(); -> controller(type.createController(self()));",
+          "java_method": "UnitComp.update() invalid controller reset",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ],
+          "rule": "Reset controller call record when guard passes.",
+          "status": "source-backed",
+          "type": "Dictionary|null",
+          "used_by": [
+            "PortGame.source_unit_update_invalid_controller_reset_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

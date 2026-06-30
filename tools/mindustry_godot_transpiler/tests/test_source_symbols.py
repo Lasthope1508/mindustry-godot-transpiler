@@ -5794,6 +5794,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_delta["java_expr"], "Time.delta")
         self.assertEqual(source_delta["godot_symbol"], "source_unit_update_heal_time_input.source_delta")
 
+    def test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.guard")
+        self.assertEqual(guard["java_expr"], "if(!controller.isValidController()){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() invalid controller reset")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_invalid_controller_reset_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_invalid_controller_reset_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_invalid_controller_reset_result.guard")
+
+        comment = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.comment")
+        self.assertEqual(comment["java_expr"], "//clear controller when it becomes invalid")
+        self.assertEqual(comment["godot_symbol"], "source_unit_update_invalid_controller_reset_result.guard")
+
+        reset_call = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.reset_controller_call")
+        self.assertEqual(reset_call["java_expr"], "resetController();")
+        self.assertEqual(reset_call["godot_symbol"], "source_unit_update_invalid_controller_reset_result.resetController")
+
+        reset_body = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.reset_controller_body")
+        self.assertEqual(reset_body["java_expr"], "controller(type.createController(self()));")
+        self.assertEqual(reset_body["godot_symbol"], "source_unit_update_invalid_controller_reset_result.resetController.effect")
+
+        controller_valid = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.controller_is_valid_value")
+        self.assertEqual(controller_valid["status"], "explicit-input")
+        self.assertEqual(controller_valid["java_expr"], "controller.isValidController()")
+        self.assertEqual(controller_valid["godot_symbol"], "source_unit_update_invalid_controller_reset_input.controller_is_valid_value")
+
+        unit_id = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.unit_id")
+        self.assertEqual(unit_id["status"], "explicit-input")
+        self.assertEqual(unit_id["java_expr"], "self()")
+        self.assertEqual(unit_id["godot_symbol"], "source_unit_update_invalid_controller_reset_input.unit_id")
+
+        controller_setter = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.controller_setter")
+        self.assertEqual(controller_setter["java_expr"], "public void controller(UnitController next){")
+
+        controller_sync = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.controller_unit_sync")
+        self.assertEqual(controller_sync["java_expr"], "if(controller.unit() != self()) controller.unit(self());")
+
+        unit_controller_valid = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.unit_controller_is_valid_default")
+        self.assertEqual(unit_controller_valid["java_expr"], "return true;")
+        self.assertEqual(unit_controller_valid["java_source"], "core/src/mindustry/entities/units/UnitController.java")
+
+        unit_type_return = source_symbols.source_symbol(registry, "unit_update_invalid_controller_reset.unit_type_create_controller_return")
+        self.assertEqual(unit_type_return["java_expr"], "return controller.get(unit);")
+        self.assertEqual(unit_type_return["java_source"], "core/src/mindustry/type/UnitType.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14266,9 +14316,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 418)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 419)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 423)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 424)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14298,6 +14348,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_floor_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_flying_transition_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_heal_time_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_invalid_controller_reset_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16755,6 +16806,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("transient float shadowAlpha = -1f, healTime;", unit_update_heal_time["bridge_exprs"])
         self.assertIn("private transient boolean wasHealed;", unit_update_heal_time["bridge_exprs"])
         self.assertIn("public static float delta = 1f;", unit_update_heal_time["bridge_exprs"])
+
+        unit_update_invalid_controller_reset = source_symbols.source_slice(ledger, "N821")
+        self.assertEqual(unit_update_invalid_controller_reset["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_invalid_controller_reset["java_method"], "UnitComp.update() invalid controller reset")
+        self.assertEqual(unit_update_invalid_controller_reset["godot_owner"], "PortGame.source_unit_update_invalid_controller_reset_state")
+        self.assertIn("//clear controller when it becomes invalid", unit_update_invalid_controller_reset["exact_exprs"])
+        self.assertIn("if(!controller.isValidController()){", unit_update_invalid_controller_reset["exact_exprs"])
+        self.assertIn("resetController();", unit_update_invalid_controller_reset["exact_exprs"])
+        self.assertIn("public void resetController(){", unit_update_invalid_controller_reset["bridge_exprs"])
+        self.assertIn("controller(type.createController(self()));", unit_update_invalid_controller_reset["bridge_exprs"])
+        self.assertIn("public void controller(UnitController next){", unit_update_invalid_controller_reset["bridge_exprs"])
+        self.assertIn("if(controller.unit() != self()) controller.unit(self());", unit_update_invalid_controller_reset["bridge_exprs"])
+        self.assertIn("default boolean isValidController(){", unit_update_invalid_controller_reset["bridge_exprs"])
+        self.assertIn("return true;", unit_update_invalid_controller_reset["bridge_exprs"])
+        self.assertIn("public UnitController createController(Unit unit){", unit_update_invalid_controller_reset["bridge_exprs"])
+        self.assertIn("return controller.get(unit);", unit_update_invalid_controller_reset["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20640,6 +20707,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_heal_time["return_keys"])
         self.assertNotIn("current_heal_time", unit_update_heal_time["return_keys"])
         self.assertEqual(unit_update_heal_time["source_method"], "UnitComp.update() heal time")
+
+        unit_update_invalid_controller_reset = source_symbols.api_contract(contracts, "PortGame.source_unit_update_invalid_controller_reset_state")
+        self.assertEqual([param["name"] for param in unit_update_invalid_controller_reset["params"]], ["controller_is_valid_value", "unit_id"])
+        self.assertEqual(unit_update_invalid_controller_reset["params"][0]["schema"], "source_unit_update_invalid_controller_reset_input.controller_is_valid_value")
+        self.assertEqual(unit_update_invalid_controller_reset["params"][1]["schema"], "source_unit_update_invalid_controller_reset_input.unit_id")
+        for key in ["guard", "controllerIsValid", "resetController"]:
+            self.assertIn(key, unit_update_invalid_controller_reset["return_keys"])
+        self.assertNotIn("controller_is_valid_value", unit_update_invalid_controller_reset["return_keys"])
+        self.assertEqual(unit_update_invalid_controller_reset["source_method"], "UnitComp.update() invalid controller reset")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24915,6 +24991,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_heal_time_input["keys"]["current_heal_time"]["java_expr"], "healTime")
         self.assertEqual(source_unit_update_heal_time_input["keys"]["source_delta"]["java_expr"], "Time.delta")
 
+        source_unit_update_invalid_controller_reset_input = source_symbols.state_schema(schema, "source_unit_update_invalid_controller_reset_input")
+        self.assertEqual(source_unit_update_invalid_controller_reset_input["keys"]["controller_is_valid_value"]["java_expr"], "controller.isValidController()")
+        self.assertEqual(source_unit_update_invalid_controller_reset_input["keys"]["unit_id"]["java_expr"], "self()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25370,6 +25450,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_heal_time_result["keys"]["decay"]["java_expr"], "Time.delta / 20f")
         self.assertEqual(source_unit_update_heal_time_result["keys"]["order"]["java_expr"], "updateDrowning(); -> healTime gate -> healTime decay -> wasHealed = false;")
         self.assertNotIn("current_heal_time", source_unit_update_heal_time_result["keys"])
+
+        source_unit_update_invalid_controller_reset_result = source_symbols.state_schema(schema, "source_unit_update_invalid_controller_reset_result")
+        self.assertEqual(source_unit_update_invalid_controller_reset_result["keys"]["guard"]["java_expr"], "if(!controller.isValidController()){")
+        self.assertEqual(source_unit_update_invalid_controller_reset_result["keys"]["controllerIsValid"]["java_expr"], "controller.isValidController()")
+        self.assertEqual(source_unit_update_invalid_controller_reset_result["keys"]["resetController"]["java_expr"], "resetController(); -> controller(type.createController(self()));")
+        self.assertNotIn("controller_is_valid_value", source_unit_update_invalid_controller_reset_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

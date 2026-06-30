@@ -46159,6 +46159,216 @@
         "test_unit_update_heal_time_matches_upstream_source"
       ]
     },
+    "unit_update_invalid_controller_reset.comment": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.guard",
+      "java_expr": "//clear controller when it becomes invalid",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact comment before invalid controller reset gate.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.controller_assign": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController.effect",
+      "java_expr": "this.controller = next;",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp controller setter assignment bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.controller_is_valid_value": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_input.controller_is_valid_value",
+      "java_expr": "controller.isValidController()",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit controller validity input.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.controller_setter": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController.effect",
+      "java_expr": "public void controller(UnitController next){",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp controller setter bridge called by resetController body.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.controller_unit_sync": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController.effect",
+      "java_expr": "if(controller.unit() != self()) controller.unit(self());",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp controller setter unit sync bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.guard": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.guard",
+      "java_expr": "if(!controller.isValidController()){",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact invalid controller reset guard.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.reset_controller_body": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController.effect",
+      "java_expr": "controller(type.createController(self()));",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp resetController body.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.reset_controller_call": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController",
+      "java_expr": "resetController();",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact resetController call when controller invalid.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.reset_controller_method": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController",
+      "java_expr": "public void resetController(){",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp resetController method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.unit_controller_is_valid_default": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_input.controller_is_valid_value",
+      "java_expr": "return true;",
+      "java_method": "UnitController.isValidController()",
+      "java_source": "core/src/mindustry/entities/units/UnitController.java",
+      "rule": "UnitController default valid return.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.unit_controller_is_valid_method": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_input.controller_is_valid_value",
+      "java_expr": "default boolean isValidController(){",
+      "java_method": "UnitController.isValidController()",
+      "java_source": "core/src/mindustry/entities/units/UnitController.java",
+      "rule": "UnitController isValidController default method.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.unit_id": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit self() unit id input for reset call record.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.unit_type_create_controller_method": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController.effect",
+      "java_expr": "public UnitController createController(Unit unit){",
+      "java_method": "UnitType.createController(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType createController method bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
+    "unit_update_invalid_controller_reset.unit_type_create_controller_return": {
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "godot_symbol": "source_unit_update_invalid_controller_reset_result.resetController.effect",
+      "java_expr": "return controller.get(unit);",
+      "java_method": "UnitType.createController(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType createController return bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

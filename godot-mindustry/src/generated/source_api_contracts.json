@@ -16088,6 +16088,36 @@
         "test_port_game_exposes_source_unit_update_heal_time_state",
         "test_unit_update_heal_time_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_invalid_controller_reset_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "controller_is_valid_value",
+          "schema": "source_unit_update_invalid_controller_reset_input.controller_is_valid_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_invalid_controller_reset_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "controllerIsValid",
+        "resetController"
+      ],
+      "rule": "Public runtime contract for UnitComp.update invalid controller reset gate.",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "source_method": "UnitComp.update() invalid controller reset",
+      "source_slice": "N821",
+      "status": "active",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
     }
   },
   "policy": {

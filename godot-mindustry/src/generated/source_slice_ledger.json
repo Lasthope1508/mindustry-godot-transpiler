@@ -14352,6 +14352,54 @@
         "test_port_game_exposes_source_unit_update_heal_time_state",
         "test_unit_update_heal_time_matches_upstream_source"
       ]
+    },
+    "N821": {
+      "bridge_exprs": [
+        "public void resetController(){",
+        "controller(type.createController(self()));",
+        "public void controller(UnitController next){",
+        "this.controller = next;",
+        "if(controller.unit() != self()) controller.unit(self());",
+        "default boolean isValidController(){",
+        "return true;",
+        "public UnitController createController(Unit unit){",
+        "return controller.get(unit);"
+      ],
+      "deferred_exprs": [
+        "Concrete UnitController subclasses, controller provider internals, and live controller replacement side effects remain separate source slices; this slice records invalid-controller reset gate and call record only."
+      ],
+      "exact_exprs": [
+        "//clear controller when it becomes invalid",
+        "if(!controller.isValidController()){",
+        "resetController();"
+      ],
+      "godot_owner": "PortGame.source_unit_update_invalid_controller_reset_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() invalid controller reset",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
+      "source_symbols": [
+        "unit_update_invalid_controller_reset.comment",
+        "unit_update_invalid_controller_reset.controller_assign",
+        "unit_update_invalid_controller_reset.controller_is_valid_value",
+        "unit_update_invalid_controller_reset.controller_setter",
+        "unit_update_invalid_controller_reset.controller_unit_sync",
+        "unit_update_invalid_controller_reset.guard",
+        "unit_update_invalid_controller_reset.reset_controller_body",
+        "unit_update_invalid_controller_reset.reset_controller_call",
+        "unit_update_invalid_controller_reset.reset_controller_method",
+        "unit_update_invalid_controller_reset.unit_controller_is_valid_default",
+        "unit_update_invalid_controller_reset.unit_controller_is_valid_method",
+        "unit_update_invalid_controller_reset.unit_id",
+        "unit_update_invalid_controller_reset.unit_type_create_controller_method",
+        "unit_update_invalid_controller_reset.unit_type_create_controller_return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
+        "test_unit_update_invalid_controller_reset_matches_upstream_source"
+      ]
     }
   },
   "version": 1
