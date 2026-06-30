@@ -6737,6 +6737,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_id["java_expr"], "id")
         self.assertEqual(unit_id["godot_symbol"], "source_unit_wobble_input.unit_id")
 
+    def test_unit_world_speed_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        default_speed = source_symbols.source_symbol(registry, "unit_world_speed.default_speed")
+        self.assertEqual(default_speed["java_expr"], "public float speed = 1.1f,")
+        self.assertEqual(default_speed["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(default_speed["godot_owner"], "PortGame.source_unit_world_speed")
+        self.assertEqual(default_speed["runtime_proof"], "/root/Main.source_unit_world_speed")
+        self.assertEqual(default_speed["godot_symbol"], "source_unit_world_speed_result.defaultSpeed")
+
+        stat_formula = source_symbols.source_symbol(registry, "unit_world_speed.stat_formula")
+        self.assertEqual(stat_formula["java_expr"], "stats.add(Stat.speed, speed * 60f / tilesize, StatUnit.tilesSecond);")
+        self.assertEqual(stat_formula["godot_symbol"], "source_unit_world_speed_result.worldSpeed")
+
+        dagger_speed = source_symbols.source_symbol(registry, "unit_world_speed.dagger_speed")
+        self.assertEqual(dagger_speed["java_expr"], "speed = 0.5f;")
+        self.assertEqual(dagger_speed["java_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(dagger_speed["godot_symbol"], "source_unit_world_speed_result.daggerSpeed")
+
+        tilesize = source_symbols.source_symbol(registry, "unit_world_speed.tilesize")
+        self.assertEqual(tilesize["java_expr"], "public static final int tilesize = 8;")
+        self.assertEqual(tilesize["java_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(tilesize["godot_symbol"], "source_unit_world_speed_result.tilesize")
+
+        unit_type_input = source_symbols.source_symbol(registry, "unit_world_speed.unit_type")
+        self.assertEqual(unit_type_input["status"], "explicit-input")
+        self.assertEqual(unit_type_input["java_expr"], "UnitType")
+        self.assertEqual(unit_type_input["godot_symbol"], "source_unit_world_speed_input.unit_type")
+
     def test_unit_hit_size_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14863,9 +14895,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 433)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 434)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 438)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 439)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14910,6 +14942,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_vec2_angle", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_weapon_damage", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_wobble_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_world_speed", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17562,6 +17595,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return sin(radians / scl) * mag;", unit_wobble["bridge_exprs"])
         self.assertIn("return cos(radians / scl) * mag;", unit_wobble["bridge_exprs"])
         self.assertIn("Arc sine table lookup internals remain owned by registered source_arc_mathf_* helpers.", unit_wobble["deferred_exprs"])
+
+        unit_world_speed = source_symbols.source_slice(ledger, "N836")
+        self.assertEqual(unit_world_speed["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(unit_world_speed["java_method"], "UnitType.speed world-speed stat")
+        self.assertEqual(unit_world_speed["godot_owner"], "PortGame.source_unit_world_speed")
+        self.assertIn("public float speed = 1.1f,", unit_world_speed["exact_exprs"])
+        self.assertIn("stats.add(Stat.speed, speed * 60f / tilesize, StatUnit.tilesSecond);", unit_world_speed["exact_exprs"])
+        self.assertIn("speed = 0.5f;", unit_world_speed["bridge_exprs"])
+        self.assertIn("public static final int tilesize = 8;", unit_world_speed["bridge_exprs"])
+        self.assertIn("Godot gameplay helper returns source UnitType.speed multiplied by 60.0 pixels/second for existing playable motion.", unit_world_speed["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21686,6 +21729,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("wobble_input", unit_wobble["return_keys"])
         self.assertEqual(unit_wobble["source_method"], "UnitComp.wobble()")
 
+        unit_world_speed = source_symbols.api_contract(contracts, "PortGame.source_unit_world_speed")
+        self.assertEqual([param["name"] for param in unit_world_speed["params"]], ["unit_type"])
+        self.assertEqual(unit_world_speed["params"][0]["schema"], "source_unit_world_speed_input.unit_type")
+        self.assertIn("worldSpeed", unit_world_speed["return_keys"])
+        self.assertIn("speed", unit_world_speed["return_keys"])
+        self.assertEqual(unit_world_speed["source_method"], "UnitType.speed world-speed stat")
+
         unit_hit_size = source_symbols.api_contract(contracts, "PortGame.source_unit_hit_size")
         self.assertEqual([param["name"] for param in unit_hit_size["params"]], ["unit_type"])
         self.assertEqual(unit_hit_size["params"][0]["schema"], "source_unit_hit_size_input.unit_type")
@@ -25794,6 +25844,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_wobble_result["keys"]["dx"]["java_expr"], "Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation")
         self.assertEqual(source_unit_wobble_result["keys"]["dy"]["java_expr"], "Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation")
         self.assertEqual(source_unit_wobble_result["keys"]["wobble_input"]["java_expr"], "Time.time + (id % 10) * 12")
+
+        source_unit_world_speed_input = source_symbols.state_schema(schema, "source_unit_world_speed_input")
+        self.assertEqual(source_unit_world_speed_input["keys"]["unit_type"]["java_expr"], "UnitType")
+
+        source_unit_world_speed_result = source_symbols.state_schema(schema, "source_unit_world_speed_result")
+        self.assertEqual(source_unit_world_speed_result["keys"]["speed"]["java_expr"], "UnitType.speed")
+        self.assertEqual(source_unit_world_speed_result["keys"]["worldSpeed"]["java_expr"], "speed * 60f / tilesize")
+        self.assertEqual(source_unit_world_speed_result["keys"]["defaultSpeed"]["java_expr"], "public float speed = 1.1f,")
+        self.assertEqual(source_unit_world_speed_result["keys"]["daggerSpeed"]["java_expr"], "speed = 0.5f;")
+        self.assertEqual(source_unit_world_speed_result["keys"]["tilesize"]["java_expr"], "public static final int tilesize = 8;")
 
         source_unit_hit_size_input = source_symbols.state_schema(schema, "source_unit_hit_size_input")
         self.assertEqual(source_unit_hit_size_input["keys"]["unit_type"]["java_expr"], "UnitType")

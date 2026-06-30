@@ -185,6 +185,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_world_speed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_world_speed_source"))
+        report = source_parity.verify_unit_world_speed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["unit_types_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["checked"], {
+            "unit_speed_comment": "/** movement speed (world units/t) */",
+            "unit_speed_field": "public float speed = 1.1f,",
+            "set_stats_method": "public void setStats(){",
+            "speed_stat": "stats.add(Stat.speed, speed * 60f / tilesize, StatUnit.tilesSecond);",
+            "dagger_unit": "dagger = new UnitType(\"dagger\"){{",
+            "dagger_speed": "speed = 0.5f;",
+            "tilesize_comment": "/** size of tiles in units */",
+            "tilesize_field": "public static final int tilesize = 8;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_warmup_source"))
         report = source_parity.verify_drill_warmup_source(ROOT / "mindustry-upstream")

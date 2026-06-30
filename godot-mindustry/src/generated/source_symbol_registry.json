@@ -51618,6 +51618,96 @@
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
       "rule": "Runtime unit_id input represents UnitComp.id phase source.",
       "status": "explicit-input"
+    },
+    "unit_world_speed.default_speed": {
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "java_method": "UnitType.speed world-speed stat",
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "godot_symbol": "source_unit_world_speed_result.defaultSpeed",
+      "java_expr": "public float speed = 1.1f,",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType default movement speed field in world units per tick.",
+      "status": "source-backed"
+    },
+    "unit_world_speed.speed_field": {
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "java_method": "UnitType.speed world-speed stat",
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "godot_symbol": "source_unit_world_speed_result.speed",
+      "java_expr": "UnitType.speed",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime lookup reads UnitType speed property generated from source content.",
+      "status": "source-backed"
+    },
+    "unit_world_speed.stat_formula": {
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "java_method": "UnitType.speed world-speed stat",
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "godot_symbol": "source_unit_world_speed_result.worldSpeed",
+      "java_expr": "stats.add(Stat.speed, speed * 60f / tilesize, StatUnit.tilesSecond);",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType displays speed by converting speed per tick through 60f / tilesize.",
+      "status": "source-backed"
+    },
+    "unit_world_speed.dagger_speed": {
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "java_method": "UnitTypes.load() dagger",
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "godot_symbol": "source_unit_world_speed_result.daggerSpeed",
+      "java_expr": "speed = 0.5f;",
+      "java_source": "core/src/mindustry/content/UnitTypes.java",
+      "rule": "Dagger source UnitType speed assignment.",
+      "status": "source-backed"
+    },
+    "unit_world_speed.tilesize": {
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "java_method": "UnitType.speed world-speed stat",
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "godot_symbol": "source_unit_world_speed_result.tilesize",
+      "java_expr": "public static final int tilesize = 8;",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Mindustry tile size used by source speed stat conversion.",
+      "status": "source-backed"
+    },
+    "unit_world_speed.unit_type": {
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "java_method": "UnitType.speed world-speed stat",
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "godot_symbol": "source_unit_world_speed_input.unit_type",
+      "java_expr": "UnitType",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime unit_type input represents a source UnitType content object.",
+      "status": "explicit-input"
     }
   },
   "version": 1

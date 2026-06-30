@@ -213,6 +213,42 @@ def verify_unit_weapon_damage_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_unit_world_speed_source(upstream_root: Path) -> dict[str, Any]:
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    unit_types_path = Path(upstream_root) / UNIT_TYPES_CONTENT_SOURCE
+    vars_path = Path(upstream_root) / "core/src/mindustry/Vars.java"
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    unit_types_source = unit_types_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_speed_comment": "/** movement speed (world units/t) */",
+        "unit_speed_field": "public float speed = 1.1f,",
+        "set_stats_method": "public void setStats(){",
+        "speed_stat": "stats.add(Stat.speed, speed * 60f / tilesize, StatUnit.tilesSecond);",
+        "dagger_unit": "dagger = new UnitType(\"dagger\"){{",
+        "dagger_speed": "speed = 0.5f;",
+        "tilesize_comment": "/** size of tiles in units */",
+        "tilesize_field": "public static final int tilesize = 8;",
+    }
+    source_by_key = {
+        "unit_speed_comment": unit_type_source,
+        "unit_speed_field": unit_type_source,
+        "set_stats_method": unit_type_source,
+        "speed_stat": unit_type_source,
+        "dagger_unit": unit_types_source,
+        "dagger_speed": unit_types_source,
+        "tilesize_comment": vars_source,
+        "tilesize_field": vars_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": UNIT_TYPE_SOURCE,
+        "unit_types_source": UNIT_TYPES_CONTENT_SOURCE,
+        "vars_source": "core/src/mindustry/Vars.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_drill_warmup_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / DRILL_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

@@ -16801,6 +16801,30 @@
         "test_unit_wobble_matches_upstream_source",
         "test_port_game_exposes_source_unit_wobble_state"
       ]
+    },
+    "PortGame.source_unit_world_speed": {
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_world_speed_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "worldSpeed",
+        "speed"
+      ],
+      "rule": "Public scalar runtime contract for UnitType.speed converted into existing Godot playable world pixels per second.",
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "source_method": "UnitType.speed world-speed stat",
+      "source_slice": "N836",
+      "status": "active",
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ]
     }
   },
   "policy": {

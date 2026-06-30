@@ -60502,6 +60502,88 @@
           ]
         }
       }
+    },
+    "source_unit_world_speed_input": {
+      "status": "active",
+      "keys": {
+        "unit_type": {
+          "godot_symbol": "source_unit_world_speed_input.unit_type",
+          "java_expr": "UnitType",
+          "java_method": "UnitType.speed world-speed stat",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Source UnitType content object runtime input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_world_speed"
+          ]
+        }
+      }
+    },
+    "source_unit_world_speed_result": {
+      "status": "active",
+      "keys": {
+        "speed": {
+          "godot_symbol": "source_unit_world_speed_result.speed",
+          "java_expr": "UnitType.speed",
+          "java_method": "UnitType.speed world-speed stat",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType speed value read from source-generated content.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_world_speed"
+          ]
+        },
+        "worldSpeed": {
+          "godot_symbol": "source_unit_world_speed_result.worldSpeed",
+          "java_expr": "speed * 60f / tilesize",
+          "java_method": "UnitType.speed world-speed stat",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Source UnitType stat world-speed conversion formula.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_world_speed"
+          ]
+        },
+        "defaultSpeed": {
+          "godot_symbol": "source_unit_world_speed_result.defaultSpeed",
+          "java_expr": "public float speed = 1.1f,",
+          "java_method": "UnitType.speed world-speed stat",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType default speed field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_world_speed"
+          ]
+        },
+        "daggerSpeed": {
+          "godot_symbol": "source_unit_world_speed_result.daggerSpeed",
+          "java_expr": "speed = 0.5f;",
+          "java_method": "UnitType.speed world-speed stat",
+          "java_source": "core/src/mindustry/content/UnitTypes.java",
+          "rule": "Dagger source speed assignment.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_world_speed"
+          ]
+        },
+        "tilesize": {
+          "godot_symbol": "source_unit_world_speed_result.tilesize",
+          "java_expr": "public static final int tilesize = 8;",
+          "java_method": "UnitType.speed world-speed stat",
+          "java_source": "core/src/mindustry/Vars.java",
+          "rule": "Mindustry tile size used in stats speed conversion.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_world_speed"
+          ]
+        }
+      }
     }
   },
   "version": 1

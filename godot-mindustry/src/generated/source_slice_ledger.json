@@ -15142,6 +15142,43 @@
         "test_port_game_exposes_source_unit_wobble_state"
       ],
       "runtime_proof": "/root/Main.source_unit_wobble_state"
+    },
+    "N836": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_class": "mindustry.type.UnitType",
+      "java_method": "UnitType.speed world-speed stat",
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "exact_exprs": [
+        "/** movement speed (world units/t) */",
+        "public float speed = 1.1f,",
+        "public void setStats(){",
+        "stats.add(Stat.speed, speed * 60f / tilesize, StatUnit.tilesSecond);"
+      ],
+      "bridge_exprs": [
+        "dagger = new UnitType(\"dagger\"){{",
+        "speed = 0.5f;",
+        "/** size of tiles in units */",
+        "public static final int tilesize = 8;"
+      ],
+      "deferred_exprs": [
+        "Godot gameplay helper returns source UnitType.speed multiplied by 60.0 pixels/second for existing playable motion.",
+        "Full stat display units and tilesize division remain represented by registered source stat formula instead of changing current playable pixel-space movement."
+      ],
+      "source_symbols": [
+        "unit_world_speed.default_speed",
+        "unit_world_speed.speed_field",
+        "unit_world_speed.stat_formula",
+        "unit_world_speed.dagger_speed",
+        "unit_world_speed.tilesize",
+        "unit_world_speed.unit_type"
+      ],
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "runtime_proof": "/root/Main.source_unit_world_speed"
     }
   },
   "version": 1
