@@ -15655,6 +15655,51 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_recoil_slots_state",
       "rule": "Backfills SSOT for existing Weapon.bullet recoil slot branch wrapper against exact upstream source."
+    },
+    "N847": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+      "godot_owner": "PortGame.source_weapon_bullet_recoil_velocity_state",
+      "exact_exprs": [
+        "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));"
+      ],
+      "bridge_exprs": [
+        "public float recoil;",
+        "@Import Vec2 vel;",
+        "return set(amount, 0).rotate(angle);",
+        "public Vec2 add(Vec2 v){",
+        "x += v.x;",
+        "y += v.y;"
+      ],
+      "deferred_exprs": [
+        "Shake, mount recoil, recoil slot, and heat assignments remain owned by later registered Weapon.bullet slices.",
+        "Live Unit velocity mutation remains represented as returned state until full entity graph wiring owns Unit instances."
+      ],
+      "source_symbols": [
+        "weapon_bullet_recoil_velocity.assignment",
+        "weapon_bullet_recoil_velocity.create_call_state",
+        "weapon_bullet_recoil_velocity.unit_state",
+        "weapon_bullet_recoil_velocity.bullet_state",
+        "weapon_bullet_recoil_velocity.angle_life_state",
+        "weapon_bullet_recoil_velocity.unit_vel_import",
+        "weapon_bullet_recoil_velocity.bullet_recoil_field",
+        "weapon_bullet_recoil_velocity.shoot_angle",
+        "weapon_bullet_recoil_velocity.recoil_vector",
+        "weapon_bullet_recoil_velocity.unit_vel_before",
+        "weapon_bullet_recoil_velocity.unit_vel_after",
+        "weapon_bullet_recoil_velocity.vec2_trns",
+        "weapon_bullet_recoil_velocity.vec2_add",
+        "weapon_bullet_recoil_velocity.shake_reserved"
+      ],
+      "tests": [
+        "test_weapon_bullet_recoil_velocity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_velocity_state",
+        "test_weapon_bullet_recoil_velocity_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_velocity_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet recoil velocity wrapper against exact upstream source."
     }
   },
   "version": 1

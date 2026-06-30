@@ -17349,6 +17349,49 @@
         "test_port_game_exposes_source_weapon_bullet_recoil_slots_state",
         "test_weapon_bullet_recoil_slots_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_bullet_recoil_velocity_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_recoil_velocity_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_recoil_velocity_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_bullet_recoil_velocity_input.bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "recoilVelocityApplied",
+        "shootAngle",
+        "bulletRecoil",
+        "unitVelBefore",
+        "unitVelAfter",
+        "recoilVector",
+        "recoilVelocitySource",
+        "vec2TrnsSource",
+        "vec2AddSource",
+        "shakeReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.bullet recoil velocity add.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_velocity_state",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+      "source_slice": "N847",
+      "status": "active",
+      "tests": [
+        "test_weapon_bullet_recoil_velocity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_velocity_state",
+        "test_weapon_bullet_recoil_velocity_matches_upstream_source"
+      ]
     }
   },
   "policy": {

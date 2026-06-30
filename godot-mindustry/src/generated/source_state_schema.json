@@ -62394,6 +62394,220 @@
           ]
         }
       }
+    },
+    "source_weapon_bullet_recoil_velocity_input": {
+      "status": "active",
+      "keys": {
+        "create_call_state": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_input.create_call_state",
+          "java_expr": "Weapon.bullet(...) continuation state",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Prior create call result input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "unit_state": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Unit input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_input.bullet_state",
+          "java_expr": "bullet",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source BulletType input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "angleLifeState": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_input.create_call_state.angleLifeState",
+          "java_expr": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Prior angle/life slice result containing shootAngle.",
+          "status": "generated",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "vel": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_input.unit_state.vel",
+          "java_expr": "@Import Vec2 vel;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit velocity input before recoil add.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "recoil": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_input.bullet_state.recoil",
+          "java_expr": "public float recoil;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType recoil magnitude.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_recoil_velocity_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.bulletContinues",
+          "java_expr": "Weapon.bullet(...) continuation state",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuation gate inherited from prior bullet creation slices.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "recoilVelocityApplied": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.recoilVelocityApplied",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Applied flag mirrors recoil velocity add execution.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "shootAngle": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.shootAngle",
+          "java_expr": "shootAngle + 180f",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime record of shootAngle used by recoil vector.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "bulletRecoil": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.bulletRecoil",
+          "java_expr": "public float recoil;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime record of BulletType recoil magnitude.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "unitVelBefore": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.unitVelBefore",
+          "java_expr": "vel",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime record of Unit vel before recoil add.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "unitVelAfter": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.unitVelAfter",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned Unit velocity after recoil add.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "recoilVector": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.recoilVector",
+          "java_expr": "Tmp.v1.trns(shootAngle + 180f, bullet.recoil)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Temporary recoil vector added to Unit velocity.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "recoilVelocitySource": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.recoilVelocitySource",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact recoil velocity source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "vec2TrnsSource": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.vec2TrnsSource",
+          "java_expr": "return set(amount, 0).rotate(angle);",
+          "java_method": "Vec2.trns(float angle, float amount)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.trns source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "vec2AddSource": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.vec2AddSource",
+          "java_expr": "x += v.x; y += v.y",
+          "java_method": "Vec2.add(Vec2 v)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.add source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        },
+        "shakeReservedSource": {
+          "godot_symbol": "source_weapon_bullet_recoil_velocity_result.shakeReservedSource",
+          "java_expr": "Effect.shake(shake, shake, bulletX, bulletY);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Following shake effect remains owned by source_weapon_bullet_shake_state.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_recoil_velocity_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

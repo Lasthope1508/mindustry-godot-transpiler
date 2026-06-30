@@ -3306,6 +3306,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(heat_reserved["java_expr"], "mount.heat = 1f;")
         self.assertEqual(heat_reserved["godot_symbol"], "source_weapon_bullet_recoil_slots_result.heatReservedSource")
 
+    def test_weapon_bullet_recoil_velocity_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        recoil_velocity = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.assignment")
+        self.assertEqual(recoil_velocity["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(recoil_velocity["java_expr"], "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));")
+        self.assertEqual(recoil_velocity["godot_owner"], "PortGame.source_weapon_bullet_recoil_velocity_state")
+        self.assertEqual(recoil_velocity["runtime_proof"], "/root/Main.source_weapon_bullet_recoil_velocity_state")
+        self.assertEqual(recoil_velocity["godot_symbol"], "source_weapon_bullet_recoil_velocity_result.unitVelAfter")
+
+        create_call_state = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.create_call_state")
+        self.assertEqual(create_call_state["status"], "explicit-input")
+        self.assertEqual(create_call_state["java_expr"], "Weapon.bullet(...) continuation state")
+        self.assertEqual(create_call_state["godot_symbol"], "source_weapon_bullet_recoil_velocity_input.create_call_state")
+
+        unit_state = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.unit_state")
+        self.assertEqual(unit_state["status"], "explicit-input")
+        self.assertEqual(unit_state["java_expr"], "Unit unit")
+        self.assertEqual(unit_state["godot_symbol"], "source_weapon_bullet_recoil_velocity_input.unit_state")
+
+        bullet_state = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.bullet_state")
+        self.assertEqual(bullet_state["status"], "explicit-input")
+        self.assertEqual(bullet_state["java_expr"], "bullet")
+        self.assertEqual(bullet_state["godot_symbol"], "source_weapon_bullet_recoil_velocity_input.bullet_state")
+
+        unit_vel = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.unit_vel_import")
+        self.assertEqual(unit_vel["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_vel["java_expr"], "@Import Vec2 vel;")
+        self.assertEqual(unit_vel["godot_symbol"], "source_weapon_bullet_recoil_velocity_input.unit_state.vel")
+
+        bullet_recoil = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.bullet_recoil_field")
+        self.assertEqual(bullet_recoil["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_recoil["java_expr"], "public float recoil;")
+        self.assertEqual(bullet_recoil["godot_symbol"], "source_weapon_bullet_recoil_velocity_input.bullet_state.recoil")
+
+        shoot_angle = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.shoot_angle")
+        self.assertEqual(shoot_angle["java_expr"], "shootAngle + 180f")
+        self.assertEqual(shoot_angle["godot_symbol"], "source_weapon_bullet_recoil_velocity_result.shootAngle")
+
+        recoil_vector = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.recoil_vector")
+        self.assertEqual(recoil_vector["java_expr"], "Tmp.v1.trns(shootAngle + 180f, bullet.recoil)")
+        self.assertEqual(recoil_vector["godot_symbol"], "source_weapon_bullet_recoil_velocity_result.recoilVector")
+
+        vec2_trns = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.vec2_trns")
+        self.assertEqual(vec2_trns["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_trns["java_expr"], "return set(amount, 0).rotate(angle);")
+        self.assertEqual(vec2_trns["godot_symbol"], "source_weapon_bullet_recoil_velocity_result.vec2TrnsSource")
+
+        vec2_add = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.vec2_add")
+        self.assertEqual(vec2_add["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_add["java_expr"], "x += v.x; y += v.y")
+        self.assertEqual(vec2_add["godot_symbol"], "source_weapon_bullet_recoil_velocity_result.vec2AddSource")
+
+        shake_reserved = source_symbols.source_symbol(registry, "weapon_bullet_recoil_velocity.shake_reserved")
+        self.assertEqual(shake_reserved["status"], "deferred")
+        self.assertEqual(shake_reserved["java_expr"], "Effect.shake(shake, shake, bulletX, bulletY);")
+        self.assertEqual(shake_reserved["godot_symbol"], "source_weapon_bullet_recoil_velocity_result.shakeReservedSource")
+
     def test_weapon_bullet_heat_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15254,9 +15315,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 444)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 445)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 449)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 450)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15312,6 +15373,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_initial_guard_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_mount_recoil_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_recoil_slots_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_recoil_velocity_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18069,6 +18131,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public int barrelCounter;", weapon_bullet_recoil_slots["bridge_exprs"])
         self.assertIn("if(mount.recoils == null) mount.recoils = new float[recoils];", weapon_bullet_recoil_slots["bridge_exprs"])
         self.assertIn("Heat assignment remains owned by source_weapon_bullet_heat_state.", weapon_bullet_recoil_slots["deferred_exprs"])
+
+        weapon_bullet_recoil_velocity = source_symbols.source_slice(ledger, "N847")
+        self.assertEqual(weapon_bullet_recoil_velocity["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_recoil_velocity["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity")
+        self.assertEqual(weapon_bullet_recoil_velocity["godot_owner"], "PortGame.source_weapon_bullet_recoil_velocity_state")
+        self.assertIn("unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));", weapon_bullet_recoil_velocity["exact_exprs"])
+        self.assertIn("public float recoil;", weapon_bullet_recoil_velocity["bridge_exprs"])
+        self.assertIn("@Import Vec2 vel;", weapon_bullet_recoil_velocity["bridge_exprs"])
+        self.assertIn("return set(amount, 0).rotate(angle);", weapon_bullet_recoil_velocity["bridge_exprs"])
+        self.assertIn("x += v.x;", weapon_bullet_recoil_velocity["bridge_exprs"])
+        self.assertIn("Shake, mount recoil, recoil slot, and heat assignments remain owned by later registered Weapon.bullet slices.", weapon_bullet_recoil_velocity["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21192,6 +21265,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("updateInitSource", weapon_bullet_recoil_slots["return_keys"])
         self.assertIn("heatReservedSource", weapon_bullet_recoil_slots["return_keys"])
         self.assertEqual(weapon_bullet_recoil_slots["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil slots")
+
+        weapon_bullet_recoil_velocity = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_recoil_velocity_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_recoil_velocity["params"]], ["create_call_state", "unit_state", "bullet_state"])
+        self.assertEqual(weapon_bullet_recoil_velocity["params"][0]["schema"], "source_weapon_bullet_recoil_velocity_input.create_call_state")
+        self.assertEqual(weapon_bullet_recoil_velocity["params"][1]["schema"], "source_weapon_bullet_recoil_velocity_input.unit_state")
+        self.assertEqual(weapon_bullet_recoil_velocity["params"][2]["schema"], "source_weapon_bullet_recoil_velocity_input.bullet_state")
+        self.assertIn("bulletContinues", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertIn("recoilVelocityApplied", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertIn("shootAngle", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertIn("bulletRecoil", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertIn("unitVelBefore", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertIn("unitVelAfter", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertIn("recoilVector", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertIn("shakeReservedSource", weapon_bullet_recoil_velocity["return_keys"])
+        self.assertEqual(weapon_bullet_recoil_velocity["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -25710,6 +25798,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_recoil_slots_result["keys"]["recoilIndex"]["java_expr"], "mount.barrelCounter % recoils")
         self.assertEqual(source_weapon_bullet_recoil_slots_result["keys"]["updateInitSource"]["java_expr"], "if(mount.recoils == null) mount.recoils = new float[recoils];")
         self.assertEqual(source_weapon_bullet_recoil_slots_result["keys"]["heatReservedSource"]["java_expr"], "mount.heat = 1f;")
+
+        source_weapon_bullet_recoil_velocity_input = source_symbols.state_schema(schema, "source_weapon_bullet_recoil_velocity_input")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_input["keys"]["create_call_state"]["java_expr"], "Weapon.bullet(...) continuation state")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_input["keys"]["bullet_state"]["java_expr"], "bullet")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_input["keys"]["vel"]["java_expr"], "@Import Vec2 vel;")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_input["keys"]["recoil"]["java_expr"], "public float recoil;")
+
+        source_weapon_bullet_recoil_velocity_result = source_symbols.state_schema(schema, "source_weapon_bullet_recoil_velocity_result")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["unitVelAfter"]["java_expr"], "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil));")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["recoilVector"]["java_expr"], "Tmp.v1.trns(shootAngle + 180f, bullet.recoil)")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["vec2TrnsSource"]["java_expr"], "return set(amount, 0).rotate(angle);")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["vec2AddSource"]["java_expr"], "x += v.x; y += v.y")
+        self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["shakeReservedSource"]["java_expr"], "Effect.shake(shake, shake, bulletX, bulletY);")
 
         source_weapon_bullet_initial_guard_input = source_symbols.state_schema(schema, "source_weapon_bullet_initial_guard_input")
         self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["unit_state"]["java_expr"], "Unit unit")
