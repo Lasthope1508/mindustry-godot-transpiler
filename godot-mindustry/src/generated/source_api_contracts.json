@@ -15251,6 +15251,32 @@
         "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
       ]
+    },
+    "PortGame.source_unit_update_boosting_default_event_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "boost",
+          "schema": "source_unit_update_boosting_default_event_input.boost",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "delegateCall",
+        "overloadMethod",
+        "boost",
+        "event"
+      ],
+      "rule": "Public runtime contract for UnitComp.updateBoosting(boolean boost) default-event wrapper.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "source_method": "UnitComp.updateBoosting(boolean boost)",
+      "source_slice": "N805",
+      "status": "active",
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ]
     }
   },
   "policy": {

@@ -13548,6 +13548,35 @@
         "test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
       ]
+    },
+    "N805": {
+      "bridge_exprs": [
+        "public void updateBoosting(boolean boost, boolean event){"
+      ],
+      "deferred_exprs": [
+        "The overload body remains owned by the following UnitComp.updateBoosting(boolean boost, boolean event) slices."
+      ],
+      "exact_exprs": [
+        "public void updateBoosting(boolean boost){",
+        "updateBoosting(boost, false);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.updateBoosting(boolean boost)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "source_symbols": [
+        "unit_update_boosting_default_event.method",
+        "unit_update_boosting_default_event.delegate_call",
+        "unit_update_boosting_default_event.overload_method",
+        "unit_update_boosting_default_event.boost",
+        "unit_update_boosting_default_event.event"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ]
     }
   },
   "version": 1

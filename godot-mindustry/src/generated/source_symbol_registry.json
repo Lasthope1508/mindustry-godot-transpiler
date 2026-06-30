@@ -41950,6 +41950,76 @@
         "test_port_game_exposes_source_unit_update_ai_controller_server_gate_state"
       ]
     },
+    "unit_update_boosting_default_event.boost": {
+      "godot_owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "godot_symbol": "source_unit_update_boosting_default_event_input.boost",
+      "java_expr": "boost",
+      "java_method": "UnitComp.updateBoosting(boolean boost)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input supplies boost argument.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ]
+    },
+    "unit_update_boosting_default_event.delegate_call": {
+      "godot_owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "godot_symbol": "source_unit_update_boosting_default_event_result.delegateCall",
+      "java_expr": "updateBoosting(boost, false);",
+      "java_method": "UnitComp.updateBoosting(boolean boost)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Default updateBoosting overload delegates to two-argument overload with event=false.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ]
+    },
+    "unit_update_boosting_default_event.event": {
+      "godot_owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "godot_symbol": "source_unit_update_boosting_default_event_result.event",
+      "java_expr": "false",
+      "java_method": "UnitComp.updateBoosting(boolean boost)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Default wrapper passes literal false as event argument.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ]
+    },
+    "unit_update_boosting_default_event.method": {
+      "godot_owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "godot_symbol": "source_unit_update_boosting_default_event_result.method",
+      "java_expr": "public void updateBoosting(boolean boost){",
+      "java_method": "UnitComp.updateBoosting(boolean boost)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.updateBoosting(boolean boost) method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ]
+    },
+    "unit_update_boosting_default_event.overload_method": {
+      "godot_owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "godot_symbol": "source_unit_update_boosting_default_event_result.overloadMethod",
+      "java_expr": "public void updateBoosting(boolean boost, boolean event){",
+      "java_method": "UnitComp.updateBoosting(boolean boost)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Two-argument updateBoosting overload boundary for delegated call.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_default_event_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

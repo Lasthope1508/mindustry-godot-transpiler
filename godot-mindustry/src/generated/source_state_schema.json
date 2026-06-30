@@ -53580,6 +53580,111 @@
       "runtime_proof": "/root/Main.source_unit_update_ai_controller_server_gate_state",
       "status": "active"
     },
+    "source_unit_update_boosting_default_event_input": {
+      "keys": {
+        "boost": {
+          "godot_symbol": "source_unit_update_boosting_default_event_input.boost",
+          "java_expr": "boost",
+          "java_method": "UnitComp.updateBoosting(boolean boost)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ],
+          "rule": "Runtime bridge input for default updateBoosting boost argument.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "status": "active"
+    },
+    "source_unit_update_boosting_default_event_result": {
+      "keys": {
+        "boost": {
+          "alias_of": "source_unit_update_boosting_default_event_input.boost",
+          "godot_symbol": "source_unit_update_boosting_default_event_result.boost",
+          "java_expr": "boost",
+          "java_method": "UnitComp.updateBoosting(boolean boost)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ],
+          "rule": "Returned boost argument aliases explicit input.",
+          "status": "alias",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ]
+        },
+        "delegateCall": {
+          "godot_symbol": "source_unit_update_boosting_default_event_result.delegateCall",
+          "java_expr": "updateBoosting(boost, false);",
+          "java_method": "UnitComp.updateBoosting(boolean boost)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ],
+          "rule": "Default wrapper delegation call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ]
+        },
+        "event": {
+          "godot_symbol": "source_unit_update_boosting_default_event_result.event",
+          "java_expr": "false",
+          "java_method": "UnitComp.updateBoosting(boolean boost)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ],
+          "rule": "Returned event argument is the source literal false from updateBoosting(boost, false).",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_update_boosting_default_event_result.method",
+          "java_expr": "public void updateBoosting(boolean boost){",
+          "java_method": "UnitComp.updateBoosting(boolean boost)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ],
+          "rule": "Default updateBoosting method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ]
+        },
+        "overloadMethod": {
+          "godot_symbol": "source_unit_update_boosting_default_event_result.overloadMethod",
+          "java_expr": "public void updateBoosting(boolean boost, boolean event){",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ],
+          "rule": "Delegated overload method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_default_event_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_boosting_default_event_state",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_default_event_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

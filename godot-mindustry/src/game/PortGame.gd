@@ -10402,8 +10402,15 @@ const SOURCE_UNIT_UNLOADED_EMPTY_BODY := "public void unloaded(){\n\n    }"
 func source_unit_unloaded_state(unit_state: Variant) -> Variant:
 	return unit_state
 
+const SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_METHOD := "public void updateBoosting(boolean boost){"
+const SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_CALL := "updateBoosting(boost, false);"
+const SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD := "public void updateBoosting(boolean boost, boolean event){"
+
 func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:
 	return {
+		"method": SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_METHOD,
+		"delegateCall": SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_CALL,
+		"overloadMethod": SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD,
 		"boost": boost,
 		"event": false,
 	}

@@ -6475,6 +6475,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_METHOD := "public void updateBoosting(boolean boost){"', source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_CALL := "updateBoosting(boost, false);"', source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD := "public void updateBoosting(boolean boost, boolean event){"', source)
+        self.assertIn('"method": SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_METHOD', source)
+        self.assertIn('"delegateCall": SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_CALL', source)
+        self.assertIn('"overloadMethod": SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD', source)
         self.assertIn('"boost": boost', source)
         self.assertIn('"event": false', source)
 

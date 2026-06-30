@@ -5018,6 +5018,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_id["java_expr"], "self()")
         self.assertEqual(unit_id["godot_symbol"], "source_unit_update_ai_controller_server_gate_input.unit_id")
 
+    def test_unit_update_boosting_default_event_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_update_boosting_default_event.method")
+        self.assertEqual(method["java_expr"], "public void updateBoosting(boolean boost){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["java_method"], "UnitComp.updateBoosting(boolean boost)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_update_boosting_default_event_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_update_boosting_default_event_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_update_boosting_default_event_result.method")
+
+        delegate_call = source_symbols.source_symbol(registry, "unit_update_boosting_default_event.delegate_call")
+        self.assertEqual(delegate_call["java_expr"], "updateBoosting(boost, false);")
+        self.assertEqual(delegate_call["godot_symbol"], "source_unit_update_boosting_default_event_result.delegateCall")
+
+        overload_method = source_symbols.source_symbol(registry, "unit_update_boosting_default_event.overload_method")
+        self.assertEqual(overload_method["java_expr"], "public void updateBoosting(boolean boost, boolean event){")
+        self.assertEqual(overload_method["godot_symbol"], "source_unit_update_boosting_default_event_result.overloadMethod")
+
+        boost = source_symbols.source_symbol(registry, "unit_update_boosting_default_event.boost")
+        self.assertEqual(boost["status"], "explicit-input")
+        self.assertEqual(boost["java_expr"], "boost")
+        self.assertEqual(boost["godot_symbol"], "source_unit_update_boosting_default_event_input.boost")
+
+        event = source_symbols.source_symbol(registry, "unit_update_boosting_default_event.event")
+        self.assertEqual(event["status"], "source-backed")
+        self.assertEqual(event["java_expr"], "false")
+        self.assertEqual(event["godot_symbol"], "source_unit_update_boosting_default_event_result.event")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13490,9 +13522,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 402)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 403)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 407)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 408)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13552,6 +13584,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_unloaded_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_abilities_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_ai_controller_server_gate_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_boosting_default_event_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15780,6 +15813,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean client(){", unit_update_ai_controller_server_gate["bridge_exprs"])
         self.assertIn("return !server && active;", unit_update_ai_controller_server_gate["bridge_exprs"])
         self.assertIn("Concrete controller.updateUnit() behavior stays deferred to controller-specific slices.", unit_update_ai_controller_server_gate["deferred_exprs"])
+
+        unit_update_boosting_default_event = source_symbols.source_slice(ledger, "N805")
+        self.assertEqual(unit_update_boosting_default_event["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_boosting_default_event["java_method"], "UnitComp.updateBoosting(boolean boost)")
+        self.assertEqual(unit_update_boosting_default_event["godot_owner"], "PortGame.source_unit_update_boosting_default_event_state")
+        self.assertIn("public void updateBoosting(boolean boost){", unit_update_boosting_default_event["exact_exprs"])
+        self.assertIn("updateBoosting(boost, false);", unit_update_boosting_default_event["exact_exprs"])
+        self.assertIn("public void updateBoosting(boolean boost, boolean event){", unit_update_boosting_default_event["bridge_exprs"])
+        self.assertIn("The overload body remains owned by the following UnitComp.updateBoosting(boolean boost, boolean event) slices.", unit_update_boosting_default_event["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19480,6 +19522,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("guardSource", unit_update_ai_controller_server_gate["return_keys"])
         self.assertIn("controllerUpdateCall", unit_update_ai_controller_server_gate["return_keys"])
         self.assertEqual(unit_update_ai_controller_server_gate["source_method"], "UnitComp.update()/UnitController.updateUnit()/Net.client()")
+
+        unit_update_boosting_default_event = source_symbols.api_contract(contracts, "PortGame.source_unit_update_boosting_default_event_state")
+        self.assertEqual([param["name"] for param in unit_update_boosting_default_event["params"]], ["boost"])
+        self.assertEqual(unit_update_boosting_default_event["params"][0]["schema"], "source_unit_update_boosting_default_event_input.boost")
+        self.assertIn("method", unit_update_boosting_default_event["return_keys"])
+        self.assertIn("delegateCall", unit_update_boosting_default_event["return_keys"])
+        self.assertIn("overloadMethod", unit_update_boosting_default_event["return_keys"])
+        self.assertIn("boost", unit_update_boosting_default_event["return_keys"])
+        self.assertIn("event", unit_update_boosting_default_event["return_keys"])
+        self.assertEqual(unit_update_boosting_default_event["source_method"], "UnitComp.updateBoosting(boolean boost)")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23624,6 +23676,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_ai_controller_server_gate_input["keys"]["should_update_controller_value"]["java_expr"], "shouldUpdateController()")
         self.assertEqual(source_unit_update_ai_controller_server_gate_input["keys"]["unit_id"]["java_expr"], "self()")
 
+        source_unit_update_boosting_default_event_input = source_symbols.state_schema(schema, "source_unit_update_boosting_default_event_input")
+        self.assertEqual(source_unit_update_boosting_default_event_input["keys"]["boost"]["java_expr"], "boost")
+        self.assertEqual(source_unit_update_boosting_default_event_input["keys"]["boost"]["status"], "explicit-input")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -23933,6 +23989,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["netClientBody"]["java_expr"], "return !server && active;")
         self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["guard"]["java_expr"], "if(!net.client() && !dead && shouldUpdateController()){")
         self.assertEqual(source_unit_update_ai_controller_server_gate_result["keys"]["controllerUpdate"]["java_expr"], "controller.updateUnit();")
+
+        source_unit_update_boosting_default_event_result = source_symbols.state_schema(schema, "source_unit_update_boosting_default_event_result")
+        self.assertEqual(source_unit_update_boosting_default_event_result["keys"]["method"]["java_expr"], "public void updateBoosting(boolean boost){")
+        self.assertEqual(source_unit_update_boosting_default_event_result["keys"]["delegateCall"]["java_expr"], "updateBoosting(boost, false);")
+        self.assertEqual(source_unit_update_boosting_default_event_result["keys"]["overloadMethod"]["java_expr"], "public void updateBoosting(boolean boost, boolean event){")
+        self.assertEqual(source_unit_update_boosting_default_event_result["keys"]["boost"]["alias_of"], "source_unit_update_boosting_default_event_input.boost")
+        self.assertEqual(source_unit_update_boosting_default_event_result["keys"]["event"]["java_expr"], "false")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
