@@ -3441,6 +3441,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_command_state(controller_is_command_ai: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_COMMAND_METHOD := "public CommandAI command(){"', source)
+        self.assertIn('const SOURCE_UNIT_COMMAND_AI_GATE := "if(controller instanceof CommandAI ai){"', source)
+        self.assertIn('const SOURCE_UNIT_COMMAND_RETURN := "return ai;"', source)
+        self.assertIn('const SOURCE_UNIT_COMMAND_THROW := "throw new IllegalArgumentException(\\"Unit cannot be commanded - check isCommandable() first.\\");"', source)
+        self.assertIn('const SOURCE_UNIT_COMMAND_AI_CLASS := "public class CommandAI extends AIController{"', source)
         self.assertIn('"returned_command_ai": true', source)
         self.assertIn('"throws": false', source)
         self.assertIn('"returned_command_ai": false', source)

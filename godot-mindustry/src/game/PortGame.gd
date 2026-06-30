@@ -4066,6 +4066,12 @@ func source_unit_can_target_state(other_exists: bool, other_is_unit: bool, other
 		"can_target": other_is_building and type_target_ground,
 	}
 
+const SOURCE_UNIT_COMMAND_METHOD := "public CommandAI command(){"
+const SOURCE_UNIT_COMMAND_AI_GATE := "if(controller instanceof CommandAI ai){"
+const SOURCE_UNIT_COMMAND_RETURN := "return ai;"
+const SOURCE_UNIT_COMMAND_THROW := "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");"
+const SOURCE_UNIT_COMMAND_AI_CLASS := "public class CommandAI extends AIController{"
+
 func source_unit_command_state(controller_is_command_ai: bool) -> Dictionary:
 	if controller_is_command_ai:
 		return {

@@ -4757,6 +4757,39 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(type_target_ground["java_expr"], "type.targetGround")
         self.assertEqual(type_target_ground["godot_symbol"], "source_unit_can_target_input.type_target_ground")
 
+    def test_unit_command_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_command.method")
+        self.assertEqual(method["java_expr"], "public CommandAI command(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_command_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_command_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_command_result.method")
+
+        gate = source_symbols.source_symbol(registry, "unit_command.command_ai_gate")
+        self.assertEqual(gate["java_expr"], "if(controller instanceof CommandAI ai){")
+        self.assertEqual(gate["godot_symbol"], "source_unit_command_result.commandAiGate")
+
+        command_return = source_symbols.source_symbol(registry, "unit_command.command_return")
+        self.assertEqual(command_return["java_expr"], "return ai;")
+        self.assertEqual(command_return["godot_symbol"], "source_unit_command_result.commandReturn")
+
+        command_throw = source_symbols.source_symbol(registry, "unit_command.command_throw")
+        self.assertEqual(command_throw["java_expr"], 'throw new IllegalArgumentException("Unit cannot be commanded - check isCommandable() first.");')
+        self.assertEqual(command_throw["godot_symbol"], "source_unit_command_result.commandThrow")
+
+        command_ai_class = source_symbols.source_symbol(registry, "unit_command.command_ai_class")
+        self.assertEqual(command_ai_class["java_expr"], "public class CommandAI extends AIController{")
+        self.assertEqual(command_ai_class["java_source"], "core/src/mindustry/ai/types/CommandAI.java")
+        self.assertEqual(command_ai_class["godot_symbol"], "source_unit_command_result.commandAiClass")
+
+        controller = source_symbols.source_symbol(registry, "unit_command.controller_is_command_ai")
+        self.assertEqual(controller["java_expr"], "controller instanceof CommandAI ai")
+        self.assertEqual(controller["godot_symbol"], "source_unit_command_input.controller_is_command_ai")
+
     def test_unit_cap_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11763,9 +11796,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 360)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 361)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 365)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 366)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11783,6 +11816,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_check_target_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_command_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -13510,6 +13544,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("setType(this.type);", unit_after_sync["exact_exprs"])
         self.assertIn("controller.unit(self());", unit_after_sync["exact_exprs"])
         self.assertIn("void afterSync(){}", unit_after_sync["bridge_exprs"])
+
+        unit_command = source_symbols.source_slice(ledger, "N763")
+        self.assertEqual(unit_command["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_command["java_method"], "UnitComp.command()")
+        self.assertEqual(unit_command["godot_owner"], "PortGame.source_unit_command_state")
+        self.assertIn("public CommandAI command(){", unit_command["exact_exprs"])
+        self.assertIn("if(controller instanceof CommandAI ai){", unit_command["exact_exprs"])
+        self.assertIn("return ai;", unit_command["exact_exprs"])
+        self.assertIn('throw new IllegalArgumentException("Unit cannot be commanded - check isCommandable() first.");', unit_command["exact_exprs"])
+        self.assertIn("public class CommandAI extends AIController{", unit_command["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -16860,6 +16904,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("unit_check_target_air", unit_can_target["return_keys"])
         self.assertIn("unit_check_target_ground", unit_can_target["return_keys"])
         self.assertEqual(unit_can_target["source_method"], "UnitComp.canTarget(Teamc other)")
+
+        unit_command = source_symbols.api_contract(contracts, "PortGame.source_unit_command_state")
+        self.assertEqual([param["name"] for param in unit_command["params"]], ["controller_is_command_ai"])
+        self.assertEqual(unit_command["params"][0]["schema"], "source_unit_command_input.controller_is_command_ai")
+        self.assertIn("returned_command_ai", unit_command["return_keys"])
+        self.assertIn("throws", unit_command["return_keys"])
+        self.assertIn("exception_type", unit_command["return_keys"])
+        self.assertIn("message", unit_command["return_keys"])
+        self.assertEqual(unit_command["source_method"], "UnitComp.command()")
 
         unit_cap = source_symbols.api_contract(contracts, "PortGame.source_unit_cap_state")
         self.assertEqual([param["name"] for param in unit_cap["params"]], ["team_is_wave_team", "rules_pvp", "state_is_campaign", "rules_disable_unit_cap", "team_ignore_unit_cap", "rules_unit_cap_variable", "rules_unit_cap", "team_data_unit_cap"])
@@ -20743,6 +20796,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_can_target_result["keys"]["unitCheckTargetCall"]["java_expr"], "u.checkTarget(type.targetAir, type.targetGround)")
         self.assertEqual(source_unit_can_target_result["keys"]["buildingCheck"]["java_expr"], "other instanceof Building b && type.targetGround")
         self.assertEqual(source_unit_can_target_result["keys"]["can_target"]["java_expr"], "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));")
+
+        source_unit_command_input = source_symbols.state_schema(schema, "source_unit_command_input")
+        self.assertEqual(source_unit_command_input["keys"]["controller_is_command_ai"]["java_expr"], "controller instanceof CommandAI ai")
+
+        source_unit_command_result = source_symbols.state_schema(schema, "source_unit_command_result")
+        self.assertEqual(source_unit_command_result["keys"]["method"]["java_expr"], "public CommandAI command(){")
+        self.assertEqual(source_unit_command_result["keys"]["commandAiGate"]["java_expr"], "if(controller instanceof CommandAI ai){")
+        self.assertEqual(source_unit_command_result["keys"]["commandReturn"]["java_expr"], "return ai;")
+        self.assertEqual(source_unit_command_result["keys"]["commandThrow"]["java_expr"], 'throw new IllegalArgumentException("Unit cannot be commanded - check isCommandable() first.");')
+        self.assertEqual(source_unit_command_result["keys"]["commandAiClass"]["java_expr"], "public class CommandAI extends AIController{")
+        self.assertEqual(source_unit_command_result["keys"]["returned_command_ai"]["java_expr"], "return ai;")
+        self.assertEqual(source_unit_command_result["keys"]["throws"]["java_expr"], 'throw new IllegalArgumentException("Unit cannot be commanded - check isCommandable() first.");')
 
         source_unit_cap_input = source_symbols.state_schema(schema, "source_unit_cap_input")
         self.assertEqual(source_unit_cap_input["keys"]["team_is_wave_team"]["java_expr"], "team == state.rules.waveTeam")

@@ -11741,6 +11741,41 @@
         "test_port_game_exposes_source_unit_grounded_flying_target_state"
       ]
     },
+    "N763": {
+      "deferred_exprs": [
+        "CommandAI queue and transfer internals remain owned by future CommandAI behavior slices",
+        "UnitComp.isCommandable()/canCommand predicates remain owned by source_unit_controller_predicates_state"
+      ],
+      "exact_exprs": [
+        "public CommandAI command(){",
+        "if(controller instanceof CommandAI ai){",
+        "return ai;",
+        "}else{",
+        "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");"
+      ],
+      "bridge_exprs": [
+        "public class CommandAI extends AIController{",
+        "controller instanceof CommandAI ai"
+      ],
+      "godot_owner": "PortGame.source_unit_command_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.command()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "source_symbols": [
+        "unit_command.method",
+        "unit_command.command_ai_gate",
+        "unit_command.command_return",
+        "unit_command.command_throw",
+        "unit_command.command_ai_class",
+        "unit_command.controller_is_command_ai"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
     "N761": {
       "deferred_exprs": [
         "Unit add over-cap death/rollback remains owned by source_unit_add_state"

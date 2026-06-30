@@ -13378,6 +13378,31 @@
         "test_port_game_exposes_source_unit_can_target_state"
       ]
     },
+    "PortGame.source_unit_command_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "controller_is_command_ai",
+          "schema": "source_unit_command_input.controller_is_command_ai",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "returned_command_ai",
+        "throws",
+        "exception_type",
+        "message"
+      ],
+      "rule": "Public runtime contract for UnitComp.command CommandAI return or IllegalArgumentException branch.",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "source_method": "UnitComp.command()",
+      "source_slice": "N763",
+      "status": "active",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
     "PortGame.source_unit_cap_state": {
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
       "params": [

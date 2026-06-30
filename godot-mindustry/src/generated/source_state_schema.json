@@ -47478,6 +47478,153 @@
       "runtime_proof": "/root/Main.source_unit_can_target_state",
       "status": "active"
     },
+    "source_unit_command_input": {
+      "keys": {
+        "controller_is_command_ai": {
+          "godot_symbol": "source_unit_command_input.controller_is_command_ai",
+          "java_expr": "controller instanceof CommandAI ai",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit CommandAI controller branch input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_command_state",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "active"
+    },
+    "source_unit_command_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_command_result.method",
+          "java_expr": "public CommandAI command(){",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp command method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "commandAiGate": {
+          "godot_symbol": "source_unit_command_result.commandAiGate",
+          "java_expr": "if(controller instanceof CommandAI ai){",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "CommandAI controller type gate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "commandReturn": {
+          "godot_symbol": "source_unit_command_result.commandReturn",
+          "java_expr": "return ai;",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "CommandAI true branch return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "commandThrow": {
+          "godot_symbol": "source_unit_command_result.commandThrow",
+          "java_expr": "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Non-CommandAI branch throw statement.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "commandAiClass": {
+          "godot_symbol": "source_unit_command_result.commandAiClass",
+          "java_expr": "public class CommandAI extends AIController{",
+          "java_method": "CommandAI class declaration",
+          "java_source": "core/src/mindustry/ai/types/CommandAI.java",
+          "rule": "CommandAI class identity used by UnitComp.command().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "controller_is_command_ai": {
+          "godot_symbol": "source_unit_command_result.controller_is_command_ai",
+          "java_expr": "controller instanceof CommandAI ai",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime echo of CommandAI controller branch input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ],
+          "alias_of": "source_unit_command_input.controller_is_command_ai"
+        },
+        "returned_command_ai": {
+          "godot_symbol": "source_unit_command_result.returned_command_ai",
+          "java_expr": "return ai;",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime result indicating CommandAI return branch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "throws": {
+          "godot_symbol": "source_unit_command_result.throws",
+          "java_expr": "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime result indicating exception branch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "exception_type": {
+          "godot_symbol": "source_unit_command_result.exception_type",
+          "java_expr": "IllegalArgumentException",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Exception type from non-CommandAI branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        },
+        "message": {
+          "godot_symbol": "source_unit_command_result.message",
+          "java_expr": "Unit cannot be commanded - check isCommandable() first.",
+          "java_method": "UnitComp.command()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Exception message from non-CommandAI branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_command_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_command_state",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "active"
+    },
     "source_unit_cap_input": {
       "keys": {
         "team_is_wave_team": {

@@ -37118,6 +37118,90 @@
         "test_port_game_exposes_source_unit_can_target_state"
       ]
     },
+    "unit_command.method": {
+      "godot_owner": "PortGame.source_unit_command_state",
+      "godot_symbol": "source_unit_command_result.method",
+      "java_expr": "public CommandAI command(){",
+      "java_method": "UnitComp.command()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp command method boundary.",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
+    "unit_command.command_ai_gate": {
+      "godot_owner": "PortGame.source_unit_command_state",
+      "godot_symbol": "source_unit_command_result.commandAiGate",
+      "java_expr": "if(controller instanceof CommandAI ai){",
+      "java_method": "UnitComp.command()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "CommandAI controller type gate.",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
+    "unit_command.command_return": {
+      "godot_owner": "PortGame.source_unit_command_state",
+      "godot_symbol": "source_unit_command_result.commandReturn",
+      "java_expr": "return ai;",
+      "java_method": "UnitComp.command()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "CommandAI true branch return.",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
+    "unit_command.command_throw": {
+      "godot_owner": "PortGame.source_unit_command_state",
+      "godot_symbol": "source_unit_command_result.commandThrow",
+      "java_expr": "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");",
+      "java_method": "UnitComp.command()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Non-CommandAI branch throws exact IllegalArgumentException.",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
+    "unit_command.command_ai_class": {
+      "godot_owner": "PortGame.source_unit_command_state",
+      "godot_symbol": "source_unit_command_result.commandAiClass",
+      "java_expr": "public class CommandAI extends AIController{",
+      "java_method": "CommandAI class declaration",
+      "java_source": "core/src/mindustry/ai/types/CommandAI.java",
+      "rule": "CommandAI class identity used by UnitComp.command().",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
+    "unit_command.controller_is_command_ai": {
+      "godot_owner": "PortGame.source_unit_command_state",
+      "godot_symbol": "source_unit_command_input.controller_is_command_ai",
+      "java_expr": "controller instanceof CommandAI ai",
+      "java_method": "UnitComp.command()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit projection of controller instanceof CommandAI ai.",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
     "unit_cap.method": {
       "godot_owner": "PortGame.source_unit_cap_state",
       "godot_symbol": "source_unit_cap_result.method",
