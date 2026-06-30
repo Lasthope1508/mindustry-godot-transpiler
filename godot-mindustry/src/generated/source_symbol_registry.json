@@ -45979,6 +45979,186 @@
         "test_unit_update_flying_transition_matches_upstream_source"
       ]
     },
+    "unit_update_heal_time.current_heal_time": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_input.current_heal_time",
+      "java_expr": "healTime",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit current healTime input.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.heal_time_decay": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_result.decay",
+      "java_expr": "healTime -= Time.delta / 20f;",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact healTime decay assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.heal_time_field": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_input.current_heal_time",
+      "java_expr": "transient float shadowAlpha = -1f, healTime;",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp healTime transient field source.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.heal_time_reset": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_result.healTime",
+      "java_expr": "healTime = 1f;",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact healTime reset assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.order": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_result.order",
+      "java_expr": "updateDrowning(); -> healTime gate -> healTime decay -> wasHealed = false;",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Execution order for UnitComp.update heal time slice.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.source_delta": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit Time.delta input for healTime decay.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.time_delta_default": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_input.source_delta",
+      "java_expr": "public static float delta = 1f;",
+      "java_method": "Time.delta",
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "rule": "Arc Time.delta default bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.update_drowning_call": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_result.order",
+      "java_expr": "updateDrowning();",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact updateDrowning call before heal time state update.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.was_healed_field": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_input.was_healed_value",
+      "java_expr": "private transient boolean wasHealed;",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp wasHealed transient field source.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.was_healed_gate": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_result.resetHealTime",
+      "java_expr": "if(wasHealed && healTime <= -1f){",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact healTime reset gate.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.was_healed_reset": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_result.wasHealed",
+      "java_expr": "wasHealed = false;",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact wasHealed reset assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
+    "unit_update_heal_time.was_healed_value": {
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "godot_symbol": "source_unit_update_heal_time_input.was_healed_value",
+      "java_expr": "wasHealed",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit wasHealed input for heal time gate.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

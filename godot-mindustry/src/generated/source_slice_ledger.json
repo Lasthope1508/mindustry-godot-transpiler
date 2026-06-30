@@ -14310,6 +14310,48 @@
         "test_port_game_exposes_source_unit_update_flying_transition_state",
         "test_unit_update_flying_transition_matches_upstream_source"
       ]
+    },
+    "N820": {
+      "bridge_exprs": [
+        "transient float shadowAlpha = -1f, healTime;",
+        "private transient boolean wasHealed;",
+        "public static float delta = 1f;"
+      ],
+      "deferred_exprs": [
+        "updateDrowning() behavior, UnitComp.heal(float amount) wasHealed producer, and live Time.delta ownership remain separate source slices; this slice records healTime visual state update only."
+      ],
+      "exact_exprs": [
+        "updateDrowning();",
+        "if(wasHealed && healTime <= -1f){",
+        "healTime = 1f;",
+        "healTime -= Time.delta / 20f;",
+        "wasHealed = false;"
+      ],
+      "godot_owner": "PortGame.source_unit_update_heal_time_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() heal time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "source_symbols": [
+        "unit_update_heal_time.current_heal_time",
+        "unit_update_heal_time.heal_time_decay",
+        "unit_update_heal_time.heal_time_field",
+        "unit_update_heal_time.heal_time_reset",
+        "unit_update_heal_time.order",
+        "unit_update_heal_time.source_delta",
+        "unit_update_heal_time.time_delta_default",
+        "unit_update_heal_time.update_drowning_call",
+        "unit_update_heal_time.was_healed_field",
+        "unit_update_heal_time.was_healed_gate",
+        "unit_update_heal_time.was_healed_reset",
+        "unit_update_heal_time.was_healed_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
     }
   },
   "version": 1

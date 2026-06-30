@@ -16051,6 +16051,43 @@
         "test_port_game_exposes_source_unit_update_flying_transition_state",
         "test_unit_update_flying_transition_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_heal_time_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "was_healed_value",
+          "schema": "source_unit_update_heal_time_input.was_healed_value",
+          "type": "bool"
+        },
+        {
+          "name": "current_heal_time",
+          "schema": "source_unit_update_heal_time_input.current_heal_time",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_heal_time_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "healTime",
+        "wasHealed",
+        "resetHealTime",
+        "decay",
+        "order"
+      ],
+      "rule": "Public runtime contract for UnitComp.update healTime visual state update.",
+      "runtime_proof": "/root/Main.source_unit_update_heal_time_state",
+      "source_method": "UnitComp.update() heal time",
+      "source_slice": "N820",
+      "status": "active",
+      "tests": [
+        "test_unit_update_heal_time_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_heal_time_state",
+        "test_unit_update_heal_time_matches_upstream_source"
+      ]
     }
   },
   "policy": {

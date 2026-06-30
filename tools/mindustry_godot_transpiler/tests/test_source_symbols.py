@@ -5751,6 +5751,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(effect_at_color["java_expr"], "public void at(float x, float y, float rotation, Color color){")
         self.assertEqual(effect_at_color["java_source"], "core/src/mindustry/entities/Effect.java")
 
+    def test_unit_update_heal_time_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        update_drowning = source_symbols.source_symbol(registry, "unit_update_heal_time.update_drowning_call")
+        self.assertEqual(update_drowning["java_expr"], "updateDrowning();")
+        self.assertEqual(update_drowning["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(update_drowning["java_method"], "UnitComp.update() heal time")
+        self.assertEqual(update_drowning["godot_owner"], "PortGame.source_unit_update_heal_time_state")
+        self.assertEqual(update_drowning["runtime_proof"], "/root/Main.source_unit_update_heal_time_state")
+        self.assertEqual(update_drowning["godot_symbol"], "source_unit_update_heal_time_result.order")
+
+        heal_time_field = source_symbols.source_symbol(registry, "unit_update_heal_time.heal_time_field")
+        self.assertEqual(heal_time_field["java_expr"], "transient float shadowAlpha = -1f, healTime;")
+        self.assertEqual(heal_time_field["godot_symbol"], "source_unit_update_heal_time_input.current_heal_time")
+
+        was_healed_field = source_symbols.source_symbol(registry, "unit_update_heal_time.was_healed_field")
+        self.assertEqual(was_healed_field["java_expr"], "private transient boolean wasHealed;")
+        self.assertEqual(was_healed_field["godot_symbol"], "source_unit_update_heal_time_input.was_healed_value")
+
+        gate = source_symbols.source_symbol(registry, "unit_update_heal_time.was_healed_gate")
+        self.assertEqual(gate["java_expr"], "if(wasHealed && healTime <= -1f){")
+        self.assertEqual(gate["godot_symbol"], "source_unit_update_heal_time_result.resetHealTime")
+
+        reset = source_symbols.source_symbol(registry, "unit_update_heal_time.heal_time_reset")
+        self.assertEqual(reset["java_expr"], "healTime = 1f;")
+        self.assertEqual(reset["godot_symbol"], "source_unit_update_heal_time_result.healTime")
+
+        decay = source_symbols.source_symbol(registry, "unit_update_heal_time.heal_time_decay")
+        self.assertEqual(decay["java_expr"], "healTime -= Time.delta / 20f;")
+        self.assertEqual(decay["godot_symbol"], "source_unit_update_heal_time_result.decay")
+
+        reset_was_healed = source_symbols.source_symbol(registry, "unit_update_heal_time.was_healed_reset")
+        self.assertEqual(reset_was_healed["java_expr"], "wasHealed = false;")
+        self.assertEqual(reset_was_healed["godot_symbol"], "source_unit_update_heal_time_result.wasHealed")
+
+        source_delta = source_symbols.source_symbol(registry, "unit_update_heal_time.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_expr"], "Time.delta")
+        self.assertEqual(source_delta["godot_symbol"], "source_unit_update_heal_time_input.source_delta")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14223,9 +14266,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 417)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 418)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 422)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 423)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14254,6 +14297,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_falling_smoke_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_floor_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_flying_transition_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_heal_time_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16698,6 +16742,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Color getFloorColor(){", unit_update_flying_transition["bridge_exprs"])
         self.assertIn("unitLand = new Effect(30, e -> {", unit_update_flying_transition["bridge_exprs"])
         self.assertIn("public void at(float x, float y, float rotation, Color color){", unit_update_flying_transition["bridge_exprs"])
+
+        unit_update_heal_time = source_symbols.source_slice(ledger, "N820")
+        self.assertEqual(unit_update_heal_time["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_heal_time["java_method"], "UnitComp.update() heal time")
+        self.assertEqual(unit_update_heal_time["godot_owner"], "PortGame.source_unit_update_heal_time_state")
+        self.assertIn("updateDrowning();", unit_update_heal_time["exact_exprs"])
+        self.assertIn("if(wasHealed && healTime <= -1f){", unit_update_heal_time["exact_exprs"])
+        self.assertIn("healTime = 1f;", unit_update_heal_time["exact_exprs"])
+        self.assertIn("healTime -= Time.delta / 20f;", unit_update_heal_time["exact_exprs"])
+        self.assertIn("wasHealed = false;", unit_update_heal_time["exact_exprs"])
+        self.assertIn("transient float shadowAlpha = -1f, healTime;", unit_update_heal_time["bridge_exprs"])
+        self.assertIn("private transient boolean wasHealed;", unit_update_heal_time["bridge_exprs"])
+        self.assertIn("public static float delta = 1f;", unit_update_heal_time["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20573,6 +20630,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_flying_transition["return_keys"])
         self.assertNotIn("is_flying_value", unit_update_flying_transition["return_keys"])
         self.assertEqual(unit_update_flying_transition["source_method"], "UnitComp.update() flying transition")
+
+        unit_update_heal_time = source_symbols.api_contract(contracts, "PortGame.source_unit_update_heal_time_state")
+        self.assertEqual([param["name"] for param in unit_update_heal_time["params"]], ["was_healed_value", "current_heal_time", "source_delta"])
+        self.assertEqual(unit_update_heal_time["params"][0]["schema"], "source_unit_update_heal_time_input.was_healed_value")
+        self.assertEqual(unit_update_heal_time["params"][1]["schema"], "source_unit_update_heal_time_input.current_heal_time")
+        self.assertEqual(unit_update_heal_time["params"][2]["schema"], "source_unit_update_heal_time_input.source_delta")
+        for key in ["healTime", "wasHealed", "resetHealTime", "decay", "order"]:
+            self.assertIn(key, unit_update_heal_time["return_keys"])
+        self.assertNotIn("current_heal_time", unit_update_heal_time["return_keys"])
+        self.assertEqual(unit_update_heal_time["source_method"], "UnitComp.update() heal time")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24843,6 +24910,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_flying_transition_input["keys"]["floor_is_liquid"]["java_expr"], "floor.isLiquid")
         self.assertEqual(source_unit_update_flying_transition_input["keys"]["tile_floor_color"]["java_expr"], "tile.getFloorColor()")
 
+        source_unit_update_heal_time_input = source_symbols.state_schema(schema, "source_unit_update_heal_time_input")
+        self.assertEqual(source_unit_update_heal_time_input["keys"]["was_healed_value"]["java_expr"], "wasHealed")
+        self.assertEqual(source_unit_update_heal_time_input["keys"]["current_heal_time"]["java_expr"], "healTime")
+        self.assertEqual(source_unit_update_heal_time_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25290,6 +25362,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_flying_transition_result["keys"]["landEffect"]["java_expr"], "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());")
         self.assertEqual(source_unit_update_flying_transition_result["keys"]["wasFlying"]["java_expr"], "wasFlying = isFlying();")
         self.assertNotIn("is_flying_value", source_unit_update_flying_transition_result["keys"])
+
+        source_unit_update_heal_time_result = source_symbols.state_schema(schema, "source_unit_update_heal_time_result")
+        self.assertEqual(source_unit_update_heal_time_result["keys"]["healTime"]["java_expr"], "healTime = 1f; -> healTime -= Time.delta / 20f;")
+        self.assertEqual(source_unit_update_heal_time_result["keys"]["wasHealed"]["java_expr"], "wasHealed = false;")
+        self.assertEqual(source_unit_update_heal_time_result["keys"]["resetHealTime"]["java_expr"], "if(wasHealed && healTime <= -1f){")
+        self.assertEqual(source_unit_update_heal_time_result["keys"]["decay"]["java_expr"], "Time.delta / 20f")
+        self.assertEqual(source_unit_update_heal_time_result["keys"]["order"]["java_expr"], "updateDrowning(); -> healTime gate -> healTime decay -> wasHealed = false;")
+        self.assertNotIn("current_heal_time", source_unit_update_heal_time_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
