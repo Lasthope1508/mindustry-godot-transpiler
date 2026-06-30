@@ -34984,6 +34984,90 @@
         "test_turret_range_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_range"
       ]
+    },
+    "turret_range_for_ammo.method": {
+      "godot_owner": "PortGame.source_turret_range_for_ammo",
+      "godot_symbol": "source_turret_range_for_ammo_result.method",
+      "java_expr": "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "TurretBuild.range overrides BaseTurret range when peekAmmo is present.",
+      "runtime_proof": "/root/Main.source_turret_range_for_ammo",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
+    },
+    "turret_range_for_ammo.gate": {
+      "godot_owner": "PortGame.source_turret_range_for_ammo",
+      "godot_symbol": "source_turret_range_for_ammo_result.ammoGate",
+      "java_expr": "if(peekAmmo() != null){",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Ammo-aware range branch only applies when peekAmmo is not null.",
+      "runtime_proof": "/root/Main.source_turret_range_for_ammo",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
+    },
+    "turret_range_for_ammo.ammo_result": {
+      "godot_owner": "PortGame.source_turret_range_for_ammo",
+      "godot_symbol": "source_turret_range_for_ammo_result.ammoRange",
+      "java_expr": "return range + peekAmmo().rangeChange;",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Ammo-aware TurretBuild.range adds peekAmmo().rangeChange to base range.",
+      "runtime_proof": "/root/Main.source_turret_range_for_ammo",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
+    },
+    "turret_range_for_ammo.fallback_result": {
+      "godot_owner": "PortGame.source_turret_range_for_ammo",
+      "godot_symbol": "source_turret_range_for_ammo_result.fallbackRange",
+      "java_expr": "return range;",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "TurretBuild.range falls back to base range when peekAmmo is null.",
+      "runtime_proof": "/root/Main.source_turret_range_for_ammo",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
+    },
+    "turret_range_for_ammo.turret": {
+      "godot_owner": "PortGame.source_turret_range_for_ammo",
+      "godot_symbol": "source_turret_range_for_ammo_input.turret",
+      "java_expr": "Turret / TurretBuild block",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime turret input supplies base range field for TurretBuild.range().",
+      "runtime_proof": "/root/Main.source_turret_range_for_ammo",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
+    },
+    "turret_range_for_ammo.data": {
+      "godot_owner": "PortGame.source_turret_range_for_ammo",
+      "godot_symbol": "source_turret_range_for_ammo_input.data",
+      "java_expr": "peekAmmo()",
+      "java_method": "range()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime ammo data represents peekAmmo() for ammo rangeChange lookup.",
+      "runtime_proof": "/root/Main.source_turret_range_for_ammo",
+      "status": "explicit-input",
+      "tests": [
+        "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ]
     }
   },
   "version": 1

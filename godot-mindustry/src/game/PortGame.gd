@@ -10553,7 +10553,14 @@ func source_bullet_inaccuracy(data: Dictionary) -> float:
 func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:
 	return source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)
 
+const SOURCE_TURRET_RANGE_FOR_AMMO_METHOD := "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }"
+const SOURCE_TURRET_RANGE_FOR_AMMO_GATE := "if(peekAmmo() != null){"
+const SOURCE_TURRET_RANGE_FOR_AMMO_AMMO_RESULT := "return range + peekAmmo().rangeChange;"
+const SOURCE_TURRET_RANGE_FOR_AMMO_FALLBACK_RESULT := "return range;"
+
 func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
+	if data.is_empty():
+		return source_turret_range(turret)
 	return source_turret_range(turret) + source_bullet_range_change(data)
 
 const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"

@@ -4451,6 +4451,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "return range;")
         self.assertEqual(result["godot_symbol"], "source_turret_range_result.range")
 
+    def test_turret_range_for_ammo_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_range_for_ammo.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "range()")
+        self.assertEqual(method["java_expr"], "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_range_for_ammo")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_range_for_ammo")
+        self.assertEqual(method["godot_symbol"], "source_turret_range_for_ammo_result.method")
+
+        gate = source_symbols.source_symbol(registry, "turret_range_for_ammo.gate")
+        self.assertEqual(gate["java_expr"], "if(peekAmmo() != null){")
+        self.assertEqual(gate["godot_symbol"], "source_turret_range_for_ammo_result.ammoGate")
+
+        ammo_result = source_symbols.source_symbol(registry, "turret_range_for_ammo.ammo_result")
+        self.assertEqual(ammo_result["java_expr"], "return range + peekAmmo().rangeChange;")
+        self.assertEqual(ammo_result["godot_symbol"], "source_turret_range_for_ammo_result.ammoRange")
+
+        fallback_result = source_symbols.source_symbol(registry, "turret_range_for_ammo.fallback_result")
+        self.assertEqual(fallback_result["java_expr"], "return range;")
+        self.assertEqual(fallback_result["godot_symbol"], "source_turret_range_for_ammo_result.fallbackRange")
+
+        turret = source_symbols.source_symbol(registry, "turret_range_for_ammo.turret")
+        self.assertEqual(turret["godot_symbol"], "source_turret_range_for_ammo_input.turret")
+        self.assertEqual(turret["status"], "explicit-input")
+
+        data = source_symbols.source_symbol(registry, "turret_range_for_ammo.data")
+        self.assertEqual(data["godot_symbol"], "source_turret_range_for_ammo_input.data")
+        self.assertEqual(data["java_expr"], "peekAmmo()")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -10964,9 +10998,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 337)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 338)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 342)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 343)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11185,6 +11219,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_bullet_origin", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_inaccuracy", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_range", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_range_for_ammo", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11296,6 +11331,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_ammo_data", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_inaccuracy", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_range", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_turret_range_for_ammo", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12493,6 +12529,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return range;", turret_range["exact_exprs"])
         self.assertIn("range = 160;", turret_range["bridge_exprs"])
         self.assertIn("return range + peekAmmo().rangeChange;", turret_range["deferred_exprs"])
+
+        turret_range_for_ammo = source_symbols.source_slice(ledger, "N740")
+        self.assertEqual(turret_range_for_ammo["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(turret_range_for_ammo["java_method"], "range()")
+        self.assertEqual(turret_range_for_ammo["godot_owner"], "PortGame.source_turret_range_for_ammo")
+        self.assertIn("public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }", turret_range_for_ammo["exact_exprs"])
+        self.assertIn("if(peekAmmo() != null){", turret_range_for_ammo["exact_exprs"])
+        self.assertIn("return range + peekAmmo().rangeChange;", turret_range_for_ammo["exact_exprs"])
+        self.assertIn("return range;", turret_range_for_ammo["exact_exprs"])
+        self.assertIn("rangeChange = 16f;", turret_range_for_ammo["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15639,6 +15685,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("range", turret_range["return_keys"])
         self.assertIn("method", turret_range["return_keys"])
         self.assertEqual(turret_range["source_method"], "range()")
+
+        turret_range_for_ammo = source_symbols.api_contract(contracts, "PortGame.source_turret_range_for_ammo")
+        self.assertEqual([param["name"] for param in turret_range_for_ammo["params"]], ["turret", "data"])
+        self.assertEqual(turret_range_for_ammo["params"][0]["schema"], "source_turret_range_for_ammo_input.turret")
+        self.assertEqual(turret_range_for_ammo["params"][1]["schema"], "source_turret_range_for_ammo_input.data")
+        self.assertIn("ammoRange", turret_range_for_ammo["return_keys"])
+        self.assertIn("fallbackRange", turret_range_for_ammo["return_keys"])
+        self.assertEqual(turret_range_for_ammo["source_method"], "range()")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -19218,6 +19272,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_range_result["keys"]["duoValue"]["java_expr"], "range = 160;")
         self.assertEqual(source_turret_range_result["keys"]["range"]["java_expr"], "return range;")
         self.assertEqual(source_turret_range_result["keys"]["turret"]["alias_of"], "source_turret_range_input.turret")
+
+        source_turret_range_for_ammo_input = source_symbols.state_schema(schema, "source_turret_range_for_ammo_input")
+        self.assertEqual(source_turret_range_for_ammo_input["keys"]["turret"]["alias_of"], "source_turret_range_input.turret")
+        self.assertEqual(source_turret_range_for_ammo_input["keys"]["data"]["alias_of"], "source_bullet_range_change_input.data")
+        self.assertEqual(source_turret_range_for_ammo_input["keys"]["data"]["java_expr"], "peekAmmo()")
+
+        source_turret_range_for_ammo_result = source_symbols.state_schema(schema, "source_turret_range_for_ammo_result")
+        self.assertEqual(source_turret_range_for_ammo_result["keys"]["method"]["java_expr"], "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }")
+        self.assertEqual(source_turret_range_for_ammo_result["keys"]["ammoGate"]["java_expr"], "if(peekAmmo() != null){")
+        self.assertEqual(source_turret_range_for_ammo_result["keys"]["ammoRange"]["java_expr"], "return range + peekAmmo().rangeChange;")
+        self.assertEqual(source_turret_range_for_ammo_result["keys"]["fallbackRange"]["java_expr"], "return range;")
+        self.assertEqual(source_turret_range_for_ammo_result["keys"]["turret"]["alias_of"], "source_turret_range_for_ammo_input.turret")
+        self.assertEqual(source_turret_range_for_ammo_result["keys"]["data"]["alias_of"], "source_turret_range_for_ammo_input.data")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

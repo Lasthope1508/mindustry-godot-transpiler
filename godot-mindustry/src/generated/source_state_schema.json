@@ -44327,6 +44327,95 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_range_for_ammo_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_range_input.turret",
+          "rule": "Reuses canonical turret range input for base range.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "data": {
+          "alias_of": "source_bullet_range_change_input.data",
+          "godot_symbol": "source_turret_range_for_ammo_input.data",
+          "java_expr": "peekAmmo()",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime ammo dictionary represents peekAmmo() when present.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_range_for_ammo"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_range_for_ammo_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_range_for_ammo_result.method",
+          "java_expr": "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical TurretBuild.range ammo-aware method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_range_for_ammo"
+          ]
+        },
+        "ammoGate": {
+          "godot_symbol": "source_turret_range_for_ammo_result.ammoGate",
+          "java_expr": "if(peekAmmo() != null){",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Gate for ammo-specific range branch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_range_for_ammo"
+          ]
+        },
+        "ammoRange": {
+          "godot_symbol": "source_turret_range_for_ammo_result.ammoRange",
+          "java_expr": "return range + peekAmmo().rangeChange;",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Returned ammo-aware range value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_range_for_ammo"
+          ]
+        },
+        "fallbackRange": {
+          "godot_symbol": "source_turret_range_for_ammo_result.fallbackRange",
+          "java_expr": "return range;",
+          "java_method": "range()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Returned base range when no ammo exists.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_range_for_ammo"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_range_for_ammo_input.turret",
+          "rule": "Carries turret input into ammo range result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "data": {
+          "alias_of": "source_turret_range_for_ammo_input.data",
+          "rule": "Carries peekAmmo input into ammo range result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1
