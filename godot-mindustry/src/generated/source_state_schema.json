@@ -56150,6 +56150,200 @@
       "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
       "status": "active"
     },
+    "source_unit_update_floor_damage_input": {
+      "keys": {
+        "floor_damage_taken": {
+          "godot_symbol": "source_unit_update_floor_damage_input.floor_damage_taken",
+          "java_expr": "floor.damageTaken",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Explicit runtime input for floor.damageTaken.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "hit_duration": {
+          "godot_symbol": "source_unit_update_floor_damage_input.hit_duration",
+          "java_expr": "hitDuration",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Explicit runtime input for hitDuration.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "hit_time": {
+          "godot_symbol": "source_unit_update_floor_damage_input.hit_time",
+          "java_expr": "hitTime",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Explicit runtime input for hitTime.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "is_grounded_value": {
+          "godot_symbol": "source_unit_update_floor_damage_input.is_grounded_value",
+          "java_expr": "isGrounded()",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Explicit isGrounded() result input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_update_floor_damage_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Explicit Time.delta input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "tile_exists": {
+          "godot_symbol": "source_unit_update_floor_damage_input.tile_exists",
+          "java_expr": "tile != null",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Explicit tile existence input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "type_hovering": {
+          "godot_symbol": "source_unit_update_floor_damage_input.type_hovering",
+          "java_expr": "type.hovering",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Explicit UnitType.hovering input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_floor_damage_state",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "active"
+    },
+    "source_unit_update_floor_damage_result": {
+      "keys": {
+        "damage": {
+          "godot_symbol": "source_unit_update_floor_damage_result.damage",
+          "java_expr": "damageContinuous(floor.damageTaken);",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Damage call record when both gates pass.",
+          "status": "source-backed",
+          "type": "Dictionary|null",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_update_floor_damage_result.guard",
+          "java_expr": "tile != null && isGrounded() && !type.hovering",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Computed grounded tile guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "isGrounded": {
+          "godot_symbol": "source_unit_update_floor_damage_result.isGrounded",
+          "java_expr": "isGrounded()",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Returned source grounded fact.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "tileExists": {
+          "godot_symbol": "source_unit_update_floor_damage_result.tileExists",
+          "java_expr": "tile != null",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Returned source tile existence fact.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        },
+        "typeHovering": {
+          "godot_symbol": "source_unit_update_floor_damage_result.typeHovering",
+          "java_expr": "type.hovering",
+          "java_method": "UnitComp.update() floor damage",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ],
+          "rule": "Returned source hovering fact.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_floor_damage_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_floor_damage_state",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

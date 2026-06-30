@@ -14200,6 +14200,54 @@
         "test_port_game_exposes_source_unit_update_falling_smoke_state",
         "test_unit_update_falling_smoke_matches_upstream_source"
       ]
+    },
+    "N818": {
+      "bridge_exprs": [
+        "public float damageTaken = 0f;",
+        "static final float hitDuration = 9f;",
+        "transient float hitTime;",
+        "void damageContinuous(float amount){",
+        "damage(amount * Time.delta, hitTime <= -10 + hitDuration);",
+        "public static float delta = 1f;"
+      ],
+      "deferred_exprs": [
+        "Unit block update, tile.build.unitOn(self()), and solid-tile kill are adjacent source slices; damageContinuous internals are recorded as call facts here instead of applying live damage."
+      ],
+      "exact_exprs": [
+        "if(tile != null && isGrounded() && !type.hovering){",
+        "//apply damage",
+        "if(floor.damageTaken > 0f){",
+        "damageContinuous(floor.damageTaken);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "source_symbols": [
+        "unit_update_floor_damage.damage_comment",
+        "unit_update_floor_damage.damage_continuous_call",
+        "unit_update_floor_damage.damage_guard",
+        "unit_update_floor_damage.floor_damage_taken",
+        "unit_update_floor_damage.floor_damage_taken_default",
+        "unit_update_floor_damage.ground_tile_guard",
+        "unit_update_floor_damage.health_damage_continuous_body",
+        "unit_update_floor_damage.health_damage_continuous_method",
+        "unit_update_floor_damage.hit_duration",
+        "unit_update_floor_damage.hit_duration_default",
+        "unit_update_floor_damage.hit_time",
+        "unit_update_floor_damage.is_grounded_value",
+        "unit_update_floor_damage.source_delta",
+        "unit_update_floor_damage.tile_exists",
+        "unit_update_floor_damage.time_delta_default",
+        "unit_update_floor_damage.type_hovering"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
     }
   },
   "version": 1

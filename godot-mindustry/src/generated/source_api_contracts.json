@@ -15949,6 +15949,63 @@
         "test_port_game_exposes_source_unit_update_falling_smoke_state",
         "test_unit_update_falling_smoke_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_floor_damage_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_floor_damage_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "is_grounded_value",
+          "schema": "source_unit_update_floor_damage_input.is_grounded_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_hovering",
+          "schema": "source_unit_update_floor_damage_input.type_hovering",
+          "type": "bool"
+        },
+        {
+          "name": "floor_damage_taken",
+          "schema": "source_unit_update_floor_damage_input.floor_damage_taken",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_floor_damage_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "hit_time",
+          "schema": "source_unit_update_floor_damage_input.hit_time",
+          "type": "float"
+        },
+        {
+          "name": "hit_duration",
+          "schema": "source_unit_update_floor_damage_input.hit_duration",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "tileExists",
+        "isGrounded",
+        "typeHovering",
+        "damage"
+      ],
+      "rule": "Public runtime contract for UnitComp.update floor damage state.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "source_method": "UnitComp.update() floor damage",
+      "source_slice": "N818",
+      "status": "active",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
     }
   },
   "policy": {

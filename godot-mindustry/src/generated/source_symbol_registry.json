@@ -45394,6 +45394,246 @@
         "test_unit_update_falling_smoke_matches_upstream_source"
       ]
     },
+    "unit_update_floor_damage.damage_comment": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_result.damage",
+      "java_expr": "//apply damage",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring floor damage block.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.damage_continuous_call": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_result.damage.call",
+      "java_expr": "damageContinuous(floor.damageTaken);",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact floor damage call.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.damage_guard": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_result.damage",
+      "java_expr": "if(floor.damageTaken > 0f){",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact floor damage positive guard.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.floor_damage_taken": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.floor_damage_taken",
+      "java_expr": "floor.damageTaken",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for floor.damageTaken.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.floor_damage_taken_default": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.floor_damage_taken",
+      "java_expr": "public float damageTaken = 0f;",
+      "java_method": "Floor",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "rule": "Floor.damageTaken default source.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.ground_tile_guard": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_result.guard",
+      "java_expr": "if(tile != null && isGrounded() && !type.hovering){",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact grounded tile guard.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.health_damage_continuous_body": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_result.damage",
+      "java_expr": "damage(amount * Time.delta, hitTime <= -10 + hitDuration);",
+      "java_method": "HealthComp.damageContinuous(float amount)",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "rule": "HealthComp.damageContinuous body bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.health_damage_continuous_method": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_result.damage",
+      "java_expr": "void damageContinuous(float amount){",
+      "java_method": "HealthComp.damageContinuous(float amount)",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "rule": "HealthComp.damageContinuous method bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.hit_duration": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.hit_duration",
+      "java_expr": "hitDuration",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for hitDuration.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.hit_duration_default": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.hit_duration",
+      "java_expr": "static final float hitDuration = 9f;",
+      "java_method": "HealthComp",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "rule": "HealthComp.hitDuration default source.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.hit_time": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.hit_time",
+      "java_expr": "hitTime",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for hitTime.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.is_grounded_value": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.is_grounded_value",
+      "java_expr": "isGrounded()",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit isGrounded() result input.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.source_delta": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit Time.delta input for damageContinuous scaling.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.tile_exists": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.tile_exists",
+      "java_expr": "tile != null",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit tile existence input.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.time_delta_default": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.source_delta",
+      "java_expr": "public static float delta = 1f;",
+      "java_method": "Time",
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "rule": "Arc Time.delta default source.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
+    "unit_update_floor_damage.type_hovering": {
+      "godot_owner": "PortGame.source_unit_update_floor_damage_state",
+      "godot_symbol": "source_unit_update_floor_damage_input.type_hovering",
+      "java_expr": "type.hovering",
+      "java_method": "UnitComp.update() floor damage",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType.hovering input.",
+      "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_floor_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_floor_damage_state",
+        "test_unit_update_floor_damage_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

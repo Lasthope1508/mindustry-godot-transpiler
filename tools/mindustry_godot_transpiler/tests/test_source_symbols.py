@@ -5659,6 +5659,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(effect_at["java_expr"], "public void at(float x, float y){")
         self.assertEqual(effect_at["java_source"], "core/src/mindustry/entities/Effect.java")
 
+    def test_unit_update_floor_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_floor_damage.ground_tile_guard")
+        self.assertEqual(guard["java_expr"], "if(tile != null && isGrounded() && !type.hovering){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() floor damage")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_floor_damage_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_floor_damage_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_floor_damage_result.guard")
+
+        damage_guard = source_symbols.source_symbol(registry, "unit_update_floor_damage.damage_guard")
+        self.assertEqual(damage_guard["java_expr"], "if(floor.damageTaken > 0f){")
+        self.assertEqual(damage_guard["godot_symbol"], "source_unit_update_floor_damage_result.damage")
+
+        damage_call = source_symbols.source_symbol(registry, "unit_update_floor_damage.damage_continuous_call")
+        self.assertEqual(damage_call["java_expr"], "damageContinuous(floor.damageTaken);")
+        self.assertEqual(damage_call["godot_symbol"], "source_unit_update_floor_damage_result.damage.call")
+
+        floor_damage_taken = source_symbols.source_symbol(registry, "unit_update_floor_damage.floor_damage_taken")
+        self.assertEqual(floor_damage_taken["status"], "explicit-input")
+        self.assertEqual(floor_damage_taken["java_expr"], "floor.damageTaken")
+        self.assertEqual(floor_damage_taken["godot_symbol"], "source_unit_update_floor_damage_input.floor_damage_taken")
+
+        source_delta = source_symbols.source_symbol(registry, "unit_update_floor_damage.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_expr"], "Time.delta")
+        self.assertEqual(source_delta["godot_symbol"], "source_unit_update_floor_damage_input.source_delta")
+
+        floor_default = source_symbols.source_symbol(registry, "unit_update_floor_damage.floor_damage_taken_default")
+        self.assertEqual(floor_default["java_expr"], "public float damageTaken = 0f;")
+        self.assertEqual(floor_default["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+
+        continuous = source_symbols.source_symbol(registry, "unit_update_floor_damage.health_damage_continuous_method")
+        self.assertEqual(continuous["java_expr"], "void damageContinuous(float amount){")
+        self.assertEqual(continuous["java_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+
+        continuous_body = source_symbols.source_symbol(registry, "unit_update_floor_damage.health_damage_continuous_body")
+        self.assertEqual(continuous_body["java_expr"], "damage(amount * Time.delta, hitTime <= -10 + hitDuration);")
+        self.assertEqual(continuous_body["java_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14131,9 +14175,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 415)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 416)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 420)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 421)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14160,6 +14204,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_falling_drag_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_engine_trail_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_smoke_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_floor_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16576,6 +16621,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static final Vec2 v1 = new Vec2();", unit_update_falling_smoke["bridge_exprs"])
         self.assertIn("public Vec2 rnd(float length){", unit_update_falling_smoke["bridge_exprs"])
         self.assertIn("public void at(float x, float y){", unit_update_falling_smoke["bridge_exprs"])
+
+        unit_update_floor_damage = source_symbols.source_slice(ledger, "N818")
+        self.assertEqual(unit_update_floor_damage["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_floor_damage["java_method"], "UnitComp.update() floor damage")
+        self.assertEqual(unit_update_floor_damage["godot_owner"], "PortGame.source_unit_update_floor_damage_state")
+        self.assertIn("if(tile != null && isGrounded() && !type.hovering){", unit_update_floor_damage["exact_exprs"])
+        self.assertIn("//apply damage", unit_update_floor_damage["exact_exprs"])
+        self.assertIn("if(floor.damageTaken > 0f){", unit_update_floor_damage["exact_exprs"])
+        self.assertIn("damageContinuous(floor.damageTaken);", unit_update_floor_damage["exact_exprs"])
+        self.assertIn("public float damageTaken = 0f;", unit_update_floor_damage["bridge_exprs"])
+        self.assertIn("void damageContinuous(float amount){", unit_update_floor_damage["bridge_exprs"])
+        self.assertIn("damage(amount * Time.delta, hitTime <= -10 + hitDuration);", unit_update_floor_damage["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20431,6 +20488,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_falling_smoke["return_keys"])
         self.assertNotIn("dead_value", unit_update_falling_smoke["return_keys"])
         self.assertEqual(unit_update_falling_smoke["source_method"], "UnitComp.update() falling smoke")
+
+        unit_update_floor_damage = source_symbols.api_contract(contracts, "PortGame.source_unit_update_floor_damage_state")
+        self.assertEqual([param["name"] for param in unit_update_floor_damage["params"]], ["tile_exists", "is_grounded_value", "type_hovering", "floor_damage_taken", "source_delta", "hit_time", "hit_duration"])
+        self.assertEqual(unit_update_floor_damage["params"][0]["schema"], "source_unit_update_floor_damage_input.tile_exists")
+        self.assertEqual(unit_update_floor_damage["params"][3]["schema"], "source_unit_update_floor_damage_input.floor_damage_taken")
+        self.assertEqual(unit_update_floor_damage["params"][6]["schema"], "source_unit_update_floor_damage_input.hit_duration")
+        for key in ["guard", "tileExists", "isGrounded", "typeHovering", "damage"]:
+            self.assertIn(key, unit_update_floor_damage["return_keys"])
+        self.assertNotIn("tile_exists", unit_update_floor_damage["return_keys"])
+        self.assertEqual(unit_update_floor_damage["source_method"], "UnitComp.update() floor damage")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24685,6 +24752,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_smoke_input["keys"]["tmp_v1_x"]["java_expr"], "Tmp.v1.x")
         self.assertEqual(source_unit_update_falling_smoke_input["keys"]["tmp_v1_y"]["java_expr"], "Tmp.v1.y")
 
+        source_unit_update_floor_damage_input = source_symbols.state_schema(schema, "source_unit_update_floor_damage_input")
+        self.assertEqual(source_unit_update_floor_damage_input["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_unit_update_floor_damage_input["keys"]["is_grounded_value"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_update_floor_damage_input["keys"]["type_hovering"]["java_expr"], "type.hovering")
+        self.assertEqual(source_unit_update_floor_damage_input["keys"]["floor_damage_taken"]["java_expr"], "floor.damageTaken")
+        self.assertEqual(source_unit_update_floor_damage_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_unit_update_floor_damage_input["keys"]["hit_time"]["java_expr"], "hitTime")
+        self.assertEqual(source_unit_update_floor_damage_input["keys"]["hit_duration"]["java_expr"], "hitDuration")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25118,6 +25194,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_smoke_result["keys"]["chance"]["java_expr"], "if(Mathf.chanceDelta(0.1)){")
         self.assertEqual(source_unit_update_falling_smoke_result["keys"]["effect"]["java_expr"], "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);")
         self.assertNotIn("dead_value", source_unit_update_falling_smoke_result["keys"])
+
+        source_unit_update_floor_damage_result = source_symbols.state_schema(schema, "source_unit_update_floor_damage_result")
+        self.assertEqual(source_unit_update_floor_damage_result["keys"]["guard"]["java_expr"], "tile != null && isGrounded() && !type.hovering")
+        self.assertEqual(source_unit_update_floor_damage_result["keys"]["damage"]["java_expr"], "damageContinuous(floor.damageTaken);")
+        self.assertEqual(source_unit_update_floor_damage_result["keys"]["tileExists"]["java_expr"], "tile != null")
+        self.assertEqual(source_unit_update_floor_damage_result["keys"]["isGrounded"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_update_floor_damage_result["keys"]["typeHovering"]["java_expr"], "type.hovering")
+        self.assertNotIn("tile_exists", source_unit_update_floor_damage_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
