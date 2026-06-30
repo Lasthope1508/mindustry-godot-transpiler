@@ -13852,6 +13852,47 @@
         "test_port_game_exposes_source_unit_update_captured_sector_death_state",
         "test_unit_update_captured_sector_death_matches_upstream_source"
       ]
+    },
+    "N812": {
+      "bridge_exprs": [
+        "drag = 0.3f,",
+        "public float dragMultiplier = 1f;",
+        "Floor.dragMultiplier and Rules.dragMultiplier share the same default source line text in separate files."
+      ],
+      "deferred_exprs": [
+        "isGrounded() and floorOn() internals are owned by their source helper slices; this slice consumes their results as explicit runtime inputs."
+      ],
+      "exact_exprs": [
+        "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+        "drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;"
+      ],
+      "godot_owner": "PortGame.source_unit_update_drag_formula_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() drag formula",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_drag_formula_state",
+      "source_symbols": [
+        "unit_update_drag_formula.unit_import_drag",
+        "unit_update_drag_formula.drag_formula",
+        "unit_update_drag_formula.type_drag",
+        "unit_update_drag_formula.grounded_value",
+        "unit_update_drag_formula.floor_drag_multiplier",
+        "unit_update_drag_formula.unit_drag_multiplier",
+        "unit_update_drag_formula.rules_drag_multiplier",
+        "unit_update_drag_formula.floor_factor",
+        "unit_update_drag_formula.grounded_result",
+        "unit_update_drag_formula.formula_string",
+        "unit_update_drag_formula.inputs_echo",
+        "unit_update_drag_formula.unit_type_drag_default",
+        "unit_update_drag_formula.floor_drag_multiplier_default",
+        "unit_update_drag_formula.rules_drag_multiplier_default"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_drag_formula_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drag_formula_state",
+        "test_unit_update_drag_formula_matches_upstream_source"
+      ]
     }
   },
   "version": 1

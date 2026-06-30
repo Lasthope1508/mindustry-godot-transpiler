@@ -5333,6 +5333,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(sector_playing_capture["java_expr"], "if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;")
         self.assertEqual(sector_playing_capture["java_source"], "core/src/mindustry/type/Sector.java")
 
+    def test_unit_update_drag_formula_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        drag_formula = source_symbols.source_symbol(registry, "unit_update_drag_formula.drag_formula")
+        self.assertEqual(drag_formula["java_expr"], "drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;")
+        self.assertEqual(drag_formula["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(drag_formula["java_method"], "UnitComp.update() drag formula")
+        self.assertEqual(drag_formula["godot_owner"], "PortGame.source_unit_update_drag_formula_state")
+        self.assertEqual(drag_formula["runtime_proof"], "/root/Main.source_unit_update_drag_formula_state")
+        self.assertEqual(drag_formula["godot_symbol"], "source_unit_update_drag_formula_result.drag")
+
+        type_drag = source_symbols.source_symbol(registry, "unit_update_drag_formula.type_drag")
+        self.assertEqual(type_drag["status"], "explicit-input")
+        self.assertEqual(type_drag["java_expr"], "type.drag")
+        self.assertEqual(type_drag["godot_symbol"], "source_unit_update_drag_formula_input.type_drag")
+
+        grounded_value = source_symbols.source_symbol(registry, "unit_update_drag_formula.grounded_value")
+        self.assertEqual(grounded_value["status"], "explicit-input")
+        self.assertEqual(grounded_value["java_expr"], "isGrounded()")
+        self.assertEqual(grounded_value["godot_symbol"], "source_unit_update_drag_formula_input.grounded_value")
+
+        floor_drag_multiplier = source_symbols.source_symbol(registry, "unit_update_drag_formula.floor_drag_multiplier")
+        self.assertEqual(floor_drag_multiplier["status"], "explicit-input")
+        self.assertEqual(floor_drag_multiplier["java_expr"], "floorOn().dragMultiplier")
+        self.assertEqual(floor_drag_multiplier["godot_symbol"], "source_unit_update_drag_formula_input.floor_drag_multiplier")
+
+        unit_drag_multiplier = source_symbols.source_symbol(registry, "unit_update_drag_formula.unit_drag_multiplier")
+        self.assertEqual(unit_drag_multiplier["status"], "explicit-input")
+        self.assertEqual(unit_drag_multiplier["java_expr"], "dragMultiplier")
+        self.assertEqual(unit_drag_multiplier["godot_symbol"], "source_unit_update_drag_formula_input.unit_drag_multiplier")
+
+        rules_drag_multiplier = source_symbols.source_symbol(registry, "unit_update_drag_formula.rules_drag_multiplier")
+        self.assertEqual(rules_drag_multiplier["status"], "explicit-input")
+        self.assertEqual(rules_drag_multiplier["java_expr"], "state.rules.dragMultiplier")
+        self.assertEqual(rules_drag_multiplier["godot_symbol"], "source_unit_update_drag_formula_input.rules_drag_multiplier")
+
+        unit_type_drag_default = source_symbols.source_symbol(registry, "unit_update_drag_formula.unit_type_drag_default")
+        self.assertEqual(unit_type_drag_default["java_expr"], "drag = 0.3f,")
+        self.assertEqual(unit_type_drag_default["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        floor_drag_default = source_symbols.source_symbol(registry, "unit_update_drag_formula.floor_drag_multiplier_default")
+        self.assertEqual(floor_drag_default["java_expr"], "public float dragMultiplier = 1f;")
+        self.assertEqual(floor_drag_default["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+
+        rules_drag_default = source_symbols.source_symbol(registry, "unit_update_drag_formula.rules_drag_multiplier_default")
+        self.assertEqual(rules_drag_default["java_expr"], "public float dragMultiplier = 1f;")
+        self.assertEqual(rules_drag_default["java_source"], "core/src/mindustry/game/Rules.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13805,9 +13856,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 409)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 410)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 414)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 415)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13874,6 +13925,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_boosting_should_boost_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_bounds_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_captured_sector_death_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_drag_formula_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -16164,6 +16216,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return isAI() && data().players.size == 0;", unit_update_captured_sector_death["bridge_exprs"])
         self.assertIn("return rules.sector != null;", unit_update_captured_sector_death["bridge_exprs"])
         self.assertIn("if(isBeingPlayed()) return !state.rules.waves && !state.rules.attackMode;", unit_update_captured_sector_death["bridge_exprs"])
+
+        unit_update_drag_formula = source_symbols.source_slice(ledger, "N812")
+        self.assertEqual(unit_update_drag_formula["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_drag_formula["java_method"], "UnitComp.update() drag formula")
+        self.assertEqual(unit_update_drag_formula["godot_owner"], "PortGame.source_unit_update_drag_formula_state")
+        self.assertIn("@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;", unit_update_drag_formula["exact_exprs"])
+        self.assertIn("drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;", unit_update_drag_formula["exact_exprs"])
+        self.assertIn("drag = 0.3f,", unit_update_drag_formula["bridge_exprs"])
+        self.assertIn("public float dragMultiplier = 1f;", unit_update_drag_formula["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19959,6 +20020,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("call", unit_update_captured_sector_death["return_keys"])
         self.assertNotIn("team_is_only_ai", unit_update_captured_sector_death["return_keys"])
         self.assertEqual(unit_update_captured_sector_death["source_method"], "UnitComp.update() captured-sector death")
+
+        unit_update_drag_formula = source_symbols.api_contract(contracts, "PortGame.source_unit_update_drag_formula_state")
+        self.assertEqual([param["name"] for param in unit_update_drag_formula["params"]], ["type_drag", "grounded_value", "floor_drag_multiplier", "unit_drag_multiplier", "rules_drag_multiplier"])
+        self.assertEqual(unit_update_drag_formula["params"][0]["schema"], "source_unit_update_drag_formula_input.type_drag")
+        self.assertEqual(unit_update_drag_formula["params"][1]["schema"], "source_unit_update_drag_formula_input.grounded_value")
+        self.assertEqual(unit_update_drag_formula["params"][2]["schema"], "source_unit_update_drag_formula_input.floor_drag_multiplier")
+        for key in ["drag", "floorFactor", "grounded", "formula", "inputs"]:
+            self.assertIn(key, unit_update_drag_formula["return_keys"])
+        self.assertNotIn("type_drag", unit_update_drag_formula["return_keys"])
+        self.assertEqual(unit_update_drag_formula["source_method"], "UnitComp.update() drag formula")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24153,6 +24224,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_captured_sector_death_input["keys"]["state_is_campaign"]["java_expr"], "state.isCampaign()")
         self.assertEqual(source_unit_update_captured_sector_death_input["keys"]["sector_is_captured"]["java_expr"], "state.getSector().isCaptured()")
 
+        source_unit_update_drag_formula_input = source_symbols.state_schema(schema, "source_unit_update_drag_formula_input")
+        self.assertEqual(source_unit_update_drag_formula_input["keys"]["type_drag"]["java_expr"], "type.drag")
+        self.assertEqual(source_unit_update_drag_formula_input["keys"]["grounded_value"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_update_drag_formula_input["keys"]["floor_drag_multiplier"]["java_expr"], "floorOn().dragMultiplier")
+        self.assertEqual(source_unit_update_drag_formula_input["keys"]["unit_drag_multiplier"]["java_expr"], "dragMultiplier")
+        self.assertEqual(source_unit_update_drag_formula_input["keys"]["rules_drag_multiplier"]["java_expr"], "state.rules.dragMultiplier")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24535,6 +24613,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_captured_sector_death_result["keys"]["kill"]["java_expr"], "team.isOnlyAI() && state.isCampaign() && state.getSector().isCaptured()")
         self.assertEqual(source_unit_update_captured_sector_death_result["keys"]["call"]["java_expr"], "kill();")
         self.assertNotIn("sector_is_captured", source_unit_update_captured_sector_death_result["keys"])
+
+        source_unit_update_drag_formula_result = source_symbols.state_schema(schema, "source_unit_update_drag_formula_result")
+        self.assertEqual(source_unit_update_drag_formula_result["keys"]["drag"]["java_expr"], "drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;")
+        self.assertEqual(source_unit_update_drag_formula_result["keys"]["floorFactor"]["java_expr"], "isGrounded() ? (floorOn().dragMultiplier) : 1f")
+        self.assertEqual(source_unit_update_drag_formula_result["keys"]["grounded"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_update_drag_formula_result["keys"]["formula"]["java_expr"], "drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;")
+        self.assertEqual(source_unit_update_drag_formula_result["keys"]["inputs"]["status"], "generated")
+        self.assertNotIn("type_drag", source_unit_update_drag_formula_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

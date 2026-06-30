@@ -15574,6 +15574,53 @@
         "test_port_game_exposes_source_unit_update_captured_sector_death_state",
         "test_unit_update_captured_sector_death_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_drag_formula_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_drag",
+          "schema": "source_unit_update_drag_formula_input.type_drag",
+          "type": "float"
+        },
+        {
+          "name": "grounded_value",
+          "schema": "source_unit_update_drag_formula_input.grounded_value",
+          "type": "bool"
+        },
+        {
+          "name": "floor_drag_multiplier",
+          "schema": "source_unit_update_drag_formula_input.floor_drag_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "unit_drag_multiplier",
+          "schema": "source_unit_update_drag_formula_input.unit_drag_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "rules_drag_multiplier",
+          "schema": "source_unit_update_drag_formula_input.rules_drag_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "drag",
+        "floorFactor",
+        "grounded",
+        "formula",
+        "inputs"
+      ],
+      "rule": "Public runtime contract for UnitComp.update drag formula state.",
+      "runtime_proof": "/root/Main.source_unit_update_drag_formula_state",
+      "source_method": "UnitComp.update() drag formula",
+      "source_slice": "N812",
+      "status": "active",
+      "tests": [
+        "test_unit_update_drag_formula_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drag_formula_state",
+        "test_unit_update_drag_formula_matches_upstream_source"
+      ]
     }
   },
   "policy": {
