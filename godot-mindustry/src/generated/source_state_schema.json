@@ -46895,6 +46895,118 @@
       "owner": "PortGame.source_unit_approach_state",
       "runtime_proof": "/root/Main.source_unit_approach_state",
       "status": "active"
+    },
+    "source_unit_can_drown_input": {
+      "keys": {
+        "elevation_value": {
+          "godot_symbol": "source_unit_can_drown_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.isGrounded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Elevation input consumed by isGrounded().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        },
+        "type_can_drown": {
+          "godot_symbol": "source_unit_can_drown_input.type_can_drown",
+          "java_expr": "type.canDrown",
+          "java_method": "UnitComp.canDrown()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitType canDrown input consumed by canDrown().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_can_drown_state",
+      "runtime_proof": "/root/Main.source_unit_can_drown_state",
+      "status": "active"
+    },
+    "source_unit_can_drown_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_can_drown_result.method",
+          "java_expr": "public boolean canDrown(){",
+          "java_method": "UnitComp.canDrown()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp canDrown method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        },
+        "isGroundedCall": {
+          "godot_symbol": "source_unit_can_drown_result.isGroundedCall",
+          "java_expr": "isGrounded()",
+          "java_method": "UnitComp.canDrown()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp canDrown grounded call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        },
+        "typeCanDrown": {
+          "alias_of": "source_unit_can_drown_input.type_can_drown",
+          "godot_symbol": "source_unit_can_drown_result.typeCanDrown",
+          "java_expr": "type.canDrown",
+          "java_method": "UnitComp.canDrown()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitType canDrown operand.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        },
+        "canDrownReturn": {
+          "godot_symbol": "source_unit_can_drown_result.canDrownReturn",
+          "java_expr": "return isGrounded() && type.canDrown;",
+          "java_method": "UnitComp.canDrown()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp canDrown exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        },
+        "grounded": {
+          "alias_of": "source_unit_is_grounded_result.grounded",
+          "godot_symbol": "source_unit_can_drown_result.grounded",
+          "java_expr": "isGrounded()",
+          "java_method": "UnitComp.canDrown()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime grounded result from isGrounded().",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        },
+        "can_drown": {
+          "godot_symbol": "source_unit_can_drown_result.can_drown",
+          "java_expr": "return isGrounded() && type.canDrown;",
+          "java_method": "UnitComp.canDrown()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for canDrown().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_drown_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_can_drown_state",
+      "runtime_proof": "/root/Main.source_unit_can_drown_state",
+      "status": "active"
     }
   },
   "version": 1

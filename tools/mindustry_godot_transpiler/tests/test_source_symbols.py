@@ -4669,6 +4669,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_set["java_expr"], "return set(target);")
         self.assertEqual(vec2_set["godot_symbol"], "source_unit_approach_result.setCall")
 
+    def test_unit_can_drown_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_can_drown.method")
+        self.assertEqual(method["java_expr"], "public boolean canDrown(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_can_drown_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_can_drown_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_can_drown_result.method")
+
+        is_grounded = source_symbols.source_symbol(registry, "unit_can_drown.is_grounded_call")
+        self.assertEqual(is_grounded["java_expr"], "isGrounded()")
+        self.assertEqual(is_grounded["godot_symbol"], "source_unit_can_drown_result.isGroundedCall")
+
+        type_can_drown = source_symbols.source_symbol(registry, "unit_can_drown.type_can_drown")
+        self.assertEqual(type_can_drown["java_expr"], "type.canDrown")
+        self.assertEqual(type_can_drown["godot_symbol"], "source_unit_can_drown_input.type_can_drown")
+
+        return_expr = source_symbols.source_symbol(registry, "unit_can_drown.return")
+        self.assertEqual(return_expr["java_expr"], "return isGrounded() && type.canDrown;")
+        self.assertEqual(return_expr["godot_symbol"], "source_unit_can_drown_result.canDrownReturn")
+
     def test_turret_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11643,9 +11667,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 356)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 357)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 361)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 362)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11659,6 +11683,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_heal_suppressed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_insulated_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -16707,6 +16732,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("target_y", unit_approach["return_keys"])
         self.assertEqual(unit_approach["source_method"], "UnitComp.approach(Vec2 vector)/Vec2.approachDelta")
 
+        unit_can_drown = source_symbols.api_contract(contracts, "PortGame.source_unit_can_drown_state")
+        self.assertEqual([param["name"] for param in unit_can_drown["params"]], ["elevation_value", "type_can_drown"])
+        self.assertEqual(unit_can_drown["params"][0]["schema"], "source_unit_can_drown_input.elevation_value")
+        self.assertEqual(unit_can_drown["params"][1]["schema"], "source_unit_can_drown_input.type_can_drown")
+        self.assertIn("grounded", unit_can_drown["return_keys"])
+        self.assertIn("can_drown", unit_can_drown["return_keys"])
+        self.assertEqual(unit_can_drown["source_method"], "UnitComp.canDrown()")
+
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
         self.assertEqual(shoot_pattern_default_events["params"][0]["schema"], "source_shoot_pattern_default_events_input")
@@ -20539,6 +20572,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_approach_result["keys"]["scl"]["java_expr"], "float scl = Mathf.sqrt(alpha2 / len2);")
         self.assertEqual(source_unit_approach_result["keys"]["subCall"]["java_expr"], "return sub(dx, dy);")
         self.assertEqual(source_unit_approach_result["keys"]["setCall"]["java_expr"], "return set(target);")
+
+        source_unit_can_drown_input = source_symbols.state_schema(schema, "source_unit_can_drown_input")
+        self.assertEqual(source_unit_can_drown_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_can_drown_input["keys"]["type_can_drown"]["java_expr"], "type.canDrown")
+
+        source_unit_can_drown_result = source_symbols.state_schema(schema, "source_unit_can_drown_result")
+        self.assertEqual(source_unit_can_drown_result["keys"]["method"]["java_expr"], "public boolean canDrown(){")
+        self.assertEqual(source_unit_can_drown_result["keys"]["isGroundedCall"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_can_drown_result["keys"]["canDrownReturn"]["java_expr"], "return isGrounded() && type.canDrown;")
+        self.assertEqual(source_unit_can_drown_result["keys"]["grounded"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_can_drown_result["keys"]["can_drown"]["java_expr"], "return isGrounded() && type.canDrown;")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

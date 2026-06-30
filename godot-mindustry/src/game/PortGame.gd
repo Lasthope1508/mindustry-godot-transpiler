@@ -3832,6 +3832,11 @@ func source_unit_check_target_state(elevation_value: float, target_air: bool, ta
 		"targetable": (grounded and target_ground) or (flying and target_air),
 	}
 
+const SOURCE_UNIT_CAN_DROWN_METHOD := "public boolean canDrown(){"
+const SOURCE_UNIT_CAN_DROWN_IS_GROUNDED_CALL := "isGrounded()"
+const SOURCE_UNIT_CAN_DROWN_TYPE_CAN_DROWN := "type.canDrown"
+const SOURCE_UNIT_CAN_DROWN_RETURN := "return isGrounded() && type.canDrown;"
+
 func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -> Dictionary:
 	var grounded: bool = source_unit_is_grounded(elevation_value)
 	return {

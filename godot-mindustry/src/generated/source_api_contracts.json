@@ -13265,6 +13265,34 @@
         "test_unit_approach_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_approach_state"
       ]
+    },
+    "PortGame.source_unit_can_drown_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_can_drown_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_can_drown",
+          "schema": "source_unit_can_drown_input.type_can_drown",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "grounded",
+        "can_drown"
+      ],
+      "rule": "Public runtime contract for UnitComp.canDrown grounded and type.canDrown gate.",
+      "runtime_proof": "/root/Main.source_unit_can_drown_state",
+      "source_method": "UnitComp.canDrown()",
+      "source_slice": "N759",
+      "status": "active",
+      "tests": [
+        "test_unit_can_drown_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_drown_state"
+      ]
     }
   },
   "policy": {

@@ -3257,6 +3257,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_CAN_DROWN_METHOD := "public boolean canDrown(){"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_DROWN_IS_GROUNDED_CALL := "isGrounded()"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_DROWN_TYPE_CAN_DROWN := "type.canDrown"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_DROWN_RETURN := "return isGrounded() && type.canDrown;"', source)
         self.assertIn("var grounded: bool = source_unit_is_grounded(elevation_value)", source)
         self.assertIn('"can_drown": grounded and type_can_drown', source)
 

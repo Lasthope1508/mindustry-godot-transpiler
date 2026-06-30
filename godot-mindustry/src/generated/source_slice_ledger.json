@@ -11635,6 +11635,37 @@
         "test_unit_approach_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_approach_state"
       ]
+    },
+    "N759": {
+      "deferred_exprs": [
+        "UnitComp.isGrounded() method body and elevation threshold are owned by source_unit_is_grounded_state"
+      ],
+      "exact_exprs": [
+        "public boolean canDrown(){",
+        "isGrounded()",
+        "type.canDrown",
+        "return isGrounded() && type.canDrown;"
+      ],
+      "bridge_exprs": [
+        "elevation",
+        "type.canDrown"
+      ],
+      "godot_owner": "PortGame.source_unit_can_drown_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.canDrown()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_can_drown_state",
+      "source_symbols": [
+        "unit_can_drown.method",
+        "unit_can_drown.is_grounded_call",
+        "unit_can_drown.type_can_drown",
+        "unit_can_drown.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_can_drown_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_drown_state"
+      ]
     }
   },
   "version": 1
