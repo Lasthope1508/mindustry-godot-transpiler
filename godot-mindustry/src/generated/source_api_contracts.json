@@ -13490,6 +13490,35 @@
         "test_unit_cap_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_cap_state"
       ]
+    },
+    "PortGame.source_unit_count_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "team_data_count_type_result",
+          "schema": "source_unit_count_input.team_data_count_type_result",
+          "type": "int"
+        },
+        {
+          "name": "type_id",
+          "schema": "source_unit_count_input.type_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "count",
+        "type_id",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.count delegated per-type count lookup.",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "source_method": "UnitComp.count()/Team.data()/Teams.TeamData.countType(UnitType type)",
+      "source_slice": "N765",
+      "status": "active",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ]
     }
   },
   "policy": {

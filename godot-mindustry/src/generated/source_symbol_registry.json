@@ -37425,6 +37425,118 @@
         "test_unit_cap_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_cap_state"
       ]
+    },
+    "unit_count.method": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_count_result.method",
+      "java_method": "UnitComp.count()",
+      "java_expr": "public int count(){",
+      "rule": "Canonical UnitComp.count method boundary."
+    },
+    "unit_count.count_return": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_count_result.countReturn",
+      "java_method": "UnitComp.count()",
+      "java_expr": "return team.data().countType(type);",
+      "rule": "UnitComp.count delegates to TeamData.countType for the unit type."
+    },
+    "unit_count.team_data_method": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "godot_symbol": "source_unit_count_result.teamDataMethod",
+      "java_method": "Team.data()",
+      "java_expr": "public TeamData data(){",
+      "rule": "Team.data method boundary for count delegation."
+    },
+    "unit_count.team_data_return": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "godot_symbol": "source_unit_count_result.teamDataReturn",
+      "java_method": "Team.data()",
+      "java_expr": "return state.teams.get(this);",
+      "rule": "Team.data returns the global team data entry for this team."
+    },
+    "unit_count.count_type_method": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "godot_symbol": "source_unit_count_result.countTypeMethod",
+      "java_method": "Teams.TeamData.countType(UnitType type)",
+      "java_expr": "public int countType(UnitType type){",
+      "rule": "TeamData.countType method boundary for per-type unit counts."
+    },
+    "unit_count.count_type_return": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "godot_symbol": "source_unit_count_result.countTypeReturn",
+      "java_method": "Teams.TeamData.countType(UnitType type)",
+      "java_expr": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+      "rule": "TeamData.countType returns zero when the typeCounts table is absent or shorter than type.id, otherwise the per-type count."
+    },
+    "unit_count.team_data_count_type_result": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_count_input.team_data_count_type_result",
+      "java_method": "UnitComp.count()",
+      "java_expr": "team.data().countType(type)",
+      "rule": "Runtime bridge input supplies the delegated TeamData.countType result without inventing team storage."
+    },
+    "unit_count.type_id": {
+      "godot_owner": "PortGame.source_unit_count_state",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_count_input.type_id",
+      "java_method": "UnitComp.count()",
+      "java_expr": "type.id",
+      "rule": "Runtime bridge input carries the UnitType id used by TeamData.countType bounds lookup."
     }
   },
   "version": 1

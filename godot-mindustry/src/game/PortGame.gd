@@ -4101,6 +4101,13 @@ func source_unit_is_missile_state(unit_is_timed_killc: bool) -> Dictionary:
 		"instanceof": "TimedKillc",
 	}
 
+const SOURCE_UNIT_COUNT_METHOD := "public int count(){"
+const SOURCE_UNIT_COUNT_RETURN := "return team.data().countType(type);"
+const SOURCE_UNIT_COUNT_TEAM_DATA_METHOD := "public TeamData data(){"
+const SOURCE_UNIT_COUNT_TEAM_DATA_RETURN := "return state.teams.get(this);"
+const SOURCE_UNIT_COUNT_TYPE_METHOD := "public int countType(UnitType type){"
+const SOURCE_UNIT_COUNT_TYPE_RETURN := "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];"
+
 func source_unit_count_state(team_data_count_type_result: int, type_id: int) -> Dictionary:
 	return {
 		"count": team_data_count_type_result,

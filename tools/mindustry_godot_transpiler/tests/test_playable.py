@@ -3473,6 +3473,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_count_state(team_data_count_type_result: int, type_id: int) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_COUNT_METHOD := "public int count(){"', source)
+        self.assertIn('const SOURCE_UNIT_COUNT_RETURN := "return team.data().countType(type);"', source)
+        self.assertIn('const SOURCE_UNIT_COUNT_TEAM_DATA_METHOD := "public TeamData data(){"', source)
+        self.assertIn('const SOURCE_UNIT_COUNT_TEAM_DATA_RETURN := "return state.teams.get(this);"', source)
+        self.assertIn('const SOURCE_UNIT_COUNT_TYPE_METHOD := "public int countType(UnitType type){"', source)
+        self.assertIn('const SOURCE_UNIT_COUNT_TYPE_RETURN := "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];"', source)
         self.assertIn('"count": team_data_count_type_result', source)
         self.assertIn('"type_id": type_id', source)
         self.assertIn('"call": "team.data().countType(type)"', source)

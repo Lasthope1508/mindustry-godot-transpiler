@@ -4834,6 +4834,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(controller_command["java_expr"], "controller instanceof CommandAI")
         self.assertEqual(controller_command["godot_symbol"], "source_unit_controller_predicates_input.controller_is_command_ai")
 
+    def test_unit_count_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_count.method")
+        self.assertEqual(method["java_expr"], "public int count(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_count_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_count_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_count_result.method")
+
+        count_return = source_symbols.source_symbol(registry, "unit_count.count_return")
+        self.assertEqual(count_return["java_expr"], "return team.data().countType(type);")
+        self.assertEqual(count_return["godot_symbol"], "source_unit_count_result.countReturn")
+
+        team_data_method = source_symbols.source_symbol(registry, "unit_count.team_data_method")
+        self.assertEqual(team_data_method["java_source"], "core/src/mindustry/game/Team.java")
+        self.assertEqual(team_data_method["java_expr"], "public TeamData data(){")
+        self.assertEqual(team_data_method["godot_symbol"], "source_unit_count_result.teamDataMethod")
+
+        team_data_return = source_symbols.source_symbol(registry, "unit_count.team_data_return")
+        self.assertEqual(team_data_return["java_source"], "core/src/mindustry/game/Team.java")
+        self.assertEqual(team_data_return["java_expr"], "return state.teams.get(this);")
+        self.assertEqual(team_data_return["godot_symbol"], "source_unit_count_result.teamDataReturn")
+
+        count_type_method = source_symbols.source_symbol(registry, "unit_count.count_type_method")
+        self.assertEqual(count_type_method["java_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(count_type_method["java_expr"], "public int countType(UnitType type){")
+        self.assertEqual(count_type_method["godot_symbol"], "source_unit_count_result.countTypeMethod")
+
+        count_type_return = source_symbols.source_symbol(registry, "unit_count.count_type_return")
+        self.assertEqual(count_type_return["java_source"], "core/src/mindustry/game/Teams.java")
+        self.assertEqual(count_type_return["java_expr"], "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];")
+        self.assertEqual(count_type_return["godot_symbol"], "source_unit_count_result.countTypeReturn")
+
+        count_result = source_symbols.source_symbol(registry, "unit_count.team_data_count_type_result")
+        self.assertEqual(count_result["status"], "explicit-input")
+        self.assertEqual(count_result["java_expr"], "team.data().countType(type)")
+        self.assertEqual(count_result["godot_symbol"], "source_unit_count_input.team_data_count_type_result")
+
+        type_id = source_symbols.source_symbol(registry, "unit_count.type_id")
+        self.assertEqual(type_id["status"], "explicit-input")
+        self.assertEqual(type_id["java_expr"], "type.id")
+        self.assertEqual(type_id["godot_symbol"], "source_unit_count_input.type_id")
+
     def test_unit_cap_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11840,9 +11886,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 362)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 363)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 367)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 368)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11862,6 +11908,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_check_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_command_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_controller_predicates_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_count_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -13611,6 +13658,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean isCommandable(){", unit_controller_predicates["exact_exprs"])
         self.assertIn("public class AIController implements UnitController{", unit_controller_predicates["bridge_exprs"])
         self.assertIn("public class CommandAI extends AIController{", unit_controller_predicates["bridge_exprs"])
+
+        unit_count = source_symbols.source_slice(ledger, "N765")
+        self.assertEqual(unit_count["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_count["java_method"], "UnitComp.count()/Team.data()/Teams.TeamData.countType(UnitType type)")
+        self.assertEqual(unit_count["godot_owner"], "PortGame.source_unit_count_state")
+        self.assertIn("public int count(){", unit_count["exact_exprs"])
+        self.assertIn("return team.data().countType(type);", unit_count["exact_exprs"])
+        self.assertIn("public TeamData data(){", unit_count["bridge_exprs"])
+        self.assertIn("return state.teams.get(this);", unit_count["bridge_exprs"])
+        self.assertIn("public int countType(UnitType type){", unit_count["bridge_exprs"])
+        self.assertIn("return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];", unit_count["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -16979,6 +17037,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("allow_command", unit_controller_predicates["return_keys"])
         self.assertIn("is_commandable", unit_controller_predicates["return_keys"])
         self.assertEqual(unit_controller_predicates["source_method"], "UnitComp.isAI()/allowCommand()/isCommandable()")
+
+        unit_count = source_symbols.api_contract(contracts, "PortGame.source_unit_count_state")
+        self.assertEqual([param["name"] for param in unit_count["params"]], ["team_data_count_type_result", "type_id"])
+        self.assertEqual(unit_count["params"][0]["schema"], "source_unit_count_input.team_data_count_type_result")
+        self.assertEqual(unit_count["params"][1]["schema"], "source_unit_count_input.type_id")
+        self.assertIn("count", unit_count["return_keys"])
+        self.assertIn("type_id", unit_count["return_keys"])
+        self.assertIn("call", unit_count["return_keys"])
+        self.assertEqual(unit_count["source_method"], "UnitComp.count()/Team.data()/Teams.TeamData.countType(UnitType type)")
 
         unit_cap = source_symbols.api_contract(contracts, "PortGame.source_unit_cap_state")
         self.assertEqual([param["name"] for param in unit_cap["params"]], ["team_is_wave_team", "rules_pvp", "state_is_campaign", "rules_disable_unit_cap", "team_ignore_unit_cap", "rules_unit_cap_variable", "rules_unit_cap", "team_data_unit_cap"])
@@ -20891,6 +20958,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_controller_predicates_result["keys"]["is_ai"]["alias_of"], "source_unit_controller_predicates_input.controller_is_ai_controller")
         self.assertEqual(source_unit_controller_predicates_result["keys"]["allow_command"]["alias_of"], "source_unit_controller_predicates_input.controller_is_command_ai")
         self.assertEqual(source_unit_controller_predicates_result["keys"]["is_commandable"]["alias_of"], "source_unit_controller_predicates_input.controller_is_command_ai")
+
+        source_unit_count_input = source_symbols.state_schema(schema, "source_unit_count_input")
+        self.assertEqual(source_unit_count_input["keys"]["team_data_count_type_result"]["java_expr"], "team.data().countType(type)")
+        self.assertEqual(source_unit_count_input["keys"]["type_id"]["java_expr"], "type.id")
+
+        source_unit_count_result = source_symbols.state_schema(schema, "source_unit_count_result")
+        self.assertEqual(source_unit_count_result["keys"]["method"]["java_expr"], "public int count(){")
+        self.assertEqual(source_unit_count_result["keys"]["countReturn"]["java_expr"], "return team.data().countType(type);")
+        self.assertEqual(source_unit_count_result["keys"]["teamDataMethod"]["java_expr"], "public TeamData data(){")
+        self.assertEqual(source_unit_count_result["keys"]["teamDataReturn"]["java_expr"], "return state.teams.get(this);")
+        self.assertEqual(source_unit_count_result["keys"]["countTypeMethod"]["java_expr"], "public int countType(UnitType type){")
+        self.assertEqual(source_unit_count_result["keys"]["countTypeReturn"]["java_expr"], "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];")
+        self.assertEqual(source_unit_count_result["keys"]["count"]["alias_of"], "source_unit_count_input.team_data_count_type_result")
+        self.assertEqual(source_unit_count_result["keys"]["type_id"]["alias_of"], "source_unit_count_input.type_id")
+        self.assertEqual(source_unit_count_result["keys"]["call"]["java_expr"], "team.data().countType(type)")
 
         source_unit_cap_input = source_symbols.state_schema(schema, "source_unit_cap_input")
         self.assertEqual(source_unit_cap_input["keys"]["team_is_wave_team"]["java_expr"], "team == state.rules.waveTeam")

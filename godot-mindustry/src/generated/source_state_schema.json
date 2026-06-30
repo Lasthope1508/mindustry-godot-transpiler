@@ -48003,6 +48003,152 @@
       "owner": "PortGame.source_unit_cap_state",
       "runtime_proof": "/root/Main.source_unit_cap_state",
       "status": "active"
+    },
+    "source_unit_count_input": {
+      "keys": {
+        "team_data_count_type_result": {
+          "godot_symbol": "source_unit_count_input.team_data_count_type_result",
+          "java_expr": "team.data().countType(type)",
+          "java_method": "UnitComp.count()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Delegated TeamData.countType result supplied to the runtime bridge.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        },
+        "type_id": {
+          "godot_symbol": "source_unit_count_input.type_id",
+          "java_expr": "type.id",
+          "java_method": "Teams.TeamData.countType(UnitType type)",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "rule": "UnitType id used to index typeCounts in TeamData.countType.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_count_state",
+      "status": "active"
+    },
+    "source_unit_count_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_count_result.method",
+          "java_expr": "public int count(){",
+          "java_method": "UnitComp.count()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Canonical UnitComp.count method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        },
+        "countReturn": {
+          "godot_symbol": "source_unit_count_result.countReturn",
+          "java_expr": "return team.data().countType(type);",
+          "java_method": "UnitComp.count()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp.count return delegates to team data countType.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        },
+        "teamDataMethod": {
+          "godot_symbol": "source_unit_count_result.teamDataMethod",
+          "java_expr": "public TeamData data(){",
+          "java_method": "Team.data()",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "rule": "Team.data method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        },
+        "teamDataReturn": {
+          "godot_symbol": "source_unit_count_result.teamDataReturn",
+          "java_expr": "return state.teams.get(this);",
+          "java_method": "Team.data()",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "rule": "Team.data returns this team data from game state.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        },
+        "countTypeMethod": {
+          "godot_symbol": "source_unit_count_result.countTypeMethod",
+          "java_expr": "public int countType(UnitType type){",
+          "java_method": "Teams.TeamData.countType(UnitType type)",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "rule": "TeamData.countType method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        },
+        "countTypeReturn": {
+          "godot_symbol": "source_unit_count_result.countTypeReturn",
+          "java_expr": "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+          "java_method": "Teams.TeamData.countType(UnitType type)",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "rule": "TeamData.countType per-type lookup and zero fallback.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        },
+        "count": {
+          "godot_symbol": "source_unit_count_result.count",
+          "java_expr": "team.data().countType(type)",
+          "java_method": "UnitComp.count()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Returned count aliases delegated TeamData.countType input.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ],
+          "alias_of": "source_unit_count_input.team_data_count_type_result"
+        },
+        "type_id": {
+          "godot_symbol": "source_unit_count_result.type_id",
+          "java_expr": "type.id",
+          "java_method": "Teams.TeamData.countType(UnitType type)",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "rule": "Returned type_id aliases UnitType id input for traceability.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ],
+          "alias_of": "source_unit_count_input.type_id"
+        },
+        "call": {
+          "godot_symbol": "source_unit_count_result.call",
+          "java_expr": "team.data().countType(type)",
+          "java_method": "UnitComp.count()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime call label preserves exact delegated Java expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_count_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_count_state",
+      "status": "active"
     }
   },
   "version": 1

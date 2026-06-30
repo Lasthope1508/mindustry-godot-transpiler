@@ -11858,6 +11858,44 @@
         "test_unit_cap_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_cap_state"
       ]
+    },
+    "N765": {
+      "deferred_exprs": [
+        "UnitComp.add() over-cap guard count() > cap() remains owned by source_unit_add_state",
+        "Teams.TeamData.updateCount total unitCount and per-type mutation remain owned by source_unit_add_state"
+      ],
+      "exact_exprs": [
+        "public int count(){",
+        "return team.data().countType(type);"
+      ],
+      "bridge_exprs": [
+        "public TeamData data(){",
+        "return state.teams.get(this);",
+        "public int countType(UnitType type){",
+        "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
+        "team.data().countType(type)",
+        "type.id"
+      ],
+      "godot_owner": "PortGame.source_unit_count_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.count()/Team.data()/Teams.TeamData.countType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_count_state",
+      "source_symbols": [
+        "unit_count.method",
+        "unit_count.count_return",
+        "unit_count.team_data_method",
+        "unit_count.team_data_return",
+        "unit_count.count_type_method",
+        "unit_count.count_type_return",
+        "unit_count.team_data_count_type_result",
+        "unit_count.type_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_count_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_count_state"
+      ]
     }
   },
   "version": 1
