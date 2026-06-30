@@ -4833,6 +4833,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_privileged["java_expr"], "public boolean privileged = false;")
         self.assertEqual(block_privileged["java_source"], "core/src/mindustry/world/Block.java")
 
+    def test_unit_targetable_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_targetable.method")
+        self.assertEqual(method["java_expr"], "public boolean targetable(Team targeter){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_targetable_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_targetable_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_targetable_result.method")
+
+        unit_return = source_symbols.source_symbol(registry, "unit_targetable.unit_return")
+        self.assertEqual(unit_return["java_expr"], "return type.targetable(self(), targeter);")
+        self.assertEqual(unit_return["godot_symbol"], "source_unit_targetable_result.unitReturn")
+
+        type_method = source_symbols.source_symbol(registry, "unit_targetable.type_method")
+        self.assertEqual(type_method["java_expr"], "public boolean targetable(Unit unit, Team targeter){")
+        self.assertEqual(type_method["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(type_method["godot_symbol"], "source_unit_targetable_result.typeMethod")
+
+        type_return = source_symbols.source_symbol(registry, "unit_targetable.type_return")
+        self.assertEqual(type_return["java_expr"], "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());")
+        self.assertEqual(type_return["godot_symbol"], "source_unit_targetable_result.targetable")
+
+        type_targetable = source_symbols.source_symbol(registry, "unit_targetable.type_targetable")
+        self.assertEqual(type_targetable["java_expr"], "targetable = true,")
+        self.assertEqual(type_targetable["godot_symbol"], "source_unit_targetable_input.type_targetable")
+
+        vulnerable = source_symbols.source_symbol(registry, "unit_targetable.type_vulnerable_with_payloads")
+        self.assertEqual(vulnerable["java_expr"], "vulnerableWithPayloads = false,")
+        self.assertEqual(vulnerable["godot_symbol"], "source_unit_targetable_input.type_vulnerable_with_payloads")
+
+        payload_instance = source_symbols.source_symbol(registry, "unit_targetable.payload_instance")
+        self.assertEqual(payload_instance["java_expr"], "unit instanceof Payloadc p")
+        self.assertEqual(payload_instance["godot_symbol"], "source_unit_targetable_input.unit_is_payloadc")
+
+        has_payload = source_symbols.source_symbol(registry, "unit_targetable.has_payload")
+        self.assertEqual(has_payload["java_expr"], "return payloads.size > 0;")
+        self.assertEqual(has_payload["java_source"], "core/src/mindustry/entities/comp/PayloadComp.java")
+        self.assertEqual(has_payload["godot_symbol"], "source_unit_targetable_input.unit_has_payload")
+
+        payload_targetable = source_symbols.source_symbol(registry, "unit_targetable.payload_targetable")
+        self.assertEqual(payload_targetable["java_expr"], "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()")
+        self.assertEqual(payload_targetable["godot_symbol"], "source_unit_targetable_result.payloadTargetable")
+
+        targeter_input = source_symbols.source_symbol(registry, "unit_targetable.targeter_input")
+        self.assertEqual(targeter_input["java_expr"], "targeter")
+        self.assertEqual(targeter_input["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(targeter_input["godot_symbol"], "source_unit_targetable_input.targeter_id")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13305,9 +13356,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 398)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 399)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 403)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 404)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13363,6 +13414,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_rotate_move_motion_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_rotate_move_rotation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_set_type_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_targetable_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15544,6 +15596,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Seq<Ability> abilities = new Seq<>();", unit_set_type["bridge_exprs"])
         self.assertIn("public Seq<Weapon> weapons = new Seq<>();", unit_set_type["bridge_exprs"])
         self.assertIn("public UnitController createController(Unit unit){", unit_set_type["bridge_exprs"])
+
+        unit_targetable = source_symbols.source_slice(ledger, "N801")
+        self.assertEqual(unit_targetable["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_targetable["java_method"], "UnitComp.targetable(Team targeter)")
+        self.assertEqual(unit_targetable["godot_owner"], "PortGame.source_unit_targetable_state")
+        self.assertIn("public boolean targetable(Team targeter){", unit_targetable["exact_exprs"])
+        self.assertIn("return type.targetable(self(), targeter);", unit_targetable["exact_exprs"])
+        self.assertIn("public boolean targetable(Unit unit, Team targeter){", unit_targetable["bridge_exprs"])
+        self.assertIn("return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());", unit_targetable["bridge_exprs"])
+        self.assertIn("targetable = true,", unit_targetable["bridge_exprs"])
+        self.assertIn("vulnerableWithPayloads = false,", unit_targetable["bridge_exprs"])
+        self.assertIn("boolean hasPayload(){", unit_targetable["bridge_exprs"])
+        self.assertIn("return payloads.size > 0;", unit_targetable["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19198,6 +19263,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("createController", unit_set_type["return_keys"])
         self.assertIn("call", unit_set_type["return_keys"])
         self.assertEqual(unit_set_type["source_method"], "UnitComp.setType(UnitType type)")
+
+        unit_targetable = source_symbols.api_contract(contracts, "PortGame.source_unit_targetable_state")
+        self.assertEqual([param["name"] for param in unit_targetable["params"]], ["type_targetable", "type_vulnerable_with_payloads", "unit_is_payloadc", "unit_has_payload", "targeter_id"])
+        self.assertEqual(unit_targetable["params"][0]["schema"], "source_unit_targetable_input.type_targetable")
+        self.assertEqual(unit_targetable["params"][1]["schema"], "source_unit_targetable_input.type_vulnerable_with_payloads")
+        self.assertEqual(unit_targetable["params"][2]["schema"], "source_unit_targetable_input.unit_is_payloadc")
+        self.assertEqual(unit_targetable["params"][3]["schema"], "source_unit_targetable_input.unit_has_payload")
+        self.assertEqual(unit_targetable["params"][4]["schema"], "source_unit_targetable_input.targeter_id")
+        self.assertIn("method", unit_targetable["return_keys"])
+        self.assertIn("unitReturn", unit_targetable["return_keys"])
+        self.assertIn("typeMethod", unit_targetable["return_keys"])
+        self.assertIn("typeReturn", unit_targetable["return_keys"])
+        self.assertIn("targetable", unit_targetable["return_keys"])
+        self.assertIn("payloadTargetable", unit_targetable["return_keys"])
+        self.assertIn("targeter_id", unit_targetable["return_keys"])
+        self.assertIn("call", unit_targetable["return_keys"])
+        self.assertEqual(unit_targetable["source_method"], "UnitComp.targetable(Team targeter)")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23321,6 +23403,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_hittable_input["keys"]["unit_is_payloadc"]["java_expr"], "unit instanceof Payloadc p")
         self.assertEqual(source_unit_hittable_input["keys"]["unit_has_payload"]["java_expr"], "return payloads.size > 0;")
 
+        source_unit_targetable_input = source_symbols.state_schema(schema, "source_unit_targetable_input")
+        self.assertEqual(source_unit_targetable_input["keys"]["type_targetable"]["java_expr"], "targetable = true,")
+        self.assertEqual(source_unit_targetable_input["keys"]["type_vulnerable_with_payloads"]["java_expr"], "vulnerableWithPayloads = false,")
+        self.assertEqual(source_unit_targetable_input["keys"]["unit_is_payloadc"]["java_expr"], "unit instanceof Payloadc p")
+        self.assertEqual(source_unit_targetable_input["keys"]["unit_has_payload"]["java_expr"], "return payloads.size > 0;")
+        self.assertEqual(source_unit_targetable_input["keys"]["targeter_id"]["java_expr"], "targeter")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -23593,6 +23682,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_hittable_result["keys"]["typeMethod"]["java_expr"], "public boolean hittable(Unit unit){")
         self.assertEqual(source_unit_hittable_result["keys"]["hittable"]["java_expr"], "return hittable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());")
         self.assertEqual(source_unit_hittable_result["keys"]["payloadHittable"]["java_expr"], "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()")
+
+        source_unit_targetable_result = source_symbols.state_schema(schema, "source_unit_targetable_result")
+        self.assertEqual(source_unit_targetable_result["keys"]["method"]["java_expr"], "public boolean targetable(Team targeter){")
+        self.assertEqual(source_unit_targetable_result["keys"]["unitReturn"]["java_expr"], "return type.targetable(self(), targeter);")
+        self.assertEqual(source_unit_targetable_result["keys"]["typeMethod"]["java_expr"], "public boolean targetable(Unit unit, Team targeter){")
+        self.assertEqual(source_unit_targetable_result["keys"]["typeReturn"]["java_expr"], "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());")
+        self.assertEqual(source_unit_targetable_result["keys"]["targetable"]["java_expr"], "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());")
+        self.assertEqual(source_unit_targetable_result["keys"]["payloadTargetable"]["java_expr"], "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()")
+        self.assertEqual(source_unit_targetable_result["keys"]["targeter_id"]["java_expr"], "targeter")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

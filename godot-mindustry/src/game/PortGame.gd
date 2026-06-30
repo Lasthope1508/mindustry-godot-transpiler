@@ -9142,9 +9142,21 @@ func source_unit_player_controllable_state(type_player_controllable: bool, contr
 		"call": "playerControllable()",
 	}
 
+const SOURCE_UNIT_TARGETABLE_METHOD := "public boolean targetable(Team targeter){"
+const SOURCE_UNIT_TARGETABLE_UNIT_RETURN := "return type.targetable(self(), targeter);"
+const SOURCE_UNIT_TARGETABLE_TYPE_METHOD := "public boolean targetable(Unit unit, Team targeter){"
+const SOURCE_UNIT_TARGETABLE_TYPE_RETURN := "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());"
+const SOURCE_UNIT_TARGETABLE_TYPE_TARGETABLE_DEFAULT := "targetable = true,"
+const SOURCE_UNIT_TARGETABLE_TYPE_VULNERABLE_WITH_PAYLOADS_DEFAULT := "vulnerableWithPayloads = false,"
+const SOURCE_UNIT_TARGETABLE_PAYLOAD_HAS_PAYLOAD_RETURN := "return payloads.size > 0;"
+
 func source_unit_targetable_state(type_targetable: bool, type_vulnerable_with_payloads: bool, unit_is_payloadc: bool, unit_has_payload: bool, targeter_id: int) -> Dictionary:
 	var payload_targetable := type_vulnerable_with_payloads and unit_is_payloadc and unit_has_payload
 	return {
+		"method": SOURCE_UNIT_TARGETABLE_METHOD,
+		"unitReturn": SOURCE_UNIT_TARGETABLE_UNIT_RETURN,
+		"typeMethod": SOURCE_UNIT_TARGETABLE_TYPE_METHOD,
+		"typeReturn": SOURCE_UNIT_TARGETABLE_TYPE_RETURN,
 		"targetable": type_targetable or payload_targetable,
 		"payloadTargetable": payload_targetable,
 		"targeter_id": targeter_id,

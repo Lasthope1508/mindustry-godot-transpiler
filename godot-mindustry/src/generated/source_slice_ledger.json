@@ -13406,6 +13406,46 @@
         "test_unit_set_type_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_set_type_state"
       ]
+    },
+    "N801": {
+      "bridge_exprs": [
+        "public boolean targetable(Unit unit, Team targeter){",
+        "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());",
+        "targetable = true,",
+        "vulnerableWithPayloads = false,",
+        "boolean hasPayload(){",
+        "return payloads.size > 0;"
+      ],
+      "deferred_exprs": [
+        "Concrete Team targeter fields stay deferred because current UnitType.targetable(Unit unit, Team targeter) does not read them.",
+        "Payload container internals stay deferred; this slice preserves PayloadComp.hasPayload() as explicit input."
+      ],
+      "exact_exprs": [
+        "public boolean targetable(Team targeter){",
+        "return type.targetable(self(), targeter);"
+      ],
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.targetable(Team targeter)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "source_symbols": [
+        "unit_targetable.method",
+        "unit_targetable.unit_return",
+        "unit_targetable.type_method",
+        "unit_targetable.type_return",
+        "unit_targetable.type_targetable",
+        "unit_targetable.type_vulnerable_with_payloads",
+        "unit_targetable.payload_instance",
+        "unit_targetable.has_payload",
+        "unit_targetable.payload_targetable",
+        "unit_targetable.targeter_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
     }
   },
   "version": 1

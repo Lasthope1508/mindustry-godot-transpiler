@@ -41488,6 +41488,146 @@
         "test_port_game_exposes_source_unit_set_type_state"
       ]
     },
+    "unit_targetable.has_payload": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_input.unit_has_payload",
+      "java_expr": "return payloads.size > 0;",
+      "java_method": "PayloadComp.hasPayload()",
+      "java_source": "core/src/mindustry/entities/comp/PayloadComp.java",
+      "rule": "PayloadComp hasPayload return source.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.method": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_result.method",
+      "java_expr": "public boolean targetable(Team targeter){",
+      "java_method": "UnitComp.targetable(Team targeter)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp targetable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.payload_instance": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_input.unit_is_payloadc",
+      "java_expr": "unit instanceof Payloadc p",
+      "java_method": "UnitType.targetable(Unit unit, Team targeter)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Payloadc instance gate input.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.payload_targetable": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_result.payloadTargetable",
+      "java_expr": "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()",
+      "java_method": "UnitType.targetable(Unit unit, Team targeter)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime payload targetable branch result.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.targeter_input": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_input.targeter_id",
+      "java_expr": "targeter",
+      "java_method": "UnitComp.targetable(Team targeter)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Targeter argument identity pass-through; current UnitType targetable implementation does not inspect fields.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.type_method": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_result.typeMethod",
+      "java_expr": "public boolean targetable(Unit unit, Team targeter){",
+      "java_method": "UnitType.targetable(Unit unit, Team targeter)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType targetable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.type_return": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_result.targetable",
+      "java_expr": "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());",
+      "java_method": "UnitType.targetable(Unit unit, Team targeter)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType targetable return predicate.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.type_targetable": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_input.type_targetable",
+      "java_expr": "targetable = true,",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType targetable default source.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.type_vulnerable_with_payloads": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_input.type_vulnerable_with_payloads",
+      "java_expr": "vulnerableWithPayloads = false,",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType vulnerableWithPayloads default source.",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
+    "unit_targetable.unit_return": {
+      "godot_owner": "PortGame.source_unit_targetable_state",
+      "godot_symbol": "source_unit_targetable_result.unitReturn",
+      "java_expr": "return type.targetable(self(), targeter);",
+      "java_method": "UnitComp.targetable(Team targeter)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp targetable delegates through UnitType.targetable(Unit, Team).",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

@@ -15102,6 +15102,55 @@
         "test_unit_set_type_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_set_type_state"
       ]
+    },
+    "PortGame.source_unit_targetable_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_targetable",
+          "schema": "source_unit_targetable_input.type_targetable",
+          "type": "bool"
+        },
+        {
+          "name": "type_vulnerable_with_payloads",
+          "schema": "source_unit_targetable_input.type_vulnerable_with_payloads",
+          "type": "bool"
+        },
+        {
+          "name": "unit_is_payloadc",
+          "schema": "source_unit_targetable_input.unit_is_payloadc",
+          "type": "bool"
+        },
+        {
+          "name": "unit_has_payload",
+          "schema": "source_unit_targetable_input.unit_has_payload",
+          "type": "bool"
+        },
+        {
+          "name": "targeter_id",
+          "schema": "source_unit_targetable_input.targeter_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "unitReturn",
+        "typeMethod",
+        "typeReturn",
+        "targetable",
+        "payloadTargetable",
+        "targeter_id",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.targetable delegation through UnitType.targetable(Unit, Team).",
+      "runtime_proof": "/root/Main.source_unit_targetable_state",
+      "source_method": "UnitComp.targetable(Team targeter)",
+      "source_slice": "N801",
+      "status": "active",
+      "tests": [
+        "test_unit_targetable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_targetable_state"
+      ]
     }
   },
   "policy": {
