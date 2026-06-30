@@ -10880,6 +10880,11 @@
       ]
     },
     "N738": {
+      "bridge_exprs": [
+        "inaccuracy = 2f;",
+        "/** Extra inaccuracy when firing. */",
+        "public float inaccuracy = 0f;"
+      ],
       "deferred_exprs": [
         "type.create(this, team, bulletX, bulletY, shootAngle, -1f",
         "float lifeScl = type.scaleLife ? Mathf.clamp((1 + scaleLifetimeOffset) * Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange() / type.range, range() / type.range) : 1f;"
@@ -10888,11 +10893,6 @@
         "/** Bullet angle randomness in degrees. */",
         "public float inaccuracy = 0f;",
         "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"
-      ],
-      "bridge_exprs": [
-        "inaccuracy = 2f;",
-        "/** Extra inaccuracy when firing. */",
-        "public float inaccuracy = 0f;"
       ],
       "godot_owner": "PortGame.source_turret_inaccuracy",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
@@ -10916,6 +10916,9 @@
       ]
     },
     "N739": {
+      "bridge_exprs": [
+        "range = 160;"
+      ],
       "deferred_exprs": [
         "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }",
         "return range + peekAmmo().rangeChange;",
@@ -10925,9 +10928,6 @@
         "public float range = 80f;",
         "public float range(){\n            return range;\n        }",
         "return range;"
-      ],
-      "bridge_exprs": [
-        "range = 160;"
       ],
       "godot_owner": "PortGame.source_turret_range",
       "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret.BaseTurretBuild",
@@ -10950,15 +10950,15 @@
       ]
     },
     "N740": {
+      "bridge_exprs": [
+        "rangeChange = 16f;",
+        "range = 160;"
+      ],
       "exact_exprs": [
         "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }",
         "if(peekAmmo() != null){",
         "return range + peekAmmo().rangeChange;",
         "return range;"
-      ],
-      "bridge_exprs": [
-        "rangeChange = 16f;",
-        "range = 160;"
       ],
       "godot_owner": "PortGame.source_turret_range_for_ammo",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
@@ -10980,6 +10980,9 @@
       ]
     },
     "N741": {
+      "bridge_exprs": [
+        "recoil = 0.5f;"
+      ],
       "deferred_exprs": [
         "public int recoils = -1;",
         "recoils = 2;",
@@ -10995,9 +10998,6 @@
         "public float recoil = 1f;",
         "recoil",
         "1f"
-      ],
-      "bridge_exprs": [
-        "recoil = 0.5f;"
       ],
       "godot_owner": "PortGame.source_turret_recoil",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret",
@@ -11020,6 +11020,9 @@
       ]
     },
     "N742": {
+      "bridge_exprs": [
+        "source_turret_recoil(turret)"
+      ],
       "deferred_exprs": [
         "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);",
         "curRecoil = 1f;",
@@ -11034,9 +11037,6 @@
         "public float recoilPow = 1.8f;",
         "public float curRecoil, heat, logicControlTime = -1;",
         "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"
-      ],
-      "bridge_exprs": [
-        "source_turret_recoil(turret)"
       ],
       "godot_owner": "PortGame.source_turret_recoil_offset",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
@@ -11061,6 +11061,9 @@
       ]
     },
     "N743": {
+      "bridge_exprs": [
+        "reload = 20f;"
+      ],
       "deferred_exprs": [
         "if(recoils > 0){",
         "if(curRecoils == null) curRecoils = new float[recoils];",
@@ -11075,9 +11078,6 @@
         "-1f",
         "if(recoilTime < 0f) recoilTime = reload;",
         "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"
-      ],
-      "bridge_exprs": [
-        "reload = 20f;"
       ],
       "godot_owner": "PortGame.source_turret_recoil_time",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret",
@@ -11103,6 +11103,9 @@
       ]
     },
     "N744": {
+      "bridge_exprs": [
+        "recoils = 2;"
+      ],
       "deferred_exprs": [
         "if(curRecoils == null) curRecoils = new float[recoils];",
         "curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);",
@@ -11114,9 +11117,6 @@
         "recoils",
         "-1",
         "if(recoils > 0){"
-      ],
-      "bridge_exprs": [
-        "recoils = 2;"
       ],
       "godot_owner": "PortGame.source_turret_recoils",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret",
@@ -11139,6 +11139,9 @@
       ]
     },
     "N745": {
+      "bridge_exprs": [
+        "reload = 20f;"
+      ],
       "deferred_exprs": [
         "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"
       ],
@@ -11148,9 +11151,6 @@
         "10f",
         "public static final float toSeconds = 60f",
         "reload / Time.toSeconds"
-      ],
-      "bridge_exprs": [
-        "reload = 20f;"
       ],
       "godot_owner": "PortGame.source_turret_reload_seconds",
       "java_class": "mindustry.world.blocks.defense.turrets.ReloadTurret",
@@ -11173,16 +11173,16 @@
       ]
     },
     "N746": {
+      "bridge_exprs": [
+        "bullet_reload_multiplier.result",
+        "PortGame.source_turret_reload_seconds"
+      ],
       "deferred_exprs": [],
       "exact_exprs": [
         "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();",
         "protected float ammoReloadMultiplier(){",
         "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;",
         "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"
-      ],
-      "bridge_exprs": [
-        "bullet_reload_multiplier.result",
-        "PortGame.source_turret_reload_seconds"
       ],
       "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret",
@@ -11203,16 +11203,16 @@
       ]
     },
     "N747": {
+      "bridge_exprs": [
+        "rotateSpeed = 10f;",
+        "source_move_angle_toward(current_rotation, target_rotation, source_turret_rotate_speed(duo) * delta * SOURCE_TICK_RATE)"
+      ],
       "deferred_exprs": [],
       "exact_exprs": [
         "public float rotateSpeed = 5;",
         "rotateSpeed",
         "5",
         "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"
-      ],
-      "bridge_exprs": [
-        "rotateSpeed = 10f;",
-        "source_move_angle_toward(current_rotation, target_rotation, source_turret_rotate_speed(duo) * delta * SOURCE_TICK_RATE)"
       ],
       "godot_owner": "PortGame.source_turret_rotate_speed",
       "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
@@ -11234,6 +11234,10 @@
       ]
     },
     "N748": {
+      "bridge_exprs": [
+        "shootCone = 15f;",
+        "if angle_delta >= source_turret_shoot_cone(duo):"
+      ],
       "deferred_exprs": [],
       "exact_exprs": [
         "/** Maximum angle difference in degrees at which turret will still try to shoot. */",
@@ -11241,10 +11245,6 @@
         "shootCone",
         "8f",
         "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"
-      ],
-      "bridge_exprs": [
-        "shootCone = 15f;",
-        "if angle_delta >= source_turret_shoot_cone(duo):"
       ],
       "godot_owner": "PortGame.source_turret_shoot_cone",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret",
@@ -11267,6 +11267,10 @@
       ]
     },
     "N749": {
+      "bridge_exprs": [
+        "shoot = new ShootAlternate(3.5f);",
+        "use_turret_shoot_x_offset(cell, duo)"
+      ],
       "deferred_exprs": [
         "full ShootAlternate fields barrels/barrelOffset/mirror/shots/firstShotDelay/shotDelay extraction beyond current generated duo data"
       ],
@@ -11279,10 +11283,6 @@
         "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;",
         "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);",
         "if(barrelIncrementer != null) barrelIncrementer.run();"
-      ],
-      "bridge_exprs": [
-        "shoot = new ShootAlternate(3.5f);",
-        "use_turret_shoot_x_offset(cell, duo)"
       ],
       "godot_owner": "PortGame.source_turret_shoot_pattern",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret",
@@ -11307,6 +11307,11 @@
       ]
     },
     "N750": {
+      "bridge_exprs": [
+        "shootY = 3f;",
+        "turret_bullet_origin.shoot_point_field",
+        "turret_bullet_origin.shoot_y_default"
+      ],
       "deferred_exprs": [
         "behavioral fallback change from 0.0 to size * tilesize / 2f for missing generated shootY data"
       ],
@@ -11314,11 +11319,6 @@
         "/** Turret shoot point. */",
         "shootY",
         "Float.NEGATIVE_INFINITY"
-      ],
-      "bridge_exprs": [
-        "shootY = 3f;",
-        "turret_bullet_origin.shoot_point_field",
-        "turret_bullet_origin.shoot_y_default"
       ],
       "godot_owner": "PortGame.source_turret_shoot_y",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret",
@@ -11341,6 +11341,10 @@
       ]
     },
     "N751": {
+      "bridge_exprs": [
+        "PortGame.source_turret_inaccuracy",
+        "PortGame.source_bullet_inaccuracy"
+      ],
       "deferred_exprs": [
         "Mathf.range(inaccuracy + type.inaccuracy)",
         "type.create(this, team, bulletX, bulletY, shootAngle, -1f"
@@ -11349,10 +11353,6 @@
         "inaccuracy + type.inaccuracy",
         "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
         "source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)"
-      ],
-      "bridge_exprs": [
-        "PortGame.source_turret_inaccuracy",
-        "PortGame.source_bullet_inaccuracy"
       ],
       "godot_owner": "PortGame.source_turret_total_inaccuracy",
       "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
@@ -11373,6 +11373,17 @@
       ]
     },
     "N752": {
+      "bridge_exprs": [
+        "Teams.TeamData.updateCount(UnitType type, int amount)",
+        "public void updateCount(UnitType type, int amount){",
+        "if(type == null) return;",
+        "unitCount = Math.max(amount + unitCount, 0);",
+        "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+        "Units.unitCapDeath(Unit unit)",
+        "unit.dead = true;",
+        "UnitType.useUnitCap = true",
+        "Rules.editor = false"
+      ],
       "deferred_exprs": [
         "Fx.unitCapKill.at(unit);",
         "Core.app.post(() -> Call.unitDestroy(unit.id));",
@@ -11385,17 +11396,6 @@
         "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){",
         "Call.unitCapDeath(self());",
         "team.data().updateCount(type, -1);"
-      ],
-      "bridge_exprs": [
-        "Teams.TeamData.updateCount(UnitType type, int amount)",
-        "public void updateCount(UnitType type, int amount){",
-        "if(type == null) return;",
-        "unitCount = Math.max(amount + unitCount, 0);",
-        "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
-        "Units.unitCapDeath(Unit unit)",
-        "unit.dead = true;",
-        "UnitType.useUnitCap = true",
-        "Rules.editor = false"
       ],
       "godot_owner": "PortGame.source_unit_add_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11425,6 +11425,10 @@
       ]
     },
     "N753": {
+      "bridge_exprs": [
+        "default void afterRead(Unit unit){",
+        "UnitController.afterRead(Unit unit)"
+      ],
       "deferred_exprs": [
         "AIController.afterRead(Unit unit) override behavior is empty in upstream and remains behaviorally equivalent to UnitController default for this call bridge"
       ],
@@ -11432,10 +11436,6 @@
         "@Override",
         "public void afterReadAll(){",
         "controller.afterRead(self());"
-      ],
-      "bridge_exprs": [
-        "default void afterRead(Unit unit){",
-        "UnitController.afterRead(Unit unit)"
       ],
       "godot_owner": "PortGame.source_unit_after_read_all_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11455,6 +11455,11 @@
       ]
     },
     "N754": {
+      "bridge_exprs": [
+        "void unit(Unit unit);",
+        "public boolean keepState(){",
+        "public UnitController createController(Unit unit){"
+      ],
       "deferred_exprs": [
         "AIController.unit(Unit unit) side effects this.unit = unit; init(); stay in controller implementation slice",
         "UnitType.createController factory internals controller.get(unit) stay in unit type controller slice"
@@ -11466,11 +11471,6 @@
         "reset controller state",
         "if(!(controller instanceof AIController ai && ai.keepState())){",
         "controller(type.createController(self()));"
-      ],
-      "bridge_exprs": [
-        "void unit(Unit unit);",
-        "public boolean keepState(){",
-        "public UnitController createController(Unit unit){"
       ],
       "godot_owner": "PortGame.source_unit_after_read_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11495,6 +11495,10 @@
       ]
     },
     "N755": {
+      "bridge_exprs": [
+        "void afterSync(){}",
+        "SyncComp.afterSync()"
+      ],
       "deferred_exprs": [
         "controller.unit(self()) internals stay in controller implementation slices",
         "setType(this.type) internals stay in UnitComp type setup slice"
@@ -11504,10 +11508,6 @@
         "set up type info after reading",
         "setType(this.type);",
         "controller.unit(self());"
-      ],
-      "bridge_exprs": [
-        "void afterSync(){}",
-        "SyncComp.afterSync()"
       ],
       "godot_owner": "PortGame.source_unit_after_sync_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11528,6 +11528,10 @@
       ]
     },
     "N756": {
+      "bridge_exprs": [
+        "aim(Position)",
+        "lookAt(Position)"
+      ],
       "deferred_exprs": [
         "Position coordinate access stays as Godot bridge projection pos_x/pos_y",
         "aim(pos) and lookAt(pos) internals stay in their own UnitComp aim/look slices"
@@ -11537,10 +11541,6 @@
         "aim(pos);",
         "lookAt(pos);",
         "pos"
-      ],
-      "bridge_exprs": [
-        "aim(Position)",
-        "lookAt(Position)"
       ],
       "godot_owner": "PortGame.source_unit_aim_look_position_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11560,6 +11560,10 @@
       ]
     },
     "N757": {
+      "bridge_exprs": [
+        "aim(float, float)",
+        "lookAt(float, float)"
+      ],
       "deferred_exprs": [
         "aim(x, y) and lookAt(x, y) internals stay in their own UnitComp aim/look slices"
       ],
@@ -11569,10 +11573,6 @@
         "y",
         "aim(x, y);",
         "lookAt(x, y);"
-      ],
-      "bridge_exprs": [
-        "aim(float, float)",
-        "lookAt(float, float)"
       ],
       "godot_owner": "PortGame.source_unit_aim_look_xy_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11593,6 +11593,11 @@
       ]
     },
     "N758": {
+      "bridge_exprs": [
+        "Time.delta",
+        "type.accel",
+        "speed()"
+      ],
       "deferred_exprs": [
         "UnitComp.speed() internals stay in source_unit_world_speed and related speed slices"
       ],
@@ -11607,11 +11612,6 @@
         "float scl = Mathf.sqrt(alpha2 / len2);",
         "return sub(dx, dy);",
         "return set(target);"
-      ],
-      "bridge_exprs": [
-        "Time.delta",
-        "type.accel",
-        "speed()"
       ],
       "godot_owner": "PortGame.source_unit_approach_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11637,6 +11637,10 @@
       ]
     },
     "N759": {
+      "bridge_exprs": [
+        "elevation",
+        "type.canDrown"
+      ],
       "deferred_exprs": [
         "UnitComp.isGrounded() method body and elevation threshold are owned by source_unit_is_grounded_state"
       ],
@@ -11645,10 +11649,6 @@
         "isGrounded()",
         "type.canDrown",
         "return isGrounded() && type.canDrown;"
-      ],
-      "bridge_exprs": [
-        "elevation",
-        "type.canDrown"
       ],
       "godot_owner": "PortGame.source_unit_can_drown_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11668,6 +11668,11 @@
       ]
     },
     "N760": {
+      "bridge_exprs": [
+        "other != null",
+        "other instanceof Unit u",
+        "other instanceof Building b"
+      ],
       "deferred_exprs": [
         "UnitComp.checkTarget(boolean targetAir, boolean targetGround) body is owned by source_unit_check_target_state"
       ],
@@ -11678,11 +11683,6 @@
         "other instanceof Building b && type.targetGround",
         "type.targetAir",
         "type.targetGround"
-      ],
-      "bridge_exprs": [
-        "other != null",
-        "other instanceof Unit u",
-        "other instanceof Building b"
       ],
       "godot_owner": "PortGame.source_unit_can_target_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11704,6 +11704,16 @@
       ]
     },
     "N761": {
+      "bridge_exprs": [
+        "team == state.rules.waveTeam",
+        "state.rules.pvp",
+        "state.isCampaign()",
+        "state.rules.disableUnitCap",
+        "team.ignoreUnitCap",
+        "state.rules.unitCapVariable",
+        "state.rules.unitCap",
+        "team.data().unitCap"
+      ],
       "deferred_exprs": [
         "Unit add over-cap death/rollback remains owned by source_unit_add_state"
       ],
@@ -11714,16 +11724,6 @@
         "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
         "return Integer.MAX_VALUE;",
         "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);"
-      ],
-      "bridge_exprs": [
-        "team == state.rules.waveTeam",
-        "state.rules.pvp",
-        "state.isCampaign()",
-        "state.rules.disableUnitCap",
-        "team.ignoreUnitCap",
-        "state.rules.unitCapVariable",
-        "state.rules.unitCap",
-        "team.data().unitCap"
       ],
       "godot_owner": "PortGame.source_unit_cap_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11745,6 +11745,11 @@
       ]
     },
     "N762": {
+      "bridge_exprs": [
+        "elevation",
+        "targetAir",
+        "targetGround"
+      ],
       "deferred_exprs": [
         "UnitComp.canTarget(Teamc other) delegated call u.checkTarget(type.targetAir, type.targetGround) remains owned by source_unit_can_target_state"
       ],
@@ -11757,11 +11762,6 @@
         "return elevation < 0.001f;",
         "public boolean isFlying(){",
         "return elevation >= 0.09f;"
-      ],
-      "bridge_exprs": [
-        "elevation",
-        "targetAir",
-        "targetGround"
       ],
       "godot_owner": "PortGame.source_unit_check_target_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11783,6 +11783,10 @@
       ]
     },
     "N763": {
+      "bridge_exprs": [
+        "public class CommandAI extends AIController{",
+        "controller instanceof CommandAI ai"
+      ],
       "deferred_exprs": [
         "CommandAI queue and transfer internals remain owned by future CommandAI behavior slices",
         "UnitComp.isCommandable()/canCommand predicates remain owned by source_unit_controller_predicates_state"
@@ -11793,10 +11797,6 @@
         "return ai;",
         "}else{",
         "throw new IllegalArgumentException(\"Unit cannot be commanded - check isCommandable() first.\");"
-      ],
-      "bridge_exprs": [
-        "public class CommandAI extends AIController{",
-        "controller instanceof CommandAI ai"
       ],
       "godot_owner": "PortGame.source_unit_command_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11818,6 +11818,12 @@
       ]
     },
     "N764": {
+      "bridge_exprs": [
+        "public class AIController implements UnitController{",
+        "public class CommandAI extends AIController{",
+        "controller instanceof AIController",
+        "controller instanceof CommandAI"
+      ],
       "deferred_exprs": [
         "UnitComp.command() cast and exception branch remain owned by source_unit_command_state",
         "CommandAI queue and behavior internals remain owned by future CommandAI behavior slices"
@@ -11829,12 +11835,6 @@
         "return controller instanceof CommandAI;",
         "public boolean isCommandable(){",
         "return controller instanceof CommandAI;"
-      ],
-      "bridge_exprs": [
-        "public class AIController implements UnitController{",
-        "public class CommandAI extends AIController{",
-        "controller instanceof AIController",
-        "controller instanceof CommandAI"
       ],
       "godot_owner": "PortGame.source_unit_controller_predicates_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11860,14 +11860,6 @@
       ]
     },
     "N765": {
-      "deferred_exprs": [
-        "UnitComp.add() over-cap guard count() > cap() remains owned by source_unit_add_state",
-        "Teams.TeamData.updateCount total unitCount and per-type mutation remain owned by source_unit_add_state"
-      ],
-      "exact_exprs": [
-        "public int count(){",
-        "return team.data().countType(type);"
-      ],
       "bridge_exprs": [
         "public TeamData data(){",
         "return state.teams.get(this);",
@@ -11875,6 +11867,14 @@
         "return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];",
         "team.data().countType(type)",
         "type.id"
+      ],
+      "deferred_exprs": [
+        "UnitComp.add() over-cap guard count() > cap() remains owned by source_unit_add_state",
+        "Teams.TeamData.updateCount total unitCount and per-type mutation remain owned by source_unit_add_state"
+      ],
+      "exact_exprs": [
+        "public int count(){",
+        "return team.data().countType(type);"
       ],
       "godot_owner": "PortGame.source_unit_count_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11898,6 +11898,11 @@
       ]
     },
     "N766": {
+      "bridge_exprs": [
+        "public void death(Unit unit){}",
+        "abilities",
+        "self()"
+      ],
       "deferred_exprs": [
         "Damage.dynamicExplosion(...)",
         "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);",
@@ -11916,11 +11921,6 @@
         "Ability[] abilities = {};",
         "for(Ability a : abilities){",
         "a.death(self());"
-      ],
-      "bridge_exprs": [
-        "public void death(Unit unit){}",
-        "abilities",
-        "self()"
       ],
       "godot_owner": "PortGame.source_unit_destroy_ability_death_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -11944,6 +11944,18 @@
       ]
     },
     "N767": {
+      "bridge_exprs": [
+        "crashDamageMultiplier = 1f,",
+        "flying = false,",
+        "createWreck = true,",
+        "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
+        "boolean absorbExplosion(float x, float y, float damage);",
+        "shield,",
+        "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground){",
+        "public static float pow(float a, float b){",
+        "public float unitCrashDamage(Team team){",
+        "public float unitCrashDamageMultiplier = 1f;"
+      ],
       "deferred_exprs": [
         "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);",
         "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);",
@@ -11961,18 +11973,6 @@
         "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);",
         "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){",
         "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);"
-      ],
-      "bridge_exprs": [
-        "crashDamageMultiplier = 1f,",
-        "flying = false,",
-        "createWreck = true,",
-        "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
-        "boolean absorbExplosion(float x, float y, float damage);",
-        "shield,",
-        "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground){",
-        "public static float pow(float a, float b){",
-        "public float unitCrashDamage(Team team){",
-        "public float unitCrashDamageMultiplier = 1f;"
       ],
       "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
       "java_class": "mindustry.entities.comp.UnitComp",
@@ -12016,19 +12016,6 @@
       ]
     },
     "N768": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.destroy() explosion dispatch",
-      "godot_owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
-      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
-      "exact_exprs": [
-        "public void destroy(){",
-        "if(!spawnedByCore){",
-        "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);",
-        "}else{",
-        "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);"
-      ],
       "bridge_exprs": [
         "public Effect deathExplosionEffect = Fx.dynamicExplosion;",
         "public float legLength = 10f,",
@@ -12047,6 +12034,18 @@
         "Initial payload formulas for flammability, explosiveness, and power remain owned by source_unit_destroy_initial_payload_state",
         "Visual effects, sound/event, suicide bomb, shoot-on-death mounts, crash landing damage, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
       ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "if(!spawnedByCore){",
+        "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);",
+        "}else{",
+        "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() explosion dispatch",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
       "source_symbols": [
         "unit_destroy_explosion_dispatch.method",
         "unit_destroy_explosion_dispatch.not_spawned_guard",
@@ -12077,26 +12076,13 @@
         "unit_destroy_explosion_dispatch.team_id",
         "unit_destroy_explosion_dispatch.death_explosion_effect"
       ],
+      "status": "done",
       "tests": [
         "test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_explosion_dispatch_state"
       ]
     },
     "N769": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.destroy() initial payload",
-      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
-      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
-      "exact_exprs": [
-        "/** Actually destroys the unit, removing it and creating explosions. **/",
-        "public void destroy(){",
-        "if(!isAdded() || !killable()) return;",
-        "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;",
-        "float flammability = item().flammability * stack().amount / 1.9f;",
-        "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;"
-      ],
       "bridge_exprs": [
         "boolean isAdded(){",
         "return added;",
@@ -12116,6 +12102,19 @@
         "Concrete UnitType.killable(Unit) behavior remains owned by UnitType-specific source slices",
         "ItemsComp stack mutation remains owned by item stack source slices"
       ],
+      "exact_exprs": [
+        "/** Actually destroys the unit, removing it and creating explosions. **/",
+        "public void destroy(){",
+        "if(!isAdded() || !killable()) return;",
+        "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;",
+        "float flammability = item().flammability * stack().amount / 1.9f;",
+        "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() initial payload",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
       "source_symbols": [
         "unit_destroy_initial_payload.method",
         "unit_destroy_initial_payload.comment",
@@ -12142,29 +12141,13 @@
         "unit_destroy_initial_payload.item_charge",
         "unit_destroy_initial_payload.stack_amount"
       ],
+      "status": "done",
       "tests": [
         "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_initial_payload_state"
       ]
     },
     "N770": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.destroy() shoot-on-death mounts",
-      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
-      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
-      "exact_exprs": [
-        "public void destroy(){",
-        "for(WeaponMount mount : mounts){",
-        "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
-        "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){",
-        "mount.allowShootEffects = false;",
-        "mount.weapon.shootOnDeathEffect.at(x, y, rotation);",
-        "mount.reload = 0f;",
-        "mount.shoot = true;",
-        "mount.weapon.update(self(), mount);"
-      ],
       "bridge_exprs": [
         "@Import WeaponMount[] mounts;",
         "transient boolean hasTarget;",
@@ -12180,6 +12163,22 @@
       "deferred_exprs": [
         "Crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
       ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "for(WeaponMount mount : mounts){",
+        "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
+        "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){",
+        "mount.allowShootEffects = false;",
+        "mount.weapon.shootOnDeathEffect.at(x, y, rotation);",
+        "mount.reload = 0f;",
+        "mount.shoot = true;",
+        "mount.weapon.update(self(), mount);"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() shoot-on-death mounts",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
       "source_symbols": [
         "unit_destroy_shoot_on_death_mounts.allow_effects_false",
         "unit_destroy_shoot_on_death_mounts.bullet_kill_shooter",
@@ -12203,23 +12202,13 @@
         "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death_effect",
         "unit_destroy_shoot_on_death_mounts.weapon_update"
       ],
+      "status": "done",
       "tests": [
         "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
       ]
     },
     "N771": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.destroy() sound and event",
-      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
-      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
-      "exact_exprs": [
-        "public void destroy(){",
-        "type.deathSound.at(this, 1f, type.deathSoundVolume);",
-        "Events.fire(new UnitDestroyEvent(self()));"
-      ],
       "bridge_exprs": [
         "public Sound deathSound = Sounds.unset;",
         "public float deathSoundVolume = 1f;",
@@ -12234,6 +12223,16 @@
       "deferred_exprs": [
         "Suicide bomb trigger, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
       ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "type.deathSound.at(this, 1f, type.deathSoundVolume);",
+        "Events.fire(new UnitDestroyEvent(self()));"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_sound_and_event_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() sound and event",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
       "source_symbols": [
         "unit_destroy_sound_and_event.arc_events_fire_object",
         "unit_destroy_sound_and_event.arc_events_fire_object_body",
@@ -12251,23 +12250,13 @@
         "unit_destroy_sound_and_event.unit_destroy_event_unit",
         "unit_destroy_sound_and_event.unit_id"
       ],
+      "status": "done",
       "tests": [
         "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
       ]
     },
     "N772": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.destroy() suicide bomb trigger",
-      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
-      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
-      "exact_exprs": [
-        "public void destroy(){",
-        "if(explosiveness > 7f && (isLocal() || wasPlayer)){",
-        "Events.fire(Trigger.suicideBomb);"
-      ],
       "bridge_exprs": [
         "public static <T extends Enum<T>> void fire(Enum<T> type){",
         "items[i].get(type);",
@@ -12277,6 +12266,16 @@
       "deferred_exprs": [
         "Explosion dispatch, visual effects, sound/event, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
       ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "if(explosiveness > 7f && (isLocal() || wasPlayer)){",
+        "Events.fire(Trigger.suicideBomb);"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() suicide bomb trigger",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
       "source_symbols": [
         "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum",
         "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum_body",
@@ -12289,23 +12288,13 @@
         "unit_destroy_suicide_bomb_trigger.trigger_member",
         "unit_destroy_suicide_bomb_trigger.was_player"
       ],
+      "status": "done",
       "tests": [
         "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
       ]
     },
     "N773": {
-      "status": "done",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.destroy() type killed and remove",
-      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
-      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
-      "exact_exprs": [
-        "public void destroy(){",
-        "type.killed(self());",
-        "remove();"
-      ],
       "bridge_exprs": [
         "public void killed(Unit unit){}",
         "public void remove(){",
@@ -12314,6 +12303,16 @@
       "deferred_exprs": [
         "UnitType.killed callback internals and UnitComp.remove side effects remain separate slices"
       ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "type.killed(self());",
+        "remove();"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() type killed and remove",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
       "source_symbols": [
         "unit_destroy_type_killed_remove.method",
         "unit_destroy_type_killed_remove.remove_call",
@@ -12323,9 +12322,59 @@
         "unit_destroy_type_killed_remove.unit_remove_override",
         "unit_destroy_type_killed_remove.unit_type_killed_default"
       ],
+      "status": "done",
       "tests": [
         "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ]
+    },
+    "N774": {
+      "bridge_exprs": [
+        "hitSize = 6f,",
+        "deathShake = -1f,",
+        "createScorch = true,",
+        "public static void shake(float intensity, float duration, Position loc){",
+        "shake(intensity, duration, loc.getX(), loc.getY());",
+        "public static void scorch(float x, float y, int size){"
+      ],
+      "deferred_exprs": [
+        "Renderer/decal side effects remain owned by effect/rendering slices"
+      ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "float shake = type.deathShake < 0 ? 3f + hitSize / 3f : type.deathShake;",
+        "if(type.createScorch){",
+        "Effect.scorch(x, y, (int)(hitSize / 5));",
+        "Effect.shake(shake, shake, this);"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_visual_effects_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() visual effects",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_visual_effects_state",
+      "source_symbols": [
+        "unit_destroy_visual_effects.create_scorch_default",
+        "unit_destroy_visual_effects.death_shake_default",
+        "unit_destroy_visual_effects.effect_scorch_method",
+        "unit_destroy_visual_effects.effect_shake_position",
+        "unit_destroy_visual_effects.effect_shake_position_body",
+        "unit_destroy_visual_effects.hit_size",
+        "unit_destroy_visual_effects.hit_size_default",
+        "unit_destroy_visual_effects.method",
+        "unit_destroy_visual_effects.scorch_call",
+        "unit_destroy_visual_effects.scorch_guard",
+        "unit_destroy_visual_effects.shake_call",
+        "unit_destroy_visual_effects.shake_formula",
+        "unit_destroy_visual_effects.source_x",
+        "unit_destroy_visual_effects.source_y",
+        "unit_destroy_visual_effects.type_create_scorch",
+        "unit_destroy_visual_effects.type_death_shake",
+        "unit_destroy_visual_effects.unit_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_destroy_visual_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_visual_effects_state"
       ]
     }
   },

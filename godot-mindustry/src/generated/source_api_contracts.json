@@ -13294,69 +13294,6 @@
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
     },
-    "PortGame.source_unit_check_target_state": {
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "params": [
-        {
-          "name": "elevation_value",
-          "schema": "source_unit_check_target_input.elevation_value",
-          "type": "float"
-        },
-        {
-          "name": "target_air",
-          "schema": "source_unit_check_target_input.target_air",
-          "type": "bool"
-        },
-        {
-          "name": "target_ground",
-          "schema": "source_unit_check_target_input.target_ground",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "grounded",
-        "flying",
-        "targetable"
-      ],
-      "rule": "Public runtime contract for UnitComp.checkTarget grounded/flying target gates.",
-      "runtime_proof": "/root/Main.source_unit_check_target_state",
-      "source_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
-      "source_slice": "N762",
-      "status": "active",
-      "tests": [
-        "test_unit_check_target_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_grounded_flying_target_state"
-      ]
-    },
-    "PortGame.source_unit_controller_predicates_state": {
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "params": [
-        {
-          "name": "controller_is_ai_controller",
-          "schema": "source_unit_controller_predicates_input.controller_is_ai_controller",
-          "type": "bool"
-        },
-        {
-          "name": "controller_is_command_ai",
-          "schema": "source_unit_controller_predicates_input.controller_is_command_ai",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "is_ai",
-        "allow_command",
-        "is_commandable"
-      ],
-      "rule": "Public runtime contract for UnitComp controller predicate methods.",
-      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
-      "source_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
-      "source_slice": "N764",
-      "status": "active",
-      "tests": [
-        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_controller_predicates_state"
-      ]
-    },
     "PortGame.source_unit_can_target_state": {
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
       "params": [
@@ -13405,31 +13342,6 @@
       "tests": [
         "test_unit_can_target_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_target_state"
-      ]
-    },
-    "PortGame.source_unit_command_state": {
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "params": [
-        {
-          "name": "controller_is_command_ai",
-          "schema": "source_unit_command_input.controller_is_command_ai",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "returned_command_ai",
-        "throws",
-        "exception_type",
-        "message"
-      ],
-      "rule": "Public runtime contract for UnitComp.command CommandAI return or IllegalArgumentException branch.",
-      "runtime_proof": "/root/Main.source_unit_command_state",
-      "source_method": "UnitComp.command()",
-      "source_slice": "N763",
-      "status": "active",
-      "tests": [
-        "test_unit_command_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_command_state"
       ]
     },
     "PortGame.source_unit_cap_state": {
@@ -13489,6 +13401,94 @@
       "tests": [
         "test_unit_cap_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_cap_state"
+      ]
+    },
+    "PortGame.source_unit_check_target_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_check_target_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "target_air",
+          "schema": "source_unit_check_target_input.target_air",
+          "type": "bool"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_unit_check_target_input.target_ground",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "grounded",
+        "flying",
+        "targetable"
+      ],
+      "rule": "Public runtime contract for UnitComp.checkTarget grounded/flying target gates.",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "source_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "source_slice": "N762",
+      "status": "active",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "PortGame.source_unit_command_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "controller_is_command_ai",
+          "schema": "source_unit_command_input.controller_is_command_ai",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "returned_command_ai",
+        "throws",
+        "exception_type",
+        "message"
+      ],
+      "rule": "Public runtime contract for UnitComp.command CommandAI return or IllegalArgumentException branch.",
+      "runtime_proof": "/root/Main.source_unit_command_state",
+      "source_method": "UnitComp.command()",
+      "source_slice": "N763",
+      "status": "active",
+      "tests": [
+        "test_unit_command_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_command_state"
+      ]
+    },
+    "PortGame.source_unit_controller_predicates_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "controller_is_ai_controller",
+          "schema": "source_unit_controller_predicates_input.controller_is_ai_controller",
+          "type": "bool"
+        },
+        {
+          "name": "controller_is_command_ai",
+          "schema": "source_unit_controller_predicates_input.controller_is_command_ai",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "is_ai",
+        "allow_command",
+        "is_commandable"
+      ],
+      "rule": "Public runtime contract for UnitComp controller predicate methods.",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
+      "source_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
+      "source_slice": "N764",
+      "status": "active",
+      "tests": [
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
       ]
     },
     "PortGame.source_unit_count_state": {
@@ -13628,76 +13628,72 @@
       ]
     },
     "PortGame.source_unit_destroy_explosion_dispatch_state": {
-      "status": "active",
-      "source_slice": "N768",
-      "source_method": "UnitComp.destroy() explosion dispatch",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
       "params": [
         {
           "name": "spawned_by_core_value",
-          "type": "bool",
-          "schema": "source_unit_destroy_explosion_dispatch_input.spawned_by_core_value"
+          "schema": "source_unit_destroy_explosion_dispatch_input.spawned_by_core_value",
+          "type": "bool"
         },
         {
           "name": "source_x",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.source_x"
+          "schema": "source_unit_destroy_explosion_dispatch_input.source_x",
+          "type": "float"
         },
         {
           "name": "source_y",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.source_y"
+          "schema": "source_unit_destroy_explosion_dispatch_input.source_y",
+          "type": "float"
         },
         {
           "name": "flammability",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.flammability"
+          "schema": "source_unit_destroy_explosion_dispatch_input.flammability",
+          "type": "float"
         },
         {
           "name": "explosiveness",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.explosiveness"
+          "schema": "source_unit_destroy_explosion_dispatch_input.explosiveness",
+          "type": "float"
         },
         {
           "name": "power",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.power"
+          "schema": "source_unit_destroy_explosion_dispatch_input.power",
+          "type": "float"
         },
         {
           "name": "bounds_value",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.bounds_value"
+          "schema": "source_unit_destroy_explosion_dispatch_input.bounds_value",
+          "type": "float"
         },
         {
           "name": "type_leg_length",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.type_leg_length"
+          "schema": "source_unit_destroy_explosion_dispatch_input.type_leg_length",
+          "type": "float"
         },
         {
           "name": "rules_damage_explosions",
-          "type": "bool",
-          "schema": "source_unit_destroy_explosion_dispatch_input.rules_damage_explosions"
+          "schema": "source_unit_destroy_explosion_dispatch_input.rules_damage_explosions",
+          "type": "bool"
         },
         {
           "name": "rules_unit_crash_damage",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.rules_unit_crash_damage"
+          "schema": "source_unit_destroy_explosion_dispatch_input.rules_unit_crash_damage",
+          "type": "float"
         },
         {
           "name": "item_flammability",
-          "type": "float",
-          "schema": "source_unit_destroy_explosion_dispatch_input.item_flammability"
+          "schema": "source_unit_destroy_explosion_dispatch_input.item_flammability",
+          "type": "float"
         },
         {
           "name": "team_id",
-          "type": "int",
-          "schema": "source_unit_destroy_explosion_dispatch_input.team_id"
+          "schema": "source_unit_destroy_explosion_dispatch_input.team_id",
+          "type": "int"
         },
         {
           "name": "death_explosion_effect",
-          "type": "String",
-          "schema": "source_unit_destroy_explosion_dispatch_input.death_explosion_effect"
+          "schema": "source_unit_destroy_explosion_dispatch_input.death_explosion_effect",
+          "type": "String"
         }
       ],
       "return_keys": [
@@ -13720,47 +13716,47 @@
         "effect"
       ],
       "rule": "Public runtime contract for UnitComp.destroy explosion dispatch branch.",
+      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
+      "source_method": "UnitComp.destroy() explosion dispatch",
+      "source_slice": "N768",
+      "status": "active",
       "tests": [
         "test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_explosion_dispatch_state"
       ]
     },
     "PortGame.source_unit_destroy_initial_payload_state": {
-      "status": "active",
-      "source_slice": "N769",
-      "source_method": "UnitComp.destroy() initial payload",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
       "params": [
         {
           "name": "is_added_value",
-          "type": "bool",
-          "schema": "source_unit_destroy_initial_payload_input.is_added_value"
+          "schema": "source_unit_destroy_initial_payload_input.is_added_value",
+          "type": "bool"
         },
         {
           "name": "killable_value",
-          "type": "bool",
-          "schema": "source_unit_destroy_initial_payload_input.killable_value"
+          "schema": "source_unit_destroy_initial_payload_input.killable_value",
+          "type": "bool"
         },
         {
           "name": "item_explosiveness",
-          "type": "float",
-          "schema": "source_unit_destroy_initial_payload_input.item_explosiveness"
+          "schema": "source_unit_destroy_initial_payload_input.item_explosiveness",
+          "type": "float"
         },
         {
           "name": "item_flammability",
-          "type": "float",
-          "schema": "source_unit_destroy_initial_payload_input.item_flammability"
+          "schema": "source_unit_destroy_initial_payload_input.item_flammability",
+          "type": "float"
         },
         {
           "name": "item_charge",
-          "type": "float",
-          "schema": "source_unit_destroy_initial_payload_input.item_charge"
+          "schema": "source_unit_destroy_initial_payload_input.item_charge",
+          "type": "float"
         },
         {
           "name": "stack_amount",
-          "type": "int",
-          "schema": "source_unit_destroy_initial_payload_input.stack_amount"
+          "schema": "source_unit_destroy_initial_payload_input.stack_amount",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -13776,47 +13772,47 @@
         "power"
       ],
       "rule": "Public runtime contract for UnitComp.destroy initial guard and payload formulas.",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "source_method": "UnitComp.destroy() initial payload",
+      "source_slice": "N769",
+      "status": "active",
       "tests": [
         "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_initial_payload_state"
       ]
     },
     "PortGame.source_unit_destroy_shoot_on_death_mounts_state": {
-      "status": "active",
-      "source_slice": "N770",
-      "source_method": "UnitComp.destroy() shoot-on-death mounts",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
       "params": [
         {
           "name": "mount_states",
-          "type": "Array",
-          "schema": "source_unit_destroy_shoot_on_death_mounts_input.mount_states"
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.mount_states",
+          "type": "Array"
         },
         {
           "name": "has_target_value",
-          "type": "bool",
-          "schema": "source_unit_destroy_shoot_on_death_mounts_input.has_target_value"
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.has_target_value",
+          "type": "bool"
         },
         {
           "name": "source_x",
-          "type": "float",
-          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_x"
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_x",
+          "type": "float"
         },
         {
           "name": "source_y",
-          "type": "float",
-          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_y"
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_y",
+          "type": "float"
         },
         {
           "name": "source_rotation_degrees",
-          "type": "float",
-          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_rotation_degrees"
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_rotation_degrees",
+          "type": "float"
         },
         {
           "name": "unit_id",
-          "type": "int",
-          "schema": "source_unit_destroy_shoot_on_death_mounts_input.unit_id"
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.unit_id",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -13836,32 +13832,32 @@
         "unit"
       ],
       "rule": "Public runtime contract for UnitComp.destroy shoot-on-death mounts branch.",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "source_method": "UnitComp.destroy() shoot-on-death mounts",
+      "source_slice": "N770",
+      "status": "active",
       "tests": [
         "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
       ]
     },
     "PortGame.source_unit_destroy_sound_and_event_state": {
-      "status": "active",
-      "source_slice": "N771",
-      "source_method": "UnitComp.destroy() sound and event",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
       "params": [
         {
           "name": "death_sound",
-          "type": "String",
-          "schema": "source_unit_destroy_sound_and_event_input.death_sound"
+          "schema": "source_unit_destroy_sound_and_event_input.death_sound",
+          "type": "String"
         },
         {
           "name": "death_sound_volume",
-          "type": "float",
-          "schema": "source_unit_destroy_sound_and_event_input.death_sound_volume"
+          "schema": "source_unit_destroy_sound_and_event_input.death_sound_volume",
+          "type": "float"
         },
         {
           "name": "unit_id",
-          "type": "int",
-          "schema": "source_unit_destroy_sound_and_event_input.unit_id"
+          "schema": "source_unit_destroy_sound_and_event_input.unit_id",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -13881,32 +13877,32 @@
         "eventsFireBody"
       ],
       "rule": "Public runtime contract for UnitComp.destroy death sound and UnitDestroyEvent dispatch.",
+      "runtime_proof": "/root/Main.source_unit_destroy_sound_and_event_state",
+      "source_method": "UnitComp.destroy() sound and event",
+      "source_slice": "N771",
+      "status": "active",
       "tests": [
         "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
       ]
     },
     "PortGame.source_unit_destroy_suicide_bomb_trigger_state": {
-      "status": "active",
-      "source_slice": "N772",
-      "source_method": "UnitComp.destroy() suicide bomb trigger",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
       "params": [
         {
           "name": "explosiveness",
-          "type": "float",
-          "schema": "source_unit_destroy_suicide_bomb_trigger_input.explosiveness"
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.explosiveness",
+          "type": "float"
         },
         {
           "name": "is_local_value",
-          "type": "bool",
-          "schema": "source_unit_destroy_suicide_bomb_trigger_input.is_local_value"
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.is_local_value",
+          "type": "bool"
         },
         {
           "name": "was_player_value",
-          "type": "bool",
-          "schema": "source_unit_destroy_suicide_bomb_trigger_input.was_player_value"
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.was_player_value",
+          "type": "bool"
         }
       ],
       "return_keys": [
@@ -13923,22 +13919,22 @@
         "triggerMember"
       ],
       "rule": "Public runtime contract for UnitComp.destroy suicide bomb trigger and Trigger.suicideBomb event identity.",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "source_method": "UnitComp.destroy() suicide bomb trigger",
+      "source_slice": "N772",
+      "status": "active",
       "tests": [
         "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
       ]
     },
     "PortGame.source_unit_destroy_type_killed_remove_state": {
-      "status": "active",
-      "source_slice": "N773",
-      "source_method": "UnitComp.destroy() type killed and remove",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
       "params": [
         {
           "name": "unit_id",
-          "type": "int",
-          "schema": "source_unit_destroy_type_killed_remove_input.unit_id"
+          "schema": "source_unit_destroy_type_killed_remove_input.unit_id",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -13952,9 +13948,74 @@
         "unit"
       ],
       "rule": "Public runtime contract for UnitComp.destroy type.killed(self()) then remove() tail order.",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "source_method": "UnitComp.destroy() type killed and remove",
+      "source_slice": "N773",
+      "status": "active",
       "tests": [
         "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ]
+    },
+    "PortGame.source_unit_destroy_visual_effects_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_visual_effects_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_visual_effects_input.source_y",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_destroy_visual_effects_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "type_death_shake",
+          "schema": "source_unit_destroy_visual_effects_input.type_death_shake",
+          "type": "float"
+        },
+        {
+          "name": "type_create_scorch",
+          "schema": "source_unit_destroy_visual_effects_input.type_create_scorch",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_destroy_visual_effects_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "shakeFormula",
+        "scorchGuard",
+        "scorchCall",
+        "shakeCall",
+        "deathShakeDefault",
+        "createScorchDefault",
+        "hitSizeDefault",
+        "effectShakePosition",
+        "effectShakePositionBody",
+        "effectScorchMethod",
+        "shake",
+        "scorch",
+        "shakeEffect",
+        "unit"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy visual effect source records without renderer/decal side effects.",
+      "runtime_proof": "/root/Main.source_unit_destroy_visual_effects_state",
+      "source_method": "UnitComp.destroy() visual effects",
+      "source_slice": "N774",
+      "status": "active",
+      "tests": [
+        "test_unit_destroy_visual_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_visual_effects_state"
       ]
     }
   },

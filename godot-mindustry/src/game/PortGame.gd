@@ -9632,25 +9632,49 @@ func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, s
 		"effect": death_explosion_effect,
 	}
 
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_FORMULA := "float shake = type.deathShake < 0 ? 3f + hitSize / 3f : type.deathShake;"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_GUARD := "if(type.createScorch){"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL := "Effect.scorch(x, y, (int)(hitSize / 5));"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL := "Effect.shake(shake, shake, this);"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_DEATH_SHAKE_DEFAULT := "deathShake = -1f,"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_CREATE_SCORCH_DEFAULT := "createScorch = true,"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_HIT_SIZE_DEFAULT := "hitSize = 6f,"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION := "public static void shake(float intensity, float duration, Position loc){"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION_BODY := "shake(intensity, duration, loc.getX(), loc.getY());"
+const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SCORCH_METHOD := "public static void scorch(float x, float y, int size){"
+
 func source_unit_destroy_visual_effects_state(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:
 	var shake := 3.0 + hit_size / 3.0 if type_death_shake < 0.0 else type_death_shake
 	var scorch_call: Variant = null
 	if type_create_scorch:
 		scorch_call = {
-			"call": "Effect.scorch(x, y, (int)(hitSize / 5))",
+			"call": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL,
 			"x": source_x,
 			"y": source_y,
 			"size": int(hit_size / 5.0),
 		}
 	return {
+		"method": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_METHOD,
+		"shakeFormula": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_FORMULA,
+		"scorchGuard": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_GUARD,
+		"scorchCall": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL,
+		"shakeCall": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL,
+		"deathShakeDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_DEATH_SHAKE_DEFAULT,
+		"createScorchDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_CREATE_SCORCH_DEFAULT,
+		"hitSizeDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_HIT_SIZE_DEFAULT,
+		"effectShakePosition": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION,
+		"effectShakePositionBody": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION_BODY,
+		"effectScorchMethod": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SCORCH_METHOD,
 		"shake": shake,
 		"scorch": scorch_call,
-		"shakeCall": {
-			"call": "Effect.shake(shake, shake, this)",
+		"shakeEffect": {
+			"call": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL,
 			"intensity": shake,
 			"duration": shake,
 			"unit": unit_id,
 		},
+		"unit": unit_id,
 	}
 
 const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_METHOD := "public void destroy(){"
