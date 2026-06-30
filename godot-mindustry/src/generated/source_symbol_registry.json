@@ -45064,6 +45064,336 @@
         "test_unit_update_falling_engine_trail_matches_upstream_source"
       ]
     },
+    "unit_update_falling_smoke.chance_delta_result": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.chance_delta_result",
+      "java_expr": "Mathf.chanceDelta(0.1)",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit chanceDelta result input; no RNG invented.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.dead_value": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.dead_value",
+      "java_expr": "dead",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for dead.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.effect_at_xy": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect",
+      "java_expr": "public void at(float x, float y){",
+      "java_method": "Effect.at(float x, float y)",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "rule": "Mindustry Effect.at(float x, float y) bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.effect_call": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect",
+      "java_expr": "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact fall smoke effect call.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.effect_x": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect.x",
+      "java_expr": "x + Tmp.v1.x",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact fall smoke effect x expression.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.effect_y": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect.y",
+      "java_expr": "y + Tmp.v1.y",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact fall smoke effect y expression.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.falling_guard": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.fallingGuard",
+      "java_expr": "dead || health <= 0",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed source falling guard.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.fx_fall_smoke": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect",
+      "java_expr": "fallSmoke = new Effect(110, e -> {",
+      "java_method": "Fx",
+      "java_source": "core/src/mindustry/content/Fx.java",
+      "rule": "Fx.fallSmoke bridge effect default.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.health_value": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.health_value",
+      "java_expr": "health",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for health.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.hit_size": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.hit_size",
+      "java_expr": "hitSize",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for hitSize.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.mathf_chance_delta": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.chance",
+      "java_expr": "public static boolean chanceDelta(double d){",
+      "java_method": "Mathf.chanceDelta(double d)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.chanceDelta bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.mathf_range_float": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect.range",
+      "java_expr": "public static float range(float range){",
+      "java_method": "Mathf.range(float range)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.range(float) bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.smoke_chance": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.chance",
+      "java_expr": "if(Mathf.chanceDelta(0.1)){",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact standard fall smoke chance gate.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.standard_fall_smoke_comment": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect",
+      "java_expr": "//standard fall smoke",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring standard fall smoke block.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.tmp_v1": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect.tmp",
+      "java_expr": "public static final Vec2 v1 = new Vec2();",
+      "java_method": "Tmp",
+      "java_source": "arc-core/src/arc/util/Tmp.java",
+      "rule": "Arc Tmp.v1 bridge vector.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.tmp_v1_rnd": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect.tmp",
+      "java_expr": "Tmp.v1.rnd(Mathf.range(hitSize));",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact Tmp.v1 random vector assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.tmp_v1_x": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.tmp_v1_x",
+      "java_expr": "Tmp.v1.x",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit Tmp.v1.x sample input; no vector RNG invented.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.tmp_v1_y": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.tmp_v1_y",
+      "java_expr": "Tmp.v1.y",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit Tmp.v1.y sample input; no vector RNG invented.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.unit_type_fall_effect": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect",
+      "java_expr": "public Effect fallEffect = Fx.fallSmoke;",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType.fallEffect default source.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.unit_x": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.unit_x",
+      "java_expr": "x",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for unit x.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.unit_y": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_input.unit_y",
+      "java_expr": "y",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for unit y.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_smoke.vec2_rnd": {
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "godot_symbol": "source_unit_update_falling_smoke_result.effect.tmp",
+      "java_expr": "public Vec2 rnd(float length){",
+      "java_method": "Vec2.rnd(float length)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2.rnd(float length) bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

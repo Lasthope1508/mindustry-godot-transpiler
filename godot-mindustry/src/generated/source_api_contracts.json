@@ -15889,6 +15889,66 @@
         "test_port_game_exposes_source_unit_update_falling_engine_trail_state",
         "test_unit_update_falling_engine_trail_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_falling_smoke_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_smoke_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_smoke_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "chance_delta_result",
+          "schema": "source_unit_update_falling_smoke_input.chance_delta_result",
+          "type": "bool"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_update_falling_smoke_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_update_falling_smoke_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_update_falling_smoke_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "tmp_v1_x",
+          "schema": "source_unit_update_falling_smoke_input.tmp_v1_x",
+          "type": "float"
+        },
+        {
+          "name": "tmp_v1_y",
+          "schema": "source_unit_update_falling_smoke_input.tmp_v1_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "fallingGuard",
+        "chance",
+        "effect"
+      ],
+      "rule": "Public runtime contract for UnitComp.update falling smoke state.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "source_method": "UnitComp.update() falling smoke",
+      "source_slice": "N817",
+      "status": "active",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
     }
   },
   "policy": {

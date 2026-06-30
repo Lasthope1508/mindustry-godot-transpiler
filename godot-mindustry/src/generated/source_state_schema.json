@@ -55971,6 +55971,185 @@
       "runtime_proof": "/root/Main.source_unit_update_falling_engine_trail_state",
       "status": "active"
     },
+    "source_unit_update_falling_smoke_input": {
+      "keys": {
+        "chance_delta_result": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.chance_delta_result",
+          "java_expr": "Mathf.chanceDelta(0.1)",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit chanceDelta result input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "dead_value": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.dead_value",
+          "java_expr": "dead",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit runtime input for dead.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "health_value": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.health_value",
+          "java_expr": "health",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit runtime input for health.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "hit_size": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.hit_size",
+          "java_expr": "hitSize",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit runtime input for hitSize.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "tmp_v1_x": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.tmp_v1_x",
+          "java_expr": "Tmp.v1.x",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit Tmp.v1.x sample input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "tmp_v1_y": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.tmp_v1_y",
+          "java_expr": "Tmp.v1.y",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit Tmp.v1.y sample input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "unit_x": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.unit_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit runtime input for x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "unit_y": {
+          "godot_symbol": "source_unit_update_falling_smoke_input.unit_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Explicit runtime input for y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_falling_smoke_state",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "active"
+    },
+    "source_unit_update_falling_smoke_result": {
+      "keys": {
+        "chance": {
+          "godot_symbol": "source_unit_update_falling_smoke_result.chance",
+          "java_expr": "if(Mathf.chanceDelta(0.1)){",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Chance gate call record.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "effect": {
+          "godot_symbol": "source_unit_update_falling_smoke_result.effect",
+          "java_expr": "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Effect call record when both gates pass.",
+          "status": "source-backed",
+          "type": "Dictionary|null",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        },
+        "fallingGuard": {
+          "godot_symbol": "source_unit_update_falling_smoke_result.fallingGuard",
+          "java_expr": "dead || health <= 0",
+          "java_method": "UnitComp.update() falling smoke",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ],
+          "rule": "Computed source falling guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_falling_smoke_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_falling_smoke_state",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

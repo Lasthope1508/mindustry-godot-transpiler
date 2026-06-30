@@ -14145,6 +14145,61 @@
         "test_port_game_exposes_source_unit_update_falling_engine_trail_state",
         "test_unit_update_falling_engine_trail_matches_upstream_source"
       ]
+    },
+    "N817": {
+      "bridge_exprs": [
+        "public Effect fallEffect = Fx.fallSmoke;",
+        "fallSmoke = new Effect(110, e -> {",
+        "public static boolean chanceDelta(double d){",
+        "public static float range(float range){",
+        "public static final Vec2 v1 = new Vec2();",
+        "public Vec2 rnd(float length){",
+        "public void at(float x, float y){"
+      ],
+      "deferred_exprs": [
+        "Falling drag, engine trail, descent, and destroy trigger are adjacent source slices; chance and Tmp.v1 random vector values are explicit inputs instead of invented RNG."
+      ],
+      "exact_exprs": [
+        "//standard fall smoke",
+        "if(Mathf.chanceDelta(0.1)){",
+        "Tmp.v1.rnd(Mathf.range(hitSize));",
+        "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_falling_smoke_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() falling smoke",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_falling_smoke_state",
+      "source_symbols": [
+        "unit_update_falling_smoke.chance_delta_result",
+        "unit_update_falling_smoke.dead_value",
+        "unit_update_falling_smoke.effect_at_xy",
+        "unit_update_falling_smoke.effect_call",
+        "unit_update_falling_smoke.effect_x",
+        "unit_update_falling_smoke.effect_y",
+        "unit_update_falling_smoke.falling_guard",
+        "unit_update_falling_smoke.fx_fall_smoke",
+        "unit_update_falling_smoke.health_value",
+        "unit_update_falling_smoke.hit_size",
+        "unit_update_falling_smoke.mathf_chance_delta",
+        "unit_update_falling_smoke.mathf_range_float",
+        "unit_update_falling_smoke.smoke_chance",
+        "unit_update_falling_smoke.standard_fall_smoke_comment",
+        "unit_update_falling_smoke.tmp_v1",
+        "unit_update_falling_smoke.tmp_v1_rnd",
+        "unit_update_falling_smoke.tmp_v1_x",
+        "unit_update_falling_smoke.tmp_v1_y",
+        "unit_update_falling_smoke.unit_type_fall_effect",
+        "unit_update_falling_smoke.unit_x",
+        "unit_update_falling_smoke.unit_y",
+        "unit_update_falling_smoke.vec2_rnd"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_falling_smoke_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_smoke_state",
+        "test_unit_update_falling_smoke_matches_upstream_source"
+      ]
     }
   },
   "version": 1

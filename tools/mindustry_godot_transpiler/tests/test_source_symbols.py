@@ -5607,6 +5607,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(angles_trnsy["java_expr"], "return len * Mathf.sinDeg(angle);")
         self.assertEqual(angles_trnsy["java_source"], "arc-core/src/arc/math/Angles.java")
 
+    def test_unit_update_falling_smoke_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        smoke_chance = source_symbols.source_symbol(registry, "unit_update_falling_smoke.smoke_chance")
+        self.assertEqual(smoke_chance["java_expr"], "if(Mathf.chanceDelta(0.1)){")
+        self.assertEqual(smoke_chance["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(smoke_chance["java_method"], "UnitComp.update() falling smoke")
+        self.assertEqual(smoke_chance["godot_owner"], "PortGame.source_unit_update_falling_smoke_state")
+        self.assertEqual(smoke_chance["runtime_proof"], "/root/Main.source_unit_update_falling_smoke_state")
+        self.assertEqual(smoke_chance["godot_symbol"], "source_unit_update_falling_smoke_result.chance")
+
+        tmp_rnd = source_symbols.source_symbol(registry, "unit_update_falling_smoke.tmp_v1_rnd")
+        self.assertEqual(tmp_rnd["java_expr"], "Tmp.v1.rnd(Mathf.range(hitSize));")
+        self.assertEqual(tmp_rnd["godot_symbol"], "source_unit_update_falling_smoke_result.effect.tmp")
+
+        effect_x = source_symbols.source_symbol(registry, "unit_update_falling_smoke.effect_x")
+        self.assertEqual(effect_x["java_expr"], "x + Tmp.v1.x")
+        self.assertEqual(effect_x["godot_symbol"], "source_unit_update_falling_smoke_result.effect.x")
+
+        effect_y = source_symbols.source_symbol(registry, "unit_update_falling_smoke.effect_y")
+        self.assertEqual(effect_y["java_expr"], "y + Tmp.v1.y")
+        self.assertEqual(effect_y["godot_symbol"], "source_unit_update_falling_smoke_result.effect.y")
+
+        chance_input = source_symbols.source_symbol(registry, "unit_update_falling_smoke.chance_delta_result")
+        self.assertEqual(chance_input["status"], "explicit-input")
+        self.assertEqual(chance_input["java_expr"], "Mathf.chanceDelta(0.1)")
+        self.assertEqual(chance_input["godot_symbol"], "source_unit_update_falling_smoke_input.chance_delta_result")
+
+        tmp_v1_x = source_symbols.source_symbol(registry, "unit_update_falling_smoke.tmp_v1_x")
+        self.assertEqual(tmp_v1_x["status"], "explicit-input")
+        self.assertEqual(tmp_v1_x["java_expr"], "Tmp.v1.x")
+        self.assertEqual(tmp_v1_x["godot_symbol"], "source_unit_update_falling_smoke_input.tmp_v1_x")
+
+        fall_effect = source_symbols.source_symbol(registry, "unit_update_falling_smoke.unit_type_fall_effect")
+        self.assertEqual(fall_effect["java_expr"], "public Effect fallEffect = Fx.fallSmoke;")
+        self.assertEqual(fall_effect["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        fx_fall_smoke = source_symbols.source_symbol(registry, "unit_update_falling_smoke.fx_fall_smoke")
+        self.assertEqual(fx_fall_smoke["java_expr"], "fallSmoke = new Effect(110, e -> {")
+        self.assertEqual(fx_fall_smoke["java_source"], "core/src/mindustry/content/Fx.java")
+
+        vec2_rnd = source_symbols.source_symbol(registry, "unit_update_falling_smoke.vec2_rnd")
+        self.assertEqual(vec2_rnd["java_expr"], "public Vec2 rnd(float length){")
+        self.assertEqual(vec2_rnd["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+
+        effect_at = source_symbols.source_symbol(registry, "unit_update_falling_smoke.effect_at_xy")
+        self.assertEqual(effect_at["java_expr"], "public void at(float x, float y){")
+        self.assertEqual(effect_at["java_source"], "core/src/mindustry/entities/Effect.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14079,9 +14131,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 414)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 415)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 419)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 420)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14107,6 +14159,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_falling_descent_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_drag_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_engine_trail_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_falling_smoke_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16509,6 +16562,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Effect fallEngineEffect = Fx.fallSmoke;", unit_update_falling_engine_trail["bridge_exprs"])
         self.assertIn("return len * Mathf.cosDeg(angle);", unit_update_falling_engine_trail["bridge_exprs"])
         self.assertIn("return len * Mathf.sinDeg(angle);", unit_update_falling_engine_trail["bridge_exprs"])
+
+        unit_update_falling_smoke = source_symbols.source_slice(ledger, "N817")
+        self.assertEqual(unit_update_falling_smoke["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_falling_smoke["java_method"], "UnitComp.update() falling smoke")
+        self.assertEqual(unit_update_falling_smoke["godot_owner"], "PortGame.source_unit_update_falling_smoke_state")
+        self.assertIn("//standard fall smoke", unit_update_falling_smoke["exact_exprs"])
+        self.assertIn("if(Mathf.chanceDelta(0.1)){", unit_update_falling_smoke["exact_exprs"])
+        self.assertIn("Tmp.v1.rnd(Mathf.range(hitSize));", unit_update_falling_smoke["exact_exprs"])
+        self.assertIn("type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);", unit_update_falling_smoke["exact_exprs"])
+        self.assertIn("public Effect fallEffect = Fx.fallSmoke;", unit_update_falling_smoke["bridge_exprs"])
+        self.assertIn("fallSmoke = new Effect(110, e -> {", unit_update_falling_smoke["bridge_exprs"])
+        self.assertIn("public static final Vec2 v1 = new Vec2();", unit_update_falling_smoke["bridge_exprs"])
+        self.assertIn("public Vec2 rnd(float length){", unit_update_falling_smoke["bridge_exprs"])
+        self.assertIn("public void at(float x, float y){", unit_update_falling_smoke["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20354,6 +20421,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_falling_engine_trail["return_keys"])
         self.assertNotIn("dead_value", unit_update_falling_engine_trail["return_keys"])
         self.assertEqual(unit_update_falling_engine_trail["source_method"], "UnitComp.update() falling engine trail")
+
+        unit_update_falling_smoke = source_symbols.api_contract(contracts, "PortGame.source_unit_update_falling_smoke_state")
+        self.assertEqual([param["name"] for param in unit_update_falling_smoke["params"]], ["dead_value", "health_value", "chance_delta_result", "unit_x", "unit_y", "hit_size", "tmp_v1_x", "tmp_v1_y"])
+        self.assertEqual(unit_update_falling_smoke["params"][0]["schema"], "source_unit_update_falling_smoke_input.dead_value")
+        self.assertEqual(unit_update_falling_smoke["params"][2]["schema"], "source_unit_update_falling_smoke_input.chance_delta_result")
+        self.assertEqual(unit_update_falling_smoke["params"][7]["schema"], "source_unit_update_falling_smoke_input.tmp_v1_y")
+        for key in ["fallingGuard", "chance", "effect"]:
+            self.assertIn(key, unit_update_falling_smoke["return_keys"])
+        self.assertNotIn("dead_value", unit_update_falling_smoke["return_keys"])
+        self.assertEqual(unit_update_falling_smoke["source_method"], "UnitComp.update() falling smoke")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24598,6 +24675,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["y_range_value"]["java_expr"], "Mathf.range(range)")
         self.assertEqual(source_unit_update_falling_engine_trail_input["keys"]["random_rotation_value"]["java_expr"], "Mathf.random()")
 
+        source_unit_update_falling_smoke_input = source_symbols.state_schema(schema, "source_unit_update_falling_smoke_input")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["health_value"]["java_expr"], "health")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["chance_delta_result"]["java_expr"], "Mathf.chanceDelta(0.1)")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["unit_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["unit_y"]["java_expr"], "y")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["hit_size"]["java_expr"], "hitSize")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["tmp_v1_x"]["java_expr"], "Tmp.v1.x")
+        self.assertEqual(source_unit_update_falling_smoke_input["keys"]["tmp_v1_y"]["java_expr"], "Tmp.v1.y")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25025,6 +25112,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_engine_trail_result["keys"]["offset"]["java_expr"], "float offset = type.engineOffset/2f + type.engineOffset/2f * elevation;")
         self.assertEqual(source_unit_update_falling_engine_trail_result["keys"]["effect"]["java_expr"], "type.fallEngineEffect.at(x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range), y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range), Mathf.random())")
         self.assertNotIn("dead_value", source_unit_update_falling_engine_trail_result["keys"])
+
+        source_unit_update_falling_smoke_result = source_symbols.state_schema(schema, "source_unit_update_falling_smoke_result")
+        self.assertEqual(source_unit_update_falling_smoke_result["keys"]["fallingGuard"]["java_expr"], "dead || health <= 0")
+        self.assertEqual(source_unit_update_falling_smoke_result["keys"]["chance"]["java_expr"], "if(Mathf.chanceDelta(0.1)){")
+        self.assertEqual(source_unit_update_falling_smoke_result["keys"]["effect"]["java_expr"], "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y);")
+        self.assertNotIn("dead_value", source_unit_update_falling_smoke_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
