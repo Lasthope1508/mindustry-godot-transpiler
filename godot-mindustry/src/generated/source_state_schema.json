@@ -58822,6 +58822,230 @@
       "owner": "PortGame.source_unit_update_sound_loop_state",
       "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
       "status": "active"
+    },
+    "source_unit_update_spawn_knockback_input": {
+      "keys": {
+        "team_is_wave_team": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.team_is_wave_team",
+          "java_expr": "team == state.rules.waveTeam",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit input for negated team != waveTeam guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "state_has_spawns_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
+          "java_expr": "state.hasSpawns()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit state.hasSpawns input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "net_client_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
+          "java_expr": "net.client()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit net.client input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "is_local_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.is_local_value",
+          "java_expr": "isLocal()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit isLocal input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "hittable_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.hittable_value",
+          "java_expr": "hittable()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit hittable input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "drop_zone_radius": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.drop_zone_radius",
+          "java_expr": "state.rules.dropZoneRadius",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit dropZoneRadius input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "hit_size": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.hit_size",
+          "java_expr": "hitSize",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit hitSize input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "unit_x": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.unit_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit unit x input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "unit_y": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.unit_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit unit y input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "spawns": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
+          "java_expr": "spawner.getSpawns()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit spawn coordinate inputs representing spawner.getSpawns().",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit Time.delta input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "active"
+    },
+    "source_unit_update_spawn_knockback_result": {
+      "keys": {
+        "guard": {
+          "godot_symbol": "source_unit_update_spawn_knockback_result.guard",
+          "java_expr": "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Computed spawn knockback guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "relativeSize": {
+          "godot_symbol": "source_unit_update_spawn_knockback_result.relativeSize",
+          "java_expr": "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Computed relative knockback size.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "knockbacks": {
+          "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+          "java_expr": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Recorded velAddNet knockback call list.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "active"
     }
   },
   "version": 1

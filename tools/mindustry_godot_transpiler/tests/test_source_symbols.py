@@ -5940,6 +5940,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(move_call["java_expr"], "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);")
         self.assertEqual(move_call["godot_symbol"], "source_unit_update_sound_loop_result.moveSound")
 
+    def test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_spawn_knockback.guard")
+        self.assertEqual(guard["java_expr"], "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() spawn knockback")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_spawn_knockback_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_spawn_knockback_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_spawn_knockback_result.guard")
+
+        relative_size = source_symbols.source_symbol(registry, "unit_update_spawn_knockback.relative_size")
+        self.assertEqual(relative_size["java_expr"], "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;")
+        self.assertEqual(relative_size["godot_symbol"], "source_unit_update_spawn_knockback_result.relativeSize")
+
+        spawn_loop = source_symbols.source_symbol(registry, "unit_update_spawn_knockback.spawn_loop")
+        self.assertEqual(spawn_loop["java_expr"], "for(Tile spawn : spawner.getSpawns()){")
+        self.assertEqual(spawn_loop["godot_symbol"], "source_unit_update_spawn_knockback_input.spawns")
+
+        within_guard = source_symbols.source_symbol(registry, "unit_update_spawn_knockback.spawn_within_guard")
+        self.assertEqual(within_guard["java_expr"], "if(within(spawn.worldx(), spawn.worldy(), relativeSize)){")
+        self.assertEqual(within_guard["godot_symbol"], "source_unit_update_spawn_knockback_result.knockbacks")
+
+        vel_add = source_symbols.source_symbol(registry, "unit_update_spawn_knockback.vel_add_net_call")
+        self.assertEqual(vel_add["java_expr"], "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));")
+        self.assertEqual(vel_add["godot_symbol"], "source_unit_update_spawn_knockback_result.knockbacks")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14412,9 +14442,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 422)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 423)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 427)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 428)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14448,6 +14478,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_nan_health_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_solid_tile_response_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_sound_loop_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_spawn_knockback_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16957,6 +16988,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Sound loopSound = Sounds.none;", unit_update_sound_loop["bridge_exprs"])
         self.assertIn("return (float)Math.sqrt(x * x + y * y);", unit_update_sound_loop["bridge_exprs"])
         self.assertIn("Live audio playback remains recorded call state only.", unit_update_sound_loop["deferred_exprs"])
+
+        unit_update_spawn_knockback = source_symbols.source_slice(ledger, "N825")
+        self.assertEqual(unit_update_spawn_knockback["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_spawn_knockback["java_method"], "UnitComp.update() spawn knockback")
+        self.assertEqual(unit_update_spawn_knockback["godot_owner"], "PortGame.source_unit_update_spawn_knockback_state")
+        self.assertIn("//apply knockback based on spawns", unit_update_spawn_knockback["exact_exprs"])
+        self.assertIn("if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){", unit_update_spawn_knockback["exact_exprs"])
+        self.assertIn("float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;", unit_update_spawn_knockback["exact_exprs"])
+        self.assertIn("for(Tile spawn : spawner.getSpawns()){", unit_update_spawn_knockback["exact_exprs"])
+        self.assertIn("if(within(spawn.worldx(), spawn.worldy(), relativeSize)){", unit_update_spawn_knockback["exact_exprs"])
+        self.assertIn("velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));", unit_update_spawn_knockback["exact_exprs"])
+        self.assertIn("return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);", unit_update_spawn_knockback["bridge_exprs"])
+        self.assertIn("Actual network velocity mutation remains recorded call state only.", unit_update_spawn_knockback["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20897,6 +20941,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_sound_loop["return_keys"])
         self.assertNotIn("headless_value", unit_update_sound_loop["return_keys"])
         self.assertEqual(unit_update_sound_loop["source_method"], "UnitComp.update() sound loop")
+
+        unit_update_spawn_knockback = source_symbols.api_contract(contracts, "PortGame.source_unit_update_spawn_knockback_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_spawn_knockback["params"]],
+            ["team_is_wave_team", "state_has_spawns_value", "net_client_value", "is_local_value", "hittable_value", "drop_zone_radius", "hit_size", "unit_x", "unit_y", "spawns", "source_delta"],
+        )
+        self.assertEqual(unit_update_spawn_knockback["params"][0]["schema"], "source_unit_update_spawn_knockback_input.team_is_wave_team")
+        self.assertEqual(unit_update_spawn_knockback["params"][1]["schema"], "source_unit_update_spawn_knockback_input.state_has_spawns_value")
+        self.assertEqual(unit_update_spawn_knockback["params"][2]["schema"], "source_unit_update_spawn_knockback_input.net_client_value")
+        self.assertEqual(unit_update_spawn_knockback["params"][3]["schema"], "source_unit_update_spawn_knockback_input.is_local_value")
+        self.assertEqual(unit_update_spawn_knockback["params"][4]["schema"], "source_unit_update_spawn_knockback_input.hittable_value")
+        self.assertEqual(unit_update_spawn_knockback["params"][5]["schema"], "source_unit_update_spawn_knockback_input.drop_zone_radius")
+        self.assertEqual(unit_update_spawn_knockback["params"][6]["schema"], "source_unit_update_spawn_knockback_input.hit_size")
+        self.assertEqual(unit_update_spawn_knockback["params"][7]["schema"], "source_unit_update_spawn_knockback_input.unit_x")
+        self.assertEqual(unit_update_spawn_knockback["params"][8]["schema"], "source_unit_update_spawn_knockback_input.unit_y")
+        self.assertEqual(unit_update_spawn_knockback["params"][9]["schema"], "source_unit_update_spawn_knockback_input.spawns")
+        self.assertEqual(unit_update_spawn_knockback["params"][10]["schema"], "source_unit_update_spawn_knockback_input.source_delta")
+        for key in ["guard", "relativeSize", "knockbacks"]:
+            self.assertIn(key, unit_update_spawn_knockback["return_keys"])
+        self.assertNotIn("spawns", unit_update_spawn_knockback["return_keys"])
+        self.assertEqual(unit_update_spawn_knockback["source_method"], "UnitComp.update() spawn knockback")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -25201,6 +25266,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_sound_loop_input["keys"]["velocity_y"]["java_expr"], "vel.y")
         self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_speed"]["java_expr"], "type.speed")
 
+        source_unit_update_spawn_knockback_input = source_symbols.state_schema(schema, "source_unit_update_spawn_knockback_input")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["team_is_wave_team"]["java_expr"], "team == state.rules.waveTeam")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["state_has_spawns_value"]["java_expr"], "state.hasSpawns()")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["net_client_value"]["java_expr"], "net.client()")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["is_local_value"]["java_expr"], "isLocal()")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["hittable_value"]["java_expr"], "hittable()")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["drop_zone_radius"]["java_expr"], "state.rules.dropZoneRadius")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["hit_size"]["java_expr"], "hitSize")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["unit_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["unit_y"]["java_expr"], "y")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["spawns"]["java_expr"], "spawner.getSpawns()")
+        self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25688,6 +25766,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_sound_loop_result["keys"]["loopSound"]["java_expr"], "control.sound.loop(type.loopSound, this, type.loopSoundVolume);")
         self.assertEqual(source_unit_update_sound_loop_result["keys"]["moveSound"]["java_expr"], "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);")
         self.assertNotIn("headless_value", source_unit_update_sound_loop_result["keys"])
+
+        source_unit_update_spawn_knockback_result = source_symbols.state_schema(schema, "source_unit_update_spawn_knockback_result")
+        self.assertEqual(source_unit_update_spawn_knockback_result["keys"]["guard"]["java_expr"], "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){")
+        self.assertEqual(source_unit_update_spawn_knockback_result["keys"]["relativeSize"]["java_expr"], "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;")
+        self.assertEqual(source_unit_update_spawn_knockback_result["keys"]["knockbacks"]["java_expr"], "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));")
+        self.assertNotIn("spawns", source_unit_update_spawn_knockback_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

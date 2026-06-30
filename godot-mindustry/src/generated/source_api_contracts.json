@@ -16281,6 +16281,81 @@
         "test_port_game_exposes_source_unit_update_sound_loop_state",
         "test_unit_update_sound_loop_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_spawn_knockback_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "team_is_wave_team",
+          "schema": "source_unit_update_spawn_knockback_input.team_is_wave_team",
+          "type": "bool"
+        },
+        {
+          "name": "state_has_spawns_value",
+          "schema": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
+          "type": "bool"
+        },
+        {
+          "name": "net_client_value",
+          "schema": "source_unit_update_spawn_knockback_input.net_client_value",
+          "type": "bool"
+        },
+        {
+          "name": "is_local_value",
+          "schema": "source_unit_update_spawn_knockback_input.is_local_value",
+          "type": "bool"
+        },
+        {
+          "name": "hittable_value",
+          "schema": "source_unit_update_spawn_knockback_input.hittable_value",
+          "type": "bool"
+        },
+        {
+          "name": "drop_zone_radius",
+          "schema": "source_unit_update_spawn_knockback_input.drop_zone_radius",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_update_spawn_knockback_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_unit_update_spawn_knockback_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_unit_update_spawn_knockback_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "spawns",
+          "schema": "source_unit_update_spawn_knockback_input.spawns",
+          "type": "Array"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_spawn_knockback_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "relativeSize",
+        "knockbacks"
+      ],
+      "rule": "Public runtime contract for UnitComp.update spawn knockback call state.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "source_method": "UnitComp.update() spawn knockback",
+      "source_slice": "N825",
+      "status": "active",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
     }
   },
   "policy": {
