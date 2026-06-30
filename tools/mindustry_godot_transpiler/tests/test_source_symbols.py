@@ -5906,6 +5906,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(kill["java_expr"], "kill();")
         self.assertEqual(kill["godot_symbol"], "source_unit_update_solid_tile_response_result.kill")
 
+    def test_unit_update_sound_loop_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_sound_loop.headless_guard")
+        self.assertEqual(guard["java_expr"], "if(!headless){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() sound loop")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_sound_loop_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_sound_loop_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_sound_loop_result.soundEnabled")
+
+        loop_call = source_symbols.source_symbol(registry, "unit_update_sound_loop.loop_sound_call")
+        self.assertEqual(loop_call["java_expr"], "control.sound.loop(type.loopSound, this, type.loopSoundVolume);")
+        self.assertEqual(loop_call["godot_symbol"], "source_unit_update_sound_loop_result.loopSound")
+
+        move_guard = source_symbols.source_symbol(registry, "unit_update_sound_loop.move_sound_guard")
+        self.assertEqual(move_guard["java_expr"], "if(type.moveSound != Sounds.none){")
+        self.assertEqual(move_guard["godot_symbol"], "source_unit_update_sound_loop_result.moveSound")
+
+        progress = source_symbols.source_symbol(registry, "unit_update_sound_loop.move_progress")
+        self.assertEqual(progress["java_expr"], "float progress = Mathf.clamp(vel.len() / type.speed);")
+        self.assertEqual(progress["godot_symbol"], "source_unit_update_sound_loop_result.progress")
+
+        pitch = source_symbols.source_symbol(registry, "unit_update_sound_loop.move_pitch")
+        self.assertEqual(pitch["java_expr"], "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);")
+        self.assertEqual(pitch["godot_symbol"], "source_unit_update_sound_loop_result.pitch")
+
+        move_call = source_symbols.source_symbol(registry, "unit_update_sound_loop.move_sound_call")
+        self.assertEqual(move_call["java_expr"], "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);")
+        self.assertEqual(move_call["godot_symbol"], "source_unit_update_sound_loop_result.moveSound")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14378,9 +14412,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 421)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 422)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 426)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 427)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14413,6 +14447,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_invalid_controller_reset_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_nan_health_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_solid_tile_response_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16908,6 +16943,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("kill();", unit_update_solid_tile_response["exact_exprs"])
         self.assertIn("return canPass(tileX(), tileY());", unit_update_solid_tile_response["bridge_exprs"])
         self.assertIn("kill() body remains owned by UnitComp.kill() slices.", unit_update_solid_tile_response["deferred_exprs"])
+
+        unit_update_sound_loop = source_symbols.source_slice(ledger, "N824")
+        self.assertEqual(unit_update_sound_loop["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_sound_loop["java_method"], "UnitComp.update() sound loop")
+        self.assertEqual(unit_update_sound_loop["godot_owner"], "PortGame.source_unit_update_sound_loop_state")
+        self.assertIn("if(!headless){", unit_update_sound_loop["exact_exprs"])
+        self.assertIn("control.sound.loop(type.loopSound, this, type.loopSoundVolume);", unit_update_sound_loop["exact_exprs"])
+        self.assertIn("if(type.moveSound != Sounds.none){", unit_update_sound_loop["exact_exprs"])
+        self.assertIn("float progress = Mathf.clamp(vel.len() / type.speed);", unit_update_sound_loop["exact_exprs"])
+        self.assertIn("float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);", unit_update_sound_loop["exact_exprs"])
+        self.assertIn("control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);", unit_update_sound_loop["exact_exprs"])
+        self.assertIn("public Sound loopSound = Sounds.none;", unit_update_sound_loop["bridge_exprs"])
+        self.assertIn("return (float)Math.sqrt(x * x + y * y);", unit_update_sound_loop["bridge_exprs"])
+        self.assertIn("Live audio playback remains recorded call state only.", unit_update_sound_loop["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20828,6 +20877,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_solid_tile_response["return_keys"])
         self.assertNotIn("tile_exists", unit_update_solid_tile_response["return_keys"])
         self.assertEqual(unit_update_solid_tile_response["source_method"], "UnitComp.update() solid tile response")
+
+        unit_update_sound_loop = source_symbols.api_contract(contracts, "PortGame.source_unit_update_sound_loop_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_sound_loop["params"]],
+            ["headless_value", "type_loop_sound", "type_loop_sound_volume", "type_move_sound", "type_move_sound_volume", "type_move_sound_pitch_min", "type_move_sound_pitch_max", "velocity_x", "velocity_y", "type_speed"],
+        )
+        self.assertEqual(unit_update_sound_loop["params"][0]["schema"], "source_unit_update_sound_loop_input.headless_value")
+        self.assertEqual(unit_update_sound_loop["params"][1]["schema"], "source_unit_update_sound_loop_input.type_loop_sound")
+        self.assertEqual(unit_update_sound_loop["params"][2]["schema"], "source_unit_update_sound_loop_input.type_loop_sound_volume")
+        self.assertEqual(unit_update_sound_loop["params"][3]["schema"], "source_unit_update_sound_loop_input.type_move_sound")
+        self.assertEqual(unit_update_sound_loop["params"][4]["schema"], "source_unit_update_sound_loop_input.type_move_sound_volume")
+        self.assertEqual(unit_update_sound_loop["params"][5]["schema"], "source_unit_update_sound_loop_input.type_move_sound_pitch_min")
+        self.assertEqual(unit_update_sound_loop["params"][6]["schema"], "source_unit_update_sound_loop_input.type_move_sound_pitch_max")
+        self.assertEqual(unit_update_sound_loop["params"][7]["schema"], "source_unit_update_sound_loop_input.velocity_x")
+        self.assertEqual(unit_update_sound_loop["params"][8]["schema"], "source_unit_update_sound_loop_input.velocity_y")
+        self.assertEqual(unit_update_sound_loop["params"][9]["schema"], "source_unit_update_sound_loop_input.type_speed")
+        for key in ["soundEnabled", "velocityLen", "progress", "pitch", "loopSound", "moveSound"]:
+            self.assertIn(key, unit_update_sound_loop["return_keys"])
+        self.assertNotIn("headless_value", unit_update_sound_loop["return_keys"])
+        self.assertEqual(unit_update_sound_loop["source_method"], "UnitComp.update() sound loop")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -25120,6 +25189,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["is_remote_value"]["java_expr"], "isRemote()")
         self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["unit_id"]["java_expr"], "self()")
 
+        source_unit_update_sound_loop_input = source_symbols.state_schema(schema, "source_unit_update_sound_loop_input")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["headless_value"]["java_expr"], "headless")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_loop_sound"]["java_expr"], "type.loopSound")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_loop_sound_volume"]["java_expr"], "type.loopSoundVolume")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_move_sound"]["java_expr"], "type.moveSound")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_move_sound_volume"]["java_expr"], "type.moveSoundVolume")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_move_sound_pitch_min"]["java_expr"], "type.moveSoundPitchMin")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_move_sound_pitch_max"]["java_expr"], "type.moveSoundPitchMax")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["velocity_x"]["java_expr"], "vel.x")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["velocity_y"]["java_expr"], "vel.y")
+        self.assertEqual(source_unit_update_sound_loop_input["keys"]["type_speed"]["java_expr"], "type.speed")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25598,6 +25679,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["isRemote"]["java_expr"], "isRemote()")
         self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["kill"]["java_expr"], "kill();")
         self.assertNotIn("tile_exists", source_unit_update_solid_tile_response_result["keys"])
+
+        source_unit_update_sound_loop_result = source_symbols.state_schema(schema, "source_unit_update_sound_loop_result")
+        self.assertEqual(source_unit_update_sound_loop_result["keys"]["soundEnabled"]["java_expr"], "if(!headless){")
+        self.assertEqual(source_unit_update_sound_loop_result["keys"]["velocityLen"]["java_expr"], "vel.len()")
+        self.assertEqual(source_unit_update_sound_loop_result["keys"]["progress"]["java_expr"], "float progress = Mathf.clamp(vel.len() / type.speed);")
+        self.assertEqual(source_unit_update_sound_loop_result["keys"]["pitch"]["java_expr"], "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);")
+        self.assertEqual(source_unit_update_sound_loop_result["keys"]["loopSound"]["java_expr"], "control.sound.loop(type.loopSound, this, type.loopSoundVolume);")
+        self.assertEqual(source_unit_update_sound_loop_result["keys"]["moveSound"]["java_expr"], "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);")
+        self.assertNotIn("headless_value", source_unit_update_sound_loop_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

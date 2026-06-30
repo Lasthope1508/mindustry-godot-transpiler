@@ -48213,6 +48213,471 @@
         "test_port_game_exposes_source_unit_update_solid_tile_response_state",
         "test_unit_update_solid_tile_response_matches_upstream_source"
       ]
+    },
+    "unit_update_sound_loop.headless_guard": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.soundEnabled",
+      "java_expr": "if(!headless){",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Sound loop block runs only when not headless.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.loop_sound_call": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+      "java_expr": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime records loop sound call arguments.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_sound_guard": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
+      "java_expr": "if(type.moveSound != Sounds.none){",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Move sound branch runs only when type.moveSound is not Sounds.none.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_progress": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.progress",
+      "java_expr": "float progress = Mathf.clamp(vel.len() / type.speed);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Move sound progress is clamped velocity length over type speed.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_pitch": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+      "java_expr": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Move sound pitch uses source Mathf.lerp over pitch range and progress.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_sound_call": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
+      "java_expr": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime records move sound call arguments.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.headless_value": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
+      "java_expr": "headless",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit headless input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_loop_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
+      "java_expr": "type.loopSound",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType loopSound input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_loop_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+      "java_expr": "type.loopSoundVolume",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType loopSoundVolume input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
+      "java_expr": "type.moveSound",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSound input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
+      "java_expr": "type.moveSoundVolume",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSoundVolume input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound_pitch_min": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+      "java_expr": "type.moveSoundPitchMin",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSoundPitchMin input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound_pitch_max": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
+      "java_expr": "type.moveSoundPitchMax",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSoundPitchMax input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.velocity_x": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.velocity_x",
+      "java_expr": "vel.x",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit velocity x component input for vel.len().",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.velocity_y": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.velocity_y",
+      "java_expr": "vel.y",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit velocity y component input for vel.len().",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_speed": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_speed",
+      "java_expr": "type.speed",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType speed input for progress denominator.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.velocity_len": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+      "java_expr": "vel.len()",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime velocityLen mirrors Vec2.len input expression.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.vars_headless": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
+      "java_expr": "public static boolean headless;",
+      "java_method": "Vars fields",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Vars.headless backs headless predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_loop_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
+      "java_expr": "public Sound loopSound = Sounds.none;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType loopSound default is Sounds.none.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_loop_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+      "java_expr": "public float loopSoundVolume = 0.5f;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType loopSoundVolume default is 0.5f.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_move_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
+      "java_expr": "public Sound moveSound = Sounds.none;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType moveSound default is Sounds.none.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_move_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
+      "java_expr": "public float moveSoundVolume = 1f;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType moveSoundVolume default is 1f.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_move_sound_pitch": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+      "java_expr": "public float moveSoundPitchMin = 1f, moveSoundPitchMax = 1f;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType move sound pitch min/max defaults are 1f.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.sound_control_loop_pos": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+      "java_expr": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+      "java_method": "loop(Sound sound, Position pos, float volume, float pitch)",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "rule": "SoundControl loop overload receives position, volume, and pitch.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.sound_control_guard": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+      "java_expr": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+      "java_method": "loop(Sound sound, Position pos, float volume, float pitch)",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "rule": "SoundControl loop has headless, none-sound, and tiny-volume guard.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_clamp_unit": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.progress",
+      "java_expr": "public static float clamp(float value){",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf clamp overload clamps to unit interval.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_clamp_unit_body": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.progress",
+      "java_expr": "return Math.max(Math.min(value, 1f), 0f);",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf clamp(float) returns value clamped to [0, 1].",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_lerp": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf lerp overload used for pitch.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_lerp_body": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+      "java_expr": "return fromValue + (toValue - fromValue) * progress;",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf lerp body used for pitch interpolation.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.vec2_len": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+      "java_expr": "public float len(){",
+      "java_method": "len()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 len method backs vel.len().",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.vec2_len_body": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+      "java_expr": "return (float)Math.sqrt(x * x + y * y);",
+      "java_method": "len()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 len body computes Euclidean length.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
     }
   },
   "version": 1

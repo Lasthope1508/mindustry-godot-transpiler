@@ -58568,6 +58568,260 @@
       "owner": "PortGame.source_unit_update_solid_tile_response_state",
       "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
       "status": "active"
+    },
+    "source_unit_update_sound_loop_input": {
+      "keys": {
+        "headless_value": {
+          "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
+          "java_expr": "headless",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit headless input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_loop_sound": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
+          "java_expr": "type.loopSound",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType loopSound input.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_loop_sound_volume": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+          "java_expr": "type.loopSoundVolume",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType loopSoundVolume input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
+          "java_expr": "type.moveSound",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSound input.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound_volume": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
+          "java_expr": "type.moveSoundVolume",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSoundVolume input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound_pitch_min": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+          "java_expr": "type.moveSoundPitchMin",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSoundPitchMin input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound_pitch_max": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
+          "java_expr": "type.moveSoundPitchMax",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSoundPitchMax input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "velocity_x": {
+          "godot_symbol": "source_unit_update_sound_loop_input.velocity_x",
+          "java_expr": "vel.x",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit velocity x input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "velocity_y": {
+          "godot_symbol": "source_unit_update_sound_loop_input.velocity_y",
+          "java_expr": "vel.y",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit velocity y input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_speed": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_speed",
+          "java_expr": "type.speed",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType speed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_sound_loop_state",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "active"
+    },
+    "source_unit_update_sound_loop_result": {
+      "keys": {
+        "soundEnabled": {
+          "godot_symbol": "source_unit_update_sound_loop_result.soundEnabled",
+          "java_expr": "if(!headless){",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Computed sound-enabled guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "velocityLen": {
+          "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+          "java_expr": "vel.len()",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Velocity length used by progress.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "progress": {
+          "godot_symbol": "source_unit_update_sound_loop_result.progress",
+          "java_expr": "float progress = Mathf.clamp(vel.len() / type.speed);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Move sound progress.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "pitch": {
+          "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+          "java_expr": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Move sound pitch.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "loopSound": {
+          "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+          "java_expr": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Recorded loop sound call dictionary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "moveSound": {
+          "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
+          "java_expr": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Recorded move sound call dictionary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_sound_loop_state",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "active"
     }
   },
   "version": 1

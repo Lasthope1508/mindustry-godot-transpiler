@@ -14486,6 +14486,77 @@
         "test_port_game_exposes_source_unit_update_solid_tile_response_state",
         "test_unit_update_solid_tile_response_matches_upstream_source"
       ]
+    },
+    "N824": {
+      "bridge_exprs": [
+        "public static boolean headless;",
+        "public Sound loopSound = Sounds.none;",
+        "public float loopSoundVolume = 0.5f;",
+        "public Sound moveSound = Sounds.none;",
+        "public float moveSoundVolume = 1f;",
+        "public float moveSoundPitchMin = 1f, moveSoundPitchMax = 1f;",
+        "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+        "return Math.max(Math.min(value, 1f), 0f);",
+        "return fromValue + (toValue - fromValue) * progress;",
+        "return (float)Math.sqrt(x * x + y * y);"
+      ],
+      "deferred_exprs": [
+        "Live audio playback remains recorded call state only.",
+        "SoundData volume/pitch accumulation and falloff remain owned by SoundControl slices.",
+        "No zero-speed branch is claimed as source-backed for UnitComp.update() sound progress."
+      ],
+      "exact_exprs": [
+        "if(!headless){",
+        "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
+        "if(type.moveSound != Sounds.none){",
+        "float progress = Mathf.clamp(vel.len() / type.speed);",
+        "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
+        "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "source_symbols": [
+        "unit_update_sound_loop.headless_guard",
+        "unit_update_sound_loop.headless_value",
+        "unit_update_sound_loop.loop_sound_call",
+        "unit_update_sound_loop.mathf_clamp_unit",
+        "unit_update_sound_loop.mathf_clamp_unit_body",
+        "unit_update_sound_loop.mathf_lerp",
+        "unit_update_sound_loop.mathf_lerp_body",
+        "unit_update_sound_loop.move_pitch",
+        "unit_update_sound_loop.move_progress",
+        "unit_update_sound_loop.move_sound_call",
+        "unit_update_sound_loop.move_sound_guard",
+        "unit_update_sound_loop.sound_control_guard",
+        "unit_update_sound_loop.sound_control_loop_pos",
+        "unit_update_sound_loop.type_loop_sound",
+        "unit_update_sound_loop.type_loop_sound_volume",
+        "unit_update_sound_loop.type_move_sound",
+        "unit_update_sound_loop.type_move_sound_pitch_max",
+        "unit_update_sound_loop.type_move_sound_pitch_min",
+        "unit_update_sound_loop.type_move_sound_volume",
+        "unit_update_sound_loop.type_speed",
+        "unit_update_sound_loop.unit_loop_sound",
+        "unit_update_sound_loop.unit_loop_sound_volume",
+        "unit_update_sound_loop.unit_move_sound",
+        "unit_update_sound_loop.unit_move_sound_pitch",
+        "unit_update_sound_loop.unit_move_sound_volume",
+        "unit_update_sound_loop.vars_headless",
+        "unit_update_sound_loop.vec2_len",
+        "unit_update_sound_loop.vec2_len_body",
+        "unit_update_sound_loop.velocity_len",
+        "unit_update_sound_loop.velocity_x",
+        "unit_update_sound_loop.velocity_y"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
     }
   },
   "version": 1

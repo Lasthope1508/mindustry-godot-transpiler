@@ -16208,6 +16208,79 @@
         "test_port_game_exposes_source_unit_update_solid_tile_response_state",
         "test_unit_update_solid_tile_response_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_sound_loop_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "headless_value",
+          "schema": "source_unit_update_sound_loop_input.headless_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_loop_sound",
+          "schema": "source_unit_update_sound_loop_input.type_loop_sound",
+          "type": "String"
+        },
+        {
+          "name": "type_loop_sound_volume",
+          "schema": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "type_move_sound",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound",
+          "type": "String"
+        },
+        {
+          "name": "type_move_sound_volume",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "type_move_sound_pitch_min",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+          "type": "float"
+        },
+        {
+          "name": "type_move_sound_pitch_max",
+          "schema": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
+          "type": "float"
+        },
+        {
+          "name": "velocity_x",
+          "schema": "source_unit_update_sound_loop_input.velocity_x",
+          "type": "float"
+        },
+        {
+          "name": "velocity_y",
+          "schema": "source_unit_update_sound_loop_input.velocity_y",
+          "type": "float"
+        },
+        {
+          "name": "type_speed",
+          "schema": "source_unit_update_sound_loop_input.type_speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "soundEnabled",
+        "velocityLen",
+        "progress",
+        "pitch",
+        "loopSound",
+        "moveSound"
+      ],
+      "rule": "Public runtime contract for UnitComp.update loop/move sound call state.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "source_method": "UnitComp.update() sound loop",
+      "source_slice": "N824",
+      "status": "active",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
     }
   },
   "policy": {
