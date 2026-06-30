@@ -47883,6 +47883,336 @@
         "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
         "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "unit_update_solid_tile_response.comment": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
+      "java_expr": "//kill entities on tiles that are solid to them",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment identifying solid tile response block.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.guard": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
+      "java_expr": "if(tile != null && !canPassOn()){",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Guard enters only when current tile exists and canPassOn is false.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.tile_exists": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.tile_exists",
+      "java_expr": "tile != null",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit tile existence input from guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.can_pass_on": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+      "java_expr": "canPassOn()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit canPassOn predicate input from guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.type_can_boost": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
+      "java_expr": "type.canBoost",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit boost capability input from UnitType field.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.current_elevation": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.current_elevation",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit current elevation input preserved when no boost assignment occurs.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.net_client_value": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
+      "java_expr": "net.client()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit network client predicate input from kill guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.headless_value": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
+      "java_expr": "headless",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit Vars.headless input from remote kill guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.is_remote_value": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
+      "java_expr": "isRemote()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit remote-unit predicate input from kill guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.unit_id": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit unit identity input for recorded kill call.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.boost_comment": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
+      "java_expr": "//boost if possible",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment identifying boost branch.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.can_boost_guard": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
+      "java_expr": "if(type.canBoost){",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Boost branch guard from UnitType.canBoost.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.boost_elevation": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.elevation",
+      "java_expr": "elevation = 1f;",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Boost-capable units set elevation to one on solid tile response.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.kill_guard": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
+      "java_expr": "}else if(!net.client() && !(!headless && isRemote())){",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Kill branch guard excludes client and GUI remote cases.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.kill_call": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
+      "java_expr": "kill();",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Non-boost unit records kill call when kill guard passes.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.vel_can_pass_on": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+      "java_expr": "boolean canPassOn(){",
+      "java_method": "canPassOn()",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "VelComp canPassOn method provides predicate used by UnitComp guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.vel_can_pass_on_body": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+      "java_expr": "return canPass(tileX(), tileY());",
+      "java_method": "canPassOn()",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "VelComp canPassOn delegates to canPass at current tile coordinates.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.unit_type_can_boost_default": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
+      "java_expr": "public boolean canBoost = false;",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType canBoost default is false.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.net_client": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
+      "java_expr": "public boolean client(){",
+      "java_method": "client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net client method provides net.client() predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.net_client_body": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
+      "java_expr": "return !server && active;",
+      "java_method": "client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net client is true when not server and active.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.vars_headless": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
+      "java_expr": "public static boolean headless;",
+      "java_method": "Vars fields",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Vars.headless backs headless predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.entity_is_remote": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
+      "java_expr": "boolean isRemote(){",
+      "java_method": "isRemote()",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "rule": "EntityComp isRemote method backs remote predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
     }
   },
   "version": 1

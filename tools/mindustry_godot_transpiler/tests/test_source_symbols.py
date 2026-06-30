@@ -5871,6 +5871,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(kill["java_expr"], "kill();")
         self.assertEqual(kill["godot_symbol"], "source_unit_update_nan_health_result.kill")
 
+    def test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_solid_tile_response.guard")
+        self.assertEqual(guard["java_expr"], "if(tile != null && !canPassOn()){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() solid tile response")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_solid_tile_response_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_solid_tile_response_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_solid_tile_response_result.guard")
+
+        tile_exists = source_symbols.source_symbol(registry, "unit_update_solid_tile_response.tile_exists")
+        self.assertEqual(tile_exists["status"], "explicit-input")
+        self.assertEqual(tile_exists["java_expr"], "tile != null")
+        self.assertEqual(tile_exists["godot_symbol"], "source_unit_update_solid_tile_response_input.tile_exists")
+
+        can_pass_on = source_symbols.source_symbol(registry, "unit_update_solid_tile_response.can_pass_on")
+        self.assertEqual(can_pass_on["java_expr"], "canPassOn()")
+        self.assertEqual(can_pass_on["godot_symbol"], "source_unit_update_solid_tile_response_input.can_pass_on_value")
+
+        boost = source_symbols.source_symbol(registry, "unit_update_solid_tile_response.boost_elevation")
+        self.assertEqual(boost["java_expr"], "elevation = 1f;")
+        self.assertEqual(boost["godot_symbol"], "source_unit_update_solid_tile_response_result.elevation")
+
+        kill_guard = source_symbols.source_symbol(registry, "unit_update_solid_tile_response.kill_guard")
+        self.assertEqual(kill_guard["java_expr"], "}else if(!net.client() && !(!headless && isRemote())){")
+        self.assertEqual(kill_guard["godot_symbol"], "source_unit_update_solid_tile_response_result.kill")
+
+        kill = source_symbols.source_symbol(registry, "unit_update_solid_tile_response.kill_call")
+        self.assertEqual(kill["java_expr"], "kill();")
+        self.assertEqual(kill["godot_symbol"], "source_unit_update_solid_tile_response_result.kill")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14343,9 +14378,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 420)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 421)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 425)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 426)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14377,6 +14412,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_heal_time_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_invalid_controller_reset_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_nan_health_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_solid_tile_response_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16859,6 +16895,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("health = 0f;", unit_update_nan_health["exact_exprs"])
         self.assertIn("kill();", unit_update_nan_health["exact_exprs"])
         self.assertIn("NaN health reset and kill are recorded only; kill() body remains owned by UnitComp.kill() slices.", unit_update_nan_health["deferred_exprs"])
+
+        unit_update_solid_tile_response = source_symbols.source_slice(ledger, "N823")
+        self.assertEqual(unit_update_solid_tile_response["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_solid_tile_response["java_method"], "UnitComp.update() solid tile response")
+        self.assertEqual(unit_update_solid_tile_response["godot_owner"], "PortGame.source_unit_update_solid_tile_response_state")
+        self.assertIn("//kill entities on tiles that are solid to them", unit_update_solid_tile_response["exact_exprs"])
+        self.assertIn("if(tile != null && !canPassOn()){", unit_update_solid_tile_response["exact_exprs"])
+        self.assertIn("if(type.canBoost){", unit_update_solid_tile_response["exact_exprs"])
+        self.assertIn("elevation = 1f;", unit_update_solid_tile_response["exact_exprs"])
+        self.assertIn("}else if(!net.client() && !(!headless && isRemote())){", unit_update_solid_tile_response["exact_exprs"])
+        self.assertIn("kill();", unit_update_solid_tile_response["exact_exprs"])
+        self.assertIn("return canPass(tileX(), tileY());", unit_update_solid_tile_response["bridge_exprs"])
+        self.assertIn("kill() body remains owned by UnitComp.kill() slices.", unit_update_solid_tile_response["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20761,6 +20810,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_nan_health["return_keys"])
         self.assertNotIn("current_health", unit_update_nan_health["return_keys"])
         self.assertEqual(unit_update_nan_health["source_method"], "UnitComp.update() NaN health")
+
+        unit_update_solid_tile_response = source_symbols.api_contract(contracts, "PortGame.source_unit_update_solid_tile_response_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_solid_tile_response["params"]],
+            ["tile_exists", "can_pass_on_value", "type_can_boost", "current_elevation", "net_client_value", "headless_value", "is_remote_value", "unit_id"],
+        )
+        self.assertEqual(unit_update_solid_tile_response["params"][0]["schema"], "source_unit_update_solid_tile_response_input.tile_exists")
+        self.assertEqual(unit_update_solid_tile_response["params"][1]["schema"], "source_unit_update_solid_tile_response_input.can_pass_on_value")
+        self.assertEqual(unit_update_solid_tile_response["params"][2]["schema"], "source_unit_update_solid_tile_response_input.type_can_boost")
+        self.assertEqual(unit_update_solid_tile_response["params"][3]["schema"], "source_unit_update_solid_tile_response_input.current_elevation")
+        self.assertEqual(unit_update_solid_tile_response["params"][4]["schema"], "source_unit_update_solid_tile_response_input.net_client_value")
+        self.assertEqual(unit_update_solid_tile_response["params"][5]["schema"], "source_unit_update_solid_tile_response_input.headless_value")
+        self.assertEqual(unit_update_solid_tile_response["params"][6]["schema"], "source_unit_update_solid_tile_response_input.is_remote_value")
+        self.assertEqual(unit_update_solid_tile_response["params"][7]["schema"], "source_unit_update_solid_tile_response_input.unit_id")
+        for key in ["guard", "canPassOn", "typeCanBoost", "elevation", "netClient", "headless", "isRemote", "kill"]:
+            self.assertIn(key, unit_update_solid_tile_response["return_keys"])
+        self.assertNotIn("tile_exists", unit_update_solid_tile_response["return_keys"])
+        self.assertEqual(unit_update_solid_tile_response["source_method"], "UnitComp.update() solid tile response")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -25043,6 +25110,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_unit_update_nan_health_input = source_symbols.state_schema(schema, "source_unit_update_nan_health_input")
         self.assertEqual(source_unit_update_nan_health_input["keys"]["current_health"]["java_expr"], "health")
 
+        source_unit_update_solid_tile_response_input = source_symbols.state_schema(schema, "source_unit_update_solid_tile_response_input")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["can_pass_on_value"]["java_expr"], "canPassOn()")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["type_can_boost"]["java_expr"], "type.canBoost")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["current_elevation"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["net_client_value"]["java_expr"], "net.client()")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["headless_value"]["java_expr"], "headless")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["is_remote_value"]["java_expr"], "isRemote()")
+        self.assertEqual(source_unit_update_solid_tile_response_input["keys"]["unit_id"]["java_expr"], "self()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25510,6 +25587,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_nan_health_result["keys"]["health"]["java_expr"], "health = 0f;")
         self.assertEqual(source_unit_update_nan_health_result["keys"]["kill"]["java_expr"], "kill();")
         self.assertNotIn("current_health", source_unit_update_nan_health_result["keys"])
+
+        source_unit_update_solid_tile_response_result = source_symbols.state_schema(schema, "source_unit_update_solid_tile_response_result")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["guard"]["java_expr"], "if(tile != null && !canPassOn()){")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["canPassOn"]["java_expr"], "canPassOn()")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["typeCanBoost"]["java_expr"], "type.canBoost")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["elevation"]["java_expr"], "elevation = 1f;")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["netClient"]["java_expr"], "net.client()")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["headless"]["java_expr"], "headless")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["isRemote"]["java_expr"], "isRemote()")
+        self.assertEqual(source_unit_update_solid_tile_response_result["keys"]["kill"]["java_expr"], "kill();")
+        self.assertNotIn("tile_exists", source_unit_update_solid_tile_response_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

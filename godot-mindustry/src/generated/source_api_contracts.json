@@ -16143,6 +16143,71 @@
         "test_port_game_exposes_source_unit_update_nan_health_state",
         "test_unit_update_nan_health_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_solid_tile_response_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_solid_tile_response_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "can_pass_on_value",
+          "schema": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_can_boost",
+          "schema": "source_unit_update_solid_tile_response_input.type_can_boost",
+          "type": "bool"
+        },
+        {
+          "name": "current_elevation",
+          "schema": "source_unit_update_solid_tile_response_input.current_elevation",
+          "type": "float"
+        },
+        {
+          "name": "net_client_value",
+          "schema": "source_unit_update_solid_tile_response_input.net_client_value",
+          "type": "bool"
+        },
+        {
+          "name": "headless_value",
+          "schema": "source_unit_update_solid_tile_response_input.headless_value",
+          "type": "bool"
+        },
+        {
+          "name": "is_remote_value",
+          "schema": "source_unit_update_solid_tile_response_input.is_remote_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_solid_tile_response_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "canPassOn",
+        "typeCanBoost",
+        "elevation",
+        "netClient",
+        "headless",
+        "isRemote",
+        "kill"
+      ],
+      "rule": "Public runtime contract for UnitComp.update solid tile boost/kill response.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "source_method": "UnitComp.update() solid tile response",
+      "source_slice": "N823",
+      "status": "active",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
     }
   },
   "policy": {

@@ -14429,6 +14429,63 @@
         "test_port_game_exposes_source_unit_update_nan_health_state",
         "test_unit_update_nan_health_matches_upstream_source"
       ]
+    },
+    "N823": {
+      "bridge_exprs": [
+        "return canPass(tileX(), tileY());",
+        "public boolean canBoost = false;",
+        "return !server && active;",
+        "public static boolean headless;",
+        "boolean isRemote(){"
+      ],
+      "deferred_exprs": [
+        "kill() body remains owned by UnitComp.kill() slices.",
+        "Full canPass(tileX(), tileY()) solidity resolution remains owned by VelComp/canPass slices."
+      ],
+      "exact_exprs": [
+        "//kill entities on tiles that are solid to them",
+        "if(tile != null && !canPassOn()){",
+        "//boost if possible",
+        "if(type.canBoost){",
+        "elevation = 1f;",
+        "}else if(!net.client() && !(!headless && isRemote())){",
+        "kill();"
+      ],
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "source_symbols": [
+        "unit_update_solid_tile_response.boost_comment",
+        "unit_update_solid_tile_response.boost_elevation",
+        "unit_update_solid_tile_response.can_boost_guard",
+        "unit_update_solid_tile_response.can_pass_on",
+        "unit_update_solid_tile_response.comment",
+        "unit_update_solid_tile_response.current_elevation",
+        "unit_update_solid_tile_response.entity_is_remote",
+        "unit_update_solid_tile_response.guard",
+        "unit_update_solid_tile_response.headless_value",
+        "unit_update_solid_tile_response.is_remote_value",
+        "unit_update_solid_tile_response.kill_call",
+        "unit_update_solid_tile_response.kill_guard",
+        "unit_update_solid_tile_response.net_client",
+        "unit_update_solid_tile_response.net_client_body",
+        "unit_update_solid_tile_response.net_client_value",
+        "unit_update_solid_tile_response.tile_exists",
+        "unit_update_solid_tile_response.type_can_boost",
+        "unit_update_solid_tile_response.unit_id",
+        "unit_update_solid_tile_response.unit_type_can_boost_default",
+        "unit_update_solid_tile_response.vars_headless",
+        "unit_update_solid_tile_response.vel_can_pass_on",
+        "unit_update_solid_tile_response.vel_can_pass_on_body"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
     }
   },
   "version": 1
