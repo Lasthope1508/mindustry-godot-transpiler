@@ -3039,6 +3039,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec_input["java_expr"], "this")
         self.assertEqual(vec_input["godot_symbol"], "source_arc_vec2_limit_input.vec")
 
+    def test_source_vec2_limit_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "source_vec2_limit.method")
+        self.assertEqual(method["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(method["java_expr"], "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }")
+        self.assertEqual(method["godot_owner"], "PortGame.source_vec2_limit")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_vec2_limit")
+        self.assertEqual(method["godot_symbol"], "source_vec2_limit_result.method")
+
+        limit2 = source_symbols.source_symbol(registry, "source_vec2_limit.limit2_expr")
+        self.assertEqual(limit2["java_expr"], "limit * limit")
+        self.assertEqual(limit2["godot_symbol"], "source_vec2_limit_result.limit2")
+
+        len2 = source_symbols.source_symbol(registry, "source_vec2_limit.len2_method")
+        self.assertEqual(len2["java_expr"], "public float len2(){\n        return x * x + y * y;\n    }")
+        self.assertEqual(len2["godot_symbol"], "source_vec2_limit_result.len2")
+
+        scale_expr = source_symbols.source_symbol(registry, "source_vec2_limit.scale_expr")
+        self.assertEqual(scale_expr["java_expr"], "(float)Math.sqrt(limit2 / len2)")
+        self.assertEqual(scale_expr["godot_symbol"], "source_vec2_limit_result.limit_scale")
+
+        x_result = source_symbols.source_symbol(registry, "source_vec2_limit.x_result")
+        self.assertEqual(x_result["java_expr"], "x *= scalar;")
+        self.assertEqual(x_result["godot_symbol"], "source_vec2_limit_result.x")
+
+        vector_input = source_symbols.source_symbol(registry, "source_vec2_limit.vector_state")
+        self.assertEqual(vector_input["status"], "explicit-input")
+        self.assertEqual(vector_input["java_expr"], "this")
+        self.assertEqual(vector_input["godot_symbol"], "source_vec2_limit_input.vector_state")
+
     def test_block_can_replace_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14895,9 +14929,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 434)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 435)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 439)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 440)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14943,6 +14977,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_weapon_damage", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_wobble_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_world_speed", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_vec2_limit", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17605,6 +17640,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("speed = 0.5f;", unit_world_speed["bridge_exprs"])
         self.assertIn("public static final int tilesize = 8;", unit_world_speed["bridge_exprs"])
         self.assertIn("Godot gameplay helper returns source UnitType.speed multiplied by 60.0 pixels/second for existing playable motion.", unit_world_speed["deferred_exprs"])
+
+        source_vec2_limit = source_symbols.source_slice(ledger, "N837")
+        self.assertEqual(source_vec2_limit["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(source_vec2_limit["java_method"], "limit(float limit)")
+        self.assertEqual(source_vec2_limit["godot_owner"], "PortGame.source_vec2_limit")
+        self.assertIn("public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }", source_vec2_limit["exact_exprs"])
+        self.assertIn("public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }", source_vec2_limit["exact_exprs"])
+        self.assertIn("public float len2(){\n        return x * x + y * y;\n    }", source_vec2_limit["exact_exprs"])
+        self.assertIn("public Vec2 scl(float scalar){\n        x *= scalar;\n        y *= scalar;\n        return this;\n    }", source_vec2_limit["exact_exprs"])
+        self.assertIn("PortGame.source_arc_vec2_limit remains the canonical typed Vector2 helper; this owner registers the dictionary wrapper used by bullet update slices.", source_vec2_limit["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20640,6 +20685,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("limit2", arc_vec2_limit["return_keys"])
         self.assertIn("scale", arc_vec2_limit["return_keys"])
         self.assertEqual(arc_vec2_limit["source_method"], "limit(float limit)")
+
+        source_vec2_limit = source_symbols.api_contract(contracts, "PortGame.source_vec2_limit")
+        self.assertEqual([param["name"] for param in source_vec2_limit["params"]], ["vector_state", "limit"])
+        self.assertEqual(source_vec2_limit["params"][0]["schema"], "source_vec2_limit_input.vector_state")
+        self.assertEqual(source_vec2_limit["params"][1]["schema"], "source_vec2_limit_input.limit")
+        self.assertIn("x", source_vec2_limit["return_keys"])
+        self.assertIn("y", source_vec2_limit["return_keys"])
+        self.assertEqual(source_vec2_limit["source_method"], "limit(float limit)")
 
         block_can_replace = source_symbols.api_contract(contracts, "PortGame.source_block_can_replace_state")
         self.assertEqual([param["name"] for param in block_can_replace["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
@@ -25027,6 +25080,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_arc_vec2_limit_result["keys"]["scale"]["java_expr"], "(float)Math.sqrt(limit2 / len2)")
         self.assertEqual(source_arc_vec2_limit_result["keys"]["x"]["java_expr"], "x *= scalar;")
         self.assertEqual(source_arc_vec2_limit_result["keys"]["vec"]["alias_of"], "source_arc_vec2_limit_input.vec")
+
+        source_vec2_limit_input = source_symbols.state_schema(schema, "source_vec2_limit_input")
+        self.assertEqual(source_vec2_limit_input["keys"]["vector_state"]["java_expr"], "this")
+        self.assertEqual(source_vec2_limit_input["keys"]["limit"]["java_expr"], "limit")
+
+        source_vec2_limit_result = source_symbols.state_schema(schema, "source_vec2_limit_result")
+        self.assertEqual(source_vec2_limit_result["keys"]["limit2"]["java_expr"], "limit * limit")
+        self.assertEqual(source_vec2_limit_result["keys"]["len2"]["java_expr"], "return x * x + y * y;")
+        self.assertEqual(source_vec2_limit_result["keys"]["limitGate"]["java_expr"], "if(len2 > limit2)")
+        self.assertEqual(source_vec2_limit_result["keys"]["limit_scale"]["java_expr"], "(float)Math.sqrt(limit2 / len2)")
+        self.assertEqual(source_vec2_limit_result["keys"]["x"]["java_expr"], "x *= scalar;")
+        self.assertEqual(source_vec2_limit_result["keys"]["y"]["java_expr"], "y *= scalar;")
 
         source_block_can_replace_input = source_symbols.state_schema(schema, "source_block_can_replace_input")
         self.assertEqual(source_block_can_replace_input["keys"]["otherAlwaysReplace"]["java_expr"], "other.alwaysReplace")

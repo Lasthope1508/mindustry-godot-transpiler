@@ -16825,6 +16825,44 @@
         "test_unit_world_speed_matches_upstream_source",
         "test_port_game_uses_source_unit_speed"
       ]
+    },
+    "PortGame.source_vec2_limit": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "params": [
+        {
+          "name": "vector_state",
+          "schema": "source_vec2_limit_input.vector_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "limit",
+          "schema": "source_vec2_limit_input.limit",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "limit2Method",
+        "limit2",
+        "len2",
+        "limitGate",
+        "limit_scale",
+        "scl",
+        "returnThis",
+        "x",
+        "y",
+        "vector_state",
+        "limit"
+      ],
+      "rule": "Public runtime contract for dictionary Vec2.limit(float) wrapper used by bullet weaving circle shooter state.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "source_method": "limit(float limit)",
+      "source_slice": "N837",
+      "status": "active",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state"
+      ]
     }
   },
   "policy": {

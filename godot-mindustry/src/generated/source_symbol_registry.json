@@ -51708,6 +51708,162 @@
       "java_source": "core/src/mindustry/type/UnitType.java",
       "rule": "Runtime unit_type input represents a source UnitType content object.",
       "status": "explicit-input"
+    },
+    "source_vec2_limit.gate": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.limitGate",
+      "java_expr": "if(len2 > limit2)",
+      "java_method": "limit2(float limit2)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2.limit2 scales only when squared length exceeds squared limit.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.len2_method": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.len2",
+      "java_expr": "public float len2(){\n        return x * x + y * y;\n    }",
+      "java_method": "len2()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2.len2 supplies squared length for dictionary wrapper.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.limit": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_input.limit",
+      "java_expr": "limit",
+      "java_method": "limit(float limit)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Runtime limit parameter maps to Java limit.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "explicit-input",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.limit2_expr": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.limit2",
+      "java_expr": "limit * limit",
+      "java_method": "limit(float limit)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2.limit delegates to limit2 with squared limit.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.limit2_method": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.limit2Method",
+      "java_expr": "public Vec2 limit2(float limit2){\n        float len2 = len2();\n        if(len2 > limit2){\n            return scl((float)Math.sqrt(limit2 / len2));\n        }\n        return this;\n    }",
+      "java_method": "limit2(float limit2)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2.limit2 method body backing wrapper result.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.method": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.method",
+      "java_expr": "public Vec2 limit(float limit){\n        return limit2(limit * limit);\n    }",
+      "java_method": "limit(float limit)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Dictionary wrapper mirrors Arc Vec2.limit(float).",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.return_this": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.returnThis",
+      "java_expr": "return this;",
+      "java_method": "limit2(float limit2)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Unchanged branch returns current vector when no scale is needed.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.scale_expr": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.limit_scale",
+      "java_expr": "(float)Math.sqrt(limit2 / len2)",
+      "java_method": "limit2(float limit2)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Scale factor comes from Arc Vec2.limit2.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.scl_method": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.scl",
+      "java_expr": "public Vec2 scl(float scalar){\n        x *= scalar;\n        y *= scalar;\n        return this;\n    }",
+      "java_method": "scl(float scalar)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2.scl mutates x and y by scalar.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.vector_state": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_input.vector_state",
+      "java_expr": "this",
+      "java_method": "limit(float limit)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Runtime dictionary vector represents Java this Vec2.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "explicit-input",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.x_result": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.x",
+      "java_expr": "x *= scalar;",
+      "java_method": "scl(float scalar)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Scaled x result mirrors Vec2.scl.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "source_vec2_limit.y_result": {
+      "godot_owner": "PortGame.source_vec2_limit",
+      "godot_symbol": "source_vec2_limit_result.y",
+      "java_expr": "y *= scalar;",
+      "java_method": "scl(float scalar)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Scaled y result mirrors Vec2.scl.",
+      "runtime_proof": "/root/Main.source_vec2_limit",
+      "status": "source-backed",
+      "tests": [
+        "test_source_vec2_limit_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
