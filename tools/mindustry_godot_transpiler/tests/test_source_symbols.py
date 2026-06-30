@@ -4923,6 +4923,84 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_id["java_expr"], "self()")
         self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_ability_death_input.unit_id")
 
+    def test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_explosion_dispatch_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_explosion_dispatch_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_explosion_dispatch_result.method")
+
+        not_spawned_guard = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.not_spawned_guard")
+        self.assertEqual(not_spawned_guard["java_expr"], "if(!spawnedByCore){")
+        self.assertEqual(not_spawned_guard["godot_symbol"], "source_unit_destroy_explosion_dispatch_result.guard")
+
+        dynamic_explosion_call = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.dynamic_explosion_call")
+        self.assertEqual(dynamic_explosion_call["java_expr"], "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);")
+        self.assertEqual(dynamic_explosion_call["godot_symbol"], "source_unit_destroy_explosion_dispatch_result.dynamicCall")
+
+        spawned_core_else = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.spawned_core_else")
+        self.assertEqual(spawned_core_else["java_expr"], "}else{")
+        self.assertEqual(spawned_core_else["godot_symbol"], "source_unit_destroy_explosion_dispatch_result.elseBranch")
+
+        spawned_core_effect_call = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.spawned_core_effect_call")
+        self.assertEqual(spawned_core_effect_call["java_expr"], "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);")
+        self.assertEqual(spawned_core_effect_call["godot_symbol"], "source_unit_destroy_explosion_dispatch_result.coreEffect")
+
+        type_death_explosion_effect_default = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.type_death_explosion_effect_default")
+        self.assertEqual(type_death_explosion_effect_default["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(type_death_explosion_effect_default["java_expr"], "public Effect deathExplosionEffect = Fx.dynamicExplosion;")
+
+        type_leg_length_default = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.type_leg_length_default")
+        self.assertEqual(type_leg_length_default["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(type_leg_length_default["java_expr"], "public float legLength = 10f,")
+
+        damage_dynamic_explosion_overload = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.damage_dynamic_explosion_overload")
+        self.assertEqual(damage_dynamic_explosion_overload["java_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(damage_dynamic_explosion_overload["java_expr"], "public static void dynamicExplosion(float x, float y, float flammability, float explosiveness, float power, float radius, boolean damage, boolean fire, @Nullable Team ignoreTeam, Effect explosionFx, float baseShake){")
+
+        rules_damage_explosions_default = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.rules_damage_explosions_default")
+        self.assertEqual(rules_damage_explosions_default["java_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(rules_damage_explosions_default["java_expr"], "public boolean damageExplosions = true;")
+
+        rules_unit_crash_damage_method = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.rules_unit_crash_damage_method")
+        self.assertEqual(rules_unit_crash_damage_method["java_expr"], "public float unitCrashDamage(Team team){")
+
+        rules_unit_crash_damage_return = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.rules_unit_crash_damage_return")
+        self.assertEqual(rules_unit_crash_damage_return["java_expr"], "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;")
+
+        item_flammability_default = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.item_flammability_default")
+        self.assertEqual(item_flammability_default["java_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(item_flammability_default["java_expr"], "public float flammability = 0f;")
+
+        bounds_method = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.bounds_method")
+        self.assertEqual(bounds_method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(bounds_method["java_expr"], "public float bounds(){")
+
+        bounds_return = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.bounds_return")
+        self.assertEqual(bounds_return["java_expr"], "return hitSize *  2f;")
+
+        effect_at_float_float_rotation = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.effect_at_float_float_rotation")
+        self.assertEqual(effect_at_float_float_rotation["java_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(effect_at_float_float_rotation["java_expr"], "public void at(float x, float y, float rotation){")
+
+        spawned_by_core_value = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.spawned_by_core_value")
+        self.assertEqual(spawned_by_core_value["status"], "explicit-input")
+        self.assertEqual(spawned_by_core_value["java_expr"], "spawnedByCore")
+        self.assertEqual(spawned_by_core_value["godot_symbol"], "source_unit_destroy_explosion_dispatch_input.spawned_by_core_value")
+
+        rules_damage_explosions = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.rules_damage_explosions")
+        self.assertEqual(rules_damage_explosions["status"], "explicit-input")
+        self.assertEqual(rules_damage_explosions["java_expr"], "state.rules.damageExplosions")
+
+        death_explosion_effect = source_symbols.source_symbol(registry, "unit_destroy_explosion_dispatch.death_explosion_effect")
+        self.assertEqual(death_explosion_effect["status"], "explicit-input")
+        self.assertEqual(death_explosion_effect["java_expr"], "type.deathExplosionEffect")
+
     def test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12012,9 +12090,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 365)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 366)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 370)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 371)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12037,6 +12115,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_count_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -13810,6 +13889,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void death(Unit unit){}", unit_destroy_ability_death["bridge_exprs"])
         self.assertIn("type.killed(self());", unit_destroy_ability_death["deferred_exprs"])
         self.assertIn("remove();", unit_destroy_ability_death["deferred_exprs"])
+
+        unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
+        self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_explosion_dispatch["java_method"], "UnitComp.destroy() explosion dispatch")
+        self.assertEqual(unit_destroy_explosion_dispatch["godot_owner"], "PortGame.source_unit_destroy_explosion_dispatch_state")
+        self.assertIn("if(!spawnedByCore){", unit_destroy_explosion_dispatch["exact_exprs"])
+        self.assertIn("Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);", unit_destroy_explosion_dispatch["exact_exprs"])
+        self.assertIn("}else{", unit_destroy_explosion_dispatch["exact_exprs"])
+        self.assertIn("type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);", unit_destroy_explosion_dispatch["exact_exprs"])
+        self.assertIn("public Effect deathExplosionEffect = Fx.dynamicExplosion;", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("public float legLength = 10f,", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("public static void dynamicExplosion(float x, float y, float flammability, float explosiveness, float power, float radius, boolean damage, boolean fire, @Nullable Team ignoreTeam, Effect explosionFx, float baseShake){", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("public boolean damageExplosions = true;", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("public float unitCrashDamage(Team team){", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("public float flammability = 0f;", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("public float bounds(){", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("return hitSize *  2f;", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("public void at(float x, float y, float rotation){", unit_destroy_explosion_dispatch["bridge_exprs"])
+        self.assertIn("unit_destroy_explosion_dispatch.not_spawned_guard", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.dynamic_explosion_call", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.spawned_core_else", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.spawned_core_effect_call", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.type_death_explosion_effect_default", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.type_leg_length_default", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.damage_dynamic_explosion_overload", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.item_flammability_default", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.bounds_method", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.bounds_return", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("unit_destroy_explosion_dispatch.effect_at_float_float_rotation", unit_destroy_explosion_dispatch["source_symbols"])
+        self.assertIn("Damage.dynamicExplosion side effects remain owned by damage/effect/runtime integration slices", unit_destroy_explosion_dispatch["deferred_exprs"])
 
         unit_destroy_crash_landing_damage = source_symbols.source_slice(ledger, "N767")
         self.assertEqual(unit_destroy_crash_landing_damage["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17231,6 +17341,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("crashDamage", unit_destroy_crash_landing_damage["return_keys"])
         self.assertIn("damageCall", unit_destroy_crash_landing_damage["return_keys"])
         self.assertEqual(unit_destroy_crash_landing_damage["source_method"], "UnitComp.destroy() crash landing damage")
+
+        unit_destroy_explosion_dispatch = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_explosion_dispatch_state")
+        self.assertEqual([param["name"] for param in unit_destroy_explosion_dispatch["params"]], ["spawned_by_core_value", "source_x", "source_y", "flammability", "explosiveness", "power", "bounds_value", "type_leg_length", "rules_damage_explosions", "rules_unit_crash_damage", "item_flammability", "team_id", "death_explosion_effect"])
+        self.assertEqual(unit_destroy_explosion_dispatch["params"][0]["schema"], "source_unit_destroy_explosion_dispatch_input.spawned_by_core_value")
+        self.assertEqual(unit_destroy_explosion_dispatch["params"][8]["schema"], "source_unit_destroy_explosion_dispatch_input.rules_damage_explosions")
+        self.assertIn("call", unit_destroy_explosion_dispatch["return_keys"])
+        self.assertIn("sourceCall", unit_destroy_explosion_dispatch["return_keys"])
+        self.assertIn("radius", unit_destroy_explosion_dispatch["return_keys"])
+        self.assertIn("damage", unit_destroy_explosion_dispatch["return_keys"])
+        self.assertIn("baseShake", unit_destroy_explosion_dispatch["return_keys"])
+        self.assertEqual(unit_destroy_explosion_dispatch["source_method"], "UnitComp.destroy() explosion dispatch")
 
         unit_cap = source_symbols.api_contract(contracts, "PortGame.source_unit_cap_state")
         self.assertEqual([param["name"] for param in unit_cap["params"]], ["team_is_wave_team", "rules_pvp", "state_is_campaign", "rules_disable_unit_cap", "team_ignore_unit_cap", "rules_unit_cap_variable", "rules_unit_cap", "team_data_unit_cap"])
@@ -21189,6 +21310,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["shieldAbsorbGuard"]["java_expr"], "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){")
         self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["damageCall"]["java_expr"], "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);")
         self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["crashDamage"]["java_expr"], "Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team)")
+
+        source_unit_destroy_explosion_dispatch_input = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_input")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["rules_damage_explosions"]["java_expr"], "state.rules.damageExplosions")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["rules_unit_crash_damage"]["java_expr"], "state.rules.unitCrashDamage(team)")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["death_explosion_effect"]["java_expr"], "type.deathExplosionEffect")
+
+        source_unit_destroy_explosion_dispatch_result = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_result")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["guard"]["java_expr"], "if(!spawnedByCore){")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["dynamicCall"]["java_expr"], "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["elseBranch"]["java_expr"], "}else{")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["coreEffect"]["java_expr"], "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["radius"]["java_expr"], "(bounds() + type.legLength/1.7f) / 2f")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["damage"]["java_expr"], "state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["fire"]["java_expr"], "item().flammability > 1")
+        self.assertEqual(source_unit_destroy_explosion_dispatch_result["keys"]["baseShake"]["java_expr"], "0f")
 
         source_unit_cap_input = source_symbols.state_schema(schema, "source_unit_cap_input")
         self.assertEqual(source_unit_cap_input["keys"]["team_is_wave_team"]["java_expr"], "team == state.rules.waveTeam")

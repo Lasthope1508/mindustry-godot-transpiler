@@ -9586,10 +9586,18 @@ func source_unit_destroy_initial_payload_state(is_added_value: bool, killable_va
 		"power": power,
 	}
 
+const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_GUARD := "if(!spawnedByCore){"
+const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_DYNAMIC_CALL := "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);"
+const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_ELSE := "}else{"
+const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_CORE_EFFECT := "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);"
+
 func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:
 	if not spawned_by_core_value:
 		return {
 			"call": "Damage.dynamicExplosion",
+			"sourceCall": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_DYNAMIC_CALL,
+			"guard": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_GUARD,
 			"x": source_x,
 			"y": source_y,
 			"flammability": flammability,
@@ -9604,6 +9612,9 @@ func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, s
 		}
 	return {
 		"call": "type.deathExplosionEffect.at",
+		"sourceCall": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_CORE_EFFECT,
+		"guard": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_GUARD,
+		"elseBranch": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_ELSE,
 		"x": source_x,
 		"y": source_y,
 		"rotation": bounds_value / 2.0 / 8.0,

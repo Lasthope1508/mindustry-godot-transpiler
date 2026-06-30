@@ -48569,6 +48569,416 @@
       },
       "owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
       "status": "active"
+    },
+    "source_unit_destroy_explosion_dispatch_input": {
+      "owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
+      "status": "active",
+      "keys": {
+        "spawned_by_core_value": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.spawned_by_core_value",
+          "java_expr": "spawnedByCore",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for spawned_by_core_value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "source_x": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.source_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for source_x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "source_y": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.source_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for source_y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "flammability": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.flammability",
+          "java_expr": "flammability",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for flammability.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "explosiveness": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.explosiveness",
+          "java_expr": "explosiveness",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for explosiveness.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "power": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.power",
+          "java_expr": "power",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for power.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "bounds_value": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.bounds_value",
+          "java_expr": "bounds()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for bounds_value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "type_leg_length": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.type_leg_length",
+          "java_expr": "type.legLength",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for type_leg_length.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "rules_damage_explosions": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.rules_damage_explosions",
+          "java_expr": "state.rules.damageExplosions",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for rules_damage_explosions.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "rules_unit_crash_damage": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.rules_unit_crash_damage",
+          "java_expr": "state.rules.unitCrashDamage(team)",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for rules_unit_crash_damage.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "item_flammability": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.item_flammability",
+          "java_expr": "item().flammability",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for item_flammability.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "team_id": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.team_id",
+          "java_expr": "team",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for team_id.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "death_explosion_effect": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_input.death_explosion_effect",
+          "java_expr": "type.deathExplosionEffect",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch key for death_explosion_effect.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        }
+      }
+    },
+    "source_unit_destroy_explosion_dispatch_result": {
+      "owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.method",
+          "java_expr": "public void destroy(){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.guard",
+          "java_expr": "if(!spawnedByCore){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "dynamicCall": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.dynamicCall",
+          "java_expr": "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for dynamicCall.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "elseBranch": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.elseBranch",
+          "java_expr": "}else{",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for elseBranch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "coreEffect": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.coreEffect",
+          "java_expr": "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for coreEffect.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.call",
+          "java_expr": "Damage.dynamicExplosion(...) or type.deathExplosionEffect.at(...)",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for call.",
+          "status": "derived-runtime",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "sourceCall": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.sourceCall",
+          "java_expr": "Damage.dynamicExplosion(...) or type.deathExplosionEffect.at(...)",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for sourceCall.",
+          "status": "derived-runtime",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "radius": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.radius",
+          "java_expr": "(bounds() + type.legLength/1.7f) / 2f",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for radius.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "damage": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.damage",
+          "java_expr": "state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for damage.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "fire": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.fire",
+          "java_expr": "item().flammability > 1",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for fire.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "baseShake": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.baseShake",
+          "java_expr": "0f",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for baseShake.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.rotation",
+          "java_expr": "bounds() / 2f / 8f",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for rotation.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.x",
+          "java_expr": "x",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for x.",
+          "status": "derived-runtime",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.y",
+          "java_expr": "y",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for y.",
+          "status": "derived-runtime",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "flammability": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.flammability",
+          "java_expr": "flammability",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for flammability.",
+          "status": "derived-runtime",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "explosiveness": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.explosiveness",
+          "java_expr": "explosiveness",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for explosiveness.",
+          "status": "derived-runtime",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "power": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.power",
+          "java_expr": "power",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for power.",
+          "status": "derived-runtime",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "team": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.team",
+          "java_expr": "team",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for team.",
+          "status": "derived-runtime",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "explosionFx": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.explosionFx",
+          "java_expr": "type.deathExplosionEffect",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for explosionFx.",
+          "status": "derived-runtime",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        },
+        "effect": {
+          "godot_symbol": "source_unit_destroy_explosion_dispatch_result.effect",
+          "java_expr": "type.deathExplosionEffect",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy explosion dispatch result key for effect.",
+          "status": "derived-runtime",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_explosion_dispatch_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -3912,8 +3912,14 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_METHOD := "public void destroy(){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_GUARD := "if(!spawnedByCore){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_DYNAMIC_CALL := "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_ELSE := "}else{"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_CORE_EFFECT := "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);"', source)
         self.assertIn("if not spawned_by_core_value:", source)
         self.assertIn('"call": "Damage.dynamicExplosion"', source)
+        self.assertIn('"sourceCall": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_DYNAMIC_CALL', source)
         self.assertIn('"radius": (bounds_value + type_leg_length / 1.7) / 2.0', source)
         self.assertIn('"damage": rules_damage_explosions and rules_unit_crash_damage > 0.0', source)
         self.assertIn('"fire": item_flammability > 1.0', source)
@@ -3921,6 +3927,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"explosionFx": death_explosion_effect', source)
         self.assertIn('"baseShake": 0.0', source)
         self.assertIn('"call": "type.deathExplosionEffect.at"', source)
+        self.assertIn('"sourceCall": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_CORE_EFFECT', source)
         self.assertIn('"rotation": bounds_value / 2.0 / 8.0', source)
 
     def test_port_game_exposes_source_unit_destroy_visual_effects_state(self):

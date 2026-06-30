@@ -11667,48 +11667,6 @@
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
     },
-    "N764": {
-      "deferred_exprs": [
-        "UnitComp.command() cast and exception branch remain owned by source_unit_command_state",
-        "CommandAI queue and behavior internals remain owned by future CommandAI behavior slices"
-      ],
-      "exact_exprs": [
-        "public boolean isAI(){",
-        "return controller instanceof AIController;",
-        "public boolean allowCommand(){",
-        "return controller instanceof CommandAI;",
-        "public boolean isCommandable(){",
-        "return controller instanceof CommandAI;"
-      ],
-      "bridge_exprs": [
-        "public class AIController implements UnitController{",
-        "public class CommandAI extends AIController{",
-        "controller instanceof AIController",
-        "controller instanceof CommandAI"
-      ],
-      "godot_owner": "PortGame.source_unit_controller_predicates_state",
-      "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
-      "source_symbols": [
-        "unit_controller_predicates.is_ai_method",
-        "unit_controller_predicates.is_ai_return",
-        "unit_controller_predicates.allow_command_method",
-        "unit_controller_predicates.allow_command_return",
-        "unit_controller_predicates.is_commandable_method",
-        "unit_controller_predicates.is_commandable_return",
-        "unit_controller_predicates.ai_controller_class",
-        "unit_controller_predicates.command_ai_class",
-        "unit_controller_predicates.controller_is_ai_controller",
-        "unit_controller_predicates.controller_is_command_ai"
-      ],
-      "status": "done",
-      "tests": [
-        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_controller_predicates_state"
-      ]
-    },
     "N760": {
       "deferred_exprs": [
         "UnitComp.checkTarget(boolean targetAir, boolean targetGround) body is owned by source_unit_check_target_state"
@@ -11743,6 +11701,47 @@
       "tests": [
         "test_unit_can_target_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_target_state"
+      ]
+    },
+    "N761": {
+      "deferred_exprs": [
+        "Unit add over-cap death/rollback remains owned by source_unit_add_state"
+      ],
+      "exact_exprs": [
+        "public int cap(){",
+        "return Units.getCap(team);",
+        "public static int getCap(Team team){",
+        "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+        "return Integer.MAX_VALUE;",
+        "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);"
+      ],
+      "bridge_exprs": [
+        "team == state.rules.waveTeam",
+        "state.rules.pvp",
+        "state.isCampaign()",
+        "state.rules.disableUnitCap",
+        "team.ignoreUnitCap",
+        "state.rules.unitCapVariable",
+        "state.rules.unitCap",
+        "team.data().unitCap"
+      ],
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "source_symbols": [
+        "unit_cap.method",
+        "unit_cap.call",
+        "unit_cap.units_get_cap_method",
+        "unit_cap.uncapped_gate",
+        "unit_cap.integer_max_value",
+        "unit_cap.formula"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
       ]
     },
     "N762": {
@@ -11818,45 +11817,46 @@
         "test_port_game_exposes_source_unit_command_state"
       ]
     },
-    "N761": {
+    "N764": {
       "deferred_exprs": [
-        "Unit add over-cap death/rollback remains owned by source_unit_add_state"
+        "UnitComp.command() cast and exception branch remain owned by source_unit_command_state",
+        "CommandAI queue and behavior internals remain owned by future CommandAI behavior slices"
       ],
       "exact_exprs": [
-        "public int cap(){",
-        "return Units.getCap(team);",
-        "public static int getCap(Team team){",
-        "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
-        "return Integer.MAX_VALUE;",
-        "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);"
+        "public boolean isAI(){",
+        "return controller instanceof AIController;",
+        "public boolean allowCommand(){",
+        "return controller instanceof CommandAI;",
+        "public boolean isCommandable(){",
+        "return controller instanceof CommandAI;"
       ],
       "bridge_exprs": [
-        "team == state.rules.waveTeam",
-        "state.rules.pvp",
-        "state.isCampaign()",
-        "state.rules.disableUnitCap",
-        "team.ignoreUnitCap",
-        "state.rules.unitCapVariable",
-        "state.rules.unitCap",
-        "team.data().unitCap"
+        "public class AIController implements UnitController{",
+        "public class CommandAI extends AIController{",
+        "controller instanceof AIController",
+        "controller instanceof CommandAI"
       ],
-      "godot_owner": "PortGame.source_unit_cap_state",
+      "godot_owner": "PortGame.source_unit_controller_predicates_state",
       "java_class": "mindustry.entities.comp.UnitComp",
-      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_method": "UnitComp.isAI()/allowCommand()/isCommandable()",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "runtime_proof": "/root/Main.source_unit_controller_predicates_state",
       "source_symbols": [
-        "unit_cap.method",
-        "unit_cap.call",
-        "unit_cap.units_get_cap_method",
-        "unit_cap.uncapped_gate",
-        "unit_cap.integer_max_value",
-        "unit_cap.formula"
+        "unit_controller_predicates.is_ai_method",
+        "unit_controller_predicates.is_ai_return",
+        "unit_controller_predicates.allow_command_method",
+        "unit_controller_predicates.allow_command_return",
+        "unit_controller_predicates.is_commandable_method",
+        "unit_controller_predicates.is_commandable_return",
+        "unit_controller_predicates.ai_controller_class",
+        "unit_controller_predicates.command_ai_class",
+        "unit_controller_predicates.controller_is_ai_controller",
+        "unit_controller_predicates.controller_is_command_ai"
       ],
       "status": "done",
       "tests": [
-        "test_unit_cap_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_cap_state"
+        "test_unit_controller_predicates_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_controller_predicates_state"
       ]
     },
     "N765": {
@@ -12013,6 +12013,73 @@
       "tests": [
         "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ]
+    },
+    "N768": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() explosion dispatch",
+      "godot_owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",
+      "exact_exprs": [
+        "public void destroy(){",
+        "if(!spawnedByCore){",
+        "Damage.dynamicExplosion(x, y, flammability, explosiveness, power, (bounds() + type.legLength/1.7f) / 2f, state.rules.damageExplosions && state.rules.unitCrashDamage(team) > 0, item().flammability > 1, team, type.deathExplosionEffect, 0f);",
+        "}else{",
+        "type.deathExplosionEffect.at(x, y, bounds() / 2f / 8f);"
+      ],
+      "bridge_exprs": [
+        "public Effect deathExplosionEffect = Fx.dynamicExplosion;",
+        "public float legLength = 10f,",
+        "public static void dynamicExplosion(float x, float y, float flammability, float explosiveness, float power, float radius, boolean damage, boolean fire, @Nullable Team ignoreTeam, Effect explosionFx, float baseShake){",
+        "public boolean damageExplosions = true;",
+        "public float unitCrashDamage(Team team){",
+        "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
+        "public float flammability = 0f;",
+        "public float bounds(){",
+        "return hitSize *  2f;",
+        "public void at(float x, float y, float rotation){"
+      ],
+      "deferred_exprs": [
+        "Damage.dynamicExplosion side effects remain owned by damage/effect/runtime integration slices",
+        "Actual type.deathExplosionEffect.at(...) effect creation remains owned by effect runtime slices",
+        "Initial payload formulas for flammability, explosiveness, and power remain owned by source_unit_destroy_initial_payload_state",
+        "Visual effects, sound/event, suicide bomb, shoot-on-death mounts, crash landing damage, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
+      ],
+      "source_symbols": [
+        "unit_destroy_explosion_dispatch.method",
+        "unit_destroy_explosion_dispatch.not_spawned_guard",
+        "unit_destroy_explosion_dispatch.dynamic_explosion_call",
+        "unit_destroy_explosion_dispatch.spawned_core_else",
+        "unit_destroy_explosion_dispatch.spawned_core_effect_call",
+        "unit_destroy_explosion_dispatch.type_death_explosion_effect_default",
+        "unit_destroy_explosion_dispatch.type_leg_length_default",
+        "unit_destroy_explosion_dispatch.damage_dynamic_explosion_overload",
+        "unit_destroy_explosion_dispatch.rules_damage_explosions_default",
+        "unit_destroy_explosion_dispatch.rules_unit_crash_damage_method",
+        "unit_destroy_explosion_dispatch.rules_unit_crash_damage_return",
+        "unit_destroy_explosion_dispatch.item_flammability_default",
+        "unit_destroy_explosion_dispatch.bounds_method",
+        "unit_destroy_explosion_dispatch.bounds_return",
+        "unit_destroy_explosion_dispatch.effect_at_float_float_rotation",
+        "unit_destroy_explosion_dispatch.spawned_by_core_value",
+        "unit_destroy_explosion_dispatch.source_x",
+        "unit_destroy_explosion_dispatch.source_y",
+        "unit_destroy_explosion_dispatch.flammability",
+        "unit_destroy_explosion_dispatch.explosiveness",
+        "unit_destroy_explosion_dispatch.power",
+        "unit_destroy_explosion_dispatch.bounds_value",
+        "unit_destroy_explosion_dispatch.type_leg_length",
+        "unit_destroy_explosion_dispatch.rules_damage_explosions",
+        "unit_destroy_explosion_dispatch.rules_unit_crash_damage",
+        "unit_destroy_explosion_dispatch.item_flammability",
+        "unit_destroy_explosion_dispatch.team_id",
+        "unit_destroy_explosion_dispatch.death_explosion_effect"
+      ],
+      "tests": [
+        "test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_explosion_dispatch_state"
       ]
     }
   },
