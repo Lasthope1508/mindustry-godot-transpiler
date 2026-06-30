@@ -53283,6 +53283,126 @@
       "java_source": "core/src/mindustry/type/Weapon.java",
       "rule": "Following sound branch remains owned by sound slice.",
       "status": "deferred"
+    },
+    "weapon_bullet_heat.assignment": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.heat = 1f;",
+      "godot_symbol": "source_weapon_bullet_heat_result.mountHeat",
+      "status": "source-backed",
+      "rule": "Weapon.bullet assigns mount heat to 1f at method tail."
+    },
+    "weapon_bullet_heat.create_call_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+      "godot_symbol": "source_weapon_bullet_heat_input.create_call_state",
+      "status": "generated",
+      "rule": "Carries prior create call state so bulletContinues gates heat assignment."
+    },
+    "weapon_bullet_heat.mount_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "WeaponMount mount",
+      "godot_symbol": "source_weapon_bullet_heat_input.mount_state",
+      "status": "explicit-input",
+      "rule": "Source WeaponMount input carrying current heat."
+    },
+    "weapon_bullet_heat.mount_heat_field": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float heat;",
+      "godot_symbol": "source_weapon_bullet_heat_input.mount_state.heat",
+      "status": "source-backed",
+      "rule": "WeaponMount heat field read before tail assignment."
+    },
+    "weapon_bullet_heat.mount_heat_before": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "mount.heat",
+      "godot_symbol": "source_weapon_bullet_heat_result.mountHeatBefore",
+      "status": "source-backed",
+      "rule": "Runtime record of mount heat before assignment."
+    },
+    "weapon_bullet_heat.mount_heat_applied": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.heat = 1f;",
+      "godot_symbol": "source_weapon_bullet_heat_result.mountHeatApplied",
+      "status": "source-backed",
+      "rule": "Applied flag mirrors execution of heat assignment."
+    },
+    "weapon_bullet_heat.method_complete": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.heat = 1f;",
+      "godot_symbol": "source_weapon_bullet_heat_result.bulletMethodComplete",
+      "status": "source-backed",
+      "rule": "Heat assignment completes the currently registered Weapon.bullet pure state tail."
+    },
+    "weapon_bullet_heat.method_close": {
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "    }",
+      "godot_symbol": "source_weapon_bullet_heat_result.bulletMethodCloseSource",
+      "status": "deferred",
+      "rule": "Weapon.bullet method close marker after heat assignment."
     }
   },
   "version": 1

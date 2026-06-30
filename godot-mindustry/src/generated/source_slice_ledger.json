@@ -15495,6 +15495,41 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
       "rule": "Backfills SSOT for existing Weapon.bullet handleBullet dispatch wrapper against exact upstream source."
+    },
+    "N843": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "exact_exprs": [
+        "mount.heat = 1f;"
+      ],
+      "bridge_exprs": [
+        "public float heat;",
+        "    }"
+      ],
+      "deferred_exprs": [
+        "Heat assignment completes the currently registered Weapon.bullet pure state tail.",
+        "Live WeaponMount mutation remains represented as returned state until full entity graph wiring owns mount instances."
+      ],
+      "source_symbols": [
+        "weapon_bullet_heat.assignment",
+        "weapon_bullet_heat.create_call_state",
+        "weapon_bullet_heat.mount_state",
+        "weapon_bullet_heat.mount_heat_field",
+        "weapon_bullet_heat.mount_heat_before",
+        "weapon_bullet_heat.mount_heat_applied",
+        "weapon_bullet_heat.method_complete",
+        "weapon_bullet_heat.method_close"
+      ],
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet heat tail wrapper against exact upstream source."
     }
   },
   "version": 1

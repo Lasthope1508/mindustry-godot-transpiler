@@ -61790,6 +61790,136 @@
           "type": "Dictionary"
         }
       }
+    },
+    "source_weapon_bullet_heat_input": {
+      "status": "active",
+      "keys": {
+        "create_call_state": {
+          "godot_symbol": "source_weapon_bullet_heat_input.create_call_state",
+          "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Prior create call result input.",
+          "status": "generated",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "mount_state": {
+          "godot_symbol": "source_weapon_bullet_heat_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "heat": {
+          "godot_symbol": "source_weapon_bullet_heat_input.mount_state.heat",
+          "java_expr": "public float heat;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Current WeaponMount heat field before assignment.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_heat_result": {
+      "status": "active",
+      "keys": {
+        "mountHeat": {
+          "godot_symbol": "source_weapon_bullet_heat_result.mountHeat",
+          "java_expr": "mount.heat = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Assigned heat result.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "mountHeatBefore": {
+          "godot_symbol": "source_weapon_bullet_heat_result.mountHeatBefore",
+          "java_expr": "mount.heat",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Heat value before assignment.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "mountHeatApplied": {
+          "godot_symbol": "source_weapon_bullet_heat_result.mountHeatApplied",
+          "java_expr": "mount.heat = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Assignment execution flag.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "bulletMethodComplete": {
+          "godot_symbol": "source_weapon_bullet_heat_result.bulletMethodComplete",
+          "java_expr": "mount.heat = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Current pure state chain reaches Weapon.bullet tail on continued path.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "mountHeatSource": {
+          "godot_symbol": "source_weapon_bullet_heat_result.mountHeatSource",
+          "java_expr": "mount.heat = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime source snippet label.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "bulletMethodCloseSource": {
+          "godot_symbol": "source_weapon_bullet_heat_result.bulletMethodCloseSource",
+          "java_expr": "    }",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Method close marker after heat assignment.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_heat_state"
+          ]
+        },
+        "createCallState": {
+          "alias_of": "source_weapon_bullet_heat_input.create_call_state",
+          "rule": "Carries create call state.",
+          "status": "generated",
+          "type": "Dictionary"
+        },
+        "mount_state": {
+          "alias_of": "source_weapon_bullet_heat_input.mount_state",
+          "rule": "Carries mount input.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      }
     }
   },
   "version": 1

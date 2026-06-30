@@ -3212,6 +3212,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(sound["java_expr"], "if(!continuous){")
         self.assertEqual(sound["godot_symbol"], "source_weapon_bullet_handle_call_result.soundReservedSource")
 
+    def test_weapon_bullet_heat_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        heat_assignment = source_symbols.source_symbol(registry, "weapon_bullet_heat.assignment")
+        self.assertEqual(heat_assignment["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(heat_assignment["java_expr"], "mount.heat = 1f;")
+        self.assertEqual(heat_assignment["godot_owner"], "PortGame.source_weapon_bullet_heat_state")
+        self.assertEqual(heat_assignment["runtime_proof"], "/root/Main.source_weapon_bullet_heat_state")
+        self.assertEqual(heat_assignment["godot_symbol"], "source_weapon_bullet_heat_result.mountHeat")
+
+        mount_heat = source_symbols.source_symbol(registry, "weapon_bullet_heat.mount_heat_field")
+        self.assertEqual(mount_heat["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_heat["java_expr"], "public float heat;")
+        self.assertEqual(mount_heat["godot_symbol"], "source_weapon_bullet_heat_input.mount_state.heat")
+
+        create_call_state = source_symbols.source_symbol(registry, "weapon_bullet_heat.create_call_state")
+        self.assertEqual(create_call_state["status"], "generated")
+        self.assertEqual(create_call_state["godot_symbol"], "source_weapon_bullet_heat_input.create_call_state")
+
+        method_complete = source_symbols.source_symbol(registry, "weapon_bullet_heat.method_complete")
+        self.assertEqual(method_complete["java_expr"], "mount.heat = 1f;")
+        self.assertEqual(method_complete["godot_symbol"], "source_weapon_bullet_heat_result.bulletMethodComplete")
+
     def test_weapon_bullet_effects_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15107,9 +15133,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 440)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 441)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 445)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 446)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15161,6 +15187,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_effects_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_geometry_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_handle_call_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_heat_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17881,6 +17908,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){", weapon_bullet_handle_call["bridge_exprs"])
         self.assertIn("public @Nullable Bullet bullet;", weapon_bullet_handle_call["bridge_exprs"])
         self.assertIn("handleBullet internals remain owned by source_weapon_handle_bullet_* slices; this slice records only the dispatch call.", weapon_bullet_handle_call["deferred_exprs"])
+
+        weapon_bullet_heat = source_symbols.source_slice(ledger, "N843")
+        self.assertEqual(weapon_bullet_heat["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_heat["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail")
+        self.assertEqual(weapon_bullet_heat["godot_owner"], "PortGame.source_weapon_bullet_heat_state")
+        self.assertIn("mount.heat = 1f;", weapon_bullet_heat["exact_exprs"])
+        self.assertIn("public float heat;", weapon_bullet_heat["bridge_exprs"])
+        self.assertIn("Heat assignment completes the currently registered Weapon.bullet pure state tail.", weapon_bullet_heat["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20971,6 +21006,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("handleBulletCall", weapon_bullet_handle_call["return_keys"])
         self.assertIn("mountBullet", weapon_bullet_handle_call["return_keys"])
         self.assertEqual(weapon_bullet_handle_call["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch")
+
+        weapon_bullet_heat = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_heat_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_heat["params"]], ["create_call_state", "mount_state"])
+        self.assertEqual(weapon_bullet_heat["params"][0]["schema"], "source_weapon_bullet_heat_input.create_call_state")
+        self.assertEqual(weapon_bullet_heat["params"][1]["schema"], "source_weapon_bullet_heat_input.mount_state")
+        self.assertIn("mountHeat", weapon_bullet_heat["return_keys"])
+        self.assertIn("mountHeatApplied", weapon_bullet_heat["return_keys"])
+        self.assertIn("bulletMethodComplete", weapon_bullet_heat["return_keys"])
+        self.assertEqual(weapon_bullet_heat["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail")
 
         block_can_replace = source_symbols.api_contract(contracts, "PortGame.source_block_can_replace_state")
         self.assertEqual([param["name"] for param in block_can_replace["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
@@ -25446,6 +25490,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_handle_call_result["keys"]["mountBullet"]["java_expr"], "mount.bullet")
         self.assertEqual(source_weapon_bullet_handle_call_result["keys"]["handleBulletMethod"]["java_expr"], "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){")
         self.assertEqual(source_weapon_bullet_handle_call_result["keys"]["createdBullet"]["alias_of"], "source_weapon_bullet_handle_call_input.created_bullet")
+
+        source_weapon_bullet_heat_input = source_symbols.state_schema(schema, "source_weapon_bullet_heat_input")
+        self.assertEqual(source_weapon_bullet_heat_input["keys"]["create_call_state"]["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(source_weapon_bullet_heat_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_bullet_heat_input["keys"]["heat"]["java_expr"], "public float heat;")
+
+        source_weapon_bullet_heat_result = source_symbols.state_schema(schema, "source_weapon_bullet_heat_result")
+        self.assertEqual(source_weapon_bullet_heat_result["keys"]["mountHeat"]["java_expr"], "mount.heat = 1f;")
+        self.assertEqual(source_weapon_bullet_heat_result["keys"]["mountHeatBefore"]["java_expr"], "mount.heat")
+        self.assertEqual(source_weapon_bullet_heat_result["keys"]["bulletMethodComplete"]["java_expr"], "mount.heat = 1f;")
 
         source_block_can_replace_input = source_symbols.state_schema(schema, "source_block_can_replace_input")
         self.assertEqual(source_block_can_replace_input["keys"]["otherAlwaysReplace"]["java_expr"], "other.alwaysReplace")
