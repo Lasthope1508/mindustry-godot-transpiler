@@ -3273,6 +3273,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:", source)
+        self.assertIn('const SOURCE_UNIT_DROWN_FLOOR_METHOD := "public @Nullable Floor drownFloor(){"', source)
+        self.assertIn('const SOURCE_UNIT_DROWN_FLOOR_RETURN := "return floorOn();"', source)
+        self.assertIn('const SOURCE_UNIT_DROWN_FLOOR_FLOOR_ON := "floorOn()"', source)
         self.assertIn("return floor_on_value", source)
 
     def test_port_game_exposes_source_unit_wobble_state(self):

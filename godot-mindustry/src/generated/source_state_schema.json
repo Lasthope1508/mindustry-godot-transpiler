@@ -48894,6 +48894,129 @@
       "runtime_proof": "/root/Main.source_unit_destroy_wreck_decal_state",
       "status": "active"
     },
+    "source_unit_drown_floor_input": {
+      "keys": {
+        "floor_on_value": {
+          "godot_symbol": "source_unit_drown_floor_input.floor_on_value",
+          "java_expr": "floorOn()",
+          "java_method": "UnitComp.drownFloor()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit floorOn() return value passed into drownFloor().",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_drown_floor_state",
+      "runtime_proof": "/root/Main.source_unit_drown_floor_state",
+      "status": "active"
+    },
+    "source_unit_drown_floor_result": {
+      "keys": {
+        "floor": {
+          "alias_of": "source_unit_drown_floor_input.floor_on_value",
+          "godot_symbol": "source_unit_drown_floor_result.floor",
+          "java_expr": "return floorOn();",
+          "java_method": "UnitComp.drownFloor()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime floor value returned by drownFloor().",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        },
+        "floorClass": {
+          "godot_symbol": "source_unit_drown_floor_result.floorClass",
+          "java_expr": "public class Floor extends Block{",
+          "java_method": "Floor class declaration",
+          "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+          "rule": "Floor return type bridge inherits Block.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        },
+        "floorOnMethod": {
+          "godot_symbol": "source_unit_drown_floor_result.floorOnMethod",
+          "java_expr": "Floor floorOn(){",
+          "java_method": "PosComp.floorOn()",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "PosComp floorOn method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        },
+        "floorOnReturn": {
+          "godot_symbol": "source_unit_drown_floor_result.floorOnReturn",
+          "java_expr": "return tile == null || tile.block() != Blocks.air ? (Floor)Blocks.air : tile.floor();",
+          "java_method": "PosComp.floorOn()",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "PosComp floorOn exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_drown_floor_result.method",
+          "java_expr": "public @Nullable Floor drownFloor(){",
+          "java_method": "UnitComp.drownFloor()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp drownFloor method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        },
+        "tileLookup": {
+          "godot_symbol": "source_unit_drown_floor_result.tileLookup",
+          "java_expr": "Tile tile = tileOn();",
+          "java_method": "PosComp.floorOn()",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "PosComp floorOn tile lookup.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        },
+        "tileOnMethod": {
+          "godot_symbol": "source_unit_drown_floor_result.tileOnMethod",
+          "java_expr": "Tile tileOn(){",
+          "java_method": "PosComp.tileOn()",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "PosComp tileOn method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        },
+        "tileWorldLookup": {
+          "godot_symbol": "source_unit_drown_floor_result.tileWorldLookup",
+          "java_expr": "return world.tileWorld(x, y);",
+          "java_method": "PosComp.tileOn()",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "PosComp tileOn world lookup return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_drown_floor_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_drown_floor_state",
+      "runtime_proof": "/root/Main.source_unit_drown_floor_state",
+      "status": "active"
+    },
     "source_unit_is_flying_input": {
       "keys": {
         "elevation_value": {

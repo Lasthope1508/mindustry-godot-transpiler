@@ -12437,6 +12437,44 @@
         "test_unit_destroy_wreck_decal_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_wreck_decal_state"
       ]
+    },
+    "N776": {
+      "bridge_exprs": [
+        "Floor floorOn(){",
+        "Tile tile = tileOn();",
+        "return tile == null || tile.block() != Blocks.air ? (Floor)Blocks.air : tile.floor();",
+        "Tile tileOn(){",
+        "return world.tileWorld(x, y);",
+        "public class Floor extends Block{"
+      ],
+      "deferred_exprs": [
+        "floorOn() behavior remains owned by floor lookup/runtime tile slices"
+      ],
+      "exact_exprs": [
+        "public @Nullable Floor drownFloor(){",
+        "return floorOn();"
+      ],
+      "godot_owner": "PortGame.source_unit_drown_floor_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.drownFloor()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_drown_floor_state",
+      "source_symbols": [
+        "unit_drown_floor.floor_class",
+        "unit_drown_floor.floor_on",
+        "unit_drown_floor.floor_on_method",
+        "unit_drown_floor.floor_on_return",
+        "unit_drown_floor.floor_on_tile",
+        "unit_drown_floor.method",
+        "unit_drown_floor.return",
+        "unit_drown_floor.tile_on_method",
+        "unit_drown_floor.tile_on_return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_drown_floor_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_drown_floor_state"
+      ]
     }
   },
   "version": 1

@@ -14090,6 +14090,28 @@
         "test_unit_destroy_wreck_decal_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_wreck_decal_state"
       ]
+    },
+    "PortGame.source_unit_drown_floor_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "floor_on_value",
+          "schema": "source_unit_drown_floor_input.floor_on_value",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "floor"
+      ],
+      "rule": "Public runtime contract for UnitComp.drownFloor passthrough of floorOn().",
+      "runtime_proof": "/root/Main.source_unit_drown_floor_state",
+      "source_method": "UnitComp.drownFloor()",
+      "source_slice": "N776",
+      "status": "active",
+      "tests": [
+        "test_unit_drown_floor_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_drown_floor_state"
+      ]
     }
   },
   "policy": {

@@ -4693,6 +4693,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_expr["java_expr"], "return isGrounded() && type.canDrown;")
         self.assertEqual(return_expr["godot_symbol"], "source_unit_can_drown_result.canDrownReturn")
 
+    def test_unit_drown_floor_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_drown_floor.method")
+        self.assertEqual(method["java_expr"], "public @Nullable Floor drownFloor(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_drown_floor_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_drown_floor_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_drown_floor_result.method")
+
+        return_expr = source_symbols.source_symbol(registry, "unit_drown_floor.return")
+        self.assertEqual(return_expr["java_expr"], "return floorOn();")
+        self.assertEqual(return_expr["godot_symbol"], "source_unit_drown_floor_result.floor")
+
+        floor_on = source_symbols.source_symbol(registry, "unit_drown_floor.floor_on")
+        self.assertEqual(floor_on["status"], "explicit-input")
+        self.assertEqual(floor_on["java_expr"], "floorOn()")
+        self.assertEqual(floor_on["godot_symbol"], "source_unit_drown_floor_input.floor_on_value")
+
+        floor_on_method = source_symbols.source_symbol(registry, "unit_drown_floor.floor_on_method")
+        self.assertEqual(floor_on_method["java_expr"], "Floor floorOn(){")
+        self.assertEqual(floor_on_method["java_source"], "core/src/mindustry/entities/comp/PosComp.java")
+
+        floor_on_tile = source_symbols.source_symbol(registry, "unit_drown_floor.floor_on_tile")
+        self.assertEqual(floor_on_tile["java_expr"], "Tile tile = tileOn();")
+        self.assertEqual(floor_on_tile["godot_symbol"], "source_unit_drown_floor_result.tileLookup")
+
+        floor_on_return = source_symbols.source_symbol(registry, "unit_drown_floor.floor_on_return")
+        self.assertEqual(floor_on_return["java_expr"], "return tile == null || tile.block() != Blocks.air ? (Floor)Blocks.air : tile.floor();")
+        self.assertEqual(floor_on_return["godot_symbol"], "source_unit_drown_floor_result.floorOnReturn")
+
+        tile_on_method = source_symbols.source_symbol(registry, "unit_drown_floor.tile_on_method")
+        self.assertEqual(tile_on_method["java_expr"], "Tile tileOn(){")
+        self.assertEqual(tile_on_method["java_source"], "core/src/mindustry/entities/comp/PosComp.java")
+
+        tile_on_return = source_symbols.source_symbol(registry, "unit_drown_floor.tile_on_return")
+        self.assertEqual(tile_on_return["java_expr"], "return world.tileWorld(x, y);")
+        self.assertEqual(tile_on_return["godot_symbol"], "source_unit_drown_floor_result.tileWorldLookup")
+
+        floor_class = source_symbols.source_symbol(registry, "unit_drown_floor.floor_class")
+        self.assertEqual(floor_class["java_expr"], "public class Floor extends Block{")
+        self.assertEqual(floor_class["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12583,9 +12628,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 373)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 374)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 378)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 379)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12606,6 +12651,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_command_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_controller_predicates_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_count_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_drown_floor_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -14510,6 +14556,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static void decal(TextureRegion region, float x, float y, float rotation){", unit_destroy_wreck_decal["bridge_exprs"])
         self.assertIn("public static final Vec2 v1 = new Vec2();", unit_destroy_wreck_decal["bridge_exprs"])
         self.assertIn("Renderer/decal side effects and random sampling remain explicit runtime inputs", unit_destroy_wreck_decal["deferred_exprs"])
+
+        unit_drown_floor = source_symbols.source_slice(ledger, "N776")
+        self.assertEqual(unit_drown_floor["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_drown_floor["java_method"], "UnitComp.drownFloor()")
+        self.assertEqual(unit_drown_floor["godot_owner"], "PortGame.source_unit_drown_floor_state")
+        self.assertIn("public @Nullable Floor drownFloor(){", unit_drown_floor["exact_exprs"])
+        self.assertIn("return floorOn();", unit_drown_floor["exact_exprs"])
+        self.assertIn("floorOn() behavior remains owned by floor lookup/runtime tile slices", unit_drown_floor["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17895,6 +17949,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("grounded", unit_can_drown["return_keys"])
         self.assertIn("can_drown", unit_can_drown["return_keys"])
         self.assertEqual(unit_can_drown["source_method"], "UnitComp.canDrown()")
+
+        unit_drown_floor = source_symbols.api_contract(contracts, "PortGame.source_unit_drown_floor_state")
+        self.assertEqual([param["name"] for param in unit_drown_floor["params"]], ["floor_on_value"])
+        self.assertEqual(unit_drown_floor["params"][0]["schema"], "source_unit_drown_floor_input.floor_on_value")
+        self.assertIn("floor", unit_drown_floor["return_keys"])
+        self.assertEqual(unit_drown_floor["source_method"], "UnitComp.drownFloor()")
 
         unit_check_target = source_symbols.api_contract(contracts, "PortGame.source_unit_check_target_state")
         self.assertEqual([param["name"] for param in unit_check_target["params"]], ["elevation_value", "target_air", "target_ground"])
@@ -21916,6 +21976,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_can_drown_result["keys"]["canDrownReturn"]["java_expr"], "return isGrounded() && type.canDrown;")
         self.assertEqual(source_unit_can_drown_result["keys"]["grounded"]["java_expr"], "isGrounded()")
         self.assertEqual(source_unit_can_drown_result["keys"]["can_drown"]["java_expr"], "return isGrounded() && type.canDrown;")
+
+        source_unit_drown_floor_input = source_symbols.state_schema(schema, "source_unit_drown_floor_input")
+        self.assertEqual(source_unit_drown_floor_input["keys"]["floor_on_value"]["java_expr"], "floorOn()")
+
+        source_unit_drown_floor_result = source_symbols.state_schema(schema, "source_unit_drown_floor_result")
+        self.assertEqual(source_unit_drown_floor_result["keys"]["method"]["java_expr"], "public @Nullable Floor drownFloor(){")
+        self.assertEqual(source_unit_drown_floor_result["keys"]["floor"]["java_expr"], "return floorOn();")
+        self.assertEqual(source_unit_drown_floor_result["keys"]["tileLookup"]["java_expr"], "Tile tile = tileOn();")
+        self.assertEqual(source_unit_drown_floor_result["keys"]["floorOnReturn"]["java_expr"], "return tile == null || tile.block() != Blocks.air ? (Floor)Blocks.air : tile.floor();")
+        self.assertEqual(source_unit_drown_floor_result["keys"]["tileWorldLookup"]["java_expr"], "return world.tileWorld(x, y);")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

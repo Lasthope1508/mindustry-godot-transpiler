@@ -3849,6 +3849,16 @@ func source_unit_can_drown_state(elevation_value: float, type_can_drown: bool) -
 		"can_drown": grounded and type_can_drown,
 	}
 
+const SOURCE_UNIT_DROWN_FLOOR_METHOD := "public @Nullable Floor drownFloor(){"
+const SOURCE_UNIT_DROWN_FLOOR_RETURN := "return floorOn();"
+const SOURCE_UNIT_DROWN_FLOOR_FLOOR_ON := "floorOn()"
+const SOURCE_UNIT_DROWN_FLOOR_FLOOR_ON_METHOD := "Floor floorOn(){"
+const SOURCE_UNIT_DROWN_FLOOR_FLOOR_ON_TILE := "Tile tile = tileOn();"
+const SOURCE_UNIT_DROWN_FLOOR_FLOOR_ON_RETURN := "return tile == null || tile.block() != Blocks.air ? (Floor)Blocks.air : tile.floor();"
+const SOURCE_UNIT_DROWN_FLOOR_TILE_ON_METHOD := "Tile tileOn(){"
+const SOURCE_UNIT_DROWN_FLOOR_TILE_ON_RETURN := "return world.tileWorld(x, y);"
+const SOURCE_UNIT_DROWN_FLOOR_FLOOR_CLASS := "public class Floor extends Block{"
+
 func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:
 	return floor_on_value
 
