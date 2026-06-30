@@ -44374,6 +44374,201 @@
         "test_unit_update_falling_descent_matches_upstream_source"
       ]
     },
+    "unit_update_falling_drag.call": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.call",
+      "java_expr": "drag = 0.01f;",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime call string for exact drag assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.current_drag": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_input.current_drag",
+      "java_expr": "drag",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for current drag when guard is false.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.dead_value": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_input.dead_value",
+      "java_expr": "dead",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for imported dead flag.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.drag": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.drag",
+      "java_expr": "drag = 0.01f;",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed drag result from falling guard assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.falling_comment": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.source",
+      "java_expr": "//simulate falling down",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring falling block.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.falling_drag": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.drag",
+      "java_expr": "drag = 0.01f;",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact source falling drag assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.falling_guard": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.guard",
+      "java_expr": "if(dead || health <= 0){",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact source falling guard.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.guard": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.guard",
+      "java_expr": "dead || health <= 0",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed guard expression.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.health_value": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_input.health_value",
+      "java_expr": "health",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for imported health.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.less_drag_comment": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.call",
+      "java_expr": "//less drag when dead",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring falling drag assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.source": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_result.source",
+      "java_expr": "if(dead || health <= 0){",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime source anchor string.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.unit_import_dead": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_input.dead_value",
+      "java_expr": "@Import boolean dead, disarmed;",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp imported dead field source.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
+    "unit_update_falling_drag.unit_import_health_drag": {
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "godot_symbol": "source_unit_update_falling_drag_input.current_drag",
+      "java_expr": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp imported health and drag field source.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

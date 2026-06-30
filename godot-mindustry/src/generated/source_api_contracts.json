@@ -15766,6 +15766,42 @@
         "test_port_game_exposes_source_unit_update_falling_descent_state",
         "test_unit_update_falling_descent_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_falling_drag_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_falling_drag_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "health_value",
+          "schema": "source_unit_update_falling_drag_input.health_value",
+          "type": "float"
+        },
+        {
+          "name": "current_drag",
+          "schema": "source_unit_update_falling_drag_input.current_drag",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "drag",
+        "call",
+        "source"
+      ],
+      "rule": "Public runtime contract for UnitComp.update falling drag state.",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "source_method": "UnitComp.update() falling drag",
+      "source_slice": "N815",
+      "status": "active",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
     }
   },
   "policy": {

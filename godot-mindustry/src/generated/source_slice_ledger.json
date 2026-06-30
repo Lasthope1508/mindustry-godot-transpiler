@@ -14029,6 +14029,49 @@
         "test_port_game_exposes_source_unit_update_falling_descent_state",
         "test_unit_update_falling_descent_matches_upstream_source"
       ]
+    },
+    "N815": {
+      "bridge_exprs": [
+        "@Import boolean dead, disarmed;",
+        "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;"
+      ],
+      "deferred_exprs": [
+        "Falling smoke, engine trail, elevation descent, and destroy trigger are owned by adjacent source slices; this slice only assigns reduced drag under the falling guard."
+      ],
+      "exact_exprs": [
+        "@Import boolean dead, disarmed;",
+        "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+        "//simulate falling down",
+        "if(dead || health <= 0){",
+        "//less drag when dead",
+        "drag = 0.01f;"
+      ],
+      "godot_owner": "PortGame.source_unit_update_falling_drag_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() falling drag",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_falling_drag_state",
+      "source_symbols": [
+        "unit_update_falling_drag.call",
+        "unit_update_falling_drag.current_drag",
+        "unit_update_falling_drag.dead_value",
+        "unit_update_falling_drag.drag",
+        "unit_update_falling_drag.falling_comment",
+        "unit_update_falling_drag.falling_drag",
+        "unit_update_falling_drag.falling_guard",
+        "unit_update_falling_drag.guard",
+        "unit_update_falling_drag.health_value",
+        "unit_update_falling_drag.less_drag_comment",
+        "unit_update_falling_drag.source",
+        "unit_update_falling_drag.unit_import_dead",
+        "unit_update_falling_drag.unit_import_health_drag"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_falling_drag_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_falling_drag_state",
+        "test_unit_update_falling_drag_matches_upstream_source"
+      ]
     }
   },
   "version": 1

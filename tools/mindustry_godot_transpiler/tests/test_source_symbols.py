@@ -5514,6 +5514,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(destroy_body["java_expr"], "unit.destroy();")
         self.assertEqual(destroy_body["java_source"], "core/src/mindustry/entities/Units.java")
 
+    def test_unit_update_falling_drag_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        falling_guard = source_symbols.source_symbol(registry, "unit_update_falling_drag.falling_guard")
+        self.assertEqual(falling_guard["java_expr"], "if(dead || health <= 0){")
+        self.assertEqual(falling_guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(falling_guard["java_method"], "UnitComp.update() falling drag")
+        self.assertEqual(falling_guard["godot_owner"], "PortGame.source_unit_update_falling_drag_state")
+        self.assertEqual(falling_guard["runtime_proof"], "/root/Main.source_unit_update_falling_drag_state")
+        self.assertEqual(falling_guard["godot_symbol"], "source_unit_update_falling_drag_result.guard")
+
+        falling_drag = source_symbols.source_symbol(registry, "unit_update_falling_drag.falling_drag")
+        self.assertEqual(falling_drag["java_expr"], "drag = 0.01f;")
+        self.assertEqual(falling_drag["godot_symbol"], "source_unit_update_falling_drag_result.drag")
+
+        unit_import_dead = source_symbols.source_symbol(registry, "unit_update_falling_drag.unit_import_dead")
+        self.assertEqual(unit_import_dead["java_expr"], "@Import boolean dead, disarmed;")
+        self.assertEqual(unit_import_dead["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+
+        unit_import_health_drag = source_symbols.source_symbol(registry, "unit_update_falling_drag.unit_import_health_drag")
+        self.assertEqual(unit_import_health_drag["java_expr"], "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;")
+        self.assertEqual(unit_import_health_drag["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+
+        dead_value = source_symbols.source_symbol(registry, "unit_update_falling_drag.dead_value")
+        self.assertEqual(dead_value["status"], "explicit-input")
+        self.assertEqual(dead_value["java_expr"], "dead")
+        self.assertEqual(dead_value["godot_symbol"], "source_unit_update_falling_drag_input.dead_value")
+
+        health_value = source_symbols.source_symbol(registry, "unit_update_falling_drag.health_value")
+        self.assertEqual(health_value["status"], "explicit-input")
+        self.assertEqual(health_value["java_expr"], "health")
+        self.assertEqual(health_value["godot_symbol"], "source_unit_update_falling_drag_input.health_value")
+
+        current_drag = source_symbols.source_symbol(registry, "unit_update_falling_drag.current_drag")
+        self.assertEqual(current_drag["status"], "explicit-input")
+        self.assertEqual(current_drag["java_expr"], "drag")
+        self.assertEqual(current_drag["godot_symbol"], "source_unit_update_falling_drag_input.current_drag")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13986,9 +14027,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 412)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 413)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 417)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 418)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14012,6 +14053,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_drown_floor_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_drowning_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_descent_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_falling_drag_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16387,6 +16429,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("wreckHealthMultiplier = 0.25f,", unit_update_falling_descent["bridge_exprs"])
         self.assertIn("public static float delta = 1f;", unit_update_falling_descent["bridge_exprs"])
         self.assertIn("public static void unitDestroy(int uid){", unit_update_falling_descent["bridge_exprs"])
+
+        unit_update_falling_drag = source_symbols.source_slice(ledger, "N815")
+        self.assertEqual(unit_update_falling_drag["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_falling_drag["java_method"], "UnitComp.update() falling drag")
+        self.assertEqual(unit_update_falling_drag["godot_owner"], "PortGame.source_unit_update_falling_drag_state")
+        self.assertIn("@Import boolean dead, disarmed;", unit_update_falling_drag["exact_exprs"])
+        self.assertIn("@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;", unit_update_falling_drag["exact_exprs"])
+        self.assertIn("//simulate falling down", unit_update_falling_drag["exact_exprs"])
+        self.assertIn("if(dead || health <= 0){", unit_update_falling_drag["exact_exprs"])
+        self.assertIn("//less drag when dead", unit_update_falling_drag["exact_exprs"])
+        self.assertIn("drag = 0.01f;", unit_update_falling_drag["exact_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20212,6 +20265,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_falling_descent["return_keys"])
         self.assertNotIn("dead_value", unit_update_falling_descent["return_keys"])
         self.assertEqual(unit_update_falling_descent["source_method"], "UnitComp.update() falling descent")
+
+        unit_update_falling_drag = source_symbols.api_contract(contracts, "PortGame.source_unit_update_falling_drag_state")
+        self.assertEqual([param["name"] for param in unit_update_falling_drag["params"]], ["dead_value", "health_value", "current_drag"])
+        self.assertEqual(unit_update_falling_drag["params"][0]["schema"], "source_unit_update_falling_drag_input.dead_value")
+        self.assertEqual(unit_update_falling_drag["params"][1]["schema"], "source_unit_update_falling_drag_input.health_value")
+        self.assertEqual(unit_update_falling_drag["params"][2]["schema"], "source_unit_update_falling_drag_input.current_drag")
+        for key in ["guard", "drag", "call", "source"]:
+            self.assertIn(key, unit_update_falling_drag["return_keys"])
+        self.assertNotIn("dead_value", unit_update_falling_drag["return_keys"])
+        self.assertEqual(unit_update_falling_drag["source_method"], "UnitComp.update() falling drag")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24436,6 +24499,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_descent_input["keys"]["type_wreck_health_multiplier"]["java_expr"], "type.wreckHealthMultiplier")
         self.assertEqual(source_unit_update_falling_descent_input["keys"]["unit_id"]["java_expr"], "id")
 
+        source_unit_update_falling_drag_input = source_symbols.state_schema(schema, "source_unit_update_falling_drag_input")
+        self.assertEqual(source_unit_update_falling_drag_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertEqual(source_unit_update_falling_drag_input["keys"]["health_value"]["java_expr"], "health")
+        self.assertEqual(source_unit_update_falling_drag_input["keys"]["current_drag"]["java_expr"], "drag")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24848,6 +24916,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_falling_descent_result["keys"]["wreckHealthThreshold"]["java_expr"], "-maxHealth * type.wreckHealthMultiplier")
         self.assertEqual(source_unit_update_falling_descent_result["keys"]["destroy"]["java_expr"], "Call.unitDestroy(id);")
         self.assertNotIn("dead_value", source_unit_update_falling_descent_result["keys"])
+
+        source_unit_update_falling_drag_result = source_symbols.state_schema(schema, "source_unit_update_falling_drag_result")
+        self.assertEqual(source_unit_update_falling_drag_result["keys"]["guard"]["java_expr"], "dead || health <= 0")
+        self.assertEqual(source_unit_update_falling_drag_result["keys"]["drag"]["java_expr"], "drag = 0.01f;")
+        self.assertEqual(source_unit_update_falling_drag_result["keys"]["call"]["java_expr"], "drag = 0.01f;")
+        self.assertEqual(source_unit_update_falling_drag_result["keys"]["source"]["java_expr"], "if(dead || health <= 0){")
+        self.assertNotIn("dead_value", source_unit_update_falling_drag_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
