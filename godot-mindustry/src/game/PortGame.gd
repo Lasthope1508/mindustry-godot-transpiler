@@ -10365,6 +10365,10 @@ func source_unit_floor_speed_multiplier_state(elevation_value: float, type_hover
 		"speed_multiplier": result,
 	}
 
+const SOURCE_UNIT_UNLOADED_COMMENT := "/** Called when this unit was unloaded from a factory or spawn point. */"
+const SOURCE_UNIT_UNLOADED_METHOD := "public void unloaded(){"
+const SOURCE_UNIT_UNLOADED_EMPTY_BODY := "public void unloaded(){\n\n    }"
+
 func source_unit_unloaded_state(unit_state: Variant) -> Variant:
 	return unit_state
 

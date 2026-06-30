@@ -53072,6 +53072,96 @@
       "runtime_proof": "/root/Main.source_unit_targetable_state",
       "status": "active"
     },
+    "source_unit_unloaded_input": {
+      "keys": {
+        "unit_state": {
+          "godot_symbol": "source_unit_unloaded_input.unit_state",
+          "java_expr": "unit",
+          "java_method": "UnitComp.unloaded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_unloaded_state"
+          ],
+          "rule": "Represent unloaded Unit receiver as explicit input because upstream body has no side effects.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_unloaded_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_unloaded_state",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "status": "active"
+    },
+    "source_unit_unloaded_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_unit_unloaded_result.comment",
+          "java_expr": "/** Called when this unit was unloaded from a factory or spawn point. */",
+          "java_method": "UnitComp.unloaded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_unloaded_state"
+          ],
+          "rule": "UnitComp.unloaded source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_unloaded_state"
+          ]
+        },
+        "empty_body": {
+          "godot_symbol": "source_unit_unloaded_result.empty_body",
+          "java_expr": "public void unloaded(){\n\n    }",
+          "java_method": "UnitComp.unloaded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_unloaded_state"
+          ],
+          "rule": "UnitComp.unloaded empty body.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_unloaded_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_unloaded_result.method",
+          "java_expr": "public void unloaded(){",
+          "java_method": "UnitComp.unloaded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_unloaded_state"
+          ],
+          "rule": "UnitComp.unloaded method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_unloaded_state"
+          ]
+        },
+        "unit_state": {
+          "alias_of": "source_unit_unloaded_input.unit_state",
+          "godot_symbol": "source_unit_unloaded_result.unit_state",
+          "java_expr": "unit",
+          "java_method": "UnitComp.unloaded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_unloaded_state"
+          ],
+          "rule": "Result aliases explicit unit_state input.",
+          "status": "alias",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_unloaded_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_unloaded_state",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

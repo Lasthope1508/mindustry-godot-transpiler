@@ -41628,6 +41628,62 @@
         "test_port_game_exposes_source_unit_targetable_state"
       ]
     },
+    "unit_unloaded.comment": {
+      "godot_owner": "PortGame.source_unit_unloaded_state",
+      "godot_symbol": "source_unit_unloaded_result.comment",
+      "java_expr": "/** Called when this unit was unloaded from a factory or spawn point. */",
+      "java_method": "UnitComp.unloaded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact upstream UnitComp.unloaded comment registered for canonical Godot helper.",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ]
+    },
+    "unit_unloaded.empty_body": {
+      "godot_owner": "PortGame.source_unit_unloaded_state",
+      "godot_symbol": "source_unit_unloaded_result.empty_body",
+      "java_expr": "public void unloaded(){\n\n    }",
+      "java_method": "UnitComp.unloaded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact upstream UnitComp.unloaded empty body registered for canonical Godot helper.",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ]
+    },
+    "unit_unloaded.method": {
+      "godot_owner": "PortGame.source_unit_unloaded_state",
+      "godot_symbol": "source_unit_unloaded_result.method",
+      "java_expr": "public void unloaded(){",
+      "java_method": "UnitComp.unloaded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact upstream UnitComp.unloaded method boundary registered for canonical Godot helper.",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ]
+    },
+    "unit_unloaded.unit_state": {
+      "godot_owner": "PortGame.source_unit_unloaded_state",
+      "godot_symbol": "source_unit_unloaded_input.unit_state",
+      "java_expr": "unit",
+      "java_method": "UnitComp.unloaded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Represent unloaded Unit receiver as explicit unit_state input because upstream body has no side effects.",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

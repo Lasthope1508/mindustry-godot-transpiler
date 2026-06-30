@@ -4884,6 +4884,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(targeter_input["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
         self.assertEqual(targeter_input["godot_symbol"], "source_unit_targetable_input.targeter_id")
 
+    def test_unit_unloaded_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "unit_unloaded.comment")
+        self.assertEqual(comment["java_expr"], "/** Called when this unit was unloaded from a factory or spawn point. */")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(comment["java_method"], "UnitComp.unloaded()")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_unit_unloaded_state")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_unit_unloaded_state")
+        self.assertEqual(comment["godot_symbol"], "source_unit_unloaded_result.comment")
+
+        method = source_symbols.source_symbol(registry, "unit_unloaded.method")
+        self.assertEqual(method["java_expr"], "public void unloaded(){")
+        self.assertEqual(method["godot_symbol"], "source_unit_unloaded_result.method")
+
+        empty_body = source_symbols.source_symbol(registry, "unit_unloaded.empty_body")
+        self.assertEqual(empty_body["java_expr"], "public void unloaded(){\n\n    }")
+        self.assertEqual(empty_body["godot_symbol"], "source_unit_unloaded_result.empty_body")
+
+        unit_state = source_symbols.source_symbol(registry, "unit_unloaded.unit_state")
+        self.assertEqual(unit_state["status"], "explicit-input")
+        self.assertEqual(unit_state["java_expr"], "unit")
+        self.assertEqual(unit_state["godot_symbol"], "source_unit_unloaded_input.unit_state")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13356,9 +13383,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 399)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 400)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 404)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 405)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13415,6 +13442,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_rotate_move_rotation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_set_type_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_targetable_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_unloaded_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15609,6 +15637,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("vulnerableWithPayloads = false,", unit_targetable["bridge_exprs"])
         self.assertIn("boolean hasPayload(){", unit_targetable["bridge_exprs"])
         self.assertIn("return payloads.size > 0;", unit_targetable["bridge_exprs"])
+
+        unit_unloaded = source_symbols.source_slice(ledger, "N802")
+        self.assertEqual(unit_unloaded["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_unloaded["java_method"], "UnitComp.unloaded()")
+        self.assertEqual(unit_unloaded["godot_owner"], "PortGame.source_unit_unloaded_state")
+        self.assertIn("/** Called when this unit was unloaded from a factory or spawn point. */", unit_unloaded["exact_exprs"])
+        self.assertIn("public void unloaded(){", unit_unloaded["exact_exprs"])
+        self.assertIn("public void unloaded(){\n\n    }", unit_unloaded["exact_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19280,6 +19316,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("targeter_id", unit_targetable["return_keys"])
         self.assertIn("call", unit_targetable["return_keys"])
         self.assertEqual(unit_targetable["source_method"], "UnitComp.targetable(Team targeter)")
+
+        unit_unloaded = source_symbols.api_contract(contracts, "PortGame.source_unit_unloaded_state")
+        self.assertEqual([param["name"] for param in unit_unloaded["params"]], ["unit_state"])
+        self.assertEqual(unit_unloaded["params"][0]["schema"], "source_unit_unloaded_input.unit_state")
+        self.assertIn("unit_state", unit_unloaded["return_keys"])
+        self.assertEqual(unit_unloaded["source_method"], "UnitComp.unloaded()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23410,6 +23452,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_targetable_input["keys"]["unit_has_payload"]["java_expr"], "return payloads.size > 0;")
         self.assertEqual(source_unit_targetable_input["keys"]["targeter_id"]["java_expr"], "targeter")
 
+        source_unit_unloaded_input = source_symbols.state_schema(schema, "source_unit_unloaded_input")
+        self.assertEqual(source_unit_unloaded_input["keys"]["unit_state"]["java_expr"], "unit")
+        self.assertEqual(source_unit_unloaded_input["keys"]["unit_state"]["status"], "explicit-input")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -23691,6 +23737,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_targetable_result["keys"]["targetable"]["java_expr"], "return targetable || (vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload());")
         self.assertEqual(source_unit_targetable_result["keys"]["payloadTargetable"]["java_expr"], "vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()")
         self.assertEqual(source_unit_targetable_result["keys"]["targeter_id"]["java_expr"], "targeter")
+
+        source_unit_unloaded_result = source_symbols.state_schema(schema, "source_unit_unloaded_result")
+        self.assertEqual(source_unit_unloaded_result["keys"]["comment"]["java_expr"], "/** Called when this unit was unloaded from a factory or spawn point. */")
+        self.assertEqual(source_unit_unloaded_result["keys"]["method"]["java_expr"], "public void unloaded(){")
+        self.assertEqual(source_unit_unloaded_result["keys"]["empty_body"]["java_expr"], "public void unloaded(){\n\n    }")
+        self.assertEqual(source_unit_unloaded_result["keys"]["unit_state"]["alias_of"], "source_unit_unloaded_input.unit_state")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

@@ -15151,6 +15151,28 @@
         "test_unit_targetable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_targetable_state"
       ]
+    },
+    "PortGame.source_unit_unloaded_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_unit_unloaded_input.unit_state",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "unit_state"
+      ],
+      "rule": "Public runtime contract for UnitComp.unloaded() no-op passthrough state.",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "source_method": "UnitComp.unloaded()",
+      "source_slice": "N802",
+      "status": "active",
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ]
     }
   },
   "policy": {

@@ -13446,6 +13446,33 @@
         "test_unit_targetable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_targetable_state"
       ]
+    },
+    "N802": {
+      "bridge_exprs": [],
+      "deferred_exprs": [
+        "No side effects are ported because UnitComp.unloaded() body is empty upstream."
+      ],
+      "exact_exprs": [
+        "/** Called when this unit was unloaded from a factory or spawn point. */",
+        "public void unloaded(){",
+        "public void unloaded(){\n\n    }"
+      ],
+      "godot_owner": "PortGame.source_unit_unloaded_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.unloaded()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_unloaded_state",
+      "source_symbols": [
+        "unit_unloaded.comment",
+        "unit_unloaded.method",
+        "unit_unloaded.empty_body",
+        "unit_unloaded.unit_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_unloaded_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_unloaded_noop_state"
+      ]
     }
   },
   "version": 1

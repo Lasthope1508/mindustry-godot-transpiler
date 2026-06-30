@@ -6444,6 +6444,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_unloaded_state(unit_state: Variant) -> Variant:", source)
+        self.assertIn('const SOURCE_UNIT_UNLOADED_COMMENT := "/** Called when this unit was unloaded from a factory or spawn point. */"', source)
+        self.assertIn('const SOURCE_UNIT_UNLOADED_METHOD := "public void unloaded(){"', source)
+        self.assertIn('const SOURCE_UNIT_UNLOADED_EMPTY_BODY := "public void unloaded(){\\n\\n    }"', source)
         self.assertIn("return unit_state", source)
 
     def test_port_game_exposes_source_unit_update_boosting_default_event_state(self):
