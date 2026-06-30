@@ -11232,6 +11232,39 @@
         "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
       ]
+    },
+    "N748": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "/** Maximum angle difference in degrees at which turret will still try to shoot. */",
+        "public float shootCone = 8f;",
+        "shootCone",
+        "8f",
+        "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"
+      ],
+      "bridge_exprs": [
+        "shootCone = 15f;",
+        "if angle_delta >= source_turret_shoot_cone(duo):"
+      ],
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "field declaration/TurretBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "source_symbols": [
+        "turret_shoot_cone.comment",
+        "turret_shoot_cone.field",
+        "turret_shoot_cone.key",
+        "turret_shoot_cone.default",
+        "turret_shoot_cone.duo_value",
+        "turret_shoot_cone.can_shoot_gate",
+        "turret_shoot_cone.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ]
     }
   },
   "version": 1

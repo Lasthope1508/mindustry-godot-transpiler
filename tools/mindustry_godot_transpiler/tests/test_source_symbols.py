@@ -4748,6 +4748,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "rotateSpeed")
         self.assertEqual(result["godot_symbol"], "source_turret_rotate_speed_result.rotateSpeed")
 
+    def test_turret_shoot_cone_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "turret_shoot_cone.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(comment["java_method"], "field declaration")
+        self.assertEqual(comment["java_expr"], "/** Maximum angle difference in degrees at which turret will still try to shoot. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_turret_shoot_cone")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_turret_shoot_cone")
+        self.assertEqual(comment["godot_symbol"], "source_turret_shoot_cone_result.comment")
+
+        field = source_symbols.source_symbol(registry, "turret_shoot_cone.field")
+        self.assertEqual(field["java_expr"], "public float shootCone = 8f;")
+        self.assertEqual(field["godot_symbol"], "source_turret_shoot_cone_result.field")
+
+        key = source_symbols.source_symbol(registry, "turret_shoot_cone.key")
+        self.assertEqual(key["java_expr"], "shootCone")
+        self.assertEqual(key["godot_symbol"], "source_turret_shoot_cone_result.key")
+
+        default_value = source_symbols.source_symbol(registry, "turret_shoot_cone.default")
+        self.assertEqual(default_value["java_expr"], "8f")
+        self.assertEqual(default_value["godot_symbol"], "source_turret_shoot_cone_result.default_value")
+
+        duo_value = source_symbols.source_symbol(registry, "turret_shoot_cone.duo_value")
+        self.assertEqual(duo_value["java_source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(duo_value["java_expr"], "shootCone = 15f;")
+        self.assertEqual(duo_value["godot_symbol"], "source_turret_shoot_cone_result.duoValue")
+
+        can_shoot_gate = source_symbols.source_symbol(registry, "turret_shoot_cone.can_shoot_gate")
+        self.assertEqual(can_shoot_gate["java_expr"], "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){")
+        self.assertEqual(can_shoot_gate["godot_symbol"], "source_turret_shoot_cone_result.canShootGate")
+
+        result = source_symbols.source_symbol(registry, "turret_shoot_cone.result")
+        self.assertEqual(result["java_expr"], "shootCone")
+        self.assertEqual(result["godot_symbol"], "source_turret_shoot_cone_result.shootCone")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11261,9 +11300,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 345)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 346)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 350)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 351)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11490,6 +11529,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_reload_seconds", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_reload_seconds_for_ammo", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_rotate_speed", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_shoot_cone", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11609,6 +11649,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_reload_seconds", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_reload_seconds_for_ammo", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_rotate_speed", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_turret_shoot_cone", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12896,6 +12937,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);", turret_rotate_speed["exact_exprs"])
         self.assertIn("rotateSpeed = 10f;", turret_rotate_speed["bridge_exprs"])
         self.assertIn("source_move_angle_toward(current_rotation, target_rotation, source_turret_rotate_speed(duo) * delta * SOURCE_TICK_RATE)", turret_rotate_speed["bridge_exprs"])
+
+        turret_shoot_cone = source_symbols.source_slice(ledger, "N748")
+        self.assertEqual(turret_shoot_cone["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(turret_shoot_cone["java_method"], "field declaration/TurretBuild.updateTile()")
+        self.assertEqual(turret_shoot_cone["godot_owner"], "PortGame.source_turret_shoot_cone")
+        self.assertIn("/** Maximum angle difference in degrees at which turret will still try to shoot. */", turret_shoot_cone["exact_exprs"])
+        self.assertIn("public float shootCone = 8f;", turret_shoot_cone["exact_exprs"])
+        self.assertIn("shootCone", turret_shoot_cone["exact_exprs"])
+        self.assertIn("8f", turret_shoot_cone["exact_exprs"])
+        self.assertIn("if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){", turret_shoot_cone["exact_exprs"])
+        self.assertIn("shootCone = 15f;", turret_shoot_cone["bridge_exprs"])
+        self.assertIn("if angle_delta >= source_turret_shoot_cone(duo):", turret_shoot_cone["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -16109,6 +16162,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("duoValue", turret_rotate_speed["return_keys"])
         self.assertIn("turnToTarget", turret_rotate_speed["return_keys"])
         self.assertEqual(turret_rotate_speed["source_method"], "field declaration/TurretBuild.turnToTarget()")
+
+        turret_shoot_cone = source_symbols.api_contract(contracts, "PortGame.source_turret_shoot_cone")
+        self.assertEqual([param["name"] for param in turret_shoot_cone["params"]], ["turret"])
+        self.assertEqual(turret_shoot_cone["params"][0]["schema"], "source_turret_shoot_cone_input.turret")
+        self.assertIn("shootCone", turret_shoot_cone["return_keys"])
+        self.assertIn("duoValue", turret_shoot_cone["return_keys"])
+        self.assertIn("canShootGate", turret_shoot_cone["return_keys"])
+        self.assertEqual(turret_shoot_cone["source_method"], "field declaration/TurretBuild.updateTile()")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -19795,6 +19856,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_rotate_speed_result["keys"]["turnToTarget"]["java_expr"], "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);")
         self.assertEqual(source_turret_rotate_speed_result["keys"]["rotateSpeed"]["java_expr"], "rotateSpeed")
         self.assertEqual(source_turret_rotate_speed_result["keys"]["turret"]["alias_of"], "source_turret_rotate_speed_input.turret")
+
+        source_turret_shoot_cone_input = source_symbols.state_schema(schema, "source_turret_shoot_cone_input")
+        self.assertEqual(source_turret_shoot_cone_input["keys"]["turret"]["alias_of"], "source_turret_rotate_speed_input.turret")
+
+        source_turret_shoot_cone_result = source_symbols.state_schema(schema, "source_turret_shoot_cone_result")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["comment"]["java_expr"], "/** Maximum angle difference in degrees at which turret will still try to shoot. */")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["field"]["java_expr"], "public float shootCone = 8f;")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["key"]["java_expr"], "shootCone")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["default_value"]["java_expr"], "8f")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["duoValue"]["java_expr"], "shootCone = 15f;")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["canShootGate"]["java_expr"], "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["shootCone"]["java_expr"], "shootCone")
+        self.assertEqual(source_turret_shoot_cone_result["keys"]["turret"]["alias_of"], "source_turret_shoot_cone_input.turret")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

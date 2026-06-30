@@ -35783,6 +35783,104 @@
       "java_method": "field declaration/TurretBuild.turnToTarget()",
       "java_expr": "rotateSpeed",
       "rule": "Runtime helper returns source-backed turret rotateSpeed value."
+    },
+    "turret_shoot_cone.comment": {
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_cone_result.comment",
+      "java_method": "field declaration",
+      "java_expr": "/** Maximum angle difference in degrees at which turret will still try to shoot. */",
+      "rule": "Turret.shootCone comment defines firing angle tolerance meaning."
+    },
+    "turret_shoot_cone.field": {
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_cone_result.field",
+      "java_method": "field declaration",
+      "java_expr": "public float shootCone = 8f;",
+      "rule": "Turret.shootCone field default is the firing angle tolerance fallback."
+    },
+    "turret_shoot_cone.key": {
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_cone_result.key",
+      "java_method": "field declaration",
+      "java_expr": "shootCone",
+      "rule": "Godot content property key mirrors Java field name."
+    },
+    "turret_shoot_cone.default": {
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_cone_result.default_value",
+      "java_method": "field declaration",
+      "java_expr": "8f",
+      "rule": "Turret.shootCone default fallback is 8f degrees."
+    },
+    "turret_shoot_cone.duo_value": {
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "godot_symbol": "source_turret_shoot_cone_result.duoValue",
+      "java_method": "Blocks.duo",
+      "java_expr": "shootCone = 15f;",
+      "rule": "Duo overrides shootCone to 15f in Blocks.java."
+    },
+    "turret_shoot_cone.can_shoot_gate": {
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_cone_result.canShootGate",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){",
+      "rule": "Turret fires only when angle distance is strictly less than shootCone and canShoot passes."
+    },
+    "turret_shoot_cone.result": {
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "runtime_proof": "/root/Main.source_turret_shoot_cone",
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_shoot_cone_result.shootCone",
+      "java_method": "field declaration/TurretBuild.updateTile()",
+      "java_expr": "shootCone",
+      "rule": "Runtime helper returns source-backed turret shootCone value."
     }
   },
   "version": 1

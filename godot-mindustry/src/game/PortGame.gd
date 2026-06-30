@@ -10433,10 +10433,17 @@ func source_turret_rotate_speed(turret) -> float:
 		return 0.0
 	return float(turret.properties.get(SOURCE_TURRET_ROTATE_SPEED_KEY, SOURCE_TURRET_ROTATE_SPEED_DEFAULT))
 
+const SOURCE_TURRET_SHOOT_CONE_COMMENT := "/** Maximum angle difference in degrees at which turret will still try to shoot. */"
+const SOURCE_TURRET_SHOOT_CONE_FIELD := "public float shootCone = 8f;"
+const SOURCE_TURRET_SHOOT_CONE_KEY := "shootCone"
+const SOURCE_TURRET_SHOOT_CONE_DEFAULT := 8.0
+const SOURCE_TURRET_SHOOT_CONE_DUO_VALUE := "shootCone = 15f;"
+const SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE := "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"
+
 func source_turret_shoot_cone(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get("shootCone", 8.0))
+	return float(turret.properties.get(SOURCE_TURRET_SHOOT_CONE_KEY, SOURCE_TURRET_SHOOT_CONE_DEFAULT))
 
 const SOURCE_TURRET_RECOIL_COMMENT := "/** Visual amount by which the turret recoils back per shot. */"
 const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"
