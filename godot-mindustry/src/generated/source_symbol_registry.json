@@ -43534,6 +43534,486 @@
         "test_unit_update_drag_formula_matches_upstream_source"
       ]
     },
+    "unit_update_drowning.can_drown_value": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.can_drown_value",
+      "java_expr": "canDrown()",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for canDrown() result.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.chance_delta_result": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.chance_delta_result",
+      "java_expr": "Mathf.chanceDelta(0.05f)",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for chanceDelta result; no RNG invented.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.clamp": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.drownTime",
+      "java_expr": "drownTime = Mathf.clamp(drownTime);",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Final drownTime clamp from source.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.current_drown_time": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.current_drown_time",
+      "java_expr": "drownTime",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for current drownTime field.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.drown_effect_call": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.effectCall",
+      "java_expr": "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor);",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Drowning update effect call record.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.drown_floor_field": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.canDrownOnFloor",
+      "java_expr": "public @Nullable Floor drownFloor(){\n        return floorOn();\n    }",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "drownFloor() returns floorOn() bridge evidence.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.drown_guard": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.canDrownOnFloor",
+      "java_expr": "if(floor != null && floor.isLiquid && floor.drownTime > 0 && canDrown()){",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact source drowning guard.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.drown_increment": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.drownIncrement",
+      "java_expr": "drownTime += Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime);",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact source drownTime increment formula.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.drown_time_field": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.current_drown_time",
+      "java_expr": "transient float drownTime;",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "drownTime field declaration.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.dry_decay": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.drownTimeBeforeClamp",
+      "java_expr": "drownTime -= Time.delta / 50f;",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Dry floor drownTime decay.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.event_call": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.eventCall",
+      "java_expr": "Events.fire(new UnitDrownEvent(self()));",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitDrownEvent dispatch call.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.floor_drown_time": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.floor_drown_time",
+      "java_expr": "public float drownTime = 0f;",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "rule": "Floor.drownTime default source.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.floor_drown_update_effect": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.effectCall",
+      "java_expr": "public Effect drownUpdateEffect = Fx.bubble;",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "rule": "Floor.drownUpdateEffect default source.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.floor_exists": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.floor_exists",
+      "java_expr": "floor != null",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for floor null check.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.floor_is_liquid": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.floor_is_liquid",
+      "java_expr": "floor.isLiquid",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for Floor.isLiquid.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.floor_is_liquid_field": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.floor_is_liquid",
+      "java_expr": "public boolean isLiquid;",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "rule": "Floor.isLiquid field source.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.floor_lookup": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.canDrownOnFloor",
+      "java_expr": "Floor floor = drownFloor();",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact floor lookup.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.hit_size": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.hit_size",
+      "java_expr": "hitSize",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for hitSize.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.kill_call": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.kill",
+      "java_expr": "kill();",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Unit kill call inside drowning branch.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.kill_guard": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.kill",
+      "java_expr": "if(drownTime >= 0.999f && !net.client()){",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact drowning kill guard.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.last_drown_floor_field": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.lastDrownFloorSet",
+      "java_expr": "transient @Nullable Floor lastDrownFloor;",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "lastDrownFloor field declaration.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.last_floor_set": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.lastDrownFloorSet",
+      "java_expr": "lastDrownFloor = floor;",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "lastDrownFloor assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.mathf_chance_delta": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.chance_delta_result",
+      "java_expr": "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+      "java_method": "Mathf.chanceDelta(double d)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.chanceDelta source bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.mathf_clamp_unit": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.drownTime",
+      "java_expr": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+      "java_method": "Mathf.clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.clamp unit interval bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.method": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.drownTime",
+      "java_expr": "public void updateDrowning(){",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.updateDrowning method anchor.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.net_client": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.net_client",
+      "java_expr": "net.client()",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for net.client().",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.source_delta": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for Time.delta.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.time_delta_default": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.source_delta",
+      "java_expr": "public static float delta = 1f;",
+      "java_method": "Time.delta",
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "rule": "Arc Time.delta default bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.type_drown_time_multiplier": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.type_drown_time_multiplier",
+      "java_expr": "type.drownTimeMultiplier",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime input for UnitType.drownTimeMultiplier.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.unit_drown_event": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.eventCall",
+      "java_expr": "public static class UnitDrownEvent{",
+      "java_method": "EventType.UnitDrownEvent",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "rule": "UnitDrownEvent class source.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.unit_drown_event_unit": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_result.eventCall",
+      "java_expr": "public final Unit unit;",
+      "java_method": "EventType.UnitDrownEvent",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "rule": "UnitDrownEvent unit field source.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
+    "unit_update_drowning.unit_type_drown_multiplier": {
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "godot_symbol": "source_unit_update_drowning_input.type_drown_time_multiplier",
+      "java_expr": "drownTimeMultiplier = 1f,",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType.drownTimeMultiplier default source.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

@@ -5384,6 +5384,77 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rules_drag_default["java_expr"], "public float dragMultiplier = 1f;")
         self.assertEqual(rules_drag_default["java_source"], "core/src/mindustry/game/Rules.java")
 
+    def test_unit_update_drowning_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_update_drowning.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["java_expr"], "public void updateDrowning(){")
+        self.assertEqual(method["java_method"], "UnitComp.updateDrowning()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_update_drowning_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_update_drowning_state")
+
+        guard = source_symbols.source_symbol(registry, "unit_update_drowning.drown_guard")
+        self.assertEqual(guard["java_expr"], "if(floor != null && floor.isLiquid && floor.drownTime > 0 && canDrown()){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_drowning_result.canDrownOnFloor")
+
+        increment = source_symbols.source_symbol(registry, "unit_update_drowning.drown_increment")
+        self.assertEqual(increment["java_expr"], "drownTime += Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime);")
+        self.assertEqual(increment["godot_symbol"], "source_unit_update_drowning_result.drownIncrement")
+
+        effect_call = source_symbols.source_symbol(registry, "unit_update_drowning.drown_effect_call")
+        self.assertEqual(effect_call["java_expr"], "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor);")
+        self.assertEqual(effect_call["godot_symbol"], "source_unit_update_drowning_result.effectCall")
+
+        kill_guard = source_symbols.source_symbol(registry, "unit_update_drowning.kill_guard")
+        self.assertEqual(kill_guard["java_expr"], "if(drownTime >= 0.999f && !net.client()){")
+        self.assertEqual(kill_guard["godot_symbol"], "source_unit_update_drowning_result.kill")
+
+        event_call = source_symbols.source_symbol(registry, "unit_update_drowning.event_call")
+        self.assertEqual(event_call["java_expr"], "Events.fire(new UnitDrownEvent(self()));")
+        self.assertEqual(event_call["godot_symbol"], "source_unit_update_drowning_result.eventCall")
+
+        dry_decay = source_symbols.source_symbol(registry, "unit_update_drowning.dry_decay")
+        self.assertEqual(dry_decay["java_expr"], "drownTime -= Time.delta / 50f;")
+        self.assertEqual(dry_decay["godot_symbol"], "source_unit_update_drowning_result.drownTimeBeforeClamp")
+
+        clamp_expr = source_symbols.source_symbol(registry, "unit_update_drowning.clamp")
+        self.assertEqual(clamp_expr["java_expr"], "drownTime = Mathf.clamp(drownTime);")
+        self.assertEqual(clamp_expr["godot_symbol"], "source_unit_update_drowning_result.drownTime")
+
+        can_drown_value = source_symbols.source_symbol(registry, "unit_update_drowning.can_drown_value")
+        self.assertEqual(can_drown_value["status"], "explicit-input")
+        self.assertEqual(can_drown_value["java_expr"], "canDrown()")
+        self.assertEqual(can_drown_value["godot_symbol"], "source_unit_update_drowning_input.can_drown_value")
+
+        chance_delta_result = source_symbols.source_symbol(registry, "unit_update_drowning.chance_delta_result")
+        self.assertEqual(chance_delta_result["status"], "explicit-input")
+        self.assertEqual(chance_delta_result["java_expr"], "Mathf.chanceDelta(0.05f)")
+        self.assertEqual(chance_delta_result["godot_symbol"], "source_unit_update_drowning_input.chance_delta_result")
+
+        floor_drown_time = source_symbols.source_symbol(registry, "unit_update_drowning.floor_drown_time")
+        self.assertEqual(floor_drown_time["java_expr"], "public float drownTime = 0f;")
+        self.assertEqual(floor_drown_time["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+
+        floor_drown_update_effect = source_symbols.source_symbol(registry, "unit_update_drowning.floor_drown_update_effect")
+        self.assertEqual(floor_drown_update_effect["java_expr"], "public Effect drownUpdateEffect = Fx.bubble;")
+        self.assertEqual(floor_drown_update_effect["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+
+        unit_type_multiplier = source_symbols.source_symbol(registry, "unit_update_drowning.unit_type_drown_multiplier")
+        self.assertEqual(unit_type_multiplier["java_expr"], "drownTimeMultiplier = 1f,")
+        self.assertEqual(unit_type_multiplier["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        chance_delta = source_symbols.source_symbol(registry, "unit_update_drowning.mathf_chance_delta")
+        self.assertEqual(chance_delta["java_expr"], "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }")
+        self.assertEqual(chance_delta["java_source"], "arc-core/src/arc/math/Mathf.java")
+
+        clamp_unit = source_symbols.source_symbol(registry, "unit_update_drowning.mathf_clamp_unit")
+        self.assertEqual(clamp_unit["java_expr"], "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }")
+        self.assertEqual(clamp_unit["java_source"], "arc-core/src/arc/math/Mathf.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13856,9 +13927,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 410)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 411)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 415)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 416)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13880,6 +13951,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_controller_predicates_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_count_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_drown_floor_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_drowning_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16225,6 +16297,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;", unit_update_drag_formula["exact_exprs"])
         self.assertIn("drag = 0.3f,", unit_update_drag_formula["bridge_exprs"])
         self.assertIn("public float dragMultiplier = 1f;", unit_update_drag_formula["bridge_exprs"])
+
+        unit_update_drowning = source_symbols.source_slice(ledger, "N813")
+        self.assertEqual(unit_update_drowning["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_drowning["java_method"], "UnitComp.updateDrowning()")
+        self.assertEqual(unit_update_drowning["godot_owner"], "PortGame.source_unit_update_drowning_state")
+        self.assertIn("public void updateDrowning(){", unit_update_drowning["exact_exprs"])
+        self.assertIn("Floor floor = drownFloor();", unit_update_drowning["exact_exprs"])
+        self.assertIn("if(floor != null && floor.isLiquid && floor.drownTime > 0 && canDrown()){", unit_update_drowning["exact_exprs"])
+        self.assertIn("drownTime += Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime);", unit_update_drowning["exact_exprs"])
+        self.assertIn("floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor);", unit_update_drowning["exact_exprs"])
+        self.assertIn("Events.fire(new UnitDrownEvent(self()));", unit_update_drowning["exact_exprs"])
+        self.assertIn("drownTime = Mathf.clamp(drownTime);", unit_update_drowning["exact_exprs"])
+        self.assertIn("public float drownTime = 0f;", unit_update_drowning["bridge_exprs"])
+        self.assertIn("public Effect drownUpdateEffect = Fx.bubble;", unit_update_drowning["bridge_exprs"])
+        self.assertIn("drownTimeMultiplier = 1f,", unit_update_drowning["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20030,6 +20117,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_drag_formula["return_keys"])
         self.assertNotIn("type_drag", unit_update_drag_formula["return_keys"])
         self.assertEqual(unit_update_drag_formula["source_method"], "UnitComp.update() drag formula")
+
+        unit_update_drowning = source_symbols.api_contract(contracts, "PortGame.source_unit_update_drowning_state")
+        self.assertEqual([param["name"] for param in unit_update_drowning["params"]], ["floor_exists", "floor_is_liquid", "floor_drown_time", "can_drown_value", "current_drown_time", "source_delta", "hit_size", "type_drown_time_multiplier", "chance_delta_result", "net_client"])
+        self.assertEqual(unit_update_drowning["params"][0]["schema"], "source_unit_update_drowning_input.floor_exists")
+        self.assertEqual(unit_update_drowning["params"][3]["schema"], "source_unit_update_drowning_input.can_drown_value")
+        self.assertEqual(unit_update_drowning["params"][8]["schema"], "source_unit_update_drowning_input.chance_delta_result")
+        for key in ["canDrownOnFloor", "lastDrownFloorSet", "drownIncrement", "drownTimeBeforeClamp", "drownTime", "effectCall", "kill", "eventCall", "netClient"]:
+            self.assertIn(key, unit_update_drowning["return_keys"])
+        self.assertNotIn("can_drown_value", unit_update_drowning["return_keys"])
+        self.assertEqual(unit_update_drowning["source_method"], "UnitComp.updateDrowning()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24231,6 +24328,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_drag_formula_input["keys"]["unit_drag_multiplier"]["java_expr"], "dragMultiplier")
         self.assertEqual(source_unit_update_drag_formula_input["keys"]["rules_drag_multiplier"]["java_expr"], "state.rules.dragMultiplier")
 
+        source_unit_update_drowning_input = source_symbols.state_schema(schema, "source_unit_update_drowning_input")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["floor_exists"]["java_expr"], "floor != null")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["floor_is_liquid"]["java_expr"], "floor.isLiquid")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["floor_drown_time"]["java_expr"], "floor.drownTime")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["can_drown_value"]["java_expr"], "canDrown()")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["current_drown_time"]["java_expr"], "drownTime")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["hit_size"]["java_expr"], "hitSize")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["type_drown_time_multiplier"]["java_expr"], "type.drownTimeMultiplier")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["chance_delta_result"]["java_expr"], "Mathf.chanceDelta(0.05f)")
+        self.assertEqual(source_unit_update_drowning_input["keys"]["net_client"]["java_expr"], "net.client()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24621,6 +24730,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_drag_formula_result["keys"]["formula"]["java_expr"], "drag = type.drag * (isGrounded() ? (floorOn().dragMultiplier) : 1f) * dragMultiplier * state.rules.dragMultiplier;")
         self.assertEqual(source_unit_update_drag_formula_result["keys"]["inputs"]["status"], "generated")
         self.assertNotIn("type_drag", source_unit_update_drag_formula_result["keys"])
+
+        source_unit_update_drowning_result = source_symbols.state_schema(schema, "source_unit_update_drowning_result")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["canDrownOnFloor"]["java_expr"], "floor != null && floor.isLiquid && floor.drownTime > 0 && canDrown()")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["lastDrownFloorSet"]["java_expr"], "lastDrownFloor = floor;")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["drownIncrement"]["java_expr"], "Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime)")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["drownTimeBeforeClamp"]["java_expr"], "drownTime += Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime); or drownTime -= Time.delta / 50f;")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["drownTime"]["java_expr"], "drownTime = Mathf.clamp(drownTime);")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["effectCall"]["java_expr"], "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor);")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["kill"]["java_expr"], "drownTime >= 0.999f && !net.client()")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["eventCall"]["java_expr"], "Events.fire(new UnitDrownEvent(self()));")
+        self.assertEqual(source_unit_update_drowning_result["keys"]["netClient"]["java_expr"], "net.client()")
+        self.assertNotIn("can_drown_value", source_unit_update_drowning_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

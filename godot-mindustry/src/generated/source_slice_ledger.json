@@ -13893,6 +13893,84 @@
         "test_port_game_exposes_source_unit_update_drag_formula_state",
         "test_unit_update_drag_formula_matches_upstream_source"
       ]
+    },
+    "N813": {
+      "bridge_exprs": [
+        "public float drownTime = 0f;",
+        "public Effect drownUpdateEffect = Fx.bubble;",
+        "public boolean isLiquid;",
+        "drownTimeMultiplier = 1f,",
+        "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+        "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+        "public static float delta = 1f;",
+        "public static class UnitDrownEvent{",
+        "public final Unit unit;"
+      ],
+      "deferred_exprs": [
+        "drownFloor(), canDrown(), net.client(), Mathf.chanceDelta RNG, Floor object, effect bus, and event bus internals are consumed as explicit runtime facts or call records instead of invented live objects."
+      ],
+      "exact_exprs": [
+        "transient float drownTime;",
+        "transient @Nullable Floor lastDrownFloor;",
+        "public @Nullable Floor drownFloor(){\n        return floorOn();\n    }",
+        "public void updateDrowning(){",
+        "Floor floor = drownFloor();",
+        "if(floor != null && floor.isLiquid && floor.drownTime > 0 && canDrown()){",
+        "lastDrownFloor = floor;",
+        "drownTime += Time.delta / (hitSize / 8f * type.drownTimeMultiplier * floor.drownTime);",
+        "if(Mathf.chanceDelta(0.05f)){",
+        "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor);",
+        "if(drownTime >= 0.999f && !net.client()){",
+        "kill();",
+        "Events.fire(new UnitDrownEvent(self()));",
+        "drownTime -= Time.delta / 50f;",
+        "drownTime = Mathf.clamp(drownTime);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_drowning_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.updateDrowning()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "source_symbols": [
+        "unit_update_drowning.can_drown_value",
+        "unit_update_drowning.chance_delta_result",
+        "unit_update_drowning.clamp",
+        "unit_update_drowning.current_drown_time",
+        "unit_update_drowning.drown_effect_call",
+        "unit_update_drowning.drown_floor_field",
+        "unit_update_drowning.drown_guard",
+        "unit_update_drowning.drown_increment",
+        "unit_update_drowning.drown_time_field",
+        "unit_update_drowning.dry_decay",
+        "unit_update_drowning.event_call",
+        "unit_update_drowning.floor_drown_time",
+        "unit_update_drowning.floor_drown_update_effect",
+        "unit_update_drowning.floor_exists",
+        "unit_update_drowning.floor_is_liquid",
+        "unit_update_drowning.floor_is_liquid_field",
+        "unit_update_drowning.floor_lookup",
+        "unit_update_drowning.hit_size",
+        "unit_update_drowning.kill_call",
+        "unit_update_drowning.kill_guard",
+        "unit_update_drowning.last_drown_floor_field",
+        "unit_update_drowning.last_floor_set",
+        "unit_update_drowning.mathf_chance_delta",
+        "unit_update_drowning.mathf_clamp_unit",
+        "unit_update_drowning.method",
+        "unit_update_drowning.net_client",
+        "unit_update_drowning.source_delta",
+        "unit_update_drowning.time_delta_default",
+        "unit_update_drowning.type_drown_time_multiplier",
+        "unit_update_drowning.unit_drown_event",
+        "unit_update_drowning.unit_drown_event_unit",
+        "unit_update_drowning.unit_type_drown_multiplier"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
     }
   },
   "version": 1

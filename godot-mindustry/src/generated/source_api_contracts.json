@@ -15621,6 +15621,82 @@
         "test_port_game_exposes_source_unit_update_drag_formula_state",
         "test_unit_update_drag_formula_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_drowning_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "floor_exists",
+          "schema": "source_unit_update_drowning_input.floor_exists",
+          "type": "bool"
+        },
+        {
+          "name": "floor_is_liquid",
+          "schema": "source_unit_update_drowning_input.floor_is_liquid",
+          "type": "bool"
+        },
+        {
+          "name": "floor_drown_time",
+          "schema": "source_unit_update_drowning_input.floor_drown_time",
+          "type": "float"
+        },
+        {
+          "name": "can_drown_value",
+          "schema": "source_unit_update_drowning_input.can_drown_value",
+          "type": "bool"
+        },
+        {
+          "name": "current_drown_time",
+          "schema": "source_unit_update_drowning_input.current_drown_time",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_drowning_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_update_drowning_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "type_drown_time_multiplier",
+          "schema": "source_unit_update_drowning_input.type_drown_time_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "chance_delta_result",
+          "schema": "source_unit_update_drowning_input.chance_delta_result",
+          "type": "bool"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_unit_update_drowning_input.net_client",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "canDrownOnFloor",
+        "lastDrownFloorSet",
+        "drownIncrement",
+        "drownTimeBeforeClamp",
+        "drownTime",
+        "effectCall",
+        "kill",
+        "eventCall",
+        "netClient"
+      ],
+      "rule": "Public runtime contract for UnitComp.updateDrowning state.",
+      "runtime_proof": "/root/Main.source_unit_update_drowning_state",
+      "source_method": "UnitComp.updateDrowning()",
+      "source_slice": "N813",
+      "status": "active",
+      "tests": [
+        "test_unit_update_drowning_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_drowning_state",
+        "test_unit_update_drowning_matches_upstream_source"
+      ]
     }
   },
   "policy": {
