@@ -39122,6 +39122,62 @@
         "test_port_game_uses_source_unit_health_for_spawned_units"
       ]
     },
+    "unit_hit_size.dagger_assignment": {
+      "godot_owner": "PortGame.source_unit_hit_size",
+      "godot_symbol": "SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT",
+      "java_expr": "hitSize = 8f;",
+      "java_method": "UnitTypes.load() dagger",
+      "java_source": "core/src/mindustry/content/UnitTypes.java",
+      "rule": "Generated dagger content carries the exact upstream UnitTypes hitSize assignment.",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ]
+    },
+    "unit_hit_size.default": {
+      "godot_owner": "PortGame.source_unit_hit_size",
+      "godot_symbol": "SOURCE_UNIT_HIT_SIZE_DEFAULT",
+      "java_expr": "hitSize = 6f,",
+      "java_method": "UnitType.hitSize field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType default hitSize is the source-backed fallback for generated unit hit size lookup.",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ]
+    },
+    "unit_hit_size.result": {
+      "godot_owner": "PortGame.source_unit_hit_size",
+      "godot_symbol": "source_unit_hit_size_result.hitSize",
+      "java_expr": "UnitType.hitSize",
+      "java_method": "UnitType.hitSize field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime helper returns the source UnitType.hitSize value or source default when absent from generated properties.",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ]
+    },
+    "unit_hit_size.unit_type": {
+      "godot_owner": "PortGame.source_unit_hit_size",
+      "godot_symbol": "source_unit_hit_size_input.unit_type",
+      "java_expr": "UnitType",
+      "java_method": "UnitType.hitSize field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime helper receives a generated UnitType object as explicit input.",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

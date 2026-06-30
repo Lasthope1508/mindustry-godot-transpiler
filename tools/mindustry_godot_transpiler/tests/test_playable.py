@@ -756,7 +756,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_hit_size(unit_type) -> float:", source)
-        self.assertIn('return float(unit_type.properties.get("hitSize", 6.0))', source)
+        self.assertIn('const SOURCE_UNIT_HIT_SIZE_DEFAULT := "hitSize = 6f,"', source)
+        self.assertIn('const SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT := "hitSize = 8f;"', source)
+        self.assertIn("const SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 6.0", source)
+        self.assertIn('return float(unit_type.properties.get("hitSize", SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE))', source)
         self.assertIn("var hit_size := source_unit_hit_size(unit_type)", source)
         self.assertIn("sprite.scale = Vector2(hit_size / size.x, hit_size / size.y)", source)
         self.assertEqual(source.count("\n\t\t\tsprite.scale = Vector2(tile_size / size.x, tile_size / size.y)\n"), 1)

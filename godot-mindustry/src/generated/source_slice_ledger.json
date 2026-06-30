@@ -12594,6 +12594,36 @@
         "test_unit_health_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_unit_health_for_spawned_units"
       ]
+    },
+    "N780": {
+      "bridge_exprs": [
+        "dagger = new UnitType(\"dagger\"){{",
+        "hitSize = 8f;",
+        "this.hitSize = type.hitSize;"
+      ],
+      "deferred_exprs": [
+        "Other UnitTypes hitSize assignments remain owned by generated content extraction",
+        "UnitComp.setType hitSize assignment remains a separate source-backed slice"
+      ],
+      "exact_exprs": [
+        "hitSize = 6f,"
+      ],
+      "godot_owner": "PortGame.source_unit_hit_size",
+      "java_class": "mindustry.type.UnitType",
+      "java_method": "UnitType.hitSize field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "source_symbols": [
+        "unit_hit_size.default",
+        "unit_hit_size.dagger_assignment",
+        "unit_hit_size.unit_type",
+        "unit_hit_size.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ]
     }
   },
   "version": 1

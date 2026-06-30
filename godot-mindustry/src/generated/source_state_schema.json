@@ -49425,6 +49425,48 @@
       "runtime_proof": "/root/Main.source_unit_health",
       "status": "active"
     },
+    "source_unit_hit_size_input": {
+      "keys": {
+        "unit_type": {
+          "java_expr": "UnitType",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "owner": "PortGame.source_unit_hit_size",
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_unit_hit_size",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "status": "active"
+    },
+    "source_unit_hit_size_result": {
+      "keys": {
+        "daggerHitSize": {
+          "java_expr": "hitSize = 8f;",
+          "java_source": "core/src/mindustry/content/UnitTypes.java",
+          "owner": "PortGame.source_unit_hit_size",
+          "status": "source-backed",
+          "type": "float"
+        },
+        "defaultHitSize": {
+          "java_expr": "hitSize = 6f,",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "owner": "PortGame.source_unit_hit_size",
+          "status": "source-backed",
+          "type": "float"
+        },
+        "hitSize": {
+          "java_expr": "UnitType.hitSize",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "owner": "PortGame.source_unit_hit_size",
+          "status": "source-backed",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_unit_hit_size",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "status": "active"
+    },
     "source_unit_is_flying_input": {
       "keys": {
         "elevation_value": {

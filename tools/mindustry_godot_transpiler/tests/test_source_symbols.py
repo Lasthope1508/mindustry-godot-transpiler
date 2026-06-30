@@ -4855,6 +4855,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "UnitType.health")
         self.assertEqual(result["godot_symbol"], "source_unit_health_result.health")
 
+    def test_unit_hit_size_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        default_hit_size = source_symbols.source_symbol(registry, "unit_hit_size.default")
+        self.assertEqual(default_hit_size["java_expr"], "hitSize = 6f,")
+        self.assertEqual(default_hit_size["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(default_hit_size["godot_owner"], "PortGame.source_unit_hit_size")
+        self.assertEqual(default_hit_size["runtime_proof"], "/root/Main.source_unit_hit_size")
+        self.assertEqual(default_hit_size["godot_symbol"], "SOURCE_UNIT_HIT_SIZE_DEFAULT")
+
+        dagger_hit_size = source_symbols.source_symbol(registry, "unit_hit_size.dagger_assignment")
+        self.assertEqual(dagger_hit_size["java_expr"], "hitSize = 8f;")
+        self.assertEqual(dagger_hit_size["java_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(dagger_hit_size["godot_symbol"], "SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT")
+
+        unit_type_input = source_symbols.source_symbol(registry, "unit_hit_size.unit_type")
+        self.assertEqual(unit_type_input["status"], "explicit-input")
+        self.assertEqual(unit_type_input["java_expr"], "UnitType")
+        self.assertEqual(unit_type_input["godot_symbol"], "source_unit_hit_size_input.unit_type")
+
+        result = source_symbols.source_symbol(registry, "unit_hit_size.result")
+        self.assertEqual(result["java_expr"], "UnitType.hitSize")
+        self.assertEqual(result["godot_symbol"], "source_unit_hit_size_result.hitSize")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12745,9 +12772,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 377)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 378)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 382)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 383)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12782,6 +12809,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_floor_speed_multiplier_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_heal_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_health", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_hit_size", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14713,6 +14741,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("health = 200f,", unit_health["exact_exprs"])
         self.assertIn("health = 150;", unit_health["bridge_exprs"])
         self.assertIn("Other UnitTypes health assignments remain owned by generated content extraction", unit_health["deferred_exprs"])
+
+        unit_hit_size = source_symbols.source_slice(ledger, "N780")
+        self.assertEqual(unit_hit_size["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(unit_hit_size["java_method"], "UnitType.hitSize field")
+        self.assertEqual(unit_hit_size["godot_owner"], "PortGame.source_unit_hit_size")
+        self.assertIn("hitSize = 6f,", unit_hit_size["exact_exprs"])
+        self.assertIn("hitSize = 8f;", unit_hit_size["bridge_exprs"])
+        self.assertIn("Other UnitTypes hitSize assignments remain owned by generated content extraction", unit_hit_size["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18138,6 +18174,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_health["params"][0]["schema"], "source_unit_health_input.unit_type")
         self.assertIn("health", unit_health["return_keys"])
         self.assertEqual(unit_health["source_method"], "UnitType.health field")
+
+        unit_hit_size = source_symbols.api_contract(contracts, "PortGame.source_unit_hit_size")
+        self.assertEqual([param["name"] for param in unit_hit_size["params"]], ["unit_type"])
+        self.assertEqual(unit_hit_size["params"][0]["schema"], "source_unit_hit_size_input.unit_type")
+        self.assertIn("hitSize", unit_hit_size["return_keys"])
+        self.assertEqual(unit_hit_size["source_method"], "UnitType.hitSize field")
 
         unit_check_target = source_symbols.api_contract(contracts, "PortGame.source_unit_check_target_state")
         self.assertEqual([param["name"] for param in unit_check_target["params"]], ["elevation_value", "target_air", "target_ground"])
@@ -22206,6 +22248,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_health_result["keys"]["health"]["java_expr"], "UnitType.health")
         self.assertEqual(source_unit_health_result["keys"]["defaultHealth"]["java_expr"], "health = 200f,")
         self.assertEqual(source_unit_health_result["keys"]["daggerHealth"]["java_expr"], "health = 150;")
+
+        source_unit_hit_size_input = source_symbols.state_schema(schema, "source_unit_hit_size_input")
+        self.assertEqual(source_unit_hit_size_input["keys"]["unit_type"]["java_expr"], "UnitType")
+
+        source_unit_hit_size_result = source_symbols.state_schema(schema, "source_unit_hit_size_result")
+        self.assertEqual(source_unit_hit_size_result["keys"]["hitSize"]["java_expr"], "UnitType.hitSize")
+        self.assertEqual(source_unit_hit_size_result["keys"]["defaultHitSize"]["java_expr"], "hitSize = 6f,")
+        self.assertEqual(source_unit_hit_size_result["keys"]["daggerHitSize"]["java_expr"], "hitSize = 8f;")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

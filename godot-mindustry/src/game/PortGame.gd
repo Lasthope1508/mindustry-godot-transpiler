@@ -3807,10 +3807,14 @@ func source_unit_world_speed(unit_type) -> float:
 		return 0.0
 	return float(unit_type.properties.get("speed", 0.0)) * 60.0
 
+const SOURCE_UNIT_HIT_SIZE_DEFAULT := "hitSize = 6f,"
+const SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT := "hitSize = 8f;"
+const SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 6.0
+
 func source_unit_hit_size(unit_type) -> float:
 	if unit_type == null:
 		return 0.0
-	return float(unit_type.properties.get("hitSize", 6.0))
+	return float(unit_type.properties.get("hitSize", SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE))
 
 const SOURCE_UNIT_HEALTH_DEFAULT := "health = 200f,"
 const SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT := "health = 150;"

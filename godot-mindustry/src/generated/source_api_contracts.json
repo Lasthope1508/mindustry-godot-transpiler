@@ -14225,6 +14225,28 @@
         "test_unit_health_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_unit_health_for_spawned_units"
       ]
+    },
+    "PortGame.source_unit_hit_size": {
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_hit_size_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "hitSize"
+      ],
+      "rule": "Public scalar runtime contract for source UnitType.hitSize lookup used by spawned enemy sprite scale.",
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "source_method": "UnitType.hitSize field",
+      "source_slice": "N780",
+      "status": "active",
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ]
     }
   },
   "policy": {
