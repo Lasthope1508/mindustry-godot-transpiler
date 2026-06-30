@@ -15398,6 +15398,46 @@
         "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_guard_state"
       ]
+    },
+    "PortGame.source_unit_update_boosting_should_boost_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "boost",
+          "schema": "source_unit_update_boosting_should_boost_input.boost",
+          "type": "bool"
+        },
+        {
+          "name": "on_solid_result",
+          "schema": "source_unit_update_boosting_should_boost_input.on_solid_result",
+          "type": "bool"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_boosting_should_boost_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "can_land_result",
+          "schema": "source_unit_update_boosting_should_boost_input.can_land_result",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "shouldBoostSource",
+        "isFlyingReturn",
+        "flying",
+        "should_boost"
+      ],
+      "rule": "Public runtime contract for UnitComp.updateBoosting shouldBoost expression.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_should_boost_state",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)/UnitComp.isFlying",
+      "source_slice": "N809",
+      "status": "active",
+      "tests": [
+        "test_unit_update_boosting_should_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_should_boost_state"
+      ]
     }
   },
   "policy": {

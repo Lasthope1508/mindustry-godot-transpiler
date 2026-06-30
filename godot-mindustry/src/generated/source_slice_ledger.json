@@ -13686,6 +13686,37 @@
         "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_guard_state"
       ]
+    },
+    "N809": {
+      "bridge_exprs": [
+        "return elevation >= 0.09f;"
+      ],
+      "deferred_exprs": [
+        "onSolid() and canLand() internals stay explicit inputs; this slice only ports the shouldBoost expression that consumes their results."
+      ],
+      "exact_exprs": [
+        "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());"
+      ],
+      "godot_owner": "PortGame.source_unit_update_boosting_should_boost_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)/UnitComp.isFlying",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_should_boost_state",
+      "source_symbols": [
+        "unit_update_boosting_should_boost.should_boost_line",
+        "unit_update_boosting_should_boost.boost",
+        "unit_update_boosting_should_boost.on_solid_result",
+        "unit_update_boosting_should_boost.elevation_value",
+        "unit_update_boosting_should_boost.can_land_result",
+        "unit_update_boosting_should_boost.is_flying_return",
+        "unit_update_boosting_should_boost.flying",
+        "unit_update_boosting_should_boost.should_boost"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_boosting_should_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_should_boost_state"
+      ]
     }
   },
   "version": 1

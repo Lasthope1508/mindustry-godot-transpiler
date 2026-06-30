@@ -10427,10 +10427,14 @@ func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: b
 		"elevation": elevation_value,
 	}
 
+const SOURCE_UNIT_UPDATE_BOOSTING_SHOULD_BOOST := "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());"
+
 func source_unit_update_boosting_should_boost_state(boost: bool, on_solid_result: bool, elevation_value: float, can_land_result: bool) -> Dictionary:
 	var flying: bool = source_unit_is_flying(elevation_value)
 	var should_boost: bool = boost or on_solid_result or (flying and not can_land_result)
 	return {
+		"shouldBoostSource": SOURCE_UNIT_UPDATE_BOOSTING_SHOULD_BOOST,
+		"isFlyingReturn": SOURCE_UNIT_IS_FLYING_RETURN,
 		"flying": flying,
 		"should_boost": should_boost,
 	}

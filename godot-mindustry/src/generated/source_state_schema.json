@@ -54223,6 +54223,141 @@
       "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
       "status": "active"
     },
+    "source_unit_update_boosting_should_boost_input": {
+      "keys": {
+        "boost": {
+          "godot_symbol": "source_unit_update_boosting_should_boost_input.boost",
+          "java_expr": "boost",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "Explicit runtime boost parameter.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        },
+        "can_land_result": {
+          "godot_symbol": "source_unit_update_boosting_should_boost_input.can_land_result",
+          "java_expr": "canLand()",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "Explicit runtime result of canLand().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        },
+        "elevation_value": {
+          "godot_symbol": "source_unit_update_boosting_should_boost_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "Explicit runtime elevation consumed by isFlying().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        },
+        "on_solid_result": {
+          "godot_symbol": "source_unit_update_boosting_should_boost_input.on_solid_result",
+          "java_expr": "onSolid()",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "Explicit runtime result of onSolid().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_boosting_should_boost_state",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_should_boost_state",
+      "status": "active"
+    },
+    "source_unit_update_boosting_should_boost_result": {
+      "keys": {
+        "flying": {
+          "alias_of": "source_unit_is_flying_result.flying",
+          "godot_symbol": "source_unit_update_boosting_should_boost_result.flying",
+          "java_expr": "isFlying()",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "Runtime boolean from existing source_unit_is_flying helper.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        },
+        "isFlyingReturn": {
+          "godot_symbol": "source_unit_update_boosting_should_boost_result.isFlyingReturn",
+          "java_expr": "return elevation >= 0.09f;",
+          "java_method": "UnitComp.isFlying()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "UnitComp.isFlying return bridge evidence.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        },
+        "shouldBoostSource": {
+          "godot_symbol": "source_unit_update_boosting_should_boost_result.shouldBoostSource",
+          "java_expr": "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "Exact UnitComp updateBoosting shouldBoost assignment line.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        },
+        "should_boost": {
+          "godot_symbol": "source_unit_update_boosting_should_boost_result.should_boost",
+          "java_expr": "boost || onSolid() || (isFlying() && !canLand())",
+          "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ],
+          "rule": "Runtime boolean result for shouldBoost expression.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_boosting_should_boost_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_boosting_should_boost_state",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_should_boost_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

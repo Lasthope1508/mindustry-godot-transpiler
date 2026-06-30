@@ -5195,6 +5195,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(can_update["java_expr"], "if(!type.canBoost || dead) return; -> can update when guard does not return")
         self.assertEqual(can_update["godot_symbol"], "source_unit_update_boosting_guard_result.can_update_boosting")
 
+    def test_unit_update_boosting_should_boost_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        should_boost_line = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.should_boost_line")
+        self.assertEqual(should_boost_line["java_expr"], "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());")
+        self.assertEqual(should_boost_line["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(should_boost_line["java_method"], "UnitComp.updateBoosting(boolean boost, boolean event)")
+        self.assertEqual(should_boost_line["godot_owner"], "PortGame.source_unit_update_boosting_should_boost_state")
+        self.assertEqual(should_boost_line["runtime_proof"], "/root/Main.source_unit_update_boosting_should_boost_state")
+        self.assertEqual(should_boost_line["godot_symbol"], "source_unit_update_boosting_should_boost_result.shouldBoostSource")
+
+        boost = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.boost")
+        self.assertEqual(boost["status"], "explicit-input")
+        self.assertEqual(boost["java_expr"], "boost")
+        self.assertEqual(boost["godot_symbol"], "source_unit_update_boosting_should_boost_input.boost")
+
+        on_solid_result = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.on_solid_result")
+        self.assertEqual(on_solid_result["status"], "explicit-input")
+        self.assertEqual(on_solid_result["java_expr"], "onSolid()")
+        self.assertEqual(on_solid_result["godot_symbol"], "source_unit_update_boosting_should_boost_input.on_solid_result")
+
+        elevation_value = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.elevation_value")
+        self.assertEqual(elevation_value["status"], "explicit-input")
+        self.assertEqual(elevation_value["java_expr"], "elevation")
+        self.assertEqual(elevation_value["godot_symbol"], "source_unit_update_boosting_should_boost_input.elevation_value")
+
+        can_land_result = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.can_land_result")
+        self.assertEqual(can_land_result["status"], "explicit-input")
+        self.assertEqual(can_land_result["java_expr"], "canLand()")
+        self.assertEqual(can_land_result["godot_symbol"], "source_unit_update_boosting_should_boost_input.can_land_result")
+
+        is_flying_return = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.is_flying_return")
+        self.assertEqual(is_flying_return["java_expr"], "return elevation >= 0.09f;")
+        self.assertEqual(is_flying_return["godot_symbol"], "source_unit_update_boosting_should_boost_result.isFlyingReturn")
+
+        flying = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.flying")
+        self.assertEqual(flying["java_expr"], "isFlying()")
+        self.assertEqual(flying["godot_symbol"], "source_unit_update_boosting_should_boost_result.flying")
+
+        should_boost = source_symbols.source_symbol(registry, "unit_update_boosting_should_boost.should_boost")
+        self.assertEqual(should_boost["java_expr"], "boost || onSolid() || (isFlying() && !canLand())")
+        self.assertEqual(should_boost["godot_symbol"], "source_unit_update_boosting_should_boost_result.should_boost")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13667,9 +13713,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 406)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 407)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 411)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 412)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13733,6 +13779,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_boosting_elevation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_boosting_event_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_boosting_guard_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_boosting_should_boost_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -19757,6 +19804,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("elevation_value", unit_update_boosting_guard["return_keys"])
         self.assertEqual(unit_update_boosting_guard["source_method"], "UnitComp.updateBoosting(boolean boost, boolean event)")
 
+        unit_update_boosting_should_boost = source_symbols.api_contract(contracts, "PortGame.source_unit_update_boosting_should_boost_state")
+        self.assertEqual([param["name"] for param in unit_update_boosting_should_boost["params"]], ["boost", "on_solid_result", "elevation_value", "can_land_result"])
+        self.assertEqual(unit_update_boosting_should_boost["params"][0]["schema"], "source_unit_update_boosting_should_boost_input.boost")
+        self.assertEqual(unit_update_boosting_should_boost["params"][1]["schema"], "source_unit_update_boosting_should_boost_input.on_solid_result")
+        self.assertEqual(unit_update_boosting_should_boost["params"][2]["schema"], "source_unit_update_boosting_should_boost_input.elevation_value")
+        self.assertEqual(unit_update_boosting_should_boost["params"][3]["schema"], "source_unit_update_boosting_should_boost_input.can_land_result")
+        self.assertIn("shouldBoostSource", unit_update_boosting_should_boost["return_keys"])
+        self.assertIn("isFlyingReturn", unit_update_boosting_should_boost["return_keys"])
+        self.assertIn("flying", unit_update_boosting_should_boost["return_keys"])
+        self.assertIn("should_boost", unit_update_boosting_should_boost["return_keys"])
+        self.assertNotIn("boost", unit_update_boosting_should_boost["return_keys"])
+        self.assertNotIn("on_solid_result", unit_update_boosting_should_boost["return_keys"])
+        self.assertNotIn("elevation_value", unit_update_boosting_should_boost["return_keys"])
+        self.assertNotIn("can_land_result", unit_update_boosting_should_boost["return_keys"])
+        self.assertEqual(unit_update_boosting_should_boost["source_method"], "UnitComp.updateBoosting(boolean boost, boolean event)/UnitComp.isFlying")
+
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
         self.assertEqual(unit_heal["params"][0]["schema"], "source_unit_heal_input.current_health")
@@ -23921,6 +23984,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_boosting_guard_input["keys"]["dead_state"]["java_expr"], "dead")
         self.assertEqual(source_unit_update_boosting_guard_input["keys"]["elevation_value"]["java_expr"], "elevation")
 
+        source_unit_update_boosting_should_boost_input = source_symbols.state_schema(schema, "source_unit_update_boosting_should_boost_input")
+        self.assertEqual(source_unit_update_boosting_should_boost_input["keys"]["boost"]["java_expr"], "boost")
+        self.assertEqual(source_unit_update_boosting_should_boost_input["keys"]["on_solid_result"]["java_expr"], "onSolid()")
+        self.assertEqual(source_unit_update_boosting_should_boost_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_boosting_should_boost_input["keys"]["can_land_result"]["java_expr"], "canLand()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24278,6 +24347,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("type_can_boost", source_unit_update_boosting_guard_result["keys"])
         self.assertNotIn("dead_state", source_unit_update_boosting_guard_result["keys"])
         self.assertNotIn("elevation_value", source_unit_update_boosting_guard_result["keys"])
+
+        source_unit_update_boosting_should_boost_result = source_symbols.state_schema(schema, "source_unit_update_boosting_should_boost_result")
+        self.assertEqual(source_unit_update_boosting_should_boost_result["keys"]["shouldBoostSource"]["java_expr"], "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());")
+        self.assertEqual(source_unit_update_boosting_should_boost_result["keys"]["isFlyingReturn"]["java_expr"], "return elevation >= 0.09f;")
+        self.assertEqual(source_unit_update_boosting_should_boost_result["keys"]["flying"]["java_expr"], "isFlying()")
+        self.assertEqual(source_unit_update_boosting_should_boost_result["keys"]["should_boost"]["java_expr"], "boost || onSolid() || (isFlying() && !canLand())")
+        self.assertNotIn("boost", source_unit_update_boosting_should_boost_result["keys"])
+        self.assertNotIn("on_solid_result", source_unit_update_boosting_should_boost_result["keys"])
+        self.assertNotIn("elevation_value", source_unit_update_boosting_should_boost_result["keys"])
+        self.assertNotIn("can_land_result", source_unit_update_boosting_should_boost_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
