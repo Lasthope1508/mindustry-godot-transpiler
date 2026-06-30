@@ -14938,6 +14938,88 @@
         "test_unit_update_unsupported_env_matches_upstream_source"
       ],
       "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "N832": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() walk effect",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "exact_exprs": [
+        "if(!type.hovering && isGrounded() && type.emitWalkEffect){",
+        "if((splashTimer += Mathf.dst(deltaX(), deltaY())) >= (7f + hitSize()/8f)){",
+        "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);",
+        "splashTimer = 0f;",
+        "if(type.emitWalkSound){",
+        "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);"
+      ],
+      "bridge_exprs": [
+        "public Effect walkEffect = Fx.none;",
+        "public Sound walkSound = Sounds.none;",
+        "public float walkSoundVolume = 0.1f, walkSoundPitchMin = 0.8f, walkSoundPitchMax = 1.2f;",
+        "walkEffect = Fx.ripple;",
+        "walkSound = Sounds.stepWater;",
+        "public Color getFloorColor(){",
+        "return floor.getColor(this);",
+        "public boolean emitWalkSound = true;",
+        "public boolean emitWalkEffect = true;",
+        "transient float lastX, lastY, deltaX, deltaY, hitSize;",
+        "deltaX = x - lastX;",
+        "deltaY = y - lastY;",
+        "public static float dst(float x1, float y1){",
+        "return (float)Math.sqrt(x1 * x1 + y1*y1);",
+        "public static float random(float start, float end){",
+        "return start + rand.nextFloat() * (end - start);"
+      ],
+      "deferred_exprs": [
+        "Live effect rendering, sound playback, and random pitch sampling remain explicit inputs/call records.",
+        "Full Floor and Tile object lifetimes remain separate source slices."
+      ],
+      "source_symbols": [
+        "unit_update_walk_effect.gate",
+        "unit_update_walk_effect.timer_add_threshold",
+        "unit_update_walk_effect.walk_effect_call",
+        "unit_update_walk_effect.splash_timer_reset",
+        "unit_update_walk_effect.walk_sound_guard",
+        "unit_update_walk_effect.walk_sound_call",
+        "unit_update_walk_effect.type_hovering_input",
+        "unit_update_walk_effect.elevation_input",
+        "unit_update_walk_effect.type_emit_walk_effect_input",
+        "unit_update_walk_effect.type_emit_walk_sound_input",
+        "unit_update_walk_effect.current_splash_timer_input",
+        "unit_update_walk_effect.delta_x_input",
+        "unit_update_walk_effect.delta_y_input",
+        "unit_update_walk_effect.hit_size_input",
+        "unit_update_walk_effect.tile_exists_input",
+        "unit_update_walk_effect.tile_floor_color_input",
+        "unit_update_walk_effect.floor_map_color_input",
+        "unit_update_walk_effect.floor_walk_sound_pitch_min_input",
+        "unit_update_walk_effect.floor_walk_sound_pitch_max_input",
+        "unit_update_walk_effect.floor_walk_sound_volume_input",
+        "unit_update_walk_effect.random_pitch_input",
+        "unit_update_walk_effect.floor_walk_effect",
+        "unit_update_walk_effect.floor_walk_sound",
+        "unit_update_walk_effect.floor_walk_sound_params",
+        "unit_update_walk_effect.liquid_walk_effect",
+        "unit_update_walk_effect.liquid_walk_sound",
+        "unit_update_walk_effect.tile_get_floor_color",
+        "unit_update_walk_effect.tile_get_floor_color_body",
+        "unit_update_walk_effect.unit_type_emit_walk_sound",
+        "unit_update_walk_effect.unit_type_emit_walk_effect",
+        "unit_update_walk_effect.hitbox_delta_fields",
+        "unit_update_walk_effect.hitbox_delta_x_assign",
+        "unit_update_walk_effect.hitbox_delta_y_assign",
+        "unit_update_walk_effect.mathf_dst",
+        "unit_update_walk_effect.mathf_dst_body",
+        "unit_update_walk_effect.mathf_random_float_range",
+        "unit_update_walk_effect.mathf_random_float_range_body"
+      ],
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
     }
   },
   "version": 1

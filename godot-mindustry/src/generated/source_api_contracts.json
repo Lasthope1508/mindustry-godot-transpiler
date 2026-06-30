@@ -16597,6 +16597,105 @@
       ],
       "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state",
       "rule": "Public runtime contract for UnitComp.update unsupported environment death state."
+    },
+    "PortGame.source_unit_update_walk_effect_state": {
+      "status": "active",
+      "source_slice": "N832",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "source_method": "UnitComp.update() walk effect",
+      "params": [
+        {
+          "name": "type_hovering",
+          "type": "bool",
+          "schema": "source_unit_update_walk_effect_input.type_hovering"
+        },
+        {
+          "name": "elevation_value",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.elevation_value"
+        },
+        {
+          "name": "type_emit_walk_effect",
+          "type": "bool",
+          "schema": "source_unit_update_walk_effect_input.type_emit_walk_effect"
+        },
+        {
+          "name": "type_emit_walk_sound",
+          "type": "bool",
+          "schema": "source_unit_update_walk_effect_input.type_emit_walk_sound"
+        },
+        {
+          "name": "current_splash_timer",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.current_splash_timer"
+        },
+        {
+          "name": "delta_x",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.delta_x"
+        },
+        {
+          "name": "delta_y",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.delta_y"
+        },
+        {
+          "name": "hit_size_value",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.hit_size_value"
+        },
+        {
+          "name": "tile_exists",
+          "type": "bool",
+          "schema": "source_unit_update_walk_effect_input.tile_exists"
+        },
+        {
+          "name": "tile_floor_color",
+          "type": "String",
+          "schema": "source_unit_update_walk_effect_input.tile_floor_color"
+        },
+        {
+          "name": "floor_map_color",
+          "type": "String",
+          "schema": "source_unit_update_walk_effect_input.floor_map_color"
+        },
+        {
+          "name": "floor_walk_sound_pitch_min",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.floor_walk_sound_pitch_min"
+        },
+        {
+          "name": "floor_walk_sound_pitch_max",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.floor_walk_sound_pitch_max"
+        },
+        {
+          "name": "floor_walk_sound_volume",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.floor_walk_sound_volume"
+        },
+        {
+          "name": "random_pitch_value",
+          "type": "float",
+          "schema": "source_unit_update_walk_effect_input.random_pitch_value"
+        }
+      ],
+      "return_keys": [
+        "grounded",
+        "gate",
+        "distance",
+        "threshold",
+        "splashTimer",
+        "walkEffect",
+        "walkSound"
+      ],
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state",
+      "rule": "Public runtime contract for UnitComp.update walk effect and sound state."
     }
   },
   "policy": {

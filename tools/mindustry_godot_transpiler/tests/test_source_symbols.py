@@ -6207,6 +6207,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(teams_update_count_type["java_source"], "core/src/mindustry/game/Teams.java")
         self.assertEqual(teams_update_count_type["godot_symbol"], "source_unit_update_unsupported_env_result.updateCount")
 
+    def test_unit_update_walk_effect_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "unit_update_walk_effect.gate")
+        self.assertEqual(gate["java_expr"], "if(!type.hovering && isGrounded() && type.emitWalkEffect){")
+        self.assertEqual(gate["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(gate["java_method"], "UnitComp.update() walk effect")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_unit_update_walk_effect_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_unit_update_walk_effect_state")
+        self.assertEqual(gate["godot_symbol"], "source_unit_update_walk_effect_result.gate")
+
+        timer = source_symbols.source_symbol(registry, "unit_update_walk_effect.timer_add_threshold")
+        self.assertEqual(timer["java_expr"], "if((splashTimer += Mathf.dst(deltaX(), deltaY())) >= (7f + hitSize()/8f)){")
+        self.assertEqual(timer["godot_symbol"], "source_unit_update_walk_effect_result.splashTimer")
+
+        effect_call = source_symbols.source_symbol(registry, "unit_update_walk_effect.walk_effect_call")
+        self.assertEqual(effect_call["java_expr"], "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);")
+        self.assertEqual(effect_call["godot_symbol"], "source_unit_update_walk_effect_result.walkEffect")
+
+        sound_call = source_symbols.source_symbol(registry, "unit_update_walk_effect.walk_sound_call")
+        self.assertEqual(sound_call["java_expr"], "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);")
+        self.assertEqual(sound_call["godot_symbol"], "source_unit_update_walk_effect_result.walkSound")
+
+        type_hovering = source_symbols.source_symbol(registry, "unit_update_walk_effect.type_hovering_input")
+        self.assertEqual(type_hovering["status"], "explicit-input")
+        self.assertEqual(type_hovering["java_expr"], "type.hovering")
+        self.assertEqual(type_hovering["godot_symbol"], "source_unit_update_walk_effect_input.type_hovering")
+
+        elevation = source_symbols.source_symbol(registry, "unit_update_walk_effect.elevation_input")
+        self.assertEqual(elevation["status"], "explicit-input")
+        self.assertEqual(elevation["java_expr"], "elevation")
+        self.assertEqual(elevation["godot_symbol"], "source_unit_update_walk_effect_input.elevation_value")
+
+        floor_walk_effect = source_symbols.source_symbol(registry, "unit_update_walk_effect.floor_walk_effect")
+        self.assertEqual(floor_walk_effect["java_expr"], "public Effect walkEffect = Fx.none;")
+        self.assertEqual(floor_walk_effect["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(floor_walk_effect["godot_symbol"], "source_unit_update_walk_effect_result.walkEffect")
+
+        liquid_walk_sound = source_symbols.source_symbol(registry, "unit_update_walk_effect.liquid_walk_sound")
+        self.assertEqual(liquid_walk_sound["java_expr"], "walkSound = Sounds.stepWater;")
+        self.assertEqual(liquid_walk_sound["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+        self.assertEqual(liquid_walk_sound["godot_symbol"], "source_unit_update_walk_effect_result.walkSound")
+
+        tile_get_floor_color = source_symbols.source_symbol(registry, "unit_update_walk_effect.tile_get_floor_color_body")
+        self.assertEqual(tile_get_floor_color["java_expr"], "return floor.getColor(this);")
+        self.assertEqual(tile_get_floor_color["java_source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(tile_get_floor_color["godot_symbol"], "source_unit_update_walk_effect_input.tile_floor_color")
+
+        mathf_dst_body = source_symbols.source_symbol(registry, "unit_update_walk_effect.mathf_dst_body")
+        self.assertEqual(mathf_dst_body["java_expr"], "return (float)Math.sqrt(x1 * x1 + y1*y1);")
+        self.assertEqual(mathf_dst_body["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_dst_body["godot_symbol"], "source_unit_update_walk_effect_result.distance")
+
+        mathf_random_body = source_symbols.source_symbol(registry, "unit_update_walk_effect.mathf_random_float_range_body")
+        self.assertEqual(mathf_random_body["java_expr"], "return start + rand.nextFloat() * (end - start);")
+        self.assertEqual(mathf_random_body["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_random_body["godot_symbol"], "source_unit_update_walk_effect_input.random_pitch_value")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14679,9 +14740,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 429)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 430)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 434)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 435)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14722,6 +14783,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_trail_position_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_type_hook_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_unsupported_env_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_walk_effect_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17324,6 +17386,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("unit.dead = true;", unit_update_unsupported_env["bridge_exprs"])
         self.assertIn("typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);", unit_update_unsupported_env["bridge_exprs"])
         self.assertIn("Live unit death, effects, destroy call, and team counts remain recorded call state only.", unit_update_unsupported_env["deferred_exprs"])
+
+        unit_update_walk_effect = source_symbols.source_slice(ledger, "N832")
+        self.assertEqual(unit_update_walk_effect["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_walk_effect["java_method"], "UnitComp.update() walk effect")
+        self.assertEqual(unit_update_walk_effect["godot_owner"], "PortGame.source_unit_update_walk_effect_state")
+        self.assertIn("if(!type.hovering && isGrounded() && type.emitWalkEffect){", unit_update_walk_effect["exact_exprs"])
+        self.assertIn("if((splashTimer += Mathf.dst(deltaX(), deltaY())) >= (7f + hitSize()/8f)){", unit_update_walk_effect["exact_exprs"])
+        self.assertIn("floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);", unit_update_walk_effect["exact_exprs"])
+        self.assertIn("splashTimer = 0f;", unit_update_walk_effect["exact_exprs"])
+        self.assertIn("if(type.emitWalkSound){", unit_update_walk_effect["exact_exprs"])
+        self.assertIn("floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);", unit_update_walk_effect["exact_exprs"])
+        self.assertIn("public Effect walkEffect = Fx.none;", unit_update_walk_effect["bridge_exprs"])
+        self.assertIn("return (float)Math.sqrt(x1 * x1 + y1*y1);", unit_update_walk_effect["bridge_exprs"])
+        self.assertIn("return start + rand.nextFloat() * (end - start);", unit_update_walk_effect["bridge_exprs"])
+        self.assertIn("Live effect rendering, sound playback, and random pitch sampling remain explicit inputs/call records.", unit_update_walk_effect["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21372,6 +21449,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_unsupported_env["return_keys"])
         self.assertNotIn("state_rules_env", unit_update_unsupported_env["return_keys"])
         self.assertEqual(unit_update_unsupported_env["source_method"], "UnitComp.update() unsupported environment")
+
+        unit_update_walk_effect = source_symbols.api_contract(contracts, "PortGame.source_unit_update_walk_effect_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_walk_effect["params"]],
+            [
+                "type_hovering",
+                "elevation_value",
+                "type_emit_walk_effect",
+                "type_emit_walk_sound",
+                "current_splash_timer",
+                "delta_x",
+                "delta_y",
+                "hit_size_value",
+                "tile_exists",
+                "tile_floor_color",
+                "floor_map_color",
+                "floor_walk_sound_pitch_min",
+                "floor_walk_sound_pitch_max",
+                "floor_walk_sound_volume",
+                "random_pitch_value",
+            ],
+        )
+        self.assertEqual(unit_update_walk_effect["params"][0]["schema"], "source_unit_update_walk_effect_input.type_hovering")
+        self.assertEqual(unit_update_walk_effect["params"][1]["schema"], "source_unit_update_walk_effect_input.elevation_value")
+        self.assertEqual(unit_update_walk_effect["params"][14]["schema"], "source_unit_update_walk_effect_input.random_pitch_value")
+        for key in ["grounded", "gate", "distance", "threshold", "splashTimer", "walkEffect", "walkSound"]:
+            self.assertIn(key, unit_update_walk_effect["return_keys"])
+        self.assertNotIn("current_splash_timer", unit_update_walk_effect["return_keys"])
+        self.assertEqual(unit_update_walk_effect["source_method"], "UnitComp.update() walk effect")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -26268,6 +26374,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("type_supports_env", source_unit_update_unsupported_env_result["keys"])
         self.assertNotIn("typeSupportsEnv", source_unit_update_unsupported_env_result["keys"])
         self.assertNotIn("dead", source_unit_update_unsupported_env_result["keys"])
+
+        source_unit_update_walk_effect_input = source_symbols.state_schema(schema, "source_unit_update_walk_effect_input")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["type_hovering"]["java_expr"], "type.hovering")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["type_emit_walk_effect"]["java_expr"], "type.emitWalkEffect")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["type_emit_walk_sound"]["java_expr"], "type.emitWalkSound")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["current_splash_timer"]["java_expr"], "splashTimer")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["delta_x"]["java_expr"], "deltaX()")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["delta_y"]["java_expr"], "deltaY()")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["hit_size_value"]["java_expr"], "hitSize()")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["tile_floor_color"]["java_expr"], "tile.getFloorColor()")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["floor_map_color"]["java_expr"], "floor.mapColor")
+        self.assertEqual(source_unit_update_walk_effect_input["keys"]["random_pitch_value"]["java_expr"], "Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax)")
+
+        source_unit_update_walk_effect_result = source_symbols.state_schema(schema, "source_unit_update_walk_effect_result")
+        self.assertEqual(source_unit_update_walk_effect_result["keys"]["grounded"]["alias_of"], "source_unit_is_grounded_result.grounded")
+        self.assertEqual(source_unit_update_walk_effect_result["keys"]["gate"]["java_expr"], "if(!type.hovering && isGrounded() && type.emitWalkEffect){")
+        self.assertEqual(source_unit_update_walk_effect_result["keys"]["distance"]["java_expr"], "Mathf.dst(deltaX(), deltaY())")
+        self.assertEqual(source_unit_update_walk_effect_result["keys"]["threshold"]["java_expr"], "7f + hitSize()/8f")
+        self.assertEqual(source_unit_update_walk_effect_result["keys"]["splashTimer"]["java_expr"], "splashTimer += Mathf.dst(deltaX(), deltaY()); or splashTimer = 0f;")
+        self.assertEqual(source_unit_update_walk_effect_result["keys"]["walkEffect"]["java_expr"], "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);")
+        self.assertEqual(source_unit_update_walk_effect_result["keys"]["walkSound"]["java_expr"], "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);")
+        self.assertNotIn("current_splash_timer", source_unit_update_walk_effect_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

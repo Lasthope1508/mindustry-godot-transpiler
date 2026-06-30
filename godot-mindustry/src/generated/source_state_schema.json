@@ -59876,6 +59876,326 @@
           "rule": "Recorded upstream call order for unsupported environment death branch."
         }
       }
+    },
+    "source_unit_update_walk_effect_input": {
+      "status": "active",
+      "owner": "PortGame.source_unit_update_walk_effect_state",
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state",
+      "keys": {
+        "type_hovering": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "type.hovering",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for UnitType.hovering."
+        },
+        "elevation_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "elevation",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for source_unit_is_grounded elevation."
+        },
+        "type_emit_walk_effect": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "type.emitWalkEffect",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for UnitType.emitWalkEffect."
+        },
+        "type_emit_walk_sound": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "type.emitWalkSound",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for UnitType.emitWalkSound."
+        },
+        "current_splash_timer": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "splashTimer",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for UnitComp splashTimer before update."
+        },
+        "delta_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "deltaX()",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for HitboxComp deltaX()."
+        },
+        "delta_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "deltaY()",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for HitboxComp deltaY()."
+        },
+        "hit_size_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "hitSize()",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for hitSize()."
+        },
+        "tile_exists": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "tile != null",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for tile null check."
+        },
+        "tile_floor_color": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "tile.getFloorColor()",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for tile floor color branch."
+        },
+        "floor_map_color": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "floor.mapColor",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for floor map color branch."
+        },
+        "floor_walk_sound_pitch_min": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "floor.walkSoundPitchMin",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for Floor walk sound minimum pitch."
+        },
+        "floor_walk_sound_pitch_max": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "floor.walkSoundPitchMax",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for Floor walk sound maximum pitch."
+        },
+        "floor_walk_sound_volume": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "floor.walkSoundVolume",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for Floor walk sound volume."
+        },
+        "random_pitch_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax)",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Explicit runtime input for sampled walk sound pitch."
+        }
+      }
+    },
+    "source_unit_update_walk_effect_result": {
+      "status": "active",
+      "owner": "PortGame.source_unit_update_walk_effect_state",
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state",
+      "keys": {
+        "grounded": {
+          "type": "bool",
+          "status": "source-backed",
+          "alias_of": "source_unit_is_grounded_result.grounded",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Grounded result reused from UnitComp.isGrounded()."
+        },
+        "gate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "if(!type.hovering && isGrounded() && type.emitWalkEffect){",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Computed walk effect outer gate."
+        },
+        "distance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "Mathf.dst(deltaX(), deltaY())",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Distance accumulated into splashTimer."
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "7f + hitSize()/8f",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Walk effect threshold."
+        },
+        "splashTimer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "splashTimer += Mathf.dst(deltaX(), deltaY()); or splashTimer = 0f;",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Updated splashTimer after add and optional reset."
+        },
+        "walkEffect": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Recorded floor walk effect call when threshold passes."
+        },
+        "walkSound": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_method": "UnitComp.update() walk effect",
+          "java_expr": "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);",
+          "owners": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "used_by": [
+            "PortGame.source_unit_update_walk_effect_state"
+          ],
+          "rule": "Recorded floor walk sound call when sound gate passes."
+        }
+      }
     }
   },
   "version": 1

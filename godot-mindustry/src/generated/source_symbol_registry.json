@@ -50628,6 +50628,561 @@
         "test_unit_update_unsupported_env_matches_upstream_source"
       ],
       "runtime_proof": "/root/Main.source_unit_update_unsupported_env_state"
+    },
+    "unit_update_walk_effect.gate": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.gate",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "if(!type.hovering && isGrounded() && type.emitWalkEffect){",
+      "rule": "Walk effect outer gate.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.timer_add_threshold": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.splashTimer",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "if((splashTimer += Mathf.dst(deltaX(), deltaY())) >= (7f + hitSize()/8f)){",
+      "rule": "Splash timer add and threshold gate.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.walk_effect_call": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.walkEffect",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor);",
+      "rule": "Recorded floor walk effect call when threshold passes.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.splash_timer_reset": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.splashTimer",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "splashTimer = 0f;",
+      "rule": "Splash timer reset after walk effect dispatch.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.walk_sound_guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.walkSound",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "if(type.emitWalkSound){",
+      "rule": "Walk sound nested gate.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.walk_sound_call": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.walkSound",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume);",
+      "rule": "Recorded floor walk sound call when sound gate passes.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.type_hovering_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.type_hovering",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "type.hovering",
+      "rule": "Runtime type_hovering parameter maps to UnitType.hovering.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.elevation_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.elevation_value",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "elevation",
+      "rule": "Runtime elevation_value parameter feeds source_unit_is_grounded.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.type_emit_walk_effect_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.type_emit_walk_effect",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "type.emitWalkEffect",
+      "rule": "Runtime type_emit_walk_effect parameter maps to UnitType.emitWalkEffect.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.type_emit_walk_sound_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.type_emit_walk_sound",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "type.emitWalkSound",
+      "rule": "Runtime type_emit_walk_sound parameter maps to UnitType.emitWalkSound.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.current_splash_timer_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.current_splash_timer",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "splashTimer",
+      "rule": "Runtime current_splash_timer parameter maps to UnitComp splashTimer.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.delta_x_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.delta_x",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "deltaX()",
+      "rule": "Runtime delta_x parameter maps to HitboxComp deltaX().",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.delta_y_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.delta_y",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "deltaY()",
+      "rule": "Runtime delta_y parameter maps to HitboxComp deltaY().",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.hit_size_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.hit_size_value",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "hitSize()",
+      "rule": "Runtime hit_size_value parameter maps to hitSize().",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.tile_exists_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.tile_exists",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "tile != null",
+      "rule": "Runtime tile_exists parameter maps to tile null test.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.tile_floor_color_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.tile_floor_color",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "tile.getFloorColor()",
+      "rule": "Runtime tile_floor_color parameter maps to tile.getFloorColor().",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.floor_map_color_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.floor_map_color",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "floor.mapColor",
+      "rule": "Runtime floor_map_color parameter maps to floor.mapColor.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.floor_walk_sound_pitch_min_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.floor_walk_sound_pitch_min",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "floor.walkSoundPitchMin",
+      "rule": "Runtime floor_walk_sound_pitch_min maps to Floor.walkSoundPitchMin.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.floor_walk_sound_pitch_max_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.floor_walk_sound_pitch_max",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "floor.walkSoundPitchMax",
+      "rule": "Runtime floor_walk_sound_pitch_max maps to Floor.walkSoundPitchMax.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.floor_walk_sound_volume_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.floor_walk_sound_volume",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "floor.walkSoundVolume",
+      "rule": "Runtime floor_walk_sound_volume maps to Floor.walkSoundVolume.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.random_pitch_input": {
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_update_walk_effect_input.random_pitch_value",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_method": "UnitComp.update() walk effect",
+      "java_expr": "Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax)",
+      "rule": "Runtime random_pitch_value records sampled Arc Mathf.random result.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.floor_walk_effect": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.walkEffect",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "java_method": "Floor",
+      "java_expr": "public Effect walkEffect = Fx.none;",
+      "rule": "Floor walkEffect default.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.floor_walk_sound": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.walkSound",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "java_method": "Floor",
+      "java_expr": "public Sound walkSound = Sounds.none;",
+      "rule": "Floor walkSound default.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.floor_walk_sound_params": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.floor_walk_sound_volume",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "java_method": "Floor",
+      "java_expr": "public float walkSoundVolume = 0.1f, walkSoundPitchMin = 0.8f, walkSoundPitchMax = 1.2f;",
+      "rule": "Floor walk sound volume and pitch defaults.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.liquid_walk_effect": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.walkEffect",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "java_method": "Floor",
+      "java_expr": "walkEffect = Fx.ripple;",
+      "rule": "Liquid floor walk effect fallback.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.liquid_walk_sound": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.walkSound",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "java_method": "Floor",
+      "java_expr": "walkSound = Sounds.stepWater;",
+      "rule": "Liquid floor walk sound fallback.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.tile_get_floor_color": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.tile_floor_color",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tile.getFloorColor()",
+      "java_expr": "public Color getFloorColor(){",
+      "rule": "Tile.getFloorColor method boundary.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.tile_get_floor_color_body": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.tile_floor_color",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "java_method": "Tile.getFloorColor()",
+      "java_expr": "return floor.getColor(this);",
+      "rule": "Tile.getFloorColor body.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.unit_type_emit_walk_sound": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.type_emit_walk_sound",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType",
+      "java_expr": "public boolean emitWalkSound = true;",
+      "rule": "UnitType emitWalkSound default.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.unit_type_emit_walk_effect": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.type_emit_walk_effect",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType",
+      "java_expr": "public boolean emitWalkEffect = true;",
+      "rule": "UnitType emitWalkEffect default.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.hitbox_delta_fields": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.delta_x",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/HitboxComp.java",
+      "java_method": "HitboxComp",
+      "java_expr": "transient float lastX, lastY, deltaX, deltaY, hitSize;",
+      "rule": "Hitbox delta and hitSize fields.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.hitbox_delta_x_assign": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.delta_x",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/HitboxComp.java",
+      "java_method": "HitboxComp.updateLastPosition()",
+      "java_expr": "deltaX = x - lastX;",
+      "rule": "Hitbox deltaX assignment.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.hitbox_delta_y_assign": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.delta_y",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "core/src/mindustry/entities/comp/HitboxComp.java",
+      "java_method": "HitboxComp.updateLastPosition()",
+      "java_expr": "deltaY = y - lastY;",
+      "rule": "Hitbox deltaY assignment.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.mathf_dst": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.distance",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "Mathf.dst(float x1, float y1)",
+      "java_expr": "public static float dst(float x1, float y1){",
+      "rule": "Arc Mathf.dst method boundary.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.mathf_dst_body": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_result.distance",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "Mathf.dst(float x1, float y1)",
+      "java_expr": "return (float)Math.sqrt(x1 * x1 + y1*y1);",
+      "rule": "Arc Mathf.dst exact body.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.mathf_random_float_range": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.random_pitch_value",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "Mathf.random(float start, float end)",
+      "java_expr": "public static float random(float start, float end){",
+      "rule": "Arc Mathf.random range method boundary.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
+    },
+    "unit_update_walk_effect.mathf_random_float_range_body": {
+      "status": "source-backed",
+      "godot_symbol": "source_unit_update_walk_effect_input.random_pitch_value",
+      "godot_owner": "PortGame.source_unit_update_walk_effect_state",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "Mathf.random(float start, float end)",
+      "java_expr": "return start + rand.nextFloat() * (end - start);",
+      "rule": "Arc Mathf.random range exact body.",
+      "tests": [
+        "test_unit_update_walk_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_walk_effect_state",
+        "test_unit_update_walk_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_unit_update_walk_effect_state"
     }
   },
   "version": 1
