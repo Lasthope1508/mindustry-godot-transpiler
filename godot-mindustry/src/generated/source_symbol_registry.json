@@ -46444,6 +46444,1626 @@
         "test_unit_update_nan_health_matches_upstream_source"
       ]
     },
+    "unit_update_solid_tile_response.boost_comment": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
+      "java_expr": "//boost if possible",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment identifying boost branch.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.boost_elevation": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.elevation",
+      "java_expr": "elevation = 1f;",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Boost-capable units set elevation to one on solid tile response.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.can_boost_guard": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
+      "java_expr": "if(type.canBoost){",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Boost branch guard from UnitType.canBoost.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.can_pass_on": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+      "java_expr": "canPassOn()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit canPassOn predicate input from guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.comment": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
+      "java_expr": "//kill entities on tiles that are solid to them",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment identifying solid tile response block.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.current_elevation": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.current_elevation",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit current elevation input preserved when no boost assignment occurs.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.entity_is_remote": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
+      "java_expr": "boolean isRemote(){",
+      "java_method": "isRemote()",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "rule": "EntityComp isRemote method backs remote predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.guard": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
+      "java_expr": "if(tile != null && !canPassOn()){",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Guard enters only when current tile exists and canPassOn is false.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.headless_value": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
+      "java_expr": "headless",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit Vars.headless input from remote kill guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.is_remote_value": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
+      "java_expr": "isRemote()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit remote-unit predicate input from kill guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.kill_call": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
+      "java_expr": "kill();",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Non-boost unit records kill call when kill guard passes.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.kill_guard": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
+      "java_expr": "}else if(!net.client() && !(!headless && isRemote())){",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Kill branch guard excludes client and GUI remote cases.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.net_client": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
+      "java_expr": "public boolean client(){",
+      "java_method": "client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net client method provides net.client() predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.net_client_body": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
+      "java_expr": "return !server && active;",
+      "java_method": "client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net client is true when not server and active.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.net_client_value": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
+      "java_expr": "net.client()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit network client predicate input from kill guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.tile_exists": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.tile_exists",
+      "java_expr": "tile != null",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit tile existence input from guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.type_can_boost": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
+      "java_expr": "type.canBoost",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit boost capability input from UnitType field.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.unit_id": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update() solid tile response",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit unit identity input for recorded kill call.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.unit_type_can_boost_default": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
+      "java_expr": "public boolean canBoost = false;",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType canBoost default is false.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.vars_headless": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
+      "java_expr": "public static boolean headless;",
+      "java_method": "Vars fields",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Vars.headless backs headless predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.vel_can_pass_on": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+      "java_expr": "boolean canPassOn(){",
+      "java_method": "canPassOn()",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "VelComp canPassOn method provides predicate used by UnitComp guard.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_solid_tile_response.vel_can_pass_on_body": {
+      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+      "java_expr": "return canPass(tileX(), tileY());",
+      "java_method": "canPassOn()",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "VelComp canPassOn delegates to canPass at current tile coordinates.",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
+        "test_unit_update_solid_tile_response_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.headless_guard": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.soundEnabled",
+      "java_expr": "if(!headless){",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Sound loop block runs only when not headless.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.headless_value": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
+      "java_expr": "headless",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit headless input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.loop_sound_call": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+      "java_expr": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime records loop sound call arguments.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_clamp_unit": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.progress",
+      "java_expr": "public static float clamp(float value){",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf clamp overload clamps to unit interval.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_clamp_unit_body": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.progress",
+      "java_expr": "return Math.max(Math.min(value, 1f), 0f);",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf clamp(float) returns value clamped to [0, 1].",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_lerp": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf lerp overload used for pitch.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.mathf_lerp_body": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+      "java_expr": "return fromValue + (toValue - fromValue) * progress;",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf lerp body used for pitch interpolation.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_pitch": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+      "java_expr": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Move sound pitch uses source Mathf.lerp over pitch range and progress.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_progress": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.progress",
+      "java_expr": "float progress = Mathf.clamp(vel.len() / type.speed);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Move sound progress is clamped velocity length over type speed.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_sound_call": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
+      "java_expr": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime records move sound call arguments.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.move_sound_guard": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
+      "java_expr": "if(type.moveSound != Sounds.none){",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Move sound branch runs only when type.moveSound is not Sounds.none.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.sound_control_guard": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+      "java_expr": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+      "java_method": "loop(Sound sound, Position pos, float volume, float pitch)",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "rule": "SoundControl loop has headless, none-sound, and tiny-volume guard.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.sound_control_loop_pos": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+      "java_expr": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+      "java_method": "loop(Sound sound, Position pos, float volume, float pitch)",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "rule": "SoundControl loop overload receives position, volume, and pitch.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_loop_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
+      "java_expr": "type.loopSound",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType loopSound input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_loop_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+      "java_expr": "type.loopSoundVolume",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType loopSoundVolume input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
+      "java_expr": "type.moveSound",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSound input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound_pitch_max": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
+      "java_expr": "type.moveSoundPitchMax",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSoundPitchMax input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound_pitch_min": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+      "java_expr": "type.moveSoundPitchMin",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSoundPitchMin input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_move_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
+      "java_expr": "type.moveSoundVolume",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType moveSoundVolume input.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.type_speed": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_speed",
+      "java_expr": "type.speed",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit UnitType speed input for progress denominator.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_loop_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
+      "java_expr": "public Sound loopSound = Sounds.none;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType loopSound default is Sounds.none.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_loop_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+      "java_expr": "public float loopSoundVolume = 0.5f;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType loopSoundVolume default is 0.5f.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_move_sound": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
+      "java_expr": "public Sound moveSound = Sounds.none;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType moveSound default is Sounds.none.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_move_sound_pitch": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+      "java_expr": "public float moveSoundPitchMin = 1f, moveSoundPitchMax = 1f;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType move sound pitch min/max defaults are 1f.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.unit_move_sound_volume": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
+      "java_expr": "public float moveSoundVolume = 1f;",
+      "java_method": "UnitType sound fields",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType moveSoundVolume default is 1f.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.vars_headless": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
+      "java_expr": "public static boolean headless;",
+      "java_method": "Vars fields",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Vars.headless backs headless predicate.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.vec2_len": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+      "java_expr": "public float len(){",
+      "java_method": "len()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 len method backs vel.len().",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.vec2_len_body": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+      "java_expr": "return (float)Math.sqrt(x * x + y * y);",
+      "java_method": "len()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 len body computes Euclidean length.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.velocity_len": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+      "java_expr": "vel.len()",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime velocityLen mirrors Vec2.len input expression.",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.velocity_x": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.velocity_x",
+      "java_expr": "vel.x",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit velocity x component input for vel.len().",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_sound_loop.velocity_y": {
+      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
+      "godot_symbol": "source_unit_update_sound_loop_input.velocity_y",
+      "java_expr": "vel.y",
+      "java_method": "UnitComp.update() sound loop",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit velocity y component input for vel.len().",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_sound_loop_state",
+        "test_unit_update_sound_loop_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.comment": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.guard",
+      "java_expr": "//apply knockback based on spawns",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment identifying spawn knockback block.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.drop_zone_radius": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.drop_zone_radius",
+      "java_expr": "state.rules.dropZoneRadius",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit drop zone radius input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.guard": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.guard",
+      "java_expr": "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Spawn knockback guard combines team, spawns, network/local, and hittable predicates.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.hit_size": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.hit_size",
+      "java_expr": "hitSize",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit hit size input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.hittable_value": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.hittable_value",
+      "java_expr": "hittable()",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit hittable input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.is_local_value": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.is_local_value",
+      "java_expr": "isLocal()",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit isLocal input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.net_client": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
+      "java_expr": "public boolean client(){",
+      "java_method": "client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net client method backs net.client().",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.net_client_body": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
+      "java_expr": "return !server && active;",
+      "java_method": "client()",
+      "java_source": "core/src/mindustry/net/Net.java",
+      "rule": "Net client return body.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.net_client_value": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
+      "java_expr": "net.client()",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit net.client input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.position_dst": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "default float dst(float x, float y){",
+      "java_method": "dst(float x, float y)",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "rule": "Arc Position dst method backs strength math.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.position_dst_body": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "return Mathf.sqrt(xd * xd + yd * yd);",
+      "java_method": "dst(float x, float y)",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "rule": "Arc Position dst returns Euclidean distance.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.position_within": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "default boolean within(float x, float y, float dst){",
+      "java_method": "within(float x, float y, float dst)",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "rule": "Arc Position within method backs spawn distance guard.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.position_within_body": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+      "java_method": "within(float x, float y, float dst)",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "rule": "Arc Position within uses squared distance comparison.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.relative_size": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.relativeSize",
+      "java_expr": "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Relative knockback radius from drop zone and hit size.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.rules_drop_zone_radius": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.drop_zone_radius",
+      "java_expr": "public float dropZoneRadius = 300f;",
+      "java_method": "Rules fields",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "rule": "Rules dropZoneRadius default.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.rules_wave_team": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.team_is_wave_team",
+      "java_expr": "public Team waveTeam = Team.crux;",
+      "java_method": "Rules fields",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "rule": "Rules waveTeam default.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.source_delta": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit Time.delta input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.spawn_loop": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
+      "java_expr": "for(Tile spawn : spawner.getSpawns()){",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime iterates explicit spawn inputs that represent spawner.getSpawns().",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.spawn_within_guard": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "if(within(spawn.worldx(), spawn.worldy(), relativeSize)){",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Knockback call occurs only when unit is within relative size of spawn.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.spawner_get_spawns": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
+      "java_expr": "public Seq<Tile> getSpawns(){",
+      "java_method": "getSpawns()",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "rule": "WaveSpawner getSpawns method backs spawn loop.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.spawner_get_spawns_body": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
+      "java_expr": "return spawns;",
+      "java_method": "getSpawns()",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "rule": "WaveSpawner returns spawns sequence.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.spawns": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
+      "java_expr": "spawner.getSpawns()",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit spawn list input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.state_has_spawns": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
+      "java_expr": "public boolean hasSpawns(){",
+      "java_method": "hasSpawns()",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "rule": "GameState hasSpawns method backs state.hasSpawns().",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.state_has_spawns_body": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
+      "java_expr": "return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);",
+      "java_method": "hasSpawns()",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "rule": "GameState hasSpawns exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.state_has_spawns_value": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
+      "java_expr": "state.hasSpawns()",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit state.hasSpawns input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.team_is_wave_team": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.team_is_wave_team",
+      "java_expr": "team == state.rules.waveTeam",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit input for negated team != state.rules.waveTeam guard.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.time_delta_default": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.source_delta",
+      "java_expr": "public static float delta = 1f;",
+      "java_method": "Time fields",
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "rule": "Arc Time.delta default.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.unit_x": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.unit_x",
+      "java_expr": "x",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit unit x input for Position/dst math.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.unit_y": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_input.unit_y",
+      "java_expr": "y",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit unit y input for Position/dst math.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vec2_scl": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "public Vec2 scl(float scalar){",
+      "java_method": "scl(float scalar)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 scl backs 0.45f * Time.delta scaling.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vec2_set_length": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "public Vec2 setLength(float len){",
+      "java_method": "setLength(float len)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 setLength backs source strength vector length.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vec2_set_position": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "public Vec2 set(Position v){",
+      "java_method": "set(Position v)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 set(Position) starts Tmp.v1 at unit position.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vec2_set_position_x": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "x = v.getX();",
+      "java_method": "set(Position v)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 set(Position) copies x coordinate.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vec2_sub": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "public Vec2 sub(float x, float y){",
+      "java_method": "sub(float x, float y)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Vec2 sub spawn coordinates backs direction vector.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vel_add_net_add": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "vel.add(v);",
+      "java_method": "velAddNet(Vec2 v)",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "velAddNet adds velocity vector.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vel_add_net_call": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));",
+      "java_method": "UnitComp.update() spawn knockback",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime records source velAddNet knockback vector call.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vel_add_net_remote_x": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "x += v.x;",
+      "java_method": "velAddNet(Vec2 v)",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "velAddNet remote x adjustment.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vel_add_net_remote_y": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "y += v.y;",
+      "java_method": "velAddNet(Vec2 v)",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "velAddNet remote y adjustment.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawn_knockback.vel_add_net_vec": {
+      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+      "java_expr": "void velAddNet(Vec2 v){",
+      "java_method": "velAddNet(Vec2 v)",
+      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
+      "rule": "VelComp velAddNet Vec2 overload backs knockback call.",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
+        "test_unit_update_spawn_knockback_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.call": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.despawn",
+      "java_expr": "Call.unitDespawn(self());",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Recorded source remote despawn call.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.comment": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.guard",
+      "java_expr": "//remove units spawned by the core",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment for spawned core despawn block.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.dead_import": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.dead_value",
+      "java_expr": "@Import boolean dead, disarmed;",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source import backing dead input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.dead_value": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.dead_value",
+      "java_expr": "dead",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit dead input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.guard": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.guard",
+      "java_expr": "if(spawnedByCore && !isPlayer() && !dead){",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed spawned core despawn guard.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.is_player_body": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.is_player_value",
+      "java_expr": "return controller instanceof Player;",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source isPlayer body backing input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.is_player_method": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.is_player_value",
+      "java_expr": "public boolean isPlayer(){",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source isPlayer method backing input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.is_player_value": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.is_player_value",
+      "java_expr": "isPlayer()",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit isPlayer() input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.spawned_by_core_field": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.spawned_by_core_value",
+      "java_expr": "boolean spawnedByCore;",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source field backing spawnedByCore input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.spawned_by_core_value": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.spawned_by_core_value",
+      "java_expr": "spawnedByCore",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit spawnedByCore input.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.unit_despawn_effect": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.despawn",
+      "java_expr": "Fx.unitDespawn.at(unit.x, unit.y, 0, unit);",
+      "java_method": "Units.unitDespawn(Unit)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Remote handler effect call recorded in despawn call state.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.unit_despawn_method": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.despawn",
+      "java_expr": "public static void unitDespawn(Unit unit){",
+      "java_method": "Units.unitDespawn(Unit)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Remote handler method backing Call.unitDespawn.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.unit_despawn_null_guard": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.despawn",
+      "java_expr": "if(unit == null) return;",
+      "java_method": "Units.unitDespawn(Unit)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Remote handler null guard recorded as source boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.unit_despawn_remote": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.despawn",
+      "java_expr": "@Remote(called = Loc.server)",
+      "java_method": "Units.unitDespawn(Unit)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Remote handler annotation backing Call.unitDespawn.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.unit_despawn_remove": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_result.despawn",
+      "java_expr": "unit.remove();",
+      "java_method": "Units.unitDespawn(Unit)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Remote handler remove call recorded in despawn call state.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
+    "unit_update_spawned_core_despawn.unit_id": {
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "godot_symbol": "source_unit_update_spawned_core_despawn_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit self() unit identity input used for call record.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",
@@ -47882,1386 +49502,6 @@
         "test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
         "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "unit_update_solid_tile_response.comment": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
-      "java_expr": "//kill entities on tiles that are solid to them",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Source comment identifying solid tile response block.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.guard": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
-      "java_expr": "if(tile != null && !canPassOn()){",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Guard enters only when current tile exists and canPassOn is false.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.tile_exists": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.tile_exists",
-      "java_expr": "tile != null",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit tile existence input from guard.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.can_pass_on": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
-      "java_expr": "canPassOn()",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit canPassOn predicate input from guard.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.type_can_boost": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
-      "java_expr": "type.canBoost",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit boost capability input from UnitType field.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.current_elevation": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.current_elevation",
-      "java_expr": "elevation",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit current elevation input preserved when no boost assignment occurs.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.net_client_value": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
-      "java_expr": "net.client()",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit network client predicate input from kill guard.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.headless_value": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
-      "java_expr": "headless",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit Vars.headless input from remote kill guard.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.is_remote_value": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
-      "java_expr": "isRemote()",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit remote-unit predicate input from kill guard.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.unit_id": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.unit_id",
-      "java_expr": "self()",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit unit identity input for recorded kill call.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.boost_comment": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
-      "java_expr": "//boost if possible",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Source comment identifying boost branch.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.can_boost_guard": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
-      "java_expr": "if(type.canBoost){",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Boost branch guard from UnitType.canBoost.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.boost_elevation": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_result.elevation",
-      "java_expr": "elevation = 1f;",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Boost-capable units set elevation to one on solid tile response.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.kill_guard": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
-      "java_expr": "}else if(!net.client() && !(!headless && isRemote())){",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Kill branch guard excludes client and GUI remote cases.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.kill_call": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
-      "java_expr": "kill();",
-      "java_method": "UnitComp.update() solid tile response",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Non-boost unit records kill call when kill guard passes.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.vel_can_pass_on": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
-      "java_expr": "boolean canPassOn(){",
-      "java_method": "canPassOn()",
-      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
-      "rule": "VelComp canPassOn method provides predicate used by UnitComp guard.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.vel_can_pass_on_body": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
-      "java_expr": "return canPass(tileX(), tileY());",
-      "java_method": "canPassOn()",
-      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
-      "rule": "VelComp canPassOn delegates to canPass at current tile coordinates.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.unit_type_can_boost_default": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
-      "java_expr": "public boolean canBoost = false;",
-      "java_method": "UnitType field defaults",
-      "java_source": "core/src/mindustry/type/UnitType.java",
-      "rule": "UnitType canBoost default is false.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.net_client": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
-      "java_expr": "public boolean client(){",
-      "java_method": "client()",
-      "java_source": "core/src/mindustry/net/Net.java",
-      "rule": "Net client method provides net.client() predicate.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.net_client_body": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
-      "java_expr": "return !server && active;",
-      "java_method": "client()",
-      "java_source": "core/src/mindustry/net/Net.java",
-      "rule": "Net client is true when not server and active.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.vars_headless": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
-      "java_expr": "public static boolean headless;",
-      "java_method": "Vars fields",
-      "java_source": "core/src/mindustry/Vars.java",
-      "rule": "Vars.headless backs headless predicate.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_solid_tile_response.entity_is_remote": {
-      "godot_owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
-      "java_expr": "boolean isRemote(){",
-      "java_method": "isRemote()",
-      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
-      "rule": "EntityComp isRemote method backs remote predicate.",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_solid_tile_response_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_solid_tile_response_state",
-        "test_unit_update_solid_tile_response_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.headless_guard": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.soundEnabled",
-      "java_expr": "if(!headless){",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Sound loop block runs only when not headless.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.loop_sound_call": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
-      "java_expr": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Runtime records loop sound call arguments.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.move_sound_guard": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
-      "java_expr": "if(type.moveSound != Sounds.none){",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Move sound branch runs only when type.moveSound is not Sounds.none.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.move_progress": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.progress",
-      "java_expr": "float progress = Mathf.clamp(vel.len() / type.speed);",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Move sound progress is clamped velocity length over type speed.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.move_pitch": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
-      "java_expr": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Move sound pitch uses source Mathf.lerp over pitch range and progress.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.move_sound_call": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
-      "java_expr": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Runtime records move sound call arguments.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.headless_value": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
-      "java_expr": "headless",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit headless input.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.type_loop_sound": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
-      "java_expr": "type.loopSound",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit UnitType loopSound input.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.type_loop_sound_volume": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
-      "java_expr": "type.loopSoundVolume",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit UnitType loopSoundVolume input.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.type_move_sound": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
-      "java_expr": "type.moveSound",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit UnitType moveSound input.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.type_move_sound_volume": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
-      "java_expr": "type.moveSoundVolume",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit UnitType moveSoundVolume input.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.type_move_sound_pitch_min": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
-      "java_expr": "type.moveSoundPitchMin",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit UnitType moveSoundPitchMin input.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.type_move_sound_pitch_max": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
-      "java_expr": "type.moveSoundPitchMax",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit UnitType moveSoundPitchMax input.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.velocity_x": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.velocity_x",
-      "java_expr": "vel.x",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit velocity x component input for vel.len().",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.velocity_y": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.velocity_y",
-      "java_expr": "vel.y",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit velocity y component input for vel.len().",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.type_speed": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_speed",
-      "java_expr": "type.speed",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit UnitType speed input for progress denominator.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.velocity_len": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
-      "java_expr": "vel.len()",
-      "java_method": "UnitComp.update() sound loop",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Runtime velocityLen mirrors Vec2.len input expression.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.vars_headless": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
-      "java_expr": "public static boolean headless;",
-      "java_method": "Vars fields",
-      "java_source": "core/src/mindustry/Vars.java",
-      "rule": "Vars.headless backs headless predicate.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.unit_loop_sound": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
-      "java_expr": "public Sound loopSound = Sounds.none;",
-      "java_method": "UnitType sound fields",
-      "java_source": "core/src/mindustry/type/UnitType.java",
-      "rule": "UnitType loopSound default is Sounds.none.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.unit_loop_sound_volume": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
-      "java_expr": "public float loopSoundVolume = 0.5f;",
-      "java_method": "UnitType sound fields",
-      "java_source": "core/src/mindustry/type/UnitType.java",
-      "rule": "UnitType loopSoundVolume default is 0.5f.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.unit_move_sound": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
-      "java_expr": "public Sound moveSound = Sounds.none;",
-      "java_method": "UnitType sound fields",
-      "java_source": "core/src/mindustry/type/UnitType.java",
-      "rule": "UnitType moveSound default is Sounds.none.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.unit_move_sound_volume": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
-      "java_expr": "public float moveSoundVolume = 1f;",
-      "java_method": "UnitType sound fields",
-      "java_source": "core/src/mindustry/type/UnitType.java",
-      "rule": "UnitType moveSoundVolume default is 1f.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.unit_move_sound_pitch": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
-      "java_expr": "public float moveSoundPitchMin = 1f, moveSoundPitchMax = 1f;",
-      "java_method": "UnitType sound fields",
-      "java_source": "core/src/mindustry/type/UnitType.java",
-      "rule": "UnitType move sound pitch min/max defaults are 1f.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.sound_control_loop_pos": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
-      "java_expr": "public void loop(Sound sound, Position pos, float volume, float pitch){",
-      "java_method": "loop(Sound sound, Position pos, float volume, float pitch)",
-      "java_source": "core/src/mindustry/audio/SoundControl.java",
-      "rule": "SoundControl loop overload receives position, volume, and pitch.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.sound_control_guard": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
-      "java_expr": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
-      "java_method": "loop(Sound sound, Position pos, float volume, float pitch)",
-      "java_source": "core/src/mindustry/audio/SoundControl.java",
-      "rule": "SoundControl loop has headless, none-sound, and tiny-volume guard.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.mathf_clamp_unit": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.progress",
-      "java_expr": "public static float clamp(float value){",
-      "java_method": "clamp(float value)",
-      "java_source": "arc-core/src/arc/math/Mathf.java",
-      "rule": "Mathf clamp overload clamps to unit interval.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.mathf_clamp_unit_body": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.progress",
-      "java_expr": "return Math.max(Math.min(value, 1f), 0f);",
-      "java_method": "clamp(float value)",
-      "java_source": "arc-core/src/arc/math/Mathf.java",
-      "rule": "Mathf clamp(float) returns value clamped to [0, 1].",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.mathf_lerp": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
-      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){",
-      "java_method": "lerp(float fromValue, float toValue, float progress)",
-      "java_source": "arc-core/src/arc/math/Mathf.java",
-      "rule": "Mathf lerp overload used for pitch.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.mathf_lerp_body": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.pitch",
-      "java_expr": "return fromValue + (toValue - fromValue) * progress;",
-      "java_method": "lerp(float fromValue, float toValue, float progress)",
-      "java_source": "arc-core/src/arc/math/Mathf.java",
-      "rule": "Mathf lerp body used for pitch interpolation.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.vec2_len": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
-      "java_expr": "public float len(){",
-      "java_method": "len()",
-      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Vec2 len method backs vel.len().",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_sound_loop.vec2_len_body": {
-      "godot_owner": "PortGame.source_unit_update_sound_loop_state",
-      "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
-      "java_expr": "return (float)Math.sqrt(x * x + y * y);",
-      "java_method": "len()",
-      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Vec2 len body computes Euclidean length.",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_sound_loop_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_sound_loop_state",
-        "test_unit_update_sound_loop_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.comment": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.guard",
-      "java_expr": "//apply knockback based on spawns",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Source comment identifying spawn knockback block.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.guard": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.guard",
-      "java_expr": "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Spawn knockback guard combines team, spawns, network/local, and hittable predicates.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.relative_size": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.relativeSize",
-      "java_expr": "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Relative knockback radius from drop zone and hit size.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.spawn_loop": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
-      "java_expr": "for(Tile spawn : spawner.getSpawns()){",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Runtime iterates explicit spawn inputs that represent spawner.getSpawns().",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.spawn_within_guard": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "if(within(spawn.worldx(), spawn.worldy(), relativeSize)){",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Knockback call occurs only when unit is within relative size of spawn.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vel_add_net_call": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Runtime records source velAddNet knockback vector call.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.team_is_wave_team": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.team_is_wave_team",
-      "java_expr": "team == state.rules.waveTeam",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit input for negated team != state.rules.waveTeam guard.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.state_has_spawns_value": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
-      "java_expr": "state.hasSpawns()",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit state.hasSpawns input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.net_client_value": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
-      "java_expr": "net.client()",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit net.client input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.is_local_value": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.is_local_value",
-      "java_expr": "isLocal()",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit isLocal input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.hittable_value": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.hittable_value",
-      "java_expr": "hittable()",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit hittable input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.drop_zone_radius": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.drop_zone_radius",
-      "java_expr": "state.rules.dropZoneRadius",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit drop zone radius input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.hit_size": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.hit_size",
-      "java_expr": "hitSize",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit hit size input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.unit_x": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.unit_x",
-      "java_expr": "x",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit unit x input for Position/dst math.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.unit_y": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.unit_y",
-      "java_expr": "y",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit unit y input for Position/dst math.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.spawns": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
-      "java_expr": "spawner.getSpawns()",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit spawn list input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.source_delta": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.source_delta",
-      "java_expr": "Time.delta",
-      "java_method": "UnitComp.update() spawn knockback",
-      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-      "rule": "Explicit Time.delta input.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.rules_drop_zone_radius": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.drop_zone_radius",
-      "java_expr": "public float dropZoneRadius = 300f;",
-      "java_method": "Rules fields",
-      "java_source": "core/src/mindustry/game/Rules.java",
-      "rule": "Rules dropZoneRadius default.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.rules_wave_team": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.team_is_wave_team",
-      "java_expr": "public Team waveTeam = Team.crux;",
-      "java_method": "Rules fields",
-      "java_source": "core/src/mindustry/game/Rules.java",
-      "rule": "Rules waveTeam default.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.state_has_spawns": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
-      "java_expr": "public boolean hasSpawns(){",
-      "java_method": "hasSpawns()",
-      "java_source": "core/src/mindustry/core/GameState.java",
-      "rule": "GameState hasSpawns method backs state.hasSpawns().",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.state_has_spawns_body": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
-      "java_expr": "return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);",
-      "java_method": "hasSpawns()",
-      "java_source": "core/src/mindustry/core/GameState.java",
-      "rule": "GameState hasSpawns exact return expression.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.spawner_get_spawns": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
-      "java_expr": "public Seq<Tile> getSpawns(){",
-      "java_method": "getSpawns()",
-      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
-      "rule": "WaveSpawner getSpawns method backs spawn loop.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.spawner_get_spawns_body": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
-      "java_expr": "return spawns;",
-      "java_method": "getSpawns()",
-      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
-      "rule": "WaveSpawner returns spawns sequence.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.net_client": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
-      "java_expr": "public boolean client(){",
-      "java_method": "client()",
-      "java_source": "core/src/mindustry/net/Net.java",
-      "rule": "Net client method backs net.client().",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.net_client_body": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
-      "java_expr": "return !server && active;",
-      "java_method": "client()",
-      "java_source": "core/src/mindustry/net/Net.java",
-      "rule": "Net client return body.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vel_add_net_vec": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "void velAddNet(Vec2 v){",
-      "java_method": "velAddNet(Vec2 v)",
-      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
-      "rule": "VelComp velAddNet Vec2 overload backs knockback call.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vel_add_net_add": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "vel.add(v);",
-      "java_method": "velAddNet(Vec2 v)",
-      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
-      "rule": "velAddNet adds velocity vector.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vel_add_net_remote_x": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "x += v.x;",
-      "java_method": "velAddNet(Vec2 v)",
-      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
-      "rule": "velAddNet remote x adjustment.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vel_add_net_remote_y": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "y += v.y;",
-      "java_method": "velAddNet(Vec2 v)",
-      "java_source": "core/src/mindustry/entities/comp/VelComp.java",
-      "rule": "velAddNet remote y adjustment.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.position_within": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "default boolean within(float x, float y, float dst){",
-      "java_method": "within(float x, float y, float dst)",
-      "java_source": "arc-core/src/arc/math/geom/Position.java",
-      "rule": "Arc Position within method backs spawn distance guard.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.position_within_body": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
-      "java_method": "within(float x, float y, float dst)",
-      "java_source": "arc-core/src/arc/math/geom/Position.java",
-      "rule": "Arc Position within uses squared distance comparison.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.position_dst": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "default float dst(float x, float y){",
-      "java_method": "dst(float x, float y)",
-      "java_source": "arc-core/src/arc/math/geom/Position.java",
-      "rule": "Arc Position dst method backs strength math.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.position_dst_body": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "return Mathf.sqrt(xd * xd + yd * yd);",
-      "java_method": "dst(float x, float y)",
-      "java_source": "arc-core/src/arc/math/geom/Position.java",
-      "rule": "Arc Position dst returns Euclidean distance.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vec2_set_position": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "public Vec2 set(Position v){",
-      "java_method": "set(Position v)",
-      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Vec2 set(Position) starts Tmp.v1 at unit position.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vec2_set_position_x": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "x = v.getX();",
-      "java_method": "set(Position v)",
-      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Vec2 set(Position) copies x coordinate.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vec2_sub": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "public Vec2 sub(float x, float y){",
-      "java_method": "sub(float x, float y)",
-      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Vec2 sub spawn coordinates backs direction vector.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vec2_set_length": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "public Vec2 setLength(float len){",
-      "java_method": "setLength(float len)",
-      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Vec2 setLength backs source strength vector length.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.vec2_scl": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-      "java_expr": "public Vec2 scl(float scalar){",
-      "java_method": "scl(float scalar)",
-      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
-      "rule": "Vec2 scl backs 0.45f * Time.delta scaling.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
-      ]
-    },
-    "unit_update_spawn_knockback.time_delta_default": {
-      "godot_owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "godot_symbol": "source_unit_update_spawn_knockback_input.source_delta",
-      "java_expr": "public static float delta = 1f;",
-      "java_method": "Time fields",
-      "java_source": "arc-core/src/arc/util/Time.java",
-      "rule": "Arc Time.delta default.",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "source-backed",
-      "tests": [
-        "test_unit_update_spawn_knockback_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_update_spawn_knockback_state",
-        "test_unit_update_spawn_knockback_matches_upstream_source"
       ]
     }
   },

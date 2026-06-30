@@ -14641,6 +14641,58 @@
         "test_port_game_exposes_source_unit_update_spawn_knockback_state",
         "test_unit_update_spawn_knockback_matches_upstream_source"
       ]
+    },
+    "N826": {
+      "bridge_exprs": [
+        "boolean spawnedByCore;",
+        "@Import boolean dead, disarmed;",
+        "public boolean isPlayer(){",
+        "return controller instanceof Player;",
+        "@Remote(called = Loc.server)",
+        "public static void unitDespawn(Unit unit){",
+        "if(unit == null) return;",
+        "Fx.unitDespawn.at(unit.x, unit.y, 0, unit);",
+        "unit.remove();"
+      ],
+      "deferred_exprs": [
+        "Live unit removal remains recorded call state only.",
+        "Remote null-unit branch remains source boundary, not simulated by unit_id input.",
+        "Network transport side effects of Call.unitDespawn remain deferred."
+      ],
+      "exact_exprs": [
+        "//remove units spawned by the core",
+        "if(spawnedByCore && !isPlayer() && !dead){",
+        "Call.unitDespawn(self());"
+      ],
+      "godot_owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() spawned core despawn",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "source_symbols": [
+        "unit_update_spawned_core_despawn.call",
+        "unit_update_spawned_core_despawn.comment",
+        "unit_update_spawned_core_despawn.dead_import",
+        "unit_update_spawned_core_despawn.dead_value",
+        "unit_update_spawned_core_despawn.guard",
+        "unit_update_spawned_core_despawn.is_player_body",
+        "unit_update_spawned_core_despawn.is_player_method",
+        "unit_update_spawned_core_despawn.is_player_value",
+        "unit_update_spawned_core_despawn.spawned_by_core_field",
+        "unit_update_spawned_core_despawn.spawned_by_core_value",
+        "unit_update_spawned_core_despawn.unit_despawn_effect",
+        "unit_update_spawned_core_despawn.unit_despawn_method",
+        "unit_update_spawned_core_despawn.unit_despawn_null_guard",
+        "unit_update_spawned_core_despawn.unit_despawn_remote",
+        "unit_update_spawned_core_despawn.unit_despawn_remove",
+        "unit_update_spawned_core_despawn.unit_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
     }
   },
   "version": 1

@@ -5970,6 +5970,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vel_add["java_expr"], "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));")
         self.assertEqual(vel_add["godot_symbol"], "source_unit_update_spawn_knockback_result.knockbacks")
 
+    def test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_spawned_core_despawn.guard")
+        self.assertEqual(guard["java_expr"], "if(spawnedByCore && !isPlayer() && !dead){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() spawned core despawn")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_spawned_core_despawn_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_spawned_core_despawn_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_spawned_core_despawn_result.guard")
+
+        call = source_symbols.source_symbol(registry, "unit_update_spawned_core_despawn.call")
+        self.assertEqual(call["java_expr"], "Call.unitDespawn(self());")
+        self.assertEqual(call["godot_symbol"], "source_unit_update_spawned_core_despawn_result.despawn")
+
+        is_player = source_symbols.source_symbol(registry, "unit_update_spawned_core_despawn.is_player_body")
+        self.assertEqual(is_player["java_expr"], "return controller instanceof Player;")
+        self.assertEqual(is_player["godot_symbol"], "source_unit_update_spawned_core_despawn_input.is_player_value")
+
+        remote_effect = source_symbols.source_symbol(registry, "unit_update_spawned_core_despawn.unit_despawn_effect")
+        self.assertEqual(remote_effect["java_expr"], "Fx.unitDespawn.at(unit.x, unit.y, 0, unit);")
+        self.assertEqual(remote_effect["godot_symbol"], "source_unit_update_spawned_core_despawn_result.despawn")
+
+        remote_remove = source_symbols.source_symbol(registry, "unit_update_spawned_core_despawn.unit_despawn_remove")
+        self.assertEqual(remote_remove["java_expr"], "unit.remove();")
+        self.assertEqual(remote_remove["godot_symbol"], "source_unit_update_spawned_core_despawn_result.despawn")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14442,9 +14472,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 423)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 424)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 428)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 429)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14479,6 +14509,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_solid_tile_response_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_spawn_knockback_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_spawned_core_despawn_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17001,6 +17032,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));", unit_update_spawn_knockback["exact_exprs"])
         self.assertIn("return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);", unit_update_spawn_knockback["bridge_exprs"])
         self.assertIn("Actual network velocity mutation remains recorded call state only.", unit_update_spawn_knockback["deferred_exprs"])
+
+        unit_update_spawned_core_despawn = source_symbols.source_slice(ledger, "N826")
+        self.assertEqual(unit_update_spawned_core_despawn["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_spawned_core_despawn["java_method"], "UnitComp.update() spawned core despawn")
+        self.assertEqual(unit_update_spawned_core_despawn["godot_owner"], "PortGame.source_unit_update_spawned_core_despawn_state")
+        self.assertIn("//remove units spawned by the core", unit_update_spawned_core_despawn["exact_exprs"])
+        self.assertIn("if(spawnedByCore && !isPlayer() && !dead){", unit_update_spawned_core_despawn["exact_exprs"])
+        self.assertIn("Call.unitDespawn(self());", unit_update_spawned_core_despawn["exact_exprs"])
+        self.assertIn("return controller instanceof Player;", unit_update_spawned_core_despawn["bridge_exprs"])
+        self.assertIn("Fx.unitDespawn.at(unit.x, unit.y, 0, unit);", unit_update_spawned_core_despawn["bridge_exprs"])
+        self.assertIn("unit.remove();", unit_update_spawned_core_despawn["bridge_exprs"])
+        self.assertIn("Live unit removal remains recorded call state only.", unit_update_spawned_core_despawn["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20962,6 +21005,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_spawn_knockback["return_keys"])
         self.assertNotIn("spawns", unit_update_spawn_knockback["return_keys"])
         self.assertEqual(unit_update_spawn_knockback["source_method"], "UnitComp.update() spawn knockback")
+
+        unit_update_spawned_core_despawn = source_symbols.api_contract(contracts, "PortGame.source_unit_update_spawned_core_despawn_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_spawned_core_despawn["params"]],
+            ["spawned_by_core_value", "is_player_value", "dead_value", "unit_id"],
+        )
+        self.assertEqual(unit_update_spawned_core_despawn["params"][0]["schema"], "source_unit_update_spawned_core_despawn_input.spawned_by_core_value")
+        self.assertEqual(unit_update_spawned_core_despawn["params"][1]["schema"], "source_unit_update_spawned_core_despawn_input.is_player_value")
+        self.assertEqual(unit_update_spawned_core_despawn["params"][2]["schema"], "source_unit_update_spawned_core_despawn_input.dead_value")
+        self.assertEqual(unit_update_spawned_core_despawn["params"][3]["schema"], "source_unit_update_spawned_core_despawn_input.unit_id")
+        for key in ["guard", "spawnedByCore", "isPlayer", "dead", "despawn"]:
+            self.assertIn(key, unit_update_spawned_core_despawn["return_keys"])
+        self.assertNotIn("unit_id", unit_update_spawned_core_despawn["return_keys"])
+        self.assertEqual(unit_update_spawned_core_despawn["source_method"], "UnitComp.update() spawned core despawn")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -25279,6 +25336,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["spawns"]["java_expr"], "spawner.getSpawns()")
         self.assertEqual(source_unit_update_spawn_knockback_input["keys"]["source_delta"]["java_expr"], "Time.delta")
 
+        source_unit_update_spawned_core_despawn_input = source_symbols.state_schema(schema, "source_unit_update_spawned_core_despawn_input")
+        self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")
+        self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["is_player_value"]["java_expr"], "isPlayer()")
+        self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["unit_id"]["java_expr"], "self()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25772,6 +25835,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_spawn_knockback_result["keys"]["relativeSize"]["java_expr"], "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;")
         self.assertEqual(source_unit_update_spawn_knockback_result["keys"]["knockbacks"]["java_expr"], "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));")
         self.assertNotIn("spawns", source_unit_update_spawn_knockback_result["keys"])
+
+        source_unit_update_spawned_core_despawn_result = source_symbols.state_schema(schema, "source_unit_update_spawned_core_despawn_result")
+        self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["guard"]["java_expr"], "if(spawnedByCore && !isPlayer() && !dead){")
+        self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["spawnedByCore"]["alias_of"], "source_unit_update_spawned_core_despawn_input.spawned_by_core_value")
+        self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["isPlayer"]["alias_of"], "source_unit_update_spawned_core_despawn_input.is_player_value")
+        self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["dead"]["alias_of"], "source_unit_update_spawned_core_despawn_input.dead_value")
+        self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["despawn"]["java_expr"], "Call.unitDespawn(self());")
+        self.assertNotIn("unit_id", source_unit_update_spawned_core_despawn_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

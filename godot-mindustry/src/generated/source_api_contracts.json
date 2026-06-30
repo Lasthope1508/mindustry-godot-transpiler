@@ -16356,6 +16356,48 @@
         "test_port_game_exposes_source_unit_update_spawn_knockback_state",
         "test_unit_update_spawn_knockback_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_spawned_core_despawn_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "spawned_by_core_value",
+          "schema": "source_unit_update_spawned_core_despawn_input.spawned_by_core_value",
+          "type": "bool"
+        },
+        {
+          "name": "is_player_value",
+          "schema": "source_unit_update_spawned_core_despawn_input.is_player_value",
+          "type": "bool"
+        },
+        {
+          "name": "dead_value",
+          "schema": "source_unit_update_spawned_core_despawn_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_spawned_core_despawn_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "spawnedByCore",
+        "isPlayer",
+        "dead",
+        "despawn"
+      ],
+      "rule": "Public runtime contract for UnitComp.update spawned core despawn call state.",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "source_method": "UnitComp.update() spawned core despawn",
+      "source_slice": "N826",
+      "status": "active",
+      "tests": [
+        "test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
+        "test_unit_update_spawned_core_despawn_matches_upstream_source"
+      ]
     }
   },
   "policy": {

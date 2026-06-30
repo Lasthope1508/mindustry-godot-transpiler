@@ -56775,6 +56775,881 @@
       "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
       "status": "active"
     },
+    "source_unit_update_solid_tile_response_input": {
+      "keys": {
+        "can_pass_on_value": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
+          "java_expr": "canPassOn()",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit canPassOn predicate input from guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "current_elevation": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.current_elevation",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit current elevation input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "headless_value": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
+          "java_expr": "headless",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit headless input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "is_remote_value": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
+          "java_expr": "isRemote()",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit isRemote input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "net_client_value": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
+          "java_expr": "net.client()",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit net.client input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "tile_exists": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.tile_exists",
+          "java_expr": "tile != null",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit tile existence input from guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "type_can_boost": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
+          "java_expr": "type.canBoost",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit UnitType canBoost input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_update_solid_tile_response_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Explicit unit identity for recorded kill call.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "active"
+    },
+    "source_unit_update_solid_tile_response_result": {
+      "keys": {
+        "canPassOn": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.canPassOn",
+          "java_expr": "canPassOn()",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Returned canPassOn predicate value.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "elevation": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.elevation",
+          "java_expr": "elevation = 1f;",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Runtime elevation after boost branch or preserved current elevation.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
+          "java_expr": "if(tile != null && !canPassOn()){",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Computed solid tile guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "headless": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.headless",
+          "java_expr": "headless",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Returned headless predicate value.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "isRemote": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.isRemote",
+          "java_expr": "isRemote()",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Returned remote predicate value.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "kill": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
+          "java_expr": "kill();",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Recorded kill call dictionary when kill branch passes.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "netClient": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.netClient",
+          "java_expr": "net.client()",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Returned net.client predicate value.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        },
+        "typeCanBoost": {
+          "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
+          "java_expr": "type.canBoost",
+          "java_method": "UnitComp.update() solid tile response",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ],
+          "rule": "Returned boost capability value.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_solid_tile_response_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_solid_tile_response_state",
+      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
+      "status": "active"
+    },
+    "source_unit_update_sound_loop_input": {
+      "keys": {
+        "headless_value": {
+          "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
+          "java_expr": "headless",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit headless input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_loop_sound": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
+          "java_expr": "type.loopSound",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType loopSound input.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_loop_sound_volume": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
+          "java_expr": "type.loopSoundVolume",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType loopSoundVolume input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
+          "java_expr": "type.moveSound",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSound input.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound_pitch_max": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
+          "java_expr": "type.moveSoundPitchMax",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSoundPitchMax input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound_pitch_min": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
+          "java_expr": "type.moveSoundPitchMin",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSoundPitchMin input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_move_sound_volume": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
+          "java_expr": "type.moveSoundVolume",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType moveSoundVolume input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "type_speed": {
+          "godot_symbol": "source_unit_update_sound_loop_input.type_speed",
+          "java_expr": "type.speed",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit UnitType speed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "velocity_x": {
+          "godot_symbol": "source_unit_update_sound_loop_input.velocity_x",
+          "java_expr": "vel.x",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit velocity x input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "velocity_y": {
+          "godot_symbol": "source_unit_update_sound_loop_input.velocity_y",
+          "java_expr": "vel.y",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Explicit velocity y input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_sound_loop_state",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "active"
+    },
+    "source_unit_update_sound_loop_result": {
+      "keys": {
+        "loopSound": {
+          "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
+          "java_expr": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Recorded loop sound call dictionary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "moveSound": {
+          "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
+          "java_expr": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Recorded move sound call dictionary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "pitch": {
+          "godot_symbol": "source_unit_update_sound_loop_result.pitch",
+          "java_expr": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Move sound pitch.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "progress": {
+          "godot_symbol": "source_unit_update_sound_loop_result.progress",
+          "java_expr": "float progress = Mathf.clamp(vel.len() / type.speed);",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Move sound progress.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "soundEnabled": {
+          "godot_symbol": "source_unit_update_sound_loop_result.soundEnabled",
+          "java_expr": "if(!headless){",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Computed sound-enabled guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        },
+        "velocityLen": {
+          "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
+          "java_expr": "vel.len()",
+          "java_method": "UnitComp.update() sound loop",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ],
+          "rule": "Velocity length used by progress.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_sound_loop_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_sound_loop_state",
+      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
+      "status": "active"
+    },
+    "source_unit_update_spawn_knockback_input": {
+      "keys": {
+        "drop_zone_radius": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.drop_zone_radius",
+          "java_expr": "state.rules.dropZoneRadius",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit dropZoneRadius input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "hit_size": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.hit_size",
+          "java_expr": "hitSize",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit hitSize input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "hittable_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.hittable_value",
+          "java_expr": "hittable()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit hittable input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "is_local_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.is_local_value",
+          "java_expr": "isLocal()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit isLocal input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "net_client_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
+          "java_expr": "net.client()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit net.client input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit Time.delta input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "spawns": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
+          "java_expr": "spawner.getSpawns()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit spawn coordinate inputs representing spawner.getSpawns().",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "state_has_spawns_value": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
+          "java_expr": "state.hasSpawns()",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit state.hasSpawns input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "team_is_wave_team": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.team_is_wave_team",
+          "java_expr": "team == state.rules.waveTeam",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit input for negated team != waveTeam guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "unit_x": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.unit_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit unit x input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "unit_y": {
+          "godot_symbol": "source_unit_update_spawn_knockback_input.unit_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Explicit unit y input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "active"
+    },
+    "source_unit_update_spawn_knockback_result": {
+      "keys": {
+        "guard": {
+          "godot_symbol": "source_unit_update_spawn_knockback_result.guard",
+          "java_expr": "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Computed spawn knockback guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "knockbacks": {
+          "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
+          "java_expr": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Recorded velAddNet knockback call list.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        },
+        "relativeSize": {
+          "godot_symbol": "source_unit_update_spawn_knockback_result.relativeSize",
+          "java_expr": "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;",
+          "java_method": "UnitComp.update() spawn knockback",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ],
+          "rule": "Computed relative knockback size.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_spawn_knockback_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_spawn_knockback_state",
+      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
+      "status": "active"
+    },
+    "source_unit_update_spawned_core_despawn_input": {
+      "keys": {
+        "dead_value": {
+          "godot_symbol": "source_unit_update_spawned_core_despawn_input.dead_value",
+          "java_expr": "dead",
+          "java_method": "UnitComp.update() spawned core despawn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Explicit dead input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        },
+        "is_player_value": {
+          "godot_symbol": "source_unit_update_spawned_core_despawn_input.is_player_value",
+          "java_expr": "isPlayer()",
+          "java_method": "UnitComp.update() spawned core despawn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Explicit isPlayer() input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        },
+        "spawned_by_core_value": {
+          "godot_symbol": "source_unit_update_spawned_core_despawn_input.spawned_by_core_value",
+          "java_expr": "spawnedByCore",
+          "java_method": "UnitComp.update() spawned core despawn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Explicit spawnedByCore input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_update_spawned_core_despawn_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.update() spawned core despawn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Explicit self() unit identity input used for call record.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "active"
+    },
+    "source_unit_update_spawned_core_despawn_result": {
+      "keys": {
+        "dead": {
+          "alias_of": "source_unit_update_spawned_core_despawn_input.dead_value",
+          "godot_symbol": "source_unit_update_spawned_core_despawn_result.dead",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Runtime mirror of dead_value.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        },
+        "despawn": {
+          "godot_symbol": "source_unit_update_spawned_core_despawn_result.despawn",
+          "java_expr": "Call.unitDespawn(self());",
+          "java_method": "UnitComp.update() spawned core despawn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Recorded Call.unitDespawn call state, including source remote effect/remove strings.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_update_spawned_core_despawn_result.guard",
+          "java_expr": "if(spawnedByCore && !isPlayer() && !dead){",
+          "java_method": "UnitComp.update() spawned core despawn",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Computed spawned core despawn guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        },
+        "isPlayer": {
+          "alias_of": "source_unit_update_spawned_core_despawn_input.is_player_value",
+          "godot_symbol": "source_unit_update_spawned_core_despawn_result.isPlayer",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Runtime camelCase mirror of is_player_value.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        },
+        "spawnedByCore": {
+          "alias_of": "source_unit_update_spawned_core_despawn_input.spawned_by_core_value",
+          "godot_symbol": "source_unit_update_spawned_core_despawn_result.spawnedByCore",
+          "owners": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ],
+          "rule": "Runtime camelCase mirror of spawned_by_core_value.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_spawned_core_despawn_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_spawned_core_despawn_state",
+      "runtime_proof": "/root/Main.source_unit_update_spawned_core_despawn_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
@@ -58313,738 +59188,6 @@
           ]
         }
       },
-      "status": "active"
-    },
-    "source_unit_update_solid_tile_response_input": {
-      "keys": {
-        "tile_exists": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.tile_exists",
-          "java_expr": "tile != null",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit tile existence input from guard.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "can_pass_on_value": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.can_pass_on_value",
-          "java_expr": "canPassOn()",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit canPassOn predicate input from guard.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "type_can_boost": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.type_can_boost",
-          "java_expr": "type.canBoost",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit UnitType canBoost input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "current_elevation": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.current_elevation",
-          "java_expr": "elevation",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit current elevation input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "net_client_value": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.net_client_value",
-          "java_expr": "net.client()",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit net.client input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "headless_value": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.headless_value",
-          "java_expr": "headless",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit headless input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "is_remote_value": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.is_remote_value",
-          "java_expr": "isRemote()",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit isRemote input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "unit_id": {
-          "godot_symbol": "source_unit_update_solid_tile_response_input.unit_id",
-          "java_expr": "self()",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Explicit unit identity for recorded kill call.",
-          "status": "explicit-input",
-          "type": "int",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        }
-      },
-      "owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "active"
-    },
-    "source_unit_update_solid_tile_response_result": {
-      "keys": {
-        "guard": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.guard",
-          "java_expr": "if(tile != null && !canPassOn()){",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Computed solid tile guard.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "canPassOn": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.canPassOn",
-          "java_expr": "canPassOn()",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Returned canPassOn predicate value.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "typeCanBoost": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.typeCanBoost",
-          "java_expr": "type.canBoost",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Returned boost capability value.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "elevation": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.elevation",
-          "java_expr": "elevation = 1f;",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Runtime elevation after boost branch or preserved current elevation.",
-          "status": "source-backed",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "netClient": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.netClient",
-          "java_expr": "net.client()",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Returned net.client predicate value.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "headless": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.headless",
-          "java_expr": "headless",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Returned headless predicate value.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "isRemote": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.isRemote",
-          "java_expr": "isRemote()",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Returned remote predicate value.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        },
-        "kill": {
-          "godot_symbol": "source_unit_update_solid_tile_response_result.kill",
-          "java_expr": "kill();",
-          "java_method": "UnitComp.update() solid tile response",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ],
-          "rule": "Recorded kill call dictionary when kill branch passes.",
-          "status": "source-backed",
-          "type": "Variant",
-          "used_by": [
-            "PortGame.source_unit_update_solid_tile_response_state"
-          ]
-        }
-      },
-      "owner": "PortGame.source_unit_update_solid_tile_response_state",
-      "runtime_proof": "/root/Main.source_unit_update_solid_tile_response_state",
-      "status": "active"
-    },
-    "source_unit_update_sound_loop_input": {
-      "keys": {
-        "headless_value": {
-          "godot_symbol": "source_unit_update_sound_loop_input.headless_value",
-          "java_expr": "headless",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit headless input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "type_loop_sound": {
-          "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound",
-          "java_expr": "type.loopSound",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit UnitType loopSound input.",
-          "status": "explicit-input",
-          "type": "String",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "type_loop_sound_volume": {
-          "godot_symbol": "source_unit_update_sound_loop_input.type_loop_sound_volume",
-          "java_expr": "type.loopSoundVolume",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit UnitType loopSoundVolume input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "type_move_sound": {
-          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound",
-          "java_expr": "type.moveSound",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit UnitType moveSound input.",
-          "status": "explicit-input",
-          "type": "String",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "type_move_sound_volume": {
-          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_volume",
-          "java_expr": "type.moveSoundVolume",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit UnitType moveSoundVolume input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "type_move_sound_pitch_min": {
-          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_min",
-          "java_expr": "type.moveSoundPitchMin",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit UnitType moveSoundPitchMin input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "type_move_sound_pitch_max": {
-          "godot_symbol": "source_unit_update_sound_loop_input.type_move_sound_pitch_max",
-          "java_expr": "type.moveSoundPitchMax",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit UnitType moveSoundPitchMax input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "velocity_x": {
-          "godot_symbol": "source_unit_update_sound_loop_input.velocity_x",
-          "java_expr": "vel.x",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit velocity x input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "velocity_y": {
-          "godot_symbol": "source_unit_update_sound_loop_input.velocity_y",
-          "java_expr": "vel.y",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit velocity y input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "type_speed": {
-          "godot_symbol": "source_unit_update_sound_loop_input.type_speed",
-          "java_expr": "type.speed",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Explicit UnitType speed input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        }
-      },
-      "owner": "PortGame.source_unit_update_sound_loop_state",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "active"
-    },
-    "source_unit_update_sound_loop_result": {
-      "keys": {
-        "soundEnabled": {
-          "godot_symbol": "source_unit_update_sound_loop_result.soundEnabled",
-          "java_expr": "if(!headless){",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Computed sound-enabled guard.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "velocityLen": {
-          "godot_symbol": "source_unit_update_sound_loop_result.velocityLen",
-          "java_expr": "vel.len()",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Velocity length used by progress.",
-          "status": "source-backed",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "progress": {
-          "godot_symbol": "source_unit_update_sound_loop_result.progress",
-          "java_expr": "float progress = Mathf.clamp(vel.len() / type.speed);",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Move sound progress.",
-          "status": "source-backed",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "pitch": {
-          "godot_symbol": "source_unit_update_sound_loop_result.pitch",
-          "java_expr": "float pitch = Mathf.lerp(type.moveSoundPitchMin,  type.moveSoundPitchMax, progress);",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Move sound pitch.",
-          "status": "source-backed",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "loopSound": {
-          "godot_symbol": "source_unit_update_sound_loop_result.loopSound",
-          "java_expr": "control.sound.loop(type.loopSound, this, type.loopSoundVolume);",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Recorded loop sound call dictionary.",
-          "status": "source-backed",
-          "type": "Variant",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        },
-        "moveSound": {
-          "godot_symbol": "source_unit_update_sound_loop_result.moveSound",
-          "java_expr": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch);",
-          "java_method": "UnitComp.update() sound loop",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ],
-          "rule": "Recorded move sound call dictionary.",
-          "status": "source-backed",
-          "type": "Variant",
-          "used_by": [
-            "PortGame.source_unit_update_sound_loop_state"
-          ]
-        }
-      },
-      "owner": "PortGame.source_unit_update_sound_loop_state",
-      "runtime_proof": "/root/Main.source_unit_update_sound_loop_state",
-      "status": "active"
-    },
-    "source_unit_update_spawn_knockback_input": {
-      "keys": {
-        "team_is_wave_team": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.team_is_wave_team",
-          "java_expr": "team == state.rules.waveTeam",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit input for negated team != waveTeam guard.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "state_has_spawns_value": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.state_has_spawns_value",
-          "java_expr": "state.hasSpawns()",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit state.hasSpawns input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "net_client_value": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.net_client_value",
-          "java_expr": "net.client()",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit net.client input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "is_local_value": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.is_local_value",
-          "java_expr": "isLocal()",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit isLocal input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "hittable_value": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.hittable_value",
-          "java_expr": "hittable()",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit hittable input.",
-          "status": "explicit-input",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "drop_zone_radius": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.drop_zone_radius",
-          "java_expr": "state.rules.dropZoneRadius",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit dropZoneRadius input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "hit_size": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.hit_size",
-          "java_expr": "hitSize",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit hitSize input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "unit_x": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.unit_x",
-          "java_expr": "x",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit unit x input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "unit_y": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.unit_y",
-          "java_expr": "y",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit unit y input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "spawns": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.spawns",
-          "java_expr": "spawner.getSpawns()",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit spawn coordinate inputs representing spawner.getSpawns().",
-          "status": "explicit-input",
-          "type": "Array",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "source_delta": {
-          "godot_symbol": "source_unit_update_spawn_knockback_input.source_delta",
-          "java_expr": "Time.delta",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Explicit Time.delta input.",
-          "status": "explicit-input",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        }
-      },
-      "owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
-      "status": "active"
-    },
-    "source_unit_update_spawn_knockback_result": {
-      "keys": {
-        "guard": {
-          "godot_symbol": "source_unit_update_spawn_knockback_result.guard",
-          "java_expr": "if(team != state.rules.waveTeam && state.hasSpawns() && (!net.client() || isLocal()) && hittable()){",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Computed spawn knockback guard.",
-          "status": "source-backed",
-          "type": "bool",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "relativeSize": {
-          "godot_symbol": "source_unit_update_spawn_knockback_result.relativeSize",
-          "java_expr": "float relativeSize = state.rules.dropZoneRadius + hitSize/2f + 1f;",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Computed relative knockback size.",
-          "status": "source-backed",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        },
-        "knockbacks": {
-          "godot_symbol": "source_unit_update_spawn_knockback_result.knockbacks",
-          "java_expr": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta));",
-          "java_method": "UnitComp.update() spawn knockback",
-          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
-          "owners": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ],
-          "rule": "Recorded velAddNet knockback call list.",
-          "status": "source-backed",
-          "type": "Array",
-          "used_by": [
-            "PortGame.source_unit_update_spawn_knockback_state"
-          ]
-        }
-      },
-      "owner": "PortGame.source_unit_update_spawn_knockback_state",
-      "runtime_proof": "/root/Main.source_unit_update_spawn_knockback_state",
       "status": "active"
     }
   },
