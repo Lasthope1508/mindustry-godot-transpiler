@@ -3180,6 +3180,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(target["java_expr"], "mount.target")
         self.assertEqual(target["godot_symbol"], "source_weapon_bullet_create_call_result.target")
 
+    def test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        handle_call = source_symbols.source_symbol(registry, "weapon_bullet_handle_call.call")
+        self.assertEqual(handle_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(handle_call["java_expr"], "handleBullet(unit, mount, mount.bullet);")
+        self.assertEqual(handle_call["godot_owner"], "PortGame.source_weapon_bullet_handle_call_state")
+        self.assertEqual(handle_call["runtime_proof"], "/root/Main.source_weapon_bullet_handle_call_state")
+        self.assertEqual(handle_call["godot_symbol"], "source_weapon_bullet_handle_call_result.handleBulletCall")
+
+        created_bullet = source_symbols.source_symbol(registry, "weapon_bullet_handle_call.created_bullet")
+        self.assertEqual(created_bullet["status"], "explicit-input")
+        self.assertEqual(created_bullet["java_expr"], "mount.bullet")
+        self.assertEqual(created_bullet["godot_symbol"], "source_weapon_bullet_handle_call_input.created_bullet")
+
+        method = source_symbols.source_symbol(registry, "weapon_bullet_handle_call.method")
+        self.assertEqual(method["java_expr"], "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){")
+        self.assertEqual(method["godot_symbol"], "source_weapon_bullet_handle_call_result.handleBulletInternalsReservedSource")
+
+        continuous = source_symbols.source_symbol(registry, "weapon_bullet_handle_call.continuous_reserved")
+        self.assertEqual(continuous["status"], "deferred")
+        self.assertEqual(continuous["java_expr"], "if(continuous){")
+        self.assertEqual(continuous["godot_symbol"], "source_weapon_bullet_handle_call_result.continuousBranchReservedSource")
+
+        sound = source_symbols.source_symbol(registry, "weapon_bullet_handle_call.sound_reserved")
+        self.assertEqual(sound["status"], "deferred")
+        self.assertEqual(sound["java_expr"], "if(!continuous){")
+        self.assertEqual(sound["godot_symbol"], "source_weapon_bullet_handle_call_result.soundReservedSource")
+
     def test_weapon_bullet_effects_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15075,9 +15107,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 439)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 440)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 444)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 445)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15128,6 +15160,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_create_call_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_effects_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_geometry_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_handle_call_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17839,6 +17872,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),", weapon_bullet_geometry["exact_exprs"])
         self.assertIn("return rv.set(x, y).rotate(angle).x;", weapon_bullet_geometry["bridge_exprs"])
         self.assertIn("Mathf.range(xRand) and Mathf.range(yRand) remain explicit x_spread/y_spread inputs; live Arc RNG stream is not reconstructed in this wrapper.", weapon_bullet_geometry["deferred_exprs"])
+
+        weapon_bullet_handle_call = source_symbols.source_slice(ledger, "N842")
+        self.assertEqual(weapon_bullet_handle_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_handle_call["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch")
+        self.assertEqual(weapon_bullet_handle_call["godot_owner"], "PortGame.source_weapon_bullet_handle_call_state")
+        self.assertIn("handleBullet(unit, mount, mount.bullet);", weapon_bullet_handle_call["exact_exprs"])
+        self.assertIn("protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){", weapon_bullet_handle_call["bridge_exprs"])
+        self.assertIn("public @Nullable Bullet bullet;", weapon_bullet_handle_call["bridge_exprs"])
+        self.assertIn("handleBullet internals remain owned by source_weapon_handle_bullet_* slices; this slice records only the dispatch call.", weapon_bullet_handle_call["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20920,6 +20962,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("mountX", weapon_bullet_geometry["return_keys"])
         self.assertIn("bulletX", weapon_bullet_geometry["return_keys"])
         self.assertEqual(weapon_bullet_geometry["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block")
+
+        weapon_bullet_handle_call = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_handle_call_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_handle_call["params"]], ["unit_state", "mount_state", "create_call_state", "created_bullet"])
+        self.assertEqual(weapon_bullet_handle_call["params"][0]["schema"], "source_weapon_bullet_handle_call_input.unit_state")
+        self.assertEqual(weapon_bullet_handle_call["params"][3]["schema"], "source_weapon_bullet_handle_call_input.created_bullet")
+        self.assertIn("handleBulletCalled", weapon_bullet_handle_call["return_keys"])
+        self.assertIn("handleBulletCall", weapon_bullet_handle_call["return_keys"])
+        self.assertIn("mountBullet", weapon_bullet_handle_call["return_keys"])
+        self.assertEqual(weapon_bullet_handle_call["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch")
 
         block_can_replace = source_symbols.api_contract(contracts, "PortGame.source_block_can_replace_state")
         self.assertEqual([param["name"] for param in block_can_replace["params"]], ["existing_always_replace", "existing_privileged", "existing_replaceable", "same_block", "new_rotate", "new_quick_rotate", "new_group_is_none", "same_group", "new_size", "existing_size", "same_subclass", "group_any_replace"])
@@ -25383,6 +25434,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_geometry_result["keys"]["bulletX"]["java_expr"], "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),")
         self.assertEqual(source_weapon_bullet_geometry_result["keys"]["bulletY"]["java_expr"], "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),")
         self.assertEqual(source_weapon_bullet_geometry_result["keys"]["xSpread"]["alias_of"], "source_weapon_bullet_geometry_input.x_spread")
+
+        source_weapon_bullet_handle_call_input = source_symbols.state_schema(schema, "source_weapon_bullet_handle_call_input")
+        self.assertEqual(source_weapon_bullet_handle_call_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_bullet_handle_call_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_bullet_handle_call_input["keys"]["create_call_state"]["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(source_weapon_bullet_handle_call_input["keys"]["created_bullet"]["java_expr"], "mount.bullet")
+
+        source_weapon_bullet_handle_call_result = source_symbols.state_schema(schema, "source_weapon_bullet_handle_call_result")
+        self.assertEqual(source_weapon_bullet_handle_call_result["keys"]["handleBulletCall"]["java_expr"], "handleBullet(unit, mount, mount.bullet);")
+        self.assertEqual(source_weapon_bullet_handle_call_result["keys"]["mountBullet"]["java_expr"], "mount.bullet")
+        self.assertEqual(source_weapon_bullet_handle_call_result["keys"]["handleBulletMethod"]["java_expr"], "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){")
+        self.assertEqual(source_weapon_bullet_handle_call_result["keys"]["createdBullet"]["alias_of"], "source_weapon_bullet_handle_call_input.created_bullet")
 
         source_block_can_replace_input = source_symbols.state_schema(schema, "source_block_can_replace_input")
         self.assertEqual(source_block_can_replace_input["keys"]["otherAlwaysReplace"]["java_expr"], "other.alwaysReplace")

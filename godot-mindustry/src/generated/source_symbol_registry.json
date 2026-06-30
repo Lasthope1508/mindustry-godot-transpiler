@@ -53133,6 +53133,156 @@
       "java_source": "arc-core/src/arc/math/Mathf.java",
       "rule": "Arc Mathf.range(range) draws random(-range, range).",
       "status": "source-backed"
+    },
+    "weapon_bullet_handle_call.call": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_result.handleBulletCall",
+      "java_expr": "handleBullet(unit, mount, mount.bullet);",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet dispatches created mount.bullet into handleBullet.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_handle_call.unit_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_input.unit_state",
+      "java_expr": "Unit unit",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime unit_state maps to Java Unit unit.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_handle_call.mount_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_input.mount_state",
+      "java_expr": "WeaponMount mount",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime mount_state maps to Java WeaponMount mount.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_handle_call.create_call_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_input.create_call_state",
+      "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime create_call_state carries prior registered create call state.",
+      "status": "generated"
+    },
+    "weapon_bullet_handle_call.created_bullet": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_input.created_bullet",
+      "java_expr": "mount.bullet",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime created_bullet explicitly supplies mount.bullet produced by BulletType.create.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_handle_call.mount_bullet_field": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "WeaponMount field declaration",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_result.mountBullet",
+      "java_expr": "public @Nullable Bullet bullet;",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "rule": "WeaponMount.bullet field receives created bullet.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_handle_call.method": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_result.handleBulletInternalsReservedSource",
+      "java_expr": "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Target handleBullet method boundary.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_handle_call.comment": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_result.handleBulletCommentSource",
+      "java_expr": "//override to do special things to a bullet after spawning",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Upstream comment documents handleBullet extension point.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_handle_call.continuous_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_result.continuousBranchReservedSource",
+      "java_expr": "if(continuous){",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "handleBullet continuous branch internals are owned by later registered slices.",
+      "status": "deferred"
+    },
+    "weapon_bullet_handle_call.sound_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_handle_call_result.soundReservedSource",
+      "java_expr": "if(!continuous){",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Following sound branch remains owned by sound slice.",
+      "status": "deferred"
     }
   },
   "version": 1

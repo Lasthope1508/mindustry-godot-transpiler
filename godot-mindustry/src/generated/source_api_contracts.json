@@ -17163,6 +17163,51 @@
         "test_port_game_exposes_source_weapon_bullet_geometry_state",
         "test_weapon_bullet_geometry_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_bullet_handle_call_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_handle_call_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_handle_call_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_handle_call_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "created_bullet",
+          "schema": "source_weapon_bullet_handle_call_input.created_bullet",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "handleBulletCalled",
+        "handleBulletCall",
+        "mountBullet",
+        "handleBulletSource",
+        "handleBulletInternalsReservedSource",
+        "continuousBranchReservedSource",
+        "soundReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.bullet handleBullet dispatch.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "source_slice": "N842",
+      "status": "active",
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ]
     }
   },
   "policy": {

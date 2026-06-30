@@ -15455,6 +15455,46 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
       "rule": "Backfills SSOT for existing Weapon.bullet geometry wrapper against exact upstream source."
+    },
+    "N842": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "exact_exprs": [
+        "handleBullet(unit, mount, mount.bullet);"
+      ],
+      "bridge_exprs": [
+        "//override to do special things to a bullet after spawning",
+        "protected void handleBullet(Unit unit, WeaponMount mount, Bullet bullet){",
+        "if(continuous){",
+        "public @Nullable Bullet bullet;",
+        "if(!continuous){"
+      ],
+      "deferred_exprs": [
+        "handleBullet internals remain owned by source_weapon_handle_bullet_* slices; this slice records only the dispatch call.",
+        "Sound/effects/recoil/heat branches remain owned by later registered Weapon.bullet slices."
+      ],
+      "source_symbols": [
+        "weapon_bullet_handle_call.call",
+        "weapon_bullet_handle_call.comment",
+        "weapon_bullet_handle_call.continuous_reserved",
+        "weapon_bullet_handle_call.create_call_state",
+        "weapon_bullet_handle_call.created_bullet",
+        "weapon_bullet_handle_call.method",
+        "weapon_bullet_handle_call.mount_bullet_field",
+        "weapon_bullet_handle_call.mount_state",
+        "weapon_bullet_handle_call.sound_reserved",
+        "weapon_bullet_handle_call.unit_state"
+      ],
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet handleBullet dispatch wrapper against exact upstream source."
     }
   },
   "version": 1
