@@ -6000,6 +6000,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(remote_remove["java_expr"], "unit.remove();")
         self.assertEqual(remote_remove["godot_symbol"], "source_unit_update_spawned_core_despawn_result.despawn")
 
+    def test_unit_update_tile_unit_on_any_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_tile_unit_on_any.guard")
+        self.assertEqual(guard["java_expr"], "if(tile != null && tile.build != null){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() tile unitOnAny")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_tile_unit_on_any_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_tile_unit_on_any_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_tile_unit_on_any_result.guard")
+
+        call = source_symbols.source_symbol(registry, "unit_update_tile_unit_on_any.call")
+        self.assertEqual(call["java_expr"], "tile.build.unitOnAny(self());")
+        self.assertEqual(call["godot_symbol"], "source_unit_update_tile_unit_on_any_result.unitOnAny")
+
+        tile_build = source_symbols.source_symbol(registry, "unit_update_tile_unit_on_any.tile_build_field")
+        self.assertEqual(tile_build["java_expr"], "public @Nullable Building build;")
+        self.assertEqual(tile_build["java_source"], "core/src/mindustry/world/Tile.java")
+        self.assertEqual(tile_build["godot_symbol"], "source_unit_update_tile_unit_on_any_input.tile_build_exists")
+
+        building_method = source_symbols.source_symbol(registry, "unit_update_tile_unit_on_any.building_unit_on_any")
+        self.assertEqual(building_method["java_expr"], "public void unitOnAny(Unit unit){")
+        self.assertEqual(building_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_method["godot_symbol"], "source_unit_update_tile_unit_on_any_result.unitOnAny")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14472,9 +14500,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 424)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 425)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 429)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 430)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14510,6 +14538,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_spawn_knockback_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_spawned_core_despawn_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_tile_unit_on_any_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17044,6 +17073,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Fx.unitDespawn.at(unit.x, unit.y, 0, unit);", unit_update_spawned_core_despawn["bridge_exprs"])
         self.assertIn("unit.remove();", unit_update_spawned_core_despawn["bridge_exprs"])
         self.assertIn("Live unit removal remains recorded call state only.", unit_update_spawned_core_despawn["deferred_exprs"])
+
+        unit_update_tile_unit_on_any = source_symbols.source_slice(ledger, "N827")
+        self.assertEqual(unit_update_tile_unit_on_any["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_tile_unit_on_any["java_method"], "UnitComp.update() tile unitOnAny")
+        self.assertEqual(unit_update_tile_unit_on_any["godot_owner"], "PortGame.source_unit_update_tile_unit_on_any_state")
+        self.assertIn("if(tile != null && tile.build != null){", unit_update_tile_unit_on_any["exact_exprs"])
+        self.assertIn("tile.build.unitOnAny(self());", unit_update_tile_unit_on_any["exact_exprs"])
+        self.assertIn("public @Nullable Building build;", unit_update_tile_unit_on_any["bridge_exprs"])
+        self.assertIn("/** Called every frame a unit is on this. Applies to any unit.  */", unit_update_tile_unit_on_any["bridge_exprs"])
+        self.assertIn("public void unitOnAny(Unit unit){", unit_update_tile_unit_on_any["bridge_exprs"])
+        self.assertIn("Building subclass unitOnAny side effects remain separate source slices.", unit_update_tile_unit_on_any["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21019,6 +21059,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_spawned_core_despawn["return_keys"])
         self.assertNotIn("unit_id", unit_update_spawned_core_despawn["return_keys"])
         self.assertEqual(unit_update_spawned_core_despawn["source_method"], "UnitComp.update() spawned core despawn")
+
+        unit_update_tile_unit_on_any = source_symbols.api_contract(contracts, "PortGame.source_unit_update_tile_unit_on_any_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_tile_unit_on_any["params"]],
+            ["tile_exists", "tile_build_exists", "unit_id"],
+        )
+        self.assertEqual(unit_update_tile_unit_on_any["params"][0]["schema"], "source_unit_update_tile_unit_on_any_input.tile_exists")
+        self.assertEqual(unit_update_tile_unit_on_any["params"][1]["schema"], "source_unit_update_tile_unit_on_any_input.tile_build_exists")
+        self.assertEqual(unit_update_tile_unit_on_any["params"][2]["schema"], "source_unit_update_tile_unit_on_any_input.unit_id")
+        for key in ["guard", "tileExists", "tileBuildExists", "unitOnAny"]:
+            self.assertIn(key, unit_update_tile_unit_on_any["return_keys"])
+        self.assertNotIn("unit_id", unit_update_tile_unit_on_any["return_keys"])
+        self.assertEqual(unit_update_tile_unit_on_any["source_method"], "UnitComp.update() tile unitOnAny")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -25342,6 +25395,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["dead_value"]["java_expr"], "dead")
         self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["unit_id"]["java_expr"], "self()")
 
+        source_unit_update_tile_unit_on_any_input = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_any_input")
+        self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["tile_build_exists"]["java_expr"], "tile.build != null")
+        self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["unit_id"]["java_expr"], "self()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25843,6 +25901,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["dead"]["alias_of"], "source_unit_update_spawned_core_despawn_input.dead_value")
         self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["despawn"]["java_expr"], "Call.unitDespawn(self());")
         self.assertNotIn("unit_id", source_unit_update_spawned_core_despawn_result["keys"])
+
+        source_unit_update_tile_unit_on_any_result = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_any_result")
+        self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["guard"]["java_expr"], "if(tile != null && tile.build != null){")
+        self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["tileExists"]["alias_of"], "source_unit_update_tile_unit_on_any_input.tile_exists")
+        self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["tileBuildExists"]["alias_of"], "source_unit_update_tile_unit_on_any_input.tile_build_exists")
+        self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["unitOnAny"]["java_expr"], "tile.build.unitOnAny(self());")
+        self.assertNotIn("unit_id", source_unit_update_tile_unit_on_any_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

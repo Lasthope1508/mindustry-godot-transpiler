@@ -16398,6 +16398,42 @@
         "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
         "test_unit_update_spawned_core_despawn_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_tile_unit_on_any_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_tile_unit_on_any_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "tile_build_exists",
+          "schema": "source_unit_update_tile_unit_on_any_input.tile_build_exists",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_update_tile_unit_on_any_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "tileExists",
+        "tileBuildExists",
+        "unitOnAny"
+      ],
+      "rule": "Public runtime contract for UnitComp.update tile unitOnAny callback state.",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_any_state",
+      "source_method": "UnitComp.update() tile unitOnAny",
+      "source_slice": "N827",
+      "status": "active",
+      "tests": [
+        "test_unit_update_tile_unit_on_any_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_any_state",
+        "test_unit_update_tile_unit_on_any_matches_upstream_source"
+      ]
     }
   },
   "policy": {

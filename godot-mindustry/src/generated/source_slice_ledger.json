@@ -14693,6 +14693,43 @@
         "test_port_game_exposes_source_unit_update_spawned_core_despawn_state",
         "test_unit_update_spawned_core_despawn_matches_upstream_source"
       ]
+    },
+    "N827": {
+      "bridge_exprs": [
+        "public @Nullable Building build;",
+        "/** Called every frame a unit is on this. Applies to any unit.  */",
+        "public void unitOnAny(Unit unit){"
+      ],
+      "deferred_exprs": [
+        "Building subclass unitOnAny side effects remain separate source slices.",
+        "Live Tile and Building object lifetime remains explicit input state.",
+        "Adjacent grounded unitOn block update remains separate source slice."
+      ],
+      "exact_exprs": [
+        "if(tile != null && tile.build != null){",
+        "tile.build.unitOnAny(self());"
+      ],
+      "godot_owner": "PortGame.source_unit_update_tile_unit_on_any_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() tile unitOnAny",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_tile_unit_on_any_state",
+      "source_symbols": [
+        "unit_update_tile_unit_on_any.building_unit_on_any",
+        "unit_update_tile_unit_on_any.building_unit_on_any_comment",
+        "unit_update_tile_unit_on_any.call",
+        "unit_update_tile_unit_on_any.guard",
+        "unit_update_tile_unit_on_any.tile_build_exists",
+        "unit_update_tile_unit_on_any.tile_build_field",
+        "unit_update_tile_unit_on_any.tile_exists",
+        "unit_update_tile_unit_on_any.unit_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_tile_unit_on_any_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_tile_unit_on_any_state",
+        "test_unit_update_tile_unit_on_any_matches_upstream_source"
+      ]
     }
   },
   "version": 1
