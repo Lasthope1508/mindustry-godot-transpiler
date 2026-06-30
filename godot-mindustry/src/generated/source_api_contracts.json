@@ -13780,6 +13780,66 @@
         "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_initial_payload_state"
       ]
+    },
+    "PortGame.source_unit_destroy_shoot_on_death_mounts_state": {
+      "status": "active",
+      "source_slice": "N770",
+      "source_method": "UnitComp.destroy() shoot-on-death mounts",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "params": [
+        {
+          "name": "mount_states",
+          "type": "Array",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.mount_states"
+        },
+        {
+          "name": "has_target_value",
+          "type": "bool",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.has_target_value"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_y"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "type": "float",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.source_rotation_degrees"
+        },
+        {
+          "name": "unit_id",
+          "type": "int",
+          "schema": "source_unit_destroy_shoot_on_death_mounts_input.unit_id"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "loop",
+        "hasTarget",
+        "actions",
+        "guard",
+        "effectGuard",
+        "allowShootEffectsSource",
+        "effectCall",
+        "reload",
+        "shoot",
+        "reloadSource",
+        "shootSource",
+        "update",
+        "unit"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy shoot-on-death mounts branch.",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ]
     }
   },
   "policy": {

@@ -5009,6 +5009,95 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(stack_amount["java_expr"], "stack().amount")
         self.assertEqual(stack_amount["godot_symbol"], "source_unit_destroy_initial_payload_input.stack_amount")
 
+    def test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_shoot_on_death_mounts_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_shoot_on_death_mounts_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.method")
+
+        mounts_import = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.mounts_import")
+        self.assertEqual(mounts_import["java_expr"], "@Import WeaponMount[] mounts;")
+        self.assertEqual(mounts_import["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.mountsImport")
+
+        has_target = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.has_target")
+        self.assertEqual(has_target["java_expr"], "transient boolean hasTarget;")
+        self.assertEqual(has_target["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_input.has_target_value")
+
+        loop = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.loop")
+        self.assertEqual(loop["java_expr"], "for(WeaponMount mount : mounts){")
+        self.assertEqual(loop["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.loop")
+
+        guard = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.guard")
+        self.assertEqual(guard["java_expr"], "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.guard")
+
+        effect_guard = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.effect_guard")
+        self.assertEqual(effect_guard["java_expr"], "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){")
+        self.assertEqual(effect_guard["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.effectGuard")
+
+        allow_effects = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.allow_effects_false")
+        self.assertEqual(allow_effects["java_expr"], "mount.allowShootEffects = false;")
+        self.assertEqual(allow_effects["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.allowShootEffectsSource")
+
+        effect_at = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.effect_at")
+        self.assertEqual(effect_at["java_expr"], "mount.weapon.shootOnDeathEffect.at(x, y, rotation);")
+        self.assertEqual(effect_at["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.effectCall")
+
+        reload_zero = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.reload_zero")
+        self.assertEqual(reload_zero["java_expr"], "mount.reload = 0f;")
+        self.assertEqual(reload_zero["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.reloadSource")
+
+        shoot_true = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.shoot_true")
+        self.assertEqual(shoot_true["java_expr"], "mount.shoot = true;")
+        self.assertEqual(shoot_true["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.shootSource")
+
+        weapon_update = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.weapon_update")
+        self.assertEqual(weapon_update["java_expr"], "mount.weapon.update(self(), mount);")
+        self.assertEqual(weapon_update["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_result.update")
+
+        weapon_shoot_on_death = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death")
+        self.assertEqual(weapon_shoot_on_death["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_shoot_on_death["java_expr"], "public boolean shootOnDeath = false;")
+
+        weapon_shoot_on_death_effect = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death_effect")
+        self.assertEqual(weapon_shoot_on_death_effect["java_expr"], "public @Nullable Effect shootOnDeathEffect = null;")
+
+        mount_weapon = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.mount_weapon")
+        self.assertEqual(mount_weapon["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_weapon["java_expr"], "public final Weapon weapon;")
+
+        mount_reload = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.mount_reload")
+        self.assertEqual(mount_reload["java_expr"], "public float reload;")
+
+        mount_shoot = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.mount_shoot")
+        self.assertEqual(mount_shoot["java_expr"], "public boolean shoot = false;")
+
+        mount_allow_shoot_effects = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.mount_allow_shoot_effects")
+        self.assertEqual(mount_allow_shoot_effects["java_expr"], "public boolean allowShootEffects = true;")
+
+        mount_total_shots = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.mount_total_shots")
+        self.assertEqual(mount_total_shots["java_expr"], "public int totalShots;")
+
+        bullet_kill_shooter = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.bullet_kill_shooter")
+        self.assertEqual(bullet_kill_shooter["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_kill_shooter["java_expr"], "public boolean killShooter = false;")
+
+        mount_states = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.mount_states")
+        self.assertEqual(mount_states["status"], "explicit-input")
+        self.assertEqual(mount_states["java_expr"], "mounts")
+        self.assertEqual(mount_states["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_input.mount_states")
+
+        unit_id = source_symbols.source_symbol(registry, "unit_destroy_shoot_on_death_mounts.unit_id")
+        self.assertEqual(unit_id["status"], "explicit-input")
+        self.assertEqual(unit_id["java_expr"], "self()")
+        self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_shoot_on_death_mounts_input.unit_id")
+
     def test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12176,9 +12265,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 367)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 368)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 372)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 373)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12203,6 +12292,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_initial_payload_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_shoot_on_death_mounts_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14000,6 +14090,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float pow(float a, float b){", unit_destroy_initial_payload["bridge_exprs"])
         self.assertIn("return (float)Math.pow(a, b);", unit_destroy_initial_payload["bridge_exprs"])
         self.assertIn("Explosion dispatch, visual effects, sound/event, suicide bomb, shoot-on-death, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_initial_payload["deferred_exprs"])
+
+        unit_destroy_shoot_on_death_mounts = source_symbols.source_slice(ledger, "N770")
+        self.assertEqual(unit_destroy_shoot_on_death_mounts["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_shoot_on_death_mounts["java_method"], "UnitComp.destroy() shoot-on-death mounts")
+        self.assertEqual(unit_destroy_shoot_on_death_mounts["godot_owner"], "PortGame.source_unit_destroy_shoot_on_death_mounts_state")
+        self.assertIn("public void destroy(){", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("for(WeaponMount mount : mounts){", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("if(mount.weapon.shootOnDeathEffect != null && !hasTarget){", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("mount.allowShootEffects = false;", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("mount.weapon.shootOnDeathEffect.at(x, y, rotation);", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("mount.reload = 0f;", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("mount.shoot = true;", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("mount.weapon.update(self(), mount);", unit_destroy_shoot_on_death_mounts["exact_exprs"])
+        self.assertIn("@Import WeaponMount[] mounts;", unit_destroy_shoot_on_death_mounts["bridge_exprs"])
+        self.assertIn("transient boolean hasTarget;", unit_destroy_shoot_on_death_mounts["bridge_exprs"])
+        self.assertIn("public boolean shootOnDeath = false;", unit_destroy_shoot_on_death_mounts["bridge_exprs"])
+        self.assertIn("public @Nullable Effect shootOnDeathEffect = null;", unit_destroy_shoot_on_death_mounts["bridge_exprs"])
+        self.assertIn("public boolean killShooter = false;", unit_destroy_shoot_on_death_mounts["bridge_exprs"])
+        self.assertIn("Crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_shoot_on_death_mounts["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17463,6 +17573,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("flammability", unit_destroy_initial_payload["return_keys"])
         self.assertIn("power", unit_destroy_initial_payload["return_keys"])
         self.assertEqual(unit_destroy_initial_payload["source_method"], "UnitComp.destroy() initial payload")
+
+        unit_destroy_shoot_on_death_mounts = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_shoot_on_death_mounts_state")
+        self.assertEqual([param["name"] for param in unit_destroy_shoot_on_death_mounts["params"]], ["mount_states", "has_target_value", "source_x", "source_y", "source_rotation_degrees", "unit_id"])
+        self.assertEqual(unit_destroy_shoot_on_death_mounts["params"][0]["schema"], "source_unit_destroy_shoot_on_death_mounts_input.mount_states")
+        self.assertEqual(unit_destroy_shoot_on_death_mounts["params"][1]["schema"], "source_unit_destroy_shoot_on_death_mounts_input.has_target_value")
+        self.assertEqual(unit_destroy_shoot_on_death_mounts["params"][5]["schema"], "source_unit_destroy_shoot_on_death_mounts_input.unit_id")
+        self.assertIn("method", unit_destroy_shoot_on_death_mounts["return_keys"])
+        self.assertIn("loop", unit_destroy_shoot_on_death_mounts["return_keys"])
+        self.assertIn("actions", unit_destroy_shoot_on_death_mounts["return_keys"])
+        self.assertIn("effectCall", unit_destroy_shoot_on_death_mounts["return_keys"])
+        self.assertIn("update", unit_destroy_shoot_on_death_mounts["return_keys"])
+        self.assertEqual(unit_destroy_shoot_on_death_mounts["source_method"], "UnitComp.destroy() shoot-on-death mounts")
 
         unit_destroy_explosion_dispatch = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_explosion_dispatch_state")
         self.assertEqual([param["name"] for param in unit_destroy_explosion_dispatch["params"]], ["spawned_by_core_value", "source_x", "source_y", "flammability", "explosiveness", "power", "bounds_value", "type_leg_length", "rules_damage_explosions", "rules_unit_crash_damage", "item_flammability", "team_id", "death_explosion_effect"])
@@ -21451,6 +21573,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["explosiveness"]["java_expr"], "2f + item().explosiveness * stack().amount * 1.53f")
         self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["flammability"]["java_expr"], "item().flammability * stack().amount / 1.9f")
         self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["power"]["java_expr"], "item().charge * Mathf.pow(stack().amount, 1.11f) * 160f")
+
+        source_unit_destroy_shoot_on_death_mounts_input = source_symbols.state_schema(schema, "source_unit_destroy_shoot_on_death_mounts_input")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_input["keys"]["mount_states"]["java_expr"], "mounts")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_input["keys"]["has_target_value"]["java_expr"], "hasTarget")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_input["keys"]["source_rotation_degrees"]["java_expr"], "rotation")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_input["keys"]["unit_id"]["java_expr"], "self()")
+
+        source_unit_destroy_shoot_on_death_mounts_result = source_symbols.state_schema(schema, "source_unit_destroy_shoot_on_death_mounts_result")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["loop"]["java_expr"], "for(WeaponMount mount : mounts){")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["guard"]["java_expr"], "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["effectGuard"]["java_expr"], "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["allowShootEffectsSource"]["java_expr"], "mount.allowShootEffects = false;")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["effectCall"]["java_expr"], "mount.weapon.shootOnDeathEffect.at(x, y, rotation);")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["reloadSource"]["java_expr"], "mount.reload = 0f;")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["shootSource"]["java_expr"], "mount.shoot = true;")
+        self.assertEqual(source_unit_destroy_shoot_on_death_mounts_result["keys"]["update"]["java_expr"], "mount.weapon.update(self(), mount);")
 
         source_unit_destroy_explosion_dispatch_input = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_input")
         self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")

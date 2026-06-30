@@ -38769,6 +38769,300 @@
       "java_method": "UnitComp.destroy()",
       "java_expr": "y",
       "rule": "Runtime bridge input for crash damage y coordinate."
+    },
+    "unit_destroy_shoot_on_death_mounts.method": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.method",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "public void destroy(){",
+      "rule": "Canonical UnitComp.destroy method boundary for shoot-on-death mounts slice."
+    },
+    "unit_destroy_shoot_on_death_mounts.mounts_import": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.mountsImport",
+      "java_method": "UnitComp field import",
+      "java_expr": "@Import WeaponMount[] mounts;",
+      "rule": "UnitComp imports weapon mounts for destroy shoot-on-death iteration."
+    },
+    "unit_destroy_shoot_on_death_mounts.has_target": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.has_target_value",
+      "java_method": "UnitComp field declaration",
+      "java_expr": "transient boolean hasTarget;",
+      "rule": "UnitComp target state gates shoot-on-death effect playback."
+    },
+    "unit_destroy_shoot_on_death_mounts.loop": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.loop",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "for(WeaponMount mount : mounts){",
+      "rule": "Destroy iterates each weapon mount."
+    },
+    "unit_destroy_shoot_on_death_mounts.guard": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.guard",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
+      "rule": "Shoot-on-death update guard from UnitComp.destroy."
+    },
+    "unit_destroy_shoot_on_death_mounts.effect_guard": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.effectGuard",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){",
+      "rule": "Optional effect fires only when source effect exists and unit has no target."
+    },
+    "unit_destroy_shoot_on_death_mounts.allow_effects_false": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.allowShootEffectsSource",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "mount.allowShootEffects = false;",
+      "rule": "Destroy suppresses normal shoot effects before death effect."
+    },
+    "unit_destroy_shoot_on_death_mounts.effect_at": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.effectCall",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "mount.weapon.shootOnDeathEffect.at(x, y, rotation);",
+      "rule": "Death effect call uses unit x, y, and rotation."
+    },
+    "unit_destroy_shoot_on_death_mounts.reload_zero": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.reloadSource",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "mount.reload = 0f;",
+      "rule": "Destroy readies mount reload before weapon update."
+    },
+    "unit_destroy_shoot_on_death_mounts.shoot_true": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.shootSource",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "mount.shoot = true;",
+      "rule": "Destroy marks mount shooting before weapon update."
+    },
+    "unit_destroy_shoot_on_death_mounts.weapon_update": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.update",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "mount.weapon.update(self(), mount);",
+      "rule": "Destroy dispatches weapon update after death shoot state setup."
+    },
+    "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.mount_states.shootOnDeath",
+      "java_method": "Weapon field declaration",
+      "java_expr": "public boolean shootOnDeath = false;",
+      "rule": "Weapon shootOnDeath field drives destroy mount guard."
+    },
+    "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death_effect": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.mount_states.shootOnDeathEffect",
+      "java_method": "Weapon field declaration",
+      "java_expr": "public @Nullable Effect shootOnDeathEffect = null;",
+      "rule": "Nullable death effect can override weapon shoot effect on owner death."
+    },
+    "unit_destroy_shoot_on_death_mounts.mount_weapon": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.mount_states.weapon",
+      "java_method": "WeaponMount field declaration",
+      "java_expr": "public final Weapon weapon;",
+      "rule": "WeaponMount weapon field provides shoot-on-death properties and update method."
+    },
+    "unit_destroy_shoot_on_death_mounts.mount_reload": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.reload",
+      "java_method": "WeaponMount field declaration",
+      "java_expr": "public float reload;",
+      "rule": "WeaponMount reload field is reset to zero by destroy."
+    },
+    "unit_destroy_shoot_on_death_mounts.mount_shoot": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.shoot",
+      "java_method": "WeaponMount field declaration",
+      "java_expr": "public boolean shoot = false;",
+      "rule": "WeaponMount shoot field is set true by destroy."
+    },
+    "unit_destroy_shoot_on_death_mounts.mount_allow_shoot_effects": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.allowShootEffects",
+      "java_method": "WeaponMount field declaration",
+      "java_expr": "public boolean allowShootEffects = true;",
+      "rule": "WeaponMount allowShootEffects field is disabled before death effect."
+    },
+    "unit_destroy_shoot_on_death_mounts.mount_total_shots": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.mount_states.totalShots",
+      "java_method": "WeaponMount field declaration",
+      "java_expr": "public int totalShots;",
+      "rule": "WeaponMount totalShots prevents repeat kill-shooter firing."
+    },
+    "unit_destroy_shoot_on_death_mounts.bullet_kill_shooter": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.mount_states.bulletKillShooter",
+      "java_method": "BulletType field declaration",
+      "java_expr": "public boolean killShooter = false;",
+      "rule": "BulletType killShooter participates in destroy mount guard."
+    },
+    "unit_destroy_shoot_on_death_mounts.mount_states": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.mount_states",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "mounts",
+      "rule": "Runtime bridge input for mounts array."
+    },
+    "unit_destroy_shoot_on_death_mounts.unit_id": {
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.unit_id",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "self()",
+      "rule": "Runtime bridge input for self()."
     }
   },
   "version": 1

@@ -49209,6 +49209,272 @@
           ]
         }
       }
+    },
+    "source_unit_destroy_shoot_on_death_mounts_input": {
+      "owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "status": "active",
+      "keys": {
+        "mount_states": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.mount_states",
+          "java_expr": "mounts",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts input key for mount_states.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "has_target_value": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.has_target_value",
+          "java_expr": "hasTarget",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts input key for has_target_value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "source_x": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.source_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts input key for source_x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "source_y": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.source_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts input key for source_y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "source_rotation_degrees": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.source_rotation_degrees",
+          "java_expr": "rotation",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts input key for source_rotation_degrees.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts input key for unit_id.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        }
+      }
+    },
+    "source_unit_destroy_shoot_on_death_mounts_result": {
+      "owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.method",
+          "java_expr": "public void destroy(){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "mountsImport": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.mountsImport",
+          "java_expr": "@Import WeaponMount[] mounts;",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for mountsImport.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.loop",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for loop.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.guard",
+          "java_expr": "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "effectGuard": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.effectGuard",
+          "java_expr": "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for effectGuard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "allowShootEffectsSource": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.allowShootEffectsSource",
+          "java_expr": "mount.allowShootEffects = false;",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for allowShootEffectsSource.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "effectCall": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.effectCall",
+          "java_expr": "mount.weapon.shootOnDeathEffect.at(x, y, rotation);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for effectCall.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "reloadSource": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.reloadSource",
+          "java_expr": "mount.reload = 0f;",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for reloadSource.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "shootSource": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.shootSource",
+          "java_expr": "mount.shoot = true;",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for shootSource.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "update": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.update",
+          "java_expr": "mount.weapon.update(self(), mount);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for update.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "hasTarget": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.hasTarget",
+          "java_expr": "hasTarget",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for hasTarget.",
+          "status": "derived-runtime",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "actions": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.actions",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for actions.",
+          "status": "derived-runtime",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.reload",
+          "java_expr": "0f",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for reload.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "shoot": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.shoot",
+          "java_expr": "true",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for shoot.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_unit_destroy_shoot_on_death_mounts_result.unit",
+          "java_expr": "self()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit destroy shoot-on-death mounts result key for unit.",
+          "status": "derived-runtime",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

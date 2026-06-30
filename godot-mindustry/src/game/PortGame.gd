@@ -9680,6 +9680,16 @@ func source_unit_destroy_suicide_bomb_trigger_state(explosiveness: float, is_loc
 		"event": "Events.fire(Trigger.suicideBomb)" if trigger else "",
 	}
 
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP := "for(WeaponMount mount : mounts){"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD := "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_GUARD := "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_ALLOW_EFFECTS := "mount.allowShootEffects = false;"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_AT := "mount.weapon.shootOnDeathEffect.at(x, y, rotation);"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD := "mount.reload = 0f;"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT := "mount.shoot = true;"
+const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE := "mount.weapon.update(self(), mount);"
+
 func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:
 	var actions: Array = []
 	for index in mount_states.size():
@@ -9691,7 +9701,7 @@ func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_ta
 		var should_update := shoot_on_death and not (bullet_kill_shooter and total_shots > 0)
 		var action := {
 			"mount": int(mount_state.get("mount", index)),
-			"guard": "mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)",
+			"guard": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD,
 			"updateMount": should_update,
 		}
 		if should_update:
@@ -9699,7 +9709,9 @@ func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_ta
 			if shoot_on_death_effect != "" and not has_target_value:
 				effect_call = {
 					"allowShootEffects": false,
-					"effectCall": "mount.weapon.shootOnDeathEffect.at(x, y, rotation)",
+					"allowShootEffectsSource": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_ALLOW_EFFECTS,
+					"effectGuard": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_GUARD,
+					"effectCall": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_AT,
 					"effect": shoot_on_death_effect,
 					"x": source_x,
 					"y": source_y,
@@ -9707,16 +9719,20 @@ func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_ta
 				}
 			action = {
 				"mount": int(mount_state.get("mount", index)),
-				"guard": "mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)",
+				"guard": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD,
 				"updateMount": should_update,
 				"effect": effect_call,
 				"reload": 0.0,
 				"shoot": true,
-				"update": "mount.weapon.update(self(), mount)",
+				"reloadSource": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD,
+				"shootSource": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT,
+				"update": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE,
 				"unit": unit_id,
 			}
 		actions.append(action)
 	return {
+		"method": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD,
+		"loop": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP,
 		"hasTarget": has_target_value,
 		"actions": actions,
 	}

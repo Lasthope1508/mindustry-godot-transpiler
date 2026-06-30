@@ -12146,6 +12146,67 @@
         "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_initial_payload_state"
       ]
+    },
+    "N770": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() shoot-on-death mounts",
+      "godot_owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_shoot_on_death_mounts_state",
+      "exact_exprs": [
+        "public void destroy(){",
+        "for(WeaponMount mount : mounts){",
+        "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
+        "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){",
+        "mount.allowShootEffects = false;",
+        "mount.weapon.shootOnDeathEffect.at(x, y, rotation);",
+        "mount.reload = 0f;",
+        "mount.shoot = true;",
+        "mount.weapon.update(self(), mount);"
+      ],
+      "bridge_exprs": [
+        "@Import WeaponMount[] mounts;",
+        "transient boolean hasTarget;",
+        "public boolean shootOnDeath = false;",
+        "public @Nullable Effect shootOnDeathEffect = null;",
+        "public final Weapon weapon;",
+        "public float reload;",
+        "public boolean shoot = false;",
+        "public boolean allowShootEffects = true;",
+        "public int totalShots;",
+        "public boolean killShooter = false;"
+      ],
+      "deferred_exprs": [
+        "Crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
+      ],
+      "source_symbols": [
+        "unit_destroy_shoot_on_death_mounts.allow_effects_false",
+        "unit_destroy_shoot_on_death_mounts.bullet_kill_shooter",
+        "unit_destroy_shoot_on_death_mounts.effect_at",
+        "unit_destroy_shoot_on_death_mounts.effect_guard",
+        "unit_destroy_shoot_on_death_mounts.guard",
+        "unit_destroy_shoot_on_death_mounts.has_target",
+        "unit_destroy_shoot_on_death_mounts.loop",
+        "unit_destroy_shoot_on_death_mounts.method",
+        "unit_destroy_shoot_on_death_mounts.mount_allow_shoot_effects",
+        "unit_destroy_shoot_on_death_mounts.mount_reload",
+        "unit_destroy_shoot_on_death_mounts.mount_shoot",
+        "unit_destroy_shoot_on_death_mounts.mount_states",
+        "unit_destroy_shoot_on_death_mounts.mount_total_shots",
+        "unit_destroy_shoot_on_death_mounts.mount_weapon",
+        "unit_destroy_shoot_on_death_mounts.mounts_import",
+        "unit_destroy_shoot_on_death_mounts.reload_zero",
+        "unit_destroy_shoot_on_death_mounts.shoot_true",
+        "unit_destroy_shoot_on_death_mounts.unit_id",
+        "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death",
+        "unit_destroy_shoot_on_death_mounts.weapon_shoot_on_death_effect",
+        "unit_destroy_shoot_on_death_mounts.weapon_update"
+      ],
+      "tests": [
+        "test_unit_destroy_shoot_on_death_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state"
+      ]
     }
   },
   "version": 1
