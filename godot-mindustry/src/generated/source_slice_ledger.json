@@ -11666,6 +11666,42 @@
         "test_unit_can_drown_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
+    },
+    "N760": {
+      "deferred_exprs": [
+        "UnitComp.checkTarget(boolean targetAir, boolean targetGround) body is owned by source_unit_check_target_state"
+      ],
+      "exact_exprs": [
+        "public boolean canTarget(Teamc other){",
+        "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));",
+        "u.checkTarget(type.targetAir, type.targetGround)",
+        "other instanceof Building b && type.targetGround",
+        "type.targetAir",
+        "type.targetGround"
+      ],
+      "bridge_exprs": [
+        "other != null",
+        "other instanceof Unit u",
+        "other instanceof Building b"
+      ],
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "source_symbols": [
+        "unit_can_target.method",
+        "unit_can_target.return",
+        "unit_can_target.unit_check_target_call",
+        "unit_can_target.building_check",
+        "unit_can_target.type_target_air",
+        "unit_can_target.type_target_ground"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
     }
   },
   "version": 1

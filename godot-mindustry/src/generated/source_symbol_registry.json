@@ -36949,6 +36949,90 @@
         "test_unit_can_drown_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
+    },
+    "unit_can_target.method": {
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "godot_symbol": "source_unit_can_target_result.method",
+      "java_expr": "public boolean canTarget(Teamc other){",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp canTarget method boundary.",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
+    },
+    "unit_can_target.return": {
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "godot_symbol": "source_unit_can_target_result.canTargetReturn",
+      "java_expr": "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp canTarget exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
+    },
+    "unit_can_target.unit_check_target_call": {
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "godot_symbol": "source_unit_can_target_result.unitCheckTargetCall",
+      "java_expr": "u.checkTarget(type.targetAir, type.targetGround)",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Unit branch delegates targetability to Unit.checkTarget with UnitType target fields.",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
+    },
+    "unit_can_target.building_check": {
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "godot_symbol": "source_unit_can_target_result.buildingCheck",
+      "java_expr": "other instanceof Building b && type.targetGround",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Non-unit branch permits Building targets only when type.targetGround is true.",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
+    },
+    "unit_can_target.type_target_air": {
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "godot_symbol": "source_unit_can_target_input.type_target_air",
+      "java_expr": "type.targetAir",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitType targetAir field passed into Unit.checkTarget.",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
+    },
+    "unit_can_target.type_target_ground": {
+      "godot_owner": "PortGame.source_unit_can_target_state",
+      "godot_symbol": "source_unit_can_target_input.type_target_ground",
+      "java_expr": "type.targetGround",
+      "java_method": "UnitComp.canTarget(Teamc other)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitType targetGround field used by Unit and Building branches.",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
     }
   },
   "version": 1

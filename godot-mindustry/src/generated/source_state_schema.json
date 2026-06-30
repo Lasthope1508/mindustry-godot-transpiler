@@ -47007,6 +47007,190 @@
       "owner": "PortGame.source_unit_can_drown_state",
       "runtime_proof": "/root/Main.source_unit_can_drown_state",
       "status": "active"
+    },
+    "source_unit_can_target_input": {
+      "keys": {
+        "other_exists": {
+          "godot_symbol": "source_unit_can_target_input.other_exists",
+          "java_expr": "other != null",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit null-check projection for Teamc other.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "other_is_unit": {
+          "godot_symbol": "source_unit_can_target_input.other_is_unit",
+          "java_expr": "other instanceof Unit u",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit Unit branch projection for Teamc other.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "other_unit_check_target_result": {
+          "godot_symbol": "source_unit_can_target_input.other_unit_check_target_result",
+          "java_expr": "u.checkTarget(type.targetAir, type.targetGround)",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit result of delegated Unit.checkTarget call.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "other_is_building": {
+          "godot_symbol": "source_unit_can_target_input.other_is_building",
+          "java_expr": "other instanceof Building b",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit Building branch projection for Teamc other.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "type_target_air": {
+          "godot_symbol": "source_unit_can_target_input.type_target_air",
+          "java_expr": "type.targetAir",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitType targetAir input consumed by Unit.checkTarget.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "type_target_ground": {
+          "godot_symbol": "source_unit_can_target_input.type_target_ground",
+          "java_expr": "type.targetGround",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitType targetGround input consumed by Unit and Building branches.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_can_target_state",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "active"
+    },
+    "source_unit_can_target_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_can_target_result.method",
+          "java_expr": "public boolean canTarget(Teamc other){",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp canTarget method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "canTargetReturn": {
+          "godot_symbol": "source_unit_can_target_result.canTargetReturn",
+          "java_expr": "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp canTarget exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "unitCheckTargetCall": {
+          "godot_symbol": "source_unit_can_target_result.unitCheckTargetCall",
+          "java_expr": "u.checkTarget(type.targetAir, type.targetGround)",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit branch delegated checkTarget call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "buildingCheck": {
+          "godot_symbol": "source_unit_can_target_result.buildingCheck",
+          "java_expr": "other instanceof Building b && type.targetGround",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Building branch check expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "branch": {
+          "godot_symbol": "source_unit_can_target_result.branch",
+          "java_expr": "other instanceof Unit u ? ... : (other instanceof Building b && type.targetGround)",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime branch selected from canTarget ternary.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "can_target": {
+          "godot_symbol": "source_unit_can_target_result.can_target",
+          "java_expr": "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for canTarget().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ]
+        },
+        "unit_check_target_air": {
+          "godot_symbol": "source_unit_can_target_result.unit_check_target_air",
+          "java_expr": "type.targetAir",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime echo of UnitType targetAir passed to checkTarget.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ],
+          "alias_of": "source_unit_can_target_input.type_target_air"
+        },
+        "unit_check_target_ground": {
+          "godot_symbol": "source_unit_can_target_result.unit_check_target_ground",
+          "java_expr": "type.targetGround",
+          "java_method": "UnitComp.canTarget(Teamc other)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime echo of UnitType targetGround passed to checkTarget.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_can_target_state"
+          ],
+          "alias_of": "source_unit_can_target_input.type_target_ground"
+        }
+      },
+      "owner": "PortGame.source_unit_can_target_state",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "status": "active"
     }
   },
   "version": 1

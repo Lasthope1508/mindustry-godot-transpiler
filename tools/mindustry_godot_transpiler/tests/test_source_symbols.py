@@ -4693,6 +4693,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_expr["java_expr"], "return isGrounded() && type.canDrown;")
         self.assertEqual(return_expr["godot_symbol"], "source_unit_can_drown_result.canDrownReturn")
 
+    def test_unit_can_target_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_can_target.method")
+        self.assertEqual(method["java_expr"], "public boolean canTarget(Teamc other){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_can_target_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_can_target_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_can_target_result.method")
+
+        return_expr = source_symbols.source_symbol(registry, "unit_can_target.return")
+        self.assertEqual(return_expr["java_expr"], "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));")
+        self.assertEqual(return_expr["godot_symbol"], "source_unit_can_target_result.canTargetReturn")
+
+        unit_check = source_symbols.source_symbol(registry, "unit_can_target.unit_check_target_call")
+        self.assertEqual(unit_check["java_expr"], "u.checkTarget(type.targetAir, type.targetGround)")
+        self.assertEqual(unit_check["godot_symbol"], "source_unit_can_target_result.unitCheckTargetCall")
+
+        building_check = source_symbols.source_symbol(registry, "unit_can_target.building_check")
+        self.assertEqual(building_check["java_expr"], "other instanceof Building b && type.targetGround")
+        self.assertEqual(building_check["godot_symbol"], "source_unit_can_target_result.buildingCheck")
+
+        type_target_air = source_symbols.source_symbol(registry, "unit_can_target.type_target_air")
+        self.assertEqual(type_target_air["java_expr"], "type.targetAir")
+        self.assertEqual(type_target_air["godot_symbol"], "source_unit_can_target_input.type_target_air")
+
+        type_target_ground = source_symbols.source_symbol(registry, "unit_can_target.type_target_ground")
+        self.assertEqual(type_target_ground["java_expr"], "type.targetGround")
+        self.assertEqual(type_target_ground["godot_symbol"], "source_unit_can_target_input.type_target_ground")
+
     def test_turret_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11667,9 +11699,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 357)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 358)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 362)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 363)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11684,6 +11716,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_insulated_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -16740,6 +16773,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("can_drown", unit_can_drown["return_keys"])
         self.assertEqual(unit_can_drown["source_method"], "UnitComp.canDrown()")
 
+        unit_can_target = source_symbols.api_contract(contracts, "PortGame.source_unit_can_target_state")
+        self.assertEqual([param["name"] for param in unit_can_target["params"]], ["other_exists", "other_is_unit", "other_unit_check_target_result", "other_is_building", "type_target_air", "type_target_ground"])
+        self.assertEqual(unit_can_target["params"][0]["schema"], "source_unit_can_target_input.other_exists")
+        self.assertEqual(unit_can_target["params"][2]["schema"], "source_unit_can_target_input.other_unit_check_target_result")
+        self.assertEqual(unit_can_target["params"][4]["schema"], "source_unit_can_target_input.type_target_air")
+        self.assertEqual(unit_can_target["params"][5]["schema"], "source_unit_can_target_input.type_target_ground")
+        self.assertIn("branch", unit_can_target["return_keys"])
+        self.assertIn("can_target", unit_can_target["return_keys"])
+        self.assertIn("unit_check_target_air", unit_can_target["return_keys"])
+        self.assertIn("unit_check_target_ground", unit_can_target["return_keys"])
+        self.assertEqual(unit_can_target["source_method"], "UnitComp.canTarget(Teamc other)")
+
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
         self.assertEqual(shoot_pattern_default_events["params"][0]["schema"], "source_shoot_pattern_default_events_input")
@@ -20583,6 +20628,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_can_drown_result["keys"]["canDrownReturn"]["java_expr"], "return isGrounded() && type.canDrown;")
         self.assertEqual(source_unit_can_drown_result["keys"]["grounded"]["java_expr"], "isGrounded()")
         self.assertEqual(source_unit_can_drown_result["keys"]["can_drown"]["java_expr"], "return isGrounded() && type.canDrown;")
+
+        source_unit_can_target_input = source_symbols.state_schema(schema, "source_unit_can_target_input")
+        self.assertEqual(source_unit_can_target_input["keys"]["other_exists"]["java_expr"], "other != null")
+        self.assertEqual(source_unit_can_target_input["keys"]["other_is_unit"]["java_expr"], "other instanceof Unit u")
+        self.assertEqual(source_unit_can_target_input["keys"]["other_unit_check_target_result"]["java_expr"], "u.checkTarget(type.targetAir, type.targetGround)")
+        self.assertEqual(source_unit_can_target_input["keys"]["other_is_building"]["java_expr"], "other instanceof Building b")
+        self.assertEqual(source_unit_can_target_input["keys"]["type_target_air"]["java_expr"], "type.targetAir")
+        self.assertEqual(source_unit_can_target_input["keys"]["type_target_ground"]["java_expr"], "type.targetGround")
+
+        source_unit_can_target_result = source_symbols.state_schema(schema, "source_unit_can_target_result")
+        self.assertEqual(source_unit_can_target_result["keys"]["method"]["java_expr"], "public boolean canTarget(Teamc other){")
+        self.assertEqual(source_unit_can_target_result["keys"]["canTargetReturn"]["java_expr"], "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));")
+        self.assertEqual(source_unit_can_target_result["keys"]["unitCheckTargetCall"]["java_expr"], "u.checkTarget(type.targetAir, type.targetGround)")
+        self.assertEqual(source_unit_can_target_result["keys"]["buildingCheck"]["java_expr"], "other instanceof Building b && type.targetGround")
+        self.assertEqual(source_unit_can_target_result["keys"]["can_target"]["java_expr"], "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

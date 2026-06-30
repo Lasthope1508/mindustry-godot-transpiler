@@ -13293,6 +13293,56 @@
         "test_unit_can_drown_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
+    },
+    "PortGame.source_unit_can_target_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "other_exists",
+          "schema": "source_unit_can_target_input.other_exists",
+          "type": "bool"
+        },
+        {
+          "name": "other_is_unit",
+          "schema": "source_unit_can_target_input.other_is_unit",
+          "type": "bool"
+        },
+        {
+          "name": "other_unit_check_target_result",
+          "schema": "source_unit_can_target_input.other_unit_check_target_result",
+          "type": "bool"
+        },
+        {
+          "name": "other_is_building",
+          "schema": "source_unit_can_target_input.other_is_building",
+          "type": "bool"
+        },
+        {
+          "name": "type_target_air",
+          "schema": "source_unit_can_target_input.type_target_air",
+          "type": "bool"
+        },
+        {
+          "name": "type_target_ground",
+          "schema": "source_unit_can_target_input.type_target_ground",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "branch",
+        "can_target",
+        "unit_check_target_air",
+        "unit_check_target_ground"
+      ],
+      "rule": "Public runtime contract for UnitComp.canTarget null/unit/building branch selection.",
+      "runtime_proof": "/root/Main.source_unit_can_target_state",
+      "source_method": "UnitComp.canTarget(Teamc other)",
+      "source_slice": "N760",
+      "status": "active",
+      "tests": [
+        "test_unit_can_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_can_target_state"
+      ]
     }
   },
   "policy": {

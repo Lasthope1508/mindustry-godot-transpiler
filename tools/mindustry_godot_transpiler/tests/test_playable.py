@@ -3418,6 +3418,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_can_target_state(other_exists: bool, other_is_unit: bool, other_unit_check_target_result: bool, other_is_building: bool, type_target_air: bool, type_target_ground: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_CAN_TARGET_METHOD := "public boolean canTarget(Teamc other){"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_TARGET_RETURN := "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_TARGET_UNIT_CHECK_CALL := "u.checkTarget(type.targetAir, type.targetGround)"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_TARGET_BUILDING_CHECK := "other instanceof Building b && type.targetGround"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_TARGET_TYPE_TARGET_AIR := "type.targetAir"', source)
+        self.assertIn('const SOURCE_UNIT_CAN_TARGET_TYPE_TARGET_GROUND := "type.targetGround"', source)
         self.assertIn('"can_target": false', source)
         self.assertIn('"branch": "unit"', source)
         self.assertIn('"can_target": other_unit_check_target_result', source)

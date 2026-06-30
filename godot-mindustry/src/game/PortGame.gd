@@ -4039,6 +4039,13 @@ func source_unit_controller_predicates_state(controller_is_ai_controller: bool, 
 		"is_commandable": controller_is_command_ai,
 	}
 
+const SOURCE_UNIT_CAN_TARGET_METHOD := "public boolean canTarget(Teamc other){"
+const SOURCE_UNIT_CAN_TARGET_RETURN := "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));"
+const SOURCE_UNIT_CAN_TARGET_UNIT_CHECK_CALL := "u.checkTarget(type.targetAir, type.targetGround)"
+const SOURCE_UNIT_CAN_TARGET_BUILDING_CHECK := "other instanceof Building b && type.targetGround"
+const SOURCE_UNIT_CAN_TARGET_TYPE_TARGET_AIR := "type.targetAir"
+const SOURCE_UNIT_CAN_TARGET_TYPE_TARGET_GROUND := "type.targetGround"
+
 func source_unit_can_target_state(other_exists: bool, other_is_unit: bool, other_unit_check_target_result: bool, other_is_building: bool, type_target_air: bool, type_target_ground: bool) -> Dictionary:
 	if not other_exists:
 		return {"branch": "null", "can_target": false}
