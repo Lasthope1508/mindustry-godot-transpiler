@@ -4646,6 +4646,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "recoils")
         self.assertEqual(result["godot_symbol"], "source_turret_recoils_result.recoils")
 
+    def test_turret_reload_seconds_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        field = source_symbols.source_symbol(registry, "turret_reload_seconds.field")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java")
+        self.assertEqual(field["java_method"], "field declaration")
+        self.assertEqual(field["java_expr"], "public float reload = 10f;")
+        self.assertEqual(field["godot_owner"], "PortGame.source_turret_reload_seconds")
+        self.assertEqual(field["runtime_proof"], "/root/Main.source_turret_reload_seconds")
+        self.assertEqual(field["godot_symbol"], "source_turret_reload_seconds_result.field")
+
+        key = source_symbols.source_symbol(registry, "turret_reload_seconds.key")
+        self.assertEqual(key["java_expr"], "reload")
+        self.assertEqual(key["godot_symbol"], "source_turret_reload_seconds_result.key")
+
+        default_value = source_symbols.source_symbol(registry, "turret_reload_seconds.default")
+        self.assertEqual(default_value["java_expr"], "10f")
+        self.assertEqual(default_value["godot_symbol"], "source_turret_reload_seconds_result.default_value")
+
+        duo_value = source_symbols.source_symbol(registry, "turret_reload_seconds.duo_value")
+        self.assertEqual(duo_value["java_source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(duo_value["java_expr"], "reload = 20f;")
+        self.assertEqual(duo_value["godot_symbol"], "source_turret_reload_seconds_result.duoValue")
+
+        to_seconds = source_symbols.source_symbol(registry, "turret_reload_seconds.to_seconds")
+        self.assertEqual(to_seconds["java_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(to_seconds["java_expr"], "public static final float toSeconds = 60f")
+        self.assertEqual(to_seconds["godot_symbol"], "source_turret_reload_seconds_result.toSeconds")
+
+        formula = source_symbols.source_symbol(registry, "turret_reload_seconds.formula")
+        self.assertEqual(formula["java_expr"], "reload / Time.toSeconds")
+        self.assertEqual(formula["godot_symbol"], "source_turret_reload_seconds_result.seconds")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11159,9 +11195,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 342)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 343)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 347)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 348)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11385,6 +11421,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_recoil_offset", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_recoil_time", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_recoils", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_reload_seconds", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11501,6 +11538,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_recoil_offset", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_recoil_time", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_recoils", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_turret_reload_seconds", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12754,6 +12792,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(curRecoils == null) curRecoils = new float[recoils];", turret_recoils["deferred_exprs"])
         self.assertIn("curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);", turret_recoils["deferred_exprs"])
         self.assertIn("curRecoils[barrelCounter % recoils] = 1f;", turret_recoils["deferred_exprs"])
+
+        turret_reload_seconds = source_symbols.source_slice(ledger, "N745")
+        self.assertEqual(turret_reload_seconds["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java")
+        self.assertEqual(turret_reload_seconds["java_method"], "field declaration/Time.toSeconds conversion")
+        self.assertEqual(turret_reload_seconds["godot_owner"], "PortGame.source_turret_reload_seconds")
+        self.assertIn("public float reload = 10f;", turret_reload_seconds["exact_exprs"])
+        self.assertIn("reload", turret_reload_seconds["exact_exprs"])
+        self.assertIn("10f", turret_reload_seconds["exact_exprs"])
+        self.assertIn("public static final float toSeconds = 60f", turret_reload_seconds["exact_exprs"])
+        self.assertIn("reload / Time.toSeconds", turret_reload_seconds["exact_exprs"])
+        self.assertIn("reload = 20f;", turret_reload_seconds["bridge_exprs"])
+        self.assertIn("source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)", turret_reload_seconds["deferred_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15941,6 +15991,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("duoValue", turret_recoils["return_keys"])
         self.assertIn("updateGate", turret_recoils["return_keys"])
         self.assertEqual(turret_recoils["source_method"], "field declaration/TurretBuild.updateTile()/bullet(...)")
+
+        turret_reload_seconds = source_symbols.api_contract(contracts, "PortGame.source_turret_reload_seconds")
+        self.assertEqual([param["name"] for param in turret_reload_seconds["params"]], ["turret"])
+        self.assertEqual(turret_reload_seconds["params"][0]["schema"], "source_turret_reload_seconds_input.turret")
+        self.assertIn("seconds", turret_reload_seconds["return_keys"])
+        self.assertIn("reload", turret_reload_seconds["return_keys"])
+        self.assertIn("toSeconds", turret_reload_seconds["return_keys"])
+        self.assertIn("duoValue", turret_reload_seconds["return_keys"])
+        self.assertEqual(turret_reload_seconds["source_method"], "field declaration/Time.toSeconds conversion")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -19589,6 +19648,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_recoils_result["keys"]["updateGate"]["java_expr"], "if(recoils > 0){")
         self.assertEqual(source_turret_recoils_result["keys"]["recoils"]["java_expr"], "recoils")
         self.assertEqual(source_turret_recoils_result["keys"]["turret"]["alias_of"], "source_turret_recoils_input.turret")
+
+        source_turret_reload_seconds_input = source_symbols.state_schema(schema, "source_turret_reload_seconds_input")
+        self.assertEqual(source_turret_reload_seconds_input["keys"]["turret"]["alias_of"], "source_turret_recoil_input.turret")
+
+        source_turret_reload_seconds_result = source_symbols.state_schema(schema, "source_turret_reload_seconds_result")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["field"]["java_expr"], "public float reload = 10f;")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["key"]["java_expr"], "reload")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["default_value"]["java_expr"], "10f")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["duoValue"]["java_expr"], "reload = 20f;")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["toSeconds"]["java_expr"], "public static final float toSeconds = 60f")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["reload"]["java_expr"], "reload")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["seconds"]["java_expr"], "reload / Time.toSeconds")
+        self.assertEqual(source_turret_reload_seconds_result["keys"]["turret"]["alias_of"], "source_turret_reload_seconds_input.turret")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

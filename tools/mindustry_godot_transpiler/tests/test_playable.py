@@ -995,8 +995,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"', source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_KEY := "reload"', source)
+        self.assertIn("const SOURCE_TURRET_RELOAD_DEFAULT := 10.0", source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_DUO_VALUE := "reload = 20f;"', source)
+        self.assertIn('const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"', source)
         self.assertIn("func source_turret_reload_seconds(turret) -> float:", source)
-        self.assertIn('return float(turret.properties.get("reload", 10.0)) / 60.0', source)
+        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RELOAD_KEY, SOURCE_TURRET_RELOAD_DEFAULT)) / SOURCE_TICK_RATE", source)
         self.assertIn("cooldown = source_turret_reload_seconds_for_ammo(duo, data)", source)
         self.assertNotIn('max(0.1, float(duo.properties.get("reload", 60.0)) / 60.0)', source)
         self.assertIn("func selected_turret_reload_seconds() -> float:", source)

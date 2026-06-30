@@ -12787,6 +12787,35 @@
         "test_turret_recoils_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "PortGame.source_turret_reload_seconds": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_reload_seconds_input.turret",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "seconds",
+        "reload",
+        "field",
+        "key",
+        "default_value",
+        "duoValue",
+        "toSeconds",
+        "turret"
+      ],
+      "rule": "Public runtime contract for ReloadTurret.reload seconds helper.",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "source_method": "field declaration/Time.toSeconds conversion",
+      "source_slice": "N745",
+      "status": "active",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ]
     }
   },
   "policy": {

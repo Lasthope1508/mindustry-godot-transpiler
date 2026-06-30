@@ -35530,6 +35530,104 @@
       "java_expr": "recoils",
       "rule": "Return canonical Turret.recoils value.",
       "status": "source-backed"
+    },
+    "turret_reload_seconds.field": {
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "godot_symbol": "source_turret_reload_seconds_result.field",
+      "java_method": "field declaration",
+      "java_expr": "public float reload = 10f;",
+      "rule": "Canonical ReloadTurret.reload field declaration.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds.key": {
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "godot_symbol": "source_turret_reload_seconds_result.key",
+      "java_method": "field declaration",
+      "java_expr": "reload",
+      "rule": "Godot dictionary key maps to ReloadTurret.reload exactly.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds.default": {
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "godot_symbol": "source_turret_reload_seconds_result.default_value",
+      "java_method": "field declaration",
+      "java_expr": "10f",
+      "rule": "Godot fallback preserves ReloadTurret.reload default.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds.duo_value": {
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "godot_symbol": "source_turret_reload_seconds_result.duoValue",
+      "java_method": "load()",
+      "java_expr": "reload = 20f;",
+      "rule": "Duo supplies reload ticks.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds.to_seconds": {
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "godot_symbol": "source_turret_reload_seconds_result.toSeconds",
+      "java_method": "field declaration",
+      "java_expr": "public static final float toSeconds = 60f",
+      "rule": "Arc Time.toSeconds defines ticks per second conversion.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds.reload": {
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "godot_symbol": "source_turret_reload_seconds_result.reload",
+      "java_method": "field declaration",
+      "java_expr": "reload",
+      "rule": "Runtime reload tick value used by seconds conversion.",
+      "status": "source-backed"
+    },
+    "turret_reload_seconds.formula": {
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "godot_symbol": "source_turret_reload_seconds_result.seconds",
+      "java_method": "Time.toSeconds conversion",
+      "java_expr": "reload / Time.toSeconds",
+      "rule": "Godot helper returns reload ticks converted to seconds.",
+      "status": "source-backed"
     }
   },
   "version": 1

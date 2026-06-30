@@ -44882,6 +44882,112 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_reload_seconds_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_recoil_input.turret",
+          "rule": "Carries Turret input into reload seconds helper.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_reload_seconds_result": {
+      "keys": {
+        "field": {
+          "godot_symbol": "source_turret_reload_seconds_result.field",
+          "java_expr": "public float reload = 10f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Canonical ReloadTurret.reload field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_turret_reload_seconds_result.key",
+          "java_expr": "reload",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Godot dictionary key maps to ReloadTurret.reload exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds"
+          ]
+        },
+        "default_value": {
+          "godot_symbol": "source_turret_reload_seconds_result.default_value",
+          "java_expr": "10f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Godot fallback preserves ReloadTurret.reload default.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds"
+          ]
+        },
+        "duoValue": {
+          "godot_symbol": "source_turret_reload_seconds_result.duoValue",
+          "java_expr": "reload = 20f;",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo supplies reload ticks.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds"
+          ]
+        },
+        "toSeconds": {
+          "godot_symbol": "source_turret_reload_seconds_result.toSeconds",
+          "java_expr": "public static final float toSeconds = 60f",
+          "java_method": "field declaration",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Arc Time.toSeconds defines ticks per second conversion.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_turret_reload_seconds_result.reload",
+          "java_expr": "reload",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Runtime reload tick value used by seconds conversion.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds"
+          ]
+        },
+        "seconds": {
+          "godot_symbol": "source_turret_reload_seconds_result.seconds",
+          "java_expr": "reload / Time.toSeconds",
+          "java_method": "Time.toSeconds conversion",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Returned reload seconds value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_reload_seconds"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_reload_seconds_input.turret",
+          "rule": "Carries Turret input into reload seconds result schema.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

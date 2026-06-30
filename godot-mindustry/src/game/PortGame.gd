@@ -10373,10 +10373,16 @@ func selected_turret_recoils() -> int:
 		return 0
 	return source_turret_recoils(duo)
 
+const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"
+const SOURCE_TURRET_RELOAD_KEY := "reload"
+const SOURCE_TURRET_RELOAD_DEFAULT := 10.0
+const SOURCE_TURRET_RELOAD_DUO_VALUE := "reload = 20f;"
+const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"
+
 func source_turret_reload_seconds(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get("reload", 10.0)) / 60.0
+	return float(turret.properties.get(SOURCE_TURRET_RELOAD_KEY, SOURCE_TURRET_RELOAD_DEFAULT)) / SOURCE_TICK_RATE
 
 func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:
 	if data.is_empty():

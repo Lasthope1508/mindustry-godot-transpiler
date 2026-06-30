@@ -11137,6 +11137,40 @@
         "test_turret_recoils_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "N745": {
+      "deferred_exprs": [
+        "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"
+      ],
+      "exact_exprs": [
+        "public float reload = 10f;",
+        "reload",
+        "10f",
+        "public static final float toSeconds = 60f",
+        "reload / Time.toSeconds"
+      ],
+      "bridge_exprs": [
+        "reload = 20f;"
+      ],
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "java_class": "mindustry.world.blocks.defense.turrets.ReloadTurret",
+      "java_method": "field declaration/Time.toSeconds conversion",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_turret_reload_seconds",
+      "source_symbols": [
+        "turret_reload_seconds.field",
+        "turret_reload_seconds.key",
+        "turret_reload_seconds.default",
+        "turret_reload_seconds.duo_value",
+        "turret_reload_seconds.to_seconds",
+        "turret_reload_seconds.reload",
+        "turret_reload_seconds.formula"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ]
     }
   },
   "version": 1
