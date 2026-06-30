@@ -42370,6 +42370,104 @@
         "test_port_game_exposes_source_unit_update_boosting_event_state"
       ]
     },
+    "unit_update_boosting_guard.can_update_boosting": {
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "godot_symbol": "source_unit_update_boosting_guard_result.can_update_boosting",
+      "java_expr": "if(!type.canBoost || dead) return; -> can update when guard does not return",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Generated inverse of source early return guard for following updateBoosting slices.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "status": "generated",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
+    },
+    "unit_update_boosting_guard.dead_state": {
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "godot_symbol": "source_unit_update_boosting_guard_input.dead_state",
+      "java_expr": "dead",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for dead guard term.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
+    },
+    "unit_update_boosting_guard.elevation_value": {
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "godot_symbol": "source_unit_update_boosting_guard_input.elevation_value",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input preserving elevation through early return guard.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
+    },
+    "unit_update_boosting_guard.guard": {
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "godot_symbol": "source_unit_update_boosting_guard_result.guard",
+      "java_expr": "if(!type.canBoost || dead) return;",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp updateBoosting early return guard.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
+    },
+    "unit_update_boosting_guard.overload_method": {
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "godot_symbol": "source_unit_update_boosting_guard_result.overloadMethod",
+      "java_expr": "public void updateBoosting(boolean boost, boolean event){",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp two-argument updateBoosting overload boundary for guard slice.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
+    },
+    "unit_update_boosting_guard.returned": {
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "godot_symbol": "source_unit_update_boosting_guard_result.returned",
+      "java_expr": "if(!type.canBoost || dead) return;",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Observable return flag follows source early return guard.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
+    },
+    "unit_update_boosting_guard.type_can_boost": {
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "godot_symbol": "source_unit_update_boosting_guard_input.type_can_boost",
+      "java_expr": "type.canBoost",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for type.canBoost guard term.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

@@ -6488,9 +6488,13 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_UNIT_UPDATE_BOOSTING_GUARD := "if(!type.canBoost || dead) return;"', source)
         self.assertIn("func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: bool, elevation_value: float) -> Dictionary:", source)
         self.assertIn("var returned: bool = (not type_can_boost) or dead_state", source)
+        self.assertIn('"overloadMethod": SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD', source)
+        self.assertIn('"guard": SOURCE_UNIT_UPDATE_BOOSTING_GUARD', source)
         self.assertIn('"returned": returned', source)
+        self.assertIn('"can_update_boosting": not returned', source)
         self.assertIn('"elevation": elevation_value', source)
 
     def test_port_game_exposes_source_unit_update_boosting_should_boost_state(self):

@@ -10415,9 +10415,13 @@ func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:
 		"event": false,
 	}
 
+const SOURCE_UNIT_UPDATE_BOOSTING_GUARD := "if(!type.canBoost || dead) return;"
+
 func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: bool, elevation_value: float) -> Dictionary:
 	var returned: bool = (not type_can_boost) or dead_state
 	return {
+		"overloadMethod": SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD,
+		"guard": SOURCE_UNIT_UPDATE_BOOSTING_GUARD,
 		"returned": returned,
 		"can_update_boosting": not returned,
 		"elevation": elevation_value,

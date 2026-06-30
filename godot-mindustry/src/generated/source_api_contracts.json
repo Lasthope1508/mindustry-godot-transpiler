@@ -15362,6 +15362,42 @@
         "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_event_state"
       ]
+    },
+    "PortGame.source_unit_update_boosting_guard_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_can_boost",
+          "schema": "source_unit_update_boosting_guard_input.type_can_boost",
+          "type": "bool"
+        },
+        {
+          "name": "dead_state",
+          "schema": "source_unit_update_boosting_guard_input.dead_state",
+          "type": "bool"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_boosting_guard_input.elevation_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "overloadMethod",
+        "guard",
+        "returned",
+        "can_update_boosting",
+        "elevation"
+      ],
+      "rule": "Public runtime contract for UnitComp.updateBoosting early return guard.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "source_slice": "N808",
+      "status": "active",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
     }
   },
   "policy": {

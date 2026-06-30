@@ -13657,6 +13657,35 @@
         "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_event_state"
       ]
+    },
+    "N808": {
+      "bridge_exprs": [],
+      "deferred_exprs": [
+        "shouldBoost, elevation approach, and event dispatch stay owned by separate updateBoosting slices."
+      ],
+      "exact_exprs": [
+        "public void updateBoosting(boolean boost, boolean event){",
+        "if(!type.canBoost || dead) return;"
+      ],
+      "godot_owner": "PortGame.source_unit_update_boosting_guard_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_guard_state",
+      "source_symbols": [
+        "unit_update_boosting_guard.overload_method",
+        "unit_update_boosting_guard.guard",
+        "unit_update_boosting_guard.type_can_boost",
+        "unit_update_boosting_guard.dead_state",
+        "unit_update_boosting_guard.elevation_value",
+        "unit_update_boosting_guard.returned",
+        "unit_update_boosting_guard.can_update_boosting"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_boosting_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_guard_state"
+      ]
     }
   },
   "version": 1
