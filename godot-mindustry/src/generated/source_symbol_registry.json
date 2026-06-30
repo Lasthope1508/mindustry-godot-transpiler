@@ -36683,6 +36683,76 @@
         "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_aim_look_state"
       ]
+    },
+    "unit_aim_look_xy.method": {
+      "godot_owner": "PortGame.source_unit_aim_look_xy_state",
+      "godot_symbol": "source_unit_aim_look_xy_result.method",
+      "java_expr": "public void aimLook(float x, float y){",
+      "java_method": "UnitComp.aimLook(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp aimLook(float, float) method boundary.",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
+    },
+    "unit_aim_look_xy.x_input": {
+      "godot_owner": "PortGame.source_unit_aim_look_xy_state",
+      "godot_symbol": "source_unit_aim_look_xy_input.x",
+      "java_expr": "x",
+      "java_method": "UnitComp.aimLook(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "First float parameter passed to aim(x, y) and lookAt(x, y).",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
+    },
+    "unit_aim_look_xy.y_input": {
+      "godot_owner": "PortGame.source_unit_aim_look_xy_state",
+      "godot_symbol": "source_unit_aim_look_xy_input.y",
+      "java_expr": "y",
+      "java_method": "UnitComp.aimLook(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Second float parameter passed to aim(x, y) and lookAt(x, y).",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
+    },
+    "unit_aim_look_xy.aim_call": {
+      "godot_owner": "PortGame.source_unit_aim_look_xy_state",
+      "godot_symbol": "source_unit_aim_look_xy_result.aimCall",
+      "java_expr": "aim(x, y);",
+      "java_method": "UnitComp.aimLook(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "First aimLook(float, float) source call.",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
+    },
+    "unit_aim_look_xy.look_at_call": {
+      "godot_owner": "PortGame.source_unit_aim_look_xy_state",
+      "godot_symbol": "source_unit_aim_look_xy_result.lookAtCall",
+      "java_expr": "lookAt(x, y);",
+      "java_method": "UnitComp.aimLook(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Second aimLook(float, float) source call.",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
     }
   },
   "version": 1

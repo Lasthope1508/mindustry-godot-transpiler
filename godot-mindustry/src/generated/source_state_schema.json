@@ -46473,6 +46473,142 @@
       "owner": "PortGame.source_unit_aim_look_position_state",
       "runtime_proof": "/root/Main.source_unit_aim_look_position_state",
       "status": "active"
+    },
+    "source_unit_aim_look_xy_input": {
+      "keys": {
+        "x": {
+          "godot_symbol": "source_unit_aim_look_xy_input.x",
+          "java_expr": "x",
+          "java_method": "UnitComp.aimLook(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source x parameter for aimLook(float x, float y).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_unit_aim_look_xy_input.y",
+          "java_expr": "y",
+          "java_method": "UnitComp.aimLook(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source y parameter for aimLook(float x, float y).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "target_x": {
+          "alias_of": "source_unit_aim_look_xy_input.x",
+          "godot_symbol": "source_unit_aim_look_xy_input.target_x",
+          "rule": "Godot bridge parameter name for source x.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "target_y": {
+          "alias_of": "source_unit_aim_look_xy_input.y",
+          "godot_symbol": "source_unit_aim_look_xy_input.target_y",
+          "rule": "Godot bridge parameter name for source y.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_aim_look_xy_state",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "status": "active"
+    },
+    "source_unit_aim_look_xy_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_aim_look_xy_result.method",
+          "java_expr": "public void aimLook(float x, float y){",
+          "java_method": "UnitComp.aimLook(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp aimLook(float, float) method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "aimCall": {
+          "godot_symbol": "source_unit_aim_look_xy_result.aimCall",
+          "java_expr": "aim(x, y);",
+          "java_method": "UnitComp.aimLook(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "First aimLook(float, float) source call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "lookAtCall": {
+          "godot_symbol": "source_unit_aim_look_xy_result.lookAtCall",
+          "java_expr": "lookAt(x, y);",
+          "java_method": "UnitComp.aimLook(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Second aimLook(float, float) source call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "call_order": {
+          "godot_symbol": "source_unit_aim_look_xy_result.call_order",
+          "java_expr": "aim(x, y); -> lookAt(x, y);",
+          "java_method": "UnitComp.aimLook(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source call order for aimLook(float x, float y).",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "target": {
+          "godot_symbol": "source_unit_aim_look_xy_result.target",
+          "rule": "Godot bridge target dictionary composed from x/y input.",
+          "status": "generated",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ],
+          "java_expr": "x, y"
+        },
+        "aim_call": {
+          "alias_of": "source_unit_aim_look_xy_result.aimCall",
+          "godot_symbol": "source_unit_aim_look_xy_result.aim_call",
+          "rule": "Godot runtime label for aim(float, float) overload identity.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        },
+        "look_at_call": {
+          "alias_of": "source_unit_aim_look_xy_result.lookAtCall",
+          "godot_symbol": "source_unit_aim_look_xy_result.look_at_call",
+          "rule": "Godot runtime label for lookAt(float, float) overload identity.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_aim_look_xy_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_aim_look_xy_state",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "status": "active"
     }
   },
   "version": 1

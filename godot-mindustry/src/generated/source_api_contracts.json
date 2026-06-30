@@ -13179,6 +13179,36 @@
         "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_aim_look_state"
       ]
+    },
+    "PortGame.source_unit_aim_look_xy_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "target_x",
+          "schema": "source_unit_aim_look_xy_input.x",
+          "type": "float"
+        },
+        {
+          "name": "target_y",
+          "schema": "source_unit_aim_look_xy_input.y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "target",
+        "aim_call",
+        "look_at_call",
+        "call_order"
+      ],
+      "rule": "Public runtime contract for UnitComp.aimLook(float x, float y) call order.",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "source_method": "UnitComp.aimLook(float x, float y)",
+      "source_slice": "N757",
+      "status": "active",
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
     }
   },
   "policy": {

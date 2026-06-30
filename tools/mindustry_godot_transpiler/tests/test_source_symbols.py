@@ -4609,6 +4609,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(look_at_call["java_expr"], "lookAt(pos);")
         self.assertEqual(look_at_call["godot_symbol"], "source_unit_aim_look_position_result.lookAtCall")
 
+    def test_unit_aim_look_xy_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_aim_look_xy.method")
+        self.assertEqual(method["java_expr"], "public void aimLook(float x, float y){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_aim_look_xy_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_aim_look_xy_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_aim_look_xy_result.method")
+
+        x_input = source_symbols.source_symbol(registry, "unit_aim_look_xy.x_input")
+        self.assertEqual(x_input["java_expr"], "x")
+        self.assertEqual(x_input["godot_symbol"], "source_unit_aim_look_xy_input.x")
+
+        y_input = source_symbols.source_symbol(registry, "unit_aim_look_xy.y_input")
+        self.assertEqual(y_input["java_expr"], "y")
+        self.assertEqual(y_input["godot_symbol"], "source_unit_aim_look_xy_input.y")
+
+        aim_call = source_symbols.source_symbol(registry, "unit_aim_look_xy.aim_call")
+        self.assertEqual(aim_call["java_expr"], "aim(x, y);")
+        self.assertEqual(aim_call["godot_symbol"], "source_unit_aim_look_xy_result.aimCall")
+
+        look_at_call = source_symbols.source_symbol(registry, "unit_aim_look_xy.look_at_call")
+        self.assertEqual(look_at_call["java_expr"], "lookAt(x, y);")
+        self.assertEqual(look_at_call["godot_symbol"], "source_unit_aim_look_xy_result.lookAtCall")
+
     def test_turret_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11583,9 +11611,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 354)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 355)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 359)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 360)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11948,6 +11976,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_after_read_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_after_sync_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_aim_look_position_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_aim_look_xy_state", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -16622,6 +16651,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("call_order", unit_aim_look_position["return_keys"])
         self.assertEqual(unit_aim_look_position["source_method"], "UnitComp.aimLook(Position pos)")
 
+        unit_aim_look_xy = source_symbols.api_contract(contracts, "PortGame.source_unit_aim_look_xy_state")
+        self.assertEqual([param["name"] for param in unit_aim_look_xy["params"]], ["target_x", "target_y"])
+        self.assertEqual(unit_aim_look_xy["params"][0]["schema"], "source_unit_aim_look_xy_input.x")
+        self.assertEqual(unit_aim_look_xy["params"][1]["schema"], "source_unit_aim_look_xy_input.y")
+        self.assertIn("target", unit_aim_look_xy["return_keys"])
+        self.assertIn("aim_call", unit_aim_look_xy["return_keys"])
+        self.assertIn("look_at_call", unit_aim_look_xy["return_keys"])
+        self.assertIn("call_order", unit_aim_look_xy["return_keys"])
+        self.assertEqual(unit_aim_look_xy["source_method"], "UnitComp.aimLook(float x, float y)")
+
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
         self.assertEqual(shoot_pattern_default_events["params"][0]["schema"], "source_shoot_pattern_default_events_input")
@@ -20427,6 +20466,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_aim_look_position_result["keys"]["lookAtCall"]["java_expr"], "lookAt(pos);")
         self.assertEqual(source_unit_aim_look_position_result["keys"]["call_order"]["java_expr"], "aim(pos); -> lookAt(pos);")
         self.assertEqual(source_unit_aim_look_position_result["keys"]["target"]["status"], "generated")
+
+        source_unit_aim_look_xy_input = source_symbols.state_schema(schema, "source_unit_aim_look_xy_input")
+        self.assertEqual(source_unit_aim_look_xy_input["keys"]["x"]["java_expr"], "x")
+        self.assertEqual(source_unit_aim_look_xy_input["keys"]["y"]["java_expr"], "y")
+
+        source_unit_aim_look_xy_result = source_symbols.state_schema(schema, "source_unit_aim_look_xy_result")
+        self.assertEqual(source_unit_aim_look_xy_result["keys"]["method"]["java_expr"], "public void aimLook(float x, float y){")
+        self.assertEqual(source_unit_aim_look_xy_result["keys"]["aimCall"]["java_expr"], "aim(x, y);")
+        self.assertEqual(source_unit_aim_look_xy_result["keys"]["lookAtCall"]["java_expr"], "lookAt(x, y);")
+        self.assertEqual(source_unit_aim_look_xy_result["keys"]["call_order"]["java_expr"], "aim(x, y); -> lookAt(x, y);")
+        self.assertEqual(source_unit_aim_look_xy_result["keys"]["target"]["status"], "generated")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

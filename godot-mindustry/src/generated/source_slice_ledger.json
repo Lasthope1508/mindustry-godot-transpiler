@@ -11558,6 +11558,39 @@
         "test_unit_aim_look_position_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_aim_look_state"
       ]
+    },
+    "N757": {
+      "deferred_exprs": [
+        "aim(x, y) and lookAt(x, y) internals stay in their own UnitComp aim/look slices"
+      ],
+      "exact_exprs": [
+        "public void aimLook(float x, float y){",
+        "x",
+        "y",
+        "aim(x, y);",
+        "lookAt(x, y);"
+      ],
+      "bridge_exprs": [
+        "aim(float, float)",
+        "lookAt(float, float)"
+      ],
+      "godot_owner": "PortGame.source_unit_aim_look_xy_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.aimLook(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
+      "source_symbols": [
+        "unit_aim_look_xy.method",
+        "unit_aim_look_xy.x_input",
+        "unit_aim_look_xy.y_input",
+        "unit_aim_look_xy.aim_call",
+        "unit_aim_look_xy.look_at_call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_aim_look_state"
+      ]
     }
   },
   "version": 1

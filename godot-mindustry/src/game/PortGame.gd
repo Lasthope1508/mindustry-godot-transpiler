@@ -3965,6 +3965,12 @@ func source_unit_aim_look_position_state(pos_x: float, pos_y: float) -> Dictiona
 		"call_order": ["aim", "lookAt"],
 	}
 
+const SOURCE_UNIT_AIM_LOOK_XY_METHOD := "public void aimLook(float x, float y){"
+const SOURCE_UNIT_AIM_LOOK_XY_X_ARG := "x"
+const SOURCE_UNIT_AIM_LOOK_XY_Y_ARG := "y"
+const SOURCE_UNIT_AIM_LOOK_XY_AIM_CALL := "aim(x, y);"
+const SOURCE_UNIT_AIM_LOOK_XY_LOOK_AT_CALL := "lookAt(x, y);"
+
 func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictionary:
 	return {
 		"target": {"x": target_x, "y": target_y},
