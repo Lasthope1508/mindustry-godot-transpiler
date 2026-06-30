@@ -12727,6 +12727,37 @@
         "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "PortGame.source_turret_recoil_time": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_recoil_time_input.turret",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "recoilTime",
+        "comment",
+        "field",
+        "key",
+        "default_value",
+        "initFallback",
+        "decayUse",
+        "reload",
+        "duoReload",
+        "turret"
+      ],
+      "rule": "Public runtime contract for effective Turret.recoilTime helper.",
+      "runtime_proof": "/root/Main.source_turret_recoil_time",
+      "source_method": "field declaration/init()/TurretBuild.updateTile()",
+      "source_slice": "N743",
+      "status": "active",
+      "tests": [
+        "test_turret_recoil_time_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ]
     }
   },
   "policy": {

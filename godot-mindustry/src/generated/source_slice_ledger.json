@@ -11059,6 +11059,48 @@
         "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "N743": {
+      "deferred_exprs": [
+        "if(recoils > 0){",
+        "if(curRecoils == null) curRecoils = new float[recoils];",
+        "curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);",
+        "curRecoil = 1f;",
+        "curRecoils[barrelCounter % recoils] = 1f;"
+      ],
+      "exact_exprs": [
+        "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */",
+        "public float recoilTime = -1f;",
+        "recoilTime",
+        "-1f",
+        "if(recoilTime < 0f) recoilTime = reload;",
+        "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"
+      ],
+      "bridge_exprs": [
+        "reload = 20f;"
+      ],
+      "godot_owner": "PortGame.source_turret_recoil_time",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "field declaration/init()/TurretBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_recoil_time",
+      "source_symbols": [
+        "turret_recoil_time.comment",
+        "turret_recoil_time.field",
+        "turret_recoil_time.key",
+        "turret_recoil_time.default",
+        "turret_recoil_time.init_fallback",
+        "turret_recoil_time.decay_use",
+        "turret_recoil_time.reload_input",
+        "turret_recoil_time.turret",
+        "turret_recoil_time.result",
+        "turret_recoil_time.duo_reload"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_recoil_time_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ]
     }
   },
   "version": 1

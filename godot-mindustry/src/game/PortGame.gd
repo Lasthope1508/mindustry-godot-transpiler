@@ -10426,6 +10426,12 @@ const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"
 const SOURCE_TURRET_RECOIL_KEY := "recoil"
 const SOURCE_TURRET_RECOIL_DEFAULT := 1.0
 const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"
+const SOURCE_TURRET_RECOIL_TIME_COMMENT := "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */"
+const SOURCE_TURRET_RECOIL_TIME_FIELD := "public float recoilTime = -1f;"
+const SOURCE_TURRET_RECOIL_TIME_KEY := "recoilTime"
+const SOURCE_TURRET_RECOIL_TIME_DEFAULT := -1.0
+const SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK := "if(recoilTime < 0f) recoilTime = reload;"
+const SOURCE_TURRET_RECOIL_TIME_DECAY_USE := "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"
 const SOURCE_TURRET_RECOIL_OFFSET_COMMENT := "/** Turret sprite offset, based on recoil. Updated every frame. */"
 const SOURCE_TURRET_RECOIL_OFFSET_FIELD := "public Vec2 recoilOffset = new Vec2();"
 const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := "public float recoilPow = 1.8f;"
@@ -10446,7 +10452,10 @@ func source_turret_recoils(turret) -> int:
 func source_turret_recoil_time(turret) -> float:
 	if turret == null:
 		return 1.0
-	return source_turret_reload_seconds(turret) * SOURCE_TICK_RATE
+	var recoil_time := float(turret.properties.get(SOURCE_TURRET_RECOIL_TIME_KEY, SOURCE_TURRET_RECOIL_TIME_DEFAULT))
+	if recoil_time < 0.0:
+		return source_turret_reload_seconds(turret) * SOURCE_TICK_RATE
+	return recoil_time
 
 func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
 	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT) * source_turret_recoil(turret))

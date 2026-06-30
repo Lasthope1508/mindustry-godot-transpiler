@@ -44646,6 +44646,136 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_recoil_time_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_recoil_input.turret",
+          "rule": "Carries Turret input into recoilTime helper.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_recoil_time_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_turret_recoil_time_result.comment",
+          "java_expr": "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Turret.recoilTime source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_turret_recoil_time_result.field",
+          "java_expr": "public float recoilTime = -1f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Turret.recoilTime field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_turret_recoil_time_result.key",
+          "java_expr": "recoilTime",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Godot dictionary key maps to Turret.recoilTime exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "default_value": {
+          "godot_symbol": "source_turret_recoil_time_result.default_value",
+          "java_expr": "-1f",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Godot fallback preserves Turret.recoilTime default sentinel.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "initFallback": {
+          "godot_symbol": "source_turret_recoil_time_result.initFallback",
+          "java_expr": "if(recoilTime < 0f) recoilTime = reload;",
+          "java_method": "init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Negative recoilTime falls back to reload during Turret.init().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "decayUse": {
+          "godot_symbol": "source_turret_recoil_time_result.decayUse",
+          "java_expr": "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);",
+          "java_method": "TurretBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "TurretBuild visual recoil decay uses inverse recoilTime.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "recoilTime": {
+          "godot_symbol": "source_turret_recoil_time_result.recoilTime",
+          "java_expr": "recoilTime",
+          "java_method": "field declaration/init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Returned effective recoilTime.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_turret_recoil_time_result.reload",
+          "java_expr": "reload",
+          "java_method": "init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Reload source input used by fallback.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "duoReload": {
+          "godot_symbol": "source_turret_recoil_time_result.duoReload",
+          "java_expr": "reload = 20f;",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo reload value used by implicit recoilTime fallback.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_recoil_time"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_recoil_time_input.turret",
+          "rule": "Carries Turret input into recoilTime result schema.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1
