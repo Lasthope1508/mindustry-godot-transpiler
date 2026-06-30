@@ -10259,8 +10259,17 @@ func source_unit_update_walk_effect_state(type_hovering: bool, elevation_value: 
 		"walkSound": walk_sound,
 	}
 
+const SOURCE_UNIT_MOVE_PREF_METHOD := "public void movePref(Vec2 movement){"
+const SOURCE_UNIT_MOVE_PREF_OMNI_GATE := "if(type.omniMovement){"
+const SOURCE_UNIT_MOVE_PREF_MOVE_AT_CALL := "moveAt(movement);"
+const SOURCE_UNIT_MOVE_PREF_ROTATE_MOVE_CALL := "rotateMove(movement);"
+
 func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:
 	return {
+		"method": SOURCE_UNIT_MOVE_PREF_METHOD,
+		"omniGate": SOURCE_UNIT_MOVE_PREF_OMNI_GATE,
+		"moveAtCall": SOURCE_UNIT_MOVE_PREF_MOVE_AT_CALL,
+		"rotateMoveCall": SOURCE_UNIT_MOVE_PREF_ROTATE_MOVE_CALL,
 		"movement": {"x": movement_x, "y": movement_y},
 		"call": "moveAt" if type_omni_movement else "rotateMove",
 	}

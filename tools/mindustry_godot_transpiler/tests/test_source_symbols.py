@@ -4785,6 +4785,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_limit2["java_expr"], "return scl((float)Math.sqrt(limit2 / len2));")
         self.assertEqual(vec2_limit2["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
 
+    def test_unit_move_pref_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_move_pref.method")
+        self.assertEqual(method["java_expr"], "public void movePref(Vec2 movement){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_move_pref_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_move_pref_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_move_pref_result.method")
+
+        gate = source_symbols.source_symbol(registry, "unit_move_pref.omni_gate")
+        self.assertEqual(gate["java_expr"], "if(type.omniMovement){")
+        self.assertEqual(gate["godot_symbol"], "source_unit_move_pref_result.omniGate")
+
+        move_at_call = source_symbols.source_symbol(registry, "unit_move_pref.move_at_call")
+        self.assertEqual(move_at_call["java_expr"], "moveAt(movement);")
+        self.assertEqual(move_at_call["godot_symbol"], "source_unit_move_pref_result.moveAtCall")
+
+        rotate_move_call = source_symbols.source_symbol(registry, "unit_move_pref.rotate_move_call")
+        self.assertEqual(rotate_move_call["java_expr"], "rotateMove(movement);")
+        self.assertEqual(rotate_move_call["godot_symbol"], "source_unit_move_pref_result.rotateMoveCall")
+
     def test_unit_approach_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13129,9 +13153,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 392)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 393)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 397)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 398)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13181,6 +13205,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_look_at_xy_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_move_at_default_accel_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_move_at_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_move_pref_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15272,6 +15297,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Vec2 limit(float limit){", unit_move_at["bridge_exprs"])
         self.assertIn("public Vec2 limit2(float limit2){", unit_move_at["bridge_exprs"])
         self.assertIn("public static float delta = 1f;", unit_move_at["bridge_exprs"])
+
+        unit_move_pref = source_symbols.source_slice(ledger, "N795")
+        self.assertEqual(unit_move_pref["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_move_pref["java_method"], "UnitComp.movePref(Vec2 movement)")
+        self.assertEqual(unit_move_pref["godot_owner"], "PortGame.source_unit_move_pref_state")
+        self.assertIn("Move based on preferred unit movement type.", unit_move_pref["exact_exprs"])
+        self.assertIn("public void movePref(Vec2 movement){", unit_move_pref["exact_exprs"])
+        self.assertIn("if(type.omniMovement){", unit_move_pref["exact_exprs"])
+        self.assertIn("moveAt(movement);", unit_move_pref["exact_exprs"])
+        self.assertIn("rotateMove(movement);", unit_move_pref["exact_exprs"])
+        self.assertIn("UnitComp.moveAt(Vec2 vector)", unit_move_pref["deferred_exprs"])
+        self.assertIn("UnitComp.rotateMove(Vec2 vec)", unit_move_pref["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18819,6 +18856,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("target_y", unit_move_at["return_keys"])
         self.assertIn("limit", unit_move_at["return_keys"])
         self.assertEqual(unit_move_at["source_method"], "UnitComp.moveAt(Vec2 vector, float acceleration)")
+
+        unit_move_pref = source_symbols.api_contract(contracts, "PortGame.source_unit_move_pref_state")
+        self.assertEqual([param["name"] for param in unit_move_pref["params"]], ["type_omni_movement", "movement_x", "movement_y"])
+        self.assertEqual(unit_move_pref["params"][0]["schema"], "source_unit_move_pref_input.type_omni_movement")
+        self.assertEqual(unit_move_pref["params"][1]["schema"], "source_unit_move_pref_input.movement_x")
+        self.assertEqual(unit_move_pref["params"][2]["schema"], "source_unit_move_pref_input.movement_y")
+        self.assertIn("method", unit_move_pref["return_keys"])
+        self.assertIn("omniGate", unit_move_pref["return_keys"])
+        self.assertIn("moveAtCall", unit_move_pref["return_keys"])
+        self.assertIn("rotateMoveCall", unit_move_pref["return_keys"])
+        self.assertIn("movement", unit_move_pref["return_keys"])
+        self.assertIn("call", unit_move_pref["return_keys"])
+        self.assertEqual(unit_move_pref["source_method"], "UnitComp.movePref(Vec2 movement)")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23104,6 +23154,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_move_at_result["keys"]["delta_y"]["java_expr"], "tmp2.y")
         self.assertEqual(source_unit_move_at_result["keys"]["vel_x"]["java_expr"], "vel.x")
         self.assertEqual(source_unit_move_at_result["keys"]["vel_y"]["java_expr"], "vel.y")
+
+        source_unit_move_pref_input = source_symbols.state_schema(schema, "source_unit_move_pref_input")
+        self.assertEqual(source_unit_move_pref_input["keys"]["type_omni_movement"]["java_expr"], "type.omniMovement")
+        self.assertEqual(source_unit_move_pref_input["keys"]["movement_x"]["java_expr"], "movement.x")
+        self.assertEqual(source_unit_move_pref_input["keys"]["movement_y"]["java_expr"], "movement.y")
+
+        source_unit_move_pref_result = source_symbols.state_schema(schema, "source_unit_move_pref_result")
+        self.assertEqual(source_unit_move_pref_result["keys"]["method"]["java_expr"], "public void movePref(Vec2 movement){")
+        self.assertEqual(source_unit_move_pref_result["keys"]["omniGate"]["java_expr"], "if(type.omniMovement){")
+        self.assertEqual(source_unit_move_pref_result["keys"]["moveAtCall"]["java_expr"], "moveAt(movement);")
+        self.assertEqual(source_unit_move_pref_result["keys"]["rotateMoveCall"]["java_expr"], "rotateMove(movement);")
+        self.assertEqual(source_unit_move_pref_result["keys"]["call"]["java_expr"], "type.omniMovement ? moveAt(movement) : rotateMove(movement)")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

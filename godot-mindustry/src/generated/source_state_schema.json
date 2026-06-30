@@ -51750,6 +51750,140 @@
       "runtime_proof": "/root/Main.source_unit_move_at_state",
       "status": "active"
     },
+    "source_unit_move_pref_input": {
+      "keys": {
+        "movement": {
+          "godot_symbol": "source_unit_move_pref_input.movement",
+          "java_expr": "movement",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp movePref movement Vec2 parameter.",
+          "status": "explicit-input",
+          "type": "Vec2",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "movement_x": {
+          "godot_symbol": "source_unit_move_pref_input.movement_x",
+          "java_expr": "movement.x",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime movement x value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "movement_y": {
+          "godot_symbol": "source_unit_move_pref_input.movement_y",
+          "java_expr": "movement.y",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime movement y value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "type_omni_movement": {
+          "godot_symbol": "source_unit_move_pref_input.type_omni_movement",
+          "java_expr": "type.omniMovement",
+          "java_method": "UnitType.omniMovement",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime UnitType.omniMovement value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_move_pref_state",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "active"
+    },
+    "source_unit_move_pref_result": {
+      "keys": {
+        "call": {
+          "godot_symbol": "source_unit_move_pref_result.call",
+          "java_expr": "type.omniMovement ? moveAt(movement) : rotateMove(movement)",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Resolved preferred movement dispatch target.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_move_pref_result.method",
+          "java_expr": "public void movePref(Vec2 movement){",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp movePref method header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "moveAtCall": {
+          "godot_symbol": "source_unit_move_pref_result.moveAtCall",
+          "java_expr": "moveAt(movement);",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Omni movement branch delegate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "movement": {
+          "godot_symbol": "source_unit_move_pref_result.movement",
+          "java_expr": "movement",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Returned runtime movement vector.",
+          "status": "source-backed",
+          "type": "Vec2",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "omniGate": {
+          "godot_symbol": "source_unit_move_pref_result.omniGate",
+          "java_expr": "if(type.omniMovement){",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Preferred movement branch gate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        },
+        "rotateMoveCall": {
+          "godot_symbol": "source_unit_move_pref_result.rotateMoveCall",
+          "java_expr": "rotateMove(movement);",
+          "java_method": "UnitComp.movePref(Vec2 movement)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Non-omni movement branch delegate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_pref_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_move_pref_state",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

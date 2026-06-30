@@ -13146,6 +13146,46 @@
         "test_unit_move_at_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_move_at_state"
       ]
+    },
+    "N795": {
+      "bridge_exprs": [
+        "import arc.math.geom.*;",
+        "public class Vec2 implements Vector<Vec2>, Position{",
+        "public float x;",
+        "public float y;",
+        "omniMovement = true,"
+      ],
+      "deferred_exprs": [
+        "UnitComp.moveAt(Vec2 vector)",
+        "UnitComp.rotateMove(Vec2 vec)"
+      ],
+      "exact_exprs": [
+        "Move based on preferred unit movement type.",
+        "public void movePref(Vec2 movement){",
+        "if(type.omniMovement){",
+        "moveAt(movement);",
+        "rotateMove(movement);"
+      ],
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "source_symbols": [
+        "unit_move_pref.method",
+        "unit_move_pref.movement_input",
+        "unit_move_pref.movement_x_input",
+        "unit_move_pref.movement_y_input",
+        "unit_move_pref.move_at_call",
+        "unit_move_pref.omni_gate",
+        "unit_move_pref.rotate_move_call",
+        "unit_move_pref.type_omni_movement"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
     }
   },
   "version": 1

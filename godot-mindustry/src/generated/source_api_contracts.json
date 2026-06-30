@@ -14786,6 +14786,43 @@
         "test_unit_move_at_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_move_at_state"
       ]
+    },
+    "PortGame.source_unit_move_pref_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_omni_movement",
+          "schema": "source_unit_move_pref_input.type_omni_movement",
+          "type": "bool"
+        },
+        {
+          "name": "movement_x",
+          "schema": "source_unit_move_pref_input.movement_x",
+          "type": "float"
+        },
+        {
+          "name": "movement_y",
+          "schema": "source_unit_move_pref_input.movement_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "omniGate",
+        "moveAtCall",
+        "rotateMoveCall",
+        "movement",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.movePref(Vec2 movement) preferred movement dispatch.",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "source_method": "UnitComp.movePref(Vec2 movement)",
+      "source_slice": "N795",
+      "status": "active",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
     }
   },
   "policy": {

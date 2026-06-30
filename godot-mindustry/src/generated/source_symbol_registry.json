@@ -40844,6 +40844,118 @@
         "test_port_game_exposes_source_unit_move_at_default_accel_state"
       ]
     },
+    "unit_move_pref.method": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_result.method",
+      "java_expr": "public void movePref(Vec2 movement){",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp movePref(Vec2) method boundary.",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
+    "unit_move_pref.move_at_call": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_result.moveAtCall",
+      "java_expr": "moveAt(movement);",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp movePref omni branch delegates to moveAt(movement).",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
+    "unit_move_pref.movement_input": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_input.movement",
+      "java_expr": "movement",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp movePref movement Vec2 parameter.",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
+    "unit_move_pref.movement_x_input": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_input.movement_x",
+      "java_expr": "movement.x",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime Vec2 movement x value.",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
+    "unit_move_pref.movement_y_input": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_input.movement_y",
+      "java_expr": "movement.y",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime Vec2 movement y value.",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
+    "unit_move_pref.omni_gate": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_result.omniGate",
+      "java_expr": "if(type.omniMovement){",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp movePref omni movement branch gate.",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
+    "unit_move_pref.rotate_move_call": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_result.rotateMoveCall",
+      "java_expr": "rotateMove(movement);",
+      "java_method": "UnitComp.movePref(Vec2 movement)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp movePref non-omni branch delegates to rotateMove(movement).",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
+    "unit_move_pref.type_omni_movement": {
+      "godot_owner": "PortGame.source_unit_move_pref_state",
+      "godot_symbol": "source_unit_move_pref_input.type_omni_movement",
+      "java_expr": "omniMovement = true,",
+      "java_method": "UnitType.omniMovement",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType omniMovement field backing explicit type_omni_movement input.",
+      "runtime_proof": "/root/Main.source_unit_move_pref_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_pref_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_pref_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

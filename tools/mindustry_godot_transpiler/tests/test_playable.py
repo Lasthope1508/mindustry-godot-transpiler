@@ -6358,6 +6358,14 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_move_pref_state(type_omni_movement: bool, movement_x: float, movement_y: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_MOVE_PREF_METHOD := "public void movePref(Vec2 movement){"', source)
+        self.assertIn('const SOURCE_UNIT_MOVE_PREF_OMNI_GATE := "if(type.omniMovement){"', source)
+        self.assertIn('const SOURCE_UNIT_MOVE_PREF_MOVE_AT_CALL := "moveAt(movement);"', source)
+        self.assertIn('const SOURCE_UNIT_MOVE_PREF_ROTATE_MOVE_CALL := "rotateMove(movement);"', source)
+        self.assertIn('"method": SOURCE_UNIT_MOVE_PREF_METHOD', source)
+        self.assertIn('"omniGate": SOURCE_UNIT_MOVE_PREF_OMNI_GATE', source)
+        self.assertIn('"moveAtCall": SOURCE_UNIT_MOVE_PREF_MOVE_AT_CALL', source)
+        self.assertIn('"rotateMoveCall": SOURCE_UNIT_MOVE_PREF_ROTATE_MOVE_CALL', source)
         self.assertIn('"movement": {"x": movement_x, "y": movement_y}', source)
         self.assertIn('"call": "moveAt" if type_omni_movement else "rotateMove"', source)
 
