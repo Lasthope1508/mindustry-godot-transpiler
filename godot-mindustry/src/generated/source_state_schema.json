@@ -46896,6 +46896,130 @@
       "runtime_proof": "/root/Main.source_unit_approach_state",
       "status": "active"
     },
+    "source_unit_is_grounded_input": {
+      "keys": {
+        "elevation_value": {
+          "godot_symbol": "source_unit_is_grounded_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.isGrounded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Elevation field consumed by isGrounded().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_is_grounded"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_is_grounded",
+      "runtime_proof": "/root/Main.source_unit_is_grounded",
+      "status": "active"
+    },
+    "source_unit_is_grounded_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_is_grounded_result.method",
+          "java_expr": "public boolean isGrounded(){",
+          "java_method": "UnitComp.isGrounded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isGrounded method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_grounded"
+          ]
+        },
+        "groundedReturn": {
+          "godot_symbol": "source_unit_is_grounded_result.groundedReturn",
+          "java_expr": "return elevation < 0.001f;",
+          "java_method": "UnitComp.isGrounded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isGrounded exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_grounded"
+          ]
+        },
+        "grounded": {
+          "godot_symbol": "source_unit_is_grounded_result.grounded",
+          "java_expr": "return elevation < 0.001f;",
+          "java_method": "UnitComp.isGrounded()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for isGrounded().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_is_grounded"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_is_grounded",
+      "runtime_proof": "/root/Main.source_unit_is_grounded",
+      "status": "active"
+    },
+    "source_unit_is_flying_input": {
+      "keys": {
+        "elevation_value": {
+          "godot_symbol": "source_unit_is_flying_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.isFlying()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Elevation field consumed by isFlying().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_is_flying"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_is_flying",
+      "runtime_proof": "/root/Main.source_unit_is_flying",
+      "status": "active"
+    },
+    "source_unit_is_flying_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_is_flying_result.method",
+          "java_expr": "public boolean isFlying(){",
+          "java_method": "UnitComp.isFlying()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isFlying method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_flying"
+          ]
+        },
+        "flyingReturn": {
+          "godot_symbol": "source_unit_is_flying_result.flyingReturn",
+          "java_expr": "return elevation >= 0.09f;",
+          "java_method": "UnitComp.isFlying()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp isFlying exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_is_flying"
+          ]
+        },
+        "flying": {
+          "godot_symbol": "source_unit_is_flying_result.flying",
+          "java_expr": "return elevation >= 0.09f;",
+          "java_method": "UnitComp.isFlying()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for isFlying().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_is_flying"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_is_flying",
+      "runtime_proof": "/root/Main.source_unit_is_flying",
+      "status": "active"
+    },
     "source_unit_can_drown_input": {
       "keys": {
         "elevation_value": {
@@ -47006,6 +47130,168 @@
       },
       "owner": "PortGame.source_unit_can_drown_state",
       "runtime_proof": "/root/Main.source_unit_can_drown_state",
+      "status": "active"
+    },
+    "source_unit_check_target_input": {
+      "keys": {
+        "elevation_value": {
+          "godot_symbol": "source_unit_check_target_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Elevation field consumed by isGrounded()/isFlying().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        },
+        "target_air": {
+          "godot_symbol": "source_unit_check_target_input.target_air",
+          "java_expr": "targetAir",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "targetAir parameter consumed by flying branch.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        },
+        "target_ground": {
+          "godot_symbol": "source_unit_check_target_input.target_ground",
+          "java_expr": "targetGround",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "targetGround parameter consumed by grounded branch.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_check_target_state",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "status": "active"
+    },
+    "source_unit_check_target_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_check_target_result.method",
+          "java_expr": "public boolean checkTarget(boolean targetAir, boolean targetGround){",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp checkTarget method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        },
+        "checkTargetReturn": {
+          "godot_symbol": "source_unit_check_target_result.checkTargetReturn",
+          "java_expr": "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp checkTarget exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        },
+        "isGroundedCall": {
+          "godot_symbol": "source_unit_check_target_result.isGroundedCall",
+          "java_expr": "isGrounded()",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Grounded branch call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        },
+        "isFlyingCall": {
+          "godot_symbol": "source_unit_check_target_result.isFlyingCall",
+          "java_expr": "isFlying()",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Flying branch call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        },
+        "targetAir": {
+          "godot_symbol": "source_unit_check_target_result.targetAir",
+          "java_expr": "targetAir",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime echo of targetAir parameter.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ],
+          "alias_of": "source_unit_check_target_input.target_air"
+        },
+        "targetGround": {
+          "godot_symbol": "source_unit_check_target_result.targetGround",
+          "java_expr": "targetGround",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime echo of targetGround parameter.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ],
+          "alias_of": "source_unit_check_target_input.target_ground"
+        },
+        "grounded": {
+          "godot_symbol": "source_unit_check_target_result.grounded",
+          "java_expr": "isGrounded()",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime grounded result from isGrounded().",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ],
+          "alias_of": "source_unit_is_grounded_result.grounded"
+        },
+        "flying": {
+          "godot_symbol": "source_unit_check_target_result.flying",
+          "java_expr": "isFlying()",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime flying result from isFlying().",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ],
+          "alias_of": "source_unit_is_flying_result.flying"
+        },
+        "targetable": {
+          "godot_symbol": "source_unit_check_target_result.targetable",
+          "java_expr": "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+          "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean result for checkTarget().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_check_target_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_check_target_state",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
       "status": "active"
     },
     "source_unit_can_target_input": {

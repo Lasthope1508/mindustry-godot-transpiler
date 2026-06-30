@@ -4693,6 +4693,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_expr["java_expr"], "return isGrounded() && type.canDrown;")
         self.assertEqual(return_expr["godot_symbol"], "source_unit_can_drown_result.canDrownReturn")
 
+    def test_unit_check_target_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_check_target.method")
+        self.assertEqual(method["java_expr"], "public boolean checkTarget(boolean targetAir, boolean targetGround){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_check_target_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_check_target_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_check_target_result.method")
+
+        return_expr = source_symbols.source_symbol(registry, "unit_check_target.return")
+        self.assertEqual(return_expr["java_expr"], "return (isGrounded() && targetGround) || (isFlying() && targetAir);")
+        self.assertEqual(return_expr["godot_symbol"], "source_unit_check_target_result.checkTargetReturn")
+
+        grounded_call = source_symbols.source_symbol(registry, "unit_check_target.is_grounded_call")
+        self.assertEqual(grounded_call["java_expr"], "isGrounded()")
+        self.assertEqual(grounded_call["godot_symbol"], "source_unit_check_target_result.isGroundedCall")
+
+        flying_call = source_symbols.source_symbol(registry, "unit_check_target.is_flying_call")
+        self.assertEqual(flying_call["java_expr"], "isFlying()")
+        self.assertEqual(flying_call["godot_symbol"], "source_unit_check_target_result.isFlyingCall")
+
+        target_air = source_symbols.source_symbol(registry, "unit_check_target.target_air")
+        self.assertEqual(target_air["java_expr"], "targetAir")
+        self.assertEqual(target_air["godot_symbol"], "source_unit_check_target_input.target_air")
+
+        target_ground = source_symbols.source_symbol(registry, "unit_check_target.target_ground")
+        self.assertEqual(target_ground["java_expr"], "targetGround")
+        self.assertEqual(target_ground["godot_symbol"], "source_unit_check_target_input.target_ground")
+
     def test_unit_can_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11731,9 +11763,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 359)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 360)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 364)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 365)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11750,6 +11782,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_check_target_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -16806,6 +16839,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("can_drown", unit_can_drown["return_keys"])
         self.assertEqual(unit_can_drown["source_method"], "UnitComp.canDrown()")
 
+        unit_check_target = source_symbols.api_contract(contracts, "PortGame.source_unit_check_target_state")
+        self.assertEqual([param["name"] for param in unit_check_target["params"]], ["elevation_value", "target_air", "target_ground"])
+        self.assertEqual(unit_check_target["params"][0]["schema"], "source_unit_check_target_input.elevation_value")
+        self.assertEqual(unit_check_target["params"][1]["schema"], "source_unit_check_target_input.target_air")
+        self.assertEqual(unit_check_target["params"][2]["schema"], "source_unit_check_target_input.target_ground")
+        self.assertIn("grounded", unit_check_target["return_keys"])
+        self.assertIn("flying", unit_check_target["return_keys"])
+        self.assertIn("targetable", unit_check_target["return_keys"])
+        self.assertEqual(unit_check_target["source_method"], "UnitComp.checkTarget(boolean targetAir, boolean targetGround)")
+
         unit_can_target = source_symbols.api_contract(contracts, "PortGame.source_unit_can_target_state")
         self.assertEqual([param["name"] for param in unit_can_target["params"]], ["other_exists", "other_is_unit", "other_unit_check_target_result", "other_is_building", "type_target_air", "type_target_ground"])
         self.assertEqual(unit_can_target["params"][0]["schema"], "source_unit_can_target_input.other_exists")
@@ -20672,6 +20715,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_can_drown_result["keys"]["canDrownReturn"]["java_expr"], "return isGrounded() && type.canDrown;")
         self.assertEqual(source_unit_can_drown_result["keys"]["grounded"]["java_expr"], "isGrounded()")
         self.assertEqual(source_unit_can_drown_result["keys"]["can_drown"]["java_expr"], "return isGrounded() && type.canDrown;")
+
+        source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
+        self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_check_target_input["keys"]["target_air"]["java_expr"], "targetAir")
+        self.assertEqual(source_unit_check_target_input["keys"]["target_ground"]["java_expr"], "targetGround")
+
+        source_unit_check_target_result = source_symbols.state_schema(schema, "source_unit_check_target_result")
+        self.assertEqual(source_unit_check_target_result["keys"]["method"]["java_expr"], "public boolean checkTarget(boolean targetAir, boolean targetGround){")
+        self.assertEqual(source_unit_check_target_result["keys"]["checkTargetReturn"]["java_expr"], "return (isGrounded() && targetGround) || (isFlying() && targetAir);")
+        self.assertEqual(source_unit_check_target_result["keys"]["isGroundedCall"]["java_expr"], "isGrounded()")
+        self.assertEqual(source_unit_check_target_result["keys"]["isFlyingCall"]["java_expr"], "isFlying()")
+        self.assertEqual(source_unit_check_target_result["keys"]["grounded"]["alias_of"], "source_unit_is_grounded_result.grounded")
+        self.assertEqual(source_unit_check_target_result["keys"]["targetable"]["java_expr"], "return (isGrounded() && targetGround) || (isFlying() && targetAir);")
 
         source_unit_can_target_input = source_symbols.state_schema(schema, "source_unit_can_target_input")
         self.assertEqual(source_unit_can_target_input["keys"]["other_exists"]["java_expr"], "other != null")

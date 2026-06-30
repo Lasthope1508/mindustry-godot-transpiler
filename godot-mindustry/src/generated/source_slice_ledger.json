@@ -11703,6 +11703,44 @@
         "test_port_game_exposes_source_unit_can_target_state"
       ]
     },
+    "N762": {
+      "deferred_exprs": [
+        "UnitComp.canTarget(Teamc other) delegated call u.checkTarget(type.targetAir, type.targetGround) remains owned by source_unit_can_target_state"
+      ],
+      "exact_exprs": [
+        "public boolean checkTarget(boolean targetAir, boolean targetGround){",
+        "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+        "isGrounded()",
+        "isFlying()",
+        "public boolean isGrounded(){",
+        "return elevation < 0.001f;",
+        "public boolean isFlying(){",
+        "return elevation >= 0.09f;"
+      ],
+      "bridge_exprs": [
+        "elevation",
+        "targetAir",
+        "targetGround"
+      ],
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "source_symbols": [
+        "unit_check_target.method",
+        "unit_check_target.return",
+        "unit_check_target.is_grounded_call",
+        "unit_check_target.is_flying_call",
+        "unit_check_target.target_air",
+        "unit_check_target.target_ground"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
     "N761": {
       "deferred_exprs": [
         "Unit add over-cap death/rollback remains owned by source_unit_add_state"

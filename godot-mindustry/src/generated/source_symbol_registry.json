@@ -36950,6 +36950,90 @@
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
     },
+    "unit_check_target.method": {
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "godot_symbol": "source_unit_check_target_result.method",
+      "java_expr": "public boolean checkTarget(boolean targetAir, boolean targetGround){",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp checkTarget method boundary.",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_check_target.return": {
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "godot_symbol": "source_unit_check_target_result.checkTargetReturn",
+      "java_expr": "return (isGrounded() && targetGround) || (isFlying() && targetAir);",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp checkTarget exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_check_target.is_grounded_call": {
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "godot_symbol": "source_unit_check_target_result.isGroundedCall",
+      "java_expr": "isGrounded()",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Grounded branch delegates to isGrounded().",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_check_target.is_flying_call": {
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "godot_symbol": "source_unit_check_target_result.isFlyingCall",
+      "java_expr": "isFlying()",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Air branch delegates to isFlying().",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_check_target.target_air": {
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "godot_symbol": "source_unit_check_target_input.target_air",
+      "java_expr": "targetAir",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit checkTarget targetAir parameter.",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
+    "unit_check_target.target_ground": {
+      "godot_owner": "PortGame.source_unit_check_target_state",
+      "godot_symbol": "source_unit_check_target_input.target_ground",
+      "java_expr": "targetGround",
+      "java_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit checkTarget targetGround parameter.",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
     "unit_can_target.method": {
       "godot_owner": "PortGame.source_unit_can_target_state",
       "godot_symbol": "source_unit_can_target_result.method",

@@ -13294,6 +13294,40 @@
         "test_port_game_exposes_source_unit_can_drown_state"
       ]
     },
+    "PortGame.source_unit_check_target_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_check_target_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "target_air",
+          "schema": "source_unit_check_target_input.target_air",
+          "type": "bool"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_unit_check_target_input.target_ground",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "grounded",
+        "flying",
+        "targetable"
+      ],
+      "rule": "Public runtime contract for UnitComp.checkTarget grounded/flying target gates.",
+      "runtime_proof": "/root/Main.source_unit_check_target_state",
+      "source_method": "UnitComp.checkTarget(boolean targetAir, boolean targetGround)",
+      "source_slice": "N762",
+      "status": "active",
+      "tests": [
+        "test_unit_check_target_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_grounded_flying_target_state"
+      ]
+    },
     "PortGame.source_unit_can_target_state": {
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
       "params": [

@@ -3823,6 +3823,11 @@ func source_unit_is_grounded(elevation_value: float) -> bool:
 func source_unit_is_flying(elevation_value: float) -> bool:
 	return elevation_value >= 0.09
 
+const SOURCE_UNIT_CHECK_TARGET_METHOD := "public boolean checkTarget(boolean targetAir, boolean targetGround){"
+const SOURCE_UNIT_CHECK_TARGET_RETURN := "return (isGrounded() && targetGround) || (isFlying() && targetAir);"
+const SOURCE_UNIT_CHECK_TARGET_IS_GROUNDED_CALL := "isGrounded()"
+const SOURCE_UNIT_CHECK_TARGET_IS_FLYING_CALL := "isFlying()"
+
 func source_unit_check_target_state(elevation_value: float, target_air: bool, target_ground: bool) -> Dictionary:
 	var grounded: bool = source_unit_is_grounded(elevation_value)
 	var flying: bool = source_unit_is_flying(elevation_value)
