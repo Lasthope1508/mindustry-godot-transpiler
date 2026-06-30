@@ -4205,8 +4205,35 @@ func source_unit_cap_state(team_is_wave_team: bool, rules_pvp: bool, state_is_ca
 		"call": "Units.getCap(team)",
 	}
 
+const SOURCE_UNIT_SET_TYPE_METHOD := "public void setType(UnitType type){"
+const SOURCE_UNIT_SET_TYPE_ASSIGN_TYPE := "this.type = type;"
+const SOURCE_UNIT_SET_TYPE_ASSIGN_MAX_HEALTH := "this.maxHealth = type.health;"
+const SOURCE_UNIT_SET_TYPE_ASSIGN_DRAG := "this.drag = type.drag;"
+const SOURCE_UNIT_SET_TYPE_ASSIGN_ARMOR := "this.armor = type.armor;"
+const SOURCE_UNIT_SET_TYPE_ASSIGN_HIT_SIZE := "this.hitSize = type.hitSize;"
+const SOURCE_UNIT_SET_TYPE_SETUP_WEAPONS_GUARD := "if(mounts().length != type.weapons.size) setupWeapons(type);"
+const SOURCE_UNIT_SET_TYPE_ABILITIES_GUARD := "if(abilities.length != type.abilities.size || (abilities.length > 0 && abilities[0] instanceof EmptyDataAbility)){"
+const SOURCE_UNIT_SET_TYPE_ABILITIES_ARRAY := "abilities = new Ability[type.abilities.size];"
+const SOURCE_UNIT_SET_TYPE_ABILITY_COPY := "abilities[i] = type.abilities.get(i).copy();"
+const SOURCE_UNIT_SET_TYPE_ABILITY_DATA_CARRY := "abilities[i].data = old[i].data;"
+const SOURCE_UNIT_SET_TYPE_CONTROLLER_GUARD := "if(controller == null) controller(type.createController(self()));"
+const SOURCE_UNIT_SET_TYPE_UNIT_TYPE_CREATE_CONTROLLER := "public UnitController createController(Unit unit){"
+
 func source_unit_set_type_state(type_id: int, type_health: float, type_drag: float, type_armor: float, type_hit_size: float, mounts_length: int, type_weapons_size: int, abilities_length: int, type_abilities_size: int, first_ability_is_empty_data_ability: bool, controller_is_null: bool) -> Dictionary:
 	return {
+		"method": SOURCE_UNIT_SET_TYPE_METHOD,
+		"assignType": SOURCE_UNIT_SET_TYPE_ASSIGN_TYPE,
+		"assignMaxHealth": SOURCE_UNIT_SET_TYPE_ASSIGN_MAX_HEALTH,
+		"assignDrag": SOURCE_UNIT_SET_TYPE_ASSIGN_DRAG,
+		"assignArmor": SOURCE_UNIT_SET_TYPE_ASSIGN_ARMOR,
+		"assignHitSize": SOURCE_UNIT_SET_TYPE_ASSIGN_HIT_SIZE,
+		"setupWeaponsGuard": SOURCE_UNIT_SET_TYPE_SETUP_WEAPONS_GUARD,
+		"abilitiesGuard": SOURCE_UNIT_SET_TYPE_ABILITIES_GUARD,
+		"abilitiesArray": SOURCE_UNIT_SET_TYPE_ABILITIES_ARRAY,
+		"abilityCopy": SOURCE_UNIT_SET_TYPE_ABILITY_COPY,
+		"abilityDataCarry": SOURCE_UNIT_SET_TYPE_ABILITY_DATA_CARRY,
+		"controllerGuard": SOURCE_UNIT_SET_TYPE_CONTROLLER_GUARD,
+		"unitTypeCreateControllerMethod": SOURCE_UNIT_SET_TYPE_UNIT_TYPE_CREATE_CONTROLLER,
 		"assigned_type_id": type_id,
 		"maxHealth": type_health,
 		"drag": type_drag,

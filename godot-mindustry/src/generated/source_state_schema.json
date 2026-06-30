@@ -52492,6 +52492,416 @@
       "runtime_proof": "/root/Main.source_unit_rotate_move_rotation_state",
       "status": "active"
     },
+    "source_unit_set_type_input": {
+      "keys": {
+        "abilities_length": {
+          "godot_symbol": "source_unit_set_type_input.abilities_length",
+          "java_expr": "abilities.length",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for current abilities length.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "controller_is_null": {
+          "godot_symbol": "source_unit_set_type_input.controller_is_null",
+          "java_expr": "controller == null",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for controller null guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "first_ability_is_empty_data_ability": {
+          "godot_symbol": "source_unit_set_type_input.first_ability_is_empty_data_ability",
+          "java_expr": "abilities[0] instanceof EmptyDataAbility",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for first ability empty-data predicate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "mounts_length": {
+          "godot_symbol": "source_unit_set_type_input.mounts_length",
+          "java_expr": "mounts().length",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for current mounts length.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "type_abilities_size": {
+          "godot_symbol": "source_unit_set_type_input.type_abilities_size",
+          "java_expr": "type.abilities.size",
+          "java_method": "UnitType.abilities field",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType abilities size.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "type_armor": {
+          "godot_symbol": "source_unit_set_type_input.type_armor",
+          "java_expr": "type.armor",
+          "java_method": "UnitType.armor field",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType armor.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "type_drag": {
+          "godot_symbol": "source_unit_set_type_input.type_drag",
+          "java_expr": "type.drag",
+          "java_method": "UnitType.drag field",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType drag.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "type_health": {
+          "godot_symbol": "source_unit_set_type_input.type_health",
+          "java_expr": "type.health",
+          "java_method": "UnitType.health field",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType health.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "type_hit_size": {
+          "godot_symbol": "source_unit_set_type_input.type_hit_size",
+          "java_expr": "type.hitSize",
+          "java_method": "UnitType.hitSize field",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType hitSize.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "type_id": {
+          "godot_symbol": "source_unit_set_type_input.type_id",
+          "java_expr": "type.id",
+          "java_method": "UnitType.id",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType id.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "type_weapons_size": {
+          "godot_symbol": "source_unit_set_type_input.type_weapons_size",
+          "java_expr": "type.weapons.size",
+          "java_method": "UnitType.weapons field",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime bridge input for UnitType weapons size.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_set_type_state",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "active"
+    },
+    "source_unit_set_type_result": {
+      "keys": {
+        "abilitiesArray": {
+          "godot_symbol": "source_unit_set_type_result.abilitiesArray",
+          "java_expr": "abilities = new Ability[type.abilities.size];",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source ability array replacement string.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "abilitiesGuard": {
+          "godot_symbol": "source_unit_set_type_result.abilitiesGuard",
+          "java_expr": "if(abilities.length != type.abilities.size || (abilities.length > 0 && abilities[0] instanceof EmptyDataAbility)){",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source abilities refresh guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "abilityCopy": {
+          "godot_symbol": "source_unit_set_type_result.abilityCopy",
+          "java_expr": "abilities[i] = type.abilities.get(i).copy();",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source ability copy string.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "abilityDataCarry": {
+          "godot_symbol": "source_unit_set_type_result.abilityDataCarry",
+          "java_expr": "abilities[i].data = old[i].data;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source ability data carry string.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "armor": {
+          "godot_symbol": "source_unit_set_type_result.armor",
+          "java_expr": "this.armor = type.armor;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime armor value assigned from UnitType armor.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "assignArmor": {
+          "godot_symbol": "source_unit_set_type_result.assignArmor",
+          "java_expr": "this.armor = type.armor;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source assignment for armor string.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "assignDrag": {
+          "godot_symbol": "source_unit_set_type_result.assignDrag",
+          "java_expr": "this.drag = type.drag;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source assignment for drag string.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "assignHitSize": {
+          "godot_symbol": "source_unit_set_type_result.assignHitSize",
+          "java_expr": "this.hitSize = type.hitSize;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source assignment for hitSize string.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "assignMaxHealth": {
+          "godot_symbol": "source_unit_set_type_result.assignMaxHealth",
+          "java_expr": "this.maxHealth = type.health;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source assignment for maxHealth.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "assignType": {
+          "godot_symbol": "source_unit_set_type_result.assignType",
+          "java_expr": "this.type = type;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source assignment for type.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "assigned_type_id": {
+          "godot_symbol": "source_unit_set_type_result.assigned_type_id",
+          "java_expr": "type.id",
+          "java_method": "UnitType.id",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime assigned type id.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_set_type_result.call",
+          "java_expr": "setType(UnitType type)",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime call label for setType.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "controllerGuard": {
+          "godot_symbol": "source_unit_set_type_result.controllerGuard",
+          "java_expr": "if(controller == null) controller(type.createController(self()));",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source controller creation guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "createController": {
+          "godot_symbol": "source_unit_set_type_result.createController",
+          "java_expr": "controller == null",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime controller guard result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "drag": {
+          "godot_symbol": "source_unit_set_type_result.drag",
+          "java_expr": "this.drag = type.drag;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime drag value assigned from UnitType drag.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "hitSize": {
+          "godot_symbol": "source_unit_set_type_result.hitSize",
+          "java_expr": "this.hitSize = type.hitSize;",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime hitSize value assigned from UnitType hitSize.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "maxHealth": {
+          "godot_symbol": "source_unit_set_type_result.maxHealth",
+          "java_expr": "type.health",
+          "java_method": "UnitType.health field",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Runtime maxHealth assigned from UnitType health.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_set_type_result.method",
+          "java_expr": "public void setType(UnitType type){",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp setType method source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "refreshAbilities": {
+          "godot_symbol": "source_unit_set_type_result.refreshAbilities",
+          "java_expr": "abilities.length != type.abilities.size || (abilities.length > 0 && abilities[0] instanceof EmptyDataAbility)",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime abilities refresh guard result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "setupWeapons": {
+          "godot_symbol": "source_unit_set_type_result.setupWeapons",
+          "java_expr": "mounts().length != type.weapons.size",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime setupWeapons guard result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "setupWeaponsGuard": {
+          "godot_symbol": "source_unit_set_type_result.setupWeaponsGuard",
+          "java_expr": "if(mounts().length != type.weapons.size) setupWeapons(type);",
+          "java_method": "UnitComp.setType(UnitType type)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source setupWeapons guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        },
+        "unitTypeCreateControllerMethod": {
+          "godot_symbol": "source_unit_set_type_result.unitTypeCreateControllerMethod",
+          "java_expr": "public UnitController createController(Unit unit){",
+          "java_method": "UnitType.createController(Unit unit)",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType createController bridge method string.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_set_type_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_set_type_state",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

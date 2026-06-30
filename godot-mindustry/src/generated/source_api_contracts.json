@@ -15009,6 +15009,99 @@
         "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_rotate_move_rotation_state"
       ]
+    },
+    "PortGame.source_unit_set_type_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_id",
+          "schema": "source_unit_set_type_input.type_id",
+          "type": "int"
+        },
+        {
+          "name": "type_health",
+          "schema": "source_unit_set_type_input.type_health",
+          "type": "float"
+        },
+        {
+          "name": "type_drag",
+          "schema": "source_unit_set_type_input.type_drag",
+          "type": "float"
+        },
+        {
+          "name": "type_armor",
+          "schema": "source_unit_set_type_input.type_armor",
+          "type": "float"
+        },
+        {
+          "name": "type_hit_size",
+          "schema": "source_unit_set_type_input.type_hit_size",
+          "type": "float"
+        },
+        {
+          "name": "mounts_length",
+          "schema": "source_unit_set_type_input.mounts_length",
+          "type": "int"
+        },
+        {
+          "name": "type_weapons_size",
+          "schema": "source_unit_set_type_input.type_weapons_size",
+          "type": "int"
+        },
+        {
+          "name": "abilities_length",
+          "schema": "source_unit_set_type_input.abilities_length",
+          "type": "int"
+        },
+        {
+          "name": "type_abilities_size",
+          "schema": "source_unit_set_type_input.type_abilities_size",
+          "type": "int"
+        },
+        {
+          "name": "first_ability_is_empty_data_ability",
+          "schema": "source_unit_set_type_input.first_ability_is_empty_data_ability",
+          "type": "bool"
+        },
+        {
+          "name": "controller_is_null",
+          "schema": "source_unit_set_type_input.controller_is_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "assignType",
+        "assignMaxHealth",
+        "assignDrag",
+        "assignArmor",
+        "assignHitSize",
+        "setupWeaponsGuard",
+        "abilitiesGuard",
+        "abilitiesArray",
+        "abilityCopy",
+        "abilityDataCarry",
+        "controllerGuard",
+        "unitTypeCreateControllerMethod",
+        "assigned_type_id",
+        "maxHealth",
+        "drag",
+        "armor",
+        "hitSize",
+        "setupWeapons",
+        "refreshAbilities",
+        "createController",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.setType(UnitType type) assignment and guard state.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "source_method": "UnitComp.setType(UnitType type)",
+      "source_slice": "N800",
+      "status": "active",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
     }
   },
   "policy": {

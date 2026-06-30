@@ -13345,6 +13345,67 @@
         "test_unit_rotate_move_rotation_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_rotate_move_rotation_state"
       ]
+    },
+    "N800": {
+      "bridge_exprs": [
+        "health = 200f,",
+        "drag = 0.3f,",
+        "armor = 0f,",
+        "hitSize = 6f,",
+        "public Seq<Ability> abilities = new Seq<>();",
+        "public Seq<Weapon> weapons = new Seq<>();",
+        "public UnitController createController(Unit unit){"
+      ],
+      "deferred_exprs": [
+        "setupWeapons(type) mount construction is owned by PortGame.source_weapons_setup_mounts_state.",
+        "Ability.copy() and ability data object internals stay deferred until ability runtime state is ported.",
+        "UnitController object creation stays deferred; this slice only preserves the controller null guard."
+      ],
+      "exact_exprs": [
+        "public void setType(UnitType type){",
+        "this.type = type;",
+        "this.maxHealth = type.health;",
+        "this.drag = type.drag;",
+        "this.armor = type.armor;",
+        "this.hitSize = type.hitSize;",
+        "if(mounts().length != type.weapons.size) setupWeapons(type);",
+        "if(abilities.length != type.abilities.size || (abilities.length > 0 && abilities[0] instanceof EmptyDataAbility)){",
+        "abilities = new Ability[type.abilities.size];",
+        "abilities[i] = type.abilities.get(i).copy();",
+        "abilities[i].data = old[i].data;",
+        "if(controller == null) controller(type.createController(self()));"
+      ],
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "source_symbols": [
+        "unit_set_type.method",
+        "unit_set_type.assign_type",
+        "unit_set_type.assign_max_health",
+        "unit_set_type.assign_drag",
+        "unit_set_type.assign_armor",
+        "unit_set_type.assign_hit_size",
+        "unit_set_type.setup_weapons_guard",
+        "unit_set_type.abilities_guard",
+        "unit_set_type.abilities_array",
+        "unit_set_type.ability_copy",
+        "unit_set_type.ability_data_carry",
+        "unit_set_type.controller_guard",
+        "unit_set_type.unit_type_health_default",
+        "unit_set_type.unit_type_drag_default",
+        "unit_set_type.unit_type_armor_default",
+        "unit_set_type.unit_type_hit_size_default",
+        "unit_set_type.unit_type_abilities",
+        "unit_set_type.unit_type_weapons",
+        "unit_set_type.unit_type_create_controller"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
     }
   },
   "version": 1

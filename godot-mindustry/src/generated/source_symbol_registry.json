@@ -41222,6 +41222,272 @@
         "test_port_game_exposes_source_unit_rotate_move_rotation_state"
       ]
     },
+    "unit_set_type.abilities_array": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.abilitiesArray",
+      "java_expr": "abilities = new Ability[type.abilities.size];",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType ability array refresh.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.abilities_guard": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.abilitiesGuard",
+      "java_expr": "if(abilities.length != type.abilities.size || (abilities.length > 0 && abilities[0] instanceof EmptyDataAbility)){",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType ability refresh guard.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.ability_copy": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.abilityCopy",
+      "java_expr": "abilities[i] = type.abilities.get(i).copy();",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType copies UnitType abilities.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.ability_data_carry": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.abilityDataCarry",
+      "java_expr": "abilities[i].data = old[i].data;",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType carries existing ability data.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.assign_armor": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.assignArmor",
+      "java_expr": "this.armor = type.armor;",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType assigns armor from UnitType armor.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.assign_drag": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.assignDrag",
+      "java_expr": "this.drag = type.drag;",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType assigns drag from UnitType drag.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.assign_hit_size": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.assignHitSize",
+      "java_expr": "this.hitSize = type.hitSize;",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType assigns hitSize from UnitType hitSize.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.assign_max_health": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.assignMaxHealth",
+      "java_expr": "this.maxHealth = type.health;",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType assigns maxHealth from UnitType health.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.assign_type": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.assignType",
+      "java_expr": "this.type = type;",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType assigns type.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.controller_guard": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.controllerGuard",
+      "java_expr": "if(controller == null) controller(type.createController(self()));",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType creates controller when null.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.method": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.method",
+      "java_expr": "public void setType(UnitType type){",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType method source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.setup_weapons_guard": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.setupWeaponsGuard",
+      "java_expr": "if(mounts().length != type.weapons.size) setupWeapons(type);",
+      "java_method": "UnitComp.setType(UnitType type)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp setType setupWeapons guard.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.unit_type_abilities": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_input.type_abilities_size",
+      "java_expr": "public Seq<Ability> abilities = new Seq<>();",
+      "java_method": "UnitType abilities field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType abilities list source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.unit_type_armor_default": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_input.type_armor",
+      "java_expr": "armor = 0f,",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType armor default source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.unit_type_create_controller": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_result.unitTypeCreateControllerMethod",
+      "java_expr": "public UnitController createController(Unit unit){",
+      "java_method": "UnitType.createController(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType createController method source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.unit_type_drag_default": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_input.type_drag",
+      "java_expr": "drag = 0.3f,",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType drag default source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.unit_type_health_default": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_input.type_health",
+      "java_expr": "health = 200f,",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType health default source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.unit_type_hit_size_default": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_input.type_hit_size",
+      "java_expr": "hitSize = 6f,",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType hitSize default source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
+    "unit_set_type.unit_type_weapons": {
+      "godot_owner": "PortGame.source_unit_set_type_state",
+      "godot_symbol": "source_unit_set_type_input.type_weapons_size",
+      "java_expr": "public Seq<Weapon> weapons = new Seq<>();",
+      "java_method": "UnitType weapons field",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType weapons list source.",
+      "runtime_proof": "/root/Main.source_unit_set_type_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_set_type_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_set_type_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",
