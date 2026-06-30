@@ -9438,14 +9438,23 @@ func source_unit_update_unsupported_env_state(type_supports_env: bool, dead_valu
 		"callOrder": ["Call.unitEnvDeath(self())", "team.data().updateCount(type, -1)"] if env_death else [],
 	}
 
+const SOURCE_UNIT_UPDATE_ABILITIES_FIELD := "Ability[] abilities = {};"
+const SOURCE_UNIT_UPDATE_ABILITIES_LOOP := "for(Ability a : abilities){"
+const SOURCE_UNIT_UPDATE_ABILITIES_CALL := "a.update(self());"
+const SOURCE_UNIT_UPDATE_ABILITIES_ABILITY_UPDATE_METHOD := "public void update(Unit unit){}"
+
 func source_unit_update_abilities_loop_state(ability_ids: Array) -> Dictionary:
 	var updates := []
 	for ability_id in ability_ids:
 		updates.append({
-			"call": "a.update(self())",
+			"call": SOURCE_UNIT_UPDATE_ABILITIES_CALL,
 			"ability": ability_id,
 		})
 	return {
+		"abilitiesField": SOURCE_UNIT_UPDATE_ABILITIES_FIELD,
+		"loop": SOURCE_UNIT_UPDATE_ABILITIES_LOOP,
+		"updateCall": SOURCE_UNIT_UPDATE_ABILITIES_CALL,
+		"abilityUpdateMethod": SOURCE_UNIT_UPDATE_ABILITIES_ABILITY_UPDATE_METHOD,
 		"updates": updates,
 		"updateCount": updates.size(),
 	}

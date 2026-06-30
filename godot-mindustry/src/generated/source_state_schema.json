@@ -53162,6 +53162,125 @@
       "runtime_proof": "/root/Main.source_unit_unloaded_state",
       "status": "active"
     },
+    "source_unit_update_abilities_loop_input": {
+      "keys": {
+        "ability_ids": {
+          "godot_symbol": "source_unit_update_abilities_loop_input.ability_ids",
+          "java_expr": "abilities",
+          "java_method": "UnitComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ],
+          "rule": "Ordered projection of UnitComp abilities array for runtime bridge.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_abilities_loop_state",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "status": "active"
+    },
+    "source_unit_update_abilities_loop_result": {
+      "keys": {
+        "abilitiesField": {
+          "godot_symbol": "source_unit_update_abilities_loop_result.abilitiesField",
+          "java_expr": "Ability[] abilities = {};",
+          "java_method": "UnitComp field declaration",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ],
+          "rule": "UnitComp abilities field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ]
+        },
+        "abilityUpdateMethod": {
+          "godot_symbol": "source_unit_update_abilities_loop_result.abilityUpdateMethod",
+          "java_expr": "public void update(Unit unit){}",
+          "java_method": "Ability.update(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ],
+          "rule": "Base Ability update hook body.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_unit_update_abilities_loop_result.loop",
+          "java_expr": "for(Ability a : abilities){",
+          "java_method": "UnitComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ],
+          "rule": "Ability update loop boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ]
+        },
+        "updateCall": {
+          "godot_symbol": "source_unit_update_abilities_loop_result.updateCall",
+          "java_expr": "a.update(self());",
+          "java_method": "UnitComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ],
+          "rule": "Per-ability update dispatch call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ]
+        },
+        "updateCount": {
+          "godot_symbol": "source_unit_update_abilities_loop_result.updateCount",
+          "java_expr": "abilities",
+          "java_method": "UnitComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ],
+          "rule": "Bridge count derived from number of ability update dispatch records.",
+          "status": "generated",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ]
+        },
+        "updates": {
+          "godot_symbol": "source_unit_update_abilities_loop_result.updates",
+          "java_expr": "a.update(self());",
+          "java_method": "UnitComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ],
+          "rule": "Returned records preserve per-ability update(self()) dispatch order.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_update_abilities_loop_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_abilities_loop_state",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

@@ -3824,9 +3824,17 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_update_abilities_loop_state(ability_ids: Array) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_ABILITIES_FIELD := "Ability[] abilities = {};"', source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_ABILITIES_LOOP := "for(Ability a : abilities){"', source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_ABILITIES_CALL := "a.update(self());"', source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_ABILITIES_ABILITY_UPDATE_METHOD := "public void update(Unit unit){}"', source)
         self.assertIn("for ability_id in ability_ids:", source)
-        self.assertIn('"call": "a.update(self())"', source)
+        self.assertIn('"call": SOURCE_UNIT_UPDATE_ABILITIES_CALL', source)
         self.assertIn('"ability": ability_id', source)
+        self.assertIn('"abilitiesField": SOURCE_UNIT_UPDATE_ABILITIES_FIELD', source)
+        self.assertIn('"loop": SOURCE_UNIT_UPDATE_ABILITIES_LOOP', source)
+        self.assertIn('"updateCall": SOURCE_UNIT_UPDATE_ABILITIES_CALL', source)
+        self.assertIn('"abilityUpdateMethod": SOURCE_UNIT_UPDATE_ABILITIES_ABILITY_UPDATE_METHOD', source)
         self.assertIn('"updateCount": updates.size()', source)
 
     def test_port_game_exposes_source_unit_update_trail_position_state(self):

@@ -15173,6 +15173,33 @@
         "test_unit_unloaded_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_unloaded_noop_state"
       ]
+    },
+    "PortGame.source_unit_update_abilities_loop_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "ability_ids",
+          "schema": "source_unit_update_abilities_loop_input.ability_ids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "abilitiesField",
+        "loop",
+        "updateCall",
+        "abilityUpdateMethod",
+        "updates",
+        "updateCount"
+      ],
+      "rule": "Public runtime contract for UnitComp.update ability loop ordered dispatch record.",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "source_method": "UnitComp.update()/Ability.update(Unit unit)",
+      "source_slice": "N803",
+      "status": "active",
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ]
     }
   },
   "policy": {

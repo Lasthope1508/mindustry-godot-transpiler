@@ -4911,6 +4911,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_state["java_expr"], "unit")
         self.assertEqual(unit_state["godot_symbol"], "source_unit_unloaded_input.unit_state")
 
+    def test_unit_update_abilities_loop_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        abilities_field = source_symbols.source_symbol(registry, "unit_update_abilities_loop.abilities_field")
+        self.assertEqual(abilities_field["java_expr"], "Ability[] abilities = {};")
+        self.assertEqual(abilities_field["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(abilities_field["java_method"], "UnitComp field declaration")
+        self.assertEqual(abilities_field["godot_owner"], "PortGame.source_unit_update_abilities_loop_state")
+        self.assertEqual(abilities_field["runtime_proof"], "/root/Main.source_unit_update_abilities_loop_state")
+        self.assertEqual(abilities_field["godot_symbol"], "source_unit_update_abilities_loop_result.abilitiesField")
+
+        loop = source_symbols.source_symbol(registry, "unit_update_abilities_loop.loop")
+        self.assertEqual(loop["java_expr"], "for(Ability a : abilities){")
+        self.assertEqual(loop["java_method"], "UnitComp.update()")
+        self.assertEqual(loop["godot_symbol"], "source_unit_update_abilities_loop_result.loop")
+
+        update_call = source_symbols.source_symbol(registry, "unit_update_abilities_loop.update_call")
+        self.assertEqual(update_call["java_expr"], "a.update(self());")
+        self.assertEqual(update_call["java_method"], "UnitComp.update()")
+        self.assertEqual(update_call["godot_symbol"], "source_unit_update_abilities_loop_result.updateCall")
+
+        ability_update_method = source_symbols.source_symbol(registry, "unit_update_abilities_loop.ability_update_method")
+        self.assertEqual(ability_update_method["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(ability_update_method["java_expr"], "public void update(Unit unit){}")
+        self.assertEqual(ability_update_method["godot_symbol"], "source_unit_update_abilities_loop_result.abilityUpdateMethod")
+
+        ability_ids = source_symbols.source_symbol(registry, "unit_update_abilities_loop.ability_ids")
+        self.assertEqual(ability_ids["status"], "explicit-input")
+        self.assertEqual(ability_ids["java_expr"], "abilities")
+        self.assertEqual(ability_ids["godot_symbol"], "source_unit_update_abilities_loop_input.ability_ids")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13383,9 +13417,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 400)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 401)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 405)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 406)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13443,6 +13477,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_set_type_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_targetable_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_unloaded_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_abilities_loop_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15645,6 +15680,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("/** Called when this unit was unloaded from a factory or spawn point. */", unit_unloaded["exact_exprs"])
         self.assertIn("public void unloaded(){", unit_unloaded["exact_exprs"])
         self.assertIn("public void unloaded(){\n\n    }", unit_unloaded["exact_exprs"])
+
+        unit_update_abilities_loop = source_symbols.source_slice(ledger, "N803")
+        self.assertEqual(unit_update_abilities_loop["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_abilities_loop["java_method"], "UnitComp.update()/Ability.update(Unit unit)")
+        self.assertEqual(unit_update_abilities_loop["godot_owner"], "PortGame.source_unit_update_abilities_loop_state")
+        self.assertIn("Ability[] abilities = {};", unit_update_abilities_loop["exact_exprs"])
+        self.assertIn("for(Ability a : abilities){", unit_update_abilities_loop["exact_exprs"])
+        self.assertIn("a.update(self());", unit_update_abilities_loop["exact_exprs"])
+        self.assertIn("public void update(Unit unit){}", unit_update_abilities_loop["bridge_exprs"])
+        self.assertIn("Concrete Ability.update overrides stay deferred; this slice preserves ordered dispatch only.", unit_update_abilities_loop["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19322,6 +19367,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_unloaded["params"][0]["schema"], "source_unit_unloaded_input.unit_state")
         self.assertIn("unit_state", unit_unloaded["return_keys"])
         self.assertEqual(unit_unloaded["source_method"], "UnitComp.unloaded()")
+
+        unit_update_abilities_loop = source_symbols.api_contract(contracts, "PortGame.source_unit_update_abilities_loop_state")
+        self.assertEqual([param["name"] for param in unit_update_abilities_loop["params"]], ["ability_ids"])
+        self.assertEqual(unit_update_abilities_loop["params"][0]["schema"], "source_unit_update_abilities_loop_input.ability_ids")
+        self.assertIn("abilitiesField", unit_update_abilities_loop["return_keys"])
+        self.assertIn("loop", unit_update_abilities_loop["return_keys"])
+        self.assertIn("updateCall", unit_update_abilities_loop["return_keys"])
+        self.assertIn("abilityUpdateMethod", unit_update_abilities_loop["return_keys"])
+        self.assertIn("updates", unit_update_abilities_loop["return_keys"])
+        self.assertIn("updateCount", unit_update_abilities_loop["return_keys"])
+        self.assertEqual(unit_update_abilities_loop["source_method"], "UnitComp.update()/Ability.update(Unit unit)")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23456,6 +23512,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_unloaded_input["keys"]["unit_state"]["java_expr"], "unit")
         self.assertEqual(source_unit_unloaded_input["keys"]["unit_state"]["status"], "explicit-input")
 
+        source_unit_update_abilities_loop_input = source_symbols.state_schema(schema, "source_unit_update_abilities_loop_input")
+        self.assertEqual(source_unit_update_abilities_loop_input["keys"]["ability_ids"]["java_expr"], "abilities")
+        self.assertEqual(source_unit_update_abilities_loop_input["keys"]["ability_ids"]["status"], "explicit-input")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -23743,6 +23803,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_unloaded_result["keys"]["method"]["java_expr"], "public void unloaded(){")
         self.assertEqual(source_unit_unloaded_result["keys"]["empty_body"]["java_expr"], "public void unloaded(){\n\n    }")
         self.assertEqual(source_unit_unloaded_result["keys"]["unit_state"]["alias_of"], "source_unit_unloaded_input.unit_state")
+
+        source_unit_update_abilities_loop_result = source_symbols.state_schema(schema, "source_unit_update_abilities_loop_result")
+        self.assertEqual(source_unit_update_abilities_loop_result["keys"]["abilitiesField"]["java_expr"], "Ability[] abilities = {};")
+        self.assertEqual(source_unit_update_abilities_loop_result["keys"]["loop"]["java_expr"], "for(Ability a : abilities){")
+        self.assertEqual(source_unit_update_abilities_loop_result["keys"]["updateCall"]["java_expr"], "a.update(self());")
+        self.assertEqual(source_unit_update_abilities_loop_result["keys"]["abilityUpdateMethod"]["java_expr"], "public void update(Unit unit){}")
+        self.assertEqual(source_unit_update_abilities_loop_result["keys"]["updates"]["java_expr"], "a.update(self());")
+        self.assertEqual(source_unit_update_abilities_loop_result["keys"]["updateCount"]["status"], "generated")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

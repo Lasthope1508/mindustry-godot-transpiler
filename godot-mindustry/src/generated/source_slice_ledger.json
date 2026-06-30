@@ -13473,6 +13473,36 @@
         "test_unit_unloaded_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_unloaded_noop_state"
       ]
+    },
+    "N803": {
+      "bridge_exprs": [
+        "public void update(Unit unit){}"
+      ],
+      "deferred_exprs": [
+        "Concrete Ability.update overrides stay deferred; this slice preserves ordered dispatch only."
+      ],
+      "exact_exprs": [
+        "Ability[] abilities = {};",
+        "for(Ability a : abilities){",
+        "a.update(self());"
+      ],
+      "godot_owner": "PortGame.source_unit_update_abilities_loop_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update()/Ability.update(Unit unit)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "source_symbols": [
+        "unit_update_abilities_loop.abilities_field",
+        "unit_update_abilities_loop.loop",
+        "unit_update_abilities_loop.update_call",
+        "unit_update_abilities_loop.ability_update_method",
+        "unit_update_abilities_loop.ability_ids"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ]
     }
   },
   "version": 1

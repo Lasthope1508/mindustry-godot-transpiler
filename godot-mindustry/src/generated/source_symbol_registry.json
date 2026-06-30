@@ -41684,6 +41684,76 @@
         "test_port_game_exposes_source_unit_unloaded_noop_state"
       ]
     },
+    "unit_update_abilities_loop.abilities_field": {
+      "godot_owner": "PortGame.source_unit_update_abilities_loop_state",
+      "godot_symbol": "source_unit_update_abilities_loop_result.abilitiesField",
+      "java_expr": "Ability[] abilities = {};",
+      "java_method": "UnitComp field declaration",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp stores attached abilities in the abilities array used by the update loop.",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ]
+    },
+    "unit_update_abilities_loop.ability_ids": {
+      "godot_owner": "PortGame.source_unit_update_abilities_loop_state",
+      "godot_symbol": "source_unit_update_abilities_loop_input.ability_ids",
+      "java_expr": "abilities",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input supplies an ordered projection of the abilities array without inventing concrete ability internals.",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ]
+    },
+    "unit_update_abilities_loop.ability_update_method": {
+      "godot_owner": "PortGame.source_unit_update_abilities_loop_state",
+      "godot_symbol": "source_unit_update_abilities_loop_result.abilityUpdateMethod",
+      "java_expr": "public void update(Unit unit){}",
+      "java_method": "Ability.update(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Base Ability.update hook is empty unless concrete abilities override it.",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ]
+    },
+    "unit_update_abilities_loop.loop": {
+      "godot_owner": "PortGame.source_unit_update_abilities_loop_state",
+      "godot_symbol": "source_unit_update_abilities_loop_result.loop",
+      "java_expr": "for(Ability a : abilities){",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.update iterates every attached Ability in array order.",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ]
+    },
+    "unit_update_abilities_loop.update_call": {
+      "godot_owner": "PortGame.source_unit_update_abilities_loop_state",
+      "godot_symbol": "source_unit_update_abilities_loop_result.updateCall",
+      "java_expr": "a.update(self());",
+      "java_method": "UnitComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.update dispatches update(self()) to each Ability.",
+      "runtime_proof": "/root/Main.source_unit_update_abilities_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_abilities_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_abilities_loop_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",
