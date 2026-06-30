@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 92,
+  "legacyUnregisteredOwnerCount": 91,
   "legacyUnregisteredOwners": [
-    "PortGame.source_unit_move_at_state",
     "PortGame.source_unit_move_pref_state",
     "PortGame.source_unit_player_controllable_state",
     "PortGame.source_unit_remove_state",
@@ -106,7 +105,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 391,
+  "registeredSourceOwnerCount": 392,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_unit_look_at_angle_state",
     "PortGame.source_unit_look_at_position_state",
     "PortGame.source_unit_look_at_xy_state",
-    "PortGame.source_unit_move_at_default_accel_state"
+    "PortGame.source_unit_move_at_default_accel_state",
+    "PortGame.source_unit_move_at_state"
   ],
   "sourceFunctions": [
     {

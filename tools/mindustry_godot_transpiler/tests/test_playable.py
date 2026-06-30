@@ -3313,10 +3313,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var limit2 := limit * limit", source)
         self.assertIn("return vec * sqrt(limit2 / len2)", source)
         self.assertIn("func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_MOVE_AT_METHOD := "public void moveAt(Vec2 vector, float acceleration){"', source)
+        self.assertIn('const SOURCE_UNIT_MOVE_AT_TARGET_SET := "Vec2 t = tmp1.set(vector);"', source)
+        self.assertIn('const SOURCE_UNIT_MOVE_AT_DELTA_LIMIT := "tmp2.set(t).sub(vel).limit(acceleration * vector.len() * Time.delta);"', source)
+        self.assertIn('const SOURCE_UNIT_MOVE_AT_VEL_ADD := "vel.add(tmp2);"', source)
         self.assertIn("var vel := Vector2(vel_x, vel_y)", source)
         self.assertIn("var target := Vector2(vector_x, vector_y)", source)
         self.assertIn("var delta := source_arc_vec2_limit(target - vel, acceleration * target.length() * source_delta)", source)
         self.assertIn("var next_vel := vel + delta", source)
+        self.assertIn('"method": SOURCE_UNIT_MOVE_AT_METHOD', source)
+        self.assertIn('"targetSet": SOURCE_UNIT_MOVE_AT_TARGET_SET', source)
+        self.assertIn('"deltaLimit": SOURCE_UNIT_MOVE_AT_DELTA_LIMIT', source)
+        self.assertIn('"velAdd": SOURCE_UNIT_MOVE_AT_VEL_ADD', source)
 
     def test_port_game_exposes_source_unit_move_at_default_accel_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

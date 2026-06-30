@@ -3888,12 +3888,21 @@ func source_unit_wobble_state(current_x: float, current_y: float, source_time: f
 		"wobble_input": wobble_input,
 	}
 
+const SOURCE_UNIT_MOVE_AT_METHOD := "public void moveAt(Vec2 vector, float acceleration){"
+const SOURCE_UNIT_MOVE_AT_TARGET_SET := "Vec2 t = tmp1.set(vector);"
+const SOURCE_UNIT_MOVE_AT_DELTA_LIMIT := "tmp2.set(t).sub(vel).limit(acceleration * vector.len() * Time.delta);"
+const SOURCE_UNIT_MOVE_AT_VEL_ADD := "vel.add(tmp2);"
+
 func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:
 	var vel := Vector2(vel_x, vel_y)
 	var target := Vector2(vector_x, vector_y)
 	var delta := source_arc_vec2_limit(target - vel, acceleration * target.length() * source_delta)
 	var next_vel := vel + delta
 	return {
+		"method": SOURCE_UNIT_MOVE_AT_METHOD,
+		"targetSet": SOURCE_UNIT_MOVE_AT_TARGET_SET,
+		"deltaLimit": SOURCE_UNIT_MOVE_AT_DELTA_LIMIT,
+		"velAdd": SOURCE_UNIT_MOVE_AT_VEL_ADD,
 		"vel_x": next_vel.x,
 		"vel_y": next_vel.y,
 		"delta_x": delta.x,

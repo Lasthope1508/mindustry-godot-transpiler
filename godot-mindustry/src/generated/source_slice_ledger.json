@@ -13100,6 +13100,52 @@
         "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_move_at_default_accel_state"
       ]
+    },
+    "N794": {
+      "bridge_exprs": [
+        "public float len(){",
+        "return (float)Math.sqrt(x * x + y * y);",
+        "public Vec2 set(Vec2 v){",
+        "public Vec2 sub(Vec2 v){",
+        "public Vec2 add(Vec2 v){",
+        "public Vec2 limit(float limit){",
+        "public Vec2 limit2(float limit2){",
+        "return scl((float)Math.sqrt(limit2 / len2));",
+        "public static float delta = 1f;"
+      ],
+      "deferred_exprs": [
+        "UnitComp.moveAt(Vec2 vector) default acceleration wrapper remains registered separately in N793",
+        "Arc Vec2 limit helper remains canonical owner PortGame.source_arc_vec2_limit"
+      ],
+      "exact_exprs": [
+        "public void moveAt(Vec2 vector, float acceleration){",
+        "Vec2 t = tmp1.set(vector);",
+        "tmp2.set(t).sub(vel).limit(acceleration * vector.len() * Time.delta);",
+        "vel.add(tmp2);"
+      ],
+      "godot_owner": "PortGame.source_unit_move_at_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_move_at_state",
+      "source_symbols": [
+        "unit_move_at.delta_limit",
+        "unit_move_at.method",
+        "unit_move_at.target_set",
+        "unit_move_at.time_delta",
+        "unit_move_at.vec2_add",
+        "unit_move_at.vec2_len",
+        "unit_move_at.vec2_limit",
+        "unit_move_at.vec2_limit2",
+        "unit_move_at.vec2_set",
+        "unit_move_at.vec2_sub",
+        "unit_move_at.vel_add"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_move_at_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_state"
+      ]
     }
   },
   "version": 1

@@ -51460,6 +51460,296 @@
       "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
       "status": "active"
     },
+    "source_unit_move_at_input": {
+      "keys": {
+        "acceleration": {
+          "godot_symbol": "source_unit_move_at_input.acceleration",
+          "java_expr": "acceleration",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime acceleration argument forwarded to UnitComp.moveAt.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_move_at_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "Time.delta",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Runtime Arc Time.delta value supplied explicitly.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vector_x": {
+          "godot_symbol": "source_unit_move_at_input.vector_x",
+          "java_expr": "vector.x",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime Vec2 vector x value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vector_y": {
+          "godot_symbol": "source_unit_move_at_input.vector_y",
+          "java_expr": "vector.y",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime Vec2 vector y value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vel_x": {
+          "godot_symbol": "source_unit_move_at_input.vel_x",
+          "java_expr": "vel.x",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime UnitComp vel x value before moveAt.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vel_y": {
+          "godot_symbol": "source_unit_move_at_input.vel_y",
+          "java_expr": "vel.y",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime UnitComp vel y value before moveAt.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_move_at_state",
+      "runtime_proof": "/root/Main.source_unit_move_at_state",
+      "status": "active"
+    },
+    "source_unit_move_at_result": {
+      "keys": {
+        "deltaLimit": {
+          "godot_symbol": "source_unit_move_at_result.deltaLimit",
+          "java_expr": "tmp2.set(t).sub(vel).limit(acceleration * vector.len() * Time.delta);",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Limited delta vector expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "delta_x": {
+          "godot_symbol": "source_unit_move_at_result.delta_x",
+          "java_expr": "tmp2.x",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Limited delta x after tmp2.limit(...).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "delta_y": {
+          "godot_symbol": "source_unit_move_at_result.delta_y",
+          "java_expr": "tmp2.y",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Limited delta y after tmp2.limit(...).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "limit": {
+          "godot_symbol": "source_unit_move_at_result.limit",
+          "java_expr": "acceleration * vector.len() * Time.delta",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Limit magnitude used by Vec2.limit.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_move_at_result.method",
+          "java_expr": "public void moveAt(Vec2 vector, float acceleration){",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp moveAt overload method header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "targetSet": {
+          "godot_symbol": "source_unit_move_at_result.targetSet",
+          "java_expr": "Vec2 t = tmp1.set(vector);",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Target vector copy expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "target_x": {
+          "godot_symbol": "source_unit_move_at_result.target_x",
+          "java_expr": "t.x",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Target vector x after tmp1.set(vector).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "target_y": {
+          "godot_symbol": "source_unit_move_at_result.target_y",
+          "java_expr": "t.y",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Target vector y after tmp1.set(vector).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vec2Add": {
+          "godot_symbol": "source_unit_move_at_result.vec2Add",
+          "java_expr": "public Vec2 add(Vec2 v){",
+          "java_method": "Vec2.add(Vec2 v)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.add bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vec2Len": {
+          "godot_symbol": "source_unit_move_at_result.vec2Len",
+          "java_expr": "public float len(){",
+          "java_method": "Vec2.len()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.len bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vec2Limit": {
+          "godot_symbol": "source_unit_move_at_result.vec2Limit",
+          "java_expr": "public Vec2 limit(float limit){",
+          "java_method": "Vec2.limit(float limit)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.limit bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vec2Limit2": {
+          "godot_symbol": "source_unit_move_at_result.vec2Limit2",
+          "java_expr": "return scl((float)Math.sqrt(limit2 / len2));",
+          "java_method": "Vec2.limit2(float limit2)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.limit2 scaling bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vec2Set": {
+          "godot_symbol": "source_unit_move_at_result.vec2Set",
+          "java_expr": "public Vec2 set(Vec2 v){",
+          "java_method": "Vec2.set(Vec2 v)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.set bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vec2Sub": {
+          "godot_symbol": "source_unit_move_at_result.vec2Sub",
+          "java_expr": "public Vec2 sub(Vec2 v){",
+          "java_method": "Vec2.sub(Vec2 v)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.sub bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "velAdd": {
+          "godot_symbol": "source_unit_move_at_result.velAdd",
+          "java_expr": "vel.add(tmp2);",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Velocity mutation applying limited delta.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vel_x": {
+          "godot_symbol": "source_unit_move_at_result.vel_x",
+          "java_expr": "vel.x",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Velocity x after vel.add(tmp2).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        },
+        "vel_y": {
+          "godot_symbol": "source_unit_move_at_result.vel_y",
+          "java_expr": "vel.y",
+          "java_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Velocity y after vel.add(tmp2).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_move_at_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_move_at_state",
+      "runtime_proof": "/root/Main.source_unit_move_at_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

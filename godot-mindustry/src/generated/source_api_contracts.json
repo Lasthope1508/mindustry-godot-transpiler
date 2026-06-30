@@ -14729,6 +14729,63 @@
         "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_move_at_default_accel_state"
       ]
+    },
+    "PortGame.source_unit_move_at_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "vel_x",
+          "schema": "source_unit_move_at_input.vel_x",
+          "type": "float"
+        },
+        {
+          "name": "vel_y",
+          "schema": "source_unit_move_at_input.vel_y",
+          "type": "float"
+        },
+        {
+          "name": "vector_x",
+          "schema": "source_unit_move_at_input.vector_x",
+          "type": "float"
+        },
+        {
+          "name": "vector_y",
+          "schema": "source_unit_move_at_input.vector_y",
+          "type": "float"
+        },
+        {
+          "name": "acceleration",
+          "schema": "source_unit_move_at_input.acceleration",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_move_at_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "targetSet",
+        "deltaLimit",
+        "velAdd",
+        "vel_x",
+        "vel_y",
+        "delta_x",
+        "delta_y",
+        "target_x",
+        "target_y",
+        "limit"
+      ],
+      "rule": "Public runtime contract for UnitComp.moveAt(Vec2 vector, float acceleration) limited velocity movement.",
+      "runtime_proof": "/root/Main.source_unit_move_at_state",
+      "source_method": "UnitComp.moveAt(Vec2 vector, float acceleration)",
+      "source_slice": "N794",
+      "status": "active",
+      "tests": [
+        "test_unit_move_at_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_state"
+      ]
     }
   },
   "policy": {
