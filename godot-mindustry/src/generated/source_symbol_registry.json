@@ -39413,6 +39413,104 @@
       "java_method": "UnitComp.destroy()",
       "java_expr": "wasPlayer",
       "rule": "Explicit input for UnitComp wasPlayer flag."
+    },
+    "unit_destroy_type_killed_remove.method": {
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_type_killed_remove_result.method",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "public void destroy(){",
+      "rule": "Canonical UnitComp.destroy method boundary for type killed/remove tail."
+    },
+    "unit_destroy_type_killed_remove.type_killed_call": {
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_type_killed_remove_result.typeKilledCall",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "type.killed(self());",
+      "rule": "Source UnitComp.destroy tail calls UnitType.killed before remove."
+    },
+    "unit_destroy_type_killed_remove.remove_call": {
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_type_killed_remove_result.removeCall",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "remove();",
+      "rule": "Source UnitComp.destroy tail removes unit after UnitType.killed."
+    },
+    "unit_destroy_type_killed_remove.unit_type_killed_default": {
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "godot_symbol": "source_unit_destroy_type_killed_remove_result.unitTypeDefault",
+      "java_method": "UnitType.killed(Unit unit)",
+      "java_expr": "public void killed(Unit unit){}",
+      "rule": "UnitType default killed callback is empty."
+    },
+    "unit_destroy_type_killed_remove.unit_remove_override": {
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_type_killed_remove_result.unitRemoveOverride",
+      "java_method": "UnitComp.remove()",
+      "java_expr": "public void remove(){",
+      "rule": "UnitComp remove override boundary only; side effects deferred."
+    },
+    "unit_destroy_type_killed_remove.self_method": {
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "godot_symbol": "source_unit_destroy_type_killed_remove_result.selfMethod",
+      "java_method": "EntityComp.self()",
+      "java_expr": "<T extends Entityc> T self(){",
+      "rule": "EntityComp self helper used by type.killed(self())."
+    },
+    "unit_destroy_type_killed_remove.unit_id": {
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_type_killed_remove_input.unit_id",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "self()",
+      "rule": "Explicit input representing self() unit identity."
     }
   },
   "version": 1

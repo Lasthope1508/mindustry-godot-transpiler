@@ -49863,6 +49863,126 @@
           ]
         }
       }
+    },
+    "source_unit_destroy_type_killed_remove_input": {
+      "owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "status": "active",
+      "keys": {
+        "unit_id": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input representing UnitComp.destroy self() unit identity.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        }
+      }
+    },
+    "source_unit_destroy_type_killed_remove_result": {
+      "owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.method",
+          "java_expr": "public void destroy(){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins UnitComp.destroy method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        },
+        "order": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.order",
+          "java_expr": "type.killed(self()); then remove();",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result carries source order of type killed then remove.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        },
+        "typeKilledCall": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.typeKilledCall",
+          "java_expr": "type.killed(self());",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins type.killed(self()) call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        },
+        "removeCall": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.removeCall",
+          "java_expr": "remove();",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins remove() call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        },
+        "unitTypeDefault": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.unitTypeDefault",
+          "java_expr": "public void killed(Unit unit){}",
+          "java_method": "UnitType.killed(Unit unit)",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Result pins UnitType default killed callback.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        },
+        "unitRemoveOverride": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.unitRemoveOverride",
+          "java_expr": "public void remove(){",
+          "java_method": "UnitComp.remove()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins UnitComp.remove override boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        },
+        "selfMethod": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.selfMethod",
+          "java_expr": "<T extends Entityc> T self(){",
+          "java_method": "EntityComp.self()",
+          "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+          "rule": "Result pins EntityComp self helper boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_unit_destroy_type_killed_remove_result.unit",
+          "alias_of": "source_unit_destroy_type_killed_remove_input.unit_id",
+          "rule": "Result carries input unit id.",
+          "status": "derived",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_destroy_type_killed_remove_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

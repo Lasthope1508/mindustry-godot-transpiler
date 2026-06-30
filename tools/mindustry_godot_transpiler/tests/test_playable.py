@@ -4089,10 +4089,18 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_destroy_type_killed_remove_state(unit_id: int) -> Dictionary:", source)
-        self.assertIn('"call": "type.killed(self())"', source)
-        self.assertIn('"unitTypeDefault": "public void killed(Unit unit){}"', source)
-        self.assertIn('"call": "remove()"', source)
-        self.assertIn('"unitRemoveOverride": "public void remove()"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD := "public void destroy(){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED := "type.killed(self());"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE := "remove();"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT := "public void killed(Unit unit){}"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE := "public void remove(){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD := "<T extends Entityc> T self(){"', source)
+        self.assertIn('"method": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD', source)
+        self.assertIn('"call": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED', source)
+        self.assertIn('"unitTypeDefault": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT', source)
+        self.assertIn('"call": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE', source)
+        self.assertIn('"unitRemoveOverride": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE', source)
+        self.assertIn('"selfMethod": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD', source)
         self.assertIn('"unit": unit_id', source)
 
     def test_port_game_exposes_source_unit_killed_state(self):

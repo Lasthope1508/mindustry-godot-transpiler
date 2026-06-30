@@ -13927,6 +13927,35 @@
         "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
       ]
+    },
+    "PortGame.source_unit_destroy_type_killed_remove_state": {
+      "status": "active",
+      "source_slice": "N773",
+      "source_method": "UnitComp.destroy() type killed and remove",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "params": [
+        {
+          "name": "unit_id",
+          "type": "int",
+          "schema": "source_unit_destroy_type_killed_remove_input.unit_id"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "order",
+        "typeKilledCall",
+        "removeCall",
+        "unitTypeDefault",
+        "unitRemoveOverride",
+        "selfMethod",
+        "unit"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy type.killed(self()) then remove() tail order.",
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ]
     }
   },
   "policy": {

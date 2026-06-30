@@ -12293,6 +12293,40 @@
         "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
       ]
+    },
+    "N773": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() type killed and remove",
+      "godot_owner": "PortGame.source_unit_destroy_type_killed_remove_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_type_killed_remove_state",
+      "exact_exprs": [
+        "public void destroy(){",
+        "type.killed(self());",
+        "remove();"
+      ],
+      "bridge_exprs": [
+        "public void killed(Unit unit){}",
+        "public void remove(){",
+        "<T extends Entityc> T self(){"
+      ],
+      "deferred_exprs": [
+        "UnitType.killed callback internals and UnitComp.remove side effects remain separate slices"
+      ],
+      "source_symbols": [
+        "unit_destroy_type_killed_remove.method",
+        "unit_destroy_type_killed_remove.remove_call",
+        "unit_destroy_type_killed_remove.self_method",
+        "unit_destroy_type_killed_remove.type_killed_call",
+        "unit_destroy_type_killed_remove.unit_id",
+        "unit_destroy_type_killed_remove.unit_remove_override",
+        "unit_destroy_type_killed_remove.unit_type_killed_default"
+      ],
+      "tests": [
+        "test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_type_killed_remove_state"
+      ]
     }
   },
   "version": 1

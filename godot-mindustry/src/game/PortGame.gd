@@ -9866,18 +9866,33 @@ func source_unit_destroy_ability_death_state(ability_states: Array, unit_id: int
 		"calls": calls,
 	}
 
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED := "type.killed(self());"
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE := "remove();"
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT := "public void killed(Unit unit){}"
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE := "public void remove(){"
+const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD := "<T extends Entityc> T self(){"
+
 func source_unit_destroy_type_killed_remove_state(unit_id: int) -> Dictionary:
 	return {
+		"method": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD,
+		"typeKilledCall": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED,
+		"removeCall": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE,
+		"unitTypeDefault": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT,
+		"unitRemoveOverride": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE,
+		"selfMethod": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD,
+		"unit": unit_id,
 		"order": [
 			{
-				"call": "type.killed(self())",
+				"call": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED,
 				"unit": unit_id,
-				"unitTypeDefault": "public void killed(Unit unit){}",
+				"unitTypeDefault": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT,
+				"selfMethod": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD,
 			},
 			{
-				"call": "remove()",
+				"call": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE,
 				"unit": unit_id,
-				"unitRemoveOverride": "public void remove()",
+				"unitRemoveOverride": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE,
 			},
 		],
 	}

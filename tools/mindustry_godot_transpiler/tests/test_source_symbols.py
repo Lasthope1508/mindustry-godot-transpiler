@@ -5216,6 +5216,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(was_player["java_expr"], "wasPlayer")
         self.assertEqual(was_player["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_input.was_player_value")
 
+    def test_unit_destroy_type_killed_remove_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_type_killed_remove.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_type_killed_remove_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_type_killed_remove_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_type_killed_remove_result.method")
+
+        type_killed = source_symbols.source_symbol(registry, "unit_destroy_type_killed_remove.type_killed_call")
+        self.assertEqual(type_killed["java_expr"], "type.killed(self());")
+        self.assertEqual(type_killed["godot_symbol"], "source_unit_destroy_type_killed_remove_result.typeKilledCall")
+
+        remove_call = source_symbols.source_symbol(registry, "unit_destroy_type_killed_remove.remove_call")
+        self.assertEqual(remove_call["java_expr"], "remove();")
+        self.assertEqual(remove_call["godot_symbol"], "source_unit_destroy_type_killed_remove_result.removeCall")
+
+        unit_type_killed = source_symbols.source_symbol(registry, "unit_destroy_type_killed_remove.unit_type_killed_default")
+        self.assertEqual(unit_type_killed["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(unit_type_killed["java_expr"], "public void killed(Unit unit){}")
+        self.assertEqual(unit_type_killed["godot_symbol"], "source_unit_destroy_type_killed_remove_result.unitTypeDefault")
+
+        unit_remove_override = source_symbols.source_symbol(registry, "unit_destroy_type_killed_remove.unit_remove_override")
+        self.assertEqual(unit_remove_override["java_expr"], "public void remove(){")
+        self.assertEqual(unit_remove_override["godot_symbol"], "source_unit_destroy_type_killed_remove_result.unitRemoveOverride")
+
+        self_method = source_symbols.source_symbol(registry, "unit_destroy_type_killed_remove.self_method")
+        self.assertEqual(self_method["java_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(self_method["java_expr"], "<T extends Entityc> T self(){")
+        self.assertEqual(self_method["godot_symbol"], "source_unit_destroy_type_killed_remove_result.selfMethod")
+
+        unit_id = source_symbols.source_symbol(registry, "unit_destroy_type_killed_remove.unit_id")
+        self.assertEqual(unit_id["status"], "explicit-input")
+        self.assertEqual(unit_id["java_expr"], "self()")
+        self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_type_killed_remove_input.unit_id")
+
     def test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12383,9 +12422,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 370)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 371)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 375)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 376)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12413,6 +12452,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_shoot_on_death_mounts_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_sound_and_event_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_suicide_bomb_trigger_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_type_killed_remove_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14261,6 +14301,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public enum Trigger{", unit_destroy_suicide_bomb_trigger["bridge_exprs"])
         self.assertIn("suicideBomb,", unit_destroy_suicide_bomb_trigger["bridge_exprs"])
         self.assertIn("Explosion dispatch, visual effects, sound/event, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_suicide_bomb_trigger["deferred_exprs"])
+
+        unit_destroy_type_killed_remove = source_symbols.source_slice(ledger, "N773")
+        self.assertEqual(unit_destroy_type_killed_remove["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_type_killed_remove["java_method"], "UnitComp.destroy() type killed and remove")
+        self.assertEqual(unit_destroy_type_killed_remove["godot_owner"], "PortGame.source_unit_destroy_type_killed_remove_state")
+        self.assertIn("public void destroy(){", unit_destroy_type_killed_remove["exact_exprs"])
+        self.assertIn("type.killed(self());", unit_destroy_type_killed_remove["exact_exprs"])
+        self.assertIn("remove();", unit_destroy_type_killed_remove["exact_exprs"])
+        self.assertIn("public void killed(Unit unit){}", unit_destroy_type_killed_remove["bridge_exprs"])
+        self.assertIn("public void remove(){", unit_destroy_type_killed_remove["bridge_exprs"])
+        self.assertIn("<T extends Entityc> T self(){", unit_destroy_type_killed_remove["bridge_exprs"])
+        self.assertIn("UnitType.killed callback internals and UnitComp.remove side effects remain separate slices", unit_destroy_type_killed_remove["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17758,6 +17810,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("event", unit_destroy_suicide_bomb_trigger["return_keys"])
         self.assertIn("eventsFire", unit_destroy_suicide_bomb_trigger["return_keys"])
         self.assertEqual(unit_destroy_suicide_bomb_trigger["source_method"], "UnitComp.destroy() suicide bomb trigger")
+
+        unit_destroy_type_killed_remove = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_type_killed_remove_state")
+        self.assertEqual([param["name"] for param in unit_destroy_type_killed_remove["params"]], ["unit_id"])
+        self.assertEqual(unit_destroy_type_killed_remove["params"][0]["schema"], "source_unit_destroy_type_killed_remove_input.unit_id")
+        self.assertIn("method", unit_destroy_type_killed_remove["return_keys"])
+        self.assertIn("order", unit_destroy_type_killed_remove["return_keys"])
+        self.assertIn("typeKilledCall", unit_destroy_type_killed_remove["return_keys"])
+        self.assertIn("removeCall", unit_destroy_type_killed_remove["return_keys"])
+        self.assertIn("unitTypeDefault", unit_destroy_type_killed_remove["return_keys"])
+        self.assertIn("unitRemoveOverride", unit_destroy_type_killed_remove["return_keys"])
+        self.assertIn("selfMethod", unit_destroy_type_killed_remove["return_keys"])
+        self.assertEqual(unit_destroy_type_killed_remove["source_method"], "UnitComp.destroy() type killed and remove")
 
         unit_destroy_explosion_dispatch = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_explosion_dispatch_state")
         self.assertEqual([param["name"] for param in unit_destroy_explosion_dispatch["params"]], ["spawned_by_core_value", "source_x", "source_y", "flammability", "explosiveness", "power", "bounds_value", "type_leg_length", "rules_damage_explosions", "rules_unit_crash_damage", "item_flammability", "team_id", "death_explosion_effect"])
@@ -21793,6 +21857,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["eventsFireBody"]["java_expr"], "items[i].get(type);")
         self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["triggerEnum"]["java_expr"], "public enum Trigger{")
         self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["triggerMember"]["java_expr"], "suicideBomb,")
+
+        source_unit_destroy_type_killed_remove_input = source_symbols.state_schema(schema, "source_unit_destroy_type_killed_remove_input")
+        self.assertEqual(source_unit_destroy_type_killed_remove_input["keys"]["unit_id"]["java_expr"], "self()")
+
+        source_unit_destroy_type_killed_remove_result = source_symbols.state_schema(schema, "source_unit_destroy_type_killed_remove_result")
+        self.assertEqual(source_unit_destroy_type_killed_remove_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_type_killed_remove_result["keys"]["typeKilledCall"]["java_expr"], "type.killed(self());")
+        self.assertEqual(source_unit_destroy_type_killed_remove_result["keys"]["removeCall"]["java_expr"], "remove();")
+        self.assertEqual(source_unit_destroy_type_killed_remove_result["keys"]["unitTypeDefault"]["java_expr"], "public void killed(Unit unit){}")
+        self.assertEqual(source_unit_destroy_type_killed_remove_result["keys"]["unitRemoveOverride"]["java_expr"], "public void remove(){")
+        self.assertEqual(source_unit_destroy_type_killed_remove_result["keys"]["selfMethod"]["java_expr"], "<T extends Entityc> T self(){")
+        self.assertEqual(source_unit_destroy_type_killed_remove_result["keys"]["unit"]["alias_of"], "source_unit_destroy_type_killed_remove_input.unit_id")
 
         source_unit_destroy_explosion_dispatch_input = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_input")
         self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")
