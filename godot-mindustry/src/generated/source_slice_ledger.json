@@ -12081,6 +12081,71 @@
         "test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_explosion_dispatch_state"
       ]
+    },
+    "N769": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() initial payload",
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "exact_exprs": [
+        "/** Actually destroys the unit, removing it and creating explosions. **/",
+        "public void destroy(){",
+        "if(!isAdded() || !killable()) return;",
+        "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;",
+        "float flammability = item().flammability * stack().amount / 1.9f;",
+        "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;"
+      ],
+      "bridge_exprs": [
+        "boolean isAdded(){",
+        "return added;",
+        "public boolean killable(){",
+        "return type.killable(self());",
+        "Item item(){",
+        "return stack.item;",
+        "public float explosiveness = 0f;",
+        "public float flammability = 0f;",
+        "public float charge = 0f;",
+        "public int amount = 0;",
+        "public static float pow(float a, float b){",
+        "return (float)Math.pow(a, b);"
+      ],
+      "deferred_exprs": [
+        "Explosion dispatch, visual effects, sound/event, suicide bomb, shoot-on-death, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices",
+        "Concrete UnitType.killable(Unit) behavior remains owned by UnitType-specific source slices",
+        "ItemsComp stack mutation remains owned by item stack source slices"
+      ],
+      "source_symbols": [
+        "unit_destroy_initial_payload.method",
+        "unit_destroy_initial_payload.comment",
+        "unit_destroy_initial_payload.return_guard",
+        "unit_destroy_initial_payload.explosiveness_formula",
+        "unit_destroy_initial_payload.flammability_formula",
+        "unit_destroy_initial_payload.power_formula",
+        "unit_destroy_initial_payload.entity_is_added",
+        "unit_destroy_initial_payload.entity_is_added_body",
+        "unit_destroy_initial_payload.unit_killable",
+        "unit_destroy_initial_payload.unit_killable_body",
+        "unit_destroy_initial_payload.items_item",
+        "unit_destroy_initial_payload.items_item_body",
+        "unit_destroy_initial_payload.item_explosiveness_default",
+        "unit_destroy_initial_payload.item_flammability_default",
+        "unit_destroy_initial_payload.item_charge_default",
+        "unit_destroy_initial_payload.item_stack_amount_default",
+        "unit_destroy_initial_payload.mathf_pow",
+        "unit_destroy_initial_payload.mathf_pow_body",
+        "unit_destroy_initial_payload.is_added_value",
+        "unit_destroy_initial_payload.killable_value",
+        "unit_destroy_initial_payload.item_explosiveness",
+        "unit_destroy_initial_payload.item_flammability",
+        "unit_destroy_initial_payload.item_charge",
+        "unit_destroy_initial_payload.stack_amount"
+      ],
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ]
     }
   },
   "version": 1

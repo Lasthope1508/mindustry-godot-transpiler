@@ -4923,6 +4923,92 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_id["java_expr"], "self()")
         self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_ability_death_input.unit_id")
 
+    def test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_initial_payload_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_initial_payload_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_initial_payload_result.method")
+
+        comment = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.comment")
+        self.assertEqual(comment["java_expr"], "/** Actually destroys the unit, removing it and creating explosions. **/")
+        self.assertEqual(comment["godot_symbol"], "source_unit_destroy_initial_payload_result.comment")
+
+        return_guard = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.return_guard")
+        self.assertEqual(return_guard["java_expr"], "if(!isAdded() || !killable()) return;")
+        self.assertEqual(return_guard["godot_symbol"], "source_unit_destroy_initial_payload_result.returnGuard")
+
+        explosiveness_formula = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.explosiveness_formula")
+        self.assertEqual(explosiveness_formula["java_expr"], "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;")
+        self.assertEqual(explosiveness_formula["godot_symbol"], "source_unit_destroy_initial_payload_result.explosiveness")
+
+        flammability_formula = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.flammability_formula")
+        self.assertEqual(flammability_formula["java_expr"], "float flammability = item().flammability * stack().amount / 1.9f;")
+        self.assertEqual(flammability_formula["godot_symbol"], "source_unit_destroy_initial_payload_result.flammability")
+
+        power_formula = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.power_formula")
+        self.assertEqual(power_formula["java_expr"], "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;")
+        self.assertEqual(power_formula["godot_symbol"], "source_unit_destroy_initial_payload_result.power")
+
+        entity_is_added = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.entity_is_added")
+        self.assertEqual(entity_is_added["java_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(entity_is_added["java_expr"], "boolean isAdded(){")
+
+        entity_is_added_body = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.entity_is_added_body")
+        self.assertEqual(entity_is_added_body["java_expr"], "return added;")
+
+        unit_killable = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.unit_killable")
+        self.assertEqual(unit_killable["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_killable["java_expr"], "public boolean killable(){")
+
+        unit_killable_body = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.unit_killable_body")
+        self.assertEqual(unit_killable_body["java_expr"], "return type.killable(self());")
+
+        items_item = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.items_item")
+        self.assertEqual(items_item["java_source"], "core/src/mindustry/entities/comp/ItemsComp.java")
+        self.assertEqual(items_item["java_expr"], "Item item(){")
+
+        items_item_body = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.items_item_body")
+        self.assertEqual(items_item_body["java_expr"], "return stack.item;")
+
+        item_explosiveness_default = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.item_explosiveness_default")
+        self.assertEqual(item_explosiveness_default["java_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(item_explosiveness_default["java_expr"], "public float explosiveness = 0f;")
+
+        item_flammability_default = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.item_flammability_default")
+        self.assertEqual(item_flammability_default["java_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(item_flammability_default["java_expr"], "public float flammability = 0f;")
+
+        item_charge_default = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.item_charge_default")
+        self.assertEqual(item_charge_default["java_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(item_charge_default["java_expr"], "public float charge = 0f;")
+
+        item_stack_amount_default = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.item_stack_amount_default")
+        self.assertEqual(item_stack_amount_default["java_source"], "core/src/mindustry/type/ItemStack.java")
+        self.assertEqual(item_stack_amount_default["java_expr"], "public int amount = 0;")
+
+        mathf_pow = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.mathf_pow")
+        self.assertEqual(mathf_pow["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_pow["java_expr"], "public static float pow(float a, float b){")
+
+        mathf_pow_body = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.mathf_pow_body")
+        self.assertEqual(mathf_pow_body["java_expr"], "return (float)Math.pow(a, b);")
+
+        is_added_value = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.is_added_value")
+        self.assertEqual(is_added_value["status"], "explicit-input")
+        self.assertEqual(is_added_value["java_expr"], "isAdded()")
+        self.assertEqual(is_added_value["godot_symbol"], "source_unit_destroy_initial_payload_input.is_added_value")
+
+        stack_amount = source_symbols.source_symbol(registry, "unit_destroy_initial_payload.stack_amount")
+        self.assertEqual(stack_amount["status"], "explicit-input")
+        self.assertEqual(stack_amount["java_expr"], "stack().amount")
+        self.assertEqual(stack_amount["godot_symbol"], "source_unit_destroy_initial_payload_input.stack_amount")
+
     def test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12090,9 +12176,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 366)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 367)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 371)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 372)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12116,6 +12202,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_initial_payload_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -13889,6 +13976,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void death(Unit unit){}", unit_destroy_ability_death["bridge_exprs"])
         self.assertIn("type.killed(self());", unit_destroy_ability_death["deferred_exprs"])
         self.assertIn("remove();", unit_destroy_ability_death["deferred_exprs"])
+
+        unit_destroy_initial_payload = source_symbols.source_slice(ledger, "N769")
+        self.assertEqual(unit_destroy_initial_payload["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_initial_payload["java_method"], "UnitComp.destroy() initial payload")
+        self.assertEqual(unit_destroy_initial_payload["godot_owner"], "PortGame.source_unit_destroy_initial_payload_state")
+        self.assertIn("/** Actually destroys the unit, removing it and creating explosions. **/", unit_destroy_initial_payload["exact_exprs"])
+        self.assertIn("public void destroy(){", unit_destroy_initial_payload["exact_exprs"])
+        self.assertIn("if(!isAdded() || !killable()) return;", unit_destroy_initial_payload["exact_exprs"])
+        self.assertIn("float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;", unit_destroy_initial_payload["exact_exprs"])
+        self.assertIn("float flammability = item().flammability * stack().amount / 1.9f;", unit_destroy_initial_payload["exact_exprs"])
+        self.assertIn("float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;", unit_destroy_initial_payload["exact_exprs"])
+        self.assertIn("boolean isAdded(){", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("return added;", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("public boolean killable(){", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("return type.killable(self());", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("Item item(){", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("return stack.item;", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("public float explosiveness = 0f;", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("public float flammability = 0f;", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("public float charge = 0f;", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("public int amount = 0;", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("public static float pow(float a, float b){", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("return (float)Math.pow(a, b);", unit_destroy_initial_payload["bridge_exprs"])
+        self.assertIn("Explosion dispatch, visual effects, sound/event, suicide bomb, shoot-on-death, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_initial_payload["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17341,6 +17452,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("crashDamage", unit_destroy_crash_landing_damage["return_keys"])
         self.assertIn("damageCall", unit_destroy_crash_landing_damage["return_keys"])
         self.assertEqual(unit_destroy_crash_landing_damage["source_method"], "UnitComp.destroy() crash landing damage")
+
+        unit_destroy_initial_payload = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_initial_payload_state")
+        self.assertEqual([param["name"] for param in unit_destroy_initial_payload["params"]], ["is_added_value", "killable_value", "item_explosiveness", "item_flammability", "item_charge", "stack_amount"])
+        self.assertEqual(unit_destroy_initial_payload["params"][0]["schema"], "source_unit_destroy_initial_payload_input.is_added_value")
+        self.assertEqual(unit_destroy_initial_payload["params"][1]["schema"], "source_unit_destroy_initial_payload_input.killable_value")
+        self.assertEqual(unit_destroy_initial_payload["params"][5]["schema"], "source_unit_destroy_initial_payload_input.stack_amount")
+        self.assertIn("returnGuard", unit_destroy_initial_payload["return_keys"])
+        self.assertIn("explosiveness", unit_destroy_initial_payload["return_keys"])
+        self.assertIn("flammability", unit_destroy_initial_payload["return_keys"])
+        self.assertIn("power", unit_destroy_initial_payload["return_keys"])
+        self.assertEqual(unit_destroy_initial_payload["source_method"], "UnitComp.destroy() initial payload")
 
         unit_destroy_explosion_dispatch = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_explosion_dispatch_state")
         self.assertEqual([param["name"] for param in unit_destroy_explosion_dispatch["params"]], ["spawned_by_core_value", "source_x", "source_y", "flammability", "explosiveness", "power", "bounds_value", "type_leg_length", "rules_damage_explosions", "rules_unit_crash_damage", "item_flammability", "team_id", "death_explosion_effect"])
@@ -21310,6 +21432,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["shieldAbsorbGuard"]["java_expr"], "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){")
         self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["damageCall"]["java_expr"], "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);")
         self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["crashDamage"]["java_expr"], "Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team)")
+
+        source_unit_destroy_initial_payload_input = source_symbols.state_schema(schema, "source_unit_destroy_initial_payload_input")
+        self.assertEqual(source_unit_destroy_initial_payload_input["keys"]["is_added_value"]["java_expr"], "isAdded()")
+        self.assertEqual(source_unit_destroy_initial_payload_input["keys"]["killable_value"]["java_expr"], "killable()")
+        self.assertEqual(source_unit_destroy_initial_payload_input["keys"]["item_explosiveness"]["java_expr"], "item().explosiveness")
+        self.assertEqual(source_unit_destroy_initial_payload_input["keys"]["item_flammability"]["java_expr"], "item().flammability")
+        self.assertEqual(source_unit_destroy_initial_payload_input["keys"]["item_charge"]["java_expr"], "item().charge")
+        self.assertEqual(source_unit_destroy_initial_payload_input["keys"]["stack_amount"]["java_expr"], "stack().amount")
+
+        source_unit_destroy_initial_payload_result = source_symbols.state_schema(schema, "source_unit_destroy_initial_payload_result")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["comment"]["java_expr"], "/** Actually destroys the unit, removing it and creating explosions. **/")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["returnGuard"]["java_expr"], "if(!isAdded() || !killable()) return;")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["explosivenessFormula"]["java_expr"], "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["flammabilityFormula"]["java_expr"], "float flammability = item().flammability * stack().amount / 1.9f;")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["powerFormula"]["java_expr"], "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["explosiveness"]["java_expr"], "2f + item().explosiveness * stack().amount * 1.53f")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["flammability"]["java_expr"], "item().flammability * stack().amount / 1.9f")
+        self.assertEqual(source_unit_destroy_initial_payload_result["keys"]["power"]["java_expr"], "item().charge * Mathf.pow(stack().amount, 1.11f) * 160f")
 
         source_unit_destroy_explosion_dispatch_input = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_input")
         self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")

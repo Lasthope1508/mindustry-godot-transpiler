@@ -37650,6 +37650,342 @@
       "java_expr": "self()",
       "rule": "Runtime bridge input identifies the unit passed to Ability.death(self())."
     },
+    "unit_destroy_initial_payload.method": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.method",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "public void destroy(){",
+      "rule": "Canonical UnitComp.destroy method boundary for initial payload slice."
+    },
+    "unit_destroy_initial_payload.comment": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.comment",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "/** Actually destroys the unit, removing it and creating explosions. **/",
+      "rule": "Destroy method source comment for initial payload slice."
+    },
+    "unit_destroy_initial_payload.return_guard": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.returnGuard",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "if(!isAdded() || !killable()) return;",
+      "rule": "Initial destroy guard that prevents payload formula evaluation."
+    },
+    "unit_destroy_initial_payload.explosiveness_formula": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.explosiveness",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;",
+      "rule": "Explosiveness payload formula."
+    },
+    "unit_destroy_initial_payload.flammability_formula": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.flammability",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "float flammability = item().flammability * stack().amount / 1.9f;",
+      "rule": "Flammability payload formula."
+    },
+    "unit_destroy_initial_payload.power_formula": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.power",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;",
+      "rule": "Power payload formula."
+    },
+    "unit_destroy_initial_payload.entity_is_added": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.is_added_value",
+      "java_method": "EntityComp.isAdded()",
+      "java_expr": "boolean isAdded(){",
+      "rule": "EntityComp isAdded method used by destroy guard."
+    },
+    "unit_destroy_initial_payload.entity_is_added_body": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.is_added_value",
+      "java_method": "EntityComp.isAdded()",
+      "java_expr": "return added;",
+      "rule": "EntityComp isAdded body used by destroy guard."
+    },
+    "unit_destroy_initial_payload.unit_killable": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.killable_value",
+      "java_method": "UnitComp.killable()",
+      "java_expr": "public boolean killable(){",
+      "rule": "UnitComp killable method used by destroy guard."
+    },
+    "unit_destroy_initial_payload.unit_killable_body": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.killable_value",
+      "java_method": "UnitComp.killable()",
+      "java_expr": "return type.killable(self());",
+      "rule": "UnitComp killable body delegated to UnitType."
+    },
+    "unit_destroy_initial_payload.items_item": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/ItemsComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_explosiveness",
+      "java_method": "ItemsComp.item()",
+      "java_expr": "Item item(){",
+      "rule": "ItemsComp item method used by item field reads."
+    },
+    "unit_destroy_initial_payload.items_item_body": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/ItemsComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_explosiveness",
+      "java_method": "ItemsComp.item()",
+      "java_expr": "return stack.item;",
+      "rule": "ItemsComp item body used by item field reads."
+    },
+    "unit_destroy_initial_payload.item_explosiveness_default": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_explosiveness",
+      "java_method": "Item field declaration",
+      "java_expr": "public float explosiveness = 0f;",
+      "rule": "Item explosiveness default used by payload formula."
+    },
+    "unit_destroy_initial_payload.item_flammability_default": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_flammability",
+      "java_method": "Item field declaration",
+      "java_expr": "public float flammability = 0f;",
+      "rule": "Item flammability default used by payload formula."
+    },
+    "unit_destroy_initial_payload.item_charge_default": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_charge",
+      "java_method": "Item field declaration",
+      "java_expr": "public float charge = 0f;",
+      "rule": "Item charge default used by payload formula."
+    },
+    "unit_destroy_initial_payload.item_stack_amount_default": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.stack_amount",
+      "java_method": "ItemStack field declaration",
+      "java_expr": "public int amount = 0;",
+      "rule": "ItemStack amount default used by payload formulas."
+    },
+    "unit_destroy_initial_payload.mathf_pow": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.power",
+      "java_method": "Mathf.pow(float a, float b)",
+      "java_expr": "public static float pow(float a, float b){",
+      "rule": "Arc Mathf.pow method used by power formula."
+    },
+    "unit_destroy_initial_payload.mathf_pow_body": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_result.power",
+      "java_method": "Mathf.pow(float a, float b)",
+      "java_expr": "return (float)Math.pow(a, b);",
+      "rule": "Arc Mathf.pow body delegates to Math.pow."
+    },
+    "unit_destroy_initial_payload.is_added_value": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.is_added_value",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "isAdded()",
+      "rule": "Runtime bridge input for isAdded()."
+    },
+    "unit_destroy_initial_payload.killable_value": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.killable_value",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "killable()",
+      "rule": "Runtime bridge input for killable()."
+    },
+    "unit_destroy_initial_payload.item_explosiveness": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_explosiveness",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "item().explosiveness",
+      "rule": "Runtime bridge input for item().explosiveness."
+    },
+    "unit_destroy_initial_payload.item_flammability": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_flammability",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "item().flammability",
+      "rule": "Runtime bridge input for item().flammability."
+    },
+    "unit_destroy_initial_payload.item_charge": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.item_charge",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "item().charge",
+      "rule": "Runtime bridge input for item().charge."
+    },
+    "unit_destroy_initial_payload.stack_amount": {
+      "godot_owner": "PortGame.source_unit_destroy_initial_payload_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_initial_payload_input.stack_amount",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "stack().amount",
+      "rule": "Runtime bridge input for stack().amount."
+    },
     "unit_destroy_explosion_dispatch.method": {
       "godot_owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
       "runtime_proof": "/root/Main.source_unit_destroy_explosion_dispatch_state",

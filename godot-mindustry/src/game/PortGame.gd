@@ -9568,6 +9568,13 @@ func source_unit_icon_state(type_ui_icon: String) -> Dictionary:
 		"uiIcon": type_ui_icon,
 	}
 
+const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
+const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
+const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_EXPLOSIVENESS := "float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;"
+const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_FLAMMABILITY := "float flammability = item().flammability * stack().amount / 1.9f;"
+const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_POWER := "float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;"
+
 func source_unit_destroy_initial_payload_state(is_added_value: bool, killable_value: bool, item_explosiveness: float, item_flammability: float, item_charge: float, stack_amount: int) -> Dictionary:
 	var should_return := (not is_added_value) or (not killable_value)
 	var explosiveness: Variant = null
@@ -9579,6 +9586,10 @@ func source_unit_destroy_initial_payload_state(is_added_value: bool, killable_va
 		power = item_charge * pow(float(stack_amount), 1.11) * 160.0
 	return {
 		"returnGuard": should_return,
+		"sourceGuard": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD,
+		"explosivenessFormula": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_EXPLOSIVENESS,
+		"flammabilityFormula": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_FLAMMABILITY,
+		"powerFormula": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_POWER,
 		"isAdded": is_added_value,
 		"killable": killable_value,
 		"explosiveness": explosiveness,

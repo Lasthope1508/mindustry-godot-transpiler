@@ -13724,6 +13724,62 @@
         "test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_explosion_dispatch_state"
       ]
+    },
+    "PortGame.source_unit_destroy_initial_payload_state": {
+      "status": "active",
+      "source_slice": "N769",
+      "source_method": "UnitComp.destroy() initial payload",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_initial_payload_state",
+      "params": [
+        {
+          "name": "is_added_value",
+          "type": "bool",
+          "schema": "source_unit_destroy_initial_payload_input.is_added_value"
+        },
+        {
+          "name": "killable_value",
+          "type": "bool",
+          "schema": "source_unit_destroy_initial_payload_input.killable_value"
+        },
+        {
+          "name": "item_explosiveness",
+          "type": "float",
+          "schema": "source_unit_destroy_initial_payload_input.item_explosiveness"
+        },
+        {
+          "name": "item_flammability",
+          "type": "float",
+          "schema": "source_unit_destroy_initial_payload_input.item_flammability"
+        },
+        {
+          "name": "item_charge",
+          "type": "float",
+          "schema": "source_unit_destroy_initial_payload_input.item_charge"
+        },
+        {
+          "name": "stack_amount",
+          "type": "int",
+          "schema": "source_unit_destroy_initial_payload_input.stack_amount"
+        }
+      ],
+      "return_keys": [
+        "returnGuard",
+        "sourceGuard",
+        "isAdded",
+        "killable",
+        "explosivenessFormula",
+        "flammabilityFormula",
+        "powerFormula",
+        "explosiveness",
+        "flammability",
+        "power"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy initial guard and payload formulas.",
+      "tests": [
+        "test_unit_destroy_initial_payload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_initial_payload_state"
+      ]
     }
   },
   "policy": {
