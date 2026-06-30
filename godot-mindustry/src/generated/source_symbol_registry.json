@@ -49863,6 +49863,396 @@
         "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
         "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "unit_update_trail_position.angles_trnsx": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.position",
+      "java_expr": "public static float trnsx(float angle, float len){",
+      "java_method": "Angles.trnsx(float,float)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Angles.trnsx method used by cx formula.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.angles_trnsx_body": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.position",
+      "java_expr": "return len * Mathf.cosDeg(angle);",
+      "java_method": "Angles.trnsx(float,float)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Angles.trnsx delegates to Mathf.cosDeg.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.angles_trnsy": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.position",
+      "java_expr": "public static float trnsy(float angle, float len){",
+      "java_method": "Angles.trnsy(float,float)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Angles.trnsy method used by cy formula.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.angles_trnsy_body": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.position",
+      "java_expr": "return len * Mathf.sinDeg(angle);",
+      "java_method": "Angles.trnsy(float,float)",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Angles.trnsy delegates to Mathf.sinDeg.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.engine_offset": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.type_engine_offset",
+      "java_expr": "type.engineOffset",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit engine offset input.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.engine_offset_default": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.type_engine_offset",
+      "java_expr": "engineOffset = 5f,",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType engine offset default.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.elevation": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.elevation_value",
+      "java_expr": "elevation",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit elevation input used by scale formula.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.guard": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.trail_exists",
+      "java_expr": "if(trail != null){",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source trail existence guard.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.length_set": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.lengthSet",
+      "java_expr": "trail.length = type.trailLength;",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Recorded trail length assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.mathf_cos_deg": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.position",
+      "java_expr": "public static float cosDeg(float degrees){",
+      "java_method": "Mathf.cosDeg(float)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.cosDeg backs Angles.trnsx.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.mathf_sin_deg": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.position",
+      "java_expr": "public static float sinDeg(float degrees){",
+      "java_method": "Mathf.sinDeg(float)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.sinDeg backs Angles.trnsy.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.offset_formula": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.offset",
+      "java_expr": "float offset = type.engineOffset/2f + type.engineOffset/2f*scale;",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed engine trail offset.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.position_formula": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.position",
+      "java_expr": "float cx = x + Angles.trnsx(rotation + 180, offset), cy = y + Angles.trnsy(rotation + 180, offset);",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed trail update position.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.rotation": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.source_rotation_degrees",
+      "java_expr": "rotation",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit rotation input for rotation + 180 formula.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.scale_formula": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.scale",
+      "java_expr": "float scale = type.useEngineElevation ? elevation : 1f;",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Computed engine elevation scale.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.trail_exists": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.trail_exists",
+      "java_expr": "trail != null",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit trail existence input.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.trail_field": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.trail_exists",
+      "java_expr": "transient @Nullable Trail trail;",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Nullable trail field backing trail_exists input.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.trail_length": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.type_trail_length",
+      "java_expr": "type.trailLength",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit type.trailLength input.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.trail_length_default": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.type_trail_length",
+      "java_expr": "public int trailLength = 0;",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType trailLength default.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.trail_update": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.trailUpdate",
+      "java_expr": "trail.update(cx, cy);",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Recorded trail.update(cx, cy) call.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.trail_update_delegation": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.trailUpdate",
+      "java_expr": "update(x, y, 1f);",
+      "java_method": "Trail.update(float,float)",
+      "java_source": "core/src/mindustry/graphics/Trail.java",
+      "rule": "Trail.update(float,float) delegates to update(x,y,1f).",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.trail_update_method": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_result.trailUpdate",
+      "java_expr": "public void update(float x, float y){",
+      "java_method": "Trail.update(float,float)",
+      "java_source": "core/src/mindustry/graphics/Trail.java",
+      "rule": "Trail update method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.use_engine_elevation": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.type_use_engine_elevation",
+      "java_expr": "type.useEngineElevation",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit type.useEngineElevation input.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.use_engine_elevation_default": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.type_use_engine_elevation",
+      "java_expr": "public boolean useEngineElevation = true;",
+      "java_method": "UnitType field defaults",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType useEngineElevation default.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.x_value": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.x_value",
+      "java_expr": "x",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit x input for trail cx formula.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
+    },
+    "unit_update_trail_position.y_value": {
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "godot_symbol": "source_unit_update_trail_position_input.y_value",
+      "java_expr": "y",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit y input for trail cy formula.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
     }
   },
   "version": 1

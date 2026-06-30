@@ -14781,6 +14781,74 @@
         "test_port_game_exposes_source_unit_update_tile_unit_on_state",
         "test_unit_update_tile_unit_on_matches_upstream_source"
       ]
+    },
+    "N829": {
+      "bridge_exprs": [
+        "engineOffset = 5f,",
+        "public boolean useEngineElevation = true;",
+        "public int trailLength = 0;",
+        "public void update(float x, float y){",
+        "update(x, y, 1f);",
+        "public static float trnsx(float angle, float len){",
+        "return len * Mathf.cosDeg(angle);",
+        "public static float trnsy(float angle, float len){",
+        "return len * Mathf.sinDeg(angle);",
+        "public static float sinDeg(float degrees){",
+        "public static float cosDeg(float degrees){"
+      ],
+      "deferred_exprs": [
+        "Live Trail point mutation remains recorded call state only.",
+        "Trail point interpolation and interval behavior remain separate source slices.",
+        "No live Trail object is created in UnitComp.update() in this slice."
+      ],
+      "exact_exprs": [
+        "transient @Nullable Trail trail;",
+        "if(trail != null){",
+        "trail.length = type.trailLength;",
+        "float scale = type.useEngineElevation ? elevation : 1f;",
+        "float offset = type.engineOffset/2f + type.engineOffset/2f*scale;",
+        "float cx = x + Angles.trnsx(rotation + 180, offset), cy = y + Angles.trnsy(rotation + 180, offset);",
+        "trail.update(cx, cy);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_trail_position_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() trail position",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "source_symbols": [
+        "unit_update_trail_position.angles_trnsx",
+        "unit_update_trail_position.angles_trnsx_body",
+        "unit_update_trail_position.angles_trnsy",
+        "unit_update_trail_position.angles_trnsy_body",
+        "unit_update_trail_position.elevation",
+        "unit_update_trail_position.engine_offset",
+        "unit_update_trail_position.engine_offset_default",
+        "unit_update_trail_position.guard",
+        "unit_update_trail_position.length_set",
+        "unit_update_trail_position.mathf_cos_deg",
+        "unit_update_trail_position.mathf_sin_deg",
+        "unit_update_trail_position.offset_formula",
+        "unit_update_trail_position.position_formula",
+        "unit_update_trail_position.rotation",
+        "unit_update_trail_position.scale_formula",
+        "unit_update_trail_position.trail_exists",
+        "unit_update_trail_position.trail_field",
+        "unit_update_trail_position.trail_length",
+        "unit_update_trail_position.trail_length_default",
+        "unit_update_trail_position.trail_update",
+        "unit_update_trail_position.trail_update_delegation",
+        "unit_update_trail_position.trail_update_method",
+        "unit_update_trail_position.use_engine_elevation",
+        "unit_update_trail_position.use_engine_elevation_default",
+        "unit_update_trail_position.x_value",
+        "unit_update_trail_position.y_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
     }
   },
   "version": 1

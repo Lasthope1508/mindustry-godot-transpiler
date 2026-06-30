@@ -16482,6 +16482,69 @@
         "test_port_game_exposes_source_unit_update_tile_unit_on_state",
         "test_unit_update_tile_unit_on_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_trail_position_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "trail_exists",
+          "schema": "source_unit_update_trail_position_input.trail_exists",
+          "type": "bool"
+        },
+        {
+          "name": "type_trail_length",
+          "schema": "source_unit_update_trail_position_input.type_trail_length",
+          "type": "int"
+        },
+        {
+          "name": "type_use_engine_elevation",
+          "schema": "source_unit_update_trail_position_input.type_use_engine_elevation",
+          "type": "bool"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_trail_position_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "type_engine_offset",
+          "schema": "source_unit_update_trail_position_input.type_engine_offset",
+          "type": "float"
+        },
+        {
+          "name": "x_value",
+          "schema": "source_unit_update_trail_position_input.x_value",
+          "type": "float"
+        },
+        {
+          "name": "y_value",
+          "schema": "source_unit_update_trail_position_input.y_value",
+          "type": "float"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "schema": "source_unit_update_trail_position_input.source_rotation_degrees",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "trailExists",
+        "scale",
+        "offset",
+        "position",
+        "lengthSet",
+        "trailUpdate"
+      ],
+      "rule": "Public runtime contract for UnitComp.update trail position state.",
+      "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
+      "source_method": "UnitComp.update() trail position",
+      "source_slice": "N829",
+      "status": "active",
+      "tests": [
+        "test_unit_update_trail_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_trail_position_state",
+        "test_unit_update_trail_position_matches_upstream_source"
+      ]
     }
   },
   "policy": {

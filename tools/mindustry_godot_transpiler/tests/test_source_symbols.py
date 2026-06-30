@@ -6060,6 +6060,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_method["godot_symbol"], "source_unit_update_tile_unit_on_result.unitOn")
 
+    def test_unit_update_trail_position_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_trail_position.guard")
+        self.assertEqual(guard["java_expr"], "if(trail != null){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() trail position")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_trail_position_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_trail_position_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_trail_position_input.trail_exists")
+
+        trail_field = source_symbols.source_symbol(registry, "unit_update_trail_position.trail_field")
+        self.assertEqual(trail_field["java_expr"], "transient @Nullable Trail trail;")
+        self.assertEqual(trail_field["godot_symbol"], "source_unit_update_trail_position_input.trail_exists")
+
+        length_set = source_symbols.source_symbol(registry, "unit_update_trail_position.length_set")
+        self.assertEqual(length_set["java_expr"], "trail.length = type.trailLength;")
+        self.assertEqual(length_set["godot_symbol"], "source_unit_update_trail_position_result.lengthSet")
+
+        scale_formula = source_symbols.source_symbol(registry, "unit_update_trail_position.scale_formula")
+        self.assertEqual(scale_formula["java_expr"], "float scale = type.useEngineElevation ? elevation : 1f;")
+        self.assertEqual(scale_formula["godot_symbol"], "source_unit_update_trail_position_result.scale")
+
+        offset_formula = source_symbols.source_symbol(registry, "unit_update_trail_position.offset_formula")
+        self.assertEqual(offset_formula["java_expr"], "float offset = type.engineOffset/2f + type.engineOffset/2f*scale;")
+        self.assertEqual(offset_formula["godot_symbol"], "source_unit_update_trail_position_result.offset")
+
+        position_formula = source_symbols.source_symbol(registry, "unit_update_trail_position.position_formula")
+        self.assertEqual(
+            position_formula["java_expr"],
+            "float cx = x + Angles.trnsx(rotation + 180, offset), cy = y + Angles.trnsy(rotation + 180, offset);",
+        )
+        self.assertEqual(position_formula["godot_symbol"], "source_unit_update_trail_position_result.position")
+
+        trail_update = source_symbols.source_symbol(registry, "unit_update_trail_position.trail_update")
+        self.assertEqual(trail_update["java_expr"], "trail.update(cx, cy);")
+        self.assertEqual(trail_update["godot_symbol"], "source_unit_update_trail_position_result.trailUpdate")
+
+        engine_offset = source_symbols.source_symbol(registry, "unit_update_trail_position.engine_offset_default")
+        self.assertEqual(engine_offset["java_expr"], "engineOffset = 5f,")
+        self.assertEqual(engine_offset["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        use_engine_elevation = source_symbols.source_symbol(registry, "unit_update_trail_position.use_engine_elevation_default")
+        self.assertEqual(use_engine_elevation["java_expr"], "public boolean useEngineElevation = true;")
+        self.assertEqual(use_engine_elevation["godot_symbol"], "source_unit_update_trail_position_input.type_use_engine_elevation")
+
+        trail_length = source_symbols.source_symbol(registry, "unit_update_trail_position.trail_length_default")
+        self.assertEqual(trail_length["java_expr"], "public int trailLength = 0;")
+        self.assertEqual(trail_length["godot_symbol"], "source_unit_update_trail_position_input.type_trail_length")
+
+        angles_trnsx = source_symbols.source_symbol(registry, "unit_update_trail_position.angles_trnsx")
+        self.assertEqual(angles_trnsx["java_expr"], "public static float trnsx(float angle, float len){")
+        self.assertEqual(angles_trnsx["java_source"], "arc-core/src/arc/math/Angles.java")
+
+        angles_trnsy = source_symbols.source_symbol(registry, "unit_update_trail_position.angles_trnsy")
+        self.assertEqual(angles_trnsy["java_expr"], "public static float trnsy(float angle, float len){")
+        self.assertEqual(angles_trnsy["java_source"], "arc-core/src/arc/math/Angles.java")
+
+        trail_update_method = source_symbols.source_symbol(registry, "unit_update_trail_position.trail_update_method")
+        self.assertEqual(trail_update_method["java_expr"], "public void update(float x, float y){")
+        self.assertEqual(trail_update_method["java_source"], "core/src/mindustry/graphics/Trail.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14532,9 +14597,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 426)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 427)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 431)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 432)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14572,6 +14637,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_spawned_core_despawn_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_tile_unit_on_any_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_tile_unit_on_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_trail_position_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17132,6 +17198,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */", unit_update_tile_unit_on["bridge_exprs"])
         self.assertIn("public void unitOn(Unit unit){", unit_update_tile_unit_on["bridge_exprs"])
         self.assertIn("Floor damage branch remains separate source slice.", unit_update_tile_unit_on["deferred_exprs"])
+
+        unit_update_trail_position = source_symbols.source_slice(ledger, "N829")
+        self.assertEqual(unit_update_trail_position["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_trail_position["java_method"], "UnitComp.update() trail position")
+        self.assertEqual(unit_update_trail_position["godot_owner"], "PortGame.source_unit_update_trail_position_state")
+        self.assertIn("transient @Nullable Trail trail;", unit_update_trail_position["exact_exprs"])
+        self.assertIn("if(trail != null){", unit_update_trail_position["exact_exprs"])
+        self.assertIn("trail.length = type.trailLength;", unit_update_trail_position["exact_exprs"])
+        self.assertIn("float scale = type.useEngineElevation ? elevation : 1f;", unit_update_trail_position["exact_exprs"])
+        self.assertIn("float offset = type.engineOffset/2f + type.engineOffset/2f*scale;", unit_update_trail_position["exact_exprs"])
+        self.assertIn("float cx = x + Angles.trnsx(rotation + 180, offset), cy = y + Angles.trnsy(rotation + 180, offset);", unit_update_trail_position["exact_exprs"])
+        self.assertIn("trail.update(cx, cy);", unit_update_trail_position["exact_exprs"])
+        self.assertIn("engineOffset = 5f,", unit_update_trail_position["bridge_exprs"])
+        self.assertIn("public boolean useEngineElevation = true;", unit_update_trail_position["bridge_exprs"])
+        self.assertIn("public int trailLength = 0;", unit_update_trail_position["bridge_exprs"])
+        self.assertIn("public void update(float x, float y){", unit_update_trail_position["bridge_exprs"])
+        self.assertIn("public static float trnsx(float angle, float len){", unit_update_trail_position["bridge_exprs"])
+        self.assertIn("public static float trnsy(float angle, float len){", unit_update_trail_position["bridge_exprs"])
+        self.assertIn("Live Trail point mutation remains recorded call state only.", unit_update_trail_position["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21135,6 +21220,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_tile_unit_on["return_keys"])
         self.assertNotIn("unit_id", unit_update_tile_unit_on["return_keys"])
         self.assertEqual(unit_update_tile_unit_on["source_method"], "UnitComp.update() tile unitOn")
+
+        unit_update_trail_position = source_symbols.api_contract(contracts, "PortGame.source_unit_update_trail_position_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_trail_position["params"]],
+            [
+                "trail_exists",
+                "type_trail_length",
+                "type_use_engine_elevation",
+                "elevation_value",
+                "type_engine_offset",
+                "x_value",
+                "y_value",
+                "source_rotation_degrees",
+            ],
+        )
+        self.assertEqual(unit_update_trail_position["params"][0]["schema"], "source_unit_update_trail_position_input.trail_exists")
+        self.assertEqual(unit_update_trail_position["params"][1]["schema"], "source_unit_update_trail_position_input.type_trail_length")
+        self.assertEqual(unit_update_trail_position["params"][2]["schema"], "source_unit_update_trail_position_input.type_use_engine_elevation")
+        self.assertEqual(unit_update_trail_position["params"][3]["schema"], "source_unit_update_trail_position_input.elevation_value")
+        self.assertEqual(unit_update_trail_position["params"][4]["schema"], "source_unit_update_trail_position_input.type_engine_offset")
+        self.assertEqual(unit_update_trail_position["params"][5]["schema"], "source_unit_update_trail_position_input.x_value")
+        self.assertEqual(unit_update_trail_position["params"][6]["schema"], "source_unit_update_trail_position_input.y_value")
+        self.assertEqual(unit_update_trail_position["params"][7]["schema"], "source_unit_update_trail_position_input.source_rotation_degrees")
+        for key in ["trailExists", "scale", "offset", "position", "lengthSet", "trailUpdate"]:
+            self.assertIn(key, unit_update_trail_position["return_keys"])
+        self.assertNotIn("trail_exists", unit_update_trail_position["return_keys"])
+        self.assertEqual(unit_update_trail_position["source_method"], "UnitComp.update() trail position")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -25470,6 +25582,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_tile_unit_on_input["keys"]["tile_build_exists"]["java_expr"], "tile.build != null")
         self.assertEqual(source_unit_update_tile_unit_on_input["keys"]["unit_id"]["java_expr"], "self()")
 
+        source_unit_update_trail_position_input = source_symbols.state_schema(schema, "source_unit_update_trail_position_input")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["trail_exists"]["java_expr"], "trail != null")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["type_trail_length"]["java_expr"], "type.trailLength")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["type_use_engine_elevation"]["java_expr"], "type.useEngineElevation")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["type_engine_offset"]["java_expr"], "type.engineOffset")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["x_value"]["java_expr"], "x")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["y_value"]["java_expr"], "y")
+        self.assertEqual(source_unit_update_trail_position_input["keys"]["source_rotation_degrees"]["java_expr"], "rotation")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25987,6 +26109,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["tileBuildExists"]["alias_of"], "source_unit_update_tile_unit_on_input.tile_build_exists")
         self.assertEqual(source_unit_update_tile_unit_on_result["keys"]["unitOn"]["java_expr"], "tile.build.unitOn(self());")
         self.assertNotIn("unit_id", source_unit_update_tile_unit_on_result["keys"])
+
+        source_unit_update_trail_position_result = source_symbols.state_schema(schema, "source_unit_update_trail_position_result")
+        self.assertEqual(source_unit_update_trail_position_result["keys"]["trailExists"]["alias_of"], "source_unit_update_trail_position_input.trail_exists")
+        self.assertEqual(source_unit_update_trail_position_result["keys"]["scale"]["java_expr"], "float scale = type.useEngineElevation ? elevation : 1f;")
+        self.assertEqual(source_unit_update_trail_position_result["keys"]["offset"]["java_expr"], "float offset = type.engineOffset/2f + type.engineOffset/2f*scale;")
+        self.assertEqual(
+            source_unit_update_trail_position_result["keys"]["position"]["java_expr"],
+            "float cx = x + Angles.trnsx(rotation + 180, offset), cy = y + Angles.trnsy(rotation + 180, offset);",
+        )
+        self.assertEqual(source_unit_update_trail_position_result["keys"]["lengthSet"]["java_expr"], "trail.length = type.trailLength;")
+        self.assertEqual(source_unit_update_trail_position_result["keys"]["trailUpdate"]["java_expr"], "trail.update(cx, cy);")
+        self.assertNotIn("trail_exists", source_unit_update_trail_position_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")
