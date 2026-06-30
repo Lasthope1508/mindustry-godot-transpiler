@@ -5052,6 +5052,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "return this instanceof TimedKillc;")
         self.assertEqual(result["godot_symbol"], "source_unit_is_missile_result.is_missile")
 
+    def test_unit_kill_sync_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_kill_sync.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["java_expr"], "@Replace\n    public void kill(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_kill_sync_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_kill_sync_state")
+        self.assertEqual(method["godot_symbol"], "SOURCE_UNIT_KILL_SYNC_METHOD")
+
+        guard = source_symbols.source_symbol(registry, "unit_kill_sync.guard")
+        self.assertEqual(guard["java_expr"], "if(dead || net.client() || !killable()) return;")
+        self.assertEqual(guard["godot_symbol"], "SOURCE_UNIT_KILL_SYNC_GUARD")
+
+        call = source_symbols.source_symbol(registry, "unit_kill_sync.call")
+        self.assertEqual(call["java_expr"], "Call.unitDeath(id);")
+        self.assertEqual(call["godot_symbol"], "SOURCE_UNIT_KILL_SYNC_CALL")
+
+        remote = source_symbols.source_symbol(registry, "unit_kill_sync.unit_death_remote")
+        self.assertEqual(remote["java_source"], "core/src/mindustry/entities/Units.java")
+        self.assertEqual(remote["java_expr"], "@Remote(called = Loc.server)")
+        self.assertEqual(remote["godot_symbol"], "source_unit_kill_sync_result.remote")
+
+        lookup = source_symbols.source_symbol(registry, "unit_kill_sync.unit_death_lookup")
+        self.assertEqual(lookup["java_expr"], "Unit unit = Groups.unit.getByID(uid);")
+        self.assertEqual(lookup["godot_symbol"], "source_unit_kill_sync_result.serverLookup")
+
+        killed = source_symbols.source_symbol(registry, "unit_kill_sync.unit_death_killed")
+        self.assertEqual(killed["java_expr"], "unit.killed();")
+        self.assertEqual(killed["godot_symbol"], "source_unit_kill_sync_result.serverHandler")
+
+        dead_input = source_symbols.source_symbol(registry, "unit_kill_sync.dead_input")
+        self.assertEqual(dead_input["status"], "explicit-input")
+        self.assertEqual(dead_input["java_expr"], "dead")
+        self.assertEqual(dead_input["godot_symbol"], "source_unit_kill_sync_input.dead_value")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12942,9 +12981,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 383)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 384)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 388)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 389)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12985,6 +13024,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_is_flying", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_is_grounded", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_is_missile_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_kill_sync_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14967,6 +15007,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean isMissile(){", unit_is_missile["exact_exprs"])
         self.assertIn("return this instanceof TimedKillc;", unit_is_missile["exact_exprs"])
         self.assertIn("public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;", unit_is_missile["bridge_exprs"])
+
+        unit_kill_sync = source_symbols.source_slice(ledger, "N786")
+        self.assertEqual(unit_kill_sync["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_kill_sync["java_method"], "UnitComp.kill()")
+        self.assertEqual(unit_kill_sync["godot_owner"], "PortGame.source_unit_kill_sync_state")
+        self.assertIn("@Replace\n    public void kill(){", unit_kill_sync["exact_exprs"])
+        self.assertIn("if(dead || net.client() || !killable()) return;", unit_kill_sync["exact_exprs"])
+        self.assertIn("Call.unitDeath(id);", unit_kill_sync["exact_exprs"])
+        self.assertIn("public static void unitDeath(int uid){", unit_kill_sync["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18394,6 +18443,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("is_missile", unit_is_missile["return_keys"])
         self.assertIn("instanceof", unit_is_missile["return_keys"])
         self.assertEqual(unit_is_missile["source_method"], "UnitComp.isMissile()")
+
+        unit_kill_sync = source_symbols.api_contract(contracts, "PortGame.source_unit_kill_sync_state")
+        self.assertEqual([param["name"] for param in unit_kill_sync["params"]], ["dead_value", "net_client", "killable_value", "unit_id"])
+        self.assertEqual(unit_kill_sync["params"][0]["schema"], "source_unit_kill_sync_input.dead_value")
+        self.assertEqual(unit_kill_sync["params"][1]["schema"], "source_unit_kill_sync_input.net_client")
+        self.assertEqual(unit_kill_sync["params"][2]["schema"], "source_unit_kill_sync_input.killable_value")
+        self.assertEqual(unit_kill_sync["params"][3]["schema"], "source_unit_kill_sync_input.unit_id")
+        self.assertIn("shouldReturn", unit_kill_sync["return_keys"])
+        self.assertIn("remoteCall", unit_kill_sync["return_keys"])
+        self.assertEqual(unit_kill_sync["source_method"], "UnitComp.kill()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22552,6 +22611,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_is_missile_result["keys"]["return"]["java_expr"], "return this instanceof TimedKillc;")
         self.assertEqual(source_unit_is_missile_result["keys"]["is_missile"]["java_expr"], "return this instanceof TimedKillc;")
         self.assertEqual(source_unit_is_missile_result["keys"]["entityDef"]["java_expr"], "public static @EntityDef({Unitc.class, TimedKillc.class}) UnitType missile;")
+
+        source_unit_kill_sync_input = source_symbols.state_schema(schema, "source_unit_kill_sync_input")
+        self.assertEqual(source_unit_kill_sync_input["keys"]["dead_value"]["java_expr"], "dead")
+        self.assertEqual(source_unit_kill_sync_input["keys"]["net_client"]["java_expr"], "net.client()")
+        self.assertEqual(source_unit_kill_sync_input["keys"]["killable_value"]["java_expr"], "killable()")
+        self.assertEqual(source_unit_kill_sync_input["keys"]["unit_id"]["java_expr"], "id")
+
+        source_unit_kill_sync_result = source_symbols.state_schema(schema, "source_unit_kill_sync_result")
+        self.assertEqual(source_unit_kill_sync_result["keys"]["method"]["java_expr"], "@Replace\n    public void kill(){")
+        self.assertEqual(source_unit_kill_sync_result["keys"]["guard"]["java_expr"], "if(dead || net.client() || !killable()) return;")
+        self.assertEqual(source_unit_kill_sync_result["keys"]["call"]["java_expr"], "Call.unitDeath(id);")
+        self.assertEqual(source_unit_kill_sync_result["keys"]["remote"]["java_expr"], "@Remote(called = Loc.server)")
+        self.assertEqual(source_unit_kill_sync_result["keys"]["serverLookup"]["java_expr"], "Unit unit = Groups.unit.getByID(uid);")
+        self.assertEqual(source_unit_kill_sync_result["keys"]["serverHandler"]["java_expr"], "unit.killed();")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

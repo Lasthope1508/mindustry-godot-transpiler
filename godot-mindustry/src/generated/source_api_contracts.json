@@ -14377,6 +14377,48 @@
         "test_unit_is_missile_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_is_missile_state"
       ]
+    },
+    "PortGame.source_unit_kill_sync_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "dead_value",
+          "schema": "source_unit_kill_sync_input.dead_value",
+          "type": "bool"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_unit_kill_sync_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "killable_value",
+          "schema": "source_unit_kill_sync_input.killable_value",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_kill_sync_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "dead",
+        "guard",
+        "killable",
+        "netClient",
+        "remoteCall",
+        "shouldReturn"
+      ],
+      "rule": "Public runtime contract for UnitComp.kill() death sync guard and Call.unitDeath(id) dispatch.",
+      "runtime_proof": "/root/Main.source_unit_kill_sync_state",
+      "source_method": "UnitComp.kill()",
+      "source_slice": "N786",
+      "status": "active",
+      "tests": [
+        "test_unit_kill_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_kill_sync_state"
+      ]
     }
   },
   "policy": {

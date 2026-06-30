@@ -4185,6 +4185,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_UNIT_KILL_SYNC_METHOD := "@Replace\\n    public void kill(){"', source)
+        self.assertIn('const SOURCE_UNIT_KILL_SYNC_GUARD := "if(dead || net.client() || !killable()) return;"', source)
+        self.assertIn('const SOURCE_UNIT_KILL_SYNC_CALL := "Call.unitDeath(id);"', source)
         self.assertIn("func source_unit_kill_sync_state(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:", source)
         self.assertIn("var should_return := dead_value or net_client or not killable_value", source)
         self.assertIn('"guard": "dead || net.client() || !killable()"', source)

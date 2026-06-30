@@ -49922,6 +49922,248 @@
       "runtime_proof": "/root/Main.source_unit_is_missile_state",
       "status": "active"
     },
+    "source_unit_kill_sync_input": {
+      "keys": {
+        "dead_value": {
+          "godot_symbol": "source_unit_kill_sync_input.dead_value",
+          "java_expr": "dead",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit dead guard input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "killable_value": {
+          "godot_symbol": "source_unit_kill_sync_input.killable_value",
+          "java_expr": "killable()",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit killable() guard result.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "net_client": {
+          "godot_symbol": "source_unit_kill_sync_input.net_client",
+          "java_expr": "net.client()",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit net.client() guard result.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_kill_sync_input.unit_id",
+          "java_expr": "id",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit id used by Call.unitDeath(id).",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_kill_sync_state",
+      "runtime_proof": "/root/Main.source_unit_kill_sync_state",
+      "status": "active"
+    },
+    "source_unit_kill_sync_result": {
+      "keys": {
+        "call": {
+          "godot_symbol": "source_unit_kill_sync_result.call",
+          "java_expr": "Call.unitDeath(id);",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Remote death call issued when guard passes.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_unit_kill_sync_result.comment",
+          "java_expr": "//deaths are synced; this calls killed()",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source sync comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "dead": {
+          "godot_symbol": "source_unit_kill_sync_result.dead",
+          "java_expr": "dead",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Returned dead guard input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_kill_sync_result.guard",
+          "java_expr": "if(dead || net.client() || !killable()) return;",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Kill sync guard expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "killable": {
+          "godot_symbol": "source_unit_kill_sync_result.killable",
+          "java_expr": "killable()",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Returned killable guard input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_kill_sync_result.method",
+          "java_expr": "@Replace\n    public void kill(){",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp kill replacement method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "netClient": {
+          "godot_symbol": "source_unit_kill_sync_result.netClient",
+          "java_expr": "net.client()",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Returned net.client guard input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "remote": {
+          "godot_symbol": "source_unit_kill_sync_result.remote",
+          "java_expr": "@Remote(called = Loc.server)",
+          "java_method": "Units.unitDeath(int uid)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Units unitDeath is server-called remote.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "remoteCall": {
+          "godot_symbol": "source_unit_kill_sync_result.remoteCall",
+          "java_expr": "Call.unitDeath(id);",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Remote call payload when guard passes.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "removedEntity": {
+          "godot_symbol": "source_unit_kill_sync_result.removedEntity",
+          "java_expr": "netClient.addRemovedEntity(uid);",
+          "java_method": "Units.unitDeath(int uid)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Server records removed entity for clients.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "serverHandler": {
+          "godot_symbol": "source_unit_kill_sync_result.serverHandler",
+          "java_expr": "unit.killed();",
+          "java_method": "Units.unitDeath(int uid)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Server handler calls unit.killed().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "serverLookup": {
+          "godot_symbol": "source_unit_kill_sync_result.serverLookup",
+          "java_expr": "Unit unit = Groups.unit.getByID(uid);",
+          "java_method": "Units.unitDeath(int uid)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Server handler looks up unit by id.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "shouldReturn": {
+          "godot_symbol": "source_unit_kill_sync_result.shouldReturn",
+          "java_expr": "if(dead || net.client() || !killable()) return;",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime boolean for early return guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_unit_kill_sync_result.unit",
+          "java_expr": "id",
+          "java_method": "UnitComp.kill()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit id passed to Call.unitDeath(id).",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        },
+        "unitDeathMethod": {
+          "godot_symbol": "source_unit_kill_sync_result.unitDeathMethod",
+          "java_expr": "public static void unitDeath(int uid){",
+          "java_method": "Units.unitDeath(int uid)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Units unitDeath remote method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_kill_sync_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_kill_sync_state",
+      "runtime_proof": "/root/Main.source_unit_kill_sync_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

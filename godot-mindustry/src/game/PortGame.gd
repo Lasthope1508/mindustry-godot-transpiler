@@ -10036,6 +10036,10 @@ func source_unit_killed_state(is_local_value: bool, current_health: float, type_
 		"wreckSoundCall": wreck_sound_call,
 	}
 
+const SOURCE_UNIT_KILL_SYNC_METHOD := "@Replace\n    public void kill(){"
+const SOURCE_UNIT_KILL_SYNC_GUARD := "if(dead || net.client() || !killable()) return;"
+const SOURCE_UNIT_KILL_SYNC_CALL := "Call.unitDeath(id);"
+
 func source_unit_kill_sync_state(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:
 	var should_return := dead_value or net_client or not killable_value
 	var remote_call: Variant = null

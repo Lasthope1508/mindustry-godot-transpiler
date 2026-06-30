@@ -12780,6 +12780,50 @@
         "test_unit_is_missile_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_is_missile_state"
       ]
+    },
+    "N786": {
+      "bridge_exprs": [
+        "@Remote(called = Loc.server)",
+        "public static void unitDeath(int uid){",
+        "Unit unit = Groups.unit.getByID(uid);",
+        "netClient.addRemovedEntity(uid);",
+        "unit.killed();"
+      ],
+      "deferred_exprs": [
+        "UnitComp.killed() side effects remain owned by source_unit_killed_state",
+        "UnitComp.killable() delegate remains owned by source_unit_killable_state"
+      ],
+      "exact_exprs": [
+        "@Replace\n    public void kill(){",
+        "if(dead || net.client() || !killable()) return;",
+        "//deaths are synced; this calls killed()",
+        "Call.unitDeath(id);"
+      ],
+      "godot_owner": "PortGame.source_unit_kill_sync_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.kill()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_kill_sync_state",
+      "source_symbols": [
+        "unit_kill_sync.call",
+        "unit_kill_sync.comment",
+        "unit_kill_sync.dead_input",
+        "unit_kill_sync.guard",
+        "unit_kill_sync.killable_input",
+        "unit_kill_sync.method",
+        "unit_kill_sync.net_client_input",
+        "unit_kill_sync.unit_death_killed",
+        "unit_kill_sync.unit_death_lookup",
+        "unit_kill_sync.unit_death_method",
+        "unit_kill_sync.unit_death_remote",
+        "unit_kill_sync.unit_death_removed_entity",
+        "unit_kill_sync.unit_id_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_kill_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_kill_sync_state"
+      ]
     }
   },
   "version": 1
