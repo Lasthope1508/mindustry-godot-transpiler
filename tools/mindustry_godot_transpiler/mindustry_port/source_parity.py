@@ -178,6 +178,41 @@ def verify_unit_vec2_angle_source(upstream_root: Path, arc_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_unit_weapon_damage_source(upstream_root: Path) -> dict[str, Any]:
+    unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
+    weapon_path = Path(upstream_root) / "core/src/mindustry/type/Weapon.java"
+    bullet_path = Path(upstream_root) / "core/src/mindustry/entities/bullet/BulletType.java"
+    unit_types_path = Path(upstream_root) / UNIT_TYPES_CONTENT_SOURCE
+    unit_type_source = unit_type_path.read_text(encoding="utf-8", errors="replace")
+    weapon_source = weapon_path.read_text(encoding="utf-8", errors="replace")
+    bullet_source = bullet_path.read_text(encoding="utf-8", errors="replace")
+    unit_types_source = unit_types_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "unit_weapons_field": "public Seq<Weapon> weapons = new Seq<>();",
+        "weapon_bullet_field": "public BulletType bullet = Bullets.placeholder;",
+        "bullet_damage_field": "public float damage = 1f;",
+        "bullet_constructor_damage": "this.damage = damage;",
+        "dagger_weapon": "weapons.add(new Weapon(\"large-weapon\"){{",
+        "dagger_bullet_damage": "bullet = new BasicBulletType(2.5f, 9){{",
+    }
+    source_by_key = {
+        "unit_weapons_field": unit_type_source,
+        "weapon_bullet_field": weapon_source,
+        "bullet_damage_field": bullet_source,
+        "bullet_constructor_damage": bullet_source,
+        "dagger_weapon": unit_types_source,
+        "dagger_bullet_damage": unit_types_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": UNIT_TYPE_SOURCE,
+        "weapon_source": "core/src/mindustry/type/Weapon.java",
+        "bullet_source": "core/src/mindustry/entities/bullet/BulletType.java",
+        "unit_types_source": UNIT_TYPES_CONTENT_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_drill_warmup_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / DRILL_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

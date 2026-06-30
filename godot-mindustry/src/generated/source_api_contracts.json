@@ -16726,6 +16726,29 @@
         "test_unit_vec2_angle_matches_upstream_source",
         "test_port_game_exposes_source_unit_rotate_move_rotation_state"
       ]
+    },
+    "PortGame.source_unit_weapon_damage": {
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_weapon_damage_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "damage"
+      ],
+      "rule": "Public scalar runtime contract for first UnitType weapon BulletType.damage lookup used by core enemy contact damage.",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "source_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "source_slice": "N834",
+      "status": "active",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ]
     }
   },
   "policy": {

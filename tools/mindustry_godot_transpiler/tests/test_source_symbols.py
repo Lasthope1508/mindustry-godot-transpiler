@@ -6646,6 +6646,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "UnitType.health")
         self.assertEqual(result["godot_symbol"], "source_unit_health_result.health")
 
+    def test_unit_weapon_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        weapons = source_symbols.source_symbol(registry, "unit_weapon_damage.weapons_field")
+        self.assertEqual(weapons["java_expr"], "public Seq<Weapon> weapons = new Seq<>();")
+        self.assertEqual(weapons["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(weapons["godot_owner"], "PortGame.source_unit_weapon_damage")
+        self.assertEqual(weapons["runtime_proof"], "/root/Main.source_unit_weapon_damage")
+        self.assertEqual(weapons["godot_symbol"], "source_unit_weapon_damage_result.weapons")
+
+        weapon_bullet = source_symbols.source_symbol(registry, "unit_weapon_damage.weapon_bullet_field")
+        self.assertEqual(weapon_bullet["java_expr"], "public BulletType bullet = Bullets.placeholder;")
+        self.assertEqual(weapon_bullet["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet["godot_symbol"], "source_unit_weapon_damage_result.bullet")
+
+        bullet_damage = source_symbols.source_symbol(registry, "unit_weapon_damage.bullet_damage_field")
+        self.assertEqual(bullet_damage["java_expr"], "public float damage = 1f;")
+        self.assertEqual(bullet_damage["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_damage["godot_symbol"], "source_unit_weapon_damage_result.damage")
+
+        constructor_damage = source_symbols.source_symbol(registry, "unit_weapon_damage.bullet_constructor_damage")
+        self.assertEqual(constructor_damage["java_expr"], "this.damage = damage;")
+        self.assertEqual(constructor_damage["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(constructor_damage["godot_symbol"], "source_unit_weapon_damage_result.damage")
+
+        dagger_weapon = source_symbols.source_symbol(registry, "unit_weapon_damage.dagger_weapon")
+        self.assertEqual(dagger_weapon["java_expr"], "weapons.add(new Weapon(\"large-weapon\"){{")
+        self.assertEqual(dagger_weapon["java_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(dagger_weapon["godot_symbol"], "source_unit_weapon_damage_result.weapons")
+
+        dagger_bullet = source_symbols.source_symbol(registry, "unit_weapon_damage.dagger_bullet_damage")
+        self.assertEqual(dagger_bullet["java_expr"], "bullet = new BasicBulletType(2.5f, 9){{")
+        self.assertEqual(dagger_bullet["java_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(dagger_bullet["godot_symbol"], "source_unit_weapon_damage_result.damage")
+
+        unit_type_input = source_symbols.source_symbol(registry, "unit_weapon_damage.unit_type")
+        self.assertEqual(unit_type_input["status"], "explicit-input")
+        self.assertEqual(unit_type_input["java_expr"], "UnitType")
+        self.assertEqual(unit_type_input["godot_symbol"], "source_unit_weapon_damage_input.unit_type")
+
     def test_unit_hit_size_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14772,9 +14815,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 431)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 432)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 436)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 437)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14817,6 +14860,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_unsupported_env_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_walk_effect_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_vec2_angle", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_weapon_damage", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17446,6 +17490,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float atan2(float x, final float y){", unit_vec2_angle["bridge_exprs"])
         self.assertIn("public static final float radiansToDegrees = 180f / PI;", unit_vec2_angle["bridge_exprs"])
         self.assertIn("Native Godot atan2 keeps exact public runtime cardinal semantics; Arc approximation internals remain delegated to registered Mathf source.", unit_vec2_angle["deferred_exprs"])
+
+        unit_weapon_damage = source_symbols.source_slice(ledger, "N834")
+        self.assertEqual(unit_weapon_damage["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(unit_weapon_damage["java_method"], "UnitType.weapons -> Weapon.bullet -> BulletType.damage")
+        self.assertEqual(unit_weapon_damage["godot_owner"], "PortGame.source_unit_weapon_damage")
+        self.assertIn("public Seq<Weapon> weapons = new Seq<>();", unit_weapon_damage["exact_exprs"])
+        self.assertIn("public BulletType bullet = Bullets.placeholder;", unit_weapon_damage["bridge_exprs"])
+        self.assertIn("public float damage = 1f;", unit_weapon_damage["bridge_exprs"])
+        self.assertIn("this.damage = damage;", unit_weapon_damage["bridge_exprs"])
+        self.assertIn("weapons.add(new Weapon(\"large-weapon\"){{", unit_weapon_damage["bridge_exprs"])
+        self.assertIn("bullet = new BasicBulletType(2.5f, 9){{", unit_weapon_damage["bridge_exprs"])
+        self.assertIn("Null UnitType and empty weapon list remain defensive Godot bridge behavior, not upstream damage semantics.", unit_weapon_damage["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21555,6 +21611,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("health", unit_health["return_keys"])
         self.assertEqual(unit_health["source_method"], "UnitType.health field")
 
+        unit_weapon_damage = source_symbols.api_contract(contracts, "PortGame.source_unit_weapon_damage")
+        self.assertEqual([param["name"] for param in unit_weapon_damage["params"]], ["unit_type"])
+        self.assertEqual(unit_weapon_damage["params"][0]["schema"], "source_unit_weapon_damage_input.unit_type")
+        self.assertIn("damage", unit_weapon_damage["return_keys"])
+        self.assertEqual(unit_weapon_damage["source_method"], "UnitType.weapons -> Weapon.bullet -> BulletType.damage")
+
         unit_hit_size = source_symbols.api_contract(contracts, "PortGame.source_unit_hit_size")
         self.assertEqual([param["name"] for param in unit_hit_size["params"]], ["unit_type"])
         self.assertEqual(unit_hit_size["params"][0]["schema"], "source_unit_hit_size_input.unit_type")
@@ -25638,6 +25700,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_health_result["keys"]["health"]["java_expr"], "UnitType.health")
         self.assertEqual(source_unit_health_result["keys"]["defaultHealth"]["java_expr"], "health = 200f,")
         self.assertEqual(source_unit_health_result["keys"]["daggerHealth"]["java_expr"], "health = 150;")
+
+        source_unit_weapon_damage_input = source_symbols.state_schema(schema, "source_unit_weapon_damage_input")
+        self.assertEqual(source_unit_weapon_damage_input["keys"]["unit_type"]["java_expr"], "UnitType")
+
+        source_unit_weapon_damage_result = source_symbols.state_schema(schema, "source_unit_weapon_damage_result")
+        self.assertEqual(source_unit_weapon_damage_result["keys"]["weapons"]["java_expr"], "UnitType.weapons")
+        self.assertEqual(source_unit_weapon_damage_result["keys"]["bullet"]["java_expr"], "Weapon.bullet")
+        self.assertEqual(source_unit_weapon_damage_result["keys"]["damage"]["java_expr"], "BulletType.damage")
+        self.assertEqual(source_unit_weapon_damage_result["keys"]["defaultDamage"]["java_expr"], "public float damage = 1f;")
+        self.assertEqual(source_unit_weapon_damage_result["keys"]["daggerDamage"]["java_expr"], "bullet = new BasicBulletType(2.5f, 9){{")
 
         source_unit_hit_size_input = source_symbols.state_schema(schema, "source_unit_hit_size_input")
         self.assertEqual(source_unit_hit_size_input["keys"]["unit_type"]["java_expr"], "UnitType")

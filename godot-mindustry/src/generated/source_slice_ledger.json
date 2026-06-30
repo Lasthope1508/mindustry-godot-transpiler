@@ -15061,6 +15061,42 @@
         "test_port_game_exposes_source_unit_rotate_move_rotation_state"
       ],
       "runtime_proof": "/root/Main.source_unit_vec2_angle"
+    },
+    "N834": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_class": "mindustry.type.UnitType",
+      "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "exact_exprs": [
+        "public Seq<Weapon> weapons = new Seq<>();"
+      ],
+      "bridge_exprs": [
+        "public BulletType bullet = Bullets.placeholder;",
+        "public float damage = 1f;",
+        "this.damage = damage;",
+        "weapons.add(new Weapon(\"large-weapon\"){{",
+        "bullet = new BasicBulletType(2.5f, 9){{"
+      ],
+      "deferred_exprs": [
+        "Null UnitType and empty weapon list remain defensive Godot bridge behavior, not upstream damage semantics.",
+        "Full weapon selection, reload, shooting, and damage multiplier logic remain owned by existing Weapon/BulletType source slices."
+      ],
+      "source_symbols": [
+        "unit_weapon_damage.weapons_field",
+        "unit_weapon_damage.weapon_bullet_field",
+        "unit_weapon_damage.bullet_damage_field",
+        "unit_weapon_damage.bullet_constructor_damage",
+        "unit_weapon_damage.dagger_weapon",
+        "unit_weapon_damage.dagger_bullet_damage",
+        "unit_weapon_damage.unit_type"
+      ],
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "runtime_proof": "/root/Main.source_unit_weapon_damage"
     }
   },
   "version": 1

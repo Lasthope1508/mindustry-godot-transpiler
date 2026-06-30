@@ -51333,6 +51333,111 @@
       "java_expr": "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
       "rule": "Unit rotation target uses Vec2.angle inside rotateMove.",
       "status": "source-backed"
+    },
+    "unit_weapon_damage.weapons_field": {
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "godot_symbol": "source_unit_weapon_damage_result.weapons",
+      "java_expr": "public Seq<Weapon> weapons = new Seq<>();",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType owns the ordered weapon sequence used by this runtime lookup.",
+      "status": "source-backed"
+    },
+    "unit_weapon_damage.weapon_bullet_field": {
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "godot_symbol": "source_unit_weapon_damage_result.bullet",
+      "java_expr": "public BulletType bullet = Bullets.placeholder;",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon exposes its BulletType through the bullet field.",
+      "status": "source-backed"
+    },
+    "unit_weapon_damage.bullet_damage_field": {
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "godot_symbol": "source_unit_weapon_damage_result.damage",
+      "java_expr": "public float damage = 1f;",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "BulletType direct hit damage field default.",
+      "status": "source-backed"
+    },
+    "unit_weapon_damage.bullet_constructor_damage": {
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "java_method": "BulletType(float speed, float damage)",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "godot_symbol": "source_unit_weapon_damage_result.damage",
+      "java_expr": "this.damage = damage;",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "rule": "BulletType constructor assigns the passed damage value to the damage field.",
+      "status": "source-backed"
+    },
+    "unit_weapon_damage.dagger_weapon": {
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "java_method": "UnitTypes.load() dagger",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "godot_symbol": "source_unit_weapon_damage_result.weapons",
+      "java_expr": "weapons.add(new Weapon(\"large-weapon\"){{",
+      "java_source": "core/src/mindustry/content/UnitTypes.java",
+      "rule": "Dagger adds its first weapon through UnitType.weapons.",
+      "status": "source-backed"
+    },
+    "unit_weapon_damage.dagger_bullet_damage": {
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "java_method": "UnitTypes.load() dagger",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "godot_symbol": "source_unit_weapon_damage_result.damage",
+      "java_expr": "bullet = new BasicBulletType(2.5f, 9){{",
+      "java_source": "core/src/mindustry/content/UnitTypes.java",
+      "rule": "Dagger first weapon bullet constructor carries damage 9.",
+      "status": "source-backed"
+    },
+    "unit_weapon_damage.unit_type": {
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "godot_symbol": "source_unit_weapon_damage_input.unit_type",
+      "java_expr": "UnitType",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime unit_type input represents a source UnitType content object.",
+      "status": "explicit-input"
     }
   },
   "version": 1

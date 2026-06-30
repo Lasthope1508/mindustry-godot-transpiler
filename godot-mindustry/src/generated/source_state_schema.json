@@ -60266,6 +60266,88 @@
           ]
         }
       }
+    },
+    "source_unit_weapon_damage_input": {
+      "status": "active",
+      "keys": {
+        "unit_type": {
+          "godot_symbol": "source_unit_weapon_damage_input.unit_type",
+          "java_expr": "UnitType",
+          "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Source UnitType content object runtime input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_weapon_damage"
+          ]
+        }
+      }
+    },
+    "source_unit_weapon_damage_result": {
+      "status": "active",
+      "keys": {
+        "weapons": {
+          "godot_symbol": "source_unit_weapon_damage_result.weapons",
+          "java_expr": "UnitType.weapons",
+          "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType weapon sequence used by playable enemy damage bridge.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_weapon_damage"
+          ]
+        },
+        "bullet": {
+          "godot_symbol": "source_unit_weapon_damage_result.bullet",
+          "java_expr": "Weapon.bullet",
+          "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "First weapon bullet field.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_weapon_damage"
+          ]
+        },
+        "damage": {
+          "godot_symbol": "source_unit_weapon_damage_result.damage",
+          "java_expr": "BulletType.damage",
+          "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Returned bullet direct damage value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_weapon_damage"
+          ]
+        },
+        "defaultDamage": {
+          "godot_symbol": "source_unit_weapon_damage_result.defaultDamage",
+          "java_expr": "public float damage = 1f;",
+          "java_method": "BulletType damage field",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType damage default.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_weapon_damage"
+          ]
+        },
+        "daggerDamage": {
+          "godot_symbol": "source_unit_weapon_damage_result.daggerDamage",
+          "java_expr": "bullet = new BasicBulletType(2.5f, 9){{",
+          "java_method": "UnitTypes.load() dagger",
+          "java_source": "core/src/mindustry/content/UnitTypes.java",
+          "rule": "Dagger first weapon damage source constructor.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_weapon_damage"
+          ]
+        }
+      }
     }
   },
   "version": 1

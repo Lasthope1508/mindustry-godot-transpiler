@@ -167,6 +167,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_weapon_damage_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_weapon_damage_source"))
+        report = source_parity.verify_unit_weapon_damage_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(report["weapon_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(report["bullet_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(report["unit_types_source"], "core/src/mindustry/content/UnitTypes.java")
+        self.assertEqual(report["checked"], {
+            "unit_weapons_field": "public Seq<Weapon> weapons = new Seq<>();",
+            "weapon_bullet_field": "public BulletType bullet = Bullets.placeholder;",
+            "bullet_damage_field": "public float damage = 1f;",
+            "bullet_constructor_damage": "this.damage = damage;",
+            "dagger_weapon": "weapons.add(new Weapon(\"large-weapon\"){{",
+            "dagger_bullet_damage": "bullet = new BasicBulletType(2.5f, 9){{",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_warmup_source"))
         report = source_parity.verify_drill_warmup_source(ROOT / "mindustry-upstream")
