@@ -36107,6 +36107,78 @@
       "java_method": "field declaration/init()",
       "java_expr": "shootY",
       "rule": "Runtime helper returns source-backed turret shootY value."
+    },
+    "turret_total_inaccuracy.turret_inaccuracy": {
+      "alias_of": "turret_inaccuracy.field",
+      "godot_owner": "PortGame.source_turret_total_inaccuracy",
+      "godot_symbol": "source_turret_total_inaccuracy_result.turretInaccuracy",
+      "java_expr": "inaccuracy",
+      "java_method": "TurretBuild.bullet()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Bridge uses canonical Turret.inaccuracy as first operand of total shoot angle inaccuracy.",
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
+      "status": "generated",
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_total_inaccuracy.bullet_inaccuracy": {
+      "alias_of": "bullet_inaccuracy.result",
+      "godot_owner": "PortGame.source_turret_total_inaccuracy",
+      "godot_symbol": "source_turret_total_inaccuracy_result.bulletInaccuracy",
+      "java_expr": "type.inaccuracy",
+      "java_method": "TurretBuild.bullet()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Bridge uses canonical BulletType.inaccuracy as second operand of total shoot angle inaccuracy.",
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
+      "status": "generated",
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_total_inaccuracy.sum_expr": {
+      "godot_owner": "PortGame.source_turret_total_inaccuracy",
+      "godot_symbol": "source_turret_total_inaccuracy_result.sumExpr",
+      "java_expr": "inaccuracy + type.inaccuracy",
+      "java_method": "TurretBuild.bullet()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Canonical Java sum used as Mathf.range input for turret bullet angle randomness.",
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_total_inaccuracy.shoot_angle": {
+      "godot_owner": "PortGame.source_turret_total_inaccuracy",
+      "godot_symbol": "source_turret_total_inaccuracy_result.shootAngle",
+      "java_expr": "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
+      "java_method": "TurretBuild.bullet()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Canonical TurretBuild.bullet shootAngle assignment that consumes total inaccuracy.",
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
+      "status": "source-backed",
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "turret_total_inaccuracy.result": {
+      "godot_owner": "PortGame.source_turret_total_inaccuracy",
+      "godot_symbol": "source_turret_total_inaccuracy_result.totalInaccuracy",
+      "java_expr": "source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)",
+      "java_method": "TurretBuild.bullet()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Godot bridge result preserves Java inaccuracy + type.inaccuracy using existing canonical helpers.",
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
+      "status": "generated",
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
     }
   },
   "version": 1

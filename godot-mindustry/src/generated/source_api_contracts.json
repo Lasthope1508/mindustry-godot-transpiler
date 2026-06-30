@@ -12967,6 +12967,37 @@
         "test_turret_shoot_y_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_shoot_y"
       ]
+    },
+    "PortGame.source_turret_total_inaccuracy": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_total_inaccuracy_input.turret",
+          "type": "Variant"
+        },
+        {
+          "name": "data",
+          "schema": "source_turret_total_inaccuracy_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "totalInaccuracy",
+        "turretInaccuracy",
+        "bulletInaccuracy",
+        "sumExpr",
+        "shootAngle"
+      ],
+      "rule": "Public runtime contract for TurretBuild.bullet total inaccuracy range using Turret.inaccuracy plus BulletType.inaccuracy.",
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
+      "source_method": "TurretBuild.bullet()",
+      "source_slice": "N751",
+      "status": "active",
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
     }
   },
   "policy": {

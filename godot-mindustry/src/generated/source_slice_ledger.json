@@ -11339,6 +11339,38 @@
         "test_turret_shoot_y_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_shoot_y"
       ]
+    },
+    "N751": {
+      "deferred_exprs": [
+        "Mathf.range(inaccuracy + type.inaccuracy)",
+        "type.create(this, team, bulletX, bulletY, shootAngle, -1f"
+      ],
+      "exact_exprs": [
+        "inaccuracy + type.inaccuracy",
+        "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
+        "source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)"
+      ],
+      "bridge_exprs": [
+        "PortGame.source_turret_inaccuracy",
+        "PortGame.source_bullet_inaccuracy"
+      ],
+      "godot_owner": "PortGame.source_turret_total_inaccuracy",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
+      "java_method": "TurretBuild.bullet()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
+      "source_symbols": [
+        "turret_total_inaccuracy.turret_inaccuracy",
+        "turret_total_inaccuracy.bullet_inaccuracy",
+        "turret_total_inaccuracy.sum_expr",
+        "turret_total_inaccuracy.shoot_angle",
+        "turret_total_inaccuracy.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ]
     }
   },
   "version": 1

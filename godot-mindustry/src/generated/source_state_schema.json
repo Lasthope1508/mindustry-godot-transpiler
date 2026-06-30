@@ -45521,6 +45521,88 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_total_inaccuracy_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_inaccuracy_input.turret",
+          "rule": "Reuses canonical Turret.inaccuracy input.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "data": {
+          "alias_of": "source_bullet_inaccuracy_input.data",
+          "rule": "Reuses canonical BulletType.inaccuracy input data.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_total_inaccuracy_result": {
+      "keys": {
+        "turretInaccuracy": {
+          "alias_of": "source_turret_inaccuracy_result.inaccuracy",
+          "rule": "Carries canonical Turret.inaccuracy operand into total result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "bulletInaccuracy": {
+          "alias_of": "source_bullet_inaccuracy_result.inaccuracy",
+          "rule": "Carries canonical BulletType.inaccuracy operand into total result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "sumExpr": {
+          "godot_symbol": "source_turret_total_inaccuracy_result.sumExpr",
+          "java_expr": "inaccuracy + type.inaccuracy",
+          "java_method": "TurretBuild.bullet()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Java operand sum used for total inaccuracy.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_total_inaccuracy"
+          ]
+        },
+        "shootAngle": {
+          "godot_symbol": "source_turret_total_inaccuracy_result.shootAngle",
+          "java_expr": "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
+          "java_method": "TurretBuild.bullet()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Java shootAngle line that applies total inaccuracy.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_total_inaccuracy"
+          ]
+        },
+        "totalInaccuracy": {
+          "godot_symbol": "source_turret_total_inaccuracy_result.totalInaccuracy",
+          "java_expr": "source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)",
+          "java_method": "TurretBuild.bullet()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Godot runtime total preserves Java inaccuracy + type.inaccuracy through canonical helpers.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_total_inaccuracy"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_total_inaccuracy_input.turret",
+          "rule": "Carries turret input into total inaccuracy result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "data": {
+          "alias_of": "source_turret_total_inaccuracy_input.data",
+          "rule": "Carries bullet type input into total inaccuracy result schema.",
+          "status": "generated",
+          "type": "Dictionary"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

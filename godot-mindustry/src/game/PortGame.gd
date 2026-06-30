@@ -10615,7 +10615,10 @@ const SOURCE_BULLET_INACCURACY_KEY := "inaccuracy"
 const SOURCE_BULLET_INACCURACY_DEFAULT := 0.0
 
 func source_bullet_inaccuracy(data: Dictionary) -> float:
-	return float(data.get("inaccuracy", 0.0))
+	return float(data.get(SOURCE_BULLET_INACCURACY_KEY, SOURCE_BULLET_INACCURACY_DEFAULT))
+
+const SOURCE_TURRET_TOTAL_INACCURACY_EXPR := "inaccuracy + type.inaccuracy"
+const SOURCE_TURRET_TOTAL_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"
 
 func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:
 	return source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)
