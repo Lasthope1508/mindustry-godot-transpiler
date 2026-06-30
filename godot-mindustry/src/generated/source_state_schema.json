@@ -60348,6 +60348,160 @@
           ]
         }
       }
+    },
+    "source_unit_wobble_input": {
+      "status": "active",
+      "keys": {
+        "current_x": {
+          "godot_symbol": "source_unit_wobble_input.current_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit x before wobble mutation.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "current_y": {
+          "godot_symbol": "source_unit_wobble_input.current_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit y before wobble mutation.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "source_time": {
+          "godot_symbol": "source_unit_wobble_input.source_time",
+          "java_expr": "Time.time",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Arc Time.time explicit runtime input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_wobble_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Arc Time.delta explicit runtime input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "elevation_value": {
+          "godot_symbol": "source_unit_wobble_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit elevation explicit runtime input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_unit_wobble_input.unit_id",
+          "java_expr": "id",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit id explicit runtime input for phase offset.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        }
+      }
+    },
+    "source_unit_wobble_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_wobble_result.method",
+          "java_expr": "public void wobble(){",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp wobble method source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_unit_wobble_result.x",
+          "java_expr": "x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Post-wobble x state.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_unit_wobble_result.y",
+          "java_expr": "y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Post-wobble y state.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "dx": {
+          "godot_symbol": "source_unit_wobble_result.dx",
+          "java_expr": "Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "X-axis wobble delta from source expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "dy": {
+          "godot_symbol": "source_unit_wobble_result.dy",
+          "java_expr": "Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Y-axis wobble delta from source expression.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        },
+        "wobble_input": {
+          "godot_symbol": "source_unit_wobble_result.wobble_input",
+          "java_expr": "Time.time + (id % 10) * 12",
+          "java_method": "UnitComp.wobble()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Shared trig input for wobble sin/cos calls.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_wobble_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

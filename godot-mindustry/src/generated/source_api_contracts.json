@@ -16749,6 +16749,58 @@
         "test_unit_weapon_damage_matches_upstream_source",
         "test_port_game_uses_source_unit_weapon_damage_against_core"
       ]
+    },
+    "PortGame.source_unit_wobble_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_x",
+          "schema": "source_unit_wobble_input.current_x",
+          "type": "float"
+        },
+        {
+          "name": "current_y",
+          "schema": "source_unit_wobble_input.current_y",
+          "type": "float"
+        },
+        {
+          "name": "source_time",
+          "schema": "source_unit_wobble_input.source_time",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_wobble_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_wobble_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_wobble_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "x",
+        "y",
+        "dx",
+        "dy",
+        "wobble_input"
+      ],
+      "rule": "Runtime contract for UnitComp.wobble() position offsets using source Time/id/elevation inputs.",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "source_method": "UnitComp.wobble()",
+      "source_slice": "N835",
+      "status": "active",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ]
     }
   },
   "policy": {

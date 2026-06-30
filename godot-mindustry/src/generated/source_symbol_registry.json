@@ -51438,6 +51438,186 @@
       "java_source": "core/src/mindustry/type/UnitType.java",
       "rule": "Runtime unit_type input represents a source UnitType content object.",
       "status": "explicit-input"
+    },
+    "unit_wobble.method": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_result.method",
+      "java_expr": "public void wobble(){",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp wobble method applies elevation-scaled sinusoidal position offsets.",
+      "status": "source-backed"
+    },
+    "unit_wobble.x_update": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_result.x",
+      "java_expr": "x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Wobble x update uses Arc scaled sin, Time.delta, and elevation.",
+      "status": "source-backed"
+    },
+    "unit_wobble.y_update": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_result.y",
+      "java_expr": "y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Wobble y update uses Arc scaled cos, Time.delta, and elevation.",
+      "status": "source-backed"
+    },
+    "unit_wobble.wobble_input": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_result.wobble_input",
+      "java_expr": "Time.time + (id % 10) * 12",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Shared wobble trig input from Time.time and unit id phase.",
+      "status": "source-backed"
+    },
+    "unit_wobble.sin_scaled": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_result.dx",
+      "java_expr": "Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "X delta is derived from Arc Mathf scaled sine call.",
+      "status": "source-backed"
+    },
+    "unit_wobble.cos_scaled": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_result.dy",
+      "java_expr": "Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Y delta is derived from Arc Mathf scaled cosine call.",
+      "status": "source-backed"
+    },
+    "unit_wobble.current_x": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_input.current_x",
+      "java_expr": "x",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime current_x input represents UnitComp.x before wobble mutation.",
+      "status": "explicit-input"
+    },
+    "unit_wobble.current_y": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_input.current_y",
+      "java_expr": "y",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime current_y input represents UnitComp.y before wobble mutation.",
+      "status": "explicit-input"
+    },
+    "unit_wobble.source_time": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_input.source_time",
+      "java_expr": "Time.time",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime source_time input represents Arc Time.time.",
+      "status": "explicit-input"
+    },
+    "unit_wobble.source_delta": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime source_delta input represents Arc Time.delta.",
+      "status": "explicit-input"
+    },
+    "unit_wobble.elevation_value": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_input.elevation_value",
+      "java_expr": "elevation",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime elevation_value input represents UnitComp.elevation.",
+      "status": "explicit-input"
+    },
+    "unit_wobble.unit_id": {
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "java_method": "UnitComp.wobble()",
+      "runtime_proof": "/root/Main.source_unit_wobble_state",
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "godot_symbol": "source_unit_wobble_input.unit_id",
+      "java_expr": "id",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime unit_id input represents UnitComp.id phase source.",
+      "status": "explicit-input"
     }
   },
   "version": 1

@@ -6689,6 +6689,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_type_input["java_expr"], "UnitType")
         self.assertEqual(unit_type_input["godot_symbol"], "source_unit_weapon_damage_input.unit_type")
 
+    def test_unit_wobble_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_wobble.method")
+        self.assertEqual(method["java_expr"], "public void wobble(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_wobble_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_wobble_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_wobble_result.method")
+
+        x_update = source_symbols.source_symbol(registry, "unit_wobble.x_update")
+        self.assertEqual(x_update["java_expr"], "x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;")
+        self.assertEqual(x_update["godot_symbol"], "source_unit_wobble_result.x")
+
+        y_update = source_symbols.source_symbol(registry, "unit_wobble.y_update")
+        self.assertEqual(y_update["java_expr"], "y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;")
+        self.assertEqual(y_update["godot_symbol"], "source_unit_wobble_result.y")
+
+        wobble_input = source_symbols.source_symbol(registry, "unit_wobble.wobble_input")
+        self.assertEqual(wobble_input["java_expr"], "Time.time + (id % 10) * 12")
+        self.assertEqual(wobble_input["godot_symbol"], "source_unit_wobble_result.wobble_input")
+
+        sin_scaled = source_symbols.source_symbol(registry, "unit_wobble.sin_scaled")
+        self.assertEqual(sin_scaled["java_expr"], "Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f)")
+        self.assertEqual(sin_scaled["godot_symbol"], "source_unit_wobble_result.dx")
+
+        cos_scaled = source_symbols.source_symbol(registry, "unit_wobble.cos_scaled")
+        self.assertEqual(cos_scaled["java_expr"], "Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f)")
+        self.assertEqual(cos_scaled["godot_symbol"], "source_unit_wobble_result.dy")
+
+        current_x = source_symbols.source_symbol(registry, "unit_wobble.current_x")
+        self.assertEqual(current_x["status"], "explicit-input")
+        self.assertEqual(current_x["java_expr"], "x")
+        self.assertEqual(current_x["godot_symbol"], "source_unit_wobble_input.current_x")
+
+        source_time = source_symbols.source_symbol(registry, "unit_wobble.source_time")
+        self.assertEqual(source_time["status"], "explicit-input")
+        self.assertEqual(source_time["java_expr"], "Time.time")
+        self.assertEqual(source_time["godot_symbol"], "source_unit_wobble_input.source_time")
+
+        unit_id = source_symbols.source_symbol(registry, "unit_wobble.unit_id")
+        self.assertEqual(unit_id["status"], "explicit-input")
+        self.assertEqual(unit_id["java_expr"], "id")
+        self.assertEqual(unit_id["godot_symbol"], "source_unit_wobble_input.unit_id")
+
     def test_unit_hit_size_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14815,9 +14863,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 432)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 433)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 437)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 438)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14861,6 +14909,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_walk_effect_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_vec2_angle", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_weapon_damage", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_wobble_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17502,6 +17551,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("weapons.add(new Weapon(\"large-weapon\"){{", unit_weapon_damage["bridge_exprs"])
         self.assertIn("bullet = new BasicBulletType(2.5f, 9){{", unit_weapon_damage["bridge_exprs"])
         self.assertIn("Null UnitType and empty weapon list remain defensive Godot bridge behavior, not upstream damage semantics.", unit_weapon_damage["deferred_exprs"])
+
+        unit_wobble = source_symbols.source_slice(ledger, "N835")
+        self.assertEqual(unit_wobble["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_wobble["java_method"], "UnitComp.wobble()")
+        self.assertEqual(unit_wobble["godot_owner"], "PortGame.source_unit_wobble_state")
+        self.assertIn("public void wobble(){", unit_wobble["exact_exprs"])
+        self.assertIn("x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;", unit_wobble["exact_exprs"])
+        self.assertIn("y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;", unit_wobble["exact_exprs"])
+        self.assertIn("return sin(radians / scl) * mag;", unit_wobble["bridge_exprs"])
+        self.assertIn("return cos(radians / scl) * mag;", unit_wobble["bridge_exprs"])
+        self.assertIn("Arc sine table lookup internals remain owned by registered source_arc_mathf_* helpers.", unit_wobble["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21617,6 +21677,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damage", unit_weapon_damage["return_keys"])
         self.assertEqual(unit_weapon_damage["source_method"], "UnitType.weapons -> Weapon.bullet -> BulletType.damage")
 
+        unit_wobble = source_symbols.api_contract(contracts, "PortGame.source_unit_wobble_state")
+        self.assertEqual([param["name"] for param in unit_wobble["params"]], ["current_x", "current_y", "source_time", "source_delta", "elevation_value", "unit_id"])
+        self.assertEqual(unit_wobble["params"][0]["schema"], "source_unit_wobble_input.current_x")
+        self.assertEqual(unit_wobble["params"][2]["schema"], "source_unit_wobble_input.source_time")
+        self.assertIn("x", unit_wobble["return_keys"])
+        self.assertIn("y", unit_wobble["return_keys"])
+        self.assertIn("wobble_input", unit_wobble["return_keys"])
+        self.assertEqual(unit_wobble["source_method"], "UnitComp.wobble()")
+
         unit_hit_size = source_symbols.api_contract(contracts, "PortGame.source_unit_hit_size")
         self.assertEqual([param["name"] for param in unit_hit_size["params"]], ["unit_type"])
         self.assertEqual(unit_hit_size["params"][0]["schema"], "source_unit_hit_size_input.unit_type")
@@ -25710,6 +25779,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_weapon_damage_result["keys"]["damage"]["java_expr"], "BulletType.damage")
         self.assertEqual(source_unit_weapon_damage_result["keys"]["defaultDamage"]["java_expr"], "public float damage = 1f;")
         self.assertEqual(source_unit_weapon_damage_result["keys"]["daggerDamage"]["java_expr"], "bullet = new BasicBulletType(2.5f, 9){{")
+
+        source_unit_wobble_input = source_symbols.state_schema(schema, "source_unit_wobble_input")
+        self.assertEqual(source_unit_wobble_input["keys"]["current_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_wobble_input["keys"]["current_y"]["java_expr"], "y")
+        self.assertEqual(source_unit_wobble_input["keys"]["source_time"]["java_expr"], "Time.time")
+        self.assertEqual(source_unit_wobble_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+        self.assertEqual(source_unit_wobble_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_wobble_input["keys"]["unit_id"]["java_expr"], "id")
+
+        source_unit_wobble_result = source_symbols.state_schema(schema, "source_unit_wobble_result")
+        self.assertEqual(source_unit_wobble_result["keys"]["x"]["java_expr"], "x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;")
+        self.assertEqual(source_unit_wobble_result["keys"]["y"]["java_expr"], "y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;")
+        self.assertEqual(source_unit_wobble_result["keys"]["dx"]["java_expr"], "Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation")
+        self.assertEqual(source_unit_wobble_result["keys"]["dy"]["java_expr"], "Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation")
+        self.assertEqual(source_unit_wobble_result["keys"]["wobble_input"]["java_expr"], "Time.time + (id % 10) * 12")
 
         source_unit_hit_size_input = source_symbols.state_schema(schema, "source_unit_hit_size_input")
         self.assertEqual(source_unit_hit_size_input["keys"]["unit_type"]["java_expr"], "UnitType")

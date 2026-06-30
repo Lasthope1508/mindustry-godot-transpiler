@@ -15097,6 +15097,51 @@
         "test_port_game_uses_source_unit_weapon_damage_against_core"
       ],
       "runtime_proof": "/root/Main.source_unit_weapon_damage"
+    },
+    "N835": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.wobble()",
+      "godot_owner": "PortGame.source_unit_wobble_state",
+      "exact_exprs": [
+        "public void wobble(){",
+        "x += Mathf.sin(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;",
+        "y += Mathf.cos(Time.time + (id % 10) * 12, 25f, 0.05f) * Time.delta * elevation;"
+      ],
+      "bridge_exprs": [
+        "private static final int sinBits = 14;",
+        "private static final int sinMask = ~(-1 << sinBits);",
+        "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+        "return sinTable[(int)(radians * radToIndex) & sinMask];",
+        "return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];",
+        "return sin(radians / scl) * mag;",
+        "return cos(radians / scl) * mag;"
+      ],
+      "deferred_exprs": [
+        "Arc sine table lookup internals remain owned by registered source_arc_mathf_* helpers.",
+        "Live UnitComp x/y mutation remains represented as returned state for deterministic runtime proof."
+      ],
+      "source_symbols": [
+        "unit_wobble.method",
+        "unit_wobble.x_update",
+        "unit_wobble.y_update",
+        "unit_wobble.wobble_input",
+        "unit_wobble.sin_scaled",
+        "unit_wobble.cos_scaled",
+        "unit_wobble.current_x",
+        "unit_wobble.current_y",
+        "unit_wobble.source_time",
+        "unit_wobble.source_delta",
+        "unit_wobble.elevation_value",
+        "unit_wobble.unit_id"
+      ],
+      "tests": [
+        "test_unit_wobble_symbols_are_registered_with_source_backing",
+        "test_unit_wobble_matches_upstream_source",
+        "test_port_game_exposes_source_unit_wobble_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_wobble_state"
     }
   },
   "version": 1
