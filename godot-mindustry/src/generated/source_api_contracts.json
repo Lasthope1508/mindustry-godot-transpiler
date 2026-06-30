@@ -15438,6 +15438,107 @@
         "test_unit_update_boosting_should_boost_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_should_boost_state"
       ]
+    },
+    "PortGame.source_unit_update_bounds_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_bounded",
+          "schema": "source_unit_update_bounds_input.type_bounded",
+          "type": "bool"
+        },
+        {
+          "name": "world_unit_height",
+          "schema": "source_unit_update_bounds_input.world_unit_height",
+          "type": "float"
+        },
+        {
+          "name": "world_unit_width",
+          "schema": "source_unit_update_bounds_input.world_unit_width",
+          "type": "float"
+        },
+        {
+          "name": "rules_limit_map_area",
+          "schema": "source_unit_update_bounds_input.rules_limit_map_area",
+          "type": "bool"
+        },
+        {
+          "name": "team_is_ai",
+          "schema": "source_unit_update_bounds_input.team_is_ai",
+          "type": "bool"
+        },
+        {
+          "name": "rules_limit_x",
+          "schema": "source_unit_update_bounds_input.rules_limit_x",
+          "type": "int"
+        },
+        {
+          "name": "rules_limit_y",
+          "schema": "source_unit_update_bounds_input.rules_limit_y",
+          "type": "int"
+        },
+        {
+          "name": "rules_limit_width",
+          "schema": "source_unit_update_bounds_input.rules_limit_width",
+          "type": "int"
+        },
+        {
+          "name": "rules_limit_height",
+          "schema": "source_unit_update_bounds_input.rules_limit_height",
+          "type": "int"
+        },
+        {
+          "name": "current_x",
+          "schema": "source_unit_update_bounds_input.current_x",
+          "type": "float"
+        },
+        {
+          "name": "current_y",
+          "schema": "source_unit_update_bounds_input.current_y",
+          "type": "float"
+        },
+        {
+          "name": "elevation_value",
+          "schema": "source_unit_update_bounds_input.elevation_value",
+          "type": "float"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_unit_update_bounds_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "is_local",
+          "schema": "source_unit_update_bounds_input.is_local",
+          "type": "bool"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_update_bounds_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bounded",
+        "limits",
+        "canApplyNetLocal",
+        "dx",
+        "dy",
+        "velAddNet",
+        "grounded",
+        "x",
+        "y",
+        "kill"
+      ],
+      "rule": "Public runtime contract for UnitComp.update bounds state.",
+      "runtime_proof": "/root/Main.source_unit_update_bounds_state",
+      "source_method": "UnitComp.update() bounds",
+      "source_slice": "N810",
+      "status": "active",
+      "tests": [
+        "test_unit_update_bounds_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_bounds_state"
+      ]
     }
   },
   "policy": {

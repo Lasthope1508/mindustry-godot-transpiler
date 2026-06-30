@@ -5241,6 +5241,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(should_boost["java_expr"], "boost || onSolid() || (isFlying() && !canLand())")
         self.assertEqual(should_boost["godot_symbol"], "source_unit_update_boosting_should_boost_result.should_boost")
 
+    def test_unit_update_bounds_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        warp_dst = source_symbols.source_symbol(registry, "unit_update_bounds.warp_dst")
+        self.assertEqual(warp_dst["java_expr"], "static final float warpDst = 8f;")
+        self.assertEqual(warp_dst["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(warp_dst["java_method"], "UnitComp.update() bounds")
+        self.assertEqual(warp_dst["godot_owner"], "PortGame.source_unit_update_bounds_state")
+        self.assertEqual(warp_dst["runtime_proof"], "/root/Main.source_unit_update_bounds_state")
+        self.assertEqual(warp_dst["godot_symbol"], "SOURCE_UNIT_WARP_DST")
+
+        bounded_guard = source_symbols.source_symbol(registry, "unit_update_bounds.bounded_guard")
+        self.assertEqual(bounded_guard["java_expr"], "if(type.bounded){")
+        self.assertEqual(bounded_guard["godot_symbol"], "source_unit_update_bounds_result.bounded")
+
+        world_bounds = source_symbols.source_symbol(registry, "unit_update_bounds.world_bounds")
+        self.assertEqual(world_bounds["java_expr"], "float bot = 0f, left = 0f, top = world.unitHeight(), right = world.unitWidth();")
+        self.assertEqual(world_bounds["godot_symbol"], "source_unit_update_bounds_result.limits")
+
+        limit_area_guard = source_symbols.source_symbol(registry, "unit_update_bounds.limit_area_guard")
+        self.assertEqual(limit_area_guard["java_expr"], "if(state.rules.limitMapArea && !team.isAI()){")
+        self.assertEqual(limit_area_guard["godot_symbol"], "source_unit_update_bounds_result.limits.limitedArea")
+
+        net_local_guard = source_symbols.source_symbol(registry, "unit_update_bounds.net_local_guard")
+        self.assertEqual(net_local_guard["java_expr"], "if(!net.client() || isLocal()){")
+        self.assertEqual(net_local_guard["godot_symbol"], "source_unit_update_bounds_result.canApplyNetLocal")
+
+        vel_add_net = source_symbols.source_symbol(registry, "unit_update_bounds.vel_add_net")
+        self.assertEqual(vel_add_net["java_expr"], "velAddNet(dx * Time.delta, dy * Time.delta);")
+        self.assertEqual(vel_add_net["godot_symbol"], "source_unit_update_bounds_result.velAddNet")
+
+        grounded_guard = source_symbols.source_symbol(registry, "unit_update_bounds.grounded_guard")
+        self.assertEqual(grounded_guard["java_expr"], "if(isGrounded()){")
+        self.assertEqual(grounded_guard["godot_symbol"], "source_unit_update_bounds_result.grounded")
+
+        kill_guard = source_symbols.source_symbol(registry, "unit_update_bounds.kill_guard")
+        self.assertEqual(kill_guard["java_expr"], "if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){")
+        self.assertEqual(kill_guard["godot_symbol"], "source_unit_update_bounds_result.kill")
+
+        source_delta = source_symbols.source_symbol(registry, "unit_update_bounds.source_delta")
+        self.assertEqual(source_delta["status"], "explicit-input")
+        self.assertEqual(source_delta["java_expr"], "Time.delta")
+        self.assertEqual(source_delta["godot_symbol"], "source_unit_update_bounds_input.source_delta")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13713,9 +13760,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 407)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 408)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 412)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 413)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13780,6 +13827,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_boosting_event_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_boosting_guard_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_boosting_should_boost_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_bounds_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -16050,6 +16098,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void updateBoosting(boolean boost, boolean event){", unit_update_boosting_guard["exact_exprs"])
         self.assertIn("if(!type.canBoost || dead) return;", unit_update_boosting_guard["exact_exprs"])
         self.assertIn("shouldBoost, elevation approach, and event dispatch stay owned by separate updateBoosting slices.", unit_update_boosting_guard["deferred_exprs"])
+
+        unit_update_bounds = source_symbols.source_slice(ledger, "N810")
+        self.assertEqual(unit_update_bounds["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_bounds["java_method"], "UnitComp.update() bounds")
+        self.assertEqual(unit_update_bounds["godot_owner"], "PortGame.source_unit_update_bounds_state")
+        self.assertIn("if(type.bounded){", unit_update_bounds["exact_exprs"])
+        self.assertIn("velAddNet(dx * Time.delta, dy * Time.delta);", unit_update_bounds["exact_exprs"])
+        self.assertIn("if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){", unit_update_bounds["exact_exprs"])
+        self.assertIn("world.unitHeight()/unitWidth(), Rules limitMapArea rectangle, Mathf.clamp, Time.delta, tilesize, and finalWorldBounds are bridge-backed by their source declarations.", unit_update_bounds["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19819,6 +19876,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("elevation_value", unit_update_boosting_should_boost["return_keys"])
         self.assertNotIn("can_land_result", unit_update_boosting_should_boost["return_keys"])
         self.assertEqual(unit_update_boosting_should_boost["source_method"], "UnitComp.updateBoosting(boolean boost, boolean event)/UnitComp.isFlying")
+
+        unit_update_bounds = source_symbols.api_contract(contracts, "PortGame.source_unit_update_bounds_state")
+        self.assertEqual(
+            [param["name"] for param in unit_update_bounds["params"]],
+            ["type_bounded", "world_unit_height", "world_unit_width", "rules_limit_map_area", "team_is_ai", "rules_limit_x", "rules_limit_y", "rules_limit_width", "rules_limit_height", "current_x", "current_y", "elevation_value", "net_client", "is_local", "source_delta"],
+        )
+        self.assertEqual(unit_update_bounds["params"][0]["schema"], "source_unit_update_bounds_input.type_bounded")
+        self.assertEqual(unit_update_bounds["params"][1]["schema"], "source_unit_update_bounds_input.world_unit_height")
+        self.assertEqual(unit_update_bounds["params"][2]["schema"], "source_unit_update_bounds_input.world_unit_width")
+        self.assertEqual(unit_update_bounds["params"][11]["schema"], "source_unit_update_bounds_input.elevation_value")
+        self.assertEqual(unit_update_bounds["params"][14]["schema"], "source_unit_update_bounds_input.source_delta")
+        for key in ["bounded", "limits", "canApplyNetLocal", "dx", "dy", "velAddNet", "grounded", "x", "y", "kill"]:
+            self.assertIn(key, unit_update_bounds["return_keys"])
+        self.assertNotIn("source_delta", unit_update_bounds["return_keys"])
+        self.assertEqual(unit_update_bounds["source_method"], "UnitComp.update() bounds")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23990,6 +24062,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_boosting_should_boost_input["keys"]["elevation_value"]["java_expr"], "elevation")
         self.assertEqual(source_unit_update_boosting_should_boost_input["keys"]["can_land_result"]["java_expr"], "canLand()")
 
+        source_unit_update_bounds_input = source_symbols.state_schema(schema, "source_unit_update_bounds_input")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["type_bounded"]["java_expr"], "type.bounded")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["world_unit_height"]["java_expr"], "world.unitHeight()")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["world_unit_width"]["java_expr"], "world.unitWidth()")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["rules_limit_map_area"]["java_expr"], "state.rules.limitMapArea")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["team_is_ai"]["java_expr"], "team.isAI()")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["rules_limit_x"]["java_expr"], "state.rules.limitX")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["rules_limit_y"]["java_expr"], "state.rules.limitY")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["rules_limit_width"]["java_expr"], "state.rules.limitWidth")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["rules_limit_height"]["java_expr"], "state.rules.limitHeight")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["current_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["current_y"]["java_expr"], "y")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["elevation_value"]["java_expr"], "elevation")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["net_client"]["java_expr"], "net.client()")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["is_local"]["java_expr"], "isLocal()")
+        self.assertEqual(source_unit_update_bounds_input["keys"]["source_delta"]["java_expr"], "Time.delta")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24357,6 +24446,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("on_solid_result", source_unit_update_boosting_should_boost_result["keys"])
         self.assertNotIn("elevation_value", source_unit_update_boosting_should_boost_result["keys"])
         self.assertNotIn("can_land_result", source_unit_update_boosting_should_boost_result["keys"])
+
+        source_unit_update_bounds_result = source_symbols.state_schema(schema, "source_unit_update_bounds_result")
+        self.assertEqual(source_unit_update_bounds_result["keys"]["bounded"]["java_expr"], "if(type.bounded){")
+        self.assertEqual(source_unit_update_bounds_result["keys"]["limits"]["java_expr"], "float bot = 0f, left = 0f, top = world.unitHeight(), right = world.unitWidth();")
+        self.assertEqual(source_unit_update_bounds_result["keys"]["canApplyNetLocal"]["java_expr"], "if(!net.client() || isLocal()){")
+        self.assertEqual(source_unit_update_bounds_result["keys"]["velAddNet"]["java_expr"], "velAddNet(dx * Time.delta, dy * Time.delta);")
+        self.assertEqual(source_unit_update_bounds_result["keys"]["grounded"]["java_expr"], "if(isGrounded()){")
+        self.assertEqual(source_unit_update_bounds_result["keys"]["kill"]["java_expr"], "if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){")
+        self.assertNotIn("source_delta", source_unit_update_bounds_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

@@ -54358,6 +54358,395 @@
       "runtime_proof": "/root/Main.source_unit_update_boosting_should_boost_state",
       "status": "active"
     },
+    "source_unit_update_bounds_input": {
+      "keys": {
+        "current_x": {
+          "godot_symbol": "source_unit_update_bounds_input.current_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime input for current unit x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "current_y": {
+          "godot_symbol": "source_unit_update_bounds_input.current_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime input for current unit y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "elevation_value": {
+          "godot_symbol": "source_unit_update_bounds_input.elevation_value",
+          "java_expr": "elevation",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime elevation input consumed by isGrounded().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "is_local": {
+          "godot_symbol": "source_unit_update_bounds_input.is_local",
+          "java_expr": "isLocal()",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for isLocal().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "net_client": {
+          "godot_symbol": "source_unit_update_bounds_input.net_client",
+          "java_expr": "net.client()",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for net.client().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "rules_limit_height": {
+          "godot_symbol": "source_unit_update_bounds_input.rules_limit_height",
+          "java_expr": "state.rules.limitHeight",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for Rules.limitHeight.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "rules_limit_map_area": {
+          "godot_symbol": "source_unit_update_bounds_input.rules_limit_map_area",
+          "java_expr": "state.rules.limitMapArea",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for Rules.limitMapArea.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "rules_limit_width": {
+          "godot_symbol": "source_unit_update_bounds_input.rules_limit_width",
+          "java_expr": "state.rules.limitWidth",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for Rules.limitWidth.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "rules_limit_x": {
+          "godot_symbol": "source_unit_update_bounds_input.rules_limit_x",
+          "java_expr": "state.rules.limitX",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for Rules.limitX.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "rules_limit_y": {
+          "godot_symbol": "source_unit_update_bounds_input.rules_limit_y",
+          "java_expr": "state.rules.limitY",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for Rules.limitY.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_update_bounds_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for Time.delta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "team_is_ai": {
+          "godot_symbol": "source_unit_update_bounds_input.team_is_ai",
+          "java_expr": "team.isAI()",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for team.isAI().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "type_bounded": {
+          "godot_symbol": "source_unit_update_bounds_input.type_bounded",
+          "java_expr": "type.bounded",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime input for UnitType.bounded guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "world_unit_height": {
+          "godot_symbol": "source_unit_update_bounds_input.world_unit_height",
+          "java_expr": "world.unitHeight()",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for world.unitHeight().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "world_unit_width": {
+          "godot_symbol": "source_unit_update_bounds_input.world_unit_width",
+          "java_expr": "world.unitWidth()",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Explicit runtime bridge input for world.unitWidth().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_bounds_state",
+      "runtime_proof": "/root/Main.source_unit_update_bounds_state",
+      "status": "active"
+    },
+    "source_unit_update_bounds_result": {
+      "keys": {
+        "bounded": {
+          "godot_symbol": "source_unit_update_bounds_result.bounded",
+          "java_expr": "if(type.bounded){",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "UnitComp update bounds guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "canApplyNetLocal": {
+          "godot_symbol": "source_unit_update_bounds_result.canApplyNetLocal",
+          "java_expr": "if(!net.client() || isLocal()){",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Server/local guard for repel and net velocity update.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "dx": {
+          "godot_symbol": "source_unit_update_bounds_result.dx",
+          "java_expr": "float dx = 0f, dy = 0f;",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Runtime x-axis repel accumulator from source dx statements.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "dy": {
+          "godot_symbol": "source_unit_update_bounds_result.dy",
+          "java_expr": "float dx = 0f, dy = 0f;",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Runtime y-axis repel accumulator from source dy statements.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "grounded": {
+          "godot_symbol": "source_unit_update_bounds_result.grounded",
+          "java_expr": "if(isGrounded()){",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Grounded clamp guard backed by UnitComp.isGrounded().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "kill": {
+          "godot_symbol": "source_unit_update_bounds_result.kill",
+          "java_expr": "if(x < -finalWorldBounds + left || y < -finalWorldBounds + bot || x >= right + finalWorldBounds || y >= top + finalWorldBounds){",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Final out-of-bounds kill guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "limits": {
+          "godot_symbol": "source_unit_update_bounds_result.limits",
+          "java_expr": "float bot = 0f, left = 0f, top = world.unitHeight(), right = world.unitWidth();",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Bounds dictionary initialized from source locals and limited rectangle assignments.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "velAddNet": {
+          "godot_symbol": "source_unit_update_bounds_result.velAddNet",
+          "java_expr": "velAddNet(dx * Time.delta, dy * Time.delta);",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Source velAddNet call output, null when net/local guard is false.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_unit_update_bounds_result.x",
+          "java_expr": "x = Mathf.clamp(x, left, right - tilesize);",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Post-bounds x after source margin and grounded clamps.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_unit_update_bounds_result.y",
+          "java_expr": "y = Mathf.clamp(y, bot, top - tilesize);",
+          "java_method": "UnitComp.update() bounds",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_bounds_state"
+          ],
+          "rule": "Post-bounds y after source margin and grounded clamps.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_bounds_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_bounds_state",
+      "runtime_proof": "/root/Main.source_unit_update_bounds_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {
