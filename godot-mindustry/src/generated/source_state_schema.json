@@ -52200,6 +52200,128 @@
       "runtime_proof": "/root/Main.source_unit_remove_state",
       "status": "active"
     },
+    "source_unit_rotate_move_motion_input": {
+      "keys": {
+        "unit_rotation_degrees": {
+          "godot_symbol": "source_unit_rotate_move_motion_input.unit_rotation_degrees",
+          "java_expr": "rotation",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for UnitComp.rotateMove rotation used by Tmp.v2.trns.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        },
+        "vec_x": {
+          "godot_symbol": "source_unit_rotate_move_motion_input.vec_x",
+          "java_expr": "vec.x",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for Vec2 x component used by vec.len().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        },
+        "vec_y": {
+          "godot_symbol": "source_unit_rotate_move_motion_input.vec_y",
+          "java_expr": "vec.y",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge input for Vec2 y component used by vec.len().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_rotate_move_motion_state",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "status": "active"
+    },
+    "source_unit_rotate_move_motion_result": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_unit_rotate_move_motion_result.amount",
+          "java_expr": "vec.len()",
+          "java_method": "Vec2.len()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Runtime bridge amount from Vec2.len().",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_rotate_move_motion_result.call",
+          "java_expr": "moveAt(Tmp.v2.trns(rotation, vec.len()))",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime call label for motion dispatch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_rotate_move_motion_result.method",
+          "java_expr": "public void rotateMove(Vec2 vec){",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp rotateMove method header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        },
+        "moveAtCall": {
+          "godot_symbol": "source_unit_rotate_move_motion_result.moveAtCall",
+          "java_expr": "moveAt(Tmp.v2.trns(rotation, vec.len()));",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp rotateMove motion dispatch call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        },
+        "movement": {
+          "godot_symbol": "source_unit_rotate_move_motion_result.movement",
+          "java_expr": "Tmp.v2.trns(rotation, vec.len())",
+          "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime bridge result for polar movement vector passed into moveAt.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        },
+        "vec2Trns": {
+          "godot_symbol": "source_unit_rotate_move_motion_result.vec2Trns",
+          "java_expr": "return set(amount, 0).rotate(angle);",
+          "java_method": "Vec2.trns(float angle, float amount)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Vec2.trns(angle, amount) return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_rotate_move_motion_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_rotate_move_motion_state",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

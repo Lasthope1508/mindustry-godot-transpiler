@@ -4861,6 +4861,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(trail_fade["java_expr"], "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());")
         self.assertEqual(trail_fade["godot_symbol"], "source_unit_remove_result.trailFadeCall")
 
+    def test_unit_rotate_move_motion_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_rotate_move_motion.method")
+        self.assertEqual(method["java_expr"], "public void rotateMove(Vec2 vec){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_rotate_move_motion_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_rotate_move_motion_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_rotate_move_motion_result.method")
+
+        motion_call = source_symbols.source_symbol(registry, "unit_rotate_move_motion.motion_call")
+        self.assertEqual(motion_call["java_expr"], "moveAt(Tmp.v2.trns(rotation, vec.len()));")
+        self.assertEqual(motion_call["godot_symbol"], "source_unit_rotate_move_motion_result.moveAtCall")
+
+        vec2_trns = source_symbols.source_symbol(registry, "unit_rotate_move_motion.vec2_trns")
+        self.assertEqual(vec2_trns["java_expr"], "return set(amount, 0).rotate(angle);")
+        self.assertEqual(vec2_trns["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_trns["godot_symbol"], "source_unit_rotate_move_motion_result.vec2Trns")
+
+        vec2_len = source_symbols.source_symbol(registry, "unit_rotate_move_motion.vec2_len")
+        self.assertEqual(vec2_len["java_expr"], "return (float)Math.sqrt(x * x + y * y);")
+        self.assertEqual(vec2_len["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_len["godot_symbol"], "source_unit_rotate_move_motion_result.amount")
+
     def test_unit_approach_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13205,9 +13231,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 395)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 396)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 400)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 401)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13260,6 +13286,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_move_pref_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_player_controllable_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_remove_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_rotate_move_motion_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15390,6 +15417,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("trailFade = new Effect(400f, e -> {", unit_remove["bridge_exprs"])
         self.assertIn("public @Nullable Color trailColor;", unit_remove["bridge_exprs"])
         self.assertIn("public Trail copy(){", unit_remove["bridge_exprs"])
+
+        unit_rotate_move_motion = source_symbols.source_slice(ledger, "N798")
+        self.assertEqual(unit_rotate_move_motion["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_rotate_move_motion["java_method"], "UnitComp.rotateMove(Vec2 vec) motion")
+        self.assertEqual(unit_rotate_move_motion["godot_owner"], "PortGame.source_unit_rotate_move_motion_state")
+        self.assertIn("public void rotateMove(Vec2 vec){", unit_rotate_move_motion["exact_exprs"])
+        self.assertIn("moveAt(Tmp.v2.trns(rotation, vec.len()));", unit_rotate_move_motion["exact_exprs"])
+        self.assertIn("public Vec2 trns(float angle, float amount){", unit_rotate_move_motion["bridge_exprs"])
+        self.assertIn("return set(amount, 0).rotate(angle);", unit_rotate_move_motion["bridge_exprs"])
+        self.assertIn("public float len(){", unit_rotate_move_motion["bridge_exprs"])
+        self.assertIn("return (float)Math.sqrt(x * x + y * y);", unit_rotate_move_motion["bridge_exprs"])
+        self.assertIn("public Vec2 rotate(float degrees){", unit_rotate_move_motion["bridge_exprs"])
+        self.assertIn("public Vec2 rotateRad(float radians){", unit_rotate_move_motion["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18980,6 +19020,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("trailFadeCall", unit_remove["return_keys"])
         self.assertIn("call_order", unit_remove["return_keys"])
         self.assertEqual(unit_remove["source_method"], "UnitComp.remove()")
+
+        unit_rotate_move_motion = source_symbols.api_contract(contracts, "PortGame.source_unit_rotate_move_motion_state")
+        self.assertEqual([param["name"] for param in unit_rotate_move_motion["params"]], ["unit_rotation_degrees", "vec_x", "vec_y"])
+        self.assertEqual(unit_rotate_move_motion["params"][0]["schema"], "source_unit_rotate_move_motion_input.unit_rotation_degrees")
+        self.assertEqual(unit_rotate_move_motion["params"][1]["schema"], "source_unit_rotate_move_motion_input.vec_x")
+        self.assertEqual(unit_rotate_move_motion["params"][2]["schema"], "source_unit_rotate_move_motion_input.vec_y")
+        self.assertIn("method", unit_rotate_move_motion["return_keys"])
+        self.assertIn("moveAtCall", unit_rotate_move_motion["return_keys"])
+        self.assertIn("vec2Trns", unit_rotate_move_motion["return_keys"])
+        self.assertIn("call", unit_rotate_move_motion["return_keys"])
+        self.assertIn("movement", unit_rotate_move_motion["return_keys"])
+        self.assertIn("amount", unit_rotate_move_motion["return_keys"])
+        self.assertEqual(unit_rotate_move_motion["source_method"], "UnitComp.rotateMove(Vec2 vec) motion")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23196,6 +23249,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_remove_result["keys"]["trailGuard"]["java_expr"], "if(trail != null && trail.size() > 0){")
         self.assertEqual(source_unit_remove_result["keys"]["trailFadeCall"]["java_expr"], "Fx.trailFade.at(x, y, trail.width(), type.trailColor == null ? team.color : type.trailColor, trail.copy());")
         self.assertEqual(source_unit_remove_result["keys"]["trailColor"]["java_expr"], "type.trailColor == null ? team.color : type.trailColor")
+
+        source_unit_rotate_move_motion_input = source_symbols.state_schema(schema, "source_unit_rotate_move_motion_input")
+        self.assertEqual(source_unit_rotate_move_motion_input["keys"]["unit_rotation_degrees"]["java_expr"], "rotation")
+        self.assertEqual(source_unit_rotate_move_motion_input["keys"]["vec_x"]["java_expr"], "vec.x")
+        self.assertEqual(source_unit_rotate_move_motion_input["keys"]["vec_y"]["java_expr"], "vec.y")
+
+        source_unit_rotate_move_motion_result = source_symbols.state_schema(schema, "source_unit_rotate_move_motion_result")
+        self.assertEqual(source_unit_rotate_move_motion_result["keys"]["method"]["java_expr"], "public void rotateMove(Vec2 vec){")
+        self.assertEqual(source_unit_rotate_move_motion_result["keys"]["moveAtCall"]["java_expr"], "moveAt(Tmp.v2.trns(rotation, vec.len()));")
+        self.assertEqual(source_unit_rotate_move_motion_result["keys"]["vec2Trns"]["java_expr"], "return set(amount, 0).rotate(angle);")
+        self.assertEqual(source_unit_rotate_move_motion_result["keys"]["amount"]["java_expr"], "vec.len()")
+        self.assertEqual(source_unit_rotate_move_motion_result["keys"]["movement"]["java_expr"], "Tmp.v2.trns(rotation, vec.len())")
 
         source_unit_landed_input = source_symbols.state_schema(schema, "source_unit_landed_input")
         self.assertEqual(source_unit_landed_input["keys"]["type_mech_land_shake"]["java_expr"], "type.mechLandShake")

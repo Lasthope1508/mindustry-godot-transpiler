@@ -13264,6 +13264,50 @@
         "test_unit_remove_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_remove_state"
       ]
+    },
+    "N798": {
+      "bridge_exprs": [
+        "public Vec2 trns(float angle, float amount){",
+        "return set(amount, 0).rotate(angle);",
+        "public float len(){",
+        "return (float)Math.sqrt(x * x + y * y);",
+        "public Vec2 rotate(float degrees){",
+        "return rotateRad(degrees * Mathf.degreesToRadians);",
+        "public Vec2 rotateRad(float radians){",
+        "float cos = Mathf.cos(radians);",
+        "float sin = Mathf.sin(radians);",
+        "float newX = this.x * cos - this.y * sin;",
+        "float newY = this.x * sin + this.y * cos;",
+        "public static final float degreesToRadians = PI / 180;",
+        "public static float sin(float radians){",
+        "public static float cos(float radians){"
+      ],
+      "deferred_exprs": [
+        "if(!vec.isZero()){",
+        "rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta * speedMultiplier);",
+        "Rotation branch remains PortGame.source_unit_rotate_move_rotation_state.",
+        "UnitComp.moveAt(Vec2 vector) and UnitComp.moveAt(Vec2 vector, float acceleration) remain their own owners."
+      ],
+      "exact_exprs": [
+        "public void rotateMove(Vec2 vec){",
+        "moveAt(Tmp.v2.trns(rotation, vec.len()));"
+      ],
+      "godot_owner": "PortGame.source_unit_rotate_move_motion_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "source_symbols": [
+        "unit_rotate_move_motion.method",
+        "unit_rotate_move_motion.motion_call",
+        "unit_rotate_move_motion.vec2_trns",
+        "unit_rotate_move_motion.vec2_len"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ]
     }
   },
   "version": 1

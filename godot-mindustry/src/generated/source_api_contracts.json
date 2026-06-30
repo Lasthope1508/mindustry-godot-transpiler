@@ -14919,6 +14919,43 @@
         "test_unit_remove_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_remove_state"
       ]
+    },
+    "PortGame.source_unit_rotate_move_motion_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "unit_rotation_degrees",
+          "schema": "source_unit_rotate_move_motion_input.unit_rotation_degrees",
+          "type": "float"
+        },
+        {
+          "name": "vec_x",
+          "schema": "source_unit_rotate_move_motion_input.vec_x",
+          "type": "float"
+        },
+        {
+          "name": "vec_y",
+          "schema": "source_unit_rotate_move_motion_input.vec_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "moveAtCall",
+        "vec2Trns",
+        "call",
+        "movement",
+        "amount"
+      ],
+      "rule": "Public runtime contract for UnitComp.rotateMove(Vec2 vec) motion dispatch into moveAt(Tmp.v2.trns(rotation, vec.len())).",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "source_method": "UnitComp.rotateMove(Vec2 vec) motion",
+      "source_slice": "N798",
+      "status": "active",
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ]
     }
   },
   "policy": {

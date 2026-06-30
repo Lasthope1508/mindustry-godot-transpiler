@@ -41110,6 +41110,62 @@
         "test_port_game_exposes_source_unit_remove_state"
       ]
     },
+    "unit_rotate_move_motion.method": {
+      "godot_owner": "PortGame.source_unit_rotate_move_motion_state",
+      "godot_symbol": "source_unit_rotate_move_motion_result.method",
+      "java_expr": "public void rotateMove(Vec2 vec){",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp rotateMove method boundary for motion dispatch slice.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ]
+    },
+    "unit_rotate_move_motion.motion_call": {
+      "godot_owner": "PortGame.source_unit_rotate_move_motion_state",
+      "godot_symbol": "source_unit_rotate_move_motion_result.moveAtCall",
+      "java_expr": "moveAt(Tmp.v2.trns(rotation, vec.len()));",
+      "java_method": "UnitComp.rotateMove(Vec2 vec) motion",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp rotateMove motion dispatch through moveAt and Tmp.v2.trns.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ]
+    },
+    "unit_rotate_move_motion.vec2_len": {
+      "godot_owner": "PortGame.source_unit_rotate_move_motion_state",
+      "godot_symbol": "source_unit_rotate_move_motion_result.amount",
+      "java_expr": "return (float)Math.sqrt(x * x + y * y);",
+      "java_method": "Vec2.len()",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2.len length expression used by vec.len().",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ]
+    },
+    "unit_rotate_move_motion.vec2_trns": {
+      "godot_owner": "PortGame.source_unit_rotate_move_motion_state",
+      "godot_symbol": "source_unit_rotate_move_motion_result.vec2Trns",
+      "java_expr": "return set(amount, 0).rotate(angle);",
+      "java_method": "Vec2.trns(float angle, float amount)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2.trns(angle, amount) polar conversion return expression.",
+      "runtime_proof": "/root/Main.source_unit_rotate_move_motion_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_rotate_move_motion_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_rotate_move_motion_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

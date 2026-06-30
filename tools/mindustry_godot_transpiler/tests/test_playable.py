@@ -3362,9 +3362,15 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_rotate_move_motion_state(unit_rotation_degrees: float, vec_x: float, vec_y: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_ROTATE_MOVE_METHOD := "public void rotateMove(Vec2 vec){"', source)
+        self.assertIn('const SOURCE_UNIT_ROTATE_MOVE_MOTION_CALL := "moveAt(Tmp.v2.trns(rotation, vec.len()));"', source)
+        self.assertIn('const SOURCE_UNIT_ROTATE_MOVE_VEC2_TRNS_RETURN := "return set(amount, 0).rotate(angle);"', source)
         self.assertIn("var amount := Vector2(vec_x, vec_y).length()", source)
         self.assertIn("var radians := deg_to_rad(unit_rotation_degrees)", source)
         self.assertIn("var movement := Vector2(amount * source_arc_mathf_cos_lookup(radians), amount * source_arc_mathf_sin_lookup(radians))", source)
+        self.assertIn('"method": SOURCE_UNIT_ROTATE_MOVE_METHOD', source)
+        self.assertIn('"moveAtCall": SOURCE_UNIT_ROTATE_MOVE_MOTION_CALL', source)
+        self.assertIn('"vec2Trns": SOURCE_UNIT_ROTATE_MOVE_VEC2_TRNS_RETURN', source)
         self.assertIn('"call": "moveAt"', source)
 
     def test_port_game_exposes_source_unit_rotate_move_rotation_state(self):

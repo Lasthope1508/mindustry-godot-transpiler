@@ -3956,11 +3956,18 @@ func source_unit_approach_state(vel_x: float, vel_y: float, vector_x: float, vec
 		"target_y": target.y,
 	}
 
+const SOURCE_UNIT_ROTATE_MOVE_METHOD := "public void rotateMove(Vec2 vec){"
+const SOURCE_UNIT_ROTATE_MOVE_MOTION_CALL := "moveAt(Tmp.v2.trns(rotation, vec.len()));"
+const SOURCE_UNIT_ROTATE_MOVE_VEC2_TRNS_RETURN := "return set(amount, 0).rotate(angle);"
+
 func source_unit_rotate_move_motion_state(unit_rotation_degrees: float, vec_x: float, vec_y: float) -> Dictionary:
 	var amount := Vector2(vec_x, vec_y).length()
 	var radians := deg_to_rad(unit_rotation_degrees)
 	var movement := Vector2(amount * source_arc_mathf_cos_lookup(radians), amount * source_arc_mathf_sin_lookup(radians))
 	return {
+		"method": SOURCE_UNIT_ROTATE_MOVE_METHOD,
+		"moveAtCall": SOURCE_UNIT_ROTATE_MOVE_MOTION_CALL,
+		"vec2Trns": SOURCE_UNIT_ROTATE_MOVE_VEC2_TRNS_RETURN,
 		"call": "moveAt",
 		"movement": {"x": movement.x, "y": movement.y},
 		"amount": amount,
