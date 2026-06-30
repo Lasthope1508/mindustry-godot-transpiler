@@ -11493,6 +11493,39 @@
         "test_unit_after_read_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_after_read_state"
       ]
+    },
+    "N755": {
+      "deferred_exprs": [
+        "controller.unit(self()) internals stay in controller implementation slices",
+        "setType(this.type) internals stay in UnitComp type setup slice"
+      ],
+      "exact_exprs": [
+        "public void afterSync(){",
+        "set up type info after reading",
+        "setType(this.type);",
+        "controller.unit(self());"
+      ],
+      "bridge_exprs": [
+        "void afterSync(){}",
+        "SyncComp.afterSync()"
+      ],
+      "godot_owner": "PortGame.source_unit_after_sync_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "source_symbols": [
+        "unit_after_sync.method",
+        "unit_after_sync.comment",
+        "unit_after_sync.set_type_call",
+        "unit_after_sync.controller_unit_call",
+        "unit_after_sync.synccomp_after_sync_method"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ]
     }
   },
   "version": 1

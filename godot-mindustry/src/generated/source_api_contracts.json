@@ -13118,6 +13118,37 @@
         "test_unit_after_read_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_after_read_state"
       ]
+    },
+    "PortGame.source_unit_after_sync_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_id",
+          "schema": "source_unit_after_sync_input.type_id",
+          "type": "int"
+        },
+        {
+          "name": "controller_exists",
+          "schema": "source_unit_after_sync_input.controller_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "type_id",
+        "controller_exists",
+        "call_order",
+        "setType_arg",
+        "controllerUnitArg"
+      ],
+      "rule": "Public runtime contract for UnitComp.afterSync type restore and controller self binding.",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "source_method": "UnitComp.afterSync()",
+      "source_slice": "N755",
+      "status": "active",
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ]
     }
   },
   "policy": {

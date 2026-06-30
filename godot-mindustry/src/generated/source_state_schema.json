@@ -46195,6 +46195,160 @@
       "owner": "PortGame.source_unit_after_read_state",
       "runtime_proof": "/root/Main.source_unit_after_read_state",
       "status": "active"
+    },
+    "source_unit_after_sync_input": {
+      "keys": {
+        "type_id": {
+          "godot_symbol": "source_unit_after_sync_input.type_id",
+          "java_expr": "this.type",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Synced type id restored by setType(this.type).",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "controller_exists": {
+          "godot_symbol": "source_unit_after_sync_input.controller_exists",
+          "java_expr": "controller",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime projection of controller availability for controller.unit(self()).",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_after_sync_state",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "status": "active"
+    },
+    "source_unit_after_sync_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_after_sync_result.method",
+          "java_expr": "public void afterSync(){",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp.afterSync method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_unit_after_sync_result.comment",
+          "java_expr": "set up type info after reading",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source comment for type restore after sync.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "setTypeCall": {
+          "godot_symbol": "source_unit_after_sync_result.setTypeCall",
+          "java_expr": "setType(this.type);",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed type restore call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "controllerUnitCall": {
+          "godot_symbol": "source_unit_after_sync_result.controllerUnitCall",
+          "java_expr": "controller.unit(self());",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed controller self binding call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "call_order": {
+          "godot_symbol": "source_unit_after_sync_result.call_order",
+          "java_expr": "setType(this.type); -> controller.unit(self());",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source call order for afterSync.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "setType_arg": {
+          "godot_symbol": "source_unit_after_sync_result.setType_arg",
+          "java_expr": "this.type",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Argument to setType call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "controllerUnitArg": {
+          "godot_symbol": "source_unit_after_sync_result.controllerUnitArg",
+          "java_expr": "self()",
+          "java_method": "UnitComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Argument to controller.unit call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "synccompAfterSyncMethod": {
+          "godot_symbol": "source_unit_after_sync_result.synccompAfterSyncMethod",
+          "java_expr": "void afterSync(){}",
+          "java_method": "SyncComp.afterSync()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "SyncComp generated hook overridden by UnitComp.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "type_id": {
+          "alias_of": "source_unit_after_sync_input.type_id",
+          "godot_symbol": "source_unit_after_sync_result.type_id",
+          "rule": "Carries synced type id input into afterSync result schema.",
+          "status": "generated",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        },
+        "controller_exists": {
+          "alias_of": "source_unit_after_sync_input.controller_exists",
+          "godot_symbol": "source_unit_after_sync_result.controller_exists",
+          "rule": "Carries controller existence input into afterSync result schema.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_sync_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_after_sync_state",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "status": "active"
     }
   },
   "version": 1

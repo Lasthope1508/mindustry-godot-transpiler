@@ -9002,13 +9002,21 @@ func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloa
 		"call": "type.hittable(self())",
 	}
 
+const SOURCE_UNIT_AFTER_SYNC_METHOD := "public void afterSync(){"
+const SOURCE_UNIT_AFTER_SYNC_COMMENT := "set up type info after reading"
+const SOURCE_UNIT_AFTER_SYNC_SET_TYPE_CALL := "setType(this.type);"
+const SOURCE_UNIT_AFTER_SYNC_SET_TYPE_ARG := "this.type"
+const SOURCE_UNIT_AFTER_SYNC_CONTROLLER_UNIT_CALL := "controller.unit(self());"
+const SOURCE_UNIT_AFTER_SYNC_SELF_ARG := "self()"
+const SOURCE_UNIT_AFTER_SYNC_SYNCCOMP_METHOD := "void afterSync(){}"
+
 func source_unit_after_sync_state(type_id: int, controller_exists: bool) -> Dictionary:
 	return {
 		"type_id": type_id,
 		"controller_exists": controller_exists,
 		"call_order": ["setType", "controller.unit"],
-		"setType_arg": "this.type",
-		"controllerUnitArg": "self()",
+		"setType_arg": SOURCE_UNIT_AFTER_SYNC_SET_TYPE_ARG,
+		"controllerUnitArg": SOURCE_UNIT_AFTER_SYNC_SELF_ARG,
 	}
 
 const SOURCE_UNIT_AFTER_READ_METHOD := "public void afterRead(){"

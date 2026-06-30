@@ -36557,6 +36557,76 @@
         "test_unit_after_read_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_after_read_state"
       ]
+    },
+    "unit_after_sync.method": {
+      "godot_owner": "PortGame.source_unit_after_sync_state",
+      "godot_symbol": "source_unit_after_sync_result.method",
+      "java_expr": "public void afterSync(){",
+      "java_method": "UnitComp.afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.afterSync method boundary.",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ]
+    },
+    "unit_after_sync.comment": {
+      "godot_owner": "PortGame.source_unit_after_sync_state",
+      "godot_symbol": "source_unit_after_sync_result.comment",
+      "java_expr": "set up type info after reading",
+      "java_method": "UnitComp.afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment for afterSync type restore.",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ]
+    },
+    "unit_after_sync.set_type_call": {
+      "godot_owner": "PortGame.source_unit_after_sync_state",
+      "godot_symbol": "source_unit_after_sync_result.setTypeCall",
+      "java_expr": "setType(this.type);",
+      "java_method": "UnitComp.afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.afterSync restores type from synced this.type.",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ]
+    },
+    "unit_after_sync.controller_unit_call": {
+      "godot_owner": "PortGame.source_unit_after_sync_state",
+      "godot_symbol": "source_unit_after_sync_result.controllerUnitCall",
+      "java_expr": "controller.unit(self());",
+      "java_method": "UnitComp.afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.afterSync binds controller back to self().",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ]
+    },
+    "unit_after_sync.synccomp_after_sync_method": {
+      "godot_owner": "PortGame.source_unit_after_sync_state",
+      "godot_symbol": "source_unit_after_sync_result.synccompAfterSyncMethod",
+      "java_expr": "void afterSync(){}",
+      "java_method": "SyncComp.afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp generated hook overridden by UnitComp.afterSync.",
+      "runtime_proof": "/root/Main.source_unit_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_sync_state"
+      ]
     }
   },
   "version": 1

@@ -3504,9 +3504,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_after_sync_state(type_id: int, controller_exists: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_AFTER_SYNC_METHOD := "public void afterSync(){"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_SYNC_COMMENT := "set up type info after reading"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_SYNC_SET_TYPE_CALL := "setType(this.type);"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_SYNC_CONTROLLER_UNIT_CALL := "controller.unit(self());"', source)
         self.assertIn('"call_order": ["setType", "controller.unit"]', source)
-        self.assertIn('"setType_arg": "this.type"', source)
-        self.assertIn('"controllerUnitArg": "self()"', source)
+        self.assertIn('"setType_arg": SOURCE_UNIT_AFTER_SYNC_SET_TYPE_ARG', source)
+        self.assertIn('"controllerUnitArg": SOURCE_UNIT_AFTER_SYNC_SELF_ARG', source)
         self.assertIn('"controller_exists": controller_exists', source)
         self.assertIn('"type_id": type_id', source)
 
