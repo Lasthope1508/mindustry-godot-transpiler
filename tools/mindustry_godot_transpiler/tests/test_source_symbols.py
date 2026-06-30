@@ -4725,6 +4725,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(type_target_ground["java_expr"], "type.targetGround")
         self.assertEqual(type_target_ground["godot_symbol"], "source_unit_can_target_input.type_target_ground")
 
+    def test_unit_cap_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_cap.method")
+        self.assertEqual(method["java_expr"], "public int cap(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_cap_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_cap_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_cap_result.method")
+
+        call = source_symbols.source_symbol(registry, "unit_cap.call")
+        self.assertEqual(call["java_expr"], "return Units.getCap(team);")
+        self.assertEqual(call["godot_symbol"], "source_unit_cap_result.call")
+
+        get_cap_method = source_symbols.source_symbol(registry, "unit_cap.units_get_cap_method")
+        self.assertEqual(get_cap_method["java_expr"], "public static int getCap(Team team){")
+        self.assertEqual(get_cap_method["java_source"], "core/src/mindustry/entities/Units.java")
+
+        uncapped_gate = source_symbols.source_symbol(registry, "unit_cap.uncapped_gate")
+        self.assertEqual(uncapped_gate["java_expr"], "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){")
+        self.assertEqual(uncapped_gate["godot_symbol"], "source_unit_cap_result.uncappedGate")
+
+        max_value = source_symbols.source_symbol(registry, "unit_cap.integer_max_value")
+        self.assertEqual(max_value["java_expr"], "return Integer.MAX_VALUE;")
+        self.assertEqual(max_value["godot_symbol"], "source_unit_cap_result.integerMaxValue")
+
+        formula = source_symbols.source_symbol(registry, "unit_cap.formula")
+        self.assertEqual(formula["java_expr"], "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);")
+        self.assertEqual(formula["godot_symbol"], "source_unit_cap_result.formula")
+
     def test_turret_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11699,9 +11731,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 358)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 359)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 363)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 364)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11717,6 +11749,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -16785,6 +16818,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("unit_check_target_ground", unit_can_target["return_keys"])
         self.assertEqual(unit_can_target["source_method"], "UnitComp.canTarget(Teamc other)")
 
+        unit_cap = source_symbols.api_contract(contracts, "PortGame.source_unit_cap_state")
+        self.assertEqual([param["name"] for param in unit_cap["params"]], ["team_is_wave_team", "rules_pvp", "state_is_campaign", "rules_disable_unit_cap", "team_ignore_unit_cap", "rules_unit_cap_variable", "rules_unit_cap", "team_data_unit_cap"])
+        self.assertEqual(unit_cap["params"][0]["schema"], "source_unit_cap_input.team_is_wave_team")
+        self.assertEqual(unit_cap["params"][3]["schema"], "source_unit_cap_input.rules_disable_unit_cap")
+        self.assertEqual(unit_cap["params"][5]["schema"], "source_unit_cap_input.rules_unit_cap_variable")
+        self.assertEqual(unit_cap["params"][7]["schema"], "source_unit_cap_input.team_data_unit_cap")
+        self.assertIn("cap", unit_cap["return_keys"])
+        self.assertIn("uncapped", unit_cap["return_keys"])
+        self.assertIn("call", unit_cap["return_keys"])
+        self.assertEqual(unit_cap["source_method"], "UnitComp.cap()/Units.getCap(Team team)")
+
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
         self.assertEqual(shoot_pattern_default_events["params"][0]["schema"], "source_shoot_pattern_default_events_input")
@@ -20643,6 +20687,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_can_target_result["keys"]["unitCheckTargetCall"]["java_expr"], "u.checkTarget(type.targetAir, type.targetGround)")
         self.assertEqual(source_unit_can_target_result["keys"]["buildingCheck"]["java_expr"], "other instanceof Building b && type.targetGround")
         self.assertEqual(source_unit_can_target_result["keys"]["can_target"]["java_expr"], "return other != null && (other instanceof Unit u ? u.checkTarget(type.targetAir, type.targetGround) : (other instanceof Building b && type.targetGround));")
+
+        source_unit_cap_input = source_symbols.state_schema(schema, "source_unit_cap_input")
+        self.assertEqual(source_unit_cap_input["keys"]["team_is_wave_team"]["java_expr"], "team == state.rules.waveTeam")
+        self.assertEqual(source_unit_cap_input["keys"]["rules_pvp"]["java_expr"], "state.rules.pvp")
+        self.assertEqual(source_unit_cap_input["keys"]["state_is_campaign"]["java_expr"], "state.isCampaign()")
+        self.assertEqual(source_unit_cap_input["keys"]["rules_disable_unit_cap"]["java_expr"], "state.rules.disableUnitCap")
+        self.assertEqual(source_unit_cap_input["keys"]["team_ignore_unit_cap"]["java_expr"], "team.ignoreUnitCap")
+        self.assertEqual(source_unit_cap_input["keys"]["rules_unit_cap_variable"]["java_expr"], "state.rules.unitCapVariable")
+        self.assertEqual(source_unit_cap_input["keys"]["rules_unit_cap"]["java_expr"], "state.rules.unitCap")
+        self.assertEqual(source_unit_cap_input["keys"]["team_data_unit_cap"]["java_expr"], "team.data().unitCap")
+
+        source_unit_cap_result = source_symbols.state_schema(schema, "source_unit_cap_result")
+        self.assertEqual(source_unit_cap_result["keys"]["method"]["java_expr"], "public int cap(){")
+        self.assertEqual(source_unit_cap_result["keys"]["call"]["java_expr"], "return Units.getCap(team);")
+        self.assertEqual(source_unit_cap_result["keys"]["unitsGetCapMethod"]["java_expr"], "public static int getCap(Team team){")
+        self.assertEqual(source_unit_cap_result["keys"]["uncappedGate"]["java_expr"], "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){")
+        self.assertEqual(source_unit_cap_result["keys"]["integerMaxValue"]["java_expr"], "return Integer.MAX_VALUE;")
+        self.assertEqual(source_unit_cap_result["keys"]["formula"]["java_expr"], "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);")
+        self.assertEqual(source_unit_cap_result["keys"]["cap"]["java_expr"], "Units.getCap(team)")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

@@ -3466,6 +3466,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_cap_state(team_is_wave_team: bool, rules_pvp: bool, state_is_campaign: bool, rules_disable_unit_cap: bool, team_ignore_unit_cap: bool, rules_unit_cap_variable: bool, rules_unit_cap: int, team_data_unit_cap: int) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_CAP_METHOD := "public int cap(){"', source)
+        self.assertIn('const SOURCE_UNIT_CAP_CALL := "return Units.getCap(team);"', source)
+        self.assertIn('const SOURCE_UNIT_CAP_UNITS_GET_CAP_METHOD := "public static int getCap(Team team){"', source)
+        self.assertIn('const SOURCE_UNIT_CAP_UNCAPPED_GATE := "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){"', source)
+        self.assertIn('const SOURCE_UNIT_CAP_INTEGER_MAX_VALUE := "return Integer.MAX_VALUE;"', source)
+        self.assertIn('const SOURCE_UNIT_CAP_FORMULA := "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);"', source)
         self.assertIn('"cap": 2147483647', source)
         self.assertIn('"uncapped": true', source)
         self.assertIn('"cap": max(0, rules_unit_cap + team_data_unit_cap)', source)

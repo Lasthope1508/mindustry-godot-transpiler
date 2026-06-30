@@ -47191,6 +47191,212 @@
       "owner": "PortGame.source_unit_can_target_state",
       "runtime_proof": "/root/Main.source_unit_can_target_state",
       "status": "active"
+    },
+    "source_unit_cap_input": {
+      "keys": {
+        "team_is_wave_team": {
+          "godot_symbol": "source_unit_cap_input.team_is_wave_team",
+          "java_expr": "team == state.rules.waveTeam",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Wave-team comparison input for uncapped guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "rules_pvp": {
+          "godot_symbol": "source_unit_cap_input.rules_pvp",
+          "java_expr": "state.rules.pvp",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Rules pvp input for uncapped guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "state_is_campaign": {
+          "godot_symbol": "source_unit_cap_input.state_is_campaign",
+          "java_expr": "state.isCampaign()",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Campaign-state input for uncapped guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "rules_disable_unit_cap": {
+          "godot_symbol": "source_unit_cap_input.rules_disable_unit_cap",
+          "java_expr": "state.rules.disableUnitCap",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Rules disableUnitCap input for uncapped guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "team_ignore_unit_cap": {
+          "godot_symbol": "source_unit_cap_input.team_ignore_unit_cap",
+          "java_expr": "team.ignoreUnitCap",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Team ignoreUnitCap input for uncapped guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "rules_unit_cap_variable": {
+          "godot_symbol": "source_unit_cap_input.rules_unit_cap_variable",
+          "java_expr": "state.rules.unitCapVariable",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Rules unitCapVariable input for capped formula.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "rules_unit_cap": {
+          "godot_symbol": "source_unit_cap_input.rules_unit_cap",
+          "java_expr": "state.rules.unitCap",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Rules unitCap input for capped formula.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "team_data_unit_cap": {
+          "godot_symbol": "source_unit_cap_input.team_data_unit_cap",
+          "java_expr": "team.data().unitCap",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "TeamData unitCap input for variable capped formula.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_cap_state",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "active"
+    },
+    "source_unit_cap_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_cap_result.method",
+          "java_expr": "public int cap(){",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp cap method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_cap_result.call",
+          "java_expr": "return Units.getCap(team);",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp cap delegation call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "unitsGetCapMethod": {
+          "godot_symbol": "source_unit_cap_result.unitsGetCapMethod",
+          "java_expr": "public static int getCap(Team team){",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Units.getCap method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "uncappedGate": {
+          "godot_symbol": "source_unit_cap_result.uncappedGate",
+          "java_expr": "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Units.getCap uncapped guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "integerMaxValue": {
+          "godot_symbol": "source_unit_cap_result.integerMaxValue",
+          "java_expr": "return Integer.MAX_VALUE;",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Units.getCap uncapped return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "formula": {
+          "godot_symbol": "source_unit_cap_result.formula",
+          "java_expr": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Units.getCap capped formula.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "cap": {
+          "godot_symbol": "source_unit_cap_result.cap",
+          "java_expr": "Units.getCap(team)",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Runtime cap result projected from Units.getCap(team).",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        },
+        "uncapped": {
+          "godot_symbol": "source_unit_cap_result.uncapped",
+          "java_expr": "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+          "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Runtime boolean for uncapped guard.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_cap_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_cap_state",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "active"
     }
   },
   "version": 1

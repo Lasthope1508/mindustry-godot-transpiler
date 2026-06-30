@@ -11702,6 +11702,47 @@
         "test_unit_can_target_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_target_state"
       ]
+    },
+    "N761": {
+      "deferred_exprs": [
+        "Unit add over-cap death/rollback remains owned by source_unit_add_state"
+      ],
+      "exact_exprs": [
+        "public int cap(){",
+        "return Units.getCap(team);",
+        "public static int getCap(Team team){",
+        "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+        "return Integer.MAX_VALUE;",
+        "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);"
+      ],
+      "bridge_exprs": [
+        "team == state.rules.waveTeam",
+        "state.rules.pvp",
+        "state.isCampaign()",
+        "state.rules.disableUnitCap",
+        "team.ignoreUnitCap",
+        "state.rules.unitCapVariable",
+        "state.rules.unitCap",
+        "team.data().unitCap"
+      ],
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "source_symbols": [
+        "unit_cap.method",
+        "unit_cap.call",
+        "unit_cap.units_get_cap_method",
+        "unit_cap.uncapped_gate",
+        "unit_cap.integer_max_value",
+        "unit_cap.formula"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
     }
   },
   "version": 1

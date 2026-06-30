@@ -4089,6 +4089,13 @@ func source_unit_count_state(team_data_count_type_result: int, type_id: int) -> 
 		"call": "team.data().countType(type)",
 	}
 
+const SOURCE_UNIT_CAP_METHOD := "public int cap(){"
+const SOURCE_UNIT_CAP_CALL := "return Units.getCap(team);"
+const SOURCE_UNIT_CAP_UNITS_GET_CAP_METHOD := "public static int getCap(Team team){"
+const SOURCE_UNIT_CAP_UNCAPPED_GATE := "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){"
+const SOURCE_UNIT_CAP_INTEGER_MAX_VALUE := "return Integer.MAX_VALUE;"
+const SOURCE_UNIT_CAP_FORMULA := "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);"
+
 func source_unit_cap_state(team_is_wave_team: bool, rules_pvp: bool, state_is_campaign: bool, rules_disable_unit_cap: bool, team_ignore_unit_cap: bool, rules_unit_cap_variable: bool, rules_unit_cap: int, team_data_unit_cap: int) -> Dictionary:
 	if (team_is_wave_team and not rules_pvp) or (state_is_campaign and team_is_wave_team) or rules_disable_unit_cap or team_ignore_unit_cap:
 		return {

@@ -13343,6 +13343,65 @@
         "test_unit_can_target_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_target_state"
       ]
+    },
+    "PortGame.source_unit_cap_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "team_is_wave_team",
+          "schema": "source_unit_cap_input.team_is_wave_team",
+          "type": "bool"
+        },
+        {
+          "name": "rules_pvp",
+          "schema": "source_unit_cap_input.rules_pvp",
+          "type": "bool"
+        },
+        {
+          "name": "state_is_campaign",
+          "schema": "source_unit_cap_input.state_is_campaign",
+          "type": "bool"
+        },
+        {
+          "name": "rules_disable_unit_cap",
+          "schema": "source_unit_cap_input.rules_disable_unit_cap",
+          "type": "bool"
+        },
+        {
+          "name": "team_ignore_unit_cap",
+          "schema": "source_unit_cap_input.team_ignore_unit_cap",
+          "type": "bool"
+        },
+        {
+          "name": "rules_unit_cap_variable",
+          "schema": "source_unit_cap_input.rules_unit_cap_variable",
+          "type": "bool"
+        },
+        {
+          "name": "rules_unit_cap",
+          "schema": "source_unit_cap_input.rules_unit_cap",
+          "type": "int"
+        },
+        {
+          "name": "team_data_unit_cap",
+          "schema": "source_unit_cap_input.team_data_unit_cap",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "cap",
+        "uncapped",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.cap and Units.getCap team cap rules.",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "source_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "source_slice": "N761",
+      "status": "active",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
     }
   },
   "policy": {

@@ -37033,6 +37033,90 @@
         "test_unit_can_target_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_can_target_state"
       ]
+    },
+    "unit_cap.method": {
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "godot_symbol": "source_unit_cap_result.method",
+      "java_expr": "public int cap(){",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp cap method boundary.",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
+    },
+    "unit_cap.call": {
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "godot_symbol": "source_unit_cap_result.call",
+      "java_expr": "return Units.getCap(team);",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp cap delegates to Units.getCap(team).",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
+    },
+    "unit_cap.units_get_cap_method": {
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "godot_symbol": "source_unit_cap_result.unitsGetCapMethod",
+      "java_expr": "public static int getCap(Team team){",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Units.getCap method boundary.",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
+    },
+    "unit_cap.uncapped_gate": {
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "godot_symbol": "source_unit_cap_result.uncappedGate",
+      "java_expr": "if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Units.getCap uncapped guard.",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
+    },
+    "unit_cap.integer_max_value": {
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "godot_symbol": "source_unit_cap_result.integerMaxValue",
+      "java_expr": "return Integer.MAX_VALUE;",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Units.getCap returns Integer.MAX_VALUE for uncapped cases.",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
+    },
+    "unit_cap.formula": {
+      "godot_owner": "PortGame.source_unit_cap_state",
+      "godot_symbol": "source_unit_cap_result.formula",
+      "java_expr": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+      "java_method": "UnitComp.cap()/Units.getCap(Team team)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "rule": "Units.getCap capped formula.",
+      "runtime_proof": "/root/Main.source_unit_cap_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_cap_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_cap_state"
+      ]
     }
   },
   "version": 1
