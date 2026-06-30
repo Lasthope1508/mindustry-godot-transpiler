@@ -4781,6 +4781,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_as_floor["java_expr"], "public Floor asFloor(){")
         self.assertEqual(block_as_floor["java_source"], "core/src/mindustry/world/Block.java")
 
+    def test_unit_heal_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        override = source_symbols.source_symbol(registry, "unit_heal.override")
+        self.assertEqual(override["java_expr"], "@Override\n    public void heal(float amount){")
+        self.assertEqual(override["godot_owner"], "PortGame.source_unit_heal_state")
+        self.assertEqual(override["runtime_proof"], "/root/Main.source_unit_heal_state")
+        self.assertEqual(override["godot_symbol"], "source_unit_heal_result.override")
+
+        guard = source_symbols.source_symbol(registry, "unit_heal.guard")
+        self.assertEqual(guard["java_expr"], "if(health < maxHealth && amount > 0){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_heal_result.guard")
+
+        was_healed = source_symbols.source_symbol(registry, "unit_heal.was_healed")
+        self.assertEqual(was_healed["java_expr"], "wasHealed = true;")
+        self.assertEqual(was_healed["godot_symbol"], "source_unit_heal_result.wasHealed")
+
+        amount = source_symbols.source_symbol(registry, "unit_heal.amount")
+        self.assertEqual(amount["status"], "explicit-input")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_unit_heal_input.amount")
+
+        current_health = source_symbols.source_symbol(registry, "unit_heal.health")
+        self.assertEqual(current_health["status"], "explicit-input")
+        self.assertEqual(current_health["java_expr"], "health")
+        self.assertEqual(current_health["godot_symbol"], "source_unit_heal_input.current_health")
+
+        max_health = source_symbols.source_symbol(registry, "unit_heal.max_health")
+        self.assertEqual(max_health["status"], "explicit-input")
+        self.assertEqual(max_health["java_expr"], "maxHealth")
+        self.assertEqual(max_health["godot_symbol"], "source_unit_heal_input.max_health")
+
+        health_comp_heal = source_symbols.source_symbol(registry, "unit_heal.health_comp_heal")
+        self.assertEqual(health_comp_heal["java_expr"], "void heal(float amount){")
+        self.assertEqual(health_comp_heal["java_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+
+        health_comp_add = source_symbols.source_symbol(registry, "unit_heal.health_comp_add")
+        self.assertEqual(health_comp_add["java_expr"], "health += amount;")
+        self.assertEqual(health_comp_add["godot_symbol"], "source_unit_heal_result.healthCompAdd")
+
+        health_comp_clamp = source_symbols.source_symbol(registry, "unit_heal.health_comp_clamp")
+        self.assertEqual(health_comp_clamp["java_expr"], "clampHealth();")
+        self.assertEqual(health_comp_clamp["godot_symbol"], "source_unit_heal_result.healthCompClamp")
+
     def test_unit_check_target_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12671,9 +12718,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 375)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 376)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 380)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 381)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12706,6 +12753,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_visual_effects_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_wreck_decal_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_floor_speed_multiplier_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_heal_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14617,6 +14665,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Floor on = isFlying() || type.hovering ? Blocks.air.asFloor() : floorOn();", unit_floor_speed_multiplier["exact_exprs"])
         self.assertIn("return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;", unit_floor_speed_multiplier["exact_exprs"])
         self.assertIn("Tank/Crawl/WaterMove/WaterCrawl floorSpeedMultiplier overrides remain separate component slices", unit_floor_speed_multiplier["deferred_exprs"])
+
+        unit_heal = source_symbols.source_slice(ledger, "N778")
+        self.assertEqual(unit_heal["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_heal["java_method"], "UnitComp.heal(float amount)")
+        self.assertEqual(unit_heal["godot_owner"], "PortGame.source_unit_heal_state")
+        self.assertIn("@Override\n    public void heal(float amount){", unit_heal["exact_exprs"])
+        self.assertIn("if(health < maxHealth && amount > 0){", unit_heal["exact_exprs"])
+        self.assertIn("wasHealed = true;", unit_heal["exact_exprs"])
+        self.assertIn("void heal(float amount){", unit_heal["bridge_exprs"])
+        self.assertIn("health += amount;", unit_heal["bridge_exprs"])
+        self.assertIn("clampHealth();", unit_heal["bridge_exprs"])
+        self.assertIn("healTime visual update remains owned by source_unit_update_heal_time_state", unit_heal["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18018,6 +18078,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("on_speed_multiplier", unit_floor_speed_multiplier["return_keys"])
         self.assertIn("speed_multiplier", unit_floor_speed_multiplier["return_keys"])
         self.assertEqual(unit_floor_speed_multiplier["source_method"], "UnitComp.floorSpeedMultiplier()")
+
+        unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
+        self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
+        self.assertEqual(unit_heal["params"][0]["schema"], "source_unit_heal_input.current_health")
+        self.assertEqual(unit_heal["params"][1]["schema"], "source_unit_heal_input.max_health")
+        self.assertEqual(unit_heal["params"][2]["schema"], "source_unit_heal_input.amount")
+        self.assertEqual(unit_heal["params"][3]["schema"], "source_unit_heal_input.current_was_healed")
+        self.assertIn("guard", unit_heal["return_keys"])
+        self.assertIn("health", unit_heal["return_keys"])
+        self.assertIn("healthDelta", unit_heal["return_keys"])
+        self.assertIn("healthCompAdd", unit_heal["return_keys"])
+        self.assertIn("healthCompClamp", unit_heal["return_keys"])
+        self.assertIn("healthCompHeal", unit_heal["return_keys"])
+        self.assertIn("wasHealed", unit_heal["return_keys"])
+        self.assertIn("setWasHealed", unit_heal["return_keys"])
+        self.assertIn("healthMutationSource", unit_heal["return_keys"])
+        self.assertIn("override", unit_heal["return_keys"])
+        self.assertEqual(unit_heal["source_method"], "UnitComp.heal(float amount)")
 
         unit_check_target = source_symbols.api_contract(contracts, "PortGame.source_unit_check_target_state")
         self.assertEqual([param["name"] for param in unit_check_target["params"]], ["elevation_value", "target_air", "target_ground"])
@@ -22063,6 +22141,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["speed_multiplier"]["java_expr"], "return (float)Math.pow(on.speedMultiplier, type.floorMultiplier) * speedMultiplier;")
         self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["uses_air_floor"]["java_expr"], "isFlying() || type.hovering")
         self.assertEqual(source_unit_floor_speed_multiplier_result["keys"]["on_speed_multiplier"]["java_expr"], "on.speedMultiplier")
+
+        source_unit_heal_input = source_symbols.state_schema(schema, "source_unit_heal_input")
+        self.assertEqual(source_unit_heal_input["keys"]["current_health"]["java_expr"], "health")
+        self.assertEqual(source_unit_heal_input["keys"]["max_health"]["java_expr"], "maxHealth")
+        self.assertEqual(source_unit_heal_input["keys"]["amount"]["java_expr"], "amount")
+        self.assertEqual(source_unit_heal_input["keys"]["current_was_healed"]["java_expr"], "wasHealed")
+
+        source_unit_heal_result = source_symbols.state_schema(schema, "source_unit_heal_result")
+        self.assertEqual(source_unit_heal_result["keys"]["override"]["java_expr"], "@Override\n    public void heal(float amount){")
+        self.assertEqual(source_unit_heal_result["keys"]["guard"]["java_expr"], "if(health < maxHealth && amount > 0){")
+        self.assertEqual(source_unit_heal_result["keys"]["wasHealed"]["java_expr"], "wasHealed = true;")
+        self.assertEqual(source_unit_heal_result["keys"]["health"]["java_expr"], "health += amount; -> clampHealth();")
+        self.assertEqual(source_unit_heal_result["keys"]["healthDelta"]["java_expr"], "health += amount; -> clampHealth();")
+        self.assertEqual(source_unit_heal_result["keys"]["healthCompAdd"]["java_expr"], "health += amount;")
+        self.assertEqual(source_unit_heal_result["keys"]["healthCompClamp"]["java_expr"], "clampHealth();")
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

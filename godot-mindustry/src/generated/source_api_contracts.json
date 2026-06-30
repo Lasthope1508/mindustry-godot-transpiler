@@ -14157,6 +14157,52 @@
         "test_unit_floor_speed_multiplier_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_floor_speed_multiplier_state"
       ]
+    },
+    "PortGame.source_unit_heal_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_health",
+          "schema": "source_unit_heal_input.current_health",
+          "type": "float"
+        },
+        {
+          "name": "max_health",
+          "schema": "source_unit_heal_input.max_health",
+          "type": "float"
+        },
+        {
+          "name": "amount",
+          "schema": "source_unit_heal_input.amount",
+          "type": "float"
+        },
+        {
+          "name": "current_was_healed",
+          "schema": "source_unit_heal_input.current_was_healed",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "health",
+        "healthDelta",
+        "healthCompAdd",
+        "healthCompClamp",
+        "healthCompHeal",
+        "wasHealed",
+        "setWasHealed",
+        "healthMutationSource",
+        "override"
+      ],
+      "rule": "Public runtime contract for generated Unit.heal(float amount) merged HealthComp and UnitComp behavior.",
+      "runtime_proof": "/root/Main.source_unit_heal_state",
+      "source_method": "UnitComp.heal(float amount)",
+      "source_slice": "N778",
+      "status": "active",
+      "tests": [
+        "test_unit_heal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_heal_state"
+      ]
     }
   },
   "policy": {

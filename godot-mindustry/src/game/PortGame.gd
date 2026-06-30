@@ -9213,14 +9213,30 @@ func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
 		"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"],
 	}
 
+const SOURCE_UNIT_HEAL_OVERRIDE := "@Override\n    public void heal(float amount){"
+const SOURCE_UNIT_HEAL_GUARD := "if(health < maxHealth && amount > 0){"
+const SOURCE_UNIT_HEAL_WAS_HEALED := "wasHealed = true;"
+const SOURCE_UNIT_HEAL_HEALTH_COMP_METHOD := "void heal(float amount){"
+const SOURCE_UNIT_HEAL_HEALTH_COMP_ADD := "health += amount;"
+const SOURCE_UNIT_HEAL_HEALTH_COMP_CLAMP := "clampHealth();"
+
 func source_unit_heal_state(current_health: float, max_health: float, amount: float, current_was_healed: bool) -> Dictionary:
-	var set_was_healed := current_health < max_health and amount > 0.0
+	var next_health := current_health + amount
+	next_health = min(next_health, max_health)
+	if is_nan(next_health):
+		next_health = 0.0
+	var set_was_healed := next_health < max_health and amount > 0.0
 	return {
-		"guard": {"healthLessThanMax": current_health < max_health, "amountPositive": amount > 0.0},
+		"guard": {"healthLessThanMax": next_health < max_health, "amountPositive": amount > 0.0},
+		"health": next_health,
+		"healthDelta": next_health - current_health,
+		"healthCompAdd": SOURCE_UNIT_HEAL_HEALTH_COMP_ADD,
+		"healthCompClamp": SOURCE_UNIT_HEAL_HEALTH_COMP_CLAMP,
+		"healthCompHeal": SOURCE_UNIT_HEAL_HEALTH_COMP_METHOD,
 		"wasHealed": true if set_was_healed else current_was_healed,
 		"setWasHealed": set_was_healed,
-		"unitCompHealthDelta": 0.0,
 		"healthMutationSource": "HealthComp.heal(float amount)",
+		"override": SOURCE_UNIT_HEAL_OVERRIDE,
 	}
 
 func source_unit_update_heal_time_state(was_healed_value: bool, current_heal_time: float, source_delta: float) -> Dictionary:

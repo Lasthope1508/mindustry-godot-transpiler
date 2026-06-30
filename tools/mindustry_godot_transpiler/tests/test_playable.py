@@ -3651,11 +3651,21 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_heal_state(current_health: float, max_health: float, amount: float, current_was_healed: bool) -> Dictionary:", source)
-        self.assertIn("var set_was_healed := current_health < max_health and amount > 0.0", source)
+        self.assertIn("var next_health := current_health + amount", source)
+        self.assertIn("next_health = min(next_health, max_health)", source)
+        self.assertIn("var set_was_healed := next_health < max_health and amount > 0.0", source)
         self.assertIn('"wasHealed": true if set_was_healed else current_was_healed', source)
-        self.assertIn('"guard": {"healthLessThanMax": current_health < max_health, "amountPositive": amount > 0.0}', source)
-        self.assertIn('"unitCompHealthDelta": 0.0', source)
+        self.assertIn('"guard": {"healthLessThanMax": next_health < max_health, "amountPositive": amount > 0.0}', source)
+        self.assertIn('"health": next_health', source)
+        self.assertIn('"healthDelta": next_health - current_health', source)
+        self.assertIn('"healthCompAdd": SOURCE_UNIT_HEAL_HEALTH_COMP_ADD', source)
+        self.assertIn('"healthCompClamp": SOURCE_UNIT_HEAL_HEALTH_COMP_CLAMP', source)
+        self.assertIn('"healthCompHeal": SOURCE_UNIT_HEAL_HEALTH_COMP_METHOD', source)
         self.assertIn('"healthMutationSource": "HealthComp.heal(float amount)"', source)
+        self.assertIn('"override": SOURCE_UNIT_HEAL_OVERRIDE', source)
+        self.assertIn('const SOURCE_UNIT_HEAL_OVERRIDE := "@Override\\n    public void heal(float amount){"', source)
+        self.assertIn('const SOURCE_UNIT_HEAL_GUARD := "if(health < maxHealth && amount > 0){"', source)
+        self.assertIn('const SOURCE_UNIT_HEAL_WAS_HEALED := "wasHealed = true;"', source)
 
     def test_port_game_exposes_source_unit_update_heal_time_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

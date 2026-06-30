@@ -49201,6 +49201,188 @@
       "runtime_proof": "/root/Main.source_unit_floor_speed_multiplier_state",
       "status": "active"
     },
+    "source_unit_heal_input": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_unit_heal_input.amount",
+          "java_expr": "amount",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Heal amount input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "current_health": {
+          "godot_symbol": "source_unit_heal_input.current_health",
+          "java_expr": "health",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Current health input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "current_was_healed": {
+          "godot_symbol": "source_unit_heal_input.current_was_healed",
+          "java_expr": "wasHealed",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Current wasHealed input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "max_health": {
+          "godot_symbol": "source_unit_heal_input.max_health",
+          "java_expr": "maxHealth",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Max health input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_heal_state",
+      "runtime_proof": "/root/Main.source_unit_heal_state",
+      "status": "active"
+    },
+    "source_unit_heal_result": {
+      "keys": {
+        "guard": {
+          "godot_symbol": "source_unit_heal_result.guard",
+          "java_expr": "if(health < maxHealth && amount > 0){",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp wasHealed guard.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "health": {
+          "godot_symbol": "source_unit_heal_result.health",
+          "java_expr": "health += amount; -> clampHealth();",
+          "java_method": "HealthComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "rule": "Merged generated unit health after heal/clamp.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "healthCompAdd": {
+          "godot_symbol": "source_unit_heal_result.healthCompAdd",
+          "java_expr": "health += amount;",
+          "java_method": "HealthComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "rule": "HealthComp health add.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "healthCompClamp": {
+          "godot_symbol": "source_unit_heal_result.healthCompClamp",
+          "java_expr": "clampHealth();",
+          "java_method": "HealthComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "rule": "HealthComp clampHealth call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "healthCompHeal": {
+          "godot_symbol": "source_unit_heal_result.healthCompHeal",
+          "java_expr": "void heal(float amount){",
+          "java_method": "HealthComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "rule": "HealthComp heal method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "healthDelta": {
+          "godot_symbol": "source_unit_heal_result.healthDelta",
+          "java_expr": "health += amount; -> clampHealth();",
+          "java_method": "HealthComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "rule": "Runtime health delta after add and clamp.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "healthMutationSource": {
+          "godot_symbol": "source_unit_heal_result.healthMutationSource",
+          "java_expr": "void heal(float amount){",
+          "java_method": "HealthComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "rule": "Source method owning health mutation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "override": {
+          "godot_symbol": "source_unit_heal_result.override",
+          "java_expr": "@Override\n    public void heal(float amount){",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp heal override boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "setWasHealed": {
+          "godot_symbol": "source_unit_heal_result.setWasHealed",
+          "java_expr": "if(health < maxHealth && amount > 0){",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime flag for setting wasHealed.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        },
+        "wasHealed": {
+          "godot_symbol": "source_unit_heal_result.wasHealed",
+          "java_expr": "wasHealed = true;",
+          "java_method": "UnitComp.heal(float amount)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime wasHealed after UnitComp side effect.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_heal_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_heal_state",
+      "runtime_proof": "/root/Main.source_unit_heal_state",
+      "status": "active"
+    },
     "source_unit_is_flying_input": {
       "keys": {
         "elevation_value": {

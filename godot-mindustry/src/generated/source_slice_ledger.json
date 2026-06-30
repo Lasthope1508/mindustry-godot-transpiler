@@ -12519,6 +12519,51 @@
         "test_unit_floor_speed_multiplier_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_floor_speed_multiplier_state"
       ]
+    },
+    "N778": {
+      "bridge_exprs": [
+        "void heal(float amount){",
+        "health += amount;",
+        "clampHealth();",
+        "void clampHealth(){",
+        "health = Math.min(health, maxHealth);",
+        "if(Float.isNaN(health)) health = 0f;",
+        "private transient boolean wasHealed;"
+      ],
+      "deferred_exprs": [
+        "healTime visual update remains owned by source_unit_update_heal_time_state",
+        "BuildingComp.heal(float amount) healthChanged() path remains building-only slice",
+        "UnitComp.setProp health clamp/kill path remains separate logic property slice"
+      ],
+      "exact_exprs": [
+        "@Override\n    public void heal(float amount){",
+        "if(health < maxHealth && amount > 0){",
+        "wasHealed = true;"
+      ],
+      "godot_owner": "PortGame.source_unit_heal_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.heal(float amount)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_heal_state",
+      "source_symbols": [
+        "unit_heal.amount",
+        "unit_heal.current_was_healed",
+        "unit_heal.guard",
+        "unit_heal.health",
+        "unit_heal.health_comp_add",
+        "unit_heal.health_comp_clamp",
+        "unit_heal.health_comp_heal",
+        "unit_heal.health_mutation_source",
+        "unit_heal.max_health",
+        "unit_heal.override",
+        "unit_heal.set_was_healed",
+        "unit_heal.was_healed"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_heal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_heal_state"
+      ]
     }
   },
   "version": 1
