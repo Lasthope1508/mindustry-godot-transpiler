@@ -13049,6 +13049,30 @@
         "test_unit_add_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_add_state"
       ]
+    },
+    "PortGame.source_unit_after_read_all_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "controller_exists",
+          "schema": "source_unit_after_read_all_input.controller_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "controller_exists",
+        "call",
+        "afterReadArg"
+      ],
+      "rule": "Public runtime contract for UnitComp.afterReadAll controller.afterRead(self()) bridge.",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "source_method": "UnitComp.afterReadAll()",
+      "source_slice": "N753",
+      "status": "active",
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ]
     }
   },
   "policy": {

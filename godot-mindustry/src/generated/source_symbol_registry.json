@@ -36375,6 +36375,62 @@
       "godot_symbol": "source_unit_add_result.rulesEditorDefault",
       "java_expr": "public boolean editor = false;",
       "rule": "Rules editor default participates in unit cap guard."
+    },
+    "unit_after_read_all.override": {
+      "godot_owner": "PortGame.source_unit_after_read_all_state",
+      "godot_symbol": "source_unit_after_read_all_result.override",
+      "java_expr": "@Override",
+      "java_method": "UnitComp.afterReadAll()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.afterReadAll override marker.",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ]
+    },
+    "unit_after_read_all.method": {
+      "godot_owner": "PortGame.source_unit_after_read_all_state",
+      "godot_symbol": "source_unit_after_read_all_result.method",
+      "java_expr": "public void afterReadAll(){",
+      "java_method": "UnitComp.afterReadAll()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.afterReadAll method boundary.",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ]
+    },
+    "unit_after_read_all.controller_after_read": {
+      "godot_owner": "PortGame.source_unit_after_read_all_state",
+      "godot_symbol": "source_unit_after_read_all_result.call",
+      "java_expr": "controller.afterRead(self());",
+      "java_method": "UnitComp.afterReadAll()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.afterReadAll delegates to controller.afterRead with self().",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ]
+    },
+    "unit_after_read_all.unit_controller_after_read_method": {
+      "godot_owner": "PortGame.source_unit_after_read_all_state",
+      "godot_symbol": "source_unit_after_read_all_result.unitControllerAfterReadMethod",
+      "java_expr": "default void afterRead(Unit unit){",
+      "java_method": "UnitController.afterRead(Unit unit)",
+      "java_source": "core/src/mindustry/entities/units/UnitController.java",
+      "rule": "UnitController default afterRead callback boundary.",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ]
     }
   },
   "version": 1

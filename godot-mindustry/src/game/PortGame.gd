@@ -9025,11 +9025,17 @@ func source_unit_after_read_state(type_id: int, controller_is_ai_controller: boo
 		"createControllerArg": "self()",
 	}
 
+const SOURCE_UNIT_AFTER_READ_ALL_OVERRIDE := "@Override"
+const SOURCE_UNIT_AFTER_READ_ALL_METHOD := "public void afterReadAll(){"
+const SOURCE_UNIT_AFTER_READ_ALL_CALL := "controller.afterRead(self());"
+const SOURCE_UNIT_AFTER_READ_ALL_SELF_ARG := "self()"
+const SOURCE_UNIT_AFTER_READ_ALL_CONTROLLER_AFTER_READ_METHOD := "default void afterRead(Unit unit){"
+
 func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:
 	return {
 		"controller_exists": controller_exists,
-		"call": "controller.afterRead(self())",
-		"afterReadArg": "self()",
+		"call": SOURCE_UNIT_AFTER_READ_ALL_CALL,
+		"afterReadArg": SOURCE_UNIT_AFTER_READ_ALL_SELF_ARG,
 	}
 
 const SOURCE_UNIT_ADD_METHOD := "public void add(){"

@@ -3526,9 +3526,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:", source)
-        self.assertIn('"call": "controller.afterRead(self())"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_ALL_METHOD := "public void afterReadAll(){"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_ALL_CALL := "controller.afterRead(self());"', source)
+        self.assertIn('const SOURCE_UNIT_AFTER_READ_ALL_SELF_ARG := "self()"', source)
+        self.assertIn('"call": SOURCE_UNIT_AFTER_READ_ALL_CALL', source)
         self.assertIn('"controller_exists": controller_exists', source)
-        self.assertIn('"afterReadArg": "self()"', source)
+        self.assertIn('"afterReadArg": SOURCE_UNIT_AFTER_READ_ALL_SELF_ARG', source)
 
     def test_port_game_exposes_source_unit_add_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -11423,6 +11423,36 @@
         "test_unit_add_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_add_state"
       ]
+    },
+    "N753": {
+      "deferred_exprs": [
+        "AIController.afterRead(Unit unit) override behavior is empty in upstream and remains behaviorally equivalent to UnitController default for this call bridge"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void afterReadAll(){",
+        "controller.afterRead(self());"
+      ],
+      "bridge_exprs": [
+        "default void afterRead(Unit unit){",
+        "UnitController.afterRead(Unit unit)"
+      ],
+      "godot_owner": "PortGame.source_unit_after_read_all_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.afterReadAll()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "source_symbols": [
+        "unit_after_read_all.override",
+        "unit_after_read_all.method",
+        "unit_after_read_all.controller_after_read",
+        "unit_after_read_all.unit_controller_after_read_method"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_after_read_all_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_after_read_all_state"
+      ]
     }
   },
   "version": 1

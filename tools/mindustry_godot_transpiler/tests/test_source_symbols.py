@@ -4496,6 +4496,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(rules_editor_default["java_expr"], "public boolean editor = false;")
         self.assertEqual(rules_editor_default["java_source"], "core/src/mindustry/game/Rules.java")
 
+    def test_unit_after_read_all_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        override = source_symbols.source_symbol(registry, "unit_after_read_all.override")
+        self.assertEqual(override["java_expr"], "@Override")
+        self.assertEqual(override["godot_owner"], "PortGame.source_unit_after_read_all_state")
+        self.assertEqual(override["runtime_proof"], "/root/Main.source_unit_after_read_all_state")
+        self.assertEqual(override["godot_symbol"], "source_unit_after_read_all_result.override")
+
+        method = source_symbols.source_symbol(registry, "unit_after_read_all.method")
+        self.assertEqual(method["java_expr"], "public void afterReadAll(){")
+        self.assertEqual(method["godot_symbol"], "source_unit_after_read_all_result.method")
+
+        controller_after_read = source_symbols.source_symbol(registry, "unit_after_read_all.controller_after_read")
+        self.assertEqual(controller_after_read["java_expr"], "controller.afterRead(self());")
+        self.assertEqual(controller_after_read["godot_symbol"], "source_unit_after_read_all_result.call")
+
+        controller_after_read_method = source_symbols.source_symbol(registry, "unit_after_read_all.unit_controller_after_read_method")
+        self.assertEqual(controller_after_read_method["java_expr"], "default void afterRead(Unit unit){")
+        self.assertEqual(controller_after_read_method["java_source"], "core/src/mindustry/entities/units/UnitController.java")
+        self.assertEqual(controller_after_read_method["godot_symbol"], "source_unit_after_read_all_result.unitControllerAfterReadMethod")
+
     def test_turret_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11470,9 +11495,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 350)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 351)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 355)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 356)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11704,6 +11729,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_shoot_y", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_total_inaccuracy", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_add_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_after_read_all_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11828,6 +11854,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_shoot_y", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_total_inaccuracy", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_add_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_after_read_all_state", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -13174,6 +13201,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Units.unitCapDeath(Unit unit)", unit_add["bridge_exprs"])
         self.assertIn("UnitType.useUnitCap = true", unit_add["bridge_exprs"])
         self.assertIn("Rules.editor = false", unit_add["bridge_exprs"])
+
+        unit_after_read_all = source_symbols.source_slice(ledger, "N753")
+        self.assertEqual(unit_after_read_all["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_after_read_all["java_method"], "UnitComp.afterReadAll()")
+        self.assertEqual(unit_after_read_all["godot_owner"], "PortGame.source_unit_after_read_all_state")
+        self.assertIn("@Override", unit_after_read_all["exact_exprs"])
+        self.assertIn("public void afterReadAll(){", unit_after_read_all["exact_exprs"])
+        self.assertIn("controller.afterRead(self());", unit_after_read_all["exact_exprs"])
+        self.assertIn("default void afterRead(Unit unit){", unit_after_read_all["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -16433,6 +16469,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("unitCapDeath", unit_add["return_keys"])
         self.assertIn("rollbackUpdateCount", unit_add["return_keys"])
         self.assertEqual(unit_add["source_method"], "UnitComp.add()")
+
+        unit_after_read_all = source_symbols.api_contract(contracts, "PortGame.source_unit_after_read_all_state")
+        self.assertEqual([param["name"] for param in unit_after_read_all["params"]], ["controller_exists"])
+        self.assertEqual(unit_after_read_all["params"][0]["schema"], "source_unit_after_read_all_input.controller_exists")
+        self.assertIn("controller_exists", unit_after_read_all["return_keys"])
+        self.assertIn("call", unit_after_read_all["return_keys"])
+        self.assertIn("afterReadArg", unit_after_read_all["return_keys"])
+        self.assertEqual(unit_after_read_all["source_method"], "UnitComp.afterReadAll()")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -20191,6 +20235,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_add_result["keys"]["unitCapDeath"]["java_expr"], "Call.unitCapDeath(self());")
         self.assertEqual(source_unit_add_result["keys"]["rollbackUpdateCount"]["java_expr"], "team.data().updateCount(type, -1);")
         self.assertEqual(source_unit_add_result["keys"]["call_order"]["java_expr"], "team.data().updateCount(type, 1); -> Call.unitCapDeath(self()); -> team.data().updateCount(type, -1);")
+
+        source_unit_after_read_all_input = source_symbols.state_schema(schema, "source_unit_after_read_all_input")
+        self.assertEqual(source_unit_after_read_all_input["keys"]["controller_exists"]["java_expr"], "controller")
+        self.assertEqual(source_unit_after_read_all_input["keys"]["controller_exists"]["status"], "explicit-input")
+
+        source_unit_after_read_all_result = source_symbols.state_schema(schema, "source_unit_after_read_all_result")
+        self.assertEqual(source_unit_after_read_all_result["keys"]["override"]["java_expr"], "@Override")
+        self.assertEqual(source_unit_after_read_all_result["keys"]["method"]["java_expr"], "public void afterReadAll(){")
+        self.assertEqual(source_unit_after_read_all_result["keys"]["call"]["java_expr"], "controller.afterRead(self());")
+        self.assertEqual(source_unit_after_read_all_result["keys"]["afterReadArg"]["java_expr"], "self()")
+        self.assertEqual(source_unit_after_read_all_result["keys"]["unitControllerAfterReadMethod"]["java_expr"], "default void afterRead(Unit unit){")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

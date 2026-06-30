@@ -45869,6 +45869,102 @@
       "owner": "PortGame.source_unit_add_state",
       "runtime_proof": "/root/Main.source_unit_add_state",
       "status": "active"
+    },
+    "source_unit_after_read_all_input": {
+      "keys": {
+        "controller_exists": {
+          "godot_symbol": "source_unit_after_read_all_input.controller_exists",
+          "java_expr": "controller",
+          "java_method": "UnitComp.afterReadAll()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Explicit input indicates whether UnitComp controller exists before afterReadAll callback bridge.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_read_all_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_after_read_all_state",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "status": "active"
+    },
+    "source_unit_after_read_all_result": {
+      "keys": {
+        "override": {
+          "godot_symbol": "source_unit_after_read_all_result.override",
+          "java_expr": "@Override",
+          "java_method": "UnitComp.afterReadAll()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp.afterReadAll override marker.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_all_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_after_read_all_result.method",
+          "java_expr": "public void afterReadAll(){",
+          "java_method": "UnitComp.afterReadAll()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp.afterReadAll method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_all_state"
+          ]
+        },
+        "controller_exists": {
+          "alias_of": "source_unit_after_read_all_input.controller_exists",
+          "godot_symbol": "source_unit_after_read_all_result.controller_exists",
+          "rule": "Carries controller existence input into afterReadAll result schema.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_after_read_all_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_after_read_all_result.call",
+          "java_expr": "controller.afterRead(self());",
+          "java_method": "UnitComp.afterReadAll()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed controller afterRead call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_all_state"
+          ]
+        },
+        "afterReadArg": {
+          "godot_symbol": "source_unit_after_read_all_result.afterReadArg",
+          "java_expr": "self()",
+          "java_method": "UnitComp.afterReadAll()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source-backed argument passed to controller.afterRead.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_all_state"
+          ]
+        },
+        "unitControllerAfterReadMethod": {
+          "godot_symbol": "source_unit_after_read_all_result.unitControllerAfterReadMethod",
+          "java_expr": "default void afterRead(Unit unit){",
+          "java_method": "UnitController.afterRead(Unit unit)",
+          "java_source": "core/src/mindustry/entities/units/UnitController.java",
+          "rule": "Controller contract method invoked by UnitComp.afterReadAll.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_after_read_all_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_after_read_all_state",
+      "runtime_proof": "/root/Main.source_unit_after_read_all_state",
+      "status": "active"
     }
   },
   "version": 1
