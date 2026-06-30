@@ -44776,6 +44776,112 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_recoils_input": {
+      "keys": {
+        "turret": {
+          "alias_of": "source_turret_recoil_input.turret",
+          "rule": "Carries Turret input into recoils helper.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
+    },
+    "source_turret_recoils_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_turret_recoils_result.comment",
+          "java_expr": "/** Number of additional counters for recoil. */",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Turret.recoils source comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoils"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_turret_recoils_result.field",
+          "java_expr": "public int recoils = -1;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical Turret.recoils field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoils"
+          ]
+        },
+        "key": {
+          "godot_symbol": "source_turret_recoils_result.key",
+          "java_expr": "recoils",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Godot dictionary key maps to Turret.recoils exactly.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoils"
+          ]
+        },
+        "default_value": {
+          "godot_symbol": "source_turret_recoils_result.default_value",
+          "java_expr": "-1",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Godot fallback preserves Turret.recoils default sentinel.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_recoils"
+          ]
+        },
+        "duoValue": {
+          "godot_symbol": "source_turret_recoils_result.duoValue",
+          "java_expr": "recoils = 2;",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "rule": "Duo supplies two additional recoil counters.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_recoils"
+          ]
+        },
+        "updateGate": {
+          "godot_symbol": "source_turret_recoils_result.updateGate",
+          "java_expr": "if(recoils > 0){",
+          "java_method": "TurretBuild.updateTile()/bullet(...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Positive recoils gate per-slot recoil behavior; per-slot state is deferred.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_recoils"
+          ]
+        },
+        "recoils": {
+          "godot_symbol": "source_turret_recoils_result.recoils",
+          "java_expr": "recoils",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Returned canonical Turret.recoils value.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_recoils"
+          ]
+        },
+        "turret": {
+          "alias_of": "source_turret_recoils_input.turret",
+          "rule": "Carries Turret input into recoils result schema.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

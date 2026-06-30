@@ -10426,6 +10426,11 @@ const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"
 const SOURCE_TURRET_RECOIL_KEY := "recoil"
 const SOURCE_TURRET_RECOIL_DEFAULT := 1.0
 const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"
+const SOURCE_TURRET_RECOILS_COMMENT := "/** Number of additional counters for recoil. */"
+const SOURCE_TURRET_RECOILS_FIELD := "public int recoils = -1;"
+const SOURCE_TURRET_RECOILS_KEY := "recoils"
+const SOURCE_TURRET_RECOILS_DEFAULT := -1
+const SOURCE_TURRET_RECOILS_DUO_VALUE := "recoils = 2;"
 const SOURCE_TURRET_RECOIL_TIME_COMMENT := "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */"
 const SOURCE_TURRET_RECOIL_TIME_FIELD := "public float recoilTime = -1f;"
 const SOURCE_TURRET_RECOIL_TIME_KEY := "recoilTime"
@@ -10447,7 +10452,7 @@ func source_turret_recoil(turret) -> float:
 func source_turret_recoils(turret) -> int:
 	if turret == null:
 		return 0
-	return int(turret.properties.get("recoils", -1))
+	return int(turret.properties.get(SOURCE_TURRET_RECOILS_KEY, SOURCE_TURRET_RECOILS_DEFAULT))
 
 func source_turret_recoil_time(turret) -> float:
 	if turret == null:

@@ -35432,6 +35432,104 @@
         "test_turret_recoil_time_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "turret_recoils.comment": {
+      "godot_owner": "PortGame.source_turret_recoils",
+      "runtime_proof": "/root/Main.source_turret_recoils",
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_recoils_result.comment",
+      "java_method": "field declaration/TurretBuild.updateTile()/bullet(...)",
+      "java_expr": "/** Number of additional counters for recoil. */",
+      "rule": "Canonical Turret.recoils source comment.",
+      "status": "source-backed"
+    },
+    "turret_recoils.field": {
+      "godot_owner": "PortGame.source_turret_recoils",
+      "runtime_proof": "/root/Main.source_turret_recoils",
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_recoils_result.field",
+      "java_method": "field declaration",
+      "java_expr": "public int recoils = -1;",
+      "rule": "Canonical Turret.recoils field declaration.",
+      "status": "source-backed"
+    },
+    "turret_recoils.key": {
+      "godot_owner": "PortGame.source_turret_recoils",
+      "runtime_proof": "/root/Main.source_turret_recoils",
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_recoils_result.key",
+      "java_method": "field declaration",
+      "java_expr": "recoils",
+      "rule": "Godot dictionary key maps to Turret.recoils exactly.",
+      "status": "source-backed"
+    },
+    "turret_recoils.default": {
+      "godot_owner": "PortGame.source_turret_recoils",
+      "runtime_proof": "/root/Main.source_turret_recoils",
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_recoils_result.default_value",
+      "java_method": "field declaration",
+      "java_expr": "-1",
+      "rule": "Godot fallback preserves Turret.recoils default sentinel.",
+      "status": "source-backed"
+    },
+    "turret_recoils.duo_value": {
+      "godot_owner": "PortGame.source_turret_recoils",
+      "runtime_proof": "/root/Main.source_turret_recoils",
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "godot_symbol": "source_turret_recoils_result.duoValue",
+      "java_method": "load()",
+      "java_expr": "recoils = 2;",
+      "rule": "Duo supplies two additional recoil counters.",
+      "status": "source-backed"
+    },
+    "turret_recoils.update_gate": {
+      "godot_owner": "PortGame.source_turret_recoils",
+      "runtime_proof": "/root/Main.source_turret_recoils",
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_recoils_result.updateGate",
+      "java_method": "TurretBuild.updateTile()/bullet(...)",
+      "java_expr": "if(recoils > 0){",
+      "rule": "Positive recoils gate per-slot recoil behavior; per-slot state is deferred.",
+      "status": "source-backed"
+    },
+    "turret_recoils.result": {
+      "godot_owner": "PortGame.source_turret_recoils",
+      "runtime_proof": "/root/Main.source_turret_recoils",
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "godot_symbol": "source_turret_recoils_result.recoils",
+      "java_method": "field declaration",
+      "java_expr": "recoils",
+      "rule": "Return canonical Turret.recoils value.",
+      "status": "source-backed"
     }
   },
   "version": 1
