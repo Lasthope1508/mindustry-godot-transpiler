@@ -52833,6 +52833,306 @@
       "java_source": "core/src/mindustry/type/Weapon.java",
       "rule": "Runtime unit_state maps to Java Unit unit.",
       "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.unit_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.unit_state",
+      "java_expr": "Unit unit",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime unit_state maps to Java Unit unit.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.mount_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.mount_state",
+      "java_expr": "WeaponMount mount",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime mount_state maps to Java WeaponMount mount.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.weapon_state": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.weapon_state",
+      "java_expr": "this",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime weapon_state maps to Java this Weapon.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.x_offset": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.x_offset",
+      "java_expr": "xOffset",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime x_offset maps to Java xOffset.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.y_offset": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.y_offset",
+      "java_expr": "yOffset",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime y_offset maps to Java yOffset.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.x_spread": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.x_spread",
+      "java_expr": "xSpread = Mathf.range(xRand),",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime x_spread carries the source xRand range draw explicitly.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.y_spread": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.y_spread",
+      "java_expr": "ySpread = Mathf.range(yRand),",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Runtime y_spread carries the source yRand range draw explicitly.",
+      "status": "explicit-input"
+    },
+    "weapon_bullet_geometry.weapon_rotation": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.weaponRotation",
+      "java_expr": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet computes weaponRotation from unit rotation and rotate/baseRotation branch.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.mount_x": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.mountX",
+      "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet computes mountX via Angles.trnsx.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.mount_y": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.mountY",
+      "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet computes mountY via Angles.trnsy.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.bullet_x": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.bulletX",
+      "java_expr": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet computes bulletX from mountX and rotated shoot offsets.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.bullet_y": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.bulletY",
+      "java_expr": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX + xOffset + xSpread, this.shootY + yOffset + ySpread),",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon.bullet computes bulletY from mountY and rotated shoot offsets.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.shoot_angle_reserved": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.shootAngleReservedSource",
+      "java_expr": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY) + angleOffset,",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Next Weapon.bullet shootAngle line is owned by registered angle/life slice.",
+      "status": "deferred"
+    },
+    "weapon_bullet_geometry.weapon_rotate": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.weapon_state.rotate",
+      "java_expr": "public boolean rotate = false;",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon rotate field backs weaponRotation branch.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.weapon_base_rotation": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.weapon_state.baseRotation",
+      "java_expr": "public float baseRotation = 0f;",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon baseRotation field backs non-rotate branch.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.weapon_shoot_offsets": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.weapon_state.shootX_shootY",
+      "java_expr": "public float shootX = 0f, shootY = 3f;",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon shootX/shootY fields back bullet offset calculation.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.weapon_rand_offsets": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_input.weapon_state.xRand_yRand",
+      "java_expr": "public float xRand = 0f, yRand = 0f;",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Weapon random spread fields back xSpread/ySpread source draws.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.angles_trnsx": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "trnsx(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.anglesTrnsx",
+      "java_expr": "return rv.set(x, y).rotate(angle).x;",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Arc Angles.trnsx rotates vector and returns x component.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.angles_trnsy": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "trnsy(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.anglesTrnsy",
+      "java_expr": "return rv.set(x, y).rotate(angle).y;",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "rule": "Arc Angles.trnsy rotates vector and returns y component.",
+      "status": "source-backed"
+    },
+    "weapon_bullet_geometry.mathf_range": {
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "java_method": "range(float range)",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "godot_symbol": "source_weapon_bullet_geometry_result.mathfRangeSource",
+      "java_expr": "public static float range(float range){\n        return random(-range, range);\n    }",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.range(range) draws random(-range, range).",
+      "status": "source-backed"
     }
   },
   "version": 1

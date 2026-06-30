@@ -17090,6 +17090,79 @@
         "test_port_game_exposes_source_weapon_bullet_effects_state",
         "test_weapon_bullet_effects_branch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_bullet_geometry_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_geometry_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_geometry_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_geometry_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "x_offset",
+          "schema": "source_weapon_bullet_geometry_input.x_offset",
+          "type": "float"
+        },
+        {
+          "name": "y_offset",
+          "schema": "source_weapon_bullet_geometry_input.y_offset",
+          "type": "float"
+        },
+        {
+          "name": "x_spread",
+          "schema": "source_weapon_bullet_geometry_input.x_spread",
+          "type": "float"
+        },
+        {
+          "name": "y_spread",
+          "schema": "source_weapon_bullet_geometry_input.y_spread",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "mountCharging",
+        "xSpread",
+        "ySpread",
+        "weaponRotation",
+        "mountX",
+        "mountY",
+        "bulletOffsetX",
+        "bulletOffsetY",
+        "bulletX",
+        "bulletY",
+        "xSpreadSource",
+        "ySpreadSource",
+        "mathfRangeSource",
+        "weaponRotationSource",
+        "mountXSource",
+        "mountYSource",
+        "bulletXSource",
+        "bulletYSource",
+        "anglesSource",
+        "shootAngleReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.bullet geometry block.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "source_slice": "N841",
+      "status": "active",
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ]
     }
   },
   "policy": {

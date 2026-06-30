@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 45,
+  "legacyUnregisteredOwnerCount": 44,
   "legacyUnregisteredOwners": [
-    "PortGame.source_weapon_bullet_geometry_state",
     "PortGame.source_weapon_bullet_handle_call_state",
     "PortGame.source_weapon_bullet_heat_state",
     "PortGame.source_weapon_bullet_initial_guard_state",
@@ -59,7 +58,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 438,
+  "registeredSourceOwnerCount": 439,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_vec2_limit",
     "PortGame.source_weapon_bullet_angle_life_state",
     "PortGame.source_weapon_bullet_create_call_state",
-    "PortGame.source_weapon_bullet_effects_state"
+    "PortGame.source_weapon_bullet_effects_state",
+    "PortGame.source_weapon_bullet_geometry_state"
   ],
   "sourceFunctions": [
     {
