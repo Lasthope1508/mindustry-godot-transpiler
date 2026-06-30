@@ -35166,6 +35166,132 @@
         "test_turret_recoil_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "turret_recoil_offset.comment": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_result.comment",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "/** Turret sprite offset, based on recoil. Updated every frame. */",
+      "rule": "Canonical TurretBuild.recoilOffset source comment.",
+      "status": "source-backed"
+    },
+    "turret_recoil_offset.field": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_result.field",
+      "java_method": "TurretBuild field declaration",
+      "java_expr": "public Vec2 recoilOffset = new Vec2();",
+      "rule": "Canonical TurretBuild.recoilOffset field declaration.",
+      "status": "source-backed"
+    },
+    "turret_recoil_offset.recoil_pow_field": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_result.recoilPow",
+      "java_method": "field declaration",
+      "java_expr": "public float recoilPow = 1.8f;",
+      "rule": "Canonical Turret.recoilPow field used by recoil offset formula.",
+      "status": "source-backed"
+    },
+    "turret_recoil_offset.cur_recoil_field": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_result.curRecoilField",
+      "java_method": "TurretBuild field declaration",
+      "java_expr": "public float curRecoil, heat, logicControlTime = -1;",
+      "rule": "Canonical TurretBuild.curRecoil field used by recoil offset formula.",
+      "status": "source-backed"
+    },
+    "turret_recoil_offset.formula": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_result.offset",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);",
+      "rule": "Canonical recoil offset vector transform formula.",
+      "status": "source-backed"
+    },
+    "turret_recoil_offset.rotation_input": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_input.rotation",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "rotation",
+      "rule": "Runtime turret rotation input supplies recoilOffset.trns angle.",
+      "status": "explicit-input"
+    },
+    "turret_recoil_offset.cur_recoil_input": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_input.curRecoil",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "curRecoil",
+      "rule": "Runtime curRecoil input supplies recoil offset magnitude.",
+      "status": "explicit-input"
+    },
+    "turret_recoil_offset.turret": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_input.turret",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "Turret block",
+      "rule": "Runtime turret input supplies Turret.recoil field through source_turret_recoil.",
+      "status": "explicit-input"
+    },
+    "turret_recoil_offset.recoil": {
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "godot_symbol": "source_turret_recoil_offset_result.recoil",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "recoil",
+      "rule": "Reuses canonical Turret.recoil value inside recoil offset formula.",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -12686,6 +12686,47 @@
         "test_turret_recoil_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "PortGame.source_turret_recoil_offset": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "turret",
+          "schema": "source_turret_recoil_offset_input.turret",
+          "type": "Variant"
+        },
+        {
+          "name": "recoil_rotation_degrees",
+          "schema": "source_turret_recoil_offset_input.rotation",
+          "type": "float"
+        },
+        {
+          "name": "cur_recoil",
+          "schema": "source_turret_recoil_offset_input.curRecoil",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "offset",
+        "comment",
+        "field",
+        "recoilPow",
+        "curRecoilField",
+        "formula",
+        "turret",
+        "rotation",
+        "curRecoil",
+        "recoil"
+      ],
+      "rule": "Public runtime contract for TurretBuild.recoilOffset.trns formula helper.",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "source_method": "TurretBuild.updateTile()",
+      "source_slice": "N742",
+      "status": "active",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ]
     }
   },
   "policy": {

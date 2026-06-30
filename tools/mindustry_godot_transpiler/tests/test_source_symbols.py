@@ -4520,6 +4520,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "recoil")
         self.assertEqual(result["godot_symbol"], "source_turret_recoil_result.recoil")
 
+    def test_turret_recoil_offset_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        comment = source_symbols.source_symbol(registry, "turret_recoil_offset.comment")
+        self.assertEqual(comment["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(comment["java_method"], "TurretBuild.updateTile()")
+        self.assertEqual(comment["java_expr"], "/** Turret sprite offset, based on recoil. Updated every frame. */")
+        self.assertEqual(comment["godot_owner"], "PortGame.source_turret_recoil_offset")
+        self.assertEqual(comment["runtime_proof"], "/root/Main.source_turret_recoil_offset")
+        self.assertEqual(comment["godot_symbol"], "source_turret_recoil_offset_result.comment")
+
+        field = source_symbols.source_symbol(registry, "turret_recoil_offset.field")
+        self.assertEqual(field["java_expr"], "public Vec2 recoilOffset = new Vec2();")
+        self.assertEqual(field["godot_symbol"], "source_turret_recoil_offset_result.field")
+
+        recoil_pow = source_symbols.source_symbol(registry, "turret_recoil_offset.recoil_pow_field")
+        self.assertEqual(recoil_pow["java_expr"], "public float recoilPow = 1.8f;")
+        self.assertEqual(recoil_pow["godot_symbol"], "source_turret_recoil_offset_result.recoilPow")
+
+        cur_recoil = source_symbols.source_symbol(registry, "turret_recoil_offset.cur_recoil_field")
+        self.assertEqual(cur_recoil["java_expr"], "public float curRecoil, heat, logicControlTime = -1;")
+        self.assertEqual(cur_recoil["godot_symbol"], "source_turret_recoil_offset_result.curRecoilField")
+
+        formula = source_symbols.source_symbol(registry, "turret_recoil_offset.formula")
+        self.assertEqual(formula["java_expr"], "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);")
+        self.assertEqual(formula["godot_symbol"], "source_turret_recoil_offset_result.offset")
+
+        rotation = source_symbols.source_symbol(registry, "turret_recoil_offset.rotation_input")
+        self.assertEqual(rotation["status"], "explicit-input")
+        self.assertEqual(rotation["java_expr"], "rotation")
+        self.assertEqual(rotation["godot_symbol"], "source_turret_recoil_offset_input.rotation")
+
+        cur_recoil_input = source_symbols.source_symbol(registry, "turret_recoil_offset.cur_recoil_input")
+        self.assertEqual(cur_recoil_input["status"], "explicit-input")
+        self.assertEqual(cur_recoil_input["java_expr"], "curRecoil")
+        self.assertEqual(cur_recoil_input["godot_symbol"], "source_turret_recoil_offset_input.curRecoil")
+
+        recoil = source_symbols.source_symbol(registry, "turret_recoil_offset.recoil")
+        self.assertEqual(recoil["godot_symbol"], "source_turret_recoil_offset_result.recoil")
+        self.assertEqual(recoil["java_expr"], "recoil")
+
     def test_offload_to_inventory_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11033,9 +11077,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 339)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 340)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 344)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 345)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11256,6 +11300,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_range", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_range_for_ammo", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_recoil", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_turret_recoil_offset", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11369,6 +11414,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_range", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_range_for_ammo", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_recoil", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_turret_recoil_offset", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -12587,6 +12633,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("1f", turret_recoil["exact_exprs"])
         self.assertIn("recoil = 0.5f;", turret_recoil["bridge_exprs"])
         self.assertIn("recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);", turret_recoil["deferred_exprs"])
+
+        turret_recoil_offset = source_symbols.source_slice(ledger, "N742")
+        self.assertEqual(turret_recoil_offset["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(turret_recoil_offset["java_method"], "TurretBuild.updateTile()")
+        self.assertEqual(turret_recoil_offset["godot_owner"], "PortGame.source_turret_recoil_offset")
+        self.assertIn("/** Turret sprite offset, based on recoil. Updated every frame. */", turret_recoil_offset["exact_exprs"])
+        self.assertIn("public Vec2 recoilOffset = new Vec2();", turret_recoil_offset["exact_exprs"])
+        self.assertIn("public float recoilPow = 1.8f;", turret_recoil_offset["exact_exprs"])
+        self.assertIn("public float curRecoil, heat, logicControlTime = -1;", turret_recoil_offset["exact_exprs"])
+        self.assertIn("recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);", turret_recoil_offset["exact_exprs"])
+        self.assertIn("curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);", turret_recoil_offset["deferred_exprs"])
+        self.assertIn("curRecoil = 1f;", turret_recoil_offset["deferred_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -15748,6 +15806,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("recoil", turret_recoil["return_keys"])
         self.assertIn("duoValue", turret_recoil["return_keys"])
         self.assertEqual(turret_recoil["source_method"], "field declaration")
+
+        turret_recoil_offset = source_symbols.api_contract(contracts, "PortGame.source_turret_recoil_offset")
+        self.assertEqual([param["name"] for param in turret_recoil_offset["params"]], ["turret", "recoil_rotation_degrees", "cur_recoil"])
+        self.assertEqual(turret_recoil_offset["params"][0]["schema"], "source_turret_recoil_offset_input.turret")
+        self.assertEqual(turret_recoil_offset["params"][1]["schema"], "source_turret_recoil_offset_input.rotation")
+        self.assertEqual(turret_recoil_offset["params"][2]["schema"], "source_turret_recoil_offset_input.curRecoil")
+        self.assertIn("offset", turret_recoil_offset["return_keys"])
+        self.assertIn("recoilPow", turret_recoil_offset["return_keys"])
+        self.assertIn("recoil", turret_recoil_offset["return_keys"])
+        self.assertEqual(turret_recoil_offset["source_method"], "TurretBuild.updateTile()")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -19352,6 +19420,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_recoil_result["keys"]["duoValue"]["java_expr"], "recoil = 0.5f;")
         self.assertEqual(source_turret_recoil_result["keys"]["recoil"]["java_expr"], "recoil")
         self.assertEqual(source_turret_recoil_result["keys"]["turret"]["alias_of"], "source_turret_recoil_input.turret")
+
+        source_turret_recoil_offset_input = source_symbols.state_schema(schema, "source_turret_recoil_offset_input")
+        self.assertEqual(source_turret_recoil_offset_input["keys"]["turret"]["alias_of"], "source_turret_recoil_input.turret")
+        self.assertEqual(source_turret_recoil_offset_input["keys"]["rotation"]["java_expr"], "rotation")
+        self.assertEqual(source_turret_recoil_offset_input["keys"]["curRecoil"]["java_expr"], "curRecoil")
+
+        source_turret_recoil_offset_result = source_symbols.state_schema(schema, "source_turret_recoil_offset_result")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["comment"]["java_expr"], "/** Turret sprite offset, based on recoil. Updated every frame. */")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["field"]["java_expr"], "public Vec2 recoilOffset = new Vec2();")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["recoilPow"]["java_expr"], "public float recoilPow = 1.8f;")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["curRecoilField"]["java_expr"], "public float curRecoil, heat, logicControlTime = -1;")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["offset"]["java_expr"], "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["turret"]["alias_of"], "source_turret_recoil_offset_input.turret")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["rotation"]["alias_of"], "source_turret_recoil_offset_input.rotation")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["curRecoil"]["alias_of"], "source_turret_recoil_offset_input.curRecoil")
+        self.assertEqual(source_turret_recoil_offset_result["keys"]["recoil"]["alias_of"], "source_turret_recoil_result.recoil")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

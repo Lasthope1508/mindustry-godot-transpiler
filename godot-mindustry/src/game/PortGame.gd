@@ -10426,6 +10426,12 @@ const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"
 const SOURCE_TURRET_RECOIL_KEY := "recoil"
 const SOURCE_TURRET_RECOIL_DEFAULT := 1.0
 const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"
+const SOURCE_TURRET_RECOIL_OFFSET_COMMENT := "/** Turret sprite offset, based on recoil. Updated every frame. */"
+const SOURCE_TURRET_RECOIL_OFFSET_FIELD := "public Vec2 recoilOffset = new Vec2();"
+const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := "public float recoilPow = 1.8f;"
+const SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD := "public float curRecoil, heat, logicControlTime = -1;"
+const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"
+const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT := 1.8
 
 func source_turret_recoil(turret) -> float:
 	if turret == null:
@@ -10443,7 +10449,7 @@ func source_turret_recoil_time(turret) -> float:
 	return source_turret_reload_seconds(turret) * SOURCE_TICK_RATE
 
 func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
-	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_RECOIL_POW) * source_turret_recoil(turret))
+	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT) * source_turret_recoil(turret))
 
 func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:
 	var key := cell_key(cell)

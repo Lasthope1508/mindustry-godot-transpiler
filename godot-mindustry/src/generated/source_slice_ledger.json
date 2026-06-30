@@ -11018,6 +11018,47 @@
         "test_turret_recoil_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_recoil"
       ]
+    },
+    "N742": {
+      "deferred_exprs": [
+        "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);",
+        "curRecoil = 1f;",
+        "curRecoils[barrelCounter % recoils] = 1f;",
+        "public int recoils = -1;",
+        "public float recoilTime = -1f;",
+        "if(recoilTime < 0f) recoilTime = reload;"
+      ],
+      "exact_exprs": [
+        "/** Turret sprite offset, based on recoil. Updated every frame. */",
+        "public Vec2 recoilOffset = new Vec2();",
+        "public float recoilPow = 1.8f;",
+        "public float curRecoil, heat, logicControlTime = -1;",
+        "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"
+      ],
+      "bridge_exprs": [
+        "source_turret_recoil(turret)"
+      ],
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
+      "java_method": "TurretBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_recoil_offset",
+      "source_symbols": [
+        "turret_recoil_offset.comment",
+        "turret_recoil_offset.field",
+        "turret_recoil_offset.recoil_pow_field",
+        "turret_recoil_offset.cur_recoil_field",
+        "turret_recoil_offset.formula",
+        "turret_recoil_offset.rotation_input",
+        "turret_recoil_offset.cur_recoil_input",
+        "turret_recoil_offset.turret",
+        "turret_recoil_offset.recoil"
+      ],
+      "status": "done",
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ]
     }
   },
   "version": 1
