@@ -45603,6 +45603,272 @@
         }
       },
       "status": "active"
+    },
+    "source_unit_add_input": {
+      "keys": {
+        "type_use_unit_cap": {
+          "godot_symbol": "source_unit_add_input.type_use_unit_cap",
+          "java_expr": "type.useUnitCap",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input mirrors UnitType.useUnitCap in cap guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "count_after_add": {
+          "godot_symbol": "source_unit_add_input.count_after_add",
+          "java_expr": "count()",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input mirrors count() after initial updateCount(+1).",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "cap_value": {
+          "godot_symbol": "source_unit_add_input.cap_value",
+          "java_expr": "cap()",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input mirrors cap() in cap guard.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "spawned_by_core": {
+          "godot_symbol": "source_unit_add_input.spawned_by_core",
+          "java_expr": "spawnedByCore",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input mirrors spawnedByCore guard term.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "dead": {
+          "godot_symbol": "source_unit_add_input.dead",
+          "java_expr": "dead",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input mirrors dead guard term.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "rules_editor": {
+          "godot_symbol": "source_unit_add_input.rules_editor",
+          "java_expr": "state.rules.editor",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input mirrors rules editor guard term.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_add_state",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "active"
+    },
+    "source_unit_add_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_add_result.method",
+          "java_expr": "public void add(){",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Canonical UnitComp.add method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "initialUpdateCount": {
+          "godot_symbol": "source_unit_add_result.initialUpdateCount",
+          "java_expr": "team.data().updateCount(type, 1);",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Initial updateCount(+1) call record.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "capComment": {
+          "godot_symbol": "source_unit_add_result.capComment",
+          "java_expr": "check if over unit cap",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source comment for cap guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_add_result.guard",
+          "java_expr": "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Exact unit cap guard source expression.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "unitCapDeath": {
+          "godot_symbol": "source_unit_add_result.unitCapDeath",
+          "java_expr": "Call.unitCapDeath(self());",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Whether cap death call fires.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "rollbackUpdateCount": {
+          "godot_symbol": "source_unit_add_result.rollbackUpdateCount",
+          "java_expr": "team.data().updateCount(type, -1);",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Rollback updateCount(-1) call record.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "call_order": {
+          "godot_symbol": "source_unit_add_result.call_order",
+          "java_expr": "team.data().updateCount(type, 1); -> Call.unitCapDeath(self()); -> team.data().updateCount(type, -1);",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Observed source call order for cap-death path.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "teamDataUpdateCountMethod": {
+          "godot_symbol": "source_unit_add_result.teamDataUpdateCountMethod",
+          "java_expr": "public void updateCount(UnitType type, int amount){",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Teams.TeamData.updateCount method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "teamDataUpdateNullGuard": {
+          "godot_symbol": "source_unit_add_result.teamDataUpdateNullGuard",
+          "java_expr": "if(type == null) return;",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Teams.TeamData.updateCount null guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "teamDataUnitCountClamp": {
+          "godot_symbol": "source_unit_add_result.teamDataUnitCountClamp",
+          "java_expr": "unitCount = Math.max(amount + unitCount, 0);",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Teams.TeamData total count clamp.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "teamDataTypeCountClamp": {
+          "godot_symbol": "source_unit_add_result.teamDataTypeCountClamp",
+          "java_expr": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Teams.TeamData per-type count clamp.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "unitCapDeathMethod": {
+          "godot_symbol": "source_unit_add_result.unitCapDeathMethod",
+          "java_expr": "public static void unitCapDeath(Unit unit){",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Units.unitCapDeath method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "unitCapDeathDead": {
+          "godot_symbol": "source_unit_add_result.unitCapDeathDead",
+          "java_expr": "unit.dead = true;",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Units.unitCapDeath dead assignment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "useUnitCapDefault": {
+          "godot_symbol": "source_unit_add_result.useUnitCapDefault",
+          "java_expr": "useUnitCap = true,",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitType useUnitCap default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        },
+        "rulesEditorDefault": {
+          "godot_symbol": "source_unit_add_result.rulesEditorDefault",
+          "java_expr": "public boolean editor = false;",
+          "java_method": "UnitComp.add()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Rules editor default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_add_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_add_state",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "active"
     }
   },
   "version": 1

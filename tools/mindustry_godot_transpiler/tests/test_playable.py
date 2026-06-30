@@ -3535,11 +3535,15 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_value: int, spawned_by_core: bool, dead: bool, rules_editor: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_ADD_INITIAL_UPDATE_COUNT := "team.data().updateCount(type, 1);"', source)
+        self.assertIn('const SOURCE_UNIT_ADD_CAP_GUARD := "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){"', source)
+        self.assertIn('const SOURCE_UNIT_ADD_UNIT_CAP_DEATH_CALL := "Call.unitCapDeath(self());"', source)
+        self.assertIn('const SOURCE_UNIT_ADD_ROLLBACK_UPDATE_COUNT := "team.data().updateCount(type, -1);"', source)
         self.assertIn("var over_cap := type_use_unit_cap and count_after_add > cap_value and not spawned_by_core and not dead and not rules_editor", source)
         self.assertIn("var rollback_update_count: Variant = null", source)
-        self.assertIn('rollback_update_count = {"call": "team.data().updateCount(type, -1)", "amount": -1}', source)
+        self.assertIn('rollback_update_count = {"call": SOURCE_UNIT_ADD_ROLLBACK_UPDATE_COUNT, "amount": -1}', source)
         self.assertIn('"call_order": ["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"] if over_cap else ["team.data().updateCount(+1)"]', source)
-        self.assertIn('"initialUpdateCount": {"call": "team.data().updateCount(type, 1)", "amount": 1}', source)
+        self.assertIn('"initialUpdateCount": {"call": SOURCE_UNIT_ADD_INITIAL_UPDATE_COUNT, "amount": 1}', source)
         self.assertIn('"rollbackUpdateCount": rollback_update_count', source)
         self.assertIn('"unitCapDeath": over_cap', source)
 

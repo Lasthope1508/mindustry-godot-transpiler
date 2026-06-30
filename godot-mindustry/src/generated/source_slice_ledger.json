@@ -11371,6 +11371,58 @@
         "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_inaccuracy"
       ]
+    },
+    "N752": {
+      "deferred_exprs": [
+        "Fx.unitCapKill.at(unit);",
+        "Core.app.post(() -> Call.unitDestroy(unit.id));",
+        "actual entity insertion lifecycle outside existing source_unit_add_state helper"
+      ],
+      "exact_exprs": [
+        "public void add(){",
+        "team.data().updateCount(type, 1);",
+        "check if over unit cap",
+        "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){",
+        "Call.unitCapDeath(self());",
+        "team.data().updateCount(type, -1);"
+      ],
+      "bridge_exprs": [
+        "Teams.TeamData.updateCount(UnitType type, int amount)",
+        "public void updateCount(UnitType type, int amount){",
+        "if(type == null) return;",
+        "unitCount = Math.max(amount + unitCount, 0);",
+        "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+        "Units.unitCapDeath(Unit unit)",
+        "unit.dead = true;",
+        "UnitType.useUnitCap = true",
+        "Rules.editor = false"
+      ],
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.add()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "source_symbols": [
+        "unit_add.method",
+        "unit_add.initial_update_count",
+        "unit_add.cap_comment",
+        "unit_add.cap_guard",
+        "unit_add.unit_cap_death_call",
+        "unit_add.rollback_update_count",
+        "unit_add.team_data_update_count_method",
+        "unit_add.team_data_update_null_guard",
+        "unit_add.team_data_unit_count_clamp",
+        "unit_add.team_data_type_count_clamp",
+        "unit_add.unit_cap_death_method",
+        "unit_add.unit_cap_death_dead",
+        "unit_add.use_unit_cap_default",
+        "unit_add.rules_editor_default"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ]
     }
   },
   "version": 1

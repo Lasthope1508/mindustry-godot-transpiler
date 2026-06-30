@@ -9032,13 +9032,27 @@ func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:
 		"afterReadArg": "self()",
 	}
 
+const SOURCE_UNIT_ADD_METHOD := "public void add(){"
+const SOURCE_UNIT_ADD_INITIAL_UPDATE_COUNT := "team.data().updateCount(type, 1);"
+const SOURCE_UNIT_ADD_CAP_GUARD := "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){"
+const SOURCE_UNIT_ADD_UNIT_CAP_DEATH_CALL := "Call.unitCapDeath(self());"
+const SOURCE_UNIT_ADD_ROLLBACK_UPDATE_COUNT := "team.data().updateCount(type, -1);"
+const SOURCE_UNIT_ADD_TEAM_DATA_UPDATE_COUNT_METHOD := "public void updateCount(UnitType type, int amount){"
+const SOURCE_UNIT_ADD_TEAM_DATA_UPDATE_NULL_GUARD := "if(type == null) return;"
+const SOURCE_UNIT_ADD_TEAM_DATA_UNIT_COUNT_CLAMP := "unitCount = Math.max(amount + unitCount, 0);"
+const SOURCE_UNIT_ADD_TEAM_DATA_TYPE_COUNT_CLAMP := "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);"
+const SOURCE_UNIT_ADD_UNIT_CAP_DEATH_METHOD := "public static void unitCapDeath(Unit unit){"
+const SOURCE_UNIT_ADD_UNIT_CAP_DEATH_DEAD := "unit.dead = true;"
+const SOURCE_UNIT_ADD_USE_UNIT_CAP_DEFAULT := "useUnitCap = true,"
+const SOURCE_UNIT_ADD_RULES_EDITOR_DEFAULT := "public boolean editor = false;"
+
 func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_value: int, spawned_by_core: bool, dead: bool, rules_editor: bool) -> Dictionary:
 	var over_cap := type_use_unit_cap and count_after_add > cap_value and not spawned_by_core and not dead and not rules_editor
 	var rollback_update_count: Variant = null
 	if over_cap:
-		rollback_update_count = {"call": "team.data().updateCount(type, -1)", "amount": -1}
+		rollback_update_count = {"call": SOURCE_UNIT_ADD_ROLLBACK_UPDATE_COUNT, "amount": -1}
 	return {
-		"initialUpdateCount": {"call": "team.data().updateCount(type, 1)", "amount": 1},
+		"initialUpdateCount": {"call": SOURCE_UNIT_ADD_INITIAL_UPDATE_COUNT, "amount": 1},
 		"guard": {
 			"typeUseUnitCap": type_use_unit_cap,
 			"countAfterAdd": count_after_add,

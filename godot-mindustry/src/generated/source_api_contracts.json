@@ -12998,6 +12998,57 @@
         "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_inaccuracy"
       ]
+    },
+    "PortGame.source_unit_add_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_use_unit_cap",
+          "schema": "source_unit_add_input.type_use_unit_cap",
+          "type": "bool"
+        },
+        {
+          "name": "count_after_add",
+          "schema": "source_unit_add_input.count_after_add",
+          "type": "int"
+        },
+        {
+          "name": "cap_value",
+          "schema": "source_unit_add_input.cap_value",
+          "type": "int"
+        },
+        {
+          "name": "spawned_by_core",
+          "schema": "source_unit_add_input.spawned_by_core",
+          "type": "bool"
+        },
+        {
+          "name": "dead",
+          "schema": "source_unit_add_input.dead",
+          "type": "bool"
+        },
+        {
+          "name": "rules_editor",
+          "schema": "source_unit_add_input.rules_editor",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "initialUpdateCount",
+        "guard",
+        "unitCapDeath",
+        "rollbackUpdateCount",
+        "call_order"
+      ],
+      "rule": "Public runtime contract for UnitComp.add count increment and unit-cap death rollback state.",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "source_method": "UnitComp.add()",
+      "source_slice": "N752",
+      "status": "active",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ]
     }
   },
   "policy": {

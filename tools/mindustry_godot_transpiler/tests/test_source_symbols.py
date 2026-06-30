@@ -4446,6 +4446,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)")
         self.assertEqual(result["godot_symbol"], "source_turret_total_inaccuracy_result.totalInaccuracy")
 
+    def test_unit_add_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_add.method")
+        self.assertEqual(method["java_expr"], "public void add(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_add_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_add_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_add_result.method")
+
+        initial_update = source_symbols.source_symbol(registry, "unit_add.initial_update_count")
+        self.assertEqual(initial_update["java_expr"], "team.data().updateCount(type, 1);")
+        self.assertEqual(initial_update["godot_symbol"], "source_unit_add_result.initialUpdateCount")
+
+        cap_guard = source_symbols.source_symbol(registry, "unit_add.cap_guard")
+        self.assertEqual(cap_guard["java_expr"], "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){")
+        self.assertEqual(cap_guard["godot_symbol"], "source_unit_add_result.guard")
+
+        unit_cap_death = source_symbols.source_symbol(registry, "unit_add.unit_cap_death_call")
+        self.assertEqual(unit_cap_death["java_expr"], "Call.unitCapDeath(self());")
+        self.assertEqual(unit_cap_death["godot_symbol"], "source_unit_add_result.unitCapDeath")
+
+        rollback = source_symbols.source_symbol(registry, "unit_add.rollback_update_count")
+        self.assertEqual(rollback["java_expr"], "team.data().updateCount(type, -1);")
+        self.assertEqual(rollback["godot_symbol"], "source_unit_add_result.rollbackUpdateCount")
+
+        update_count_method = source_symbols.source_symbol(registry, "unit_add.team_data_update_count_method")
+        self.assertEqual(update_count_method["java_expr"], "public void updateCount(UnitType type, int amount){")
+        self.assertEqual(update_count_method["java_source"], "core/src/mindustry/game/Teams.java")
+
+        unit_count_clamp = source_symbols.source_symbol(registry, "unit_add.team_data_unit_count_clamp")
+        self.assertEqual(unit_count_clamp["java_expr"], "unitCount = Math.max(amount + unitCount, 0);")
+
+        type_count_clamp = source_symbols.source_symbol(registry, "unit_add.team_data_type_count_clamp")
+        self.assertEqual(type_count_clamp["java_expr"], "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);")
+
+        cap_death_dead = source_symbols.source_symbol(registry, "unit_add.unit_cap_death_dead")
+        self.assertEqual(cap_death_dead["java_expr"], "unit.dead = true;")
+        self.assertEqual(cap_death_dead["java_source"], "core/src/mindustry/entities/Units.java")
+
+        use_unit_cap_default = source_symbols.source_symbol(registry, "unit_add.use_unit_cap_default")
+        self.assertEqual(use_unit_cap_default["java_expr"], "useUnitCap = true,")
+        self.assertEqual(use_unit_cap_default["java_source"], "core/src/mindustry/type/UnitType.java")
+
+        rules_editor_default = source_symbols.source_symbol(registry, "unit_add.rules_editor_default")
+        self.assertEqual(rules_editor_default["java_expr"], "public boolean editor = false;")
+        self.assertEqual(rules_editor_default["java_source"], "core/src/mindustry/game/Rules.java")
+
     def test_turret_range_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11420,9 +11470,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 349)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 350)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 354)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 355)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11653,6 +11703,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_turret_shoot_pattern", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_shoot_y", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_turret_total_inaccuracy", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_add_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_offload_to_inventory", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_boost_bar_fraction", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_overdrive_projector_draw_state", audit["registeredSourceOwners"])
@@ -11776,6 +11827,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_turret_shoot_pattern", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_shoot_y", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_turret_total_inaccuracy", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_add_state", audit["legacyUnregisteredOwners"])
         self.assertEqual(audit["policy"]["newSourceOwnerRequiresRegistry"], True)
 
     def test_audit_report_file_matches_current_godot_source(self):
@@ -13109,6 +13161,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)", turret_total_inaccuracy["exact_exprs"])
         self.assertIn("PortGame.source_turret_inaccuracy", turret_total_inaccuracy["bridge_exprs"])
         self.assertIn("PortGame.source_bullet_inaccuracy", turret_total_inaccuracy["bridge_exprs"])
+
+        unit_add = source_symbols.source_slice(ledger, "N752")
+        self.assertEqual(unit_add["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_add["java_method"], "UnitComp.add()")
+        self.assertEqual(unit_add["godot_owner"], "PortGame.source_unit_add_state")
+        self.assertIn("team.data().updateCount(type, 1);", unit_add["exact_exprs"])
+        self.assertIn("if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){", unit_add["exact_exprs"])
+        self.assertIn("Call.unitCapDeath(self());", unit_add["exact_exprs"])
+        self.assertIn("team.data().updateCount(type, -1);", unit_add["exact_exprs"])
+        self.assertIn("Teams.TeamData.updateCount(UnitType type, int amount)", unit_add["bridge_exprs"])
+        self.assertIn("Units.unitCapDeath(Unit unit)", unit_add["bridge_exprs"])
+        self.assertIn("UnitType.useUnitCap = true", unit_add["bridge_exprs"])
+        self.assertIn("Rules.editor = false", unit_add["bridge_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -16356,6 +16421,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("sumExpr", turret_total_inaccuracy["return_keys"])
         self.assertIn("shootAngle", turret_total_inaccuracy["return_keys"])
         self.assertEqual(turret_total_inaccuracy["source_method"], "TurretBuild.bullet()")
+
+        unit_add = source_symbols.api_contract(contracts, "PortGame.source_unit_add_state")
+        self.assertEqual([param["name"] for param in unit_add["params"]], ["type_use_unit_cap", "count_after_add", "cap_value", "spawned_by_core", "dead", "rules_editor"])
+        self.assertEqual(unit_add["params"][0]["schema"], "source_unit_add_input.type_use_unit_cap")
+        self.assertEqual(unit_add["params"][1]["schema"], "source_unit_add_input.count_after_add")
+        self.assertEqual(unit_add["params"][2]["schema"], "source_unit_add_input.cap_value")
+        self.assertEqual(unit_add["params"][5]["schema"], "source_unit_add_input.rules_editor")
+        self.assertIn("initialUpdateCount", unit_add["return_keys"])
+        self.assertIn("guard", unit_add["return_keys"])
+        self.assertIn("unitCapDeath", unit_add["return_keys"])
+        self.assertIn("rollbackUpdateCount", unit_add["return_keys"])
+        self.assertEqual(unit_add["source_method"], "UnitComp.add()")
 
         shoot_pattern_default_events = source_symbols.api_contract(contracts, "PortGame.source_shoot_pattern_default_events")
         self.assertEqual([param["name"] for param in shoot_pattern_default_events["params"]], ["shoot_state"])
@@ -20099,6 +20176,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_total_inaccuracy_result["keys"]["totalInaccuracy"]["java_expr"], "source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)")
         self.assertEqual(source_turret_total_inaccuracy_result["keys"]["turret"]["alias_of"], "source_turret_total_inaccuracy_input.turret")
         self.assertEqual(source_turret_total_inaccuracy_result["keys"]["data"]["alias_of"], "source_turret_total_inaccuracy_input.data")
+
+        source_unit_add_input = source_symbols.state_schema(schema, "source_unit_add_input")
+        self.assertEqual(source_unit_add_input["keys"]["type_use_unit_cap"]["java_expr"], "type.useUnitCap")
+        self.assertEqual(source_unit_add_input["keys"]["count_after_add"]["java_expr"], "count()")
+        self.assertEqual(source_unit_add_input["keys"]["cap_value"]["java_expr"], "cap()")
+        self.assertEqual(source_unit_add_input["keys"]["spawned_by_core"]["java_expr"], "spawnedByCore")
+        self.assertEqual(source_unit_add_input["keys"]["dead"]["java_expr"], "dead")
+        self.assertEqual(source_unit_add_input["keys"]["rules_editor"]["java_expr"], "state.rules.editor")
+
+        source_unit_add_result = source_symbols.state_schema(schema, "source_unit_add_result")
+        self.assertEqual(source_unit_add_result["keys"]["initialUpdateCount"]["java_expr"], "team.data().updateCount(type, 1);")
+        self.assertEqual(source_unit_add_result["keys"]["guard"]["java_expr"], "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){")
+        self.assertEqual(source_unit_add_result["keys"]["unitCapDeath"]["java_expr"], "Call.unitCapDeath(self());")
+        self.assertEqual(source_unit_add_result["keys"]["rollbackUpdateCount"]["java_expr"], "team.data().updateCount(type, -1);")
+        self.assertEqual(source_unit_add_result["keys"]["call_order"]["java_expr"], "team.data().updateCount(type, 1); -> Call.unitCapDeath(self()); -> team.data().updateCount(type, -1);")
 
         source_shoot_pattern_default_events_input = source_symbols.state_schema(schema, "source_shoot_pattern_default_events_input")
         self.assertEqual(source_shoot_pattern_default_events_input["keys"]["shots"]["java_expr"], "public int shots = 1;")

@@ -36179,6 +36179,202 @@
         "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_inaccuracy"
       ]
+    },
+    "unit_add.method": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "UnitComp.add()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.method",
+      "java_expr": "public void add(){",
+      "rule": "Canonical UnitComp.add method boundary."
+    },
+    "unit_add.initial_update_count": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "UnitComp.add()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.initialUpdateCount",
+      "java_expr": "team.data().updateCount(type, 1);",
+      "rule": "Initial team count increment when a unit is added."
+    },
+    "unit_add.cap_comment": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "UnitComp.add()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.capComment",
+      "java_expr": "check if over unit cap",
+      "rule": "Source comment for unit cap guard."
+    },
+    "unit_add.cap_guard": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "UnitComp.add()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.guard",
+      "java_expr": "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){",
+      "rule": "Exact unit cap death guard."
+    },
+    "unit_add.unit_cap_death_call": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "UnitComp.add()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.unitCapDeath",
+      "java_expr": "Call.unitCapDeath(self());",
+      "rule": "Remote unit cap death call when guard passes."
+    },
+    "unit_add.rollback_update_count": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "UnitComp.add()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.rollbackUpdateCount",
+      "java_expr": "team.data().updateCount(type, -1);",
+      "rule": "Rollback team count update after unit cap death."
+    },
+    "unit_add.team_data_update_count_method": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.teamDataUpdateCountMethod",
+      "java_expr": "public void updateCount(UnitType type, int amount){",
+      "rule": "Teams.TeamData.updateCount method boundary used by add count mutations."
+    },
+    "unit_add.team_data_update_null_guard": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.teamDataUpdateNullGuard",
+      "java_expr": "if(type == null) return;",
+      "rule": "Teams.TeamData.updateCount null type guard."
+    },
+    "unit_add.team_data_unit_count_clamp": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.teamDataUnitCountClamp",
+      "java_expr": "unitCount = Math.max(amount + unitCount, 0);",
+      "rule": "Teams.TeamData clamps total unit count at zero."
+    },
+    "unit_add.team_data_type_count_clamp": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "Teams.TeamData.updateCount(UnitType type, int amount)",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.teamDataTypeCountClamp",
+      "java_expr": "typeCounts[type.id] = Math.max(amount + typeCounts[type.id], 0);",
+      "rule": "Teams.TeamData clamps per-type unit count at zero."
+    },
+    "unit_add.unit_cap_death_method": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "Units.unitCapDeath(Unit unit)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.unitCapDeathMethod",
+      "java_expr": "public static void unitCapDeath(Unit unit){",
+      "rule": "Units.unitCapDeath method boundary delegated by UnitComp.add."
+    },
+    "unit_add.unit_cap_death_dead": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "Units.unitCapDeath(Unit unit)",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.unitCapDeathDead",
+      "java_expr": "unit.dead = true;",
+      "rule": "Units.unitCapDeath marks unit dead."
+    },
+    "unit_add.use_unit_cap_default": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.useUnitCapDefault",
+      "java_expr": "useUnitCap = true,",
+      "rule": "UnitType default participates in unit cap guard."
+    },
+    "unit_add.rules_editor_default": {
+      "godot_owner": "PortGame.source_unit_add_state",
+      "java_method": "Rules field declaration",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "runtime_proof": "/root/Main.source_unit_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_add_state"
+      ],
+      "godot_symbol": "source_unit_add_result.rulesEditorDefault",
+      "java_expr": "public boolean editor = false;",
+      "rule": "Rules editor default participates in unit cap guard."
     }
   },
   "version": 1
