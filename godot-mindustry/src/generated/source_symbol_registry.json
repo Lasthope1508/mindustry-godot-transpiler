@@ -36753,6 +36753,146 @@
         "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_aim_look_state"
       ]
+    },
+    "unit_approach.method": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.method",
+      "java_expr": "public void approach(Vec2 vector){",
+      "java_method": "UnitComp.approach(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp approach method boundary.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.call": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.call",
+      "java_expr": "vel.approachDelta(vector, type.accel * speed());",
+      "java_method": "UnitComp.approach(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp approach delegates to velocity Vec2.approachDelta.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_approach_delta": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.approachDeltaCall",
+      "java_expr": "return approach(target, Time.delta * alpha);",
+      "java_method": "Vec2.approachDelta(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approachDelta applies Time.delta before approach.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_approach_method": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.vec2ApproachMethod",
+      "java_expr": "public Vec2 approach(Vec2 target, float alpha){",
+      "java_method": "Vec2.approach(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approach method boundary.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_dx_dy": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.dxDy",
+      "java_expr": "float dx = x - target.x, dy = y - target.y;",
+      "java_method": "Vec2.approach(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approach delta vector components.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_alpha2": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.alpha2",
+      "java_expr": "float alpha2 = alpha*alpha;",
+      "java_method": "Vec2.approach(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approach squared alpha.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_len2": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.len2",
+      "java_expr": "float len2 = Mathf.len2(dx, dy);",
+      "java_method": "Vec2.approach(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approach squared distance.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_scl": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.scl",
+      "java_expr": "float scl = Mathf.sqrt(alpha2 / len2);",
+      "java_method": "Vec2.approach(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approach scale for partial step.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_sub": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.subCall",
+      "java_expr": "return sub(dx, dy);",
+      "java_method": "Vec2.approach(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approach partial-step return.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
+    },
+    "unit_approach.vec2_set": {
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "godot_symbol": "source_unit_approach_result.setCall",
+      "java_expr": "return set(target);",
+      "java_method": "Vec2.approach(Vec2 target, float alpha)",
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "rule": "Arc Vec2 approach snap-to-target return.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
     }
   },
   "version": 1

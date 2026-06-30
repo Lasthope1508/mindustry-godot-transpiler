@@ -13209,6 +13209,62 @@
         "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_aim_look_state"
       ]
+    },
+    "PortGame.source_unit_approach_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "vel_x",
+          "schema": "source_unit_approach_input.vel_x",
+          "type": "float"
+        },
+        {
+          "name": "vel_y",
+          "schema": "source_unit_approach_input.vel_y",
+          "type": "float"
+        },
+        {
+          "name": "vector_x",
+          "schema": "source_unit_approach_input.vector_x",
+          "type": "float"
+        },
+        {
+          "name": "vector_y",
+          "schema": "source_unit_approach_input.vector_y",
+          "type": "float"
+        },
+        {
+          "name": "type_accel",
+          "schema": "source_unit_approach_input.type_accel",
+          "type": "float"
+        },
+        {
+          "name": "speed_value",
+          "schema": "source_unit_approach_input.speed_value",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_unit_approach_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "alpha",
+        "vel_x",
+        "vel_y",
+        "target_x",
+        "target_y"
+      ],
+      "rule": "Public runtime contract for UnitComp.approach(Vec2 vector) and Vec2.approachDelta projection.",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "source_method": "UnitComp.approach(Vec2 vector)/Vec2.approachDelta",
+      "source_slice": "N758",
+      "status": "active",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
     }
   },
   "policy": {

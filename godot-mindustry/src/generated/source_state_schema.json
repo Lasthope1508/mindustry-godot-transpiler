@@ -46609,6 +46609,292 @@
       "owner": "PortGame.source_unit_aim_look_xy_state",
       "runtime_proof": "/root/Main.source_unit_aim_look_xy_state",
       "status": "active"
+    },
+    "source_unit_approach_input": {
+      "keys": {
+        "vel": {
+          "godot_symbol": "source_unit_approach_input.vel",
+          "java_expr": "vel",
+          "java_method": "UnitComp.approach(Vec2 vector)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source velocity Vec2 mutated by approachDelta.",
+          "status": "source-backed",
+          "type": "Vec2",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vel_x": {
+          "alias_of": "source_unit_approach_input.vel",
+          "godot_symbol": "source_unit_approach_input.vel_x",
+          "rule": "Godot bridge projection of vel.x.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vel_y": {
+          "alias_of": "source_unit_approach_input.vel",
+          "godot_symbol": "source_unit_approach_input.vel_y",
+          "rule": "Godot bridge projection of vel.y.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vector": {
+          "godot_symbol": "source_unit_approach_input.vector",
+          "java_expr": "vector",
+          "java_method": "UnitComp.approach(Vec2 vector)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Source target vector parameter.",
+          "status": "source-backed",
+          "type": "Vec2",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vector_x": {
+          "alias_of": "source_unit_approach_input.vector",
+          "godot_symbol": "source_unit_approach_input.vector_x",
+          "rule": "Godot bridge projection of vector.x.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vector_y": {
+          "alias_of": "source_unit_approach_input.vector",
+          "godot_symbol": "source_unit_approach_input.vector_y",
+          "rule": "Godot bridge projection of vector.y.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "type_accel": {
+          "godot_symbol": "source_unit_approach_input.type_accel",
+          "java_expr": "type.accel",
+          "java_method": "UnitComp.approach(Vec2 vector)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit type acceleration multiplier.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "speed_value": {
+          "godot_symbol": "source_unit_approach_input.speed_value",
+          "java_expr": "speed()",
+          "java_method": "UnitComp.approach(Vec2 vector)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit speed() multiplier.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_unit_approach_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "Vec2.approachDelta(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Arc Time.delta applied inside Vec2.approachDelta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_approach_state",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "active"
+    },
+    "source_unit_approach_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_approach_result.method",
+          "java_expr": "public void approach(Vec2 vector){",
+          "java_method": "UnitComp.approach(Vec2 vector)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp approach method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_approach_result.call",
+          "java_expr": "vel.approachDelta(vector, type.accel * speed());",
+          "java_method": "UnitComp.approach(Vec2 vector)",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp approach source call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "approachDeltaCall": {
+          "godot_symbol": "source_unit_approach_result.approachDeltaCall",
+          "java_expr": "return approach(target, Time.delta * alpha);",
+          "java_method": "Vec2.approachDelta(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approachDelta source return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vec2ApproachMethod": {
+          "godot_symbol": "source_unit_approach_result.vec2ApproachMethod",
+          "java_expr": "public Vec2 approach(Vec2 target, float alpha){",
+          "java_method": "Vec2.approach(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approach method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "dxDy": {
+          "godot_symbol": "source_unit_approach_result.dxDy",
+          "java_expr": "float dx = x - target.x, dy = y - target.y;",
+          "java_method": "Vec2.approach(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approach source difference calculation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "alpha2": {
+          "godot_symbol": "source_unit_approach_result.alpha2",
+          "java_expr": "float alpha2 = alpha*alpha;",
+          "java_method": "Vec2.approach(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approach squared alpha.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "len2": {
+          "godot_symbol": "source_unit_approach_result.len2",
+          "java_expr": "float len2 = Mathf.len2(dx, dy);",
+          "java_method": "Vec2.approach(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approach squared length.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "scl": {
+          "godot_symbol": "source_unit_approach_result.scl",
+          "java_expr": "float scl = Mathf.sqrt(alpha2 / len2);",
+          "java_method": "Vec2.approach(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approach source scale.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "subCall": {
+          "godot_symbol": "source_unit_approach_result.subCall",
+          "java_expr": "return sub(dx, dy);",
+          "java_method": "Vec2.approach(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approach partial-step return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "setCall": {
+          "godot_symbol": "source_unit_approach_result.setCall",
+          "java_expr": "return set(target);",
+          "java_method": "Vec2.approach(Vec2 target, float alpha)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 approach snap-to-target return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "alpha": {
+          "godot_symbol": "source_unit_approach_result.alpha",
+          "java_expr": "Time.delta * type.accel * speed()",
+          "java_method": "UnitComp.approach(Vec2 vector)/Vec2.approachDelta",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Godot bridge runtime alpha after Vec2.approachDelta Time.delta application.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vel_x": {
+          "alias_of": "source_unit_approach_input.vel_x",
+          "godot_symbol": "source_unit_approach_result.vel_x",
+          "rule": "Result velocity x after approach.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "vel_y": {
+          "alias_of": "source_unit_approach_input.vel_y",
+          "godot_symbol": "source_unit_approach_result.vel_y",
+          "rule": "Result velocity y after approach.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "target_x": {
+          "alias_of": "source_unit_approach_input.vector_x",
+          "godot_symbol": "source_unit_approach_result.target_x",
+          "rule": "Runtime target x projection.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        },
+        "target_y": {
+          "alias_of": "source_unit_approach_input.vector_y",
+          "godot_symbol": "source_unit_approach_result.target_y",
+          "rule": "Runtime target y projection.",
+          "status": "generated",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_approach_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_approach_state",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "status": "active"
     }
   },
   "version": 1

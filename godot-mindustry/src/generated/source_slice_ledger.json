@@ -11591,6 +11591,50 @@
         "test_unit_aim_look_xy_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_aim_look_state"
       ]
+    },
+    "N758": {
+      "deferred_exprs": [
+        "UnitComp.speed() internals stay in source_unit_world_speed and related speed slices"
+      ],
+      "exact_exprs": [
+        "public void approach(Vec2 vector){",
+        "vel.approachDelta(vector, type.accel * speed());",
+        "return approach(target, Time.delta * alpha);",
+        "public Vec2 approach(Vec2 target, float alpha){",
+        "float dx = x - target.x, dy = y - target.y;",
+        "float alpha2 = alpha*alpha;",
+        "float len2 = Mathf.len2(dx, dy);",
+        "float scl = Mathf.sqrt(alpha2 / len2);",
+        "return sub(dx, dy);",
+        "return set(target);"
+      ],
+      "bridge_exprs": [
+        "Time.delta",
+        "type.accel",
+        "speed()"
+      ],
+      "godot_owner": "PortGame.source_unit_approach_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.approach(Vec2 vector)/Vec2.approachDelta",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_approach_state",
+      "source_symbols": [
+        "unit_approach.method",
+        "unit_approach.call",
+        "unit_approach.vec2_approach_delta",
+        "unit_approach.vec2_approach_method",
+        "unit_approach.vec2_dx_dy",
+        "unit_approach.vec2_alpha2",
+        "unit_approach.vec2_len2",
+        "unit_approach.vec2_scl",
+        "unit_approach.vec2_sub",
+        "unit_approach.vec2_set"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_approach_state"
+      ]
     }
   },
   "version": 1

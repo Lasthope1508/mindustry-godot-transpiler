@@ -3311,6 +3311,12 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_approach_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, type_accel: float, speed_value: float, source_delta: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_APPROACH_METHOD := "public void approach(Vec2 vector){"', source)
+        self.assertIn('const SOURCE_UNIT_APPROACH_CALL := "vel.approachDelta(vector, type.accel * speed());"', source)
+        self.assertIn('const SOURCE_UNIT_APPROACH_VEC2_APPROACH_DELTA_CALL := "return approach(target, Time.delta * alpha);"', source)
+        self.assertIn('const SOURCE_UNIT_APPROACH_VEC2_APPROACH_METHOD := "public Vec2 approach(Vec2 target, float alpha){"', source)
+        self.assertIn('const SOURCE_UNIT_APPROACH_VEC2_SUB_CALL := "return sub(dx, dy);"', source)
+        self.assertIn('const SOURCE_UNIT_APPROACH_VEC2_SET_CALL := "return set(target);"', source)
         self.assertIn("var alpha := source_delta * type_accel * speed_value", source)
         self.assertIn("var diff := vel - target", source)
         self.assertIn("if len2 > alpha2:", source)

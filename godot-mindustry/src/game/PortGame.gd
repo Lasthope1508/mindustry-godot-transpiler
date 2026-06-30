@@ -3876,6 +3876,17 @@ func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, t
 		"call": "moveAt",
 	}
 
+const SOURCE_UNIT_APPROACH_METHOD := "public void approach(Vec2 vector){"
+const SOURCE_UNIT_APPROACH_CALL := "vel.approachDelta(vector, type.accel * speed());"
+const SOURCE_UNIT_APPROACH_VEC2_APPROACH_DELTA_CALL := "return approach(target, Time.delta * alpha);"
+const SOURCE_UNIT_APPROACH_VEC2_APPROACH_METHOD := "public Vec2 approach(Vec2 target, float alpha){"
+const SOURCE_UNIT_APPROACH_VEC2_DX_DY := "float dx = x - target.x, dy = y - target.y;"
+const SOURCE_UNIT_APPROACH_VEC2_ALPHA2 := "float alpha2 = alpha*alpha;"
+const SOURCE_UNIT_APPROACH_VEC2_LEN2 := "float len2 = Mathf.len2(dx, dy);"
+const SOURCE_UNIT_APPROACH_VEC2_SCL := "float scl = Mathf.sqrt(alpha2 / len2);"
+const SOURCE_UNIT_APPROACH_VEC2_SUB_CALL := "return sub(dx, dy);"
+const SOURCE_UNIT_APPROACH_VEC2_SET_CALL := "return set(target);"
+
 func source_unit_approach_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, type_accel: float, speed_value: float, source_delta: float) -> Dictionary:
 	var vel := Vector2(vel_x, vel_y)
 	var target := Vector2(vector_x, vector_y)
