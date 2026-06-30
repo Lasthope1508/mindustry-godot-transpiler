@@ -39273,6 +39273,146 @@
       "java_method": "UnitComp.destroy()",
       "java_expr": "self()",
       "rule": "Runtime bridge input for self()."
+    },
+    "unit_destroy_suicide_bomb_trigger.method": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.method",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "public void destroy(){",
+      "rule": "Canonical UnitComp.destroy method boundary for suicide bomb trigger slice."
+    },
+    "unit_destroy_suicide_bomb_trigger.guard": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.guard",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "if(explosiveness > 7f && (isLocal() || wasPlayer)){",
+      "rule": "Source suicide bomb trigger guard."
+    },
+    "unit_destroy_suicide_bomb_trigger.event_call": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.event",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "Events.fire(Trigger.suicideBomb);",
+      "rule": "Source suicide bomb trigger event call."
+    },
+    "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/Events.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.eventsFire",
+      "java_method": "Events.fire(Enum<T>)",
+      "java_expr": "public static <T extends Enum<T>> void fire(Enum<T> type){",
+      "rule": "Arc enum trigger dispatch overload used by Trigger.suicideBomb."
+    },
+    "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum_body": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/Events.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.eventsFireBody",
+      "java_method": "Events.fire(Enum<T>)",
+      "java_expr": "items[i].get(type);",
+      "rule": "Arc enum trigger dispatch listener invocation."
+    },
+    "unit_destroy_suicide_bomb_trigger.trigger_enum": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.triggerEnum",
+      "java_method": "EventType.Trigger",
+      "java_expr": "public enum Trigger{",
+      "rule": "Mindustry trigger enum backing Trigger.suicideBomb."
+    },
+    "unit_destroy_suicide_bomb_trigger.trigger_member": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.triggerMember",
+      "java_method": "EventType.Trigger",
+      "java_expr": "suicideBomb,",
+      "rule": "Mindustry trigger enum member fired by suicide bomb slice."
+    },
+    "unit_destroy_suicide_bomb_trigger.explosiveness": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_input.explosiveness",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "explosiveness",
+      "rule": "Explicit input from earlier UnitComp.destroy explosiveness calculation."
+    },
+    "unit_destroy_suicide_bomb_trigger.is_local": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_input.is_local_value",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "isLocal()",
+      "rule": "Explicit input for UnitComp local-player predicate result."
+    },
+    "unit_destroy_suicide_bomb_trigger.was_player": {
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_input.was_player_value",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "wasPlayer",
+      "rule": "Explicit input for UnitComp wasPlayer flag."
     }
   },
   "version": 1

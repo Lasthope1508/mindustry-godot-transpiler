@@ -3984,10 +3984,22 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_destroy_suicide_bomb_trigger_state(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD := "public void destroy(){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD := "if(explosiveness > 7f && (isLocal() || wasPlayer)){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT := "Events.fire(Trigger.suicideBomb);"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM := "public static <T extends Enum<T>> void fire(Enum<T> type){"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY := "items[i].get(type);"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM := "public enum Trigger{"', source)
+        self.assertIn('const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER := "suicideBomb,"', source)
         self.assertIn("var trigger := explosiveness > 7.0 and (is_local_value or was_player_value)", source)
-        self.assertIn('"guard": "explosiveness > 7f && (isLocal() || wasPlayer)"', source)
+        self.assertIn('"method": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD', source)
+        self.assertIn('"guard": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD', source)
         self.assertIn('"trigger": trigger', source)
-        self.assertIn('"event": "Events.fire(Trigger.suicideBomb)" if trigger else ""', source)
+        self.assertIn('"event": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT if trigger else ""', source)
+        self.assertIn('"eventsFire": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM', source)
+        self.assertIn('"eventsFireBody": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY', source)
+        self.assertIn('"triggerEnum": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM', source)
+        self.assertIn('"triggerMember": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER', source)
 
     def test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

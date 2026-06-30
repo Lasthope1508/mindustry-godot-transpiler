@@ -13885,6 +13885,48 @@
         "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
       ]
+    },
+    "PortGame.source_unit_destroy_suicide_bomb_trigger_state": {
+      "status": "active",
+      "source_slice": "N772",
+      "source_method": "UnitComp.destroy() suicide bomb trigger",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "params": [
+        {
+          "name": "explosiveness",
+          "type": "float",
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.explosiveness"
+        },
+        {
+          "name": "is_local_value",
+          "type": "bool",
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.is_local_value"
+        },
+        {
+          "name": "was_player_value",
+          "type": "bool",
+          "schema": "source_unit_destroy_suicide_bomb_trigger_input.was_player_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "explosiveness",
+        "isLocal",
+        "wasPlayer",
+        "trigger",
+        "event",
+        "eventsFire",
+        "eventsFireBody",
+        "triggerEnum",
+        "triggerMember"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy suicide bomb trigger and Trigger.suicideBomb event identity.",
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ]
     }
   },
   "policy": {

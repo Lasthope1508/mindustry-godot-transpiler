@@ -9682,15 +9682,28 @@ func source_unit_destroy_sound_and_event_state(death_sound: String, death_sound_
 		},
 	}
 
+const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD := "if(explosiveness > 7f && (isLocal() || wasPlayer)){"
+const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT := "Events.fire(Trigger.suicideBomb);"
+const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM := "public static <T extends Enum<T>> void fire(Enum<T> type){"
+const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY := "items[i].get(type);"
+const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM := "public enum Trigger{"
+const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER := "suicideBomb,"
+
 func source_unit_destroy_suicide_bomb_trigger_state(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:
 	var trigger := explosiveness > 7.0 and (is_local_value or was_player_value)
 	return {
-		"guard": "explosiveness > 7f && (isLocal() || wasPlayer)",
+		"method": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD,
+		"guard": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD,
 		"explosiveness": explosiveness,
 		"isLocal": is_local_value,
 		"wasPlayer": was_player_value,
 		"trigger": trigger,
-		"event": "Events.fire(Trigger.suicideBomb)" if trigger else "",
+		"event": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT if trigger else "",
+		"eventsFire": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM,
+		"eventsFireBody": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY,
+		"triggerEnum": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM,
+		"triggerMember": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER,
 	}
 
 const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD := "public void destroy(){"

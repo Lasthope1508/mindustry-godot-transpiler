@@ -49681,6 +49681,188 @@
           ]
         }
       }
+    },
+    "source_unit_destroy_suicide_bomb_trigger_input": {
+      "owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "status": "active",
+      "keys": {
+        "explosiveness": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_input.explosiveness",
+          "java_expr": "explosiveness",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input from UnitComp.destroy explosiveness local for suicide bomb trigger.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "is_local_value": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_input.is_local_value",
+          "java_expr": "isLocal()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input from UnitComp.isLocal() predicate for suicide bomb trigger.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "was_player_value": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_input.was_player_value",
+          "java_expr": "wasPlayer",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input from UnitComp.wasPlayer flag for suicide bomb trigger.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        }
+      }
+    },
+    "source_unit_destroy_suicide_bomb_trigger_result": {
+      "owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.method",
+          "java_expr": "public void destroy(){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins UnitComp.destroy method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.guard",
+          "java_expr": "if(explosiveness > 7f && (isLocal() || wasPlayer)){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins suicide bomb guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "event": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.event",
+          "java_expr": "Events.fire(Trigger.suicideBomb);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins suicide bomb event call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "eventsFire": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.eventsFire",
+          "java_expr": "public static <T extends Enum<T>> void fire(Enum<T> type){",
+          "java_method": "Events.fire(Enum<T>)",
+          "java_source": "arc-core/src/arc/Events.java",
+          "rule": "Result pins Arc enum fire overload.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "eventsFireBody": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.eventsFireBody",
+          "java_expr": "items[i].get(type);",
+          "java_method": "Events.fire(Enum<T>)",
+          "java_source": "arc-core/src/arc/Events.java",
+          "rule": "Result pins Arc enum fire listener call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "triggerEnum": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.triggerEnum",
+          "java_expr": "public enum Trigger{",
+          "java_method": "EventType.Trigger",
+          "java_source": "core/src/mindustry/game/EventType.java",
+          "rule": "Result pins Mindustry Trigger enum.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "triggerMember": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.triggerMember",
+          "java_expr": "suicideBomb,",
+          "java_method": "EventType.Trigger",
+          "java_source": "core/src/mindustry/game/EventType.java",
+          "rule": "Result pins suicideBomb trigger enum member.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "explosiveness": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.explosiveness",
+          "java_expr": "explosiveness",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result carries input explosiveness for runtime proof.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "isLocal": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.isLocal",
+          "java_expr": "isLocal()",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result carries local predicate input for runtime proof.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "wasPlayer": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.wasPlayer",
+          "java_expr": "wasPlayer",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result carries wasPlayer input for runtime proof.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        },
+        "trigger": {
+          "godot_symbol": "source_unit_destroy_suicide_bomb_trigger_result.trigger",
+          "java_expr": "explosiveness > 7f && (isLocal() || wasPlayer)",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result carries evaluated suicide bomb trigger boolean.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

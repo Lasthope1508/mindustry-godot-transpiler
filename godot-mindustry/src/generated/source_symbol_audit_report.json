@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 114,
+  "legacyUnregisteredOwnerCount": 113,
   "legacyUnregisteredOwners": [
-    "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
     "PortGame.source_unit_destroy_type_killed_remove_state",
     "PortGame.source_unit_destroy_visual_effects_state",
     "PortGame.source_unit_destroy_wreck_decal_state",
@@ -128,7 +127,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 369,
+  "registeredSourceOwnerCount": 370,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_unit_destroy_explosion_dispatch_state",
     "PortGame.source_unit_destroy_initial_payload_state",
     "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
-    "PortGame.source_unit_destroy_sound_and_event_state"
+    "PortGame.source_unit_destroy_sound_and_event_state",
+    "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
   ],
   "sourceFunctions": [
     {

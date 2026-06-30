@@ -12255,6 +12255,44 @@
         "test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_sound_and_event_state"
       ]
+    },
+    "N772": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() suicide bomb trigger",
+      "godot_owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_suicide_bomb_trigger_state",
+      "exact_exprs": [
+        "public void destroy(){",
+        "if(explosiveness > 7f && (isLocal() || wasPlayer)){",
+        "Events.fire(Trigger.suicideBomb);"
+      ],
+      "bridge_exprs": [
+        "public static <T extends Enum<T>> void fire(Enum<T> type){",
+        "items[i].get(type);",
+        "public enum Trigger{",
+        "suicideBomb,"
+      ],
+      "deferred_exprs": [
+        "Explosion dispatch, visual effects, sound/event, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices"
+      ],
+      "source_symbols": [
+        "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum",
+        "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum_body",
+        "unit_destroy_suicide_bomb_trigger.event_call",
+        "unit_destroy_suicide_bomb_trigger.explosiveness",
+        "unit_destroy_suicide_bomb_trigger.guard",
+        "unit_destroy_suicide_bomb_trigger.is_local",
+        "unit_destroy_suicide_bomb_trigger.method",
+        "unit_destroy_suicide_bomb_trigger.trigger_enum",
+        "unit_destroy_suicide_bomb_trigger.trigger_member",
+        "unit_destroy_suicide_bomb_trigger.was_player"
+      ],
+      "tests": [
+        "test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_suicide_bomb_trigger_state"
+      ]
     }
   },
   "version": 1

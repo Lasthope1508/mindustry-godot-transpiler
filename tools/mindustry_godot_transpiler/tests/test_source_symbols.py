@@ -5163,6 +5163,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_id["java_expr"], "self()")
         self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_sound_and_event_input.unit_id")
 
+    def test_unit_destroy_suicide_bomb_trigger_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_suicide_bomb_trigger_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_suicide_bomb_trigger_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_result.method")
+
+        guard = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.guard")
+        self.assertEqual(guard["java_expr"], "if(explosiveness > 7f && (isLocal() || wasPlayer)){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_result.guard")
+
+        event_call = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.event_call")
+        self.assertEqual(event_call["java_expr"], "Events.fire(Trigger.suicideBomb);")
+        self.assertEqual(event_call["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_result.event")
+
+        arc_events_fire_enum = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum")
+        self.assertEqual(arc_events_fire_enum["java_source"], "arc-core/src/arc/Events.java")
+        self.assertEqual(arc_events_fire_enum["java_expr"], "public static <T extends Enum<T>> void fire(Enum<T> type){")
+        self.assertEqual(arc_events_fire_enum["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_result.eventsFire")
+
+        arc_events_fire_enum_body = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.arc_events_fire_enum_body")
+        self.assertEqual(arc_events_fire_enum_body["java_expr"], "items[i].get(type);")
+        self.assertEqual(arc_events_fire_enum_body["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_result.eventsFireBody")
+
+        trigger_enum = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.trigger_enum")
+        self.assertEqual(trigger_enum["java_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(trigger_enum["java_expr"], "public enum Trigger{")
+        self.assertEqual(trigger_enum["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_result.triggerEnum")
+
+        trigger_member = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.trigger_member")
+        self.assertEqual(trigger_member["java_expr"], "suicideBomb,")
+        self.assertEqual(trigger_member["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_result.triggerMember")
+
+        explosiveness = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.explosiveness")
+        self.assertEqual(explosiveness["status"], "explicit-input")
+        self.assertEqual(explosiveness["java_expr"], "explosiveness")
+        self.assertEqual(explosiveness["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_input.explosiveness")
+
+        is_local = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.is_local")
+        self.assertEqual(is_local["status"], "explicit-input")
+        self.assertEqual(is_local["java_expr"], "isLocal()")
+        self.assertEqual(is_local["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_input.is_local_value")
+
+        was_player = source_symbols.source_symbol(registry, "unit_destroy_suicide_bomb_trigger.was_player")
+        self.assertEqual(was_player["status"], "explicit-input")
+        self.assertEqual(was_player["java_expr"], "wasPlayer")
+        self.assertEqual(was_player["godot_symbol"], "source_unit_destroy_suicide_bomb_trigger_input.was_player_value")
+
     def test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12330,9 +12383,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 369)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 370)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 374)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 375)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12359,6 +12412,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_initial_payload_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_shoot_on_death_mounts_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_sound_and_event_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_suicide_bomb_trigger_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14194,6 +14248,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static <T> void fire(T type){", unit_destroy_sound_and_event["bridge_exprs"])
         self.assertIn("fire(type.getClass(), type);", unit_destroy_sound_and_event["bridge_exprs"])
         self.assertIn("Suicide bomb trigger, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_sound_and_event["deferred_exprs"])
+
+        unit_destroy_suicide_bomb_trigger = source_symbols.source_slice(ledger, "N772")
+        self.assertEqual(unit_destroy_suicide_bomb_trigger["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_suicide_bomb_trigger["java_method"], "UnitComp.destroy() suicide bomb trigger")
+        self.assertEqual(unit_destroy_suicide_bomb_trigger["godot_owner"], "PortGame.source_unit_destroy_suicide_bomb_trigger_state")
+        self.assertIn("public void destroy(){", unit_destroy_suicide_bomb_trigger["exact_exprs"])
+        self.assertIn("if(explosiveness > 7f && (isLocal() || wasPlayer)){", unit_destroy_suicide_bomb_trigger["exact_exprs"])
+        self.assertIn("Events.fire(Trigger.suicideBomb);", unit_destroy_suicide_bomb_trigger["exact_exprs"])
+        self.assertIn("public static <T extends Enum<T>> void fire(Enum<T> type){", unit_destroy_suicide_bomb_trigger["bridge_exprs"])
+        self.assertIn("items[i].get(type);", unit_destroy_suicide_bomb_trigger["bridge_exprs"])
+        self.assertIn("public enum Trigger{", unit_destroy_suicide_bomb_trigger["bridge_exprs"])
+        self.assertIn("suicideBomb,", unit_destroy_suicide_bomb_trigger["bridge_exprs"])
+        self.assertIn("Explosion dispatch, visual effects, sound/event, shoot-on-death mounts, crash landing, wreck decals, type.killed(self()), and remove() remain separate destroy slices", unit_destroy_suicide_bomb_trigger["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17680,6 +17747,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("eventCall", unit_destroy_sound_and_event["return_keys"])
         self.assertIn("eventsFire", unit_destroy_sound_and_event["return_keys"])
         self.assertEqual(unit_destroy_sound_and_event["source_method"], "UnitComp.destroy() sound and event")
+
+        unit_destroy_suicide_bomb_trigger = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_suicide_bomb_trigger_state")
+        self.assertEqual([param["name"] for param in unit_destroy_suicide_bomb_trigger["params"]], ["explosiveness", "is_local_value", "was_player_value"])
+        self.assertEqual(unit_destroy_suicide_bomb_trigger["params"][0]["schema"], "source_unit_destroy_suicide_bomb_trigger_input.explosiveness")
+        self.assertEqual(unit_destroy_suicide_bomb_trigger["params"][1]["schema"], "source_unit_destroy_suicide_bomb_trigger_input.is_local_value")
+        self.assertEqual(unit_destroy_suicide_bomb_trigger["params"][2]["schema"], "source_unit_destroy_suicide_bomb_trigger_input.was_player_value")
+        self.assertIn("method", unit_destroy_suicide_bomb_trigger["return_keys"])
+        self.assertIn("guard", unit_destroy_suicide_bomb_trigger["return_keys"])
+        self.assertIn("event", unit_destroy_suicide_bomb_trigger["return_keys"])
+        self.assertIn("eventsFire", unit_destroy_suicide_bomb_trigger["return_keys"])
+        self.assertEqual(unit_destroy_suicide_bomb_trigger["source_method"], "UnitComp.destroy() suicide bomb trigger")
 
         unit_destroy_explosion_dispatch = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_explosion_dispatch_state")
         self.assertEqual([param["name"] for param in unit_destroy_explosion_dispatch["params"]], ["spawned_by_core_value", "source_x", "source_y", "flammability", "explosiveness", "power", "bounds_value", "type_leg_length", "rules_damage_explosions", "rules_unit_crash_damage", "item_flammability", "team_id", "death_explosion_effect"])
@@ -21701,6 +21779,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["sourcePositionBody"]["java_expr"], "return at(pos.getX(), pos.getY(), pitch, volume);")
         self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["eventsFire"]["java_expr"], "public static <T> void fire(T type){")
         self.assertEqual(source_unit_destroy_sound_and_event_result["keys"]["eventsFireBody"]["java_expr"], "fire(type.getClass(), type);")
+
+        source_unit_destroy_suicide_bomb_trigger_input = source_symbols.state_schema(schema, "source_unit_destroy_suicide_bomb_trigger_input")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_input["keys"]["explosiveness"]["java_expr"], "explosiveness")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_input["keys"]["is_local_value"]["java_expr"], "isLocal()")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_input["keys"]["was_player_value"]["java_expr"], "wasPlayer")
+
+        source_unit_destroy_suicide_bomb_trigger_result = source_symbols.state_schema(schema, "source_unit_destroy_suicide_bomb_trigger_result")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["guard"]["java_expr"], "if(explosiveness > 7f && (isLocal() || wasPlayer)){")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["event"]["java_expr"], "Events.fire(Trigger.suicideBomb);")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["eventsFire"]["java_expr"], "public static <T extends Enum<T>> void fire(Enum<T> type){")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["eventsFireBody"]["java_expr"], "items[i].get(type);")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["triggerEnum"]["java_expr"], "public enum Trigger{")
+        self.assertEqual(source_unit_destroy_suicide_bomb_trigger_result["keys"]["triggerMember"]["java_expr"], "suicideBomb,")
 
         source_unit_destroy_explosion_dispatch_input = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_input")
         self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")
