@@ -4923,6 +4923,89 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_id["java_expr"], "self()")
         self.assertEqual(unit_id["godot_symbol"], "source_unit_destroy_ability_death_input.unit_id")
 
+    def test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_crash_landing_damage_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_crash_landing_damage_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_crash_landing_damage_result.method")
+
+        comment = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.comment")
+        self.assertEqual(comment["java_expr"], "//if this unit crash landed (was flying), damage stuff in a radius")
+        self.assertEqual(comment["godot_symbol"], "source_unit_destroy_crash_landing_damage_result.comment")
+
+        guard = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.guard")
+        self.assertEqual(guard["java_expr"], "if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_destroy_crash_landing_damage_result.guard")
+
+        shield_lookup = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.shield_lookup")
+        self.assertEqual(shield_lookup["java_expr"], "var shields = indexer.getEnemy(team, BlockFlag.shield);")
+        self.assertEqual(shield_lookup["godot_symbol"], "source_unit_destroy_crash_landing_damage_result.shieldLookup")
+
+        crash_damage_formula = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.crash_damage_formula")
+        self.assertEqual(crash_damage_formula["java_expr"], "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);")
+        self.assertEqual(crash_damage_formula["godot_symbol"], "source_unit_destroy_crash_landing_damage_result.crashDamageFormula")
+
+        shield_absorb_guard = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.shield_absorb_guard")
+        self.assertEqual(shield_absorb_guard["java_expr"], "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){")
+        self.assertEqual(shield_absorb_guard["godot_symbol"], "source_unit_destroy_crash_landing_damage_result.shieldAbsorbGuard")
+
+        damage_call = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.damage_call")
+        self.assertEqual(damage_call["java_expr"], "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);")
+        self.assertEqual(damage_call["godot_symbol"], "source_unit_destroy_crash_landing_damage_result.damageCall")
+
+        explosion_shield_absorb = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.explosion_shield_absorb")
+        self.assertEqual(explosion_shield_absorb["java_source"], "core/src/mindustry/world/blocks/ExplosionShield.java")
+        self.assertEqual(explosion_shield_absorb["java_expr"], "boolean absorbExplosion(float x, float y, float damage);")
+
+        block_flag_shield = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.block_flag_shield")
+        self.assertEqual(block_flag_shield["java_source"], "core/src/mindustry/world/meta/BlockFlag.java")
+        self.assertEqual(block_flag_shield["java_expr"], "shield,")
+
+        damage_overload = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.damage_overload")
+        self.assertEqual(damage_overload["java_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(damage_overload["java_expr"], "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground){")
+
+        mathf_pow = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.mathf_pow")
+        self.assertEqual(mathf_pow["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_pow["java_expr"], "public static float pow(float a, float b){")
+
+        rules_unit_crash_damage_method = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.rules_unit_crash_damage_method")
+        self.assertEqual(rules_unit_crash_damage_method["java_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(rules_unit_crash_damage_method["java_expr"], "public float unitCrashDamage(Team team){")
+
+        rules_unit_crash_damage_return = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.rules_unit_crash_damage_return")
+        self.assertEqual(rules_unit_crash_damage_return["java_expr"], "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;")
+
+        rules_unit_crash_damage_multiplier_default = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.rules_unit_crash_damage_multiplier_default")
+        self.assertEqual(rules_unit_crash_damage_multiplier_default["java_expr"], "public float unitCrashDamageMultiplier = 1f;")
+
+        team_rules_unit_crash_damage_multiplier_default = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.team_rules_unit_crash_damage_multiplier_default")
+        self.assertEqual(team_rules_unit_crash_damage_multiplier_default["java_expr"], "public float unitCrashDamageMultiplier = 1f;")
+
+        type_flying_default = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.type_flying_default")
+        self.assertEqual(type_flying_default["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(type_flying_default["java_expr"], "flying = false,")
+
+        type_create_wreck_default = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.type_create_wreck_default")
+        self.assertEqual(type_create_wreck_default["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(type_create_wreck_default["java_expr"], "createWreck = true,")
+
+        type_flying = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.type_flying")
+        self.assertEqual(type_flying["status"], "explicit-input")
+        self.assertEqual(type_flying["java_expr"], "type.flying")
+        self.assertEqual(type_flying["godot_symbol"], "source_unit_destroy_crash_landing_damage_input.type_flying")
+
+        rules_unit_crash_damage = source_symbols.source_symbol(registry, "unit_destroy_crash_landing_damage.rules_unit_crash_damage")
+        self.assertEqual(rules_unit_crash_damage["status"], "explicit-input")
+        self.assertEqual(rules_unit_crash_damage["java_expr"], "state.rules.unitCrashDamage(team)")
+        self.assertEqual(rules_unit_crash_damage["godot_symbol"], "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage")
+
     def test_unit_cap_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -11929,9 +12012,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 364)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 365)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 369)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 370)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -11953,6 +12036,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_controller_predicates_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_count_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -13726,6 +13810,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void death(Unit unit){}", unit_destroy_ability_death["bridge_exprs"])
         self.assertIn("type.killed(self());", unit_destroy_ability_death["deferred_exprs"])
         self.assertIn("remove();", unit_destroy_ability_death["deferred_exprs"])
+
+        unit_destroy_crash_landing_damage = source_symbols.source_slice(ledger, "N767")
+        self.assertEqual(unit_destroy_crash_landing_damage["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_crash_landing_damage["java_method"], "UnitComp.destroy() crash landing damage")
+        self.assertEqual(unit_destroy_crash_landing_damage["godot_owner"], "PortGame.source_unit_destroy_crash_landing_damage_state")
+        self.assertIn("//if this unit crash landed (was flying), damage stuff in a radius", unit_destroy_crash_landing_damage["exact_exprs"])
+        self.assertIn("if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){", unit_destroy_crash_landing_damage["exact_exprs"])
+        self.assertIn("var shields = indexer.getEnemy(team, BlockFlag.shield);", unit_destroy_crash_landing_damage["exact_exprs"])
+        self.assertIn("float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);", unit_destroy_crash_landing_damage["exact_exprs"])
+        self.assertIn("if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){", unit_destroy_crash_landing_damage["exact_exprs"])
+        self.assertIn("Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);", unit_destroy_crash_landing_damage["exact_exprs"])
+        self.assertIn("public static float pow(float a, float b){", unit_destroy_crash_landing_damage["bridge_exprs"])
+        self.assertIn("public float unitCrashDamage(Team team){", unit_destroy_crash_landing_damage["bridge_exprs"])
+        self.assertIn("return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;", unit_destroy_crash_landing_damage["bridge_exprs"])
+        self.assertIn("public float unitCrashDamageMultiplier = 1f;", unit_destroy_crash_landing_damage["bridge_exprs"])
+        self.assertIn("flying = false,", unit_destroy_crash_landing_damage["bridge_exprs"])
+        self.assertIn("createWreck = true,", unit_destroy_crash_landing_damage["bridge_exprs"])
+        self.assertIn("boolean absorbExplosion(float x, float y, float damage);", unit_destroy_crash_landing_damage["bridge_exprs"])
+        self.assertIn("unit_destroy_crash_landing_damage.mathf_pow", unit_destroy_crash_landing_damage["source_symbols"])
+        self.assertIn("unit_destroy_crash_landing_damage.rules_unit_crash_damage_method", unit_destroy_crash_landing_damage["source_symbols"])
+        self.assertIn("unit_destroy_crash_landing_damage.rules_unit_crash_damage_return", unit_destroy_crash_landing_damage["source_symbols"])
+        self.assertIn("unit_destroy_crash_landing_damage.rules_unit_crash_damage_multiplier_default", unit_destroy_crash_landing_damage["source_symbols"])
+        self.assertIn("unit_destroy_crash_landing_damage.team_rules_unit_crash_damage_multiplier_default", unit_destroy_crash_landing_damage["source_symbols"])
+        self.assertIn("unit_destroy_crash_landing_damage.type_flying_default", unit_destroy_crash_landing_damage["source_symbols"])
+        self.assertIn("unit_destroy_crash_landing_damage.type_create_wreck_default", unit_destroy_crash_landing_damage["source_symbols"])
+        self.assertIn("Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);", unit_destroy_crash_landing_damage["deferred_exprs"])
 
         offload_to_inventory = source_symbols.source_slice(ledger, "N724")
         self.assertEqual(offload_to_inventory["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -17111,6 +17221,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("loop", unit_destroy_ability_death["return_keys"])
         self.assertIn("calls", unit_destroy_ability_death["return_keys"])
         self.assertEqual(unit_destroy_ability_death["source_method"], "UnitComp.destroy()/Ability.death(Unit unit)")
+
+        unit_destroy_crash_landing_damage = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_crash_landing_damage_state")
+        self.assertEqual([param["name"] for param in unit_destroy_crash_landing_damage["params"]], ["type_flying", "spawned_by_core_value", "type_create_wreck", "rules_unit_crash_damage", "hit_size", "type_crash_damage_multiplier", "shields_empty", "shield_absorbed", "team_id", "source_x", "source_y"])
+        self.assertEqual(unit_destroy_crash_landing_damage["params"][0]["schema"], "source_unit_destroy_crash_landing_damage_input.type_flying")
+        self.assertEqual(unit_destroy_crash_landing_damage["params"][3]["schema"], "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage")
+        self.assertEqual(unit_destroy_crash_landing_damage["params"][6]["schema"], "source_unit_destroy_crash_landing_damage_input.shields_empty")
+        self.assertIn("shouldCheckCrash", unit_destroy_crash_landing_damage["return_keys"])
+        self.assertIn("crashDamage", unit_destroy_crash_landing_damage["return_keys"])
+        self.assertIn("damageCall", unit_destroy_crash_landing_damage["return_keys"])
+        self.assertEqual(unit_destroy_crash_landing_damage["source_method"], "UnitComp.destroy() crash landing damage")
 
         unit_cap = source_symbols.api_contract(contracts, "PortGame.source_unit_cap_state")
         self.assertEqual([param["name"] for param in unit_cap["params"]], ["team_is_wave_team", "rules_pvp", "state_is_campaign", "rules_disable_unit_cap", "team_ignore_unit_cap", "rules_unit_cap_variable", "rules_unit_cap", "team_data_unit_cap"])
@@ -21052,6 +21172,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_ability_death_result["keys"]["abilityDeathDefault"]["java_expr"], "public void death(Unit unit){}")
         self.assertEqual(source_unit_destroy_ability_death_result["keys"]["calls"]["java_expr"], "a.death(self());")
         self.assertEqual(source_unit_destroy_ability_death_result["keys"]["loop"]["java_expr"], "for(Ability a : abilities){")
+
+        source_unit_destroy_crash_landing_damage_input = source_symbols.state_schema(schema, "source_unit_destroy_crash_landing_damage_input")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_input["keys"]["type_flying"]["java_expr"], "type.flying")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_input["keys"]["type_create_wreck"]["java_expr"], "type.createWreck")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_input["keys"]["rules_unit_crash_damage"]["java_expr"], "state.rules.unitCrashDamage(team)")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_input["keys"]["shield_absorbed"]["java_expr"], "s.absorbExplosion(x, y, crashDamage)")
+
+        source_unit_destroy_crash_landing_damage_result = source_symbols.state_schema(schema, "source_unit_destroy_crash_landing_damage_result")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["comment"]["java_expr"], "//if this unit crash landed (was flying), damage stuff in a radius")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["guard"]["java_expr"], "if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["shieldLookup"]["java_expr"], "var shields = indexer.getEnemy(team, BlockFlag.shield);")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["crashDamageFormula"]["java_expr"], "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["shieldAbsorbGuard"]["java_expr"], "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["damageCall"]["java_expr"], "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);")
+        self.assertEqual(source_unit_destroy_crash_landing_damage_result["keys"]["crashDamage"]["java_expr"], "Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team)")
 
         source_unit_cap_input = source_symbols.state_schema(schema, "source_unit_cap_input")
         self.assertEqual(source_unit_cap_input["keys"]["team_is_wave_team"]["java_expr"], "team == state.rules.waveTeam")

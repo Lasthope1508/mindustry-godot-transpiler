@@ -37649,6 +37649,398 @@
       "java_method": "UnitComp.destroy()",
       "java_expr": "self()",
       "rule": "Runtime bridge input identifies the unit passed to Ability.death(self())."
+    },
+    "unit_destroy_crash_landing_damage.method": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.method",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "public void destroy(){",
+      "rule": "Canonical UnitComp.destroy method boundary for crash landing damage slice."
+    },
+    "unit_destroy_crash_landing_damage.comment": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.comment",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "//if this unit crash landed (was flying), damage stuff in a radius",
+      "rule": "Source comment defining crash landing branch intent."
+    },
+    "unit_destroy_crash_landing_damage.guard": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.guard",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){",
+      "rule": "Crash landing damage branch guard."
+    },
+    "unit_destroy_crash_landing_damage.shield_lookup": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.shieldLookup",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "var shields = indexer.getEnemy(team, BlockFlag.shield);",
+      "rule": "Looks up enemy shield blocks before crash damage."
+    },
+    "unit_destroy_crash_landing_damage.crash_damage_formula": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.crashDamageFormula",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);",
+      "rule": "Crash damage formula from hit size, UnitType multiplier, and rules multiplier."
+    },
+    "unit_destroy_crash_landing_damage.shield_absorb_guard": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.shieldAbsorbGuard",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){",
+      "rule": "Crash damage applies when no shield blocks exist or no shield absorbs the explosion."
+    },
+    "unit_destroy_crash_landing_damage.damage_call": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.damageCall",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);",
+      "rule": "Crash landing damage dispatch call."
+    },
+    "unit_destroy_crash_landing_damage.explosion_shield_absorb": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/ExplosionShield.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.explosionShieldAbsorb",
+      "java_method": "ExplosionShield.absorbExplosion(float x, float y, float damage)",
+      "java_expr": "boolean absorbExplosion(float x, float y, float damage);",
+      "rule": "ExplosionShield contract used by the shield absorb guard."
+    },
+    "unit_destroy_crash_landing_damage.block_flag_shield": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/BlockFlag.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.blockFlagShield",
+      "java_method": "BlockFlag enum",
+      "java_expr": "shield,",
+      "rule": "BlockFlag.shield marks shield blocks for indexer lookup."
+    },
+    "unit_destroy_crash_landing_damage.damage_overload": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/Damage.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.damageOverload",
+      "java_method": "Damage.damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground)",
+      "java_expr": "public static void damage(Team team, float x, float y, float radius, float damage, boolean complete, boolean air, boolean ground){",
+      "rule": "Damage overload invoked by crash landing damage."
+    },
+    "unit_destroy_crash_landing_damage.mathf_pow": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "Mathf.pow(float a, float b)",
+      "java_expr": "public static float pow(float a, float b){",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_result.crashDamageFormula",
+      "rule": "Arc Mathf.pow(float,float) method used by crash damage and damage radius formulas."
+    },
+    "unit_destroy_crash_landing_damage.rules_unit_crash_damage_method": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitCrashDamage(Team team)",
+      "java_expr": "public float unitCrashDamage(Team team){",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage",
+      "rule": "Rules method read by UnitComp.destroy crash damage guard and formula."
+    },
+    "unit_destroy_crash_landing_damage.rules_unit_crash_damage_return": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitCrashDamage(Team team)",
+      "java_expr": "return unitDamage(team) * unitCrashDamageMultiplier * teams.get(team).unitCrashDamageMultiplier;",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage",
+      "rule": "Rules unit crash damage composition from unit damage, global multiplier, and team multiplier."
+    },
+    "unit_destroy_crash_landing_damage.rules_unit_crash_damage_multiplier_default": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules field declaration",
+      "java_expr": "public float unitCrashDamageMultiplier = 1f;",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage",
+      "rule": "Global Rules.unitCrashDamageMultiplier default used by Rules.unitCrashDamage(team)."
+    },
+    "unit_destroy_crash_landing_damage.team_rules_unit_crash_damage_multiplier_default": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.TeamRules field declaration",
+      "java_expr": "public float unitCrashDamageMultiplier = 1f;",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage",
+      "rule": "Team-specific crash damage multiplier default used by Rules.unitCrashDamage(team)."
+    },
+    "unit_destroy_crash_landing_damage.type_flying_default": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType field declaration",
+      "java_expr": "flying = false,",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.type_flying",
+      "rule": "UnitType.flying default used by crash landing damage guard."
+    },
+    "unit_destroy_crash_landing_damage.type_create_wreck_default": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType field declaration",
+      "java_expr": "createWreck = true,",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.type_create_wreck",
+      "rule": "UnitType.createWreck default used by crash landing damage guard."
+    },
+    "unit_destroy_crash_landing_damage.type_flying": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.type_flying",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "type.flying",
+      "rule": "Runtime bridge input for crash guard type.flying."
+    },
+    "unit_destroy_crash_landing_damage.spawned_by_core_value": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.spawned_by_core_value",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "spawnedByCore",
+      "rule": "Runtime bridge input for crash guard spawnedByCore."
+    },
+    "unit_destroy_crash_landing_damage.type_create_wreck": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.type_create_wreck",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "type.createWreck",
+      "rule": "Runtime bridge input for crash guard type.createWreck."
+    },
+    "unit_destroy_crash_landing_damage.rules_unit_crash_damage": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "state.rules.unitCrashDamage(team)",
+      "rule": "Runtime bridge input for rules unit crash damage multiplier result."
+    },
+    "unit_destroy_crash_landing_damage.hit_size": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.hit_size",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "hitSize",
+      "rule": "Runtime bridge input for crash damage and radius formulas."
+    },
+    "unit_destroy_crash_landing_damage.type_crash_damage_multiplier": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.type_crash_damage_multiplier",
+      "java_method": "UnitType field declaration",
+      "java_expr": "crashDamageMultiplier = 1f,",
+      "rule": "Runtime bridge input for UnitType crash damage multiplier."
+    },
+    "unit_destroy_crash_landing_damage.shields_empty": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.shields_empty",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "shields.isEmpty()",
+      "rule": "Runtime bridge input for shield set emptiness."
+    },
+    "unit_destroy_crash_landing_damage.shield_absorbed": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.shield_absorbed",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "s.absorbExplosion(x, y, crashDamage)",
+      "rule": "Runtime bridge input for whether any shield absorbed crash damage."
+    },
+    "unit_destroy_crash_landing_damage.team_id": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.team_id",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "team",
+      "rule": "Runtime bridge input representing crash damage team."
+    },
+    "unit_destroy_crash_landing_damage.source_x": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.source_x",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "x",
+      "rule": "Runtime bridge input for crash damage x coordinate."
+    },
+    "unit_destroy_crash_landing_damage.source_y": {
+      "godot_owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "godot_symbol": "source_unit_destroy_crash_landing_damage_input.source_y",
+      "java_method": "UnitComp.destroy()",
+      "java_expr": "y",
+      "rule": "Runtime bridge input for crash damage y coordinate."
     }
   },
   "version": 1

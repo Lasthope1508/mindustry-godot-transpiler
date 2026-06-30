@@ -13547,6 +13547,85 @@
         "test_unit_destroy_ability_death_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_ability_death_state"
       ]
+    },
+    "PortGame.source_unit_destroy_crash_landing_damage_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_flying",
+          "schema": "source_unit_destroy_crash_landing_damage_input.type_flying",
+          "type": "bool"
+        },
+        {
+          "name": "spawned_by_core_value",
+          "schema": "source_unit_destroy_crash_landing_damage_input.spawned_by_core_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_create_wreck",
+          "schema": "source_unit_destroy_crash_landing_damage_input.type_create_wreck",
+          "type": "bool"
+        },
+        {
+          "name": "rules_unit_crash_damage",
+          "schema": "source_unit_destroy_crash_landing_damage_input.rules_unit_crash_damage",
+          "type": "float"
+        },
+        {
+          "name": "hit_size",
+          "schema": "source_unit_destroy_crash_landing_damage_input.hit_size",
+          "type": "float"
+        },
+        {
+          "name": "type_crash_damage_multiplier",
+          "schema": "source_unit_destroy_crash_landing_damage_input.type_crash_damage_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "shields_empty",
+          "schema": "source_unit_destroy_crash_landing_damage_input.shields_empty",
+          "type": "bool"
+        },
+        {
+          "name": "shield_absorbed",
+          "schema": "source_unit_destroy_crash_landing_damage_input.shield_absorbed",
+          "type": "bool"
+        },
+        {
+          "name": "team_id",
+          "schema": "source_unit_destroy_crash_landing_damage_input.team_id",
+          "type": "int"
+        },
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_crash_landing_damage_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_crash_landing_damage_input.source_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "shouldCheckCrash",
+        "shieldLookup",
+        "crashDamage",
+        "shieldGuard",
+        "shieldAbsorbed",
+        "damageRadius",
+        "damageCall"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy crash landing shield and damage branch.",
+      "runtime_proof": "/root/Main.source_unit_destroy_crash_landing_damage_state",
+      "source_method": "UnitComp.destroy() crash landing damage",
+      "source_slice": "N767",
+      "status": "active",
+      "tests": [
+        "test_unit_destroy_crash_landing_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_crash_landing_damage_state"
+      ]
     }
   },
   "policy": {
