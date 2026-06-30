@@ -5813,6 +5813,7 @@ func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_stat
 			"shakeCallSource": "Effect.shake(shake, shake, bulletX, bulletY)",
 			"effectCameraGuardSource": "if(Core.camera == null) return",
 			"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)",
+			"effectPrivateShakeSource": "private static void shake(float intensity, float duration)",
 			"mountRecoilReservedSource": "mount.recoil = 1f",
 		}
 	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
@@ -5824,6 +5825,7 @@ func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_stat
 			"shakeCallSource": "Effect.shake(shake, shake, bulletX, bulletY)",
 			"effectCameraGuardSource": "if(Core.camera == null) return",
 			"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)",
+			"effectPrivateShakeSource": "private static void shake(float intensity, float duration)",
 			"mountRecoilReservedSource": "mount.recoil = 1f",
 		}
 	var shake_intensity := float(weapon_state.get("shake", 0.0))
@@ -5842,6 +5844,7 @@ func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_stat
 		"effectDistanceSource": "float distance = Core.camera.position.dst(x, y)",
 		"effectDistanceFloorSource": "if(distance < 1) distance = 1",
 		"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)",
+		"effectPrivateShakeSource": "private static void shake(float intensity, float duration)",
 		"rendererShakeSource": "Vars.renderer.shake(intensity, duration)",
 		"mountRecoilReservedSource": "mount.recoil = 1f",
 	}

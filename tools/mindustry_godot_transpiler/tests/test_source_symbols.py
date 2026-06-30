@@ -3367,6 +3367,72 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(shake_reserved["java_expr"], "Effect.shake(shake, shake, bulletX, bulletY);")
         self.assertEqual(shake_reserved["godot_symbol"], "source_weapon_bullet_recoil_velocity_result.shakeReservedSource")
 
+    def test_weapon_bullet_shake_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        shake_call = source_symbols.source_symbol(registry, "weapon_bullet_shake.call")
+        self.assertEqual(shake_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(shake_call["java_expr"], "Effect.shake(shake, shake, bulletX, bulletY);")
+        self.assertEqual(shake_call["godot_owner"], "PortGame.source_weapon_bullet_shake_state")
+        self.assertEqual(shake_call["runtime_proof"], "/root/Main.source_weapon_bullet_shake_state")
+        self.assertEqual(shake_call["godot_symbol"], "source_weapon_bullet_shake_result.shakeCall")
+
+        create_call_state = source_symbols.source_symbol(registry, "weapon_bullet_shake.create_call_state")
+        self.assertEqual(create_call_state["status"], "explicit-input")
+        self.assertEqual(create_call_state["java_expr"], "Weapon.bullet(...) continuation state")
+        self.assertEqual(create_call_state["godot_symbol"], "source_weapon_bullet_shake_input.create_call_state")
+
+        weapon_state = source_symbols.source_symbol(registry, "weapon_bullet_shake.weapon_state")
+        self.assertEqual(weapon_state["status"], "explicit-input")
+        self.assertEqual(weapon_state["java_expr"], "Weapon.shake")
+        self.assertEqual(weapon_state["godot_symbol"], "source_weapon_bullet_shake_input.weapon_state")
+
+        weapon_shake = source_symbols.source_symbol(registry, "weapon_bullet_shake.weapon_shake_field")
+        self.assertEqual(weapon_shake["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_shake["java_expr"], "public float shake = 0f;")
+        self.assertEqual(weapon_shake["godot_symbol"], "source_weapon_bullet_shake_input.weapon_state.shake")
+
+        bullet_create_call = source_symbols.source_symbol(registry, "weapon_bullet_shake.bullet_create_call")
+        self.assertEqual(bullet_create_call["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(bullet_create_call["godot_symbol"], "source_weapon_bullet_shake_input.create_call_state.bulletCreateCall")
+
+        effect_shake_xy = source_symbols.source_symbol(registry, "weapon_bullet_shake.effect_shake_xy")
+        self.assertEqual(effect_shake_xy["java_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(effect_shake_xy["java_expr"], "public static void shake(float intensity, float duration, float x, float y){")
+        self.assertEqual(effect_shake_xy["godot_symbol"], "source_weapon_bullet_shake_result.shakeCallSource")
+
+        camera_guard = source_symbols.source_symbol(registry, "weapon_bullet_shake.effect_camera_guard")
+        self.assertEqual(camera_guard["java_expr"], "if(Core.camera == null) return;")
+        self.assertEqual(camera_guard["godot_symbol"], "source_weapon_bullet_shake_result.effectCameraGuardSource")
+
+        distance = source_symbols.source_symbol(registry, "weapon_bullet_shake.effect_distance")
+        self.assertEqual(distance["java_expr"], "float distance = Core.camera.position.dst(x, y);")
+        self.assertEqual(distance["godot_symbol"], "source_weapon_bullet_shake_result.effectDistanceSource")
+
+        distance_floor = source_symbols.source_symbol(registry, "weapon_bullet_shake.effect_distance_floor")
+        self.assertEqual(distance_floor["java_expr"], "if(distance < 1) distance = 1;")
+        self.assertEqual(distance_floor["godot_symbol"], "source_weapon_bullet_shake_result.effectDistanceFloorSource")
+
+        falloff = source_symbols.source_symbol(registry, "weapon_bullet_shake.effect_falloff")
+        self.assertEqual(falloff["java_expr"], "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);")
+        self.assertEqual(falloff["godot_symbol"], "source_weapon_bullet_shake_result.effectFalloffSource")
+
+        private_shake = source_symbols.source_symbol(registry, "weapon_bullet_shake.effect_private_shake")
+        self.assertEqual(private_shake["java_expr"], "private static void shake(float intensity, float duration){")
+        self.assertEqual(private_shake["godot_symbol"], "source_weapon_bullet_shake_result.effectPrivateShakeSource")
+
+        renderer_shake = source_symbols.source_symbol(registry, "weapon_bullet_shake.renderer_shake")
+        self.assertEqual(renderer_shake["java_expr"], "Vars.renderer.shake(intensity, duration);")
+        self.assertEqual(renderer_shake["godot_symbol"], "source_weapon_bullet_shake_result.rendererShakeSource")
+
+        mount_recoil_reserved = source_symbols.source_symbol(registry, "weapon_bullet_shake.mount_recoil_reserved")
+        self.assertEqual(mount_recoil_reserved["status"], "deferred")
+        self.assertEqual(mount_recoil_reserved["java_expr"], "mount.recoil = 1f;")
+        self.assertEqual(mount_recoil_reserved["godot_symbol"], "source_weapon_bullet_shake_result.mountRecoilReservedSource")
+
     def test_weapon_bullet_heat_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15315,9 +15381,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 445)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 446)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 450)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 451)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15374,6 +15440,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_mount_recoil_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_recoil_slots_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_recoil_velocity_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_shake_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18142,6 +18209,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return set(amount, 0).rotate(angle);", weapon_bullet_recoil_velocity["bridge_exprs"])
         self.assertIn("x += v.x;", weapon_bullet_recoil_velocity["bridge_exprs"])
         self.assertIn("Shake, mount recoil, recoil slot, and heat assignments remain owned by later registered Weapon.bullet slices.", weapon_bullet_recoil_velocity["deferred_exprs"])
+
+        weapon_bullet_shake = source_symbols.source_slice(ledger, "N848")
+        self.assertEqual(weapon_bullet_shake["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_shake["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect")
+        self.assertEqual(weapon_bullet_shake["godot_owner"], "PortGame.source_weapon_bullet_shake_state")
+        self.assertIn("Effect.shake(shake, shake, bulletX, bulletY);", weapon_bullet_shake["exact_exprs"])
+        self.assertIn("public float shake = 0f;", weapon_bullet_shake["bridge_exprs"])
+        self.assertIn("public static void shake(float intensity, float duration, float x, float y){", weapon_bullet_shake["bridge_exprs"])
+        self.assertIn("if(Core.camera == null) return;", weapon_bullet_shake["bridge_exprs"])
+        self.assertIn("Vars.renderer.shake(intensity, duration);", weapon_bullet_shake["bridge_exprs"])
+        self.assertIn("Mount recoil, recoil slot, and heat assignments remain owned by later registered Weapon.bullet slices.", weapon_bullet_shake["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21280,6 +21358,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("recoilVector", weapon_bullet_recoil_velocity["return_keys"])
         self.assertIn("shakeReservedSource", weapon_bullet_recoil_velocity["return_keys"])
         self.assertEqual(weapon_bullet_recoil_velocity["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity")
+
+        weapon_bullet_shake = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_shake_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_shake["params"]], ["create_call_state", "weapon_state"])
+        self.assertEqual(weapon_bullet_shake["params"][0]["schema"], "source_weapon_bullet_shake_input.create_call_state")
+        self.assertEqual(weapon_bullet_shake["params"][1]["schema"], "source_weapon_bullet_shake_input.weapon_state")
+        self.assertIn("bulletContinues", weapon_bullet_shake["return_keys"])
+        self.assertIn("shakeEffectCalled", weapon_bullet_shake["return_keys"])
+        self.assertIn("shakeCall", weapon_bullet_shake["return_keys"])
+        self.assertIn("shakeCallSource", weapon_bullet_shake["return_keys"])
+        self.assertIn("effectCameraGuardSource", weapon_bullet_shake["return_keys"])
+        self.assertIn("effectFalloffSource", weapon_bullet_shake["return_keys"])
+        self.assertIn("effectPrivateShakeSource", weapon_bullet_shake["return_keys"])
+        self.assertIn("mountRecoilReservedSource", weapon_bullet_shake["return_keys"])
+        self.assertEqual(weapon_bullet_shake["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -25812,6 +25904,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["vec2TrnsSource"]["java_expr"], "return set(amount, 0).rotate(angle);")
         self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["vec2AddSource"]["java_expr"], "x += v.x; y += v.y")
         self.assertEqual(source_weapon_bullet_recoil_velocity_result["keys"]["shakeReservedSource"]["java_expr"], "Effect.shake(shake, shake, bulletX, bulletY);")
+
+        source_weapon_bullet_shake_input = source_symbols.state_schema(schema, "source_weapon_bullet_shake_input")
+        self.assertEqual(source_weapon_bullet_shake_input["keys"]["create_call_state"]["java_expr"], "Weapon.bullet(...) continuation state")
+        self.assertEqual(source_weapon_bullet_shake_input["keys"]["weapon_state"]["java_expr"], "Weapon.shake")
+        self.assertEqual(source_weapon_bullet_shake_input["keys"]["shake"]["java_expr"], "public float shake = 0f;")
+        self.assertEqual(source_weapon_bullet_shake_input["keys"]["bulletCreateCall"]["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+
+        source_weapon_bullet_shake_result = source_symbols.state_schema(schema, "source_weapon_bullet_shake_result")
+        self.assertEqual(source_weapon_bullet_shake_result["keys"]["shakeCall"]["java_expr"], "Effect.shake(shake, shake, bulletX, bulletY);")
+        self.assertEqual(source_weapon_bullet_shake_result["keys"]["effectCameraGuardSource"]["java_expr"], "if(Core.camera == null) return;")
+        self.assertEqual(source_weapon_bullet_shake_result["keys"]["effectDistanceSource"]["java_expr"], "float distance = Core.camera.position.dst(x, y);")
+        self.assertEqual(source_weapon_bullet_shake_result["keys"]["effectFalloffSource"]["java_expr"], "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);")
+        self.assertEqual(source_weapon_bullet_shake_result["keys"]["effectPrivateShakeSource"]["java_expr"], "private static void shake(float intensity, float duration){")
+        self.assertEqual(source_weapon_bullet_shake_result["keys"]["rendererShakeSource"]["java_expr"], "Vars.renderer.shake(intensity, duration);")
+        self.assertEqual(source_weapon_bullet_shake_result["keys"]["mountRecoilReservedSource"]["java_expr"], "mount.recoil = 1f;")
 
         source_weapon_bullet_initial_guard_input = source_symbols.state_schema(schema, "source_weapon_bullet_initial_guard_input")
         self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["unit_state"]["java_expr"], "Unit unit")

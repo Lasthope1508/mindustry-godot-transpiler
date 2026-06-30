@@ -15700,6 +15700,53 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_recoil_velocity_state",
       "rule": "Backfills SSOT for existing Weapon.bullet recoil velocity wrapper against exact upstream source."
+    },
+    "N848": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+      "godot_owner": "PortGame.source_weapon_bullet_shake_state",
+      "exact_exprs": [
+        "Effect.shake(shake, shake, bulletX, bulletY);"
+      ],
+      "bridge_exprs": [
+        "public float shake = 0f;",
+        "public static void shake(float intensity, float duration, float x, float y){",
+        "if(Core.camera == null) return;",
+        "float distance = Core.camera.position.dst(x, y);",
+        "if(distance < 1) distance = 1;",
+        "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);",
+        "private static void shake(float intensity, float duration){",
+        "Vars.renderer.shake(intensity, duration);"
+      ],
+      "deferred_exprs": [
+        "Mount recoil, recoil slot, and heat assignments remain owned by later registered Weapon.bullet slices.",
+        "Live camera distance, headless guard, and Renderer shake mutation remain represented as source metadata until renderer runtime ownership is wired."
+      ],
+      "source_symbols": [
+        "weapon_bullet_shake.call",
+        "weapon_bullet_shake.create_call_state",
+        "weapon_bullet_shake.weapon_state",
+        "weapon_bullet_shake.bullet_create_call",
+        "weapon_bullet_shake.weapon_shake_field",
+        "weapon_bullet_shake.shake_effect_called",
+        "weapon_bullet_shake.effect_shake_xy",
+        "weapon_bullet_shake.effect_camera_guard",
+        "weapon_bullet_shake.effect_distance",
+        "weapon_bullet_shake.effect_distance_floor",
+        "weapon_bullet_shake.effect_falloff",
+        "weapon_bullet_shake.effect_private_shake",
+        "weapon_bullet_shake.renderer_shake",
+        "weapon_bullet_shake.mount_recoil_reserved"
+      ],
+      "tests": [
+        "test_weapon_bullet_shake_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_shake_state",
+        "test_weapon_bullet_shake_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_shake_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet shake effect wrapper against exact upstream source."
     }
   },
   "version": 1

@@ -62608,6 +62608,196 @@
           ]
         }
       }
+    },
+    "source_weapon_bullet_shake_input": {
+      "status": "active",
+      "keys": {
+        "create_call_state": {
+          "godot_symbol": "source_weapon_bullet_shake_input.create_call_state",
+          "java_expr": "Weapon.bullet(...) continuation state",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Prior create call result input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_bullet_shake_input.weapon_state",
+          "java_expr": "Weapon.shake",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "shake": {
+          "godot_symbol": "source_weapon_bullet_shake_input.weapon_state.shake",
+          "java_expr": "public float shake = 0f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shake intensity/duration field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "bulletCreateCall": {
+          "godot_symbol": "source_weapon_bullet_shake_input.create_call_state.bulletCreateCall",
+          "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Prior bullet create call carrying bullet x/y.",
+          "status": "generated",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_shake_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "godot_symbol": "source_weapon_bullet_shake_result.bulletContinues",
+          "java_expr": "Weapon.bullet(...) continuation state",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuation gate inherited from prior bullet creation slices.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "shakeEffectCalled": {
+          "godot_symbol": "source_weapon_bullet_shake_result.shakeEffectCalled",
+          "java_expr": "Effect.shake(shake, shake, bulletX, bulletY);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime flag mirrors shake dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "shakeCall": {
+          "godot_symbol": "source_weapon_bullet_shake_result.shakeCall",
+          "java_expr": "Effect.shake(shake, shake, bulletX, bulletY);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned Effect.shake call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "shakeCallSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.shakeCallSource",
+          "java_expr": "public static void shake(float intensity, float duration, float x, float y){",
+          "java_method": "Effect.shake(float intensity, float duration, float x, float y)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Effect shake xy overload source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "effectCameraGuardSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.effectCameraGuardSource",
+          "java_expr": "if(Core.camera == null) return;",
+          "java_method": "Effect.shake(float intensity, float duration, float x, float y)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Effect camera guard source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "effectDistanceSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.effectDistanceSource",
+          "java_expr": "float distance = Core.camera.position.dst(x, y);",
+          "java_method": "Effect.shake(float intensity, float duration, float x, float y)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Effect camera distance source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "effectDistanceFloorSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.effectDistanceFloorSource",
+          "java_expr": "if(distance < 1) distance = 1;",
+          "java_method": "Effect.shake(float intensity, float duration, float x, float y)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Effect distance floor source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "effectFalloffSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.effectFalloffSource",
+          "java_expr": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);",
+          "java_method": "Effect.shake(float intensity, float duration, float x, float y)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Effect distance falloff source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "effectPrivateShakeSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.effectPrivateShakeSource",
+          "java_expr": "private static void shake(float intensity, float duration){",
+          "java_method": "Effect.shake(float intensity, float duration)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Private Effect shake source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "rendererShakeSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.rendererShakeSource",
+          "java_expr": "Vars.renderer.shake(intensity, duration);",
+          "java_method": "Effect.shake(float intensity, float duration)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Renderer shake dispatch source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        },
+        "mountRecoilReservedSource": {
+          "godot_symbol": "source_weapon_bullet_shake_result.mountRecoilReservedSource",
+          "java_expr": "mount.recoil = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Following mount recoil remains owned by source_weapon_bullet_mount_recoil_state.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shake_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

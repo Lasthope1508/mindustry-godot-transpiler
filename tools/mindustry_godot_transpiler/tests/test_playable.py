@@ -5046,6 +5046,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shakeCallSource": "Effect.shake(shake, shake, bulletX, bulletY)"', source)
         self.assertIn('"effectCameraGuardSource": "if(Core.camera == null) return"', source)
         self.assertIn('"effectFalloffSource": "shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration)"', source)
+        self.assertIn('"effectPrivateShakeSource": "private static void shake(float intensity, float duration)"', source)
         self.assertIn('"mountRecoilReservedSource": "mount.recoil = 1f"', source)
 
     def test_port_game_exposes_source_weapon_bullet_mount_recoil_state(self):
