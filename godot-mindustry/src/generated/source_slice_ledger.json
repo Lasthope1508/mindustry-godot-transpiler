@@ -14400,6 +14400,35 @@
         "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
         "test_unit_update_invalid_controller_reset_matches_upstream_source"
       ]
+    },
+    "N822": {
+      "bridge_exprs": [],
+      "deferred_exprs": [
+        "NaN health reset and kill are recorded only; kill() body remains owned by UnitComp.kill() slices."
+      ],
+      "exact_exprs": [
+        "if(Float.isNaN(health)){",
+        "health = 0f;",
+        "kill();"
+      ],
+      "godot_owner": "PortGame.source_unit_update_nan_health_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() NaN health",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "source_symbols": [
+        "unit_update_nan_health.current_health",
+        "unit_update_nan_health.float_is_nan_call",
+        "unit_update_nan_health.guard",
+        "unit_update_nan_health.health_zero",
+        "unit_update_nan_health.kill_call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ]
     }
   },
   "version": 1

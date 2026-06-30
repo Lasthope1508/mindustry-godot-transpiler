@@ -56701,6 +56701,80 @@
       "runtime_proof": "/root/Main.source_unit_update_invalid_controller_reset_state",
       "status": "active"
     },
+    "source_unit_update_nan_health_input": {
+      "keys": {
+        "current_health": {
+          "godot_symbol": "source_unit_update_nan_health_input.current_health",
+          "java_expr": "health",
+          "java_method": "UnitComp.update() NaN health",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_nan_health_state"
+          ],
+          "rule": "Explicit current health input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_nan_health_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_nan_health_state",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "status": "active"
+    },
+    "source_unit_update_nan_health_result": {
+      "keys": {
+        "guard": {
+          "godot_symbol": "source_unit_update_nan_health_result.guard",
+          "java_expr": "if(Float.isNaN(health)){",
+          "java_method": "UnitComp.update() NaN health",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_nan_health_state"
+          ],
+          "rule": "Computed NaN health guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_nan_health_state"
+          ]
+        },
+        "health": {
+          "godot_symbol": "source_unit_update_nan_health_result.health",
+          "java_expr": "health = 0f;",
+          "java_method": "UnitComp.update() NaN health",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_nan_health_state"
+          ],
+          "rule": "Runtime health after NaN reset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_update_nan_health_state"
+          ]
+        },
+        "kill": {
+          "godot_symbol": "source_unit_update_nan_health_result.kill",
+          "java_expr": "kill();",
+          "java_method": "UnitComp.update() NaN health",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_nan_health_state"
+          ],
+          "rule": "Kill call flag when health is NaN.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_nan_health_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_nan_health_state",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

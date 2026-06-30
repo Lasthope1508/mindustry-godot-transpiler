@@ -5844,6 +5844,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unit_type_return["java_expr"], "return controller.get(unit);")
         self.assertEqual(unit_type_return["java_source"], "core/src/mindustry/type/UnitType.java")
 
+    def test_unit_update_nan_health_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "unit_update_nan_health.guard")
+        self.assertEqual(guard["java_expr"], "if(Float.isNaN(health)){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(guard["java_method"], "UnitComp.update() NaN health")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_unit_update_nan_health_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_unit_update_nan_health_state")
+        self.assertEqual(guard["godot_symbol"], "source_unit_update_nan_health_result.guard")
+
+        current_health = source_symbols.source_symbol(registry, "unit_update_nan_health.current_health")
+        self.assertEqual(current_health["status"], "explicit-input")
+        self.assertEqual(current_health["java_expr"], "health")
+        self.assertEqual(current_health["godot_symbol"], "source_unit_update_nan_health_input.current_health")
+
+        zero = source_symbols.source_symbol(registry, "unit_update_nan_health.health_zero")
+        self.assertEqual(zero["java_expr"], "health = 0f;")
+        self.assertEqual(zero["godot_symbol"], "source_unit_update_nan_health_result.health")
+
+        kill = source_symbols.source_symbol(registry, "unit_update_nan_health.kill_call")
+        self.assertEqual(kill["java_expr"], "kill();")
+        self.assertEqual(kill["godot_symbol"], "source_unit_update_nan_health_result.kill")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14316,9 +14343,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 419)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 420)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 424)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 425)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14349,6 +14376,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_flying_transition_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_heal_time_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_invalid_controller_reset_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_nan_health_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16822,6 +16850,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return true;", unit_update_invalid_controller_reset["bridge_exprs"])
         self.assertIn("public UnitController createController(Unit unit){", unit_update_invalid_controller_reset["bridge_exprs"])
         self.assertIn("return controller.get(unit);", unit_update_invalid_controller_reset["bridge_exprs"])
+
+        unit_update_nan_health = source_symbols.source_slice(ledger, "N822")
+        self.assertEqual(unit_update_nan_health["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_nan_health["java_method"], "UnitComp.update() NaN health")
+        self.assertEqual(unit_update_nan_health["godot_owner"], "PortGame.source_unit_update_nan_health_state")
+        self.assertIn("if(Float.isNaN(health)){", unit_update_nan_health["exact_exprs"])
+        self.assertIn("health = 0f;", unit_update_nan_health["exact_exprs"])
+        self.assertIn("kill();", unit_update_nan_health["exact_exprs"])
+        self.assertIn("NaN health reset and kill are recorded only; kill() body remains owned by UnitComp.kill() slices.", unit_update_nan_health["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20716,6 +20753,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_invalid_controller_reset["return_keys"])
         self.assertNotIn("controller_is_valid_value", unit_update_invalid_controller_reset["return_keys"])
         self.assertEqual(unit_update_invalid_controller_reset["source_method"], "UnitComp.update() invalid controller reset")
+
+        unit_update_nan_health = source_symbols.api_contract(contracts, "PortGame.source_unit_update_nan_health_state")
+        self.assertEqual([param["name"] for param in unit_update_nan_health["params"]], ["current_health"])
+        self.assertEqual(unit_update_nan_health["params"][0]["schema"], "source_unit_update_nan_health_input.current_health")
+        for key in ["guard", "health", "kill"]:
+            self.assertIn(key, unit_update_nan_health["return_keys"])
+        self.assertNotIn("current_health", unit_update_nan_health["return_keys"])
+        self.assertEqual(unit_update_nan_health["source_method"], "UnitComp.update() NaN health")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24995,6 +25040,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_invalid_controller_reset_input["keys"]["controller_is_valid_value"]["java_expr"], "controller.isValidController()")
         self.assertEqual(source_unit_update_invalid_controller_reset_input["keys"]["unit_id"]["java_expr"], "self()")
 
+        source_unit_update_nan_health_input = source_symbols.state_schema(schema, "source_unit_update_nan_health_input")
+        self.assertEqual(source_unit_update_nan_health_input["keys"]["current_health"]["java_expr"], "health")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25456,6 +25504,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_invalid_controller_reset_result["keys"]["controllerIsValid"]["java_expr"], "controller.isValidController()")
         self.assertEqual(source_unit_update_invalid_controller_reset_result["keys"]["resetController"]["java_expr"], "resetController(); -> controller(type.createController(self()));")
         self.assertNotIn("controller_is_valid_value", source_unit_update_invalid_controller_reset_result["keys"])
+
+        source_unit_update_nan_health_result = source_symbols.state_schema(schema, "source_unit_update_nan_health_result")
+        self.assertEqual(source_unit_update_nan_health_result["keys"]["guard"]["java_expr"], "if(Float.isNaN(health)){")
+        self.assertEqual(source_unit_update_nan_health_result["keys"]["health"]["java_expr"], "health = 0f;")
+        self.assertEqual(source_unit_update_nan_health_result["keys"]["kill"]["java_expr"], "kill();")
+        self.assertNotIn("current_health", source_unit_update_nan_health_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

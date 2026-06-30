@@ -16118,6 +16118,31 @@
         "test_port_game_exposes_source_unit_update_invalid_controller_reset_state",
         "test_unit_update_invalid_controller_reset_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_nan_health_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "current_health",
+          "schema": "source_unit_update_nan_health_input.current_health",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "health",
+        "kill"
+      ],
+      "rule": "Public runtime contract for UnitComp.update NaN health reset/kill state.",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "source_method": "UnitComp.update() NaN health",
+      "source_slice": "N822",
+      "status": "active",
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ]
     }
   },
   "policy": {

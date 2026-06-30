@@ -46369,6 +46369,81 @@
         "test_unit_update_invalid_controller_reset_matches_upstream_source"
       ]
     },
+    "unit_update_nan_health.current_health": {
+      "godot_owner": "PortGame.source_unit_update_nan_health_state",
+      "godot_symbol": "source_unit_update_nan_health_input.current_health",
+      "java_expr": "health",
+      "java_method": "UnitComp.update() NaN health",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit current health input.",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ]
+    },
+    "unit_update_nan_health.float_is_nan_call": {
+      "godot_owner": "PortGame.source_unit_update_nan_health_state",
+      "godot_symbol": "source_unit_update_nan_health_result.guard",
+      "java_expr": "Float.isNaN(health)",
+      "java_method": "UnitComp.update() NaN health",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "NaN predicate expression from guard.",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ]
+    },
+    "unit_update_nan_health.guard": {
+      "godot_owner": "PortGame.source_unit_update_nan_health_state",
+      "godot_symbol": "source_unit_update_nan_health_result.guard",
+      "java_expr": "if(Float.isNaN(health)){",
+      "java_method": "UnitComp.update() NaN health",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact NaN health guard.",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ]
+    },
+    "unit_update_nan_health.health_zero": {
+      "godot_owner": "PortGame.source_unit_update_nan_health_state",
+      "godot_symbol": "source_unit_update_nan_health_result.health",
+      "java_expr": "health = 0f;",
+      "java_method": "UnitComp.update() NaN health",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact health reset assignment when health is NaN.",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ]
+    },
+    "unit_update_nan_health.kill_call": {
+      "godot_owner": "PortGame.source_unit_update_nan_health_state",
+      "godot_symbol": "source_unit_update_nan_health_result.kill",
+      "java_expr": "kill();",
+      "java_method": "UnitComp.update() NaN health",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact kill call when health is NaN.",
+      "runtime_proof": "/root/Main.source_unit_update_nan_health_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_nan_health_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_nan_health_state",
+        "test_unit_update_nan_health_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

@@ -615,6 +615,17 @@ func _deserialize_value(value) -> Variant:
 					return Vector3i(value.get("x", 0), value.get("y", 0), value.get("z", 0))
 				"Color":
 					return Color(value.get("r", 0), value.get("g", 0), value.get("b", 0), value.get("a", 1))
+				"Float":
+					var float_value = value.get("value", 0.0)
+					if float_value is String:
+						match (float_value as String).to_lower():
+							"nan":
+								return NAN
+							"inf", "infinity":
+								return INF
+							"-inf", "-infinity":
+								return -INF
+					return float(float_value)
 				"NodePath":
 					return NodePath(value.get("path", ""))
 				_:
