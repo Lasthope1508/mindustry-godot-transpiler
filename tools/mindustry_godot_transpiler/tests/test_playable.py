@@ -6529,7 +6529,15 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn('const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_GATE := "if(event){"', source)
+        self.assertIn('const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_FIRE_TRIGGER := "Events.fire(Trigger.unitCommandBoost);"', source)
+        self.assertIn('const SOURCE_EVENT_TYPE_TRIGGER_ENUM := "public enum Trigger{"', source)
+        self.assertIn('const SOURCE_EVENT_TYPE_UNIT_COMMAND_BOOST := "unitCommandBoost,"', source)
         self.assertIn("func source_unit_update_boosting_event_state(event: bool) -> Dictionary:", source)
+        self.assertIn('"eventGate": SOURCE_UNIT_UPDATE_BOOSTING_EVENT_GATE', source)
+        self.assertIn('"fireTrigger": SOURCE_UNIT_UPDATE_BOOSTING_EVENT_FIRE_TRIGGER', source)
+        self.assertIn('"triggerEnum": SOURCE_EVENT_TYPE_TRIGGER_ENUM', source)
+        self.assertIn('"unitCommandBoost": SOURCE_EVENT_TYPE_UNIT_COMMAND_BOOST', source)
         self.assertIn('"event_fired": event', source)
         self.assertIn('"trigger": "unitCommandBoost" if event else ""', source)
 

@@ -13625,6 +13625,38 @@
         "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_elevation_state"
       ]
+    },
+    "N807": {
+      "bridge_exprs": [
+        "public enum Trigger{",
+        "unitCommandBoost,"
+      ],
+      "deferred_exprs": [
+        "No event bus is invented; this slice records the source trigger dispatch only."
+      ],
+      "exact_exprs": [
+        "if(event){",
+        "Events.fire(Trigger.unitCommandBoost);"
+      ],
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)/EventType.Trigger",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "source_symbols": [
+        "unit_update_boosting_event.event_gate",
+        "unit_update_boosting_event.fire_trigger",
+        "unit_update_boosting_event.trigger_enum",
+        "unit_update_boosting_event.unit_command_boost",
+        "unit_update_boosting_event.event",
+        "unit_update_boosting_event.event_fired",
+        "unit_update_boosting_event.trigger"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
     }
   },
   "version": 1

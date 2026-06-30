@@ -15335,6 +15335,33 @@
         "test_unit_update_boosting_elevation_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_update_boosting_elevation_state"
       ]
+    },
+    "PortGame.source_unit_update_boosting_event_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "event",
+          "schema": "source_unit_update_boosting_event_input.event",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "eventGate",
+        "fireTrigger",
+        "triggerEnum",
+        "unitCommandBoost",
+        "event_fired",
+        "trigger"
+      ],
+      "rule": "Public runtime contract for UnitComp.updateBoosting command boost event trigger.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "source_method": "UnitComp.updateBoosting(boolean boost, boolean event)/EventType.Trigger",
+      "source_slice": "N807",
+      "status": "active",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
     }
   },
   "policy": {

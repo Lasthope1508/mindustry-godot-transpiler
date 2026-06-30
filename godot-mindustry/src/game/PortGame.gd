@@ -10463,8 +10463,17 @@ func source_unit_update_boosting_elevation_state(current_elevation: float, type_
 		"mathfClampFloatReturn": SOURCE_ARC_MATHF_CLAMP_FLOAT_RETURN,
 	}
 
+const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_GATE := "if(event){"
+const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_FIRE_TRIGGER := "Events.fire(Trigger.unitCommandBoost);"
+const SOURCE_EVENT_TYPE_TRIGGER_ENUM := "public enum Trigger{"
+const SOURCE_EVENT_TYPE_UNIT_COMMAND_BOOST := "unitCommandBoost,"
+
 func source_unit_update_boosting_event_state(event: bool) -> Dictionary:
 	return {
+		"eventGate": SOURCE_UNIT_UPDATE_BOOSTING_EVENT_GATE,
+		"fireTrigger": SOURCE_UNIT_UPDATE_BOOSTING_EVENT_FIRE_TRIGGER,
+		"triggerEnum": SOURCE_EVENT_TYPE_TRIGGER_ENUM,
+		"unitCommandBoost": SOURCE_EVENT_TYPE_UNIT_COMMAND_BOOST,
 		"event_fired": event,
 		"trigger": "unitCommandBoost" if event else "",
 	}

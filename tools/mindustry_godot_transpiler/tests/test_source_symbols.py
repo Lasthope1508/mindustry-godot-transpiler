@@ -5110,6 +5110,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_approach_delta_return["java_expr"], "return approach(from, to, Time.delta * speed);")
         self.assertEqual(mathf_approach_delta_return["godot_symbol"], "source_unit_update_boosting_elevation_result.mathfApproachDeltaReturn")
 
+    def test_unit_update_boosting_event_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        event_gate = source_symbols.source_symbol(registry, "unit_update_boosting_event.event_gate")
+        self.assertEqual(event_gate["java_expr"], "if(event){")
+        self.assertEqual(event_gate["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(event_gate["java_method"], "UnitComp.updateBoosting(boolean boost, boolean event)")
+        self.assertEqual(event_gate["godot_owner"], "PortGame.source_unit_update_boosting_event_state")
+        self.assertEqual(event_gate["runtime_proof"], "/root/Main.source_unit_update_boosting_event_state")
+        self.assertEqual(event_gate["godot_symbol"], "source_unit_update_boosting_event_result.eventGate")
+
+        fire_trigger = source_symbols.source_symbol(registry, "unit_update_boosting_event.fire_trigger")
+        self.assertEqual(fire_trigger["java_expr"], "Events.fire(Trigger.unitCommandBoost);")
+        self.assertEqual(fire_trigger["godot_symbol"], "source_unit_update_boosting_event_result.fireTrigger")
+
+        trigger_enum = source_symbols.source_symbol(registry, "unit_update_boosting_event.trigger_enum")
+        self.assertEqual(trigger_enum["java_expr"], "public enum Trigger{")
+        self.assertEqual(trigger_enum["java_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(trigger_enum["godot_symbol"], "source_unit_update_boosting_event_result.triggerEnum")
+
+        unit_command_boost = source_symbols.source_symbol(registry, "unit_update_boosting_event.unit_command_boost")
+        self.assertEqual(unit_command_boost["java_expr"], "unitCommandBoost,")
+        self.assertEqual(unit_command_boost["java_source"], "core/src/mindustry/game/EventType.java")
+        self.assertEqual(unit_command_boost["godot_symbol"], "source_unit_update_boosting_event_result.unitCommandBoost")
+
+        event = source_symbols.source_symbol(registry, "unit_update_boosting_event.event")
+        self.assertEqual(event["status"], "explicit-input")
+        self.assertEqual(event["java_expr"], "event")
+        self.assertEqual(event["godot_symbol"], "source_unit_update_boosting_event_input.event")
+
+        event_fired = source_symbols.source_symbol(registry, "unit_update_boosting_event.event_fired")
+        self.assertEqual(event_fired["status"], "source-backed")
+        self.assertEqual(event_fired["java_expr"], "if(event){")
+        self.assertEqual(event_fired["godot_symbol"], "source_unit_update_boosting_event_result.event_fired")
+
+        trigger = source_symbols.source_symbol(registry, "unit_update_boosting_event.trigger")
+        self.assertEqual(trigger["status"], "generated")
+        self.assertEqual(trigger["java_expr"], "Events.fire(Trigger.unitCommandBoost); -> unitCommandBoost,")
+        self.assertEqual(trigger["godot_symbol"], "source_unit_update_boosting_event_result.trigger")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13582,9 +13625,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 404)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 405)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 409)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 410)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13646,6 +13689,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_ai_controller_server_gate_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_boosting_default_event_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_boosting_elevation_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_boosting_event_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15898,6 +15942,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float clamp(float value, float min, float max){", unit_update_boosting_elevation["bridge_exprs"])
         self.assertIn("return Math.max(Math.min(value, max), min);", unit_update_boosting_elevation["bridge_exprs"])
         self.assertIn("Unit type rise/descent defaults stay explicit inputs; this slice does not invent UnitType speed values.", unit_update_boosting_elevation["deferred_exprs"])
+
+        unit_update_boosting_event = source_symbols.source_slice(ledger, "N807")
+        self.assertEqual(unit_update_boosting_event["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_boosting_event["java_method"], "UnitComp.updateBoosting(boolean boost, boolean event)/EventType.Trigger")
+        self.assertEqual(unit_update_boosting_event["godot_owner"], "PortGame.source_unit_update_boosting_event_state")
+        self.assertIn("if(event){", unit_update_boosting_event["exact_exprs"])
+        self.assertIn("Events.fire(Trigger.unitCommandBoost);", unit_update_boosting_event["exact_exprs"])
+        self.assertIn("public enum Trigger{", unit_update_boosting_event["bridge_exprs"])
+        self.assertIn("unitCommandBoost,", unit_update_boosting_event["bridge_exprs"])
+        self.assertIn("No event bus is invented; this slice records the source trigger dispatch only.", unit_update_boosting_event["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -19624,6 +19678,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("mathfNumMethod", unit_update_boosting_elevation["return_keys"])
         self.assertIn("mathfApproachDeltaReturn", unit_update_boosting_elevation["return_keys"])
         self.assertEqual(unit_update_boosting_elevation["source_method"], "UnitComp.updateBoosting(boolean boost, boolean event)/Mathf.approachDelta")
+
+        unit_update_boosting_event = source_symbols.api_contract(contracts, "PortGame.source_unit_update_boosting_event_state")
+        self.assertEqual([param["name"] for param in unit_update_boosting_event["params"]], ["event"])
+        self.assertEqual(unit_update_boosting_event["params"][0]["schema"], "source_unit_update_boosting_event_input.event")
+        self.assertIn("eventGate", unit_update_boosting_event["return_keys"])
+        self.assertIn("fireTrigger", unit_update_boosting_event["return_keys"])
+        self.assertIn("triggerEnum", unit_update_boosting_event["return_keys"])
+        self.assertIn("unitCommandBoost", unit_update_boosting_event["return_keys"])
+        self.assertIn("event_fired", unit_update_boosting_event["return_keys"])
+        self.assertIn("trigger", unit_update_boosting_event["return_keys"])
+        self.assertNotIn("event", unit_update_boosting_event["return_keys"])
+        self.assertEqual(unit_update_boosting_event["source_method"], "UnitComp.updateBoosting(boolean boost, boolean event)/EventType.Trigger")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -23780,6 +23846,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_boosting_elevation_input["keys"]["type_descent_speed"]["java_expr"], "type.descentSpeed")
         self.assertEqual(source_unit_update_boosting_elevation_input["keys"]["source_delta"]["java_expr"], "Time.delta")
 
+        source_unit_update_boosting_event_input = source_symbols.state_schema(schema, "source_unit_update_boosting_event_input")
+        self.assertEqual(source_unit_update_boosting_event_input["keys"]["event"]["java_expr"], "event")
+        self.assertEqual(source_unit_update_boosting_event_input["keys"]["event"]["status"], "explicit-input")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -24116,6 +24186,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("type_rise_speed", source_unit_update_boosting_elevation_result["keys"])
         self.assertNotIn("type_descent_speed", source_unit_update_boosting_elevation_result["keys"])
         self.assertNotIn("source_delta", source_unit_update_boosting_elevation_result["keys"])
+
+        source_unit_update_boosting_event_result = source_symbols.state_schema(schema, "source_unit_update_boosting_event_result")
+        self.assertEqual(source_unit_update_boosting_event_result["keys"]["eventGate"]["java_expr"], "if(event){")
+        self.assertEqual(source_unit_update_boosting_event_result["keys"]["fireTrigger"]["java_expr"], "Events.fire(Trigger.unitCommandBoost);")
+        self.assertEqual(source_unit_update_boosting_event_result["keys"]["triggerEnum"]["java_expr"], "public enum Trigger{")
+        self.assertEqual(source_unit_update_boosting_event_result["keys"]["unitCommandBoost"]["java_expr"], "unitCommandBoost,")
+        self.assertEqual(source_unit_update_boosting_event_result["keys"]["event_fired"]["java_expr"], "if(event){")
+        self.assertEqual(source_unit_update_boosting_event_result["keys"]["trigger"]["java_expr"], "Events.fire(Trigger.unitCommandBoost); -> unitCommandBoost,")
+        self.assertEqual(source_unit_update_boosting_event_result["keys"]["trigger"]["status"], "generated")
+        self.assertNotIn("event", source_unit_update_boosting_event_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

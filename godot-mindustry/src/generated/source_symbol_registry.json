@@ -42272,6 +42272,104 @@
         "test_port_game_exposes_source_unit_update_boosting_elevation_state"
       ]
     },
+    "unit_update_boosting_event.event": {
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "godot_symbol": "source_unit_update_boosting_event_input.event",
+      "java_expr": "event",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime bridge input for updateBoosting event argument.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
+    },
+    "unit_update_boosting_event.event_fired": {
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "godot_symbol": "source_unit_update_boosting_event_result.event_fired",
+      "java_expr": "if(event){",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Observable event-fired boolean mirrors the source event gate.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
+    },
+    "unit_update_boosting_event.event_gate": {
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "godot_symbol": "source_unit_update_boosting_event_result.eventGate",
+      "java_expr": "if(event){",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp updateBoosting fires command boost trigger only inside event gate.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
+    },
+    "unit_update_boosting_event.fire_trigger": {
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "godot_symbol": "source_unit_update_boosting_event_result.fireTrigger",
+      "java_expr": "Events.fire(Trigger.unitCommandBoost);",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp updateBoosting dispatches Trigger.unitCommandBoost through Arc Events.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
+    },
+    "unit_update_boosting_event.trigger": {
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "godot_symbol": "source_unit_update_boosting_event_result.trigger",
+      "java_expr": "Events.fire(Trigger.unitCommandBoost); -> unitCommandBoost,",
+      "java_method": "UnitComp.updateBoosting(boolean boost, boolean event)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Runtime trigger label is generated from source dispatch and EventType enum anchor; empty when event gate is false.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "status": "generated",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
+    },
+    "unit_update_boosting_event.trigger_enum": {
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "godot_symbol": "source_unit_update_boosting_event_result.triggerEnum",
+      "java_expr": "public enum Trigger{",
+      "java_method": "EventType.Trigger",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "rule": "EventType Trigger enum contains unit command boost trigger.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
+    },
+    "unit_update_boosting_event.unit_command_boost": {
+      "godot_owner": "PortGame.source_unit_update_boosting_event_state",
+      "godot_symbol": "source_unit_update_boosting_event_result.unitCommandBoost",
+      "java_expr": "unitCommandBoost,",
+      "java_method": "EventType.Trigger",
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "rule": "EventType Trigger enum anchor for unit command boost.",
+      "runtime_proof": "/root/Main.source_unit_update_boosting_event_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_boosting_event_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_boosting_event_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",
