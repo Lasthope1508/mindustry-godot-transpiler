@@ -40592,6 +40592,104 @@
         "test_port_game_exposes_source_unit_look_at_xy_state"
       ]
     },
+    "unit_move_at_default_accel.call": {
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "godot_symbol": "source_unit_move_at_default_accel_result.call",
+      "java_expr": "moveAt(vector, type.accel);",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Default acceleration wrapper delegates to moveAt(Vec2,float).",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
+    },
+    "unit_move_at_default_accel.method": {
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "godot_symbol": "source_unit_move_at_default_accel_result.method",
+      "java_expr": "public void moveAt(Vec2 vector){",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp moveAt(Vec2) default acceleration wrapper boundary.",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
+    },
+    "unit_move_at_default_accel.move_at_acceleration_method": {
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "godot_symbol": "source_unit_move_at_default_accel_result.moveAtAccelerationMethod",
+      "java_expr": "public void moveAt(Vec2 vector, float acceleration){",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Target overload boundary for delegated moveAt call.",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
+    },
+    "unit_move_at_default_accel.type_accel_input": {
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "godot_symbol": "source_unit_move_at_default_accel_input.type_accel",
+      "java_expr": "type.accel",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitType acceleration forwarded to moveAt(Vec2,float).",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
+    },
+    "unit_move_at_default_accel.vector_input": {
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "godot_symbol": "source_unit_move_at_default_accel_input.vector",
+      "java_expr": "vector",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp moveAt(Vec2) vector parameter.",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
+    },
+    "unit_move_at_default_accel.vector_x_input": {
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "godot_symbol": "source_unit_move_at_default_accel_input.vector_x",
+      "java_expr": "vector.x",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Vec2 vector x explicit runtime input.",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
+    },
+    "unit_move_at_default_accel.vector_y_input": {
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "godot_symbol": "source_unit_move_at_default_accel_input.vector_y",
+      "java_expr": "vector.y",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Vec2 vector y explicit runtime input.",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

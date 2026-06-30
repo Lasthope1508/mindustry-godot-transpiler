@@ -14693,6 +14693,42 @@
         "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_look_at_xy_state"
       ]
+    },
+    "PortGame.source_unit_move_at_default_accel_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "vector_x",
+          "schema": "source_unit_move_at_default_accel_input.vector_x",
+          "type": "float"
+        },
+        {
+          "name": "vector_y",
+          "schema": "source_unit_move_at_default_accel_input.vector_y",
+          "type": "float"
+        },
+        {
+          "name": "type_accel",
+          "schema": "source_unit_move_at_default_accel_input.type_accel",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "source",
+        "vector",
+        "acceleration",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.moveAt(Vec2 vector) default-acceleration wrapper into moveAt(Vec2,float).",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "source_method": "UnitComp.moveAt(Vec2 vector)",
+      "source_slice": "N793",
+      "status": "active",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
     }
   },
   "policy": {

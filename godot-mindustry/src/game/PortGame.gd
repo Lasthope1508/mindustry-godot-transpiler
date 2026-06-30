@@ -3903,8 +3903,13 @@ func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vect
 		"limit": acceleration * target.length() * source_delta,
 	}
 
+const SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_METHOD := "public void moveAt(Vec2 vector){"
+const SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_CALL := "moveAt(vector, type.accel);"
+
 func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, type_accel: float) -> Dictionary:
 	return {
+		"method": SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_METHOD,
+		"source": SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_CALL,
 		"vector": {"x": vector_x, "y": vector_y},
 		"acceleration": type_accel,
 		"call": "moveAt",

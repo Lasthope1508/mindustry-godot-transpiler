@@ -3323,6 +3323,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, type_accel: float) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_METHOD := "public void moveAt(Vec2 vector){"', source)
+        self.assertIn('const SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_CALL := "moveAt(vector, type.accel);"', source)
+        self.assertIn('"method": SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_METHOD', source)
+        self.assertIn('"source": SOURCE_UNIT_MOVE_AT_DEFAULT_ACCEL_CALL', source)
         self.assertIn('"vector": {"x": vector_x, "y": vector_y}', source)
         self.assertIn('"acceleration": type_accel', source)
         self.assertIn('"call": "moveAt"', source)

@@ -13068,6 +13068,38 @@
         "test_unit_look_at_xy_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_look_at_xy_state"
       ]
+    },
+    "N793": {
+      "bridge_exprs": [
+        "public void moveAt(Vec2 vector, float acceleration){"
+      ],
+      "deferred_exprs": [
+        "UnitType.accel remains explicit input; default/content values stay generated-content boundary",
+        "UnitComp.moveAt(Vec2,float) vector math remains separate owner"
+      ],
+      "exact_exprs": [
+        "public void moveAt(Vec2 vector){",
+        "moveAt(vector, type.accel);"
+      ],
+      "godot_owner": "PortGame.source_unit_move_at_default_accel_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.moveAt(Vec2 vector)",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_move_at_default_accel_state",
+      "source_symbols": [
+        "unit_move_at_default_accel.call",
+        "unit_move_at_default_accel.method",
+        "unit_move_at_default_accel.move_at_acceleration_method",
+        "unit_move_at_default_accel.type_accel_input",
+        "unit_move_at_default_accel.vector_input",
+        "unit_move_at_default_accel.vector_x_input",
+        "unit_move_at_default_accel.vector_y_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_move_at_default_accel_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_move_at_default_accel_state"
+      ]
     }
   },
   "version": 1

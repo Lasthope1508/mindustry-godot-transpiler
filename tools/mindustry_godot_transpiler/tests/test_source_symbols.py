@@ -4733,6 +4733,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(position_angle_to["java_expr"], "return Angles.angle(getX(), getY(), x, y);")
         self.assertEqual(position_angle_to["java_source"], "arc-core/src/arc/math/geom/Position.java")
 
+    def test_unit_move_at_default_accel_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_move_at_default_accel.method")
+        self.assertEqual(method["java_expr"], "public void moveAt(Vec2 vector){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_move_at_default_accel_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_move_at_default_accel_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_move_at_default_accel_result.method")
+
+        vector_input = source_symbols.source_symbol(registry, "unit_move_at_default_accel.vector_input")
+        self.assertEqual(vector_input["java_expr"], "vector")
+        self.assertEqual(vector_input["godot_symbol"], "source_unit_move_at_default_accel_input.vector")
+
+        type_accel_input = source_symbols.source_symbol(registry, "unit_move_at_default_accel.type_accel_input")
+        self.assertEqual(type_accel_input["java_expr"], "type.accel")
+        self.assertEqual(type_accel_input["godot_symbol"], "source_unit_move_at_default_accel_input.type_accel")
+
+        call = source_symbols.source_symbol(registry, "unit_move_at_default_accel.call")
+        self.assertEqual(call["java_expr"], "moveAt(vector, type.accel);")
+        self.assertEqual(call["godot_symbol"], "source_unit_move_at_default_accel_result.call")
+
     def test_unit_approach_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -13077,9 +13101,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 390)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 391)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 395)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 396)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13127,6 +13151,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_look_at_angle_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_look_at_position_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_look_at_xy_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_move_at_default_accel_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15193,6 +15218,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return Angles.angle(getX(), getY(), x, y);", unit_look_at_xy["bridge_exprs"])
         self.assertIn("public static float angle(float x, float y, float x2, float y2){", unit_look_at_xy["bridge_exprs"])
         self.assertIn("float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;", unit_look_at_xy["bridge_exprs"])
+
+        unit_move_at_default_accel = source_symbols.source_slice(ledger, "N793")
+        self.assertEqual(unit_move_at_default_accel["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_move_at_default_accel["java_method"], "UnitComp.moveAt(Vec2 vector)")
+        self.assertEqual(unit_move_at_default_accel["godot_owner"], "PortGame.source_unit_move_at_default_accel_state")
+        self.assertIn("public void moveAt(Vec2 vector){", unit_move_at_default_accel["exact_exprs"])
+        self.assertIn("moveAt(vector, type.accel);", unit_move_at_default_accel["exact_exprs"])
+        self.assertIn("public void moveAt(Vec2 vector, float acceleration){", unit_move_at_default_accel["bridge_exprs"])
+        self.assertIn("UnitType.accel remains explicit input; default/content values stay generated-content boundary", unit_move_at_default_accel["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18707,6 +18741,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotation_speed", unit_look_at_xy["return_keys"])
         self.assertIn("rotation", unit_look_at_xy["return_keys"])
         self.assertEqual(unit_look_at_xy["source_method"], "UnitComp.lookAt(float x, float y)")
+
+        unit_move_at_default_accel = source_symbols.api_contract(contracts, "PortGame.source_unit_move_at_default_accel_state")
+        self.assertEqual([param["name"] for param in unit_move_at_default_accel["params"]], ["vector_x", "vector_y", "type_accel"])
+        self.assertEqual(unit_move_at_default_accel["params"][0]["schema"], "source_unit_move_at_default_accel_input.vector_x")
+        self.assertEqual(unit_move_at_default_accel["params"][1]["schema"], "source_unit_move_at_default_accel_input.vector_y")
+        self.assertEqual(unit_move_at_default_accel["params"][2]["schema"], "source_unit_move_at_default_accel_input.type_accel")
+        self.assertIn("method", unit_move_at_default_accel["return_keys"])
+        self.assertIn("source", unit_move_at_default_accel["return_keys"])
+        self.assertIn("vector", unit_move_at_default_accel["return_keys"])
+        self.assertIn("acceleration", unit_move_at_default_accel["return_keys"])
+        self.assertIn("call", unit_move_at_default_accel["return_keys"])
+        self.assertEqual(unit_move_at_default_accel["source_method"], "UnitComp.moveAt(Vec2 vector)")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22960,6 +23006,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_look_at_xy_result["keys"]["angleToCall"]["java_expr"], "angleTo(x, y)")
         self.assertEqual(source_unit_look_at_xy_result["keys"]["target_angle"]["java_expr"], "Angles.angle(getX(), getY(), x, y)")
         self.assertEqual(source_unit_look_at_xy_result["keys"]["rotation"]["alias_of"], "source_unit_look_at_angle_result.rotation")
+
+        source_unit_move_at_default_accel_input = source_symbols.state_schema(schema, "source_unit_move_at_default_accel_input")
+        self.assertEqual(source_unit_move_at_default_accel_input["keys"]["vector"]["java_expr"], "vector")
+        self.assertEqual(source_unit_move_at_default_accel_input["keys"]["vector_x"]["java_expr"], "vector.x")
+        self.assertEqual(source_unit_move_at_default_accel_input["keys"]["vector_y"]["java_expr"], "vector.y")
+        self.assertEqual(source_unit_move_at_default_accel_input["keys"]["type_accel"]["java_expr"], "type.accel")
+
+        source_unit_move_at_default_accel_result = source_symbols.state_schema(schema, "source_unit_move_at_default_accel_result")
+        self.assertEqual(source_unit_move_at_default_accel_result["keys"]["method"]["java_expr"], "public void moveAt(Vec2 vector){")
+        self.assertEqual(source_unit_move_at_default_accel_result["keys"]["source"]["java_expr"], "moveAt(vector, type.accel);")
+        self.assertEqual(source_unit_move_at_default_accel_result["keys"]["call"]["java_expr"], "moveAt(vector, type.accel);")
+        self.assertEqual(source_unit_move_at_default_accel_result["keys"]["acceleration"]["java_expr"], "type.accel")
+        self.assertEqual(source_unit_move_at_default_accel_result["keys"]["moveAtAccelerationMethod"]["java_expr"], "public void moveAt(Vec2 vector, float acceleration){")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")
