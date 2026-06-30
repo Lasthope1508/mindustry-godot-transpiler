@@ -5342,6 +5342,80 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(effect_scorch_method["java_expr"], "public static void scorch(float x, float y, int size){")
         self.assertEqual(effect_scorch_method["godot_symbol"], "source_unit_destroy_visual_effects_result.effectScorchMethod")
 
+    def test_unit_destroy_wreck_decal_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.method")
+        self.assertEqual(method["java_expr"], "public void destroy(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_destroy_wreck_decal_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_destroy_wreck_decal_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_destroy_wreck_decal_result.method")
+
+        guard = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.guard")
+        self.assertEqual(guard["java_expr"], "if(!headless && type.createScorch){")
+        self.assertEqual(guard["godot_symbol"], "source_unit_destroy_wreck_decal_result.guard")
+
+        loop = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.loop")
+        self.assertEqual(loop["java_expr"], "for(int i = 0; i < type.wreckRegions.length; i++){")
+        self.assertEqual(loop["godot_symbol"], "source_unit_destroy_wreck_decal_result.loop")
+
+        found_guard = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.found_guard")
+        self.assertEqual(found_guard["java_expr"], "if(type.wreckRegions[i].found()){")
+        self.assertEqual(found_guard["godot_symbol"], "source_unit_destroy_wreck_decal_result.foundGuard")
+
+        range_formula = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.range_formula")
+        self.assertEqual(range_formula["java_expr"], "float range = type.hitSize /4f;")
+        self.assertEqual(range_formula["godot_symbol"], "source_unit_destroy_wreck_decal_result.rangeFormula")
+
+        random_call = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.random_call")
+        self.assertEqual(random_call["java_expr"], "Tmp.v1.rnd(range);")
+        self.assertEqual(random_call["godot_symbol"], "source_unit_destroy_wreck_decal_result.randomCall")
+
+        decal_call = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.decal_call")
+        self.assertEqual(decal_call["java_expr"], "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);")
+        self.assertEqual(decal_call["godot_symbol"], "source_unit_destroy_wreck_decal_result.decalCall")
+
+        wreck_regions = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.wreck_regions")
+        self.assertEqual(wreck_regions["java_expr"], "public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;")
+        self.assertEqual(wreck_regions["godot_symbol"], "source_unit_destroy_wreck_decal_result.wreckRegions")
+
+        wreck_region_init = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.wreck_region_init")
+        self.assertEqual(wreck_region_init["java_expr"], "wreckRegions = new TextureRegion[3];")
+        self.assertEqual(wreck_region_init["godot_symbol"], "source_unit_destroy_wreck_decal_result.wreckRegionInit")
+
+        wreck_region_load = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.wreck_region_load")
+        self.assertEqual(wreck_region_load["java_expr"], "wreckRegions[i] = Core.atlas.find(name + \"-wreck\" + i);")
+        self.assertEqual(wreck_region_load["godot_symbol"], "source_unit_destroy_wreck_decal_result.wreckRegionLoad")
+
+        texture_region_found = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.texture_region_found")
+        self.assertEqual(texture_region_found["java_expr"], "public boolean found(){")
+        self.assertEqual(texture_region_found["godot_symbol"], "source_unit_destroy_wreck_decal_result.textureRegionFound")
+
+        effect_decal = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.effect_decal")
+        self.assertEqual(effect_decal["java_expr"], "public static void decal(TextureRegion region, float x, float y, float rotation){")
+        self.assertEqual(effect_decal["godot_symbol"], "source_unit_destroy_wreck_decal_result.effectDecal")
+
+        tmp_v1 = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.tmp_v1")
+        self.assertEqual(tmp_v1["java_expr"], "public static final Vec2 v1 = new Vec2();")
+        self.assertEqual(tmp_v1["godot_symbol"], "source_unit_destroy_wreck_decal_result.tmpV1")
+
+        vec2_rnd = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.vec2_rnd")
+        self.assertEqual(vec2_rnd["java_expr"], "public Vec2 rnd(float length){")
+        self.assertEqual(vec2_rnd["godot_symbol"], "source_unit_destroy_wreck_decal_result.vec2Rnd")
+
+        source_x = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.source_x")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "x")
+        self.assertEqual(source_x["godot_symbol"], "source_unit_destroy_wreck_decal_input.source_x")
+
+        type_hit_size = source_symbols.source_symbol(registry, "unit_destroy_wreck_decal.type_hit_size")
+        self.assertEqual(type_hit_size["status"], "explicit-input")
+        self.assertEqual(type_hit_size["java_expr"], "type.hitSize")
+        self.assertEqual(type_hit_size["godot_symbol"], "source_unit_destroy_wreck_decal_input.type_hit_size")
+
     def test_unit_destroy_explosion_dispatch_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -12509,9 +12583,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 372)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 373)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 377)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 378)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -12541,6 +12615,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_destroy_suicide_bomb_trigger_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_type_killed_remove_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_visual_effects_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_destroy_wreck_decal_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -14418,6 +14493,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shake(intensity, duration, loc.getX(), loc.getY());", unit_destroy_visual_effects["bridge_exprs"])
         self.assertIn("public static void scorch(float x, float y, int size){", unit_destroy_visual_effects["bridge_exprs"])
         self.assertIn("Renderer/decal side effects remain owned by effect/rendering slices", unit_destroy_visual_effects["deferred_exprs"])
+
+        unit_destroy_wreck_decal = source_symbols.source_slice(ledger, "N775")
+        self.assertEqual(unit_destroy_wreck_decal["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_destroy_wreck_decal["java_method"], "UnitComp.destroy() wreck decals")
+        self.assertEqual(unit_destroy_wreck_decal["godot_owner"], "PortGame.source_unit_destroy_wreck_decal_state")
+        self.assertIn("public void destroy(){", unit_destroy_wreck_decal["exact_exprs"])
+        self.assertIn("if(!headless && type.createScorch){", unit_destroy_wreck_decal["exact_exprs"])
+        self.assertIn("for(int i = 0; i < type.wreckRegions.length; i++){", unit_destroy_wreck_decal["exact_exprs"])
+        self.assertIn("if(type.wreckRegions[i].found()){", unit_destroy_wreck_decal["exact_exprs"])
+        self.assertIn("float range = type.hitSize /4f;", unit_destroy_wreck_decal["exact_exprs"])
+        self.assertIn("Tmp.v1.rnd(range);", unit_destroy_wreck_decal["exact_exprs"])
+        self.assertIn("Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);", unit_destroy_wreck_decal["exact_exprs"])
+        self.assertIn("public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;", unit_destroy_wreck_decal["bridge_exprs"])
+        self.assertIn("public boolean found(){", unit_destroy_wreck_decal["bridge_exprs"])
+        self.assertIn("public static void decal(TextureRegion region, float x, float y, float rotation){", unit_destroy_wreck_decal["bridge_exprs"])
+        self.assertIn("public static final Vec2 v1 = new Vec2();", unit_destroy_wreck_decal["bridge_exprs"])
+        self.assertIn("Renderer/decal side effects and random sampling remain explicit runtime inputs", unit_destroy_wreck_decal["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -17944,6 +18036,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shakeEffect", unit_destroy_visual_effects["return_keys"])
         self.assertIn("effectScorchMethod", unit_destroy_visual_effects["return_keys"])
         self.assertEqual(unit_destroy_visual_effects["source_method"], "UnitComp.destroy() visual effects")
+
+        unit_destroy_wreck_decal = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_wreck_decal_state")
+        self.assertEqual([param["name"] for param in unit_destroy_wreck_decal["params"]], ["headless_value", "type_create_scorch", "wreck_regions", "tmp_offsets", "source_x", "source_y", "source_rotation_degrees", "type_hit_size"])
+        self.assertEqual(unit_destroy_wreck_decal["params"][0]["schema"], "source_unit_destroy_wreck_decal_input.headless_value")
+        self.assertEqual(unit_destroy_wreck_decal["params"][2]["schema"], "source_unit_destroy_wreck_decal_input.wreck_regions")
+        self.assertEqual(unit_destroy_wreck_decal["params"][3]["schema"], "source_unit_destroy_wreck_decal_input.tmp_offsets")
+        self.assertEqual(unit_destroy_wreck_decal["params"][7]["schema"], "source_unit_destroy_wreck_decal_input.type_hit_size")
+        self.assertIn("method", unit_destroy_wreck_decal["return_keys"])
+        self.assertIn("guard", unit_destroy_wreck_decal["return_keys"])
+        self.assertIn("loop", unit_destroy_wreck_decal["return_keys"])
+        self.assertIn("rangeFormula", unit_destroy_wreck_decal["return_keys"])
+        self.assertIn("shouldCreateDecals", unit_destroy_wreck_decal["return_keys"])
+        self.assertIn("decals", unit_destroy_wreck_decal["return_keys"])
+        self.assertEqual(unit_destroy_wreck_decal["source_method"], "UnitComp.destroy() wreck decals")
 
         unit_destroy_explosion_dispatch = source_symbols.api_contract(contracts, "PortGame.source_unit_destroy_explosion_dispatch_state")
         self.assertEqual([param["name"] for param in unit_destroy_explosion_dispatch["params"]], ["spawned_by_core_value", "source_x", "source_y", "flammability", "explosiveness", "power", "bounds_value", "type_leg_length", "rules_damage_explosions", "rules_unit_crash_damage", "item_flammability", "team_id", "death_explosion_effect"])
@@ -22014,6 +22120,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_destroy_visual_effects_result["keys"]["effectScorchMethod"]["java_expr"], "public static void scorch(float x, float y, int size){")
         self.assertEqual(source_unit_destroy_visual_effects_result["keys"]["scorch"]["alias_of"], "source_unit_destroy_visual_effects_result.scorchCall")
         self.assertEqual(source_unit_destroy_visual_effects_result["keys"]["unit"]["alias_of"], "source_unit_destroy_visual_effects_input.unit_id")
+
+        source_unit_destroy_wreck_decal_input = source_symbols.state_schema(schema, "source_unit_destroy_wreck_decal_input")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["headless_value"]["java_expr"], "headless")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["type_create_scorch"]["java_expr"], "type.createScorch")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["wreck_regions"]["java_expr"], "type.wreckRegions")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["tmp_offsets"]["java_expr"], "Tmp.v1.rnd(range)")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["source_rotation_degrees"]["java_expr"], "rotation")
+        self.assertEqual(source_unit_destroy_wreck_decal_input["keys"]["type_hit_size"]["java_expr"], "type.hitSize")
+
+        source_unit_destroy_wreck_decal_result = source_symbols.state_schema(schema, "source_unit_destroy_wreck_decal_result")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["method"]["java_expr"], "public void destroy(){")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["guard"]["java_expr"], "if(!headless && type.createScorch){")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["loop"]["java_expr"], "for(int i = 0; i < type.wreckRegions.length; i++){")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["foundGuard"]["java_expr"], "if(type.wreckRegions[i].found()){")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["rangeFormula"]["java_expr"], "float range = type.hitSize /4f;")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["randomCall"]["java_expr"], "Tmp.v1.rnd(range);")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["decalCall"]["java_expr"], "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["shouldCreateDecals"]["java_expr"], "!headless && type.createScorch")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["range"]["java_expr"], "type.hitSize /4f")
+        self.assertEqual(source_unit_destroy_wreck_decal_result["keys"]["decals"]["java_expr"], "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90)")
 
         source_unit_destroy_explosion_dispatch_input = source_symbols.state_schema(schema, "source_unit_destroy_explosion_dispatch_input")
         self.assertEqual(source_unit_destroy_explosion_dispatch_input["keys"]["spawned_by_core_value"]["java_expr"], "spawnedByCore")

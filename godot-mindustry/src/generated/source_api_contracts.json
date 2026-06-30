@@ -14017,6 +14017,79 @@
         "test_unit_destroy_visual_effects_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_visual_effects_state"
       ]
+    },
+    "PortGame.source_unit_destroy_wreck_decal_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "headless_value",
+          "schema": "source_unit_destroy_wreck_decal_input.headless_value",
+          "type": "bool"
+        },
+        {
+          "name": "type_create_scorch",
+          "schema": "source_unit_destroy_wreck_decal_input.type_create_scorch",
+          "type": "bool"
+        },
+        {
+          "name": "wreck_regions",
+          "schema": "source_unit_destroy_wreck_decal_input.wreck_regions",
+          "type": "Array"
+        },
+        {
+          "name": "tmp_offsets",
+          "schema": "source_unit_destroy_wreck_decal_input.tmp_offsets",
+          "type": "Array"
+        },
+        {
+          "name": "source_x",
+          "schema": "source_unit_destroy_wreck_decal_input.source_x",
+          "type": "float"
+        },
+        {
+          "name": "source_y",
+          "schema": "source_unit_destroy_wreck_decal_input.source_y",
+          "type": "float"
+        },
+        {
+          "name": "source_rotation_degrees",
+          "schema": "source_unit_destroy_wreck_decal_input.source_rotation_degrees",
+          "type": "float"
+        },
+        {
+          "name": "type_hit_size",
+          "schema": "source_unit_destroy_wreck_decal_input.type_hit_size",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "shouldCreateDecals",
+        "loop",
+        "foundGuard",
+        "rangeFormula",
+        "randomCall",
+        "decalCall",
+        "wreckRegions",
+        "wreckRegionInit",
+        "wreckRegionLoad",
+        "textureRegionFound",
+        "effectDecal",
+        "tmpV1",
+        "vec2Rnd",
+        "range",
+        "decals"
+      ],
+      "rule": "Public runtime contract for UnitComp.destroy wreck decal source records with explicit sampled Tmp.v1 offsets.",
+      "runtime_proof": "/root/Main.source_unit_destroy_wreck_decal_state",
+      "source_method": "UnitComp.destroy() wreck decals",
+      "source_slice": "N775",
+      "status": "active",
+      "tests": [
+        "test_unit_destroy_wreck_decal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_wreck_decal_state"
+      ]
     }
   },
   "policy": {

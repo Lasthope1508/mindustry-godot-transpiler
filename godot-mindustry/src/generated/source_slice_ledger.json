@@ -12376,6 +12376,67 @@
         "test_unit_destroy_visual_effects_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_destroy_visual_effects_state"
       ]
+    },
+    "N775": {
+      "bridge_exprs": [
+        "public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;",
+        "wreckRegions = new TextureRegion[3];",
+        "wreckRegions[i] = Core.atlas.find(name + \"-wreck\" + i);",
+        "public boolean found(){",
+        "public static void decal(TextureRegion region, float x, float y, float rotation){",
+        "public static final Vec2 v1 = new Vec2();",
+        "public Vec2 rnd(float length){",
+        "hitSize = 6f,",
+        "createScorch = true,"
+      ],
+      "deferred_exprs": [
+        "Renderer/decal side effects and random sampling remain explicit runtime inputs"
+      ],
+      "exact_exprs": [
+        "public void destroy(){",
+        "if(!headless && type.createScorch){",
+        "for(int i = 0; i < type.wreckRegions.length; i++){",
+        "if(type.wreckRegions[i].found()){",
+        "float range = type.hitSize /4f;",
+        "Tmp.v1.rnd(range);",
+        "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);"
+      ],
+      "godot_owner": "PortGame.source_unit_destroy_wreck_decal_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.destroy() wreck decals",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_destroy_wreck_decal_state",
+      "source_symbols": [
+        "unit_destroy_wreck_decal.create_scorch_default",
+        "unit_destroy_wreck_decal.decal_call",
+        "unit_destroy_wreck_decal.effect_decal",
+        "unit_destroy_wreck_decal.found_guard",
+        "unit_destroy_wreck_decal.guard",
+        "unit_destroy_wreck_decal.headless_value",
+        "unit_destroy_wreck_decal.hit_size_default",
+        "unit_destroy_wreck_decal.loop",
+        "unit_destroy_wreck_decal.method",
+        "unit_destroy_wreck_decal.random_call",
+        "unit_destroy_wreck_decal.range_formula",
+        "unit_destroy_wreck_decal.source_rotation_degrees",
+        "unit_destroy_wreck_decal.source_x",
+        "unit_destroy_wreck_decal.source_y",
+        "unit_destroy_wreck_decal.texture_region_found",
+        "unit_destroy_wreck_decal.tmp_offsets",
+        "unit_destroy_wreck_decal.tmp_v1",
+        "unit_destroy_wreck_decal.type_create_scorch",
+        "unit_destroy_wreck_decal.type_hit_size",
+        "unit_destroy_wreck_decal.vec2_rnd",
+        "unit_destroy_wreck_decal.wreck_region_init",
+        "unit_destroy_wreck_decal.wreck_region_load",
+        "unit_destroy_wreck_decal.wreck_regions",
+        "unit_destroy_wreck_decal.wreck_regions_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_destroy_wreck_decal_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_destroy_wreck_decal_state"
+      ]
     }
   },
   "version": 1

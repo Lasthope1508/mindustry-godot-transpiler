@@ -48580,6 +48580,320 @@
       "runtime_proof": "/root/Main.source_unit_destroy_visual_effects_state",
       "status": "active"
     },
+    "source_unit_destroy_wreck_decal_input": {
+      "keys": {
+        "headless_value": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.headless_value",
+          "java_expr": "headless",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to Vars.headless.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "source_rotation_degrees": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.source_rotation_degrees",
+          "java_expr": "rotation",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to UnitComp.rotation.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "source_x": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.source_x",
+          "java_expr": "x",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to UnitComp.x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "source_y": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.source_y",
+          "java_expr": "y",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to UnitComp.y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "tmp_offsets": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.tmp_offsets",
+          "java_expr": "Tmp.v1.rnd(range)",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to sampled Tmp.v1 offsets.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "type_create_scorch": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.type_create_scorch",
+          "java_expr": "type.createScorch",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to UnitType.createScorch.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "type_hit_size": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.type_hit_size",
+          "java_expr": "type.hitSize",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to UnitType.hitSize.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "wreck_regions": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_input.wreck_regions",
+          "java_expr": "type.wreckRegions",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Input maps to UnitType.wreckRegions.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_destroy_wreck_decal_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_wreck_decal_state",
+      "status": "active"
+    },
+    "source_unit_destroy_wreck_decal_result": {
+      "keys": {
+        "decalCall": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.decalCall",
+          "java_expr": "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins decal call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "decals": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.decals",
+          "java_expr": "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90)",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime decal payloads for found regions.",
+          "status": "derived",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "effectDecal": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.effectDecal",
+          "java_expr": "public static void decal(TextureRegion region, float x, float y, float rotation){",
+          "java_method": "Effect.decal(TextureRegion, float, float, float)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Result pins Effect.decal boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "foundGuard": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.foundGuard",
+          "java_expr": "if(type.wreckRegions[i].found()){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins found guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.guard",
+          "java_expr": "if(!headless && type.createScorch){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins source guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.loop",
+          "java_expr": "for(int i = 0; i < type.wreckRegions.length; i++){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins source wreck region loop.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.method",
+          "java_expr": "public void destroy(){",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins UnitComp.destroy boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "randomCall": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.randomCall",
+          "java_expr": "Tmp.v1.rnd(range);",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins Tmp.v1 random call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "range": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.range",
+          "java_expr": "type.hitSize /4f",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Derived numeric range only when guard passes.",
+          "status": "derived",
+          "type": "float|null",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "rangeFormula": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.rangeFormula",
+          "java_expr": "float range = type.hitSize /4f;",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Result pins range formula.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "shouldCreateDecals": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.shouldCreateDecals",
+          "java_expr": "!headless && type.createScorch",
+          "java_method": "UnitComp.destroy()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Derived source guard result.",
+          "status": "derived",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "textureRegionFound": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.textureRegionFound",
+          "java_expr": "public boolean found(){",
+          "java_method": "TextureRegion.found()",
+          "java_source": "arc-core/src/arc/graphics/g2d/TextureRegion.java",
+          "rule": "Result pins TextureRegion.found boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "tmpV1": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.tmpV1",
+          "java_expr": "public static final Vec2 v1 = new Vec2();",
+          "java_method": "Tmp.v1",
+          "java_source": "arc-core/src/arc/util/Tmp.java",
+          "rule": "Result pins Tmp.v1 field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "vec2Rnd": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.vec2Rnd",
+          "java_expr": "public Vec2 rnd(float length){",
+          "java_method": "Vec2.rnd(float length)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Result pins Vec2.rnd boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "wreckRegionInit": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.wreckRegionInit",
+          "java_expr": "wreckRegions = new TextureRegion[3];",
+          "java_method": "UnitType.load()",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Result pins wreck region allocation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "wreckRegionLoad": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.wreckRegionLoad",
+          "java_expr": "wreckRegions[i] = Core.atlas.find(name + \"-wreck\" + i);",
+          "java_method": "UnitType.load()",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Result pins wreck region atlas load.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        },
+        "wreckRegions": {
+          "godot_symbol": "source_unit_destroy_wreck_decal_result.wreckRegions",
+          "java_expr": "public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;",
+          "java_method": "UnitType fields",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Result pins UnitType wreckRegions field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_destroy_wreck_decal_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_destroy_wreck_decal_state",
+      "runtime_proof": "/root/Main.source_unit_destroy_wreck_decal_state",
+      "status": "active"
+    },
     "source_unit_is_flying_input": {
       "keys": {
         "elevation_value": {

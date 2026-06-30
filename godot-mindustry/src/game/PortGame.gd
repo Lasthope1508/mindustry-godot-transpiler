@@ -9833,6 +9833,21 @@ func source_unit_destroy_crash_landing_damage_state(type_flying: bool, spawned_b
 		"damageCall": damage_call,
 	}
 
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_METHOD := "public void destroy(){"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_GUARD := "if(!headless && type.createScorch){"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_LOOP := "for(int i = 0; i < type.wreckRegions.length; i++){"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD := "if(type.wreckRegions[i].found()){"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA := "float range = type.hitSize /4f;"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL := "Tmp.v1.rnd(range);"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL := "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGIONS := "public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_INIT := "wreckRegions = new TextureRegion[3];"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_LOAD := "wreckRegions[i] = Core.atlas.find(name + \"-wreck\" + i);"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_TEXTURE_REGION_FOUND := "public boolean found(){"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_EFFECT_DECAL := "public static void decal(TextureRegion region, float x, float y, float rotation){"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_TMP_V1 := "public static final Vec2 v1 = new Vec2();"
+const SOURCE_UNIT_DESTROY_WRECK_DECAL_VEC2_RND := "public Vec2 rnd(float length){"
+
 func source_unit_destroy_wreck_decal_state(headless_value: bool, type_create_scorch: bool, wreck_regions: Array, tmp_offsets: Array, source_x: float, source_y: float, source_rotation_degrees: float, type_hit_size: float) -> Dictionary:
 	var should_create_decals := not headless_value and type_create_scorch
 	var range_value := type_hit_size / 4.0
@@ -9851,18 +9866,30 @@ func source_unit_destroy_wreck_decal_state(headless_value: bool, type_create_sco
 				decals.append({
 					"region": str(region_state.get("region", "wreck%d" % index)),
 					"index": index,
-					"foundGuard": "type.wreckRegions[i].found()",
-					"randomCall": "Tmp.v1.rnd(range)",
+					"foundGuard": SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD,
+					"randomCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL,
 					"range": range_value,
 					"x": source_x + offset_x,
 					"y": source_y + offset_y,
 					"rotation": source_rotation_degrees - 90.0,
-					"decalCall": "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90)",
+					"decalCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL,
 				})
 	return {
-		"guard": "!headless && type.createScorch",
+		"method": SOURCE_UNIT_DESTROY_WRECK_DECAL_METHOD,
+		"guard": SOURCE_UNIT_DESTROY_WRECK_DECAL_GUARD,
 		"shouldCreateDecals": should_create_decals,
-		"loop": "for(int i = 0; i < type.wreckRegions.length; i++)",
+		"loop": SOURCE_UNIT_DESTROY_WRECK_DECAL_LOOP,
+		"foundGuard": SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD,
+		"rangeFormula": SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA,
+		"randomCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL,
+		"decalCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL,
+		"wreckRegions": SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGIONS,
+		"wreckRegionInit": SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_INIT,
+		"wreckRegionLoad": SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_LOAD,
+		"textureRegionFound": SOURCE_UNIT_DESTROY_WRECK_DECAL_TEXTURE_REGION_FOUND,
+		"effectDecal": SOURCE_UNIT_DESTROY_WRECK_DECAL_EFFECT_DECAL,
+		"tmpV1": SOURCE_UNIT_DESTROY_WRECK_DECAL_TMP_V1,
+		"vec2Rnd": SOURCE_UNIT_DESTROY_WRECK_DECAL_VEC2_RND,
 		"range": reported_range,
 		"decals": decals,
 	}
