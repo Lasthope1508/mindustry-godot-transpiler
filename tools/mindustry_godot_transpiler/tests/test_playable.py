@@ -3556,6 +3556,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_killable_state(type_killable: bool) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_KILLABLE_METHOD := "public boolean killable(){"', source)
+        self.assertIn('const SOURCE_UNIT_KILLABLE_UNIT_RETURN := "return type.killable(self());"', source)
+        self.assertIn('const SOURCE_UNIT_KILLABLE_TYPE_METHOD := "public boolean killable(Unit unit){"', source)
+        self.assertIn('const SOURCE_UNIT_KILLABLE_TYPE_RETURN := "return killable;"', source)
+        self.assertIn('const SOURCE_UNIT_KILLABLE_DEFAULT := "killable = true,"', source)
         self.assertIn('"killable": type_killable', source)
         self.assertIn('"call": "type.killable(self())"', source)
 

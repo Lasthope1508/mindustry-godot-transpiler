@@ -12981,9 +12981,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 384)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 385)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 389)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 390)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -13025,6 +13025,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_is_grounded", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_is_missile_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_kill_sync_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_killable_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_building_is_valid", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_kill_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_killed_initial_side_effects_state", audit["registeredSourceOwners"])
@@ -15016,6 +15017,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(dead || net.client() || !killable()) return;", unit_kill_sync["exact_exprs"])
         self.assertIn("Call.unitDeath(id);", unit_kill_sync["exact_exprs"])
         self.assertIn("public static void unitDeath(int uid){", unit_kill_sync["bridge_exprs"])
+
+        unit_killable = source_symbols.source_slice(ledger, "N787")
+        self.assertEqual(unit_killable["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_killable["java_method"], "UnitComp.killable()")
+        self.assertEqual(unit_killable["godot_owner"], "PortGame.source_unit_killable_state")
+        self.assertIn("public boolean killable(){", unit_killable["exact_exprs"])
+        self.assertIn("return type.killable(self());", unit_killable["exact_exprs"])
+        self.assertIn("public boolean killable(Unit unit){", unit_killable["bridge_exprs"])
+        self.assertIn("return killable;", unit_killable["bridge_exprs"])
+        self.assertIn("killable = true,", unit_killable["bridge_exprs"])
+        self.assertIn("Unit kill/destroy side effects remain separate owners", unit_killable["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -18453,6 +18465,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shouldReturn", unit_kill_sync["return_keys"])
         self.assertIn("remoteCall", unit_kill_sync["return_keys"])
         self.assertEqual(unit_kill_sync["source_method"], "UnitComp.kill()")
+
+        unit_killable = source_symbols.api_contract(contracts, "PortGame.source_unit_killable_state")
+        self.assertEqual([param["name"] for param in unit_killable["params"]], ["type_killable"])
+        self.assertEqual(unit_killable["params"][0]["schema"], "source_unit_killable_input.type_killable")
+        self.assertIn("killable", unit_killable["return_keys"])
+        self.assertIn("call", unit_killable["return_keys"])
+        self.assertEqual(unit_killable["source_method"], "UnitComp.killable()")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -22625,6 +22644,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_kill_sync_result["keys"]["remote"]["java_expr"], "@Remote(called = Loc.server)")
         self.assertEqual(source_unit_kill_sync_result["keys"]["serverLookup"]["java_expr"], "Unit unit = Groups.unit.getByID(uid);")
         self.assertEqual(source_unit_kill_sync_result["keys"]["serverHandler"]["java_expr"], "unit.killed();")
+
+        source_unit_killable_input = source_symbols.state_schema(schema, "source_unit_killable_input")
+        self.assertEqual(source_unit_killable_input["keys"]["type_killable"]["java_expr"], "killable")
+
+        source_unit_killable_result = source_symbols.state_schema(schema, "source_unit_killable_result")
+        self.assertEqual(source_unit_killable_result["keys"]["method"]["java_expr"], "public boolean killable(){")
+        self.assertEqual(source_unit_killable_result["keys"]["unitReturn"]["java_expr"], "return type.killable(self());")
+        self.assertEqual(source_unit_killable_result["keys"]["typeMethod"]["java_expr"], "public boolean killable(Unit unit){")
+        self.assertEqual(source_unit_killable_result["keys"]["typeReturn"]["java_expr"], "return killable;")
+        self.assertEqual(source_unit_killable_result["keys"]["default"]["java_expr"], "killable = true,")
 
         source_unit_hittable_result = source_symbols.state_schema(schema, "source_unit_hittable_result")
         self.assertEqual(source_unit_hittable_result["keys"]["method"]["java_expr"], "public boolean hittable(){")

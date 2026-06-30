@@ -9083,6 +9083,12 @@ func source_unit_targetable_state(type_targetable: bool, type_vulnerable_with_pa
 		"call": "type.targetable(self(), targeter)",
 	}
 
+const SOURCE_UNIT_KILLABLE_METHOD := "public boolean killable(){"
+const SOURCE_UNIT_KILLABLE_UNIT_RETURN := "return type.killable(self());"
+const SOURCE_UNIT_KILLABLE_TYPE_METHOD := "public boolean killable(Unit unit){"
+const SOURCE_UNIT_KILLABLE_TYPE_RETURN := "return killable;"
+const SOURCE_UNIT_KILLABLE_DEFAULT := "killable = true,"
+
 func source_unit_killable_state(type_killable: bool) -> Dictionary:
 	return {
 		"killable": type_killable,

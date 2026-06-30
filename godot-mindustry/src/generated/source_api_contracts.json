@@ -14419,6 +14419,29 @@
         "test_unit_kill_sync_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_kill_sync_state"
       ]
+    },
+    "PortGame.source_unit_killable_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_killable",
+          "schema": "source_unit_killable_input.type_killable",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "killable",
+        "call"
+      ],
+      "rule": "Public runtime contract for UnitComp.killable delegation through UnitType.killable(Unit).",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "source_method": "UnitComp.killable()",
+      "source_slice": "N787",
+      "status": "active",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
     }
   },
   "policy": {

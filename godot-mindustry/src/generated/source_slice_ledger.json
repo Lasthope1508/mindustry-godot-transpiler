@@ -12824,6 +12824,39 @@
         "test_unit_kill_sync_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_kill_sync_state"
       ]
+    },
+    "N787": {
+      "bridge_exprs": [
+        "public boolean killable(Unit unit){",
+        "return killable;",
+        "killable = true,"
+      ],
+      "deferred_exprs": [
+        "Unit kill/destroy side effects remain separate owners",
+        "Unit damage invulnerability remains separate owner"
+      ],
+      "exact_exprs": [
+        "public boolean killable(){",
+        "return type.killable(self());"
+      ],
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.killable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "source_symbols": [
+        "unit_killable.method",
+        "unit_killable.result",
+        "unit_killable.type_killable",
+        "unit_killable.type_method",
+        "unit_killable.type_return",
+        "unit_killable.unit_return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
     }
   },
   "version": 1

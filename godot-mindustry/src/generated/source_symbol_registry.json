@@ -39752,6 +39752,90 @@
         "test_port_game_exposes_source_unit_kill_sync_state"
       ]
     },
+    "unit_killable.method": {
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "godot_symbol": "SOURCE_UNIT_KILLABLE_METHOD",
+      "java_expr": "public boolean killable(){",
+      "java_method": "UnitComp.killable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp killable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
+    },
+    "unit_killable.result": {
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "godot_symbol": "source_unit_killable_result.killable",
+      "java_expr": "return killable;",
+      "java_method": "UnitType.killable(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Runtime killable result.",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
+    },
+    "unit_killable.type_killable": {
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "godot_symbol": "source_unit_killable_input.type_killable",
+      "java_expr": "killable = true,",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Explicit UnitType killable input with upstream default.",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
+    },
+    "unit_killable.type_method": {
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "godot_symbol": "SOURCE_UNIT_KILLABLE_TYPE_METHOD",
+      "java_expr": "public boolean killable(Unit unit){",
+      "java_method": "UnitType.killable(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType killable method boundary.",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
+    },
+    "unit_killable.type_return": {
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "godot_symbol": "SOURCE_UNIT_KILLABLE_TYPE_RETURN",
+      "java_expr": "return killable;",
+      "java_method": "UnitType.killable(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType killable exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
+    },
+    "unit_killable.unit_return": {
+      "godot_owner": "PortGame.source_unit_killable_state",
+      "godot_symbol": "SOURCE_UNIT_KILLABLE_UNIT_RETURN",
+      "java_expr": "return type.killable(self());",
+      "java_method": "UnitComp.killable()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp killable delegates to UnitType.killable(self()).",
+      "runtime_proof": "/root/Main.source_unit_killable_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killable_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killable_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",
