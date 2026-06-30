@@ -45634,6 +45634,351 @@
         "test_unit_update_floor_damage_matches_upstream_source"
       ]
     },
+    "unit_update_flying_transition.effect_at_xy_rotation_color": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+      "java_expr": "public void at(float x, float y, float rotation, Color color){",
+      "java_method": "Effect.at(float x, float y, float rotation, Color color)",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "rule": "Effect.at(x,y,rotation,color) bridge method.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.effect_at_xy_rotation_color_body": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+      "java_expr": "create(x, y, rotation, color, null);",
+      "java_method": "Effect.at(float x, float y, float rotation, Color color)",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "rule": "Effect.at(x,y,rotation,color) bridge body.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.floor_is_liquid": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.floor_is_liquid",
+      "java_expr": "floor.isLiquid",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit floor.isLiquid input.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.floor_is_liquid_field": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.floor_is_liquid",
+      "java_expr": "public boolean isLiquid;",
+      "java_method": "Floor",
+      "java_source": "core/src/mindustry/world/blocks/environment/Floor.java",
+      "rule": "Floor.isLiquid field source.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.floor_lookup": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+      "java_expr": "Floor floor = floorOn();",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact floor lookup before flying transition.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.fx_unit_land": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+      "java_expr": "unitLand = new Effect(30, e -> {",
+      "java_method": "Fx",
+      "java_source": "core/src/mindustry/content/Fx.java",
+      "rule": "Fx.unitLand bridge effect.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.is_flying_method": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.is_flying_value",
+      "java_expr": "public boolean isFlying(){",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.isFlying bridge method.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.is_flying_return": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.is_flying_value",
+      "java_expr": "return elevation >= 0.09f;",
+      "java_method": "UnitComp.isFlying()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.isFlying return bridge.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.is_flying_value": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.is_flying_value",
+      "java_expr": "isFlying()",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit isFlying() result input.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.land_rotation_expr": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect.rotation",
+      "java_expr": "floor.isLiquid ? 1f : 0.5f",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact landing effect rotation expression.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.tile_exists": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.tile_exists",
+      "java_expr": "tile != null",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit tile existence input.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.tile_floor_color": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.tile_floor_color",
+      "java_expr": "tile.getFloorColor()",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit tile.getFloorColor() input.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.tile_get_floor_color_body": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.tile_floor_color",
+      "java_expr": "return floor.getColor(this);",
+      "java_method": "Tile.getFloorColor()",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "rule": "Tile.getFloorColor bridge body.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.tile_get_floor_color_method": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.tile_floor_color",
+      "java_expr": "public Color getFloorColor(){",
+      "java_method": "Tile.getFloorColor()",
+      "java_source": "core/src/mindustry/world/Tile.java",
+      "rule": "Tile.getFloorColor bridge method.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.tile_guard": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+      "java_expr": "if(tile != null){",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact tile guard for landing effect.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.tile_lookup": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.tile_exists",
+      "java_expr": "Tile tile = tileOn();",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact tile lookup before flying transition.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.transition_guard": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.changed",
+      "java_expr": "if(isFlying() != wasFlying){",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact flying state transition guard.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.unit_land_call": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+      "java_expr": "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact unit land effect call.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.update_drown_flying_comment": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.changed",
+      "java_expr": "//update drown/flying state",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Source comment anchoring drown/flying update block.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.was_flying_assign": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.wasFlying",
+      "java_expr": "wasFlying = isFlying();",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact wasFlying assignment.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.was_flying_field": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.was_flying_value",
+      "java_expr": "private transient boolean wasFlying;",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.wasFlying field source.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.was_flying_guard": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+      "java_expr": "if(wasFlying){",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Exact landing branch guard.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
+    "unit_update_flying_transition.was_flying_value": {
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "godot_symbol": "source_unit_update_flying_transition_input.was_flying_value",
+      "java_expr": "wasFlying",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit wasFlying runtime input.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

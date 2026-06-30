@@ -56344,6 +56344,140 @@
       "runtime_proof": "/root/Main.source_unit_update_floor_damage_state",
       "status": "active"
     },
+    "source_unit_update_flying_transition_input": {
+      "keys": {
+        "floor_is_liquid": {
+          "godot_symbol": "source_unit_update_flying_transition_input.floor_is_liquid",
+          "java_expr": "floor.isLiquid",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Explicit floor liquid input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        },
+        "is_flying_value": {
+          "godot_symbol": "source_unit_update_flying_transition_input.is_flying_value",
+          "java_expr": "isFlying()",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Explicit isFlying() result input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        },
+        "tile_exists": {
+          "godot_symbol": "source_unit_update_flying_transition_input.tile_exists",
+          "java_expr": "tile != null",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Explicit tile existence input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        },
+        "tile_floor_color": {
+          "godot_symbol": "source_unit_update_flying_transition_input.tile_floor_color",
+          "java_expr": "tile.getFloorColor()",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Explicit tile floor color input.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        },
+        "was_flying_value": {
+          "godot_symbol": "source_unit_update_flying_transition_input.was_flying_value",
+          "java_expr": "wasFlying",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Explicit wasFlying runtime input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_flying_transition_state",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "active"
+    },
+    "source_unit_update_flying_transition_result": {
+      "keys": {
+        "changed": {
+          "godot_symbol": "source_unit_update_flying_transition_result.changed",
+          "java_expr": "isFlying() != wasFlying",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Computed transition guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        },
+        "landEffect": {
+          "godot_symbol": "source_unit_update_flying_transition_result.landEffect",
+          "java_expr": "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Landing effect call record when transition is landing and tile exists.",
+          "status": "source-backed",
+          "type": "Dictionary|null",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        },
+        "wasFlying": {
+          "godot_symbol": "source_unit_update_flying_transition_result.wasFlying",
+          "java_expr": "wasFlying = isFlying();",
+          "java_method": "UnitComp.update() flying transition",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ],
+          "rule": "Updated wasFlying result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_update_flying_transition_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_flying_transition_state",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

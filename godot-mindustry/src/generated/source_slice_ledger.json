@@ -14248,6 +14248,68 @@
         "test_port_game_exposes_source_unit_update_floor_damage_state",
         "test_unit_update_floor_damage_matches_upstream_source"
       ]
+    },
+    "N819": {
+      "bridge_exprs": [
+        "private transient boolean wasFlying;",
+        "public boolean isFlying(){",
+        "return elevation >= 0.09f;",
+        "public boolean isLiquid;",
+        "public Color getFloorColor(){",
+        "return floor.getColor(this);",
+        "unitLand = new Effect(30, e -> {",
+        "public void at(float x, float y, float rotation, Color color){",
+        "create(x, y, rotation, color, null);"
+      ],
+      "deferred_exprs": [
+        "Drowning update, floor/tile lookup internals, and later ground/tile update behavior remain separate slices; this slice records the flying transition and landing effect only."
+      ],
+      "exact_exprs": [
+        "//update drown/flying state",
+        "Floor floor = floorOn();",
+        "Tile tile = tileOn();",
+        "if(isFlying() != wasFlying){",
+        "if(wasFlying){",
+        "if(tile != null){",
+        "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());",
+        "wasFlying = isFlying();"
+      ],
+      "godot_owner": "PortGame.source_unit_update_flying_transition_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() flying transition",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "source_symbols": [
+        "unit_update_flying_transition.effect_at_xy_rotation_color",
+        "unit_update_flying_transition.effect_at_xy_rotation_color_body",
+        "unit_update_flying_transition.floor_is_liquid",
+        "unit_update_flying_transition.floor_is_liquid_field",
+        "unit_update_flying_transition.floor_lookup",
+        "unit_update_flying_transition.fx_unit_land",
+        "unit_update_flying_transition.is_flying_method",
+        "unit_update_flying_transition.is_flying_return",
+        "unit_update_flying_transition.is_flying_value",
+        "unit_update_flying_transition.land_rotation_expr",
+        "unit_update_flying_transition.tile_exists",
+        "unit_update_flying_transition.tile_floor_color",
+        "unit_update_flying_transition.tile_get_floor_color_body",
+        "unit_update_flying_transition.tile_get_floor_color_method",
+        "unit_update_flying_transition.tile_guard",
+        "unit_update_flying_transition.tile_lookup",
+        "unit_update_flying_transition.transition_guard",
+        "unit_update_flying_transition.unit_land_call",
+        "unit_update_flying_transition.update_drown_flying_comment",
+        "unit_update_flying_transition.was_flying_assign",
+        "unit_update_flying_transition.was_flying_field",
+        "unit_update_flying_transition.was_flying_guard",
+        "unit_update_flying_transition.was_flying_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
     }
   },
   "version": 1

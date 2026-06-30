@@ -5703,6 +5703,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(continuous_body["java_expr"], "damage(amount * Time.delta, hitTime <= -10 + hitDuration);")
         self.assertEqual(continuous_body["java_source"], "core/src/mindustry/entities/comp/HealthComp.java")
 
+    def test_unit_update_flying_transition_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        transition_guard = source_symbols.source_symbol(registry, "unit_update_flying_transition.transition_guard")
+        self.assertEqual(transition_guard["java_expr"], "if(isFlying() != wasFlying){")
+        self.assertEqual(transition_guard["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(transition_guard["java_method"], "UnitComp.update() flying transition")
+        self.assertEqual(transition_guard["godot_owner"], "PortGame.source_unit_update_flying_transition_state")
+        self.assertEqual(transition_guard["runtime_proof"], "/root/Main.source_unit_update_flying_transition_state")
+        self.assertEqual(transition_guard["godot_symbol"], "source_unit_update_flying_transition_result.changed")
+
+        was_flying_guard = source_symbols.source_symbol(registry, "unit_update_flying_transition.was_flying_guard")
+        self.assertEqual(was_flying_guard["java_expr"], "if(wasFlying){")
+        self.assertEqual(was_flying_guard["godot_symbol"], "source_unit_update_flying_transition_result.landEffect")
+
+        unit_land_call = source_symbols.source_symbol(registry, "unit_update_flying_transition.unit_land_call")
+        self.assertEqual(unit_land_call["java_expr"], "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());")
+        self.assertEqual(unit_land_call["godot_symbol"], "source_unit_update_flying_transition_result.landEffect")
+
+        was_flying_assign = source_symbols.source_symbol(registry, "unit_update_flying_transition.was_flying_assign")
+        self.assertEqual(was_flying_assign["java_expr"], "wasFlying = isFlying();")
+        self.assertEqual(was_flying_assign["godot_symbol"], "source_unit_update_flying_transition_result.wasFlying")
+
+        is_flying_value = source_symbols.source_symbol(registry, "unit_update_flying_transition.is_flying_value")
+        self.assertEqual(is_flying_value["status"], "explicit-input")
+        self.assertEqual(is_flying_value["java_expr"], "isFlying()")
+        self.assertEqual(is_flying_value["godot_symbol"], "source_unit_update_flying_transition_input.is_flying_value")
+
+        tile_color = source_symbols.source_symbol(registry, "unit_update_flying_transition.tile_floor_color")
+        self.assertEqual(tile_color["status"], "explicit-input")
+        self.assertEqual(tile_color["java_expr"], "tile.getFloorColor()")
+        self.assertEqual(tile_color["godot_symbol"], "source_unit_update_flying_transition_input.tile_floor_color")
+
+        floor_liquid = source_symbols.source_symbol(registry, "unit_update_flying_transition.floor_is_liquid_field")
+        self.assertEqual(floor_liquid["java_expr"], "public boolean isLiquid;")
+        self.assertEqual(floor_liquid["java_source"], "core/src/mindustry/world/blocks/environment/Floor.java")
+
+        fx_unit_land = source_symbols.source_symbol(registry, "unit_update_flying_transition.fx_unit_land")
+        self.assertEqual(fx_unit_land["java_expr"], "unitLand = new Effect(30, e -> {")
+        self.assertEqual(fx_unit_land["java_source"], "core/src/mindustry/content/Fx.java")
+
+        effect_at_color = source_symbols.source_symbol(registry, "unit_update_flying_transition.effect_at_xy_rotation_color")
+        self.assertEqual(effect_at_color["java_expr"], "public void at(float x, float y, float rotation, Color color){")
+        self.assertEqual(effect_at_color["java_source"], "core/src/mindustry/entities/Effect.java")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14175,9 +14223,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 416)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 417)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 421)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 422)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14205,6 +14253,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_falling_engine_trail_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_falling_smoke_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_floor_damage_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_flying_transition_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -16633,6 +16682,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float damageTaken = 0f;", unit_update_floor_damage["bridge_exprs"])
         self.assertIn("void damageContinuous(float amount){", unit_update_floor_damage["bridge_exprs"])
         self.assertIn("damage(amount * Time.delta, hitTime <= -10 + hitDuration);", unit_update_floor_damage["bridge_exprs"])
+
+        unit_update_flying_transition = source_symbols.source_slice(ledger, "N819")
+        self.assertEqual(unit_update_flying_transition["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_flying_transition["java_method"], "UnitComp.update() flying transition")
+        self.assertEqual(unit_update_flying_transition["godot_owner"], "PortGame.source_unit_update_flying_transition_state")
+        self.assertIn("//update drown/flying state", unit_update_flying_transition["exact_exprs"])
+        self.assertIn("Floor floor = floorOn();", unit_update_flying_transition["exact_exprs"])
+        self.assertIn("Tile tile = tileOn();", unit_update_flying_transition["exact_exprs"])
+        self.assertIn("if(isFlying() != wasFlying){", unit_update_flying_transition["exact_exprs"])
+        self.assertIn("if(wasFlying){", unit_update_flying_transition["exact_exprs"])
+        self.assertIn("Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());", unit_update_flying_transition["exact_exprs"])
+        self.assertIn("wasFlying = isFlying();", unit_update_flying_transition["exact_exprs"])
+        self.assertIn("public boolean isLiquid;", unit_update_flying_transition["bridge_exprs"])
+        self.assertIn("public Color getFloorColor(){", unit_update_flying_transition["bridge_exprs"])
+        self.assertIn("unitLand = new Effect(30, e -> {", unit_update_flying_transition["bridge_exprs"])
+        self.assertIn("public void at(float x, float y, float rotation, Color color){", unit_update_flying_transition["bridge_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -20498,6 +20563,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_floor_damage["return_keys"])
         self.assertNotIn("tile_exists", unit_update_floor_damage["return_keys"])
         self.assertEqual(unit_update_floor_damage["source_method"], "UnitComp.update() floor damage")
+
+        unit_update_flying_transition = source_symbols.api_contract(contracts, "PortGame.source_unit_update_flying_transition_state")
+        self.assertEqual([param["name"] for param in unit_update_flying_transition["params"]], ["is_flying_value", "was_flying_value", "tile_exists", "floor_is_liquid", "tile_floor_color"])
+        self.assertEqual(unit_update_flying_transition["params"][0]["schema"], "source_unit_update_flying_transition_input.is_flying_value")
+        self.assertEqual(unit_update_flying_transition["params"][3]["schema"], "source_unit_update_flying_transition_input.floor_is_liquid")
+        self.assertEqual(unit_update_flying_transition["params"][4]["schema"], "source_unit_update_flying_transition_input.tile_floor_color")
+        for key in ["changed", "landEffect", "wasFlying"]:
+            self.assertIn(key, unit_update_flying_transition["return_keys"])
+        self.assertNotIn("is_flying_value", unit_update_flying_transition["return_keys"])
+        self.assertEqual(unit_update_flying_transition["source_method"], "UnitComp.update() flying transition")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -24761,6 +24836,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_floor_damage_input["keys"]["hit_time"]["java_expr"], "hitTime")
         self.assertEqual(source_unit_update_floor_damage_input["keys"]["hit_duration"]["java_expr"], "hitDuration")
 
+        source_unit_update_flying_transition_input = source_symbols.state_schema(schema, "source_unit_update_flying_transition_input")
+        self.assertEqual(source_unit_update_flying_transition_input["keys"]["is_flying_value"]["java_expr"], "isFlying()")
+        self.assertEqual(source_unit_update_flying_transition_input["keys"]["was_flying_value"]["java_expr"], "wasFlying")
+        self.assertEqual(source_unit_update_flying_transition_input["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_unit_update_flying_transition_input["keys"]["floor_is_liquid"]["java_expr"], "floor.isLiquid")
+        self.assertEqual(source_unit_update_flying_transition_input["keys"]["tile_floor_color"]["java_expr"], "tile.getFloorColor()")
+
         source_unit_icon_input = source_symbols.state_schema(schema, "source_unit_icon_input")
         self.assertEqual(source_unit_icon_input["keys"]["type_ui_icon"]["java_expr"], "type.uiIcon")
 
@@ -25202,6 +25284,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_floor_damage_result["keys"]["isGrounded"]["java_expr"], "isGrounded()")
         self.assertEqual(source_unit_update_floor_damage_result["keys"]["typeHovering"]["java_expr"], "type.hovering")
         self.assertNotIn("tile_exists", source_unit_update_floor_damage_result["keys"])
+
+        source_unit_update_flying_transition_result = source_symbols.state_schema(schema, "source_unit_update_flying_transition_result")
+        self.assertEqual(source_unit_update_flying_transition_result["keys"]["changed"]["java_expr"], "isFlying() != wasFlying")
+        self.assertEqual(source_unit_update_flying_transition_result["keys"]["landEffect"]["java_expr"], "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor());")
+        self.assertEqual(source_unit_update_flying_transition_result["keys"]["wasFlying"]["java_expr"], "wasFlying = isFlying();")
+        self.assertNotIn("is_flying_value", source_unit_update_flying_transition_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

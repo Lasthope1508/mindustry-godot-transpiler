@@ -16006,6 +16006,51 @@
         "test_port_game_exposes_source_unit_update_floor_damage_state",
         "test_unit_update_floor_damage_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_flying_transition_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "is_flying_value",
+          "schema": "source_unit_update_flying_transition_input.is_flying_value",
+          "type": "bool"
+        },
+        {
+          "name": "was_flying_value",
+          "schema": "source_unit_update_flying_transition_input.was_flying_value",
+          "type": "bool"
+        },
+        {
+          "name": "tile_exists",
+          "schema": "source_unit_update_flying_transition_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "floor_is_liquid",
+          "schema": "source_unit_update_flying_transition_input.floor_is_liquid",
+          "type": "bool"
+        },
+        {
+          "name": "tile_floor_color",
+          "schema": "source_unit_update_flying_transition_input.tile_floor_color",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "changed",
+        "landEffect",
+        "wasFlying"
+      ],
+      "rule": "Public runtime contract for UnitComp.update flying transition state.",
+      "runtime_proof": "/root/Main.source_unit_update_flying_transition_state",
+      "source_method": "UnitComp.update() flying transition",
+      "source_slice": "N819",
+      "status": "active",
+      "tests": [
+        "test_unit_update_flying_transition_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_flying_transition_state",
+        "test_unit_update_flying_transition_matches_upstream_source"
+      ]
     }
   },
   "policy": {
