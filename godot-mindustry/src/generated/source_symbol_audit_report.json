@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 98,
+  "legacyUnregisteredOwnerCount": 97,
   "legacyUnregisteredOwners": [
-    "PortGame.source_unit_killed_state",
     "PortGame.source_unit_landed_state",
     "PortGame.source_unit_look_at_angle_state",
     "PortGame.source_unit_look_at_position_state",
@@ -112,7 +111,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 385,
+  "registeredSourceOwnerCount": 386,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_unit_is_grounded",
     "PortGame.source_unit_is_missile_state",
     "PortGame.source_unit_kill_sync_state",
-    "PortGame.source_unit_killable_state"
+    "PortGame.source_unit_killable_state",
+    "PortGame.source_unit_killed_state"
   ],
   "sourceFunctions": [
     {

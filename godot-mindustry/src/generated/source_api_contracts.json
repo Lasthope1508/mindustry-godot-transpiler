@@ -14442,6 +14442,64 @@
         "test_unit_killable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_killable_state"
       ]
+    },
+    "PortGame.source_unit_killed_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "is_local_value",
+          "schema": "source_unit_killed_input.is_local_value",
+          "type": "bool"
+        },
+        {
+          "name": "current_health",
+          "schema": "source_unit_killed_input.current_health",
+          "type": "float"
+        },
+        {
+          "name": "type_flying",
+          "schema": "source_unit_killed_input.type_flying",
+          "type": "bool"
+        },
+        {
+          "name": "type_create_wreck",
+          "schema": "source_unit_killed_input.type_create_wreck",
+          "type": "bool"
+        },
+        {
+          "name": "wreck_sound",
+          "schema": "source_unit_killed_input.wreck_sound",
+          "type": "String"
+        },
+        {
+          "name": "wreck_sound_volume",
+          "schema": "source_unit_killed_input.wreck_sound_volume",
+          "type": "float"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_killed_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "wasPlayer",
+        "health",
+        "dead",
+        "guard",
+        "destroyCalled",
+        "destroyCall",
+        "wreckSoundCall"
+      ],
+      "rule": "Public runtime contract for UnitComp.killed() state mutations and destroy/wreck branch record.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "source_method": "UnitComp.killed()",
+      "source_slice": "N788",
+      "status": "active",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
     }
   },
   "policy": {

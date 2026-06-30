@@ -10017,16 +10017,24 @@ func source_unit_destroy_type_killed_remove_state(unit_id: int) -> Dictionary:
 		],
 	}
 
+const SOURCE_UNIT_KILLED_METHOD := "public void killed(){"
+const SOURCE_UNIT_KILLED_WAS_PLAYER := "wasPlayer = isLocal();"
+const SOURCE_UNIT_KILLED_HEALTH_CLAMP := "health = Math.min(health, 0);"
+const SOURCE_UNIT_KILLED_DEAD_ASSIGNMENT := "dead = true;"
+const SOURCE_UNIT_KILLED_DESTROY_GUARD := "if(!type.flying || !type.createWreck){"
+const SOURCE_UNIT_KILLED_DESTROY_CALL := "destroy();"
+const SOURCE_UNIT_KILLED_WRECK_SOUND_CALL := "type.wreckSound.at(this, 1f, type.wreckSoundVolume);"
+
 func source_unit_killed_state(is_local_value: bool, current_health: float, type_flying: bool, type_create_wreck: bool, wreck_sound: String, wreck_sound_volume: float, unit_id: int) -> Dictionary:
 	var should_destroy := not type_flying or not type_create_wreck
 	var clamped_health: float = minf(current_health, 0.0)
 	var destroy_call: Variant = null
 	var wreck_sound_call: Variant = null
 	if should_destroy:
-		destroy_call = "destroy()"
+		destroy_call = SOURCE_UNIT_KILLED_DESTROY_CALL.trim_suffix(";")
 	else:
 		wreck_sound_call = {
-			"call": "type.wreckSound.at(this, 1f, type.wreckSoundVolume)",
+			"call": SOURCE_UNIT_KILLED_WRECK_SOUND_CALL.trim_suffix(";"),
 			"sound": wreck_sound,
 			"pitch": 1.0,
 			"volume": wreck_sound_volume,
@@ -10036,7 +10044,7 @@ func source_unit_killed_state(is_local_value: bool, current_health: float, type_
 		"wasPlayer": is_local_value,
 		"health": clamped_health,
 		"dead": true,
-		"guard": "!type.flying || !type.createWreck",
+		"guard": SOURCE_UNIT_KILLED_DESTROY_GUARD,
 		"destroyCalled": should_destroy,
 		"destroyCall": destroy_call,
 		"wreckSoundCall": wreck_sound_call,

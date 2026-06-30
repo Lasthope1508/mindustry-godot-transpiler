@@ -4177,13 +4177,20 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_killed_state(is_local_value: bool, current_health: float, type_flying: bool, type_create_wreck: bool, wreck_sound: String, wreck_sound_volume: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn('const SOURCE_UNIT_KILLED_METHOD := "public void killed(){"', source)
+        self.assertIn('const SOURCE_UNIT_KILLED_WAS_PLAYER := "wasPlayer = isLocal();"', source)
+        self.assertIn('const SOURCE_UNIT_KILLED_HEALTH_CLAMP := "health = Math.min(health, 0);"', source)
+        self.assertIn('const SOURCE_UNIT_KILLED_DEAD_ASSIGNMENT := "dead = true;"', source)
+        self.assertIn('const SOURCE_UNIT_KILLED_DESTROY_GUARD := "if(!type.flying || !type.createWreck){"', source)
+        self.assertIn('const SOURCE_UNIT_KILLED_DESTROY_CALL := "destroy();"', source)
+        self.assertIn('const SOURCE_UNIT_KILLED_WRECK_SOUND_CALL := "type.wreckSound.at(this, 1f, type.wreckSoundVolume);"', source)
         self.assertIn("var should_destroy := not type_flying or not type_create_wreck", source)
         self.assertIn("var clamped_health: float = minf(current_health, 0.0)", source)
         self.assertIn('"wasPlayer": is_local_value', source)
         self.assertIn('"dead": true', source)
-        self.assertIn('"guard": "!type.flying || !type.createWreck"', source)
+        self.assertIn('"guard": SOURCE_UNIT_KILLED_DESTROY_GUARD', source)
         self.assertIn('"destroyCall": destroy_call', source)
-        self.assertIn('"call": "type.wreckSound.at(this, 1f, type.wreckSoundVolume)"', source)
+        self.assertIn('"call": SOURCE_UNIT_KILLED_WRECK_SOUND_CALL.trim_suffix(";")', source)
         self.assertIn('"unit": unit_id', source)
 
     def test_port_game_exposes_source_unit_kill_sync_state(self):

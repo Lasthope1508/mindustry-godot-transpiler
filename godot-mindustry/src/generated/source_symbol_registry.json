@@ -39836,6 +39836,286 @@
         "test_port_game_exposes_source_unit_killable_state"
       ]
     },
+    "unit_killed.current_health_input": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_input.current_health",
+      "java_expr": "health",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime health input before Math.min clamp.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.dead_assignment": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "SOURCE_UNIT_KILLED_DEAD_ASSIGNMENT",
+      "java_expr": "dead = true;",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp marks unit dead.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.destroy_call": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "SOURCE_UNIT_KILLED_DESTROY_CALL",
+      "java_expr": "destroy();",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp destroy branch call.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.destroy_guard": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "SOURCE_UNIT_KILLED_DESTROY_GUARD",
+      "java_expr": "if(!type.flying || !type.createWreck){",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp chooses destroy branch for grounded or non-wreck units.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.entity_is_local_method": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_result.entityIsLocalMethod",
+      "java_expr": "boolean isLocal(){",
+      "java_method": "EntityComp.isLocal()",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "rule": "EntityComp isLocal method boundary.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.entity_is_local_return": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_result.entityIsLocalReturn",
+      "java_expr": "return ((Object)this) == player || ((Object)this) instanceof Unitc u && u.controller() == player;",
+      "java_method": "EntityComp.isLocal()",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "rule": "EntityComp isLocal exact return expression.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.health_clamp": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "SOURCE_UNIT_KILLED_HEALTH_CLAMP",
+      "java_expr": "health = Math.min(health, 0);",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp clamps killed health at zero or below.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.is_local_input": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_input.is_local_value",
+      "java_expr": "isLocal()",
+      "java_method": "EntityComp.isLocal()",
+      "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+      "rule": "Explicit runtime isLocal() result input.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.method": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "SOURCE_UNIT_KILLED_METHOD",
+      "java_expr": "public void killed(){",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp killed method boundary.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.sound_at_position": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_result.soundAtPosition",
+      "java_expr": "public int at(Position pos, float pitch, float volume){",
+      "java_method": "Sound.at(Position pos, float pitch, float volume)",
+      "java_source": "arc-core/src/arc/audio/Sound.java",
+      "rule": "Arc Sound position pitch volume method boundary from source parity.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.type_create_wreck_default": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_result.typeCreateWreckDefault",
+      "java_expr": "createWreck = true,",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType createWreck upstream default.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.type_create_wreck_input": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_input.type_create_wreck",
+      "java_expr": "type.createWreck",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime type.createWreck input.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.type_flying_input": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_input.type_flying",
+      "java_expr": "type.flying",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime type.flying input.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.type_wreck_sound_default": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_result.typeWreckSoundDefault",
+      "java_expr": "public Sound wreckSound = Sounds.unset;",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType wreckSound upstream default.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.type_wreck_sound_volume_default": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_result.typeWreckSoundVolumeDefault",
+      "java_expr": "public float wreckSoundVolume = 1f;",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType wreckSoundVolume upstream default.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.unit_id_input": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_input.unit_id",
+      "java_expr": "id",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime unit id carried in wreck sound record.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.was_player": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "SOURCE_UNIT_KILLED_WAS_PLAYER",
+      "java_expr": "wasPlayer = isLocal();",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp records local player state before death side effects.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.wreck_sound_call": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "SOURCE_UNIT_KILLED_WRECK_SOUND_CALL",
+      "java_expr": "type.wreckSound.at(this, 1f, type.wreckSoundVolume);",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp wreck branch sound call.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.wreck_sound_input": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_input.wreck_sound",
+      "java_expr": "type.wreckSound",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime wreck sound surrogate input.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
+    "unit_killed.wreck_sound_volume_input": {
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "godot_symbol": "source_unit_killed_input.wreck_sound_volume",
+      "java_expr": "type.wreckSoundVolume",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime wreck sound volume input.",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

@@ -12857,6 +12857,63 @@
         "test_unit_killable_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_killable_state"
       ]
+    },
+    "N788": {
+      "bridge_exprs": [
+        "private transient boolean wasPlayer;",
+        "boolean isLocal(){",
+        "return ((Object)this) == player || ((Object)this) instanceof Unitc u && u.controller() == player;",
+        "createWreck = true,",
+        "public Sound wreckSound = Sounds.unset;",
+        "public float wreckSoundVolume = 1f;",
+        "public int at(Position pos, float pitch, float volume){"
+      ],
+      "deferred_exprs": [
+        "UnitComp.destroy() side effects remain separate owners",
+        "UnitComp.kill() remote sync remains separate owner",
+        "Audio playback side effects remain runtime boundary only"
+      ],
+      "exact_exprs": [
+        "public void killed(){",
+        "wasPlayer = isLocal();",
+        "health = Math.min(health, 0);",
+        "dead = true;",
+        "if(!type.flying || !type.createWreck){",
+        "destroy();",
+        "type.wreckSound.at(this, 1f, type.wreckSoundVolume);"
+      ],
+      "godot_owner": "PortGame.source_unit_killed_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.killed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_killed_state",
+      "source_symbols": [
+        "unit_killed.current_health_input",
+        "unit_killed.dead_assignment",
+        "unit_killed.destroy_call",
+        "unit_killed.destroy_guard",
+        "unit_killed.entity_is_local_method",
+        "unit_killed.entity_is_local_return",
+        "unit_killed.health_clamp",
+        "unit_killed.is_local_input",
+        "unit_killed.method",
+        "unit_killed.sound_at_position",
+        "unit_killed.type_create_wreck_default",
+        "unit_killed.type_create_wreck_input",
+        "unit_killed.type_flying_input",
+        "unit_killed.type_wreck_sound_default",
+        "unit_killed.type_wreck_sound_volume_default",
+        "unit_killed.unit_id_input",
+        "unit_killed.was_player",
+        "unit_killed.wreck_sound_call",
+        "unit_killed.wreck_sound_input",
+        "unit_killed.wreck_sound_volume_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_killed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_killed_state"
+      ]
     }
   },
   "version": 1
