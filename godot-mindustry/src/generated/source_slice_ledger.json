@@ -14849,6 +14849,41 @@
         "test_port_game_exposes_source_unit_update_trail_position_state",
         "test_unit_update_trail_position_matches_upstream_source"
       ]
+    },
+    "N830": {
+      "bridge_exprs": [
+        "public void update(Unit unit){"
+      ],
+      "deferred_exprs": [
+        "UnitType subclass update side effects remain separate source slices.",
+        "Base UnitType.update(Unit) empty body is recorded only; no behavior is invented."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void update(){",
+        "type.update(self());"
+      ],
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.update() type hook",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "source_symbols": [
+        "unit_update_type_hook.arg",
+        "unit_update_type_hook.call",
+        "unit_update_type_hook.order",
+        "unit_update_type_hook.override",
+        "unit_update_type_hook.self_arg",
+        "unit_update_type_hook.unit_type_update_hook",
+        "unit_update_type_hook.unit_type_update_hook_empty_body",
+        "unit_update_type_hook.update_method"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
     }
   },
   "version": 1

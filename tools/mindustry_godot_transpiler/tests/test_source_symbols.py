@@ -6125,6 +6125,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(trail_update_method["java_expr"], "public void update(float x, float y){")
         self.assertEqual(trail_update_method["java_source"], "core/src/mindustry/graphics/Trail.java")
 
+    def test_unit_update_type_hook_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        override = source_symbols.source_symbol(registry, "unit_update_type_hook.override")
+        self.assertEqual(override["java_expr"], "@Override")
+        self.assertEqual(override["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(override["java_method"], "UnitComp.update() type hook")
+        self.assertEqual(override["godot_owner"], "PortGame.source_unit_update_type_hook_state")
+        self.assertEqual(override["runtime_proof"], "/root/Main.source_unit_update_type_hook_state")
+        self.assertEqual(override["godot_symbol"], "source_unit_update_type_hook_result.order")
+
+        update_method = source_symbols.source_symbol(registry, "unit_update_type_hook.update_method")
+        self.assertEqual(update_method["java_expr"], "public void update(){")
+        self.assertEqual(update_method["godot_symbol"], "source_unit_update_type_hook_result.order")
+
+        call = source_symbols.source_symbol(registry, "unit_update_type_hook.call")
+        self.assertEqual(call["java_expr"], "type.update(self());")
+        self.assertEqual(call["godot_symbol"], "source_unit_update_type_hook_result.call")
+
+        self_arg = source_symbols.source_symbol(registry, "unit_update_type_hook.self_arg")
+        self.assertEqual(self_arg["java_expr"], "self()")
+        self.assertEqual(self_arg["godot_symbol"], "source_unit_update_type_hook_result.arg")
+
+        hook = source_symbols.source_symbol(registry, "unit_update_type_hook.unit_type_update_hook")
+        self.assertEqual(hook["java_expr"], "public void update(Unit unit){")
+        self.assertEqual(hook["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(hook["godot_symbol"], "source_unit_update_type_hook_result.unitTypeHook")
+
     def test_unit_remove_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -14597,9 +14628,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 427)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 428)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 432)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 433)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -14638,6 +14669,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_unit_update_tile_unit_on_any_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_tile_unit_on_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_update_trail_position_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_unit_update_type_hook_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -17217,6 +17249,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float trnsx(float angle, float len){", unit_update_trail_position["bridge_exprs"])
         self.assertIn("public static float trnsy(float angle, float len){", unit_update_trail_position["bridge_exprs"])
         self.assertIn("Live Trail point mutation remains recorded call state only.", unit_update_trail_position["deferred_exprs"])
+
+        unit_update_type_hook = source_symbols.source_slice(ledger, "N830")
+        self.assertEqual(unit_update_type_hook["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_update_type_hook["java_method"], "UnitComp.update() type hook")
+        self.assertEqual(unit_update_type_hook["godot_owner"], "PortGame.source_unit_update_type_hook_state")
+        self.assertIn("@Override", unit_update_type_hook["exact_exprs"])
+        self.assertIn("public void update(){", unit_update_type_hook["exact_exprs"])
+        self.assertIn("type.update(self());", unit_update_type_hook["exact_exprs"])
+        self.assertIn("public void update(Unit unit){", unit_update_type_hook["bridge_exprs"])
+        self.assertIn("UnitType subclass update side effects remain separate source slices.", unit_update_type_hook["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21247,6 +21289,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_trail_position["return_keys"])
         self.assertNotIn("trail_exists", unit_update_trail_position["return_keys"])
         self.assertEqual(unit_update_trail_position["source_method"], "UnitComp.update() trail position")
+
+        unit_update_type_hook = source_symbols.api_contract(contracts, "PortGame.source_unit_update_type_hook_state")
+        self.assertEqual(unit_update_type_hook["params"], [])
+        for key in ["call", "arg", "unitTypeHook", "order"]:
+            self.assertIn(key, unit_update_type_hook["return_keys"])
+        self.assertEqual(unit_update_type_hook["source_method"], "UnitComp.update() type hook")
 
         unit_heal = source_symbols.api_contract(contracts, "PortGame.source_unit_heal_state")
         self.assertEqual([param["name"] for param in unit_heal["params"]], ["current_health", "max_health", "amount", "current_was_healed"])
@@ -26121,6 +26169,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_trail_position_result["keys"]["lengthSet"]["java_expr"], "trail.length = type.trailLength;")
         self.assertEqual(source_unit_update_trail_position_result["keys"]["trailUpdate"]["java_expr"], "trail.update(cx, cy);")
         self.assertNotIn("trail_exists", source_unit_update_trail_position_result["keys"])
+
+        source_unit_update_type_hook_result = source_symbols.state_schema(schema, "source_unit_update_type_hook_result")
+        self.assertEqual(source_unit_update_type_hook_result["keys"]["call"]["java_expr"], "type.update(self());")
+        self.assertEqual(source_unit_update_type_hook_result["keys"]["arg"]["java_expr"], "self()")
+        self.assertEqual(source_unit_update_type_hook_result["keys"]["unitTypeHook"]["java_expr"], "public void update(Unit unit){")
+        self.assertEqual(source_unit_update_type_hook_result["keys"]["order"]["java_expr"], "type.update(self());")
+        self.assertNotIn("type_update_self", source_unit_update_type_hook_result["keys"])
 
         source_unit_check_target_input = source_symbols.state_schema(schema, "source_unit_check_target_input")
         self.assertEqual(source_unit_check_target_input["keys"]["elevation_value"]["java_expr"], "elevation")

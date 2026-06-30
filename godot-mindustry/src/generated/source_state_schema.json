@@ -59697,6 +59697,73 @@
       "owner": "PortGame.source_unit_update_trail_position_state",
       "runtime_proof": "/root/Main.source_unit_update_trail_position_state",
       "status": "active"
+    },
+    "source_unit_update_type_hook_result": {
+      "keys": {
+        "arg": {
+          "godot_symbol": "source_unit_update_type_hook_result.arg",
+          "java_expr": "self()",
+          "java_method": "UnitComp.update() type hook",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_type_hook_state"
+          ],
+          "rule": "Recorded self() argument for type.update call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_type_hook_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_unit_update_type_hook_result.call",
+          "java_expr": "type.update(self());",
+          "java_method": "UnitComp.update() type hook",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_type_hook_state"
+          ],
+          "rule": "Recorded UnitType update hook call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_type_hook_state"
+          ]
+        },
+        "order": {
+          "godot_symbol": "source_unit_update_type_hook_result.order",
+          "java_expr": "type.update(self());",
+          "java_method": "UnitComp.update() type hook",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "owners": [
+            "PortGame.source_unit_update_type_hook_state"
+          ],
+          "rule": "First statement in UnitComp.update().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_type_hook_state"
+          ]
+        },
+        "unitTypeHook": {
+          "godot_symbol": "source_unit_update_type_hook_result.unitTypeHook",
+          "java_expr": "public void update(Unit unit){",
+          "java_method": "UnitType.update(Unit)",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "owners": [
+            "PortGame.source_unit_update_type_hook_state"
+          ],
+          "rule": "UnitType update hook method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_update_type_hook_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_update_type_hook_state",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "active"
     }
   },
   "version": 1

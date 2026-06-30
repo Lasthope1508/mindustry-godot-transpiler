@@ -16545,6 +16545,26 @@
         "test_port_game_exposes_source_unit_update_trail_position_state",
         "test_unit_update_trail_position_matches_upstream_source"
       ]
+    },
+    "PortGame.source_unit_update_type_hook_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [],
+      "return_keys": [
+        "call",
+        "arg",
+        "unitTypeHook",
+        "order"
+      ],
+      "rule": "Public runtime contract for UnitComp.update UnitType hook dispatch state.",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "source_method": "UnitComp.update() type hook",
+      "source_slice": "N830",
+      "status": "active",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
     }
   },
   "policy": {

@@ -50253,6 +50253,126 @@
         "test_port_game_exposes_source_unit_update_trail_position_state",
         "test_unit_update_trail_position_matches_upstream_source"
       ]
+    },
+    "unit_update_type_hook.arg": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.arg",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update() type hook",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Recorded self() argument for type.update call.",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
+    },
+    "unit_update_type_hook.call": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.call",
+      "java_expr": "type.update(self());",
+      "java_method": "UnitComp.update() type hook",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Recorded UnitType update hook call.",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
+    },
+    "unit_update_type_hook.order": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.order",
+      "java_expr": "type.update(self());",
+      "java_method": "UnitComp.update() type hook",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "First statement in UnitComp.update().",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
+    },
+    "unit_update_type_hook.override": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.order",
+      "java_expr": "@Override",
+      "java_method": "UnitComp.update() type hook",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.update override marker.",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
+    },
+    "unit_update_type_hook.self_arg": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.arg",
+      "java_expr": "self()",
+      "java_method": "UnitComp.update() type hook",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Recorded self() argument for UnitType.update(Unit).",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
+    },
+    "unit_update_type_hook.unit_type_update_hook": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.unitTypeHook",
+      "java_expr": "public void update(Unit unit){",
+      "java_method": "UnitType.update(Unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType update hook method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
+    },
+    "unit_update_type_hook.unit_type_update_hook_empty_body": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.unitTypeHook",
+      "java_expr": "}",
+      "java_method": "UnitType.update(Unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "Base UnitType.update(Unit) body is empty in upstream.",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
+    },
+    "unit_update_type_hook.update_method": {
+      "godot_owner": "PortGame.source_unit_update_type_hook_state",
+      "godot_symbol": "source_unit_update_type_hook_result.order",
+      "java_expr": "public void update(){",
+      "java_method": "UnitComp.update() type hook",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp.update method boundary.",
+      "runtime_proof": "/root/Main.source_unit_update_type_hook_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_update_type_hook_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_update_type_hook_state",
+        "test_unit_update_type_hook_matches_upstream_source"
+      ]
     }
   },
   "version": 1
