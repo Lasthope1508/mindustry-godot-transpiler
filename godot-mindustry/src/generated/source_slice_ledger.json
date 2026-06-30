@@ -12914,6 +12914,45 @@
         "test_unit_killed_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_killed_state"
       ]
+    },
+    "N789": {
+      "bridge_exprs": [
+        "public float mechLandShake = 0f;",
+        "public void landed(Unit unit){}",
+        "public static void shake(float intensity, float duration, Position loc){",
+        "shake(intensity, duration, loc.getX(), loc.getY());"
+      ],
+      "deferred_exprs": [
+        "Camera shake math remains Effect.shake runtime boundary",
+        "UnitType landed override side effects remain content-specific overrides"
+      ],
+      "exact_exprs": [
+        "@Override\n    public void landed(){",
+        "if(type.mechLandShake > 0f){",
+        "Effect.shake(type.mechLandShake, type.mechLandShake, this);",
+        "type.landed(self());"
+      ],
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "java_class": "mindustry.entities.comp.UnitComp",
+      "java_method": "UnitComp.landed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "source_symbols": [
+        "unit_landed.effect_shake_position",
+        "unit_landed.effect_shake_position_call",
+        "unit_landed.mech_land_shake_default",
+        "unit_landed.mech_land_shake_input",
+        "unit_landed.method",
+        "unit_landed.shake_call",
+        "unit_landed.shake_guard",
+        "unit_landed.type_call",
+        "unit_landed.unit_type_landed_default"
+      ],
+      "status": "done",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
     }
   },
   "version": 1

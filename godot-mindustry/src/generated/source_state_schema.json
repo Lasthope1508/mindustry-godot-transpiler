@@ -50540,6 +50540,152 @@
       "runtime_proof": "/root/Main.source_unit_killed_state",
       "status": "active"
     },
+    "source_unit_landed_input": {
+      "keys": {
+        "type_mech_land_shake": {
+          "godot_symbol": "source_unit_landed_input.type_mech_land_shake",
+          "java_expr": "type.mechLandShake",
+          "java_method": "UnitComp.landed()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime UnitType.mechLandShake value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_landed_state",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "active"
+    },
+    "source_unit_landed_result": {
+      "keys": {
+        "call_order": {
+          "godot_symbol": "source_unit_landed_result.call_order",
+          "java_expr": "Effect.shake(type.mechLandShake, type.mechLandShake, this); / type.landed(self());",
+          "java_method": "UnitComp.landed()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime call order record.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "effectShakePosition": {
+          "godot_symbol": "source_unit_landed_result.effectShakePosition",
+          "java_expr": "public static void shake(float intensity, float duration, Position loc){",
+          "java_method": "Effect.shake(float intensity, float duration, Position loc)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Effect position shake method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "effectShakePositionCall": {
+          "godot_symbol": "source_unit_landed_result.effectShakePositionCall",
+          "java_expr": "shake(intensity, duration, loc.getX(), loc.getY());",
+          "java_method": "Effect.shake(float intensity, float duration, Position loc)",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "rule": "Effect forwards Position to coordinates.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "mechLandShakeDefault": {
+          "godot_symbol": "source_unit_landed_result.mechLandShakeDefault",
+          "java_expr": "public float mechLandShake = 0f;",
+          "java_method": "UnitType field declaration",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType mechLandShake upstream default.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "SOURCE_UNIT_LANDED_METHOD",
+          "java_expr": "@Override\n    public void landed(){",
+          "java_method": "UnitComp.landed()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "UnitComp landed override method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "shake": {
+          "godot_symbol": "source_unit_landed_result.shake",
+          "java_expr": "if(type.mechLandShake > 0f){",
+          "java_method": "UnitComp.landed()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime shake branch result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "shakeCall": {
+          "godot_symbol": "source_unit_landed_result.shakeCall",
+          "java_expr": "Effect.shake(type.mechLandShake, type.mechLandShake, this);",
+          "java_method": "UnitComp.landed()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime shake call record.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "shakeGuard": {
+          "godot_symbol": "SOURCE_UNIT_LANDED_SHAKE_GUARD",
+          "java_expr": "if(type.mechLandShake > 0f){",
+          "java_method": "UnitComp.landed()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Shake branch guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "typeLanded": {
+          "godot_symbol": "source_unit_landed_result.typeLanded",
+          "java_expr": "type.landed(self());",
+          "java_method": "UnitComp.landed()",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Runtime UnitType landed hook record.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        },
+        "unitTypeLandedDefault": {
+          "godot_symbol": "source_unit_landed_result.unitTypeLandedDefault",
+          "java_expr": "public void landed(Unit unit){}",
+          "java_method": "UnitType.landed(Unit unit)",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "UnitType landed default hook.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_unit_landed_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_unit_landed_state",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "active"
+    },
     "spawn_bullet_random_state": {
       "keys": {
         "offsets": {

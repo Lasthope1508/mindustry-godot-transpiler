@@ -40116,6 +40116,132 @@
         "test_port_game_exposes_source_unit_killed_state"
       ]
     },
+    "unit_landed.effect_shake_position": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "source_unit_landed_result.effectShakePosition",
+      "java_expr": "public static void shake(float intensity, float duration, Position loc){",
+      "java_method": "Effect.shake(float intensity, float duration, Position loc)",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "rule": "Effect position shake method boundary.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.effect_shake_position_call": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "source_unit_landed_result.effectShakePositionCall",
+      "java_expr": "shake(intensity, duration, loc.getX(), loc.getY());",
+      "java_method": "Effect.shake(float intensity, float duration, Position loc)",
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "rule": "Effect forwards Position to x/y shake.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.mech_land_shake_default": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "source_unit_landed_result.mechLandShakeDefault",
+      "java_expr": "public float mechLandShake = 0f;",
+      "java_method": "UnitType field declaration",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType mechLandShake upstream default.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.mech_land_shake_input": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "source_unit_landed_input.type_mech_land_shake",
+      "java_expr": "type.mechLandShake",
+      "java_method": "UnitComp.landed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Explicit runtime mechLandShake input.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.method": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "SOURCE_UNIT_LANDED_METHOD",
+      "java_expr": "@Override\n    public void landed(){",
+      "java_method": "UnitComp.landed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "UnitComp landed override method boundary.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.shake_call": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "SOURCE_UNIT_LANDED_SHAKE_CALL",
+      "java_expr": "Effect.shake(type.mechLandShake, type.mechLandShake, this);",
+      "java_method": "UnitComp.landed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Shake call before type landed hook.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.shake_guard": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "SOURCE_UNIT_LANDED_SHAKE_GUARD",
+      "java_expr": "if(type.mechLandShake > 0f){",
+      "java_method": "UnitComp.landed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Shake branch guard.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.type_call": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "SOURCE_UNIT_LANDED_TYPE_CALL",
+      "java_expr": "type.landed(self());",
+      "java_method": "UnitComp.landed()",
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "rule": "Always-run UnitType landed hook call.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
+    "unit_landed.unit_type_landed_default": {
+      "godot_owner": "PortGame.source_unit_landed_state",
+      "godot_symbol": "source_unit_landed_result.unitTypeLandedDefault",
+      "java_expr": "public void landed(Unit unit){}",
+      "java_method": "UnitType.landed(Unit unit)",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "rule": "UnitType landed default hook.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
+    },
     "update_bullet_interval.angle": {
       "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "godot_symbol": "update_bullet_interval_result.baseAngle",

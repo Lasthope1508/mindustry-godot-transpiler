@@ -14500,6 +14500,31 @@
         "test_unit_killed_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_unit_killed_state"
       ]
+    },
+    "PortGame.source_unit_landed_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "params": [
+        {
+          "name": "type_mech_land_shake",
+          "schema": "source_unit_landed_input.type_mech_land_shake",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "shake",
+        "shakeCall",
+        "typeLanded",
+        "call_order"
+      ],
+      "rule": "Public runtime contract for UnitComp.landed() shake branch and UnitType landed hook order.",
+      "runtime_proof": "/root/Main.source_unit_landed_state",
+      "source_method": "UnitComp.landed()",
+      "source_slice": "N789",
+      "status": "active",
+      "tests": [
+        "test_unit_landed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_landed_state"
+      ]
     }
   },
   "policy": {

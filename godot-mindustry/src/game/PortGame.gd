@@ -9231,12 +9231,17 @@ func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: 
 		"call_order": ["team.data().updateCount(-1)", "controller.removed", "Fx.trailFade.at"] if fade_trail else ["team.data().updateCount(-1)", "controller.removed"],
 	}
 
+const SOURCE_UNIT_LANDED_METHOD := "@Override\n    public void landed(){"
+const SOURCE_UNIT_LANDED_SHAKE_GUARD := "if(type.mechLandShake > 0f){"
+const SOURCE_UNIT_LANDED_SHAKE_CALL := "Effect.shake(type.mechLandShake, type.mechLandShake, this);"
+const SOURCE_UNIT_LANDED_TYPE_CALL := "type.landed(self());"
+
 func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
 	var shake := type_mech_land_shake > 0.0
 	var shake_call: Variant = null
 	if shake:
 		shake_call = {
-			"call": "Effect.shake(type.mechLandShake, type.mechLandShake, this)",
+			"call": SOURCE_UNIT_LANDED_SHAKE_CALL.trim_suffix(";"),
 			"intensity": type_mech_land_shake,
 			"duration": type_mech_land_shake,
 			"locArg": "this",
@@ -9244,7 +9249,7 @@ func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
 	return {
 		"shake": shake,
 		"shakeCall": shake_call,
-		"typeLanded": {"call": "type.landed(self())", "arg": "self()"},
+		"typeLanded": {"call": SOURCE_UNIT_LANDED_TYPE_CALL.trim_suffix(";"), "arg": "self()"},
 		"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"],
 	}
 
