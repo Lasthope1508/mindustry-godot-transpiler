@@ -22125,6 +22125,86 @@
       ],
       "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.canDumpLiquid default predicate helper."
+    },
+    "PortGame.source_building_move_liquid_forward_state": {
+      "status": "active",
+      "source_slice": "N944",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+      "params": [
+        {
+          "name": "leaks",
+          "type": "bool",
+          "schema": "source_building_move_liquid_forward_input.leaks"
+        },
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_building_move_liquid_forward_input.liquid"
+        },
+        {
+          "name": "next_tile_present",
+          "type": "bool",
+          "schema": "source_building_move_liquid_forward_input.next_tile_present"
+        },
+        {
+          "name": "next_build_present",
+          "type": "bool",
+          "schema": "source_building_move_liquid_forward_input.next_build_present"
+        },
+        {
+          "name": "next_block_solid",
+          "type": "bool",
+          "schema": "source_building_move_liquid_forward_input.next_block_solid"
+        },
+        {
+          "name": "next_block_has_liquids",
+          "type": "bool",
+          "schema": "source_building_move_liquid_forward_input.next_block_has_liquids"
+        },
+        {
+          "name": "current_liquid_amount",
+          "type": "float",
+          "schema": "source_building_move_liquid_forward_input.current_liquid_amount"
+        },
+        {
+          "name": "move_liquid_return",
+          "type": "float",
+          "schema": "source_building_move_liquid_forward_input.move_liquid_return"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "nearby_lookup",
+        "null_return",
+        "move_liquid_call",
+        "leak_guard",
+        "leak_amount",
+        "puddles_deposit_call",
+        "remove_liquid_call",
+        "leaks",
+        "liquid",
+        "next_tile_present",
+        "next_build_present",
+        "next_block_solid",
+        "next_block_has_liquids",
+        "current_liquid_amount",
+        "move_liquid_return",
+        "move_liquid_called",
+        "leak_guard_passed",
+        "leak_amount_value",
+        "puddles_deposit_called",
+        "remove_liquid_called",
+        "current_liquid_amount_after",
+        "return_value"
+      ],
+      "tests": [
+        "test_building_move_liquid_forward_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_forward_state",
+        "test_building_move_liquid_forward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_forward_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.moveLiquidForward branch helper."
     }
   },
   "policy": {

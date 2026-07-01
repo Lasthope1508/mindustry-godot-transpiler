@@ -500,6 +500,29 @@ def verify_building_can_dump_liquid_default_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float moveLiquidForward(boolean leaks, Liquid liquid){",
+        "nearby_lookup": "Tile next = tile.nearby(rotation);",
+        "null_return": "if(next == null) return 0;",
+        "move_liquid_call": "return moveLiquid(next.build, liquid);",
+        "leak_guard": "}else if(leaks && !next.block().solid && !next.block().hasLiquids){",
+        "leak_amount": "float leakAmount = liquids.get(liquid) / 1.5f;",
+        "puddles_deposit_call": "Puddles.deposit(next, tile, liquid, leakAmount, true, true);",
+        "remove_liquid_call": "liquids.remove(liquid, leakAmount);",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

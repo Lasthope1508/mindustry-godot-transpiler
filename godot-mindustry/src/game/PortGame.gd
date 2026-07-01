@@ -5393,6 +5393,50 @@ func source_building_can_dump_liquid_default_state(to_state: Variant, liquid: Va
 		"can_dump_liquid": true,
 	}
 
+func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, next_tile_present: bool, next_build_present: bool, next_block_solid: bool, next_block_has_liquids: bool, current_liquid_amount: float, move_liquid_return: float) -> Dictionary:
+	var move_liquid_called := false
+	var leak_guard_passed := false
+	var leak_amount := 0.0
+	var puddles_deposit_called := false
+	var remove_liquid_called := false
+	var current_liquid_amount_after := current_liquid_amount
+	var return_value := 0.0
+	if next_tile_present:
+		if next_build_present:
+			move_liquid_called = true
+			return_value = move_liquid_return
+		elif leaks and not next_block_solid and not next_block_has_liquids:
+			leak_guard_passed = true
+			leak_amount = current_liquid_amount / 1.5
+			puddles_deposit_called = true
+			remove_liquid_called = true
+			current_liquid_amount_after = current_liquid_amount - leak_amount
+	return {
+		"method": "public float moveLiquidForward(boolean leaks, Liquid liquid){",
+		"nearby_lookup": "Tile next = tile.nearby(rotation);",
+		"null_return": "if(next == null) return 0;",
+		"move_liquid_call": "return moveLiquid(next.build, liquid);",
+		"leak_guard": "}else if(leaks && !next.block().solid && !next.block().hasLiquids){",
+		"leak_amount": "float leakAmount = liquids.get(liquid) / 1.5f;",
+		"puddles_deposit_call": "Puddles.deposit(next, tile, liquid, leakAmount, true, true);",
+		"remove_liquid_call": "liquids.remove(liquid, leakAmount);",
+		"leaks": leaks,
+		"liquid": liquid,
+		"next_tile_present": next_tile_present,
+		"next_build_present": next_build_present,
+		"next_block_solid": next_block_solid,
+		"next_block_has_liquids": next_block_has_liquids,
+		"current_liquid_amount": current_liquid_amount,
+		"move_liquid_return": move_liquid_return,
+		"move_liquid_called": move_liquid_called,
+		"leak_guard_passed": leak_guard_passed,
+		"leak_amount_value": leak_amount,
+		"puddles_deposit_called": puddles_deposit_called,
+		"remove_liquid_called": remove_liquid_called,
+		"current_liquid_amount_after": current_liquid_amount_after,
+		"return_value": return_value,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

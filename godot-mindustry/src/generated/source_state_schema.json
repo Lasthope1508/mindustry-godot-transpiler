@@ -82396,6 +82396,252 @@
           "rule": "Echoes canonical input key in N943 result."
         }
       }
+    },
+    "source_building_move_liquid_forward_input": {
+      "status": "active",
+      "source_slice": "N944",
+      "owner": "PortGame.source_building_move_liquid_forward_state",
+      "keys": {
+        "leaks": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "leaks",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical input key."
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "liquid",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical input key."
+        },
+        "next_tile_present": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "next == null",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical input key."
+        },
+        "next_build_present": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "next.build != null",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical input key."
+        },
+        "next_block_solid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "next.block().solid",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical input key."
+        },
+        "next_block_has_liquids": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "next.block().hasLiquids",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical input key."
+        },
+        "current_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "liquids.get(liquid)",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical input key."
+        },
+        "move_liquid_return": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "moveLiquid(next.build, liquid)",
+          "rule": "N944 delegated moveLiquid result canonical input key."
+        }
+      }
+    },
+    "source_building_move_liquid_forward_result": {
+      "status": "active",
+      "source_slice": "N944",
+      "owner": "PortGame.source_building_move_liquid_forward_state",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "public float moveLiquidForward(boolean leaks, Liquid liquid){",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "nearby_lookup": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "Tile next = tile.nearby(rotation);",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "null_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "if(next == null) return 0;",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "move_liquid_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "return moveLiquid(next.build, liquid);",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "leak_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "}else if(leaks && !next.block().solid && !next.block().hasLiquids){",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "leak_amount": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "float leakAmount = liquids.get(liquid) / 1.5f;",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "puddles_deposit_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "Puddles.deposit(next, tile, liquid, leakAmount, true, true);",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "remove_liquid_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "liquids.remove(liquid, leakAmount);",
+          "rule": "N944 BuildingComp.moveLiquidForward canonical result key."
+        },
+        "leaks": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.leaks",
+          "rule": "Echoes canonical input key in N944 result."
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.liquid",
+          "rule": "Echoes canonical input key in N944 result."
+        },
+        "next_tile_present": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.next_tile_present",
+          "rule": "Echoes canonical input key in N944 result."
+        },
+        "next_build_present": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.next_build_present",
+          "rule": "Echoes canonical input key in N944 result."
+        },
+        "next_block_solid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.next_block_solid",
+          "rule": "Echoes canonical input key in N944 result."
+        },
+        "next_block_has_liquids": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.next_block_has_liquids",
+          "rule": "Echoes canonical input key in N944 result."
+        },
+        "current_liquid_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.current_liquid_amount",
+          "rule": "Echoes canonical input key in N944 result."
+        },
+        "move_liquid_return": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_forward_input.move_liquid_return",
+          "rule": "Echoes delegated moveLiquid result input key in N944 result."
+        },
+        "move_liquid_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "next.build != null",
+          "rule": "N944 BuildingComp.moveLiquidForward delegation branch state."
+        },
+        "leak_guard_passed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "leaks && !next.block().solid && !next.block().hasLiquids",
+          "rule": "N944 BuildingComp.moveLiquidForward leak branch state."
+        },
+        "leak_amount_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "liquids.get(liquid) / 1.5f",
+          "rule": "N944 BuildingComp.moveLiquidForward computed leak amount."
+        },
+        "puddles_deposit_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "Puddles.deposit(next, tile, liquid, leakAmount, true, true);",
+          "rule": "N944 BuildingComp.moveLiquidForward puddle deposit dispatch state."
+        },
+        "remove_liquid_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "liquids.remove(liquid, leakAmount);",
+          "rule": "N944 BuildingComp.moveLiquidForward liquid removal dispatch state."
+        },
+        "current_liquid_amount_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "liquids.remove(liquid, leakAmount)",
+          "rule": "N944 amount after source leak removal."
+        },
+        "return_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+          "java_expr": "return 0;",
+          "rule": "N944 return value, or delegated moveLiquid result when next.build exists."
+        }
+      }
     }
   },
   "version": 1

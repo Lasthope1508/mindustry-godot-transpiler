@@ -1530,6 +1530,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_move_liquid_forward_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_forward_source"))
+        report = source_parity.verify_building_move_liquid_forward_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public float moveLiquidForward(boolean leaks, Liquid liquid){",
+            "nearby_lookup": "Tile next = tile.nearby(rotation);",
+            "null_return": "if(next == null) return 0;",
+            "move_liquid_call": "return moveLiquid(next.build, liquid);",
+            "leak_guard": "}else if(leaks && !next.block().solid && !next.block().hasLiquids){",
+            "leak_amount": "float leakAmount = liquids.get(liquid) / 1.5f;",
+            "puddles_deposit_call": "Puddles.deposit(next, tile, liquid, leakAmount, true, true);",
+            "remove_liquid_call": "liquids.remove(liquid, leakAmount);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

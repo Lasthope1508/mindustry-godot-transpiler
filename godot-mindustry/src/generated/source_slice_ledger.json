@@ -19567,6 +19567,54 @@
       ],
       "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
       "rule": "Adds source-backed default BuildingComp.canDumpLiquid predicate returning true."
+    },
+    "N944": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "moveLiquidForward(boolean leaks, Liquid liquid)",
+      "godot_owner": "PortGame.source_building_move_liquid_forward_state",
+      "exact_exprs": [
+        "public float moveLiquidForward(boolean leaks, Liquid liquid){",
+        "Tile next = tile.nearby(rotation);",
+        "if(next == null) return 0;",
+        "return moveLiquid(next.build, liquid);",
+        "}else if(leaks && !next.block().solid && !next.block().hasLiquids){",
+        "float leakAmount = liquids.get(liquid) / 1.5f;",
+        "Puddles.deposit(next, tile, liquid, leakAmount, true, true);",
+        "liquids.remove(liquid, leakAmount);"
+      ],
+      "source_symbols": [
+        "building_move_liquid_forward.method",
+        "building_move_liquid_forward.nearby_lookup",
+        "building_move_liquid_forward.null_return",
+        "building_move_liquid_forward.move_liquid_call",
+        "building_move_liquid_forward.leak_guard",
+        "building_move_liquid_forward.leak_amount",
+        "building_move_liquid_forward.puddles_deposit_call",
+        "building_move_liquid_forward.remove_liquid_call",
+        "building_move_liquid_forward.leaks",
+        "building_move_liquid_forward.liquid",
+        "building_move_liquid_forward.next_tile_present",
+        "building_move_liquid_forward.next_build_present",
+        "building_move_liquid_forward.next_block_solid",
+        "building_move_liquid_forward.next_block_has_liquids",
+        "building_move_liquid_forward.current_liquid_amount",
+        "building_move_liquid_forward.move_liquid_return",
+        "building_move_liquid_forward.move_liquid_called",
+        "building_move_liquid_forward.leak_guard_passed",
+        "building_move_liquid_forward.puddles_deposit_called",
+        "building_move_liquid_forward.remove_liquid_called",
+        "building_move_liquid_forward.current_liquid_amount_after",
+        "building_move_liquid_forward.return_value"
+      ],
+      "tests": [
+        "test_building_move_liquid_forward_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_forward_state",
+        "test_building_move_liquid_forward_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_forward_state",
+      "notes": "Records moveLiquidForward branch skeleton, delegated moveLiquid return, and leak side effects. Full moveLiquid body remains a later slice."
     }
   },
   "version": 1

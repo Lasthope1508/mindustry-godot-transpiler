@@ -2118,6 +2118,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_true": "return true;"', source)
         self.assertIn('"can_dump_liquid": true', source)
 
+    def test_port_game_exposes_source_building_move_liquid_forward_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, next_tile_present: bool, next_build_present: bool, next_block_solid: bool, next_block_has_liquids: bool, current_liquid_amount: float, move_liquid_return: float) -> Dictionary:", source)
+        self.assertIn('"method": "public float moveLiquidForward(boolean leaks, Liquid liquid){"', source)
+        self.assertIn('"nearby_lookup": "Tile next = tile.nearby(rotation);"', source)
+        self.assertIn('"null_return": "if(next == null) return 0;"', source)
+        self.assertIn('"move_liquid_call": "return moveLiquid(next.build, liquid);"', source)
+        self.assertIn('"leak_guard": "}else if(leaks && !next.block().solid && !next.block().hasLiquids){"', source)
+        self.assertIn('"leak_amount": "float leakAmount = liquids.get(liquid) / 1.5f;"', source)
+        self.assertIn('"puddles_deposit_call": "Puddles.deposit(next, tile, liquid, leakAmount, true, true);"', source)
+        self.assertIn('"remove_liquid_call": "liquids.remove(liquid, leakAmount);"', source)
+        self.assertIn('"current_liquid_amount_after": current_liquid_amount_after', source)
+        self.assertIn('"return_value": return_value', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
