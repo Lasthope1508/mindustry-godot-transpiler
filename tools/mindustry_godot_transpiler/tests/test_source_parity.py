@@ -515,6 +515,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_remove_empty_entity_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_remove_empty_entity_source"))
+        report = source_parity.verify_power_graph_remove_empty_entity_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "empty_graph_comment": "//implied empty graph here",
+            "entity_remove_guard": "if(entity != null) entity.remove();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

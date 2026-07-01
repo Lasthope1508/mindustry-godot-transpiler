@@ -1298,6 +1298,20 @@ func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictiona
 		"branch_traversals": bfs_state.get("branch_traversals", []),
 	}
 
+func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:
+	var update_state := source_power_graph_remove_branch_update_state(tile)
+	return {
+		"method": "public void remove(Building tile){",
+		"empty_graph_comment": "//implied empty graph here",
+		"entity_remove_guard": "if(entity != null) entity.remove();",
+		"tile": tile.duplicate(true),
+		"branch_updates": update_state.get("branch_updates", []),
+		"branch_update_count": update_state.get("branch_update_count", 0),
+		"updated_branch_positions": update_state.get("updated_branch_positions", []),
+		"branch_traversals": update_state.get("branch_traversals", []),
+		"entity_removed": entity_present,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

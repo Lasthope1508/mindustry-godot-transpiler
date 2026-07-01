@@ -13511,6 +13511,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(graph_update["java_expr"], "graph.update();")
         self.assertEqual(graph_update["godot_symbol"], "source_power_graph_remove_branch_update_result.branch_update_count")
 
+    def test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        tile_input = source_symbols.source_symbol(registry, "power_graph_remove_empty_entity.tile")
+        self.assertEqual(tile_input["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(tile_input["java_method"], "remove(Building tile)")
+        self.assertEqual(tile_input["status"], "explicit-input")
+        self.assertEqual(tile_input["java_expr"], "tile")
+        self.assertEqual(tile_input["godot_owner"], "PortGame.source_power_graph_remove_empty_entity_state")
+        self.assertEqual(tile_input["runtime_proof"], "/root/Main.source_power_graph_remove_empty_entity_state")
+        self.assertEqual(tile_input["godot_symbol"], "source_power_graph_remove_empty_entity_input.tile")
+
+        entity_present = source_symbols.source_symbol(registry, "power_graph_remove_empty_entity.entity_present")
+        self.assertEqual(entity_present["status"], "explicit-input")
+        self.assertEqual(entity_present["java_expr"], "entity != null")
+        self.assertEqual(entity_present["godot_symbol"], "source_power_graph_remove_empty_entity_input.entity_present")
+
+        empty_comment = source_symbols.source_symbol(registry, "power_graph_remove_empty_entity.empty_graph_comment")
+        self.assertEqual(empty_comment["java_expr"], "//implied empty graph here")
+        self.assertEqual(empty_comment["godot_symbol"], "source_power_graph_remove_empty_entity_result.empty_graph_comment")
+
+        entity_remove = source_symbols.source_symbol(registry, "power_graph_remove_empty_entity.entity_remove_guard")
+        self.assertEqual(entity_remove["java_expr"], "if(entity != null) entity.remove();")
+        self.assertEqual(entity_remove["godot_symbol"], "source_power_graph_remove_empty_entity_result.entity_removed")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17427,9 +17455,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 502)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 503)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 507)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 508)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22050,6 +22078,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_graph_remove_branch_update["godot_owner"], "PortGame.source_power_graph_remove_branch_update_state")
         self.assertIn("//update the graph once so direct consumers without any connected producer lose their power", power_graph_remove_branch_update["exact_exprs"])
         self.assertIn("graph.update();", power_graph_remove_branch_update["exact_exprs"])
+
+        power_graph_remove_empty_entity = source_symbols.source_slice(ledger, "N906")
+        self.assertEqual(power_graph_remove_empty_entity["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_remove_empty_entity["java_method"], "remove(Building tile)")
+        self.assertEqual(power_graph_remove_empty_entity["godot_owner"], "PortGame.source_power_graph_remove_empty_entity_state")
+        self.assertIn("//implied empty graph here", power_graph_remove_empty_entity["exact_exprs"])
+        self.assertIn("if(entity != null) entity.remove();", power_graph_remove_empty_entity["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26898,6 +26933,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("branch_update_count", power_graph_remove_branch_update["return_keys"])
         self.assertIn("updated_branch_positions", power_graph_remove_branch_update["return_keys"])
         self.assertEqual(power_graph_remove_branch_update["source_method"], "remove(Building tile)")
+
+        power_graph_remove_empty_entity = source_symbols.api_contract(contracts, "PortGame.source_power_graph_remove_empty_entity_state")
+        self.assertEqual([param["name"] for param in power_graph_remove_empty_entity["params"]], ["tile", "entity_present"])
+        self.assertEqual(power_graph_remove_empty_entity["params"][0]["schema"], "source_power_graph_remove_empty_entity_input.tile")
+        self.assertEqual(power_graph_remove_empty_entity["params"][1]["schema"], "source_power_graph_remove_empty_entity_input.entity_present")
+        self.assertIn("entity_removed", power_graph_remove_empty_entity["return_keys"])
+        self.assertIn("branch_update_count", power_graph_remove_empty_entity["return_keys"])
+        self.assertEqual(power_graph_remove_empty_entity["source_method"], "remove(Building tile)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -32809,6 +32852,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_graph_remove_branch_update_result["keys"]["update_comment"]["java_expr"], "//update the graph once so direct consumers without any connected producer lose their power")
         self.assertEqual(source_power_graph_remove_branch_update_result["keys"]["branch_update_count"]["java_expr"], "graph.update();")
         self.assertEqual(source_power_graph_remove_branch_update_result["keys"]["updated_branch_positions"]["java_expr"], "graph.update();")
+
+        source_power_graph_remove_empty_entity_input = source_symbols.state_schema(schema, "source_power_graph_remove_empty_entity_input")
+        self.assertEqual(source_power_graph_remove_empty_entity_input["keys"]["tile"]["java_expr"], "tile")
+        self.assertEqual(source_power_graph_remove_empty_entity_input["keys"]["tile"]["status"], "explicit-input")
+        self.assertEqual(source_power_graph_remove_empty_entity_input["keys"]["entity_present"]["java_expr"], "entity != null")
+        self.assertEqual(source_power_graph_remove_empty_entity_input["keys"]["entity_present"]["status"], "explicit-input")
+
+        source_power_graph_remove_empty_entity_result = source_symbols.state_schema(schema, "source_power_graph_remove_empty_entity_result")
+        self.assertEqual(source_power_graph_remove_empty_entity_result["keys"]["empty_graph_comment"]["java_expr"], "//implied empty graph here")
+        self.assertEqual(source_power_graph_remove_empty_entity_result["keys"]["entity_removed"]["java_expr"], "if(entity != null) entity.remove();")
+        self.assertEqual(source_power_graph_remove_empty_entity_result["keys"]["branch_update_count"]["alias_of"], "source_power_graph_remove_branch_update_result.branch_update_count")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

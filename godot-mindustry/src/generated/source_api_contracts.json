@@ -20181,6 +20181,42 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_remove_branch_update_state",
       "rule": "Public runtime contract for PowerGraph.remove(Building tile) graph.update() dispatch after branch BFS; it does not fabricate PowerGraph.update() internals."
+    },
+    "PortGame.source_power_graph_remove_empty_entity_state": {
+      "status": "active",
+      "source_slice": "N906",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "remove(Building tile)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Dictionary",
+          "schema": "source_power_graph_remove_empty_entity_input.tile"
+        },
+        {
+          "name": "entity_present",
+          "type": "bool",
+          "schema": "source_power_graph_remove_empty_entity_input.entity_present"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "empty_graph_comment",
+        "entity_remove_guard",
+        "tile",
+        "branch_updates",
+        "branch_update_count",
+        "updated_branch_positions",
+        "branch_traversals",
+        "entity_removed"
+      ],
+      "tests": [
+        "test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp",
+        "test_power_graph_remove_empty_entity_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state",
+      "rule": "Public runtime contract for PowerGraph.remove(Building tile) final implied empty graph entity removal. entity_present is the explicit entity != null guard input; no entity object is exposed."
     }
   },
   "policy": {

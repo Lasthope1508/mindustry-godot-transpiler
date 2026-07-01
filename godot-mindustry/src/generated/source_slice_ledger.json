@@ -18197,6 +18197,30 @@
         "test_power_graph_remove_branch_update_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.remove(Building tile) graph.update() dispatch after N904 BFS. Full PowerGraph.update() internals stay owned by existing update slices and are not fabricated from this call-site."
+    },
+    "N906": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_empty_entity_state",
+      "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state",
+      "exact_exprs": [
+        "//implied empty graph here",
+        "if(entity != null) entity.remove();"
+      ],
+      "source_symbols": [
+        "power_graph_remove_empty_entity.tile",
+        "power_graph_remove_empty_entity.entity_present",
+        "power_graph_remove_empty_entity.empty_graph_comment",
+        "power_graph_remove_empty_entity.entity_remove_guard"
+      ],
+      "tests": [
+        "test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp",
+        "test_power_graph_remove_empty_entity_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.remove(Building tile) final implied empty graph entity removal after rebuilt branch update dispatch."
     }
   },
   "version": 1

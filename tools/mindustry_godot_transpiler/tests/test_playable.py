@@ -336,6 +336,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"branch_update_count"', source)
         self.assertIn('"updated_branch_positions"', source)
 
+    def test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:", source)
+        self.assertIn("var update_state := source_power_graph_remove_branch_update_state(tile)", source)
+        self.assertIn('"empty_graph_comment": "//implied empty graph here"', source)
+        self.assertIn('"entity_remove_guard": "if(entity != null) entity.remove();"', source)
+        self.assertIn('"entity_removed": entity_present', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

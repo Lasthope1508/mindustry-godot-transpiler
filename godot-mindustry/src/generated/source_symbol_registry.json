@@ -63710,6 +63710,66 @@
         "test_power_graph_remove_branch_update_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.remove(Building tile) branch graph update dispatch after BFS traversal."
+    },
+    "power_graph_remove_empty_entity.tile": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "tile",
+      "godot_owner": "PortGame.source_power_graph_remove_empty_entity_state",
+      "godot_symbol": "source_power_graph_remove_empty_entity_input.tile",
+      "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state",
+      "tests": [
+        "test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp",
+        "test_power_graph_remove_empty_entity_matches_upstream_source"
+      ],
+      "rule": "Explicit tile input used to compose prior PowerGraph.remove(Building tile) branch state."
+    },
+    "power_graph_remove_empty_entity.entity_present": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "entity != null",
+      "godot_owner": "PortGame.source_power_graph_remove_empty_entity_state",
+      "godot_symbol": "source_power_graph_remove_empty_entity_input.entity_present",
+      "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state",
+      "tests": [
+        "test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp",
+        "test_power_graph_remove_empty_entity_matches_upstream_source"
+      ],
+      "rule": "Explicit input for final PowerGraph entity null guard."
+    },
+    "power_graph_remove_empty_entity.empty_graph_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "//implied empty graph here",
+      "godot_owner": "PortGame.source_power_graph_remove_empty_entity_state",
+      "godot_symbol": "source_power_graph_remove_empty_entity_result.empty_graph_comment",
+      "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state",
+      "tests": [
+        "test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp",
+        "test_power_graph_remove_empty_entity_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) final implied empty graph entity removal."
+    },
+    "power_graph_remove_empty_entity.entity_remove_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "if(entity != null) entity.remove();",
+      "godot_owner": "PortGame.source_power_graph_remove_empty_entity_state",
+      "godot_symbol": "source_power_graph_remove_empty_entity_result.entity_removed",
+      "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state",
+      "tests": [
+        "test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp",
+        "test_power_graph_remove_empty_entity_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) final implied empty graph entity removal."
     }
   },
   "version": 1
