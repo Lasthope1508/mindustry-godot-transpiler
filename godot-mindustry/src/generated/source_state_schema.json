@@ -63012,6 +63012,268 @@
           ]
         }
       }
+    },
+    "source_weapon_bullet_sound_input": {
+      "status": "active",
+      "keys": {
+        "create_call_state": {
+          "godot_symbol": "source_weapon_bullet_sound_input.create_call_state",
+          "java_expr": "Weapon.bullet(...) continuation state",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Prior create call result input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_bullet_sound_input.weapon_state",
+          "java_expr": "Weapon sound branch fields",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input carrying sound branch fields.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "sound_pitch": {
+          "godot_symbol": "source_weapon_bullet_sound_input.sound_pitch",
+          "java_expr": "Mathf.random(soundPitchMin, soundPitchMax)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit source random pitch fact.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "bulletCreateCall": {
+          "godot_symbol": "source_weapon_bullet_sound_input.create_call_state.bulletCreateCall",
+          "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Prior bullet create call carrying bullet x/y.",
+          "status": "generated",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "continuous": {
+          "godot_symbol": "source_weapon_bullet_sound_input.weapon_state.continuous",
+          "java_expr": "if(!continuous){",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon continuous branch flag.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "shootSound": {
+          "godot_symbol": "source_weapon_bullet_sound_input.weapon_state.shootSound",
+          "java_expr": "public Sound shootSound = Sounds.shoot;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon non-continuous sound field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "initialShootSound": {
+          "godot_symbol": "source_weapon_bullet_sound_input.weapon_state.initialShootSound",
+          "java_expr": "public Sound initialShootSound = Sounds.none;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon continuous first-shot sound field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "soundPitchMinMax": {
+          "godot_symbol": "source_weapon_bullet_sound_input.weapon_state.soundPitchMinMax",
+          "java_expr": "public float soundPitchMin = 0.8f, soundPitchMax = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon sound pitch min/max fields.",
+          "status": "source-backed",
+          "type": "float pair",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "shootSoundVolume": {
+          "godot_symbol": "source_weapon_bullet_sound_input.weapon_state.shootSoundVolume",
+          "java_expr": "public float shootSoundVolume = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shoot sound volume field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_sound_result": {
+      "status": "active",
+      "keys": {
+        "bulletContinues": {
+          "godot_symbol": "source_weapon_bullet_sound_result.bulletContinues",
+          "java_expr": "Weapon.bullet(...) continuation state",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuation gate inherited from prior bullet creation slices.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "soundCall": {
+          "godot_symbol": "source_weapon_bullet_sound_result.soundCall",
+          "java_expr": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned selected sound call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "soundSkipped": {
+          "godot_symbol": "source_weapon_bullet_sound_result.soundSkipped",
+          "java_expr": "Weapon.bullet(...) continuation state",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime flag when no create-call payload is available.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "continuous": {
+          "godot_symbol": "source_weapon_bullet_sound_result.continuous",
+          "java_expr": "if(!continuous){",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime branch flag copied from Weapon continuous field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "soundPitchMin": {
+          "godot_symbol": "source_weapon_bullet_sound_result.soundPitchMin",
+          "java_expr": "public float soundPitchMin = 0.8f, soundPitchMax = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime metadata for source pitch minimum.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "soundPitchMax": {
+          "godot_symbol": "source_weapon_bullet_sound_result.soundPitchMax",
+          "java_expr": "public float soundPitchMin = 0.8f, soundPitchMax = 1f;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime metadata for source pitch maximum.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "soundBranchSource": {
+          "godot_symbol": "source_weapon_bullet_sound_result.soundBranchSource",
+          "java_expr": "if(!continuous)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Selected branch source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "soundCallSource": {
+          "godot_symbol": "source_weapon_bullet_sound_result.soundCallSource",
+          "java_expr": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Non-continuous sound call source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "initialSoundCallSource": {
+          "godot_symbol": "source_weapon_bullet_sound_result.initialSoundCallSource",
+          "java_expr": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuous initial sound call source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "selectedSoundCallSource": {
+          "godot_symbol": "source_weapon_bullet_sound_result.selectedSoundCallSource",
+          "java_expr": "continuous ? initialShootSound.at(...) : shootSound.at(...)",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime selected sound call source metadata.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "mathfRandomSource": {
+          "godot_symbol": "source_weapon_bullet_sound_result.mathfRandomSource",
+          "java_expr": "return start + rand.nextFloat() * (end - start);",
+          "java_method": "Mathf.random(float start, float end)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Arc Mathf.random start/end source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        },
+        "effectsReservedSource": {
+          "godot_symbol": "source_weapon_bullet_sound_result.effectsReservedSource",
+          "java_expr": "if(mount.allowShootEffects){",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Following effects branch remains owned by source_weapon_bullet_effects_state.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_sound_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

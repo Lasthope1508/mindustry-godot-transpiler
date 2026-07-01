@@ -17469,6 +17469,50 @@
         "test_port_game_exposes_source_weapon_bullet_shooter_state",
         "test_weapon_bullet_shooter_selection_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_bullet_sound_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_sound_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_sound_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "sound_pitch",
+          "schema": "source_weapon_bullet_sound_input.sound_pitch",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "soundCall",
+        "effectsReservedSource",
+        "soundSkipped",
+        "continuous",
+        "soundPitchMin",
+        "soundPitchMax",
+        "soundBranchSource",
+        "soundCallSource",
+        "initialSoundCallSource",
+        "selectedSoundCallSource",
+        "mathfRandomSource"
+      ],
+      "rule": "Public runtime contract for Weapon.bullet sound branch dispatch.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_sound_state",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+      "source_slice": "N850",
+      "status": "active",
+      "tests": [
+        "test_weapon_bullet_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_sound_state",
+        "test_weapon_bullet_sound_branch_matches_upstream_source"
+      ]
     }
   },
   "policy": {

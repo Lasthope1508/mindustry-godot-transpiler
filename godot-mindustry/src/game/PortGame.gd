@@ -5660,7 +5660,7 @@ func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_stat
 		return {
 			"bulletContinues": false,
 			"soundCall": null,
-			"effectsReservedSource": "if(mount.allowShootEffects)",
+			"effectsReservedSource": "if(mount.allowShootEffects){",
 		}
 	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
 	if bullet_create_call.is_empty():
@@ -5668,16 +5668,16 @@ func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_stat
 			"bulletContinues": true,
 			"soundCall": null,
 			"soundSkipped": true,
-			"effectsReservedSource": "if(mount.allowShootEffects)",
+			"effectsReservedSource": "if(mount.allowShootEffects){",
 		}
 	var continuous := bool(weapon_state.get("continuous", false))
 	var sound_name := str(weapon_state.get("shootSound", "shoot"))
 	var branch_source := "if(!continuous)"
-	var call_source := "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)"
+	var call_source := "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);"
 	if continuous:
 		sound_name = str(weapon_state.get("initialShootSound", "none"))
 		branch_source = "}else{"
-		call_source = "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)"
+		call_source = "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);"
 	var sound_call := {
 		"sound": sound_name,
 		"x": float(bullet_create_call.get("x", 0.0)),
@@ -5692,11 +5692,11 @@ func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_stat
 		"soundPitchMin": float(weapon_state.get("soundPitchMin", 0.8)),
 		"soundPitchMax": float(weapon_state.get("soundPitchMax", 1.0)),
 		"soundBranchSource": branch_source,
-		"soundCallSource": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)",
-		"initialSoundCallSource": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)",
+		"soundCallSource": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
+		"initialSoundCallSource": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
 		"selectedSoundCallSource": call_source,
-		"mathfRandomSource": "return start + rand.nextFloat() * (end - start)",
-		"effectsReservedSource": "if(mount.allowShootEffects)",
+		"mathfRandomSource": "return start + rand.nextFloat() * (end - start);",
+		"effectsReservedSource": "if(mount.allowShootEffects){",
 	}
 
 func source_weapon_bullet_effects_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:

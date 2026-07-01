@@ -3189,6 +3189,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_shooter_fallback["java_expr"], "bullet.shooter = (shooter == null ? owner : shooter);")
         self.assertEqual(bullet_shooter_fallback["godot_symbol"], "source_weapon_bullet_shooter_result.bulletCreateNullShooterFallbackSource")
 
+    def test_weapon_bullet_sound_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        shoot_sound_call = source_symbols.source_symbol(registry, "weapon_bullet_sound.shoot_sound_call")
+        self.assertEqual(shoot_sound_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(shoot_sound_call["java_expr"], "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);")
+        self.assertEqual(shoot_sound_call["godot_owner"], "PortGame.source_weapon_bullet_sound_state")
+        self.assertEqual(shoot_sound_call["runtime_proof"], "/root/Main.source_weapon_bullet_sound_state")
+        self.assertEqual(shoot_sound_call["godot_symbol"], "source_weapon_bullet_sound_result.soundCall")
+
+        initial_shoot_sound_call = source_symbols.source_symbol(registry, "weapon_bullet_sound.initial_shoot_sound_call")
+        self.assertEqual(initial_shoot_sound_call["java_expr"], "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);")
+        self.assertEqual(initial_shoot_sound_call["godot_symbol"], "source_weapon_bullet_sound_result.soundCall")
+
+        sound_pitch_input = source_symbols.source_symbol(registry, "weapon_bullet_sound.sound_pitch")
+        self.assertEqual(sound_pitch_input["status"], "explicit-input")
+        self.assertEqual(sound_pitch_input["java_expr"], "Mathf.random(soundPitchMin, soundPitchMax)")
+        self.assertEqual(sound_pitch_input["godot_symbol"], "source_weapon_bullet_sound_input.sound_pitch")
+
+        pitch_range = source_symbols.source_symbol(registry, "weapon_bullet_sound.sound_pitch_range")
+        self.assertEqual(pitch_range["java_expr"], "public float soundPitchMin = 0.8f, soundPitchMax = 1f;")
+        self.assertEqual(pitch_range["godot_symbol"], "source_weapon_bullet_sound_input.weapon_state.soundPitchMinMax")
+
+        sound_volume = source_symbols.source_symbol(registry, "weapon_bullet_sound.shoot_sound_volume")
+        self.assertEqual(sound_volume["java_expr"], "public float shootSoundVolume = 1f;")
+        self.assertEqual(sound_volume["godot_symbol"], "source_weapon_bullet_sound_input.weapon_state.shootSoundVolume")
+
+        effects_reserved = source_symbols.source_symbol(registry, "weapon_bullet_sound.effects_reserved")
+        self.assertEqual(effects_reserved["status"], "deferred")
+        self.assertEqual(effects_reserved["java_expr"], "if(mount.allowShootEffects){")
+        self.assertEqual(effects_reserved["godot_symbol"], "source_weapon_bullet_sound_result.effectsReservedSource")
+
     def test_weapon_bullet_create_call_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15424,9 +15459,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 447)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 448)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 452)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 453)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15485,6 +15520,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_recoil_velocity_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_shake_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_shooter_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_sound_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18274,6 +18310,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public @Nullable Unit shooter;", weapon_bullet_shooter["bridge_exprs"])
         self.assertIn("bullet.shooter = (shooter == null ? owner : shooter);", weapon_bullet_shooter["bridge_exprs"])
         self.assertIn("BulletType.create call remains owned by source_weapon_bullet_create_call_state.", weapon_bullet_shooter["deferred_exprs"])
+
+        weapon_bullet_sound = source_symbols.source_slice(ledger, "N850")
+        self.assertEqual(weapon_bullet_sound["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_sound["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch")
+        self.assertEqual(weapon_bullet_sound["godot_owner"], "PortGame.source_weapon_bullet_sound_state")
+        self.assertIn("shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);", weapon_bullet_sound["exact_exprs"])
+        self.assertIn("initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);", weapon_bullet_sound["exact_exprs"])
+        self.assertIn("public float soundPitchMin = 0.8f, soundPitchMax = 1f;", weapon_bullet_sound["bridge_exprs"])
+        self.assertIn("public Sound shootSound = Sounds.shoot;", weapon_bullet_sound["bridge_exprs"])
+        self.assertIn("public float shootSoundVolume = 1f;", weapon_bullet_sound["bridge_exprs"])
+        self.assertIn("public Sound initialShootSound = Sounds.none;", weapon_bullet_sound["bridge_exprs"])
+        self.assertIn("Effects/recoil/heat remain owned by later registered Weapon.bullet slices.", weapon_bullet_sound["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21441,6 +21489,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("bulletCreateReservedSource", weapon_bullet_shooter["return_keys"])
         self.assertIn("bulletCreateNullShooterFallbackSource", weapon_bullet_shooter["return_keys"])
         self.assertEqual(weapon_bullet_shooter["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection")
+
+        weapon_bullet_sound = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_sound_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_sound["params"]], ["create_call_state", "weapon_state", "sound_pitch"])
+        self.assertEqual(weapon_bullet_sound["params"][0]["schema"], "source_weapon_bullet_sound_input.create_call_state")
+        self.assertEqual(weapon_bullet_sound["params"][1]["schema"], "source_weapon_bullet_sound_input.weapon_state")
+        self.assertEqual(weapon_bullet_sound["params"][2]["schema"], "source_weapon_bullet_sound_input.sound_pitch")
+        self.assertIn("bulletContinues", weapon_bullet_sound["return_keys"])
+        self.assertIn("soundCall", weapon_bullet_sound["return_keys"])
+        self.assertIn("soundBranchSource", weapon_bullet_sound["return_keys"])
+        self.assertIn("soundCallSource", weapon_bullet_sound["return_keys"])
+        self.assertIn("initialSoundCallSource", weapon_bullet_sound["return_keys"])
+        self.assertIn("mathfRandomSource", weapon_bullet_sound["return_keys"])
+        self.assertIn("effectsReservedSource", weapon_bullet_sound["return_keys"])
+        self.assertEqual(weapon_bullet_sound["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -26002,6 +26064,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_shooter_result["keys"]["unitControllerSource"]["java_expr"], "public UnitController controller(){\n        return controller;\n    }")
         self.assertEqual(source_weapon_bullet_shooter_result["keys"]["bulletCreateReservedSource"]["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
         self.assertEqual(source_weapon_bullet_shooter_result["keys"]["bulletCreateNullShooterFallbackSource"]["java_expr"], "bullet.shooter = (shooter == null ? owner : shooter);")
+
+        source_weapon_bullet_sound_input = source_symbols.state_schema(schema, "source_weapon_bullet_sound_input")
+        self.assertEqual(source_weapon_bullet_sound_input["keys"]["create_call_state"]["java_expr"], "Weapon.bullet(...) continuation state")
+        self.assertEqual(source_weapon_bullet_sound_input["keys"]["weapon_state"]["java_expr"], "Weapon sound branch fields")
+        self.assertEqual(source_weapon_bullet_sound_input["keys"]["sound_pitch"]["java_expr"], "Mathf.random(soundPitchMin, soundPitchMax)")
+        self.assertEqual(source_weapon_bullet_sound_input["keys"]["soundPitchMinMax"]["java_expr"], "public float soundPitchMin = 0.8f, soundPitchMax = 1f;")
+        self.assertEqual(source_weapon_bullet_sound_input["keys"]["shootSoundVolume"]["java_expr"], "public float shootSoundVolume = 1f;")
+
+        source_weapon_bullet_sound_result = source_symbols.state_schema(schema, "source_weapon_bullet_sound_result")
+        self.assertEqual(source_weapon_bullet_sound_result["keys"]["soundCall"]["java_expr"], "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);")
+        self.assertEqual(source_weapon_bullet_sound_result["keys"]["soundBranchSource"]["java_expr"], "if(!continuous)")
+        self.assertEqual(source_weapon_bullet_sound_result["keys"]["initialSoundCallSource"]["java_expr"], "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);")
+        self.assertEqual(source_weapon_bullet_sound_result["keys"]["mathfRandomSource"]["java_expr"], "return start + rand.nextFloat() * (end - start);")
+        self.assertEqual(source_weapon_bullet_sound_result["keys"]["effectsReservedSource"]["java_expr"], "if(mount.allowShootEffects){")
 
         source_weapon_bullet_initial_guard_input = source_symbols.state_schema(schema, "source_weapon_bullet_initial_guard_input")
         self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["unit_state"]["java_expr"], "Unit unit")

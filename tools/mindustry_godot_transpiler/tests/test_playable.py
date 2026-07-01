@@ -5004,10 +5004,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var bullet_create_call: Dictionary = create_call_state.get(\"bulletCreateCall\", {})", source)
         self.assertIn("var sound_name := str(weapon_state.get(\"shootSound\", \"shoot\"))", source)
         self.assertIn("sound_name = str(weapon_state.get(\"initialShootSound\", \"none\"))", source)
-        self.assertIn('"soundCallSource": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)"', source)
-        self.assertIn('"initialSoundCallSource": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume)"', source)
-        self.assertIn('"effectsReservedSource": "if(mount.allowShootEffects)"', source)
-        self.assertIn('"mathfRandomSource": "return start + rand.nextFloat() * (end - start)"', source)
+        self.assertIn('"soundCallSource": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);"', source)
+        self.assertIn('"initialSoundCallSource": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);"', source)
+        self.assertIn('"effectsReservedSource": "if(mount.allowShootEffects){"', source)
+        self.assertIn('"mathfRandomSource": "return start + rand.nextFloat() * (end - start);"', source)
 
     def test_port_game_exposes_source_weapon_bullet_effects_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
