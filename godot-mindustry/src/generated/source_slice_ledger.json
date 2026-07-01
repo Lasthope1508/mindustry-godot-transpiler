@@ -18061,6 +18061,40 @@
         "test_power_graph_reflow_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.reflow(Building tile) queue traversal, per-child add, checkAdd count, and closedSet enqueue behavior."
+    },
+    "N902": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "removeList(Building build)",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "exact_exprs": [
+        "Used for unit tests only.",
+        "public void removeList(Building build){",
+        "all.remove(build);",
+        "producers.remove(build);",
+        "consumers.remove(build);",
+        "batteries.remove(build);"
+      ],
+      "source_symbols": [
+        "power_graph_remove_list.all",
+        "power_graph_remove_list.producers",
+        "power_graph_remove_list.consumers",
+        "power_graph_remove_list.batteries",
+        "power_graph_remove_list.build",
+        "power_graph_remove_list.comment",
+        "power_graph_remove_list.all_remove",
+        "power_graph_remove_list.producers_remove",
+        "power_graph_remove_list.consumers_remove",
+        "power_graph_remove_list.batteries_remove"
+      ],
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.removeList(Building build) list removal behavior."
     }
   },
   "version": 1

@@ -282,6 +282,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"queue_add_next": "queue.addLast(next);"', source)
         self.assertIn("source_power_graph_add_role_state(", source)
 
+    def test_port_game_exposes_source_power_graph_remove_list_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_remove_list_state(all: Array, producers: Array, consumers: Array, batteries: Array, build) -> Dictionary:", source)
+        self.assertIn('"comment": "Used for unit tests only."', source)
+        self.assertIn('"method": "public void removeList(Building build){"', source)
+        self.assertIn('"all_remove": "all.remove(build);"', source)
+        self.assertIn('"producers_remove": "producers.remove(build);"', source)
+        self.assertIn('"consumers_remove": "consumers.remove(build);"', source)
+        self.assertIn('"batteries_remove": "batteries.remove(build);"', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

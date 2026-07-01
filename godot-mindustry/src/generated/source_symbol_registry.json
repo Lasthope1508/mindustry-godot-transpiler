@@ -63245,6 +63245,156 @@
         "test_power_graph_reflow_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_remove_list.all": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "all",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_input.all",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.producers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "producers",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_input.producers",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "consumers",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_input.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.batteries": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "batteries",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_input.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.build": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "build",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_input.build",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "Used for unit tests only.",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_result.comment",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.all_remove": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "all.remove(build);",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_result.all",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.producers_remove": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "producers.remove(build);",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_result.producers",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.consumers_remove": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "consumers.remove(build);",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_list.batteries_remove": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "java_expr": "batteries.remove(build);",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "godot_symbol": "source_power_graph_remove_list_result.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.removeList(Building build) list removal state."
     }
   },
   "version": 1

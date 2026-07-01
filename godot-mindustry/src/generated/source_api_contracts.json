@@ -20016,6 +20016,59 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_reflow_state",
       "rule": "Public runtime contract for PowerGraph.reflow(Building tile)."
+    },
+    "PortGame.source_power_graph_remove_list_state": {
+      "status": "active",
+      "source_slice": "N902",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "removeList(Building build)",
+      "params": [
+        {
+          "name": "all",
+          "type": "Array",
+          "schema": "source_power_graph_remove_list_input.all"
+        },
+        {
+          "name": "producers",
+          "type": "Array",
+          "schema": "source_power_graph_remove_list_input.producers"
+        },
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_power_graph_remove_list_input.consumers"
+        },
+        {
+          "name": "batteries",
+          "type": "Array",
+          "schema": "source_power_graph_remove_list_input.batteries"
+        },
+        {
+          "name": "build",
+          "type": "Variant",
+          "schema": "source_power_graph_remove_list_input.build"
+        }
+      ],
+      "return_keys": [
+        "comment",
+        "method",
+        "all_remove",
+        "producers_remove",
+        "consumers_remove",
+        "batteries_remove",
+        "build",
+        "all",
+        "producers",
+        "consumers",
+        "batteries"
+      ],
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state",
+      "rule": "Public runtime contract for PowerGraph.removeList(Building build)."
     }
   },
   "policy": {

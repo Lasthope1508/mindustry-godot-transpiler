@@ -75566,6 +75566,206 @@
           "godot_symbol": "source_power_graph_reflow_result.check_add_count"
         }
       }
+    },
+    "source_power_graph_remove_list_input": {
+      "keys": {
+        "all": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_remove_list_input key all.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "all",
+          "godot_symbol": "source_power_graph_remove_list_input.all"
+        },
+        "producers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_remove_list_input key producers.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "producers",
+          "godot_symbol": "source_power_graph_remove_list_input.producers"
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_remove_list_input key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "consumers",
+          "godot_symbol": "source_power_graph_remove_list_input.consumers"
+        },
+        "batteries": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_remove_list_input key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "batteries",
+          "godot_symbol": "source_power_graph_remove_list_input.batteries"
+        },
+        "build": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "source_power_graph_remove_list_input key build.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "build",
+          "godot_symbol": "source_power_graph_remove_list_input.build"
+        }
+      }
+    },
+    "source_power_graph_remove_list_result": {
+      "keys": {
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key comment.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "Used for unit tests only.",
+          "godot_symbol": "source_power_graph_remove_list_result.comment"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "public void removeList(Building build){",
+          "godot_symbol": "source_power_graph_remove_list_result.method"
+        },
+        "all_remove": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key all_remove.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "all.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.all_remove"
+        },
+        "producers_remove": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key producers_remove.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "producers.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.producers_remove"
+        },
+        "consumers_remove": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key consumers_remove.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "consumers.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.consumers_remove"
+        },
+        "batteries_remove": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key batteries_remove.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "batteries.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.batteries_remove"
+        },
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key build.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "build",
+          "godot_symbol": "source_power_graph_remove_list_result.build"
+        },
+        "all": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key all.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "all.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.all"
+        },
+        "producers": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key producers.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "producers.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.producers"
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "consumers.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.consumers"
+        },
+        "batteries": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_list_result key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_list_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "removeList(Building build)",
+          "java_expr": "batteries.remove(build);",
+          "godot_symbol": "source_power_graph_remove_list_result.batteries"
+        }
+      }
     }
   },
   "version": 1

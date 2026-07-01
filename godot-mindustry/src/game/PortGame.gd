@@ -1082,6 +1082,29 @@ func source_power_graph_reflow_state(tile: Dictionary) -> Dictionary:
 		"check_add_count": check_add_count,
 	}
 
+func source_power_graph_remove_list_state(all: Array, producers: Array, consumers: Array, batteries: Array, build) -> Dictionary:
+	var source_all := all.duplicate(true)
+	var source_producers := producers.duplicate(true)
+	var source_consumers := consumers.duplicate(true)
+	var source_batteries := batteries.duplicate(true)
+	source_all.erase(build)
+	source_producers.erase(build)
+	source_consumers.erase(build)
+	source_batteries.erase(build)
+	return {
+		"comment": "Used for unit tests only.",
+		"method": "public void removeList(Building build){",
+		"all_remove": "all.remove(build);",
+		"producers_remove": "producers.remove(build);",
+		"consumers_remove": "consumers.remove(build);",
+		"batteries_remove": "batteries.remove(build);",
+		"build": build,
+		"all": source_all,
+		"producers": source_producers,
+		"consumers": source_consumers,
+		"batteries": source_batteries,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

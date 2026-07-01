@@ -13383,6 +13383,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(queue_add_next["java_expr"], "queue.addLast(next);")
         self.assertEqual(queue_add_next["godot_symbol"], "source_power_graph_reflow_result.queued_positions")
 
+    def test_power_graph_remove_list_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        build_input = source_symbols.source_symbol(registry, "power_graph_remove_list.build")
+        self.assertEqual(build_input["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(build_input["java_method"], "removeList(Building build)")
+        self.assertEqual(build_input["status"], "explicit-input")
+        self.assertEqual(build_input["java_expr"], "build")
+        self.assertEqual(build_input["godot_owner"], "PortGame.source_power_graph_remove_list_state")
+        self.assertEqual(build_input["runtime_proof"], "/root/Main.source_power_graph_remove_list_state")
+        self.assertEqual(build_input["godot_symbol"], "source_power_graph_remove_list_input.build")
+
+        all_remove = source_symbols.source_symbol(registry, "power_graph_remove_list.all_remove")
+        self.assertEqual(all_remove["java_expr"], "all.remove(build);")
+        self.assertEqual(all_remove["godot_symbol"], "source_power_graph_remove_list_result.all")
+
+        producers_remove = source_symbols.source_symbol(registry, "power_graph_remove_list.producers_remove")
+        self.assertEqual(producers_remove["java_expr"], "producers.remove(build);")
+        self.assertEqual(producers_remove["godot_symbol"], "source_power_graph_remove_list_result.producers")
+
+        consumers_remove = source_symbols.source_symbol(registry, "power_graph_remove_list.consumers_remove")
+        self.assertEqual(consumers_remove["java_expr"], "consumers.remove(build);")
+        self.assertEqual(consumers_remove["godot_symbol"], "source_power_graph_remove_list_result.consumers")
+
+        batteries_remove = source_symbols.source_symbol(registry, "power_graph_remove_list.batteries_remove")
+        self.assertEqual(batteries_remove["java_expr"], "batteries.remove(build);")
+        self.assertEqual(batteries_remove["godot_symbol"], "source_power_graph_remove_list_result.batteries")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17299,9 +17330,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 498)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 499)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 503)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 504)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -21879,6 +21910,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("for(Building next : child.getPowerConnections(outArray2)){", power_graph_reflow["exact_exprs"])
         self.assertIn("if(closedSet.add(next.pos())){", power_graph_reflow["exact_exprs"])
         self.assertIn("queue.addLast(next);", power_graph_reflow["exact_exprs"])
+
+        power_graph_remove_list = source_symbols.source_slice(ledger, "N902")
+        self.assertEqual(power_graph_remove_list["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_remove_list["java_method"], "removeList(Building build)")
+        self.assertEqual(power_graph_remove_list["godot_owner"], "PortGame.source_power_graph_remove_list_state")
+        self.assertIn("Used for unit tests only.", power_graph_remove_list["exact_exprs"])
+        self.assertIn("public void removeList(Building build){", power_graph_remove_list["exact_exprs"])
+        self.assertIn("all.remove(build);", power_graph_remove_list["exact_exprs"])
+        self.assertIn("producers.remove(build);", power_graph_remove_list["exact_exprs"])
+        self.assertIn("consumers.remove(build);", power_graph_remove_list["exact_exprs"])
+        self.assertIn("batteries.remove(build);", power_graph_remove_list["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26690,6 +26732,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("tile_add_states", power_graph_reflow["return_keys"])
         self.assertIn("check_add_count", power_graph_reflow["return_keys"])
         self.assertEqual(power_graph_reflow["source_method"], "reflow(Building tile)")
+
+        power_graph_remove_list = source_symbols.api_contract(contracts, "PortGame.source_power_graph_remove_list_state")
+        self.assertEqual([param["name"] for param in power_graph_remove_list["params"]], ["all", "producers", "consumers", "batteries", "build"])
+        self.assertEqual(power_graph_remove_list["params"][0]["schema"], "source_power_graph_remove_list_input.all")
+        self.assertEqual(power_graph_remove_list["params"][4]["schema"], "source_power_graph_remove_list_input.build")
+        self.assertIn("all", power_graph_remove_list["return_keys"])
+        self.assertIn("producers", power_graph_remove_list["return_keys"])
+        self.assertIn("consumers", power_graph_remove_list["return_keys"])
+        self.assertIn("batteries", power_graph_remove_list["return_keys"])
+        self.assertEqual(power_graph_remove_list["source_method"], "removeList(Building build)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -32552,6 +32604,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_graph_reflow_result["keys"]["check_add_count"]["java_expr"], "checkAdd();")
         self.assertEqual(source_power_graph_reflow_result["keys"]["closed_positions"]["java_expr"], "if(closedSet.add(next.pos())){")
         self.assertEqual(source_power_graph_reflow_result["keys"]["queued_positions"]["java_expr"], "queue.addLast(next);")
+
+        source_power_graph_remove_list_input = source_symbols.state_schema(schema, "source_power_graph_remove_list_input")
+        self.assertEqual(source_power_graph_remove_list_input["keys"]["all"]["java_expr"], "all")
+        self.assertEqual(source_power_graph_remove_list_input["keys"]["producers"]["java_expr"], "producers")
+        self.assertEqual(source_power_graph_remove_list_input["keys"]["consumers"]["java_expr"], "consumers")
+        self.assertEqual(source_power_graph_remove_list_input["keys"]["batteries"]["java_expr"], "batteries")
+        self.assertEqual(source_power_graph_remove_list_input["keys"]["build"]["java_expr"], "build")
+        self.assertEqual(source_power_graph_remove_list_input["keys"]["build"]["status"], "explicit-input")
+
+        source_power_graph_remove_list_result = source_symbols.state_schema(schema, "source_power_graph_remove_list_result")
+        self.assertEqual(source_power_graph_remove_list_result["keys"]["all"]["java_expr"], "all.remove(build);")
+        self.assertEqual(source_power_graph_remove_list_result["keys"]["producers"]["java_expr"], "producers.remove(build);")
+        self.assertEqual(source_power_graph_remove_list_result["keys"]["consumers"]["java_expr"], "consumers.remove(build);")
+        self.assertEqual(source_power_graph_remove_list_result["keys"]["batteries"]["java_expr"], "batteries.remove(build);")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")
