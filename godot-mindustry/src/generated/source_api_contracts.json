@@ -19134,6 +19134,30 @@
         "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
         "test_weapons_remove_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_remove_sound_stop_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "mount_states",
+          "schema": "source_weapons_remove_sound_stop_input.mount_states",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "loop",
+        "mounts"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.remove() sound stop state.",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "source_method": "WeaponsComp.remove() sound stop",
+      "source_slice": "N882",
+      "status": "active",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ]
     }
   },
   "policy": {

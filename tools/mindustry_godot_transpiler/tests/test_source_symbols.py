@@ -5892,6 +5892,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_fields["java_expr"], "@Import float x, y, damage, lastX, lastY, time, lifetime;")
         self.assertEqual(bullet_fields["godot_symbol"], "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet")
 
+    def test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "weapons_remove_sound_stop.guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(guard["java_expr"], "if(mount.sound != null){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_weapons_remove_sound_stop_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_weapons_remove_sound_stop_state")
+        self.assertEqual(guard["godot_symbol"], "source_weapons_remove_sound_stop_result.mounts.guard")
+
+        call = source_symbols.source_symbol(registry, "weapons_remove_sound_stop.call")
+        self.assertEqual(call["java_expr"], "mount.sound.stop();")
+        self.assertEqual(call["godot_symbol"], "source_weapons_remove_sound_stop_result.mounts.stopCall.call")
+
+        sound_method = source_symbols.source_symbol(registry, "weapons_remove_sound_stop.sound_loop_stop_method")
+        self.assertEqual(sound_method["java_source"], "core/src/mindustry/audio/SoundLoop.java")
+        self.assertEqual(sound_method["java_expr"], "public void stop(){")
+        self.assertEqual(sound_method["godot_symbol"], "source_weapons_remove_sound_stop_result.mounts.stopCall.method")
+
+        id_guard = source_symbols.source_symbol(registry, "weapons_remove_sound_stop.sound_loop_id_guard")
+        self.assertEqual(id_guard["java_expr"], "if(id != -1){")
+        self.assertEqual(id_guard["godot_symbol"], "source_weapons_remove_sound_stop_result.mounts.stopCall.idGuard")
+
+        effects = source_symbols.source_symbol(registry, "weapons_remove_sound_stop.sound_loop_effects")
+        self.assertEqual(effects["java_expr"], "Core.audio.stop(id); id = -1; volume = 0f;")
+        self.assertEqual(effects["godot_symbol"], "source_weapons_remove_sound_stop_result.mounts.stopCall.effects")
+
+        mount_sound = source_symbols.source_symbol(registry, "weapons_remove_sound_stop.weapon_mount_sound")
+        self.assertEqual(mount_sound["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_sound["java_expr"], "public @Nullable SoundLoop sound;")
+        self.assertEqual(mount_sound["godot_symbol"], "source_weapons_remove_sound_stop_input.mount_states.sound")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16760,9 +16795,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 479)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 480)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 484)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 485)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16804,6 +16839,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapons_control_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapons_remove_continuous_bullet_cleanup_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapons_remove_continuous_bullet_cleanup_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapons_remove_sound_stop_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapons_remove_sound_stop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19997,6 +20034,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(mount.sound != null){", weapons_remove_continuous_bullet_cleanup["deferred_exprs"])
         self.assertIn("weapons_remove_continuous_bullet_cleanup.guard", weapons_remove_continuous_bullet_cleanup["source_symbols"])
         self.assertIn("weapons_remove_continuous_bullet_cleanup.clear_assignment", weapons_remove_continuous_bullet_cleanup["source_symbols"])
+
+        weapons_remove_sound_stop = source_symbols.source_slice(ledger, "N882")
+        self.assertEqual(weapons_remove_sound_stop["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(weapons_remove_sound_stop["java_method"], "WeaponsComp.remove() sound stop")
+        self.assertEqual(weapons_remove_sound_stop["godot_owner"], "PortGame.source_weapons_remove_sound_stop_state")
+        self.assertIn("if(mount.sound != null){", weapons_remove_sound_stop["exact_exprs"])
+        self.assertIn("mount.sound.stop();", weapons_remove_sound_stop["exact_exprs"])
+        self.assertIn("public void stop(){", weapons_remove_sound_stop["bridge_exprs"])
+        self.assertIn("if(id != -1){", weapons_remove_sound_stop["bridge_exprs"])
+        self.assertIn("Core.audio.stop(id);", weapons_remove_sound_stop["bridge_exprs"])
+        self.assertIn("id = -1;", weapons_remove_sound_stop["bridge_exprs"])
+        self.assertIn("volume = 0f;", weapons_remove_sound_stop["bridge_exprs"])
+        self.assertIn("public @Nullable SoundLoop sound;", weapons_remove_sound_stop["bridge_exprs"])
+        self.assertIn("Continuous bullet cleanup remains owned by PortGame.source_weapons_remove_continuous_bullet_cleanup_state.", weapons_remove_sound_stop["deferred_exprs"])
+        self.assertIn("weapons_remove_sound_stop.guard", weapons_remove_sound_stop["source_symbols"])
+        self.assertIn("weapons_remove_sound_stop.sound_loop_effects", weapons_remove_sound_stop["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23581,6 +23634,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("unit", weapons_remove_continuous_bullet_cleanup["return_keys"])
         self.assertIn("mounts", weapons_remove_continuous_bullet_cleanup["return_keys"])
         self.assertEqual(weapons_remove_continuous_bullet_cleanup["source_method"], "WeaponsComp.remove() continuous bullet cleanup")
+
+        weapons_remove_sound_stop = source_symbols.api_contract(contracts, "PortGame.source_weapons_remove_sound_stop_state")
+        self.assertEqual([param["name"] for param in weapons_remove_sound_stop["params"]], ["mount_states"])
+        self.assertEqual(weapons_remove_sound_stop["params"][0]["schema"], "source_weapons_remove_sound_stop_input.mount_states")
+        self.assertIn("loop", weapons_remove_sound_stop["return_keys"])
+        self.assertIn("mounts", weapons_remove_sound_stop["return_keys"])
+        self.assertEqual(weapons_remove_sound_stop["source_method"], "WeaponsComp.remove() sound stop")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -30545,6 +30605,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["timeAssignment"]["java_expr"], "mount.bullet.time = mount.bullet.lifetime - 10f;")
         self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["clearAssignment"]["java_expr"], "mount.bullet = null;")
         self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["mounts"]["java_expr"], "for(WeaponMount mount : mounts){")
+
+        source_weapons_remove_sound_stop_input = source_symbols.state_schema(schema, "source_weapons_remove_sound_stop_input")
+        self.assertEqual(source_weapons_remove_sound_stop_input["keys"]["mount_states"]["java_expr"], "@SyncLocal WeaponMount[] mounts = {};")
+        self.assertEqual(source_weapons_remove_sound_stop_input["keys"]["sound"]["java_expr"], "public @Nullable SoundLoop sound;")
+
+        source_weapons_remove_sound_stop_result = source_symbols.state_schema(schema, "source_weapons_remove_sound_stop_result")
+        self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["loop"]["java_expr"], "for(WeaponMount mount : mounts){")
+        self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["guard"]["java_expr"], "if(mount.sound != null){")
+        self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["call"]["java_expr"], "mount.sound.stop();")
+        self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["soundLoopMethod"]["java_expr"], "public void stop(){")
+        self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["soundLoopIdGuard"]["java_expr"], "if(id != -1){")
+        self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["soundLoopEffects"]["java_expr"], "Core.audio.stop(id); id = -1; volume = 0f;")
+        self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["mounts"]["java_expr"], "for(WeaponMount mount : mounts){")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

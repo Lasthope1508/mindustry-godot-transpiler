@@ -4408,11 +4408,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var has_sound := bool(mount_state.get(\"sound\", false))", source)
         self.assertIn("var stop_call = null", source)
         self.assertIn("if has_sound:", source)
-        self.assertIn('"guard": "mount.sound != null"', source)
-        self.assertIn('"call": "mount.sound.stop()"', source)
-        self.assertIn('"method": "public void stop()"', source)
-        self.assertIn('"idGuard": "if(id != -1)"', source)
-        self.assertIn('"effects": ["Core.audio.stop(id)", "id = -1", "volume = 0f"]', source)
+        self.assertIn('"guard": "if(mount.sound != null){"', source)
+        self.assertIn('"call": "mount.sound.stop();"', source)
+        self.assertIn('"method": "public void stop(){"', source)
+        self.assertIn('"idGuard": "if(id != -1){"', source)
+        self.assertIn('"effects": ["Core.audio.stop(id);", "id = -1;", "volume = 0f;"]', source)
+        self.assertIn('"loop": "for(WeaponMount mount : mounts){"', source)
         self.assertIn('"stopCall": stop_call', source)
 
     def test_port_game_exposes_source_weapons_update_dispatch_state(self):

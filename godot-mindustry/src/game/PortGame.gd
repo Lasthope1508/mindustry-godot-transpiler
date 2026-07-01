@@ -4401,20 +4401,20 @@ func source_weapons_remove_sound_stop_state(mount_states: Array) -> Dictionary:
 		var stop_call = null
 		if has_sound:
 			stop_call = {
-				"call": "mount.sound.stop()",
-				"method": "public void stop()",
-				"idGuard": "if(id != -1)",
-				"effects": ["Core.audio.stop(id)", "id = -1", "volume = 0f"],
+				"call": "mount.sound.stop();",
+				"method": "public void stop(){",
+				"idGuard": "if(id != -1){",
+				"effects": ["Core.audio.stop(id);", "id = -1;", "volume = 0f;"],
 			}
 		mounts.append({
 			"index": index,
 			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
-			"guard": "mount.sound != null",
+			"guard": "if(mount.sound != null){",
 			"hasSound": has_sound,
 			"stopCall": stop_call,
 		})
 	return {
-		"loop": "for(WeaponMount mount : mounts)",
+		"loop": "for(WeaponMount mount : mounts){",
 		"mounts": mounts,
 	}
 

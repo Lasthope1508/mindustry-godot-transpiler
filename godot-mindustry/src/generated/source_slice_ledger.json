@@ -17347,6 +17347,50 @@
         "test_weapons_remove_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp.remove() continuous bullet cleanup wrapper against exact upstream source."
+    },
+    "N882": {
+      "exact_exprs": [
+        "for(WeaponMount mount : mounts){",
+        "if(mount.sound != null){",
+        "mount.sound.stop();"
+      ],
+      "bridge_exprs": [
+        "@SyncLocal WeaponMount[] mounts = {};",
+        "public @Nullable SoundLoop sound;",
+        "public void stop(){",
+        "if(id != -1){",
+        "Core.audio.stop(id);",
+        "id = -1;",
+        "volume = 0f;"
+      ],
+      "deferred_exprs": [
+        "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
+        "mount.bullet.time = mount.bullet.lifetime - 10f;",
+        "mount.bullet = null;",
+        "Continuous bullet cleanup remains owned by PortGame.source_weapons_remove_continuous_bullet_cleanup_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.remove() sound stop",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "source_symbols": [
+        "weapons_remove_sound_stop.loop",
+        "weapons_remove_sound_stop.guard",
+        "weapons_remove_sound_stop.call",
+        "weapons_remove_sound_stop.mounts_field",
+        "weapons_remove_sound_stop.weapon_mount_sound",
+        "weapons_remove_sound_stop.sound_loop_stop_method",
+        "weapons_remove_sound_stop.sound_loop_id_guard",
+        "weapons_remove_sound_stop.sound_loop_effects"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp.remove() sound stop wrapper against exact upstream source and SoundLoop.stop bridge."
     }
   },
   "version": 1

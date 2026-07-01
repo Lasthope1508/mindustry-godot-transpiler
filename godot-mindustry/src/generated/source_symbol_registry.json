@@ -60410,6 +60410,126 @@
       "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet",
       "status": "source-backed",
       "rule": "Bullet time/lifetime bridge fields used by cleanup assignment."
+    },
+    "weapons_remove_sound_stop.loop": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "WeaponsComp.remove() sound stop",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "for(WeaponMount mount : mounts){",
+      "godot_symbol": "source_weapons_remove_sound_stop_result.loop",
+      "status": "source-backed",
+      "rule": "Exact mount loop in remove override."
+    },
+    "weapons_remove_sound_stop.guard": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "WeaponsComp.remove() sound stop",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "if(mount.sound != null){",
+      "godot_symbol": "source_weapons_remove_sound_stop_result.mounts.guard",
+      "status": "source-backed",
+      "rule": "Exact sound stop guard in remove override."
+    },
+    "weapons_remove_sound_stop.call": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "WeaponsComp.remove() sound stop",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "mount.sound.stop();",
+      "godot_symbol": "source_weapons_remove_sound_stop_result.mounts.stopCall.call",
+      "status": "source-backed",
+      "rule": "Exact SoundLoop stop call from remove override."
+    },
+    "weapons_remove_sound_stop.mounts_field": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "WeaponsComp fields",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+      "godot_symbol": "source_weapons_remove_sound_stop_input.mount_states",
+      "status": "source-backed",
+      "rule": "Weapon mount array iterated by remove override."
+    },
+    "weapons_remove_sound_stop.weapon_mount_sound": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable SoundLoop sound;",
+      "godot_symbol": "source_weapons_remove_sound_stop_input.mount_states.sound",
+      "status": "source-backed",
+      "rule": "WeaponMount sound bridge field used by sound stop guard."
+    },
+    "weapons_remove_sound_stop.sound_loop_stop_method": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "SoundLoop.stop()",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/audio/SoundLoop.java",
+      "java_expr": "public void stop(){",
+      "godot_symbol": "source_weapons_remove_sound_stop_result.mounts.stopCall.method",
+      "status": "source-backed",
+      "rule": "Exact SoundLoop.stop method header."
+    },
+    "weapons_remove_sound_stop.sound_loop_id_guard": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "SoundLoop.stop()",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/audio/SoundLoop.java",
+      "java_expr": "if(id != -1){",
+      "godot_symbol": "source_weapons_remove_sound_stop_result.mounts.stopCall.idGuard",
+      "status": "source-backed",
+      "rule": "Exact SoundLoop id guard before audio stop."
+    },
+    "weapons_remove_sound_stop.sound_loop_effects": {
+      "godot_owner": "PortGame.source_weapons_remove_sound_stop_state",
+      "java_method": "SoundLoop.stop()",
+      "runtime_proof": "/root/Main.source_weapons_remove_sound_stop_state",
+      "tests": [
+        "test_weapons_remove_sound_stop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_sound_stop_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/audio/SoundLoop.java",
+      "java_expr": "Core.audio.stop(id); id = -1; volume = 0f;",
+      "godot_symbol": "source_weapons_remove_sound_stop_result.mounts.stopCall.effects",
+      "status": "source-backed",
+      "rule": "Exact ordered SoundLoop.stop effects."
     }
   },
   "version": 1
