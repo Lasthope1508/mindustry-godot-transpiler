@@ -4537,13 +4537,14 @@ func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_stat
 	var mount_x := unit_x + float(rotated["x"])
 	var mount_y := unit_y + float(rotated["y"])
 	return {
+		"methodSource": "public void update(Unit unit, WeaponMount mount){",
 		"angle": angle_degrees,
 		"trnsx": float(rotated["x"]),
 		"trnsy": float(rotated["y"]),
 		"mountX": mount_x,
 		"mountY": mount_y,
-		"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)",
-		"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)",
+		"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+		"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);",
 		"anglesSource": "rv.set(x, y).rotate(angle)",
 		"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos",
 	}

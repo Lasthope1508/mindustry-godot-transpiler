@@ -68926,6 +68926,220 @@
           ]
         }
       }
+    },
+    "source_weapon_update_mount_origin_input": {
+      "status": "active",
+      "keys": {
+        "unit_state": {
+          "godot_symbol": "source_weapon_update_mount_origin_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Unit state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_mount_origin_input.weapon_state",
+          "java_expr": "Weapon mount origin fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "unitX": {
+          "godot_symbol": "source_weapon_update_mount_origin_input.unit_state.x",
+          "java_expr": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+          "java_method": "UnitComp fields",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit x input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "unitY": {
+          "godot_symbol": "source_weapon_update_mount_origin_input.unit_state.y",
+          "java_expr": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+          "java_method": "UnitComp fields",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit y input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "unitRotation": {
+          "godot_symbol": "source_weapon_update_mount_origin_input.unit_state.rotation",
+          "java_expr": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+          "java_method": "UnitComp fields",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit rotation input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "weaponX": {
+          "godot_symbol": "source_weapon_update_mount_origin_input.weapon_state.x",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount x offset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "weaponY": {
+          "godot_symbol": "source_weapon_update_mount_origin_input.weapon_state.y",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount y offset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_mount_origin_result": {
+      "status": "active",
+      "keys": {
+        "methodSource": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.methodSource",
+          "java_expr": "public void update(Unit unit, WeaponMount mount){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount)",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact method metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "angle": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.angle",
+          "java_expr": "unit.rotation - 90",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Angle argument for Arc translation helpers.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "trnsx": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.trnsx",
+          "java_expr": "return rv.set(x, y).rotate(angle).x;",
+          "java_method": "Angles.trnsx(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Rotated x offset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "trnsy": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.trnsy",
+          "java_expr": "return rv.set(x, y).rotate(angle).y;",
+          "java_method": "Angles.trnsy(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Rotated y offset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "mountX": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.mountX",
+          "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed mount X.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "mountY": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.mountY",
+          "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed mount Y.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "mountXSource": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.mountXSource",
+          "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact mount X metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "mountYSource": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.mountYSource",
+          "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact mount Y metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "anglesSource": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.anglesSource",
+          "java_expr": "return rv.set(x, y).rotate(angle).x;",
+          "java_method": "Angles.trnsx(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Arc translation helper metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        },
+        "vec2RotateSource": {
+          "godot_symbol": "source_weapon_update_mount_origin_result.vec2RotateSource",
+          "java_expr": "float newX = this.x * cos - this.y * sin;",
+          "java_method": "Vec2.rotateRad(float radians)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 rotation formula metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_mount_origin_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

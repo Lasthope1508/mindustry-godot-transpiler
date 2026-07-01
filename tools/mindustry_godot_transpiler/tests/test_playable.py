@@ -4480,8 +4480,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var rotated := source_arc_angles_trns_vec(angle_degrees, weapon_x, weapon_y)", source)
         self.assertIn("var mount_x := unit_x + float(rotated[\"x\"])", source)
         self.assertIn("var mount_y := unit_y + float(rotated[\"y\"])", source)
-        self.assertIn('"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)"', source)
-        self.assertIn('"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)"', source)
+        self.assertIn('"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),"', source)
+        self.assertIn('"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);"', source)
         self.assertIn('"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"', source)
 
     def test_port_game_exposes_source_weapon_update_auto_target_retarget_state(self):

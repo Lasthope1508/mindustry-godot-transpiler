@@ -5368,6 +5368,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vars_headless["java_expr"], "public static boolean headless;")
         self.assertEqual(vars_headless["godot_symbol"], "source_weapon_update_continuous_sound_input.runtime_state.headless")
 
+    def test_weapon_update_mount_origin_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "weapon_update_mount_origin.weapon_update_method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(method["java_expr"], "public void update(Unit unit, WeaponMount mount){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_weapon_update_mount_origin_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_weapon_update_mount_origin_state")
+        self.assertEqual(method["godot_symbol"], "source_weapon_update_mount_origin_result.methodSource")
+
+        block = source_symbols.source_symbol(registry, "weapon_update_mount_origin.mount_origin_block")
+        self.assertEqual(block["java_expr"], "float\n        mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),\n        mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);")
+        self.assertEqual(block["godot_symbol"], "source_weapon_update_mount_origin_result.mountX")
+
+        offsets = source_symbols.source_symbol(registry, "weapon_update_mount_origin.weapon_mount_offsets")
+        self.assertEqual(offsets["java_expr"], "public float x = 5f, y = 0f;")
+        self.assertEqual(offsets["godot_symbol"], "source_weapon_update_mount_origin_input.weapon_state.x")
+
+        unit_imports = source_symbols.source_symbol(registry, "weapon_update_mount_origin.unit_imports")
+        self.assertEqual(unit_imports["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(unit_imports["java_expr"], "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;")
+        self.assertEqual(unit_imports["godot_symbol"], "source_weapon_update_mount_origin_input.unit_state.x")
+
+        trnsx = source_symbols.source_symbol(registry, "weapon_update_mount_origin.angles_trnsx_vec")
+        self.assertEqual(trnsx["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(trnsx["java_expr"], "public static float trnsx(float angle, float x, float y){")
+        self.assertEqual(trnsx["godot_symbol"], "source_weapon_update_mount_origin_result.trnsx")
+
+        trnsx_return = source_symbols.source_symbol(registry, "weapon_update_mount_origin.angles_trnsx_return")
+        self.assertEqual(trnsx_return["java_expr"], "return rv.set(x, y).rotate(angle).x;")
+        self.assertEqual(trnsx_return["godot_symbol"], "source_weapon_update_mount_origin_result.trnsx")
+
+        trnsy = source_symbols.source_symbol(registry, "weapon_update_mount_origin.angles_trnsy_vec")
+        self.assertEqual(trnsy["java_expr"], "public static float trnsy(float angle, float x, float y){")
+        self.assertEqual(trnsy["godot_symbol"], "source_weapon_update_mount_origin_result.trnsy")
+
+        trnsy_return = source_symbols.source_symbol(registry, "weapon_update_mount_origin.angles_trnsy_return")
+        self.assertEqual(trnsy_return["java_expr"], "return rv.set(x, y).rotate(angle).y;")
+        self.assertEqual(trnsy_return["godot_symbol"], "source_weapon_update_mount_origin_result.trnsy")
+
+        rotate_degrees = source_symbols.source_symbol(registry, "weapon_update_mount_origin.vec2_rotate_degrees")
+        self.assertEqual(rotate_degrees["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(rotate_degrees["java_expr"], "public Vec2 rotate(float degrees){")
+        self.assertEqual(rotate_degrees["godot_symbol"], "source_weapon_update_mount_origin_result.vec2RotateSource")
+
+        rotate_rad_call = source_symbols.source_symbol(registry, "weapon_update_mount_origin.vec2_rotate_rad_call")
+        self.assertEqual(rotate_rad_call["java_expr"], "return rotateRad(degrees * Mathf.degreesToRadians);")
+        self.assertEqual(rotate_rad_call["godot_symbol"], "source_weapon_update_mount_origin_result.vec2RotateSource")
+
+        rotate_rad = source_symbols.source_symbol(registry, "weapon_update_mount_origin.vec2_rotate_rad")
+        self.assertEqual(rotate_rad["java_expr"], "public Vec2 rotateRad(float radians){")
+        self.assertEqual(rotate_rad["godot_symbol"], "source_weapon_update_mount_origin_result.vec2RotateSource")
+
+        new_x = source_symbols.source_symbol(registry, "weapon_update_mount_origin.vec2_rotate_new_x")
+        self.assertEqual(new_x["java_expr"], "float newX = this.x * cos - this.y * sin;")
+        self.assertEqual(new_x["godot_symbol"], "source_weapon_update_mount_origin_result.vec2RotateSource")
+
+        new_y = source_symbols.source_symbol(registry, "weapon_update_mount_origin.vec2_rotate_new_y")
+        self.assertEqual(new_y["java_expr"], "float newY = this.x * sin + this.y * cos;")
+        self.assertEqual(new_y["godot_symbol"], "source_weapon_update_mount_origin_result.vec2RotateSource")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16236,9 +16300,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 466)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 467)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 471)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 472)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16254,6 +16318,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_weapon_update_continuous_sound_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_sound_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapon_update_mount_origin_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_mount_origin_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19273,6 +19339,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public @Nullable SoundLoop sound;", weapon_update_continuous_sound["bridge_exprs"])
         self.assertIn("weapon_update_continuous_sound.sound_update_call", weapon_update_continuous_sound["source_symbols"])
         self.assertIn("weapon_update_continuous_sound.vars_headless", weapon_update_continuous_sound["source_symbols"])
+
+        weapon_update_mount_origin = source_symbols.source_slice(ledger, "N869")
+        self.assertEqual(weapon_update_mount_origin["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_mount_origin["java_method"], "Weapon.update(Unit unit, WeaponMount mount) mount origin")
+        self.assertEqual(weapon_update_mount_origin["godot_owner"], "PortGame.source_weapon_update_mount_origin_state")
+        self.assertIn("float\n        mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),\n        mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);", weapon_update_mount_origin["exact_exprs"])
+        self.assertIn("public float x = 5f, y = 0f;", weapon_update_mount_origin["bridge_exprs"])
+        self.assertIn("@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;", weapon_update_mount_origin["bridge_exprs"])
+        self.assertIn("return rv.set(x, y).rotate(angle).x;", weapon_update_mount_origin["bridge_exprs"])
+        self.assertIn("float newY = this.x * sin + this.y * cos;", weapon_update_mount_origin["bridge_exprs"])
+        self.assertIn("//find a new target", weapon_update_mount_origin["deferred_exprs"])
+        self.assertIn("weapon_update_mount_origin.mount_origin_block", weapon_update_mount_origin["source_symbols"])
+        self.assertIn("weapon_update_mount_origin.vec2_rotate_new_y", weapon_update_mount_origin["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -22701,6 +22780,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("soundGuardSource", weapon_update_continuous_sound["return_keys"])
         self.assertIn("soundLoopConstructorSource", weapon_update_continuous_sound["return_keys"])
         self.assertEqual(weapon_update_continuous_sound["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous sound")
+
+        weapon_update_mount_origin = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_mount_origin_state")
+        self.assertEqual([param["name"] for param in weapon_update_mount_origin["params"]], ["unit_state", "weapon_state"])
+        self.assertEqual(weapon_update_mount_origin["params"][0]["schema"], "source_weapon_update_mount_origin_input.unit_state")
+        self.assertEqual(weapon_update_mount_origin["params"][1]["schema"], "source_weapon_update_mount_origin_input.weapon_state")
+        self.assertIn("angle", weapon_update_mount_origin["return_keys"])
+        self.assertIn("trnsx", weapon_update_mount_origin["return_keys"])
+        self.assertIn("mountX", weapon_update_mount_origin["return_keys"])
+        self.assertIn("mountXSource", weapon_update_mount_origin["return_keys"])
+        self.assertIn("vec2RotateSource", weapon_update_mount_origin["return_keys"])
+        self.assertEqual(weapon_update_mount_origin["source_method"], "Weapon.update(Unit unit, WeaponMount mount) mount origin")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -29466,6 +29556,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_continuous_sound_result["keys"]["soundUpdateCall"]["java_expr"], "mount.sound.update(bulletX, bulletY, true);")
         self.assertEqual(source_weapon_update_continuous_sound_result["keys"]["soundLoopUpdateSource"]["java_expr"], "public void update(float x, float y, boolean play){")
         self.assertEqual(source_weapon_update_continuous_sound_result["keys"]["laserLengthReservedSource"]["java_expr"], "//target length of laser")
+
+        source_weapon_update_mount_origin_input = source_symbols.state_schema(schema, "source_weapon_update_mount_origin_input")
+        self.assertEqual(source_weapon_update_mount_origin_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_mount_origin_input["keys"]["weapon_state"]["java_expr"], "Weapon mount origin fields")
+        self.assertEqual(source_weapon_update_mount_origin_input["keys"]["unitX"]["java_expr"], "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;")
+        self.assertEqual(source_weapon_update_mount_origin_input["keys"]["weaponX"]["java_expr"], "public float x = 5f, y = 0f;")
+
+        source_weapon_update_mount_origin_result = source_symbols.state_schema(schema, "source_weapon_update_mount_origin_result")
+        self.assertEqual(source_weapon_update_mount_origin_result["keys"]["angle"]["java_expr"], "unit.rotation - 90")
+        self.assertEqual(source_weapon_update_mount_origin_result["keys"]["trnsx"]["java_expr"], "return rv.set(x, y).rotate(angle).x;")
+        self.assertEqual(source_weapon_update_mount_origin_result["keys"]["trnsy"]["java_expr"], "return rv.set(x, y).rotate(angle).y;")
+        self.assertEqual(source_weapon_update_mount_origin_result["keys"]["mountX"]["java_expr"], "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),")
+        self.assertEqual(source_weapon_update_mount_origin_result["keys"]["mountY"]["java_expr"], "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);")
+        self.assertEqual(source_weapon_update_mount_origin_result["keys"]["vec2RotateSource"]["java_expr"], "float newX = this.x * cos - this.y * sin;")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

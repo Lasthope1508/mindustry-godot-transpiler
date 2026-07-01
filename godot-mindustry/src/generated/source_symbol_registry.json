@@ -57768,6 +57768,201 @@
       "godot_symbol": "source_weapon_update_continuous_sound_input.runtime_state.headless",
       "status": "source-backed",
       "rule": "Vars.headless guard for sound playback."
+    },
+    "weapon_update_mount_origin.weapon_update_method": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public void update(Unit unit, WeaponMount mount){",
+      "godot_symbol": "source_weapon_update_mount_origin_result.methodSource",
+      "status": "source-backed",
+      "rule": "Weapon update method containing mount origin block."
+    },
+    "weapon_update_mount_origin.mount_origin_block": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float\n        mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),\n        mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);",
+      "godot_symbol": "source_weapon_update_mount_origin_result.mountX",
+      "status": "source-backed",
+      "rule": "Exact mount origin block."
+    },
+    "weapon_update_mount_origin.weapon_mount_offsets": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float x = 5f, y = 0f;",
+      "godot_symbol": "source_weapon_update_mount_origin_input.weapon_state.x",
+      "status": "source-backed",
+      "rule": "Weapon mount offset fields."
+    },
+    "weapon_update_mount_origin.unit_imports": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "UnitComp fields",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_expr": "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+      "godot_symbol": "source_weapon_update_mount_origin_input.unit_state.x",
+      "status": "source-backed",
+      "rule": "Unit position and rotation imports."
+    },
+    "weapon_update_mount_origin.angles_trnsx_vec": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Angles.trnsx(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float trnsx(float angle, float x, float y){",
+      "godot_symbol": "source_weapon_update_mount_origin_result.trnsx",
+      "status": "source-backed",
+      "rule": "Arc trnsx helper."
+    },
+    "weapon_update_mount_origin.angles_trnsx_return": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Angles.trnsx(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "return rv.set(x, y).rotate(angle).x;",
+      "godot_symbol": "source_weapon_update_mount_origin_result.trnsx",
+      "status": "source-backed",
+      "rule": "Arc trnsx return."
+    },
+    "weapon_update_mount_origin.angles_trnsy_vec": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Angles.trnsy(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float trnsy(float angle, float x, float y){",
+      "godot_symbol": "source_weapon_update_mount_origin_result.trnsy",
+      "status": "source-backed",
+      "rule": "Arc trnsy helper."
+    },
+    "weapon_update_mount_origin.angles_trnsy_return": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Angles.trnsy(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "return rv.set(x, y).rotate(angle).y;",
+      "godot_symbol": "source_weapon_update_mount_origin_result.trnsy",
+      "status": "source-backed",
+      "rule": "Arc trnsy return."
+    },
+    "weapon_update_mount_origin.vec2_rotate_degrees": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Vec2.rotate(float degrees)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "public Vec2 rotate(float degrees){",
+      "godot_symbol": "source_weapon_update_mount_origin_result.vec2RotateSource",
+      "status": "source-backed",
+      "rule": "Vec2 degree rotation helper."
+    },
+    "weapon_update_mount_origin.vec2_rotate_rad_call": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Vec2.rotate(float degrees)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "return rotateRad(degrees * Mathf.degreesToRadians);",
+      "godot_symbol": "source_weapon_update_mount_origin_result.vec2RotateSource",
+      "status": "source-backed",
+      "rule": "Vec2 degree rotation delegates to radians."
+    },
+    "weapon_update_mount_origin.vec2_rotate_rad": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Vec2.rotateRad(float radians)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "public Vec2 rotateRad(float radians){",
+      "godot_symbol": "source_weapon_update_mount_origin_result.vec2RotateSource",
+      "status": "source-backed",
+      "rule": "Vec2 radian rotation helper."
+    },
+    "weapon_update_mount_origin.vec2_rotate_new_x": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Vec2.rotateRad(float radians)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "float newX = this.x * cos - this.y * sin;",
+      "godot_symbol": "source_weapon_update_mount_origin_result.vec2RotateSource",
+      "status": "source-backed",
+      "rule": "Vec2 rotation X formula."
+    },
+    "weapon_update_mount_origin.vec2_rotate_new_y": {
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_method": "Vec2.rotateRad(float radians)",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "float newY = this.x * sin + this.y * cos;",
+      "godot_symbol": "source_weapon_update_mount_origin_result.vec2RotateSource",
+      "status": "source-backed",
+      "rule": "Vec2 rotation Y formula."
     }
   },
   "version": 1

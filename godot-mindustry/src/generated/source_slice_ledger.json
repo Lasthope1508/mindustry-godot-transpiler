@@ -16704,6 +16704,56 @@
         "test_weapon_update_continuous_sound_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update continuous sound wrapper against exact upstream source."
+    },
+    "N869": {
+      "exact_exprs": [
+        "float\n        mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),\n        mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);"
+      ],
+      "bridge_exprs": [
+        "public void update(Unit unit, WeaponMount mount){",
+        "public float x = 5f, y = 0f;",
+        "@Import float x, y, rotation, maxHealth, drag, armor, hitSize, health, shield, dragMultiplier, armorOverride, speedMultiplier;",
+        "public static float trnsx(float angle, float x, float y){",
+        "return rv.set(x, y).rotate(angle).x;",
+        "public static float trnsy(float angle, float x, float y){",
+        "return rv.set(x, y).rotate(angle).y;",
+        "public Vec2 rotate(float degrees){",
+        "return rotateRad(degrees * Mathf.degreesToRadians);",
+        "public Vec2 rotateRad(float radians){",
+        "float newX = this.x * cos - this.y * sin;",
+        "float newY = this.x * sin + this.y * cos;"
+      ],
+      "deferred_exprs": [
+        "//find a new target",
+        "Auto-target retarget branch remains owned by source_weapon_update_auto_target_retarget_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "source_symbols": [
+        "weapon_update_mount_origin.weapon_update_method",
+        "weapon_update_mount_origin.mount_origin_block",
+        "weapon_update_mount_origin.weapon_mount_offsets",
+        "weapon_update_mount_origin.unit_imports",
+        "weapon_update_mount_origin.angles_trnsx_vec",
+        "weapon_update_mount_origin.angles_trnsx_return",
+        "weapon_update_mount_origin.angles_trnsy_vec",
+        "weapon_update_mount_origin.angles_trnsy_return",
+        "weapon_update_mount_origin.vec2_rotate_degrees",
+        "weapon_update_mount_origin.vec2_rotate_rad_call",
+        "weapon_update_mount_origin.vec2_rotate_rad",
+        "weapon_update_mount_origin.vec2_rotate_new_x",
+        "weapon_update_mount_origin.vec2_rotate_new_y"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update mount origin wrapper against exact upstream source."
     }
   },
   "version": 1
