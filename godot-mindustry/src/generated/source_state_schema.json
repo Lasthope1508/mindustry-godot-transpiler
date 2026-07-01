@@ -63668,6 +63668,400 @@
           ]
         }
       }
+    },
+    "source_weapon_handle_bullet_continuous_geometry_input": {
+      "status": "active",
+      "keys": {
+        "unit_state": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Unit input for handleBullet continuous geometry.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "mount_state": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input for handleBullet continuous geometry.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state",
+          "java_expr": "Weapon handleBullet fields",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input carrying continuous geometry fields.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "continuous": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state.continuous",
+          "java_expr": "public boolean continuous;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon continuous gate field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "rotate": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state.rotate",
+          "java_expr": "public boolean rotate = false;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon rotate field for weaponRotation.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "baseRotation": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state.baseRotation",
+          "java_expr": "public float baseRotation = 0f;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon baseRotation field for weaponRotation.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "shootX": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state.shootX",
+          "java_expr": "public float shootX = 0f, shootY = 3f;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shootX field for bullet origin.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "shootY": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state.shootY",
+          "java_expr": "public float shootX = 0f, shootY = 3f;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shootY field for bullet origin.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state.x",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount x offset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state.y",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount y offset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.mount_state.rotation",
+          "java_expr": "public float rotation;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount rotation field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "lastLength": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_input.mount_state.lastLength",
+          "java_expr": "public float lastLength;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount lastLength forwarded for aim update owner.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_handle_bullet_continuous_geometry_result": {
+      "status": "active",
+      "keys": {
+        "continuous": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.continuous",
+          "java_expr": "if(continuous){",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime continuous branch flag.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "continuousGate": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.continuousGate",
+          "java_expr": "if(continuous){",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime continuous gate result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "weaponRotation": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.weaponRotation",
+          "java_expr": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed source weaponRotation local.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "mountX": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.mountX",
+          "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed source mountX local.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "mountY": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.mountY",
+          "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed source mountY local.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "bulletX": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.bulletX",
+          "java_expr": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed source bulletX local.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "bulletY": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.bulletY",
+          "java_expr": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed source bulletY local.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "shootX": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.shootX",
+          "java_expr": "public float shootX = 0f, shootY = 3f;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime copy of Weapon shootX.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "shootY": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.shootY",
+          "java_expr": "public float shootX = 0f, shootY = 3f;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime copy of Weapon shootY.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "lastLength": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.lastLength",
+          "java_expr": "public float lastLength;",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Runtime copy of WeaponMount lastLength for aim update.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "continuousGateSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.continuousGateSource",
+          "java_expr": "if(continuous){",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact source continuous gate metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "weaponRotationSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.weaponRotationSource",
+          "java_expr": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact source weaponRotation metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "mountXSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.mountXSource",
+          "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact source mountX metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "mountYSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.mountYSource",
+          "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact source mountY metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "bulletXSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.bulletXSource",
+          "java_expr": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact source bulletX metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "bulletYSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.bulletYSource",
+          "java_expr": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact source bulletY metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "anglesSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.anglesSource",
+          "java_expr": "rv.set(x, y).rotate(angle)",
+          "java_method": "Angles.trnsx/trnsy",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Shared Arc angle rotation metadata retained for compatibility.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "anglesTrnsxSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.anglesTrnsxSource",
+          "java_expr": "return rv.set(x, y).rotate(angle).x;",
+          "java_method": "Angles.trnsx(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Exact Arc Angles.trnsx source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "anglesTrnsySource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.anglesTrnsySource",
+          "java_expr": "return rv.set(x, y).rotate(angle).y;",
+          "java_method": "Angles.trnsy(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Exact Arc Angles.trnsy source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        },
+        "aimUpdateReservedSource": {
+          "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.aimUpdateReservedSource",
+          "java_expr": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+          "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Aim endpoint update source reserved for N851 owner.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

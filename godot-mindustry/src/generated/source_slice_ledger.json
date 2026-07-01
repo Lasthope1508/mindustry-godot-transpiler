@@ -15877,6 +15877,53 @@
         "test_weapon_handle_bullet_aim_update_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.handleBullet continuous bullet aim update wrapper against exact upstream source."
+    },
+    "N852": {
+      "exact_exprs": [
+        "if(continuous){",
+        "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+        "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+        "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+        "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+        "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);"
+      ],
+      "bridge_exprs": [
+        "public boolean continuous;",
+        "public boolean rotate = false;",
+        "public float baseRotation = 0f;",
+        "public float shootX = 0f, shootY = 3f;",
+        "public float x = 5f, y = 0f;",
+        "public float rotation;",
+        "public float lastLength;",
+        "return rv.set(x, y).rotate(angle).x;",
+        "return rv.set(x, y).rotate(angle).y;"
+      ],
+      "deferred_exprs": [
+        "Aim endpoint update remains owned by source_weapon_handle_bullet_aim_update_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "source_symbols": [
+        "weapon_handle_bullet_continuous_geometry.gate",
+        "weapon_handle_bullet_continuous_geometry.weapon_rotation",
+        "weapon_handle_bullet_continuous_geometry.mount_x",
+        "weapon_handle_bullet_continuous_geometry.mount_y",
+        "weapon_handle_bullet_continuous_geometry.bullet_x",
+        "weapon_handle_bullet_continuous_geometry.bullet_y",
+        "weapon_handle_bullet_continuous_geometry.angles_trnsx",
+        "weapon_handle_bullet_continuous_geometry.angles_trnsy",
+        "weapon_handle_bullet_continuous_geometry.aim_update_reserved"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.handleBullet continuous geometry wrapper against exact upstream source."
     }
   },
   "version": 1

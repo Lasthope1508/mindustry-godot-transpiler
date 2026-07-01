@@ -4979,9 +4979,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if weapon_rotate else base_rotation)", source)
         self.assertIn("var mount_vec := source_arc_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)", source)
         self.assertIn("var bullet_vec := source_arc_angles_trns_vec(weapon_rotation, shoot_x, shoot_y)", source)
-        self.assertIn('"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)"', source)
-        self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)"', source)
-        self.assertIn('"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)"', source)
+        self.assertIn('"continuousGateSource": "if(continuous){"', source)
+        self.assertIn('"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),"', source)
+        self.assertIn('"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),"', source)
+        self.assertIn('"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),"', source)
+        self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),"', source)
+        self.assertIn('"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);"', source)
+        self.assertIn('"anglesTrnsxSource": "return rv.set(x, y).rotate(angle).x;"', source)
+        self.assertIn('"anglesTrnsySource": "return rv.set(x, y).rotate(angle).y;"', source)
+        self.assertIn('"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);"', source)
 
     def test_port_game_exposes_source_weapon_handle_bullet_aim_update_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

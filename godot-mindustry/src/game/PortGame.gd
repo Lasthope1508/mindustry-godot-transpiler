@@ -5575,7 +5575,7 @@ func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionar
 		return {
 			"continuous": false,
 			"continuousGate": false,
-			"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)",
+			"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
 		}
 	var unit_x := float(unit_state.get("x", 0.0))
 	var unit_y := float(unit_state.get("y", 0.0))
@@ -5605,14 +5605,16 @@ func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionar
 		"shootX": shoot_x,
 		"shootY": shoot_y,
 		"lastLength": float(mount_state.get("lastLength", 0.0)),
-		"continuousGateSource": "if(continuous)",
-		"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)",
-		"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)",
-		"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)",
-		"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)",
-		"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY)",
+		"continuousGateSource": "if(continuous){",
+		"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+		"mountXSource": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+		"mountYSource": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+		"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+		"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);",
 		"anglesSource": "rv.set(x, y).rotate(angle)",
-		"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)",
+		"anglesTrnsxSource": "return rv.set(x, y).rotate(angle).x;",
+		"anglesTrnsySource": "return rv.set(x, y).rotate(angle).y;",
+		"aimUpdateReservedSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
 	}
 
 func source_weapon_handle_bullet_aim_update_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:

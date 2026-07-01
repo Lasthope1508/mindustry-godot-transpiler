@@ -54888,6 +54888,141 @@
       "godot_symbol": "source_weapon_handle_bullet_aim_update_result.vec2AddSource",
       "status": "source-backed",
       "rule": "Arc Vec2.add(float,float) bridge used after Tmp.v1.trns(...)."
+    },
+    "weapon_handle_bullet_continuous_geometry.gate": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(continuous){",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.continuousGate",
+      "status": "source-backed",
+      "rule": "Source continuous gate for handleBullet geometry."
+    },
+    "weapon_handle_bullet_continuous_geometry.weapon_rotation": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.weaponRotation",
+      "status": "source-backed",
+      "rule": "Source weaponRotation local for continuous handleBullet geometry."
+    },
+    "weapon_handle_bullet_continuous_geometry.mount_x": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.mountX",
+      "status": "source-backed",
+      "rule": "Source mountX local from unit position plus Arc trnsx."
+    },
+    "weapon_handle_bullet_continuous_geometry.mount_y": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.mountY",
+      "status": "source-backed",
+      "rule": "Source mountY local from unit position plus Arc trnsy."
+    },
+    "weapon_handle_bullet_continuous_geometry.bullet_x": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.bulletX",
+      "status": "source-backed",
+      "rule": "Source bulletX local from mountX plus weapon offset trnsx."
+    },
+    "weapon_handle_bullet_continuous_geometry.bullet_y": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.bulletY",
+      "status": "source-backed",
+      "rule": "Source bulletY local from mountY plus weapon offset trnsy."
+    },
+    "weapon_handle_bullet_continuous_geometry.angles_trnsx": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "return rv.set(x, y).rotate(angle).x;",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.anglesTrnsxSource",
+      "status": "source-backed",
+      "rule": "Arc Angles.trnsx bridge for geometry x components."
+    },
+    "weapon_handle_bullet_continuous_geometry.angles_trnsy": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "return rv.set(x, y).rotate(angle).y;",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.anglesTrnsySource",
+      "status": "source-backed",
+      "rule": "Arc Angles.trnsy bridge for geometry y components."
+    },
+    "weapon_handle_bullet_continuous_geometry.aim_update_reserved": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+      "godot_symbol": "source_weapon_handle_bullet_continuous_geometry_result.aimUpdateReservedSource",
+      "status": "deferred",
+      "rule": "Aim endpoint update is owned by source_weapon_handle_bullet_aim_update_state."
     }
   },
   "version": 1

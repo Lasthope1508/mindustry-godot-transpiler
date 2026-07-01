@@ -3290,6 +3290,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(sound["java_expr"], "if(!continuous){")
         self.assertEqual(sound["godot_symbol"], "source_weapon_bullet_handle_call_result.soundReservedSource")
 
+    def test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.gate")
+        self.assertEqual(gate["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(gate["java_expr"], "if(continuous){")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_weapon_handle_bullet_continuous_geometry_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_weapon_handle_bullet_continuous_geometry_state")
+        self.assertEqual(gate["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.continuousGate")
+
+        weapon_rotation = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.weapon_rotation")
+        self.assertEqual(weapon_rotation["java_expr"], "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),")
+        self.assertEqual(weapon_rotation["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.weaponRotation")
+
+        mount_x = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.mount_x")
+        self.assertEqual(mount_x["java_expr"], "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),")
+        self.assertEqual(mount_x["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.mountX")
+
+        mount_y = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.mount_y")
+        self.assertEqual(mount_y["java_expr"], "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),")
+        self.assertEqual(mount_y["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.mountY")
+
+        bullet_x = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.bullet_x")
+        self.assertEqual(bullet_x["java_expr"], "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),")
+        self.assertEqual(bullet_x["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.bulletX")
+
+        bullet_y = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.bullet_y")
+        self.assertEqual(bullet_y["java_expr"], "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);")
+        self.assertEqual(bullet_y["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.bulletY")
+
+        trnsx = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.angles_trnsx")
+        self.assertEqual(trnsx["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(trnsx["java_expr"], "return rv.set(x, y).rotate(angle).x;")
+        self.assertEqual(trnsx["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.anglesTrnsxSource")
+
+        trnsy = source_symbols.source_symbol(registry, "weapon_handle_bullet_continuous_geometry.angles_trnsy")
+        self.assertEqual(trnsy["java_expr"], "return rv.set(x, y).rotate(angle).y;")
+        self.assertEqual(trnsy["godot_symbol"], "source_weapon_handle_bullet_continuous_geometry_result.anglesTrnsySource")
+
     def test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15493,9 +15535,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 449)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 450)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 454)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 455)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15556,6 +15598,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_shooter_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_sound_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_handle_bullet_aim_update_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_handle_bullet_continuous_geometry_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18368,6 +18411,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return set(amount, 0).rotate(angle);", weapon_handle_bullet_aim_update["bridge_exprs"])
         self.assertIn("this.x += x;", weapon_handle_bullet_aim_update["bridge_exprs"])
         self.assertIn("Following Weapon.bullet sound/effects/recoil/heat remain owned by registered Weapon.bullet slices.", weapon_handle_bullet_aim_update["deferred_exprs"])
+
+        weapon_handle_bullet_continuous_geometry = source_symbols.source_slice(ledger, "N852")
+        self.assertEqual(weapon_handle_bullet_continuous_geometry["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_handle_bullet_continuous_geometry["java_method"], "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry")
+        self.assertEqual(weapon_handle_bullet_continuous_geometry["godot_owner"], "PortGame.source_weapon_handle_bullet_continuous_geometry_state")
+        self.assertIn("if(continuous){", weapon_handle_bullet_continuous_geometry["exact_exprs"])
+        self.assertIn("weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),", weapon_handle_bullet_continuous_geometry["exact_exprs"])
+        self.assertIn("bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);", weapon_handle_bullet_continuous_geometry["exact_exprs"])
+        self.assertIn("return rv.set(x, y).rotate(angle).x;", weapon_handle_bullet_continuous_geometry["bridge_exprs"])
+        self.assertIn("return rv.set(x, y).rotate(angle).y;", weapon_handle_bullet_continuous_geometry["bridge_exprs"])
+        self.assertIn("Aim endpoint update remains owned by source_weapon_handle_bullet_aim_update_state.", weapon_handle_bullet_continuous_geometry["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21566,6 +21620,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("vec2TrnsSource", weapon_handle_bullet_aim_update["return_keys"])
         self.assertIn("vec2AddSource", weapon_handle_bullet_aim_update["return_keys"])
         self.assertEqual(weapon_handle_bullet_aim_update["source_method"], "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update")
+
+        weapon_handle_bullet_continuous_geometry = source_symbols.api_contract(contracts, "PortGame.source_weapon_handle_bullet_continuous_geometry_state")
+        self.assertEqual([param["name"] for param in weapon_handle_bullet_continuous_geometry["params"]], ["unit_state", "mount_state", "weapon_state"])
+        self.assertEqual(weapon_handle_bullet_continuous_geometry["params"][0]["schema"], "source_weapon_handle_bullet_continuous_geometry_input.unit_state")
+        self.assertEqual(weapon_handle_bullet_continuous_geometry["params"][1]["schema"], "source_weapon_handle_bullet_continuous_geometry_input.mount_state")
+        self.assertEqual(weapon_handle_bullet_continuous_geometry["params"][2]["schema"], "source_weapon_handle_bullet_continuous_geometry_input.weapon_state")
+        self.assertIn("continuousGate", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("weaponRotation", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("mountX", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("mountY", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("bulletX", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("bulletY", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("anglesTrnsxSource", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("anglesTrnsySource", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertIn("aimUpdateReservedSource", weapon_handle_bullet_continuous_geometry["return_keys"])
+        self.assertEqual(weapon_handle_bullet_continuous_geometry["source_method"], "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -26141,6 +26211,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_sound_result["keys"]["initialSoundCallSource"]["java_expr"], "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);")
         self.assertEqual(source_weapon_bullet_sound_result["keys"]["mathfRandomSource"]["java_expr"], "return start + rand.nextFloat() * (end - start);")
         self.assertEqual(source_weapon_bullet_sound_result["keys"]["effectsReservedSource"]["java_expr"], "if(mount.allowShootEffects){")
+
+        source_weapon_handle_bullet_continuous_geometry_input = source_symbols.state_schema(schema, "source_weapon_handle_bullet_continuous_geometry_input")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["weapon_state"]["java_expr"], "Weapon handleBullet fields")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["continuous"]["java_expr"], "public boolean continuous;")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["rotate"]["java_expr"], "public boolean rotate = false;")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["baseRotation"]["java_expr"], "public float baseRotation = 0f;")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["shootX"]["java_expr"], "public float shootX = 0f, shootY = 3f;")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_input["keys"]["x"]["java_expr"], "public float x = 5f, y = 0f;")
+
+        source_weapon_handle_bullet_continuous_geometry_result = source_symbols.state_schema(schema, "source_weapon_handle_bullet_continuous_geometry_result")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["continuousGate"]["java_expr"], "if(continuous){")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["weaponRotation"]["java_expr"], "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["mountX"]["java_expr"], "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["mountY"]["java_expr"], "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y),")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["bulletX"]["java_expr"], "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["bulletY"]["java_expr"], "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY);")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["anglesTrnsxSource"]["java_expr"], "return rv.set(x, y).rotate(angle).x;")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["anglesTrnsySource"]["java_expr"], "return rv.set(x, y).rotate(angle).y;")
+        self.assertEqual(source_weapon_handle_bullet_continuous_geometry_result["keys"]["aimUpdateReservedSource"]["java_expr"], "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);")
 
         source_weapon_handle_bullet_aim_update_input = source_symbols.state_schema(schema, "source_weapon_handle_bullet_aim_update_input")
         self.assertEqual(source_weapon_handle_bullet_aim_update_input["keys"]["unit_state"]["java_expr"], "Unit unit")
