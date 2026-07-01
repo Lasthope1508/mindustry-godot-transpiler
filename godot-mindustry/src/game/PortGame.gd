@@ -887,6 +887,84 @@ func selected_build_repair_amount() -> float:
 	var mend_projector = content_catalog.get_by_id("mend-projector")
 	return source_mend_projector_repair_amount(mend_projector, selected)
 
+func source_power_graph_add_role_state(build_present: bool, power_present: bool, graph_matches: bool, power_init: bool, old_graph_present: bool, old_graph_is_self: bool, old_graph_has_entity: bool, outputs_power: bool, consumes_power: bool, has_cons_power: bool, cons_power_buffered: bool) -> Dictionary:
+	var result := {
+		"returned": false,
+		"remove_old_graph_entity": false,
+		"assign_graph": false,
+		"init_power": false,
+		"add_all": false,
+		"role": "none",
+		"add_producer": false,
+		"add_consumer": false,
+		"add_battery": false,
+		"has_cons_power": has_cons_power,
+		"power_guard": "if(build == null || build.power == null) return;",
+		"add_gate": "if(build.power.graph != this || !build.power.init){",
+		"graph_assign": "build.power.graph = this;",
+		"init_assign": "build.power.init = true;",
+		"all_add": "all.add(build);",
+		"producer_consumer_branch": "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){",
+		"battery_branch": "}else if(build.block.outputsPower && build.block.consumesPower){",
+		"producer_branch": "}else if(build.block.outputsPower){",
+		"consumer_branch": "}else if(build.block.consumesPower && build.block.consPower != null){",
+	}
+	if not build_present or not power_present:
+		result["returned"] = true
+		return result
+	if not graph_matches or not power_init:
+		result["remove_old_graph_entity"] = old_graph_present and not old_graph_is_self and old_graph_has_entity
+		result["assign_graph"] = true
+		result["init_power"] = true
+		result["add_all"] = true
+		if outputs_power and consumes_power and has_cons_power and not cons_power_buffered:
+			result["role"] = "producer_consumer"
+			result["add_producer"] = true
+			result["add_consumer"] = true
+		elif outputs_power and consumes_power:
+			result["role"] = "battery"
+			result["add_battery"] = true
+		elif outputs_power:
+			result["role"] = "producer"
+			result["add_producer"] = true
+		elif consumes_power and has_cons_power:
+			result["role"] = "consumer"
+			result["add_consumer"] = true
+	return result
+
+func power_graph_role_for_block(block) -> Dictionary:
+	if block == null:
+		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)
+	var has_cons_power: bool = block.properties.has("powerUsage") or block.properties.has("consumePower") or block.properties.has("powerBuffered") or block.properties.has("consumePowerBuffered")
+	return source_power_graph_add_role_state(
+		true,
+		bool(block.properties.get("hasPower", false)),
+		false,
+		false,
+		false,
+		false,
+		false,
+		bool(block.properties.get("outputsPower", false)),
+		bool(block.properties.get("consumesPower", true)),
+		has_cons_power,
+		bool(block.properties.get("powerBuffered", false))
+	)
+
+func placed_power_graph_role_counts() -> Dictionary:
+	var counts := {"all": 0, "producers": 0, "consumers": 0, "batteries": 0}
+	for key in placed_block_origins.keys():
+		var block = block_from_sprite(placed_block_origins.get(key))
+		var role_state := power_graph_role_for_block(block)
+		if bool(role_state.get("add_all", false)):
+			counts["all"] += 1
+		if bool(role_state.get("add_producer", false)):
+			counts["producers"] += 1
+		if bool(role_state.get("add_consumer", false)):
+			counts["consumers"] += 1
+		if bool(role_state.get("add_battery", false)):
+			counts["batteries"] += 1
+	return counts
+
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
@@ -11418,6 +11496,7 @@ func get_runtime_summary() -> Dictionary:
 		"initial_occupied_cell_count": initial_occupied_cell_count,
 		"placed_block_count": placed_block_origins.size(),
 		"occupied_cell_count": placed_blocks.size(),
+		"placed_power_graph_roles": placed_power_graph_role_counts(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y},

@@ -19246,6 +19246,97 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_power_graph_add_role_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "params": [
+        {
+          "name": "build_present",
+          "schema": "source_power_graph_add_role_input.build_present",
+          "type": "bool"
+        },
+        {
+          "name": "power_present",
+          "schema": "source_power_graph_add_role_input.power_present",
+          "type": "bool"
+        },
+        {
+          "name": "graph_matches",
+          "schema": "source_power_graph_add_role_input.graph_matches",
+          "type": "bool"
+        },
+        {
+          "name": "power_init",
+          "schema": "source_power_graph_add_role_input.power_init",
+          "type": "bool"
+        },
+        {
+          "name": "old_graph_present",
+          "schema": "source_power_graph_add_role_input.old_graph_present",
+          "type": "bool"
+        },
+        {
+          "name": "old_graph_is_self",
+          "schema": "source_power_graph_add_role_input.old_graph_is_self",
+          "type": "bool"
+        },
+        {
+          "name": "old_graph_has_entity",
+          "schema": "source_power_graph_add_role_input.old_graph_has_entity",
+          "type": "bool"
+        },
+        {
+          "name": "outputs_power",
+          "schema": "source_power_graph_add_role_input.outputs_power",
+          "type": "bool"
+        },
+        {
+          "name": "consumes_power",
+          "schema": "source_power_graph_add_role_input.consumes_power",
+          "type": "bool"
+        },
+        {
+          "name": "has_cons_power",
+          "schema": "source_power_graph_add_role_input.has_cons_power",
+          "type": "bool"
+        },
+        {
+          "name": "cons_power_buffered",
+          "schema": "source_power_graph_add_role_input.cons_power_buffered",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "returned",
+        "remove_old_graph_entity",
+        "assign_graph",
+        "init_power",
+        "add_all",
+        "role",
+        "add_producer",
+        "add_consumer",
+        "add_battery",
+        "has_cons_power",
+        "power_guard",
+        "add_gate",
+        "graph_assign",
+        "init_assign",
+        "all_add",
+        "producer_consumer_branch",
+        "battery_branch",
+        "producer_branch",
+        "consumer_branch"
+      ],
+      "rule": "Public runtime contract for PowerGraph.add(Building) membership and role classification, with explicit graph/module state inputs.",
+      "runtime_proof": "/root/Main.source_power_graph_add_role_state",
+      "source_method": "add(Building build)",
+      "source_slice": "N888",
+      "status": "active",
+      "tests": [
+        "test_power_graph_add_role_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_role_state_for_mcp",
+        "test_power_graph_add_roles_match_upstream_source"
+      ]
     }
   },
   "policy": {

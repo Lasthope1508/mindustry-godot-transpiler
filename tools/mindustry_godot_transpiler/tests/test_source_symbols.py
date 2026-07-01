@@ -12988,6 +12988,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_present["java_expr"], "power != null")
         self.assertEqual(power_present["godot_symbol"], "source_building_change_team_power_proximity_input.power_present")
 
+    def test_power_graph_add_role_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        null_guard = source_symbols.source_symbol(registry, "power_graph_add_role.null_guard")
+        self.assertEqual(null_guard["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(null_guard["java_method"], "add(Building build)")
+        self.assertEqual(null_guard["java_expr"], "if(build == null || build.power == null) return;")
+        self.assertEqual(null_guard["godot_owner"], "PortGame.source_power_graph_add_role_state")
+        self.assertEqual(null_guard["runtime_proof"], "/root/Main.source_power_graph_add_role_state")
+        self.assertEqual(null_guard["godot_symbol"], "source_power_graph_add_role_result.returned")
+
+        graph_assign = source_symbols.source_symbol(registry, "power_graph_add_role.graph_assign")
+        self.assertEqual(graph_assign["java_expr"], "build.power.graph = this;")
+        self.assertEqual(graph_assign["godot_symbol"], "source_power_graph_add_role_result.assign_graph")
+
+        producer_consumer_gate = source_symbols.source_symbol(registry, "power_graph_add_role.producer_consumer_gate")
+        self.assertEqual(producer_consumer_gate["java_expr"], "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){")
+        self.assertEqual(producer_consumer_gate["godot_symbol"], "source_power_graph_add_role_result.role")
+
+        has_cons_power = source_symbols.source_symbol(registry, "power_graph_add_role.has_cons_power")
+        self.assertEqual(has_cons_power["status"], "explicit-input")
+        self.assertEqual(has_cons_power["java_expr"], "build.block.consPower != null")
+        self.assertEqual(has_cons_power["godot_symbol"], "source_power_graph_add_role_input.has_cons_power")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16904,9 +16931,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 483)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 484)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 488)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 489)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -17352,6 +17379,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_change_team_initial_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_power_links_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_power_proximity_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_power_graph_add_role_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_allow_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_solid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_suppression_state", audit["registeredSourceOwners"])
@@ -21344,6 +21372,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("var oldGraph = power.graph;", building_change_team_power_proximity["exact_exprs"])
         self.assertIn("for(var other : proximity){", building_change_team_power_proximity["exact_exprs"])
         self.assertIn("new PowerGraph().reflow(other);", building_change_team_power_proximity["exact_exprs"])
+
+        power_graph_add_role = source_symbols.source_slice(ledger, "N888")
+        self.assertEqual(power_graph_add_role["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_add_role["java_method"], "add(Building build)")
+        self.assertEqual(power_graph_add_role["godot_owner"], "PortGame.source_power_graph_add_role_state")
+        self.assertIn("if(build == null || build.power == null) return;", power_graph_add_role["exact_exprs"])
+        self.assertIn("all.add(build);", power_graph_add_role["exact_exprs"])
+        self.assertIn("if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){", power_graph_add_role["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26030,6 +26066,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_change_team_power_proximity["params"][2]["schema"], "source_building_change_team_power_proximity_input.old_graph")
         self.assertIn("proximity_reflow", building_change_team_power_proximity["return_keys"])
         self.assertEqual(building_change_team_power_proximity["source_method"], "changeTeam(Team next, boolean updatePower)")
+
+        power_graph_add_role = source_symbols.api_contract(contracts, "PortGame.source_power_graph_add_role_state")
+        self.assertEqual([param["name"] for param in power_graph_add_role["params"]], ["build_present", "power_present", "graph_matches", "power_init", "old_graph_present", "old_graph_is_self", "old_graph_has_entity", "outputs_power", "consumes_power", "has_cons_power", "cons_power_buffered"])
+        self.assertEqual(power_graph_add_role["params"][0]["schema"], "source_power_graph_add_role_input.build_present")
+        self.assertEqual(power_graph_add_role["params"][10]["schema"], "source_power_graph_add_role_input.cons_power_buffered")
+        self.assertIn("role", power_graph_add_role["return_keys"])
+        self.assertIn("add_producer", power_graph_add_role["return_keys"])
+        self.assertEqual(power_graph_add_role["source_method"], "add(Building build)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -31692,6 +31736,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_change_team_power_proximity_result["keys"]["proximity_reflow"]["java_expr"], "new PowerGraph().reflow(other);")
         self.assertEqual(source_building_change_team_power_proximity_result["keys"]["old_graph"]["alias_of"], "source_building_change_team_power_proximity_input.old_graph")
         self.assertEqual(source_building_change_team_power_proximity_result["keys"]["team"]["alias_of"], "source_building_change_team_power_proximity_input.team")
+
+        source_power_graph_add_role_input = source_symbols.state_schema(schema, "source_power_graph_add_role_input")
+        self.assertEqual(source_power_graph_add_role_input["keys"]["build_present"]["java_expr"], "build != null")
+        self.assertEqual(source_power_graph_add_role_input["keys"]["power_present"]["java_expr"], "build.power != null")
+        self.assertEqual(source_power_graph_add_role_input["keys"]["has_cons_power"]["java_expr"], "build.block.consPower != null")
+
+        source_power_graph_add_role_result = source_symbols.state_schema(schema, "source_power_graph_add_role_result")
+        self.assertEqual(source_power_graph_add_role_result["keys"]["returned"]["java_expr"], "if(build == null || build.power == null) return;")
+        self.assertEqual(source_power_graph_add_role_result["keys"]["assign_graph"]["java_expr"], "build.power.graph = this;")
+        self.assertEqual(source_power_graph_add_role_result["keys"]["role"]["java_expr"], "PowerGraph.add role branch")
+        self.assertEqual(source_power_graph_add_role_result["keys"]["has_cons_power"]["alias_of"], "source_power_graph_add_role_input.has_cons_power")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

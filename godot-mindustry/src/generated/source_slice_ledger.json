@@ -17513,6 +17513,62 @@
         "test_weapons_update_dispatch_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp.update() weapon dispatch wrapper against exact upstream source and Weapon.update bridge."
+    },
+    "N888": {
+      "exact_exprs": [
+        "public void add(Building build){",
+        "if(build == null || build.power == null) return;",
+        "if(build.power.graph != this || !build.power.init){",
+        "if(build.power.graph != null && build.power.graph != this){",
+        "if(build.power.graph.entity != null) build.power.graph.entity.remove();",
+        "build.power.graph = this;",
+        "build.power.init = true;",
+        "all.add(build);",
+        "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){",
+        "producers.add(build);",
+        "consumers.add(build);",
+        "}else if(build.block.outputsPower && build.block.consumesPower){",
+        "batteries.add(build);",
+        "}else if(build.block.outputsPower){",
+        "}else if(build.block.consumesPower && build.block.consPower != null){"
+      ],
+      "godot_owner": "PortGame.source_power_graph_add_role_state",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "add(Building build)",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "runtime_proof": "/root/Main.source_power_graph_add_role_state",
+      "source_symbols": [
+        "power_graph_add_role.build_present",
+        "power_graph_add_role.power_present",
+        "power_graph_add_role.graph_matches",
+        "power_graph_add_role.power_init",
+        "power_graph_add_role.old_graph_present",
+        "power_graph_add_role.old_graph_is_self",
+        "power_graph_add_role.old_graph_has_entity",
+        "power_graph_add_role.outputs_power",
+        "power_graph_add_role.consumes_power",
+        "power_graph_add_role.has_cons_power",
+        "power_graph_add_role.cons_power_buffered",
+        "power_graph_add_role.null_guard",
+        "power_graph_add_role.remove_old_graph_entity",
+        "power_graph_add_role.graph_assign",
+        "power_graph_add_role.init_assign",
+        "power_graph_add_role.all_add",
+        "power_graph_add_role.producer_consumer_gate",
+        "power_graph_add_role.producer_add",
+        "power_graph_add_role.consumer_add",
+        "power_graph_add_role.battery_gate",
+        "power_graph_add_role.battery_add",
+        "power_graph_add_role.producer_gate",
+        "power_graph_add_role.consumer_gate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_graph_add_role_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_role_state_for_mcp",
+        "test_power_graph_add_roles_match_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.add role classification helper and placed-block role counts without simulating balance/distribution yet."
     }
   },
   "version": 1

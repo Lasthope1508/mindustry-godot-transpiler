@@ -72655,6 +72655,368 @@
           ]
         }
       }
+    },
+    "source_power_graph_add_role_input": {
+      "keys": {
+        "build_present": {
+          "godot_symbol": "source_power_graph_add_role_input.build_present",
+          "java_expr": "build != null",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add build_present.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "power_present": {
+          "godot_symbol": "source_power_graph_add_role_input.power_present",
+          "java_expr": "build.power != null",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add power_present.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "graph_matches": {
+          "godot_symbol": "source_power_graph_add_role_input.graph_matches",
+          "java_expr": "build.power.graph == this",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add graph_matches.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "power_init": {
+          "godot_symbol": "source_power_graph_add_role_input.power_init",
+          "java_expr": "build.power.init",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add power_init.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "old_graph_present": {
+          "godot_symbol": "source_power_graph_add_role_input.old_graph_present",
+          "java_expr": "build.power.graph != null",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add old_graph_present.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "old_graph_is_self": {
+          "godot_symbol": "source_power_graph_add_role_input.old_graph_is_self",
+          "java_expr": "build.power.graph == this",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add old_graph_is_self.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "old_graph_has_entity": {
+          "godot_symbol": "source_power_graph_add_role_input.old_graph_has_entity",
+          "java_expr": "build.power.graph.entity != null",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add old_graph_has_entity.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "outputs_power": {
+          "godot_symbol": "source_power_graph_add_role_input.outputs_power",
+          "java_expr": "build.block.outputsPower",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add outputs_power.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "consumes_power": {
+          "godot_symbol": "source_power_graph_add_role_input.consumes_power",
+          "java_expr": "build.block.consumesPower",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add consumes_power.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "has_cons_power": {
+          "godot_symbol": "source_power_graph_add_role_input.has_cons_power",
+          "java_expr": "build.block.consPower != null",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add has_cons_power.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "cons_power_buffered": {
+          "godot_symbol": "source_power_graph_add_role_input.cons_power_buffered",
+          "java_expr": "build.block.consPower.buffered",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "Explicit input for PowerGraph.add cons_power_buffered.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        }
+      }
+    },
+    "source_power_graph_add_role_result": {
+      "keys": {
+        "returned": {
+          "godot_symbol": "source_power_graph_add_role_result.returned",
+          "java_expr": "if(build == null || build.power == null) return;",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key returned.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "remove_old_graph_entity": {
+          "godot_symbol": "source_power_graph_add_role_result.remove_old_graph_entity",
+          "java_expr": "if(build.power.graph.entity != null) build.power.graph.entity.remove();",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key remove_old_graph_entity.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "assign_graph": {
+          "godot_symbol": "source_power_graph_add_role_result.assign_graph",
+          "java_expr": "build.power.graph = this;",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key assign_graph.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "init_power": {
+          "godot_symbol": "source_power_graph_add_role_result.init_power",
+          "java_expr": "build.power.init = true;",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key init_power.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "add_all": {
+          "godot_symbol": "source_power_graph_add_role_result.add_all",
+          "java_expr": "all.add(build);",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key add_all.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "role": {
+          "godot_symbol": "source_power_graph_add_role_result.role",
+          "java_expr": "PowerGraph.add role branch",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key role.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "add_producer": {
+          "godot_symbol": "source_power_graph_add_role_result.add_producer",
+          "java_expr": "producers.add(build);",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key add_producer.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "add_consumer": {
+          "godot_symbol": "source_power_graph_add_role_result.add_consumer",
+          "java_expr": "consumers.add(build);",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key add_consumer.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "add_battery": {
+          "godot_symbol": "source_power_graph_add_role_result.add_battery",
+          "java_expr": "batteries.add(build);",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key add_battery.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "power_guard": {
+          "godot_symbol": "source_power_graph_add_role_result.power_guard",
+          "java_expr": "if(build == null || build.power == null) return;",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key power_guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "add_gate": {
+          "godot_symbol": "source_power_graph_add_role_result.add_gate",
+          "java_expr": "if(build.power.graph != this || !build.power.init){",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key add_gate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "graph_assign": {
+          "godot_symbol": "source_power_graph_add_role_result.graph_assign",
+          "java_expr": "build.power.graph = this;",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key graph_assign.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "init_assign": {
+          "godot_symbol": "source_power_graph_add_role_result.init_assign",
+          "java_expr": "build.power.init = true;",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key init_assign.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "all_add": {
+          "godot_symbol": "source_power_graph_add_role_result.all_add",
+          "java_expr": "all.add(build);",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key all_add.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "producer_consumer_branch": {
+          "godot_symbol": "source_power_graph_add_role_result.producer_consumer_branch",
+          "java_expr": "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key producer_consumer_branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "battery_branch": {
+          "godot_symbol": "source_power_graph_add_role_result.battery_branch",
+          "java_expr": "}else if(build.block.outputsPower && build.block.consumesPower){",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key battery_branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "producer_branch": {
+          "godot_symbol": "source_power_graph_add_role_result.producer_branch",
+          "java_expr": "}else if(build.block.outputsPower){",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key producer_branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "consumer_branch": {
+          "godot_symbol": "source_power_graph_add_role_result.consumer_branch",
+          "java_expr": "}else if(build.block.consumesPower && build.block.consPower != null){",
+          "java_method": "add(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "rule": "PowerGraph.add result key consumer_branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_graph_add_role_state"
+          ]
+        },
+        "has_cons_power": {
+          "alias_of": "source_power_graph_add_role_input.has_cons_power",
+          "rule": "Echoes consPower presence used to protect buffered branch access.",
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      }
     }
   },
   "version": 1

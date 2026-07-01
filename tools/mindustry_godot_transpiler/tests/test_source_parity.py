@@ -154,6 +154,28 @@ class SourceParityTests(unittest.TestCase):
             "consumesPower": True,
         })
 
+    def test_power_graph_add_roles_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
+        report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["missing"], [])
+        self.assertEqual(report["checked"], {
+            "role_lists": [
+                "public final Seq<Building> producers = new Seq<>(false, 16, Building.class);",
+                "public final Seq<Building> consumers = new Seq<>(false, 16, Building.class);",
+                "public final Seq<Building> batteries = new Seq<>(false, 16, Building.class);",
+                "public final Seq<Building> all = new Seq<>(false, 16, Building.class);",
+            ],
+            "power_guard": "if(build == null || build.power == null) return;",
+            "add_gate": "if(build.power.graph != this || !build.power.init){",
+            "all_add": "all.add(build);",
+            "producer_consumer_branch": "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){",
+            "battery_branch": "}else if(build.block.outputsPower && build.block.consumesPower){",
+            "producer_branch": "}else if(build.block.outputsPower){",
+            "consumer_branch": "}else if(build.block.consumesPower && build.block.consPower != null){",
+        })
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

@@ -96,6 +96,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_max_nodes": selected_build_max_nodes()', source)
         self.assertIn('"selected_build_laser_range": selected_build_laser_range()', source)
 
+    def test_port_game_exposes_source_power_graph_add_role_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_add_role_state(build_present: bool, power_present: bool, graph_matches: bool, power_init: bool, old_graph_present: bool, old_graph_is_self: bool, old_graph_has_entity: bool, outputs_power: bool, consumes_power: bool, has_cons_power: bool, cons_power_buffered: bool) -> Dictionary:", source)
+        self.assertIn('"power_guard": "if(build == null || build.power == null) return;"', source)
+        self.assertIn('"producer_consumer_branch": "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){"', source)
+        self.assertIn('result["add_all"] = true', source)
+        self.assertIn('result["role"] = "producer_consumer"', source)
+        self.assertIn('result["add_producer"] = true', source)
+        self.assertIn('result["add_consumer"] = true', source)
+        self.assertIn('result["add_battery"] = true', source)
+        self.assertIn("func power_graph_role_for_block(block) -> Dictionary:", source)
+        self.assertIn('var has_cons_power: bool = block.properties.has("powerUsage") or block.properties.has("consumePower") or block.properties.has("powerBuffered") or block.properties.has("consumePowerBuffered")', source)
+        self.assertIn("func placed_power_graph_role_counts() -> Dictionary:", source)
+        self.assertIn('"placed_power_graph_roles": placed_power_graph_role_counts()', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

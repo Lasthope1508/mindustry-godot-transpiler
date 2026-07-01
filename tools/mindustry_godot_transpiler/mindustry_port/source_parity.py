@@ -13,6 +13,7 @@ POWER_NODE_SOURCE = "core/src/mindustry/world/blocks/power/PowerNode.java"
 BATTERY_SOURCE = "core/src/mindustry/world/blocks/power/Battery.java"
 POWER_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/PowerGenerator.java"
 CONSUME_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/ConsumeGenerator.java"
+POWER_GRAPH_SOURCE = "core/src/mindustry/world/blocks/power/PowerGraph.java"
 CONSUME_POWER_SOURCE = "core/src/mindustry/world/consumers/ConsumePower.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
@@ -152,6 +153,39 @@ def verify_consume_power_usage_params_parity(upstream_root: Path, godot_root: Pa
         "sources": [BLOCK_SOURCE, CONSUME_POWER_SOURCE],
         "checked": expected,
         "mismatches": mismatches,
+    }
+
+def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "role_lists": [
+            "public final Seq<Building> producers = new Seq<>(false, 16, Building.class);",
+            "public final Seq<Building> consumers = new Seq<>(false, 16, Building.class);",
+            "public final Seq<Building> batteries = new Seq<>(false, 16, Building.class);",
+            "public final Seq<Building> all = new Seq<>(false, 16, Building.class);",
+        ],
+        "power_guard": "if(build == null || build.power == null) return;",
+        "add_gate": "if(build.power.graph != this || !build.power.init){",
+        "all_add": "all.add(build);",
+        "producer_consumer_branch": "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){",
+        "battery_branch": "}else if(build.block.outputsPower && build.block.consumesPower){",
+        "producer_branch": "}else if(build.block.outputsPower){",
+        "consumer_branch": "}else if(build.block.consumesPower && build.block.consPower != null){",
+    }
+    missing = []
+    for value in checked["role_lists"]:
+        if value not in source:
+            missing.append(value)
+    for key, value in checked.items():
+        if key == "role_lists":
+            continue
+        if value not in source:
+            missing.append(value)
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
     }
 
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
