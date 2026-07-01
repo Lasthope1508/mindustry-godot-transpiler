@@ -51,6 +51,7 @@ LOGIC_AI_SOURCE = "core/src/mindustry/ai/types/LogicAI.java"
 TRAIL_SOURCE = "core/src/mindustry/graphics/Trail.java"
 ARC_MATHF_SOURCE = "arc-core/src/arc/math/Mathf.java"
 ARC_ANGLES_SOURCE = "arc-core/src/arc/math/Angles.java"
+ARC_SOUND_SOURCE = "arc-core/src/arc/audio/Sound.java"
 ARC_POSITION_SOURCE = "arc-core/src/arc/math/geom/Position.java"
 ARC_VEC2_SOURCE = "arc-core/src/arc/math/geom/Vec2.java"
 ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
@@ -291,6 +292,44 @@ def verify_power_generator_create_explosion_damage_source(upstream_root: Path) -
     return {
         "source": POWER_GENERATOR_SOURCE,
         "sources": [DAMAGE_SOURCE, VARS_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_generator_create_explosion_effect_sound_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    effect_path = Path(upstream_root) / EFFECT_SOURCE
+    sound_path = Path(upstream_root).parent / "arc-upstream" / ARC_SOUND_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    effect_source = effect_path.read_text(encoding="utf-8", errors="replace")
+    sound_source = sound_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "effect_field": "public Effect explodeEffect = Fx.none;",
+        "sound_field": "public Sound explodeSound = Sounds.none;",
+        "method": "public void createExplosion(){",
+        "gate": "if(shouldExplode()){",
+        "effect_dispatch": "explodeEffect.at(this);",
+        "sound_dispatch": "explodeSound.at(this);",
+        "effect_position_overload": "public void at(Position pos){",
+        "effect_position_dispatch": "create(pos.getX(), pos.getY(), 0, Color.white, null);",
+        "sound_position_overload": "public int at(Position pos){",
+        "sound_position_dispatch": "return at(pos.getX(), pos.getY());",
+        "sound_xy_dispatch": "return at(x, y, 1f);",
+    }
+    sources_by_key = {
+        "effect_position_overload": effect_source,
+        "effect_position_dispatch": effect_source,
+        "sound_position_overload": sound_source,
+        "sound_position_dispatch": sound_source,
+        "sound_xy_dispatch": sound_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [EFFECT_SOURCE, ARC_SOUND_SOURCE],
         "checked": checked,
         "missing": missing,
     }

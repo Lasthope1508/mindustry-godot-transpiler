@@ -77277,6 +77277,178 @@
           "java_expr": "explosionRadius * tilesize"
         }
       }
+    },
+    "source_power_generator_create_explosion_effect_sound_input": {
+      "owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "source_slice": "N915",
+      "status": "active",
+      "keys": {
+        "should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "shouldExplode()",
+          "alias_of": "source_power_generator_should_explode_result.should_explode"
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "java_expr": "pos.getX()"
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "java_expr": "pos.getY()"
+        },
+        "explode_effect_value": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeEffect"
+        },
+        "explode_sound_value": {
+          "type": "String",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeSound"
+        }
+      }
+    },
+    "source_power_generator_create_explosion_effect_sound_result": {
+      "owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "source_slice": "N915",
+      "status": "active",
+      "keys": {
+        "effect_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public Effect explodeEffect = Fx.none;"
+        },
+        "sound_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public Sound explodeSound = Sounds.none;"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public void createExplosion(){"
+        },
+        "gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){"
+        },
+        "effect_dispatch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeEffect.at(this);"
+        },
+        "sound_dispatch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeSound.at(this);"
+        },
+        "effect_position_overload": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "java_expr": "public void at(Position pos){"
+        },
+        "effect_position_dispatch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Effect.java",
+          "java_expr": "create(pos.getX(), pos.getY(), 0, Color.white, null);"
+        },
+        "sound_position_overload": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "public int at(Position pos){"
+        },
+        "sound_position_dispatch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "return at(pos.getX(), pos.getY());"
+        },
+        "sound_xy_dispatch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "return at(x, y, 1f);"
+        },
+        "input_should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_effect_sound_input.should_explode_value"
+        },
+        "input_source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_effect_sound_input.source_x"
+        },
+        "input_source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_effect_sound_input.source_y"
+        },
+        "input_explode_effect_value": {
+          "type": "String",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_effect_sound_input.explode_effect_value"
+        },
+        "input_explode_sound_value": {
+          "type": "String",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_effect_sound_input.explode_sound_value"
+        },
+        "branch_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){",
+          "alias_of": "source_power_generator_create_explosion_effect_sound_input.should_explode_value"
+        },
+        "effect_dispatched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeEffect.at(this);"
+        },
+        "sound_dispatched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeSound.at(this);"
+        },
+        "effect_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeEffect.at(this);"
+        },
+        "sound_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explodeSound.at(this);"
+        },
+        "deferred_body": {
+          "type": "Array[String]",
+          "status": "deferred",
+          "java_expr": "createExplosion() puddle and shake side-effect body"
+        }
+      }
     }
   },
   "version": 1

@@ -249,6 +249,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_create_explosion_effect_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_create_explosion_effect_sound_source"))
+        report = source_parity.verify_power_generator_create_explosion_effect_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertIn("core/src/mindustry/entities/Effect.java", report["sources"])
+        self.assertIn("arc-core/src/arc/audio/Sound.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "effect_field": "public Effect explodeEffect = Fx.none;",
+            "sound_field": "public Sound explodeSound = Sounds.none;",
+            "method": "public void createExplosion(){",
+            "gate": "if(shouldExplode()){",
+            "effect_dispatch": "explodeEffect.at(this);",
+            "sound_dispatch": "explodeSound.at(this);",
+            "effect_position_overload": "public void at(Position pos){",
+            "effect_position_dispatch": "create(pos.getX(), pos.getY(), 0, Color.white, null);",
+            "sound_position_overload": "public int at(Position pos){",
+            "sound_position_dispatch": "return at(pos.getX(), pos.getY());",
+            "sound_xy_dispatch": "return at(x, y, 1f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

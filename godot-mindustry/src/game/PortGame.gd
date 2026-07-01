@@ -608,6 +608,58 @@ func source_power_generator_create_explosion_damage_state(should_explode_value: 
 		],
 	}
 
+func source_power_generator_create_explosion_effect_sound_state(should_explode_value: bool, source_x: float, source_y: float, explode_effect_value: String, explode_sound_value: String) -> Dictionary:
+	var branch_entered := should_explode_value
+	var effect_dispatched := branch_entered
+	var sound_dispatched := branch_entered
+	var effect_call := {}
+	var sound_call := {}
+	if effect_dispatched:
+		effect_call = {
+			"effect": explode_effect_value,
+			"target": "this",
+			"x": source_x,
+			"y": source_y,
+			"rotation": 0.0,
+			"color": "Color.white",
+			"data": null,
+		}
+	if sound_dispatched:
+		sound_call = {
+			"sound": explode_sound_value,
+			"target": "this",
+			"x": source_x,
+			"y": source_y,
+			"pitch": 1.0,
+		}
+	return {
+		"effect_field": "public Effect explodeEffect = Fx.none;",
+		"sound_field": "public Sound explodeSound = Sounds.none;",
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"effect_dispatch": "explodeEffect.at(this);",
+		"sound_dispatch": "explodeSound.at(this);",
+		"effect_position_overload": "public void at(Position pos){",
+		"effect_position_dispatch": "create(pos.getX(), pos.getY(), 0, Color.white, null);",
+		"sound_position_overload": "public int at(Position pos){",
+		"sound_position_dispatch": "return at(pos.getX(), pos.getY());",
+		"sound_xy_dispatch": "return at(x, y, 1f);",
+		"input_should_explode_value": should_explode_value,
+		"input_source_x": source_x,
+		"input_source_y": source_y,
+		"input_explode_effect_value": explode_effect_value,
+		"input_explode_sound_value": explode_sound_value,
+		"branch_entered": branch_entered,
+		"effect_dispatched": effect_dispatched,
+		"sound_dispatched": sound_dispatched,
+		"effect_call": effect_call,
+		"sound_call": sound_call,
+		"deferred_body": [
+			"if(explosionPuddleLiquid != null){",
+			"if(explosionShake > 0){",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

@@ -20500,6 +20500,68 @@
       "tests": [
         "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_create_explosion_effect_sound_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "createExplosion()",
+      "source_slice": "N915",
+      "params": [
+        {
+          "name": "should_explode_value",
+          "type": "bool",
+          "schema": "source_power_generator_create_explosion_effect_sound_input.should_explode_value"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_effect_sound_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_effect_sound_input.source_y"
+        },
+        {
+          "name": "explode_effect_value",
+          "type": "String",
+          "schema": "source_power_generator_create_explosion_effect_sound_input.explode_effect_value"
+        },
+        {
+          "name": "explode_sound_value",
+          "type": "String",
+          "schema": "source_power_generator_create_explosion_effect_sound_input.explode_sound_value"
+        }
+      ],
+      "return_keys": [
+        "effect_field",
+        "sound_field",
+        "method",
+        "gate",
+        "effect_dispatch",
+        "sound_dispatch",
+        "effect_position_overload",
+        "effect_position_dispatch",
+        "sound_position_overload",
+        "sound_position_dispatch",
+        "sound_xy_dispatch",
+        "input_should_explode_value",
+        "input_source_x",
+        "input_source_y",
+        "input_explode_effect_value",
+        "input_explode_sound_value",
+        "branch_entered",
+        "effect_dispatched",
+        "sound_dispatched",
+        "effect_call",
+        "sound_call",
+        "deferred_body"
+      ],
+      "rule": "Public runtime contract for createExplosion effect/sound dispatch only; puddle and shake remain deferred.",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

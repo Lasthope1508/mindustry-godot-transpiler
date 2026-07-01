@@ -18465,6 +18465,58 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N915": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "source_symbols": [
+        "power_generator_create_explosion_effect_sound.should_explode_call",
+        "power_generator_create_explosion_effect_sound.source_x",
+        "power_generator_create_explosion_effect_sound.source_y",
+        "power_generator_create_explosion_effect_sound.explode_effect",
+        "power_generator_create_explosion_effect_sound.explode_sound",
+        "power_generator_create_explosion_effect_sound.effect_field",
+        "power_generator_create_explosion_effect_sound.sound_field",
+        "power_generator_create_explosion_effect_sound.method",
+        "power_generator_create_explosion_effect_sound.gate",
+        "power_generator_create_explosion_effect_sound.effect_dispatch",
+        "power_generator_create_explosion_effect_sound.sound_dispatch",
+        "power_generator_create_explosion_effect_sound.effect_position_overload",
+        "power_generator_create_explosion_effect_sound.effect_position_dispatch",
+        "power_generator_create_explosion_effect_sound.sound_position_overload",
+        "power_generator_create_explosion_effect_sound.sound_position_dispatch",
+        "power_generator_create_explosion_effect_sound.sound_xy_dispatch",
+        "power_generator_create_explosion_effect_sound.deferred_body"
+      ],
+      "exact_exprs": [
+        "public Effect explodeEffect = Fx.none;",
+        "public Sound explodeSound = Sounds.none;",
+        "public void createExplosion(){",
+        "if(shouldExplode()){",
+        "explodeEffect.at(this);",
+        "explodeSound.at(this);",
+        "public void at(Position pos){",
+        "create(pos.getX(), pos.getY(), 0, Color.white, null);",
+        "public int at(Position pos){",
+        "return at(pos.getX(), pos.getY());",
+        "return at(x, y, 1f);"
+      ],
+      "deferred_exprs": [
+        "if(explosionPuddleLiquid != null){",
+        "for(int i = 0; i < explosionPuddles; i++){",
+        "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

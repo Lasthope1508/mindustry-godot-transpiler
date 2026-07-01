@@ -13790,6 +13790,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(deferred_body["java_expr"], "createExplosion() post-damage side-effect body")
         self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_damage_result.deferred_body")
 
+    def test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        explode_effect = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.explode_effect")
+        self.assertEqual(explode_effect["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(explode_effect["java_method"], "createExplosion()")
+        self.assertEqual(explode_effect["status"], "explicit-input")
+        self.assertEqual(explode_effect["java_expr"], "explodeEffect")
+        self.assertEqual(explode_effect["godot_owner"], "PortGame.source_power_generator_create_explosion_effect_sound_state")
+        self.assertEqual(explode_effect["runtime_proof"], "/root/Main.source_power_generator_create_explosion_effect_sound_state")
+        self.assertEqual(explode_effect["godot_symbol"], "source_power_generator_create_explosion_effect_sound_input.explode_effect_value")
+
+        explode_sound = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.explode_sound")
+        self.assertEqual(explode_sound["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(explode_sound["status"], "explicit-input")
+        self.assertEqual(explode_sound["java_expr"], "explodeSound")
+        self.assertEqual(explode_sound["godot_symbol"], "source_power_generator_create_explosion_effect_sound_input.explode_sound_value")
+
+        source_x = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.source_x")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "pos.getX()")
+        self.assertEqual(source_x["godot_symbol"], "source_power_generator_create_explosion_effect_sound_input.source_x")
+
+        source_y = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.source_y")
+        self.assertEqual(source_y["status"], "explicit-input")
+        self.assertEqual(source_y["java_expr"], "pos.getY()")
+        self.assertEqual(source_y["godot_symbol"], "source_power_generator_create_explosion_effect_sound_input.source_y")
+
+        effect_dispatch = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.effect_dispatch")
+        self.assertEqual(effect_dispatch["java_expr"], "explodeEffect.at(this);")
+        self.assertEqual(effect_dispatch["godot_symbol"], "source_power_generator_create_explosion_effect_sound_result.effect_call")
+
+        sound_dispatch = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.sound_dispatch")
+        self.assertEqual(sound_dispatch["java_expr"], "explodeSound.at(this);")
+        self.assertEqual(sound_dispatch["godot_symbol"], "source_power_generator_create_explosion_effect_sound_result.sound_call")
+
+        effect_position = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.effect_position_dispatch")
+        self.assertEqual(effect_position["java_source"], "core/src/mindustry/entities/Effect.java")
+        self.assertEqual(effect_position["java_expr"], "create(pos.getX(), pos.getY(), 0, Color.white, null);")
+        self.assertEqual(effect_position["godot_symbol"], "source_power_generator_create_explosion_effect_sound_result.effect_call")
+
+        sound_position = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.sound_position_dispatch")
+        self.assertEqual(sound_position["java_source"], "arc-core/src/arc/audio/Sound.java")
+        self.assertEqual(sound_position["java_expr"], "return at(pos.getX(), pos.getY());")
+        self.assertEqual(sound_position["godot_symbol"], "source_power_generator_create_explosion_effect_sound_result.sound_call")
+
+        deferred_body = source_symbols.source_symbol(registry, "power_generator_create_explosion_effect_sound.deferred_body")
+        self.assertEqual(deferred_body["status"], "deferred")
+        self.assertEqual(deferred_body["java_expr"], "createExplosion() puddle and shake side-effect body")
+        self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_effect_sound_result.deferred_body")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17706,9 +17760,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 511)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 512)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 516)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 517)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22411,6 +22465,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static final int tilesize = 8;", power_generator_create_explosion_damage["exact_exprs"])
         self.assertIn("damage(null, x, y, radius, damage, false);", power_generator_create_explosion_damage["exact_exprs"])
         self.assertIn("explodeEffect.at(this);", power_generator_create_explosion_damage["deferred_exprs"])
+
+        power_generator_create_explosion_effect_sound = source_symbols.source_slice(ledger, "N915")
+        self.assertEqual(power_generator_create_explosion_effect_sound["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_create_explosion_effect_sound["java_method"], "createExplosion()")
+        self.assertEqual(power_generator_create_explosion_effect_sound["godot_owner"], "PortGame.source_power_generator_create_explosion_effect_sound_state")
+        self.assertIn("public Effect explodeEffect = Fx.none;", power_generator_create_explosion_effect_sound["exact_exprs"])
+        self.assertIn("public Sound explodeSound = Sounds.none;", power_generator_create_explosion_effect_sound["exact_exprs"])
+        self.assertIn("explodeEffect.at(this);", power_generator_create_explosion_effect_sound["exact_exprs"])
+        self.assertIn("explodeSound.at(this);", power_generator_create_explosion_effect_sound["exact_exprs"])
+        self.assertIn("create(pos.getX(), pos.getY(), 0, Color.white, null);", power_generator_create_explosion_effect_sound["exact_exprs"])
+        self.assertIn("return at(pos.getX(), pos.getY());", power_generator_create_explosion_effect_sound["exact_exprs"])
+        self.assertIn("if(explosionPuddleLiquid != null){", power_generator_create_explosion_effect_sound["deferred_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27328,6 +27394,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damage_radius", power_generator_create_explosion_damage["return_keys"])
         self.assertIn("damage_call", power_generator_create_explosion_damage["return_keys"])
         self.assertEqual(power_generator_create_explosion_damage["source_method"], "createExplosion()")
+
+        power_generator_create_explosion_effect_sound = source_symbols.api_contract(contracts, "PortGame.source_power_generator_create_explosion_effect_sound_state")
+        self.assertEqual([param["name"] for param in power_generator_create_explosion_effect_sound["params"]], ["should_explode_value", "source_x", "source_y", "explode_effect_value", "explode_sound_value"])
+        self.assertEqual(power_generator_create_explosion_effect_sound["params"][0]["schema"], "source_power_generator_create_explosion_effect_sound_input.should_explode_value")
+        self.assertEqual(power_generator_create_explosion_effect_sound["params"][3]["schema"], "source_power_generator_create_explosion_effect_sound_input.explode_effect_value")
+        self.assertEqual(power_generator_create_explosion_effect_sound["params"][4]["schema"], "source_power_generator_create_explosion_effect_sound_input.explode_sound_value")
+        self.assertIn("effect_dispatched", power_generator_create_explosion_effect_sound["return_keys"])
+        self.assertIn("sound_dispatched", power_generator_create_explosion_effect_sound["return_keys"])
+        self.assertIn("effect_call", power_generator_create_explosion_effect_sound["return_keys"])
+        self.assertIn("sound_call", power_generator_create_explosion_effect_sound["return_keys"])
+        self.assertEqual(power_generator_create_explosion_effect_sound["source_method"], "createExplosion()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33337,6 +33414,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_overload_dispatch"]["java_expr"], "damage(null, x, y, radius, damage, false);")
         self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_radius"]["java_expr"], "explosionRadius * tilesize")
         self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_call"]["java_expr"], "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);")
+
+        source_power_generator_create_explosion_effect_sound_input = source_symbols.state_schema(schema, "source_power_generator_create_explosion_effect_sound_input")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_input["keys"]["should_explode_value"]["alias_of"], "source_power_generator_should_explode_result.should_explode")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_input["keys"]["source_x"]["java_expr"], "pos.getX()")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_input["keys"]["source_y"]["java_expr"], "pos.getY()")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_input["keys"]["explode_effect_value"]["java_expr"], "explodeEffect")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_input["keys"]["explode_sound_value"]["java_expr"], "explodeSound")
+
+        source_power_generator_create_explosion_effect_sound_result = source_symbols.state_schema(schema, "source_power_generator_create_explosion_effect_sound_result")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["effect_dispatch"]["java_expr"], "explodeEffect.at(this);")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["sound_dispatch"]["java_expr"], "explodeSound.at(this);")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["effect_position_dispatch"]["java_expr"], "create(pos.getX(), pos.getY(), 0, Color.white, null);")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["sound_position_dispatch"]["java_expr"], "return at(pos.getX(), pos.getY());")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["effect_call"]["java_expr"], "explodeEffect.at(this);")
+        self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["sound_call"]["java_expr"], "explodeSound.at(this);")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

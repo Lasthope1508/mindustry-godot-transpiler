@@ -64357,6 +64357,227 @@
       "godot_symbol": "source_power_generator_create_explosion_damage_result.damage_radius",
       "rule": "Runtime damage_radius maps to explosionRadius * tilesize argument inside Damage.damage dispatch.",
       "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.should_explode_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shouldExplode()",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_input.should_explode_value",
+      "rule": "Runtime should_explode_value parameter maps to createExplosion shouldExplode() gate call.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_effect_sound.source_x": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "pos.getX()",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_input.source_x",
+      "rule": "Runtime source_x parameter maps to Position.getX() consumed by Effect.at(Position) and Sound.at(Position).",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_effect_sound.source_y": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "pos.getY()",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_input.source_y",
+      "rule": "Runtime source_y parameter maps to Position.getY() consumed by Effect.at(Position) and Sound.at(Position).",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_effect_sound.explode_effect": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explodeEffect",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_input.explode_effect_value",
+      "rule": "Runtime explode_effect_value parameter maps to PowerGenerator.explodeEffect.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_effect_sound.explode_sound": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explodeSound",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_input.explode_sound_value",
+      "rule": "Runtime explode_sound_value parameter maps to PowerGenerator.explodeSound.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_effect_sound.effect_field": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public Effect explodeEffect = Fx.none;",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.effect_field",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.effect_field maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.sound_field": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public Sound explodeSound = Sounds.none;",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.sound_field",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.sound_field maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void createExplosion(){",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.method",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.method maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.gate": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(shouldExplode()){",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.branch_entered",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.branch_entered maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.effect_dispatch": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explodeEffect.at(this);",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.effect_call",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.effect_call maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.sound_dispatch": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explodeSound.at(this);",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.sound_call",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.sound_call maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.effect_position_overload": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void at(Position pos){",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.effect_position_overload",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.effect_position_overload maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.effect_position_dispatch": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "create(pos.getX(), pos.getY(), 0, Color.white, null);",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.effect_call",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.effect_call maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.sound_position_overload": {
+      "java_source": "arc-core/src/arc/audio/Sound.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public int at(Position pos){",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.sound_position_overload",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.sound_position_overload maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.sound_position_dispatch": {
+      "java_source": "arc-core/src/arc/audio/Sound.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return at(pos.getX(), pos.getY());",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.sound_call",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.sound_call maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.sound_xy_dispatch": {
+      "java_source": "arc-core/src/arc/audio/Sound.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return at(x, y, 1f);",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.sound_call",
+      "rule": "Runtime source_power_generator_create_explosion_effect_sound_result.sound_call maps to createExplosion effect/sound source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_effect_sound.deferred_body": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state",
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "createExplosion() puddle and shake side-effect body",
+      "godot_symbol": "source_power_generator_create_explosion_effect_sound_result.deferred_body",
+      "rule": "Puddle and shake side effects remain deferred to later slices.",
+      "status": "deferred"
     }
   },
   "version": 1
