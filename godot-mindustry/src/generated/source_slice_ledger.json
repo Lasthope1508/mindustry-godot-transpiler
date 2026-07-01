@@ -17131,6 +17131,64 @@
         "test_weapons_aim_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp aim(Position) wrapper against exact upstream source."
+    },
+    "N877": {
+      "exact_exprs": [
+        "void aim(float x, float y){",
+        "Tmp.v1.set(x, y).sub(this.x, this.y);",
+        "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);",
+        "x = Tmp.v1.x + this.x;",
+        "y = Tmp.v1.y + this.y;",
+        "for(WeaponMount mount : mounts){",
+        "if(mount.weapon.controllable){",
+        "mount.aimX = x;",
+        "mount.aimY = y;",
+        "aimX = x;",
+        "aimY = y;"
+      ],
+      "bridge_exprs": [
+        "aimDst = -1f,",
+        "public boolean controllable = true;",
+        "public float aimX, aimY;",
+        "public static final Vec2 v1 = new Vec2();",
+        "public Vec2 setLength(float len){",
+        "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));"
+      ],
+      "deferred_exprs": [
+        "void aim(Position pos){",
+        "Position overload remains owned by source_weapons_aim_position_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "source_symbols": [
+        "weapons_aim.float_method",
+        "weapons_aim.tmp_set_sub",
+        "weapons_aim.aim_dst_guard",
+        "weapons_aim.x_adjust",
+        "weapons_aim.y_adjust",
+        "weapons_aim.loop",
+        "weapons_aim.controllable_guard",
+        "weapons_aim.mount_aim_x",
+        "weapons_aim.mount_aim_y",
+        "weapons_aim.unit_aim_x",
+        "weapons_aim.unit_aim_y",
+        "weapons_aim.unit_type_aim_dst",
+        "weapons_aim.weapon_controllable",
+        "weapons_aim.weapon_mount_aim",
+        "weapons_aim.tmp_v1",
+        "weapons_aim.vec2_set_length",
+        "weapons_aim.vec2_set_length_zero_noop"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp aim(float x, float y) wrapper against exact upstream source."
     }
   },
   "version": 1

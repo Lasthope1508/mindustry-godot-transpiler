@@ -18953,6 +18953,60 @@
         "test_port_game_exposes_source_weapons_aim_state",
         "test_weapons_aim_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_aim_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "mount_states",
+          "schema": "source_weapons_aim_input.mount_states",
+          "type": "Array"
+        },
+        {
+          "name": "unit_x",
+          "schema": "source_weapons_aim_input.unit_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_y",
+          "schema": "source_weapons_aim_input.unit_y",
+          "type": "float"
+        },
+        {
+          "name": "target_x",
+          "schema": "source_weapons_aim_input.target_x",
+          "type": "float"
+        },
+        {
+          "name": "target_y",
+          "schema": "source_weapons_aim_input.target_y",
+          "type": "float"
+        },
+        {
+          "name": "aim_dst",
+          "schema": "source_weapons_aim_input.aim_dst",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "floatMethod",
+        "tmp",
+        "minDistance",
+        "zeroVectorSetLength",
+        "aimX",
+        "aimY",
+        "mounts"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.aim(float x, float y) state.",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "source_method": "WeaponsComp.aim(float x, float y)",
+      "source_slice": "N877",
+      "status": "active",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ]
     }
   },
   "policy": {

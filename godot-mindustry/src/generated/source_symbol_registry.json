@@ -59675,6 +59675,261 @@
       "godot_symbol": "source_weapons_aim_position_input.position_y",
       "status": "source-backed",
       "rule": "Position y accessor consumed by aim(Position pos)."
+    },
+    "weapons_aim.float_method": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "void aim(float x, float y){",
+      "godot_symbol": "source_weapons_aim_result.floatMethod",
+      "status": "source-backed",
+      "rule": "Exact float overload method header."
+    },
+    "weapons_aim.tmp_set_sub": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "Tmp.v1.set(x, y).sub(this.x, this.y);",
+      "godot_symbol": "source_weapons_aim_result.tmp",
+      "status": "source-backed",
+      "rule": "Exact tmp vector setup and unit-relative subtraction."
+    },
+    "weapons_aim.aim_dst_guard": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);",
+      "godot_symbol": "source_weapons_aim_result.minDistance",
+      "status": "source-backed",
+      "rule": "Exact minimum aim distance guard."
+    },
+    "weapons_aim.x_adjust": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "x = Tmp.v1.x + this.x;",
+      "godot_symbol": "source_weapons_aim_result.aimX",
+      "status": "source-backed",
+      "rule": "Exact final x adjustment from tmp vector."
+    },
+    "weapons_aim.y_adjust": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "y = Tmp.v1.y + this.y;",
+      "godot_symbol": "source_weapons_aim_result.aimY",
+      "status": "source-backed",
+      "rule": "Exact final y adjustment from tmp vector."
+    },
+    "weapons_aim.loop": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "for(WeaponMount mount : mounts){",
+      "godot_symbol": "source_weapons_aim_result.mounts",
+      "status": "source-backed",
+      "rule": "Exact mount iteration loop."
+    },
+    "weapons_aim.controllable_guard": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "if(mount.weapon.controllable){",
+      "godot_symbol": "source_weapons_aim_result.mounts.guard",
+      "status": "source-backed",
+      "rule": "Exact controllable guard for mount aim assignment."
+    },
+    "weapons_aim.mount_aim_x": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "mount.aimX = x;",
+      "godot_symbol": "source_weapons_aim_result.mounts.aimX",
+      "status": "source-backed",
+      "rule": "Exact mount aim x assignment."
+    },
+    "weapons_aim.mount_aim_y": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "mount.aimY = y;",
+      "godot_symbol": "source_weapons_aim_result.mounts.aimY",
+      "status": "source-backed",
+      "rule": "Exact mount aim y assignment."
+    },
+    "weapons_aim.unit_aim_x": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "aimX = x;",
+      "godot_symbol": "source_weapons_aim_result.aimX",
+      "status": "source-backed",
+      "rule": "Exact unit aim x field assignment."
+    },
+    "weapons_aim.unit_aim_y": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponsComp.aim(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "aimY = y;",
+      "godot_symbol": "source_weapons_aim_result.aimY",
+      "status": "source-backed",
+      "rule": "Exact unit aim y field assignment."
+    },
+    "weapons_aim.unit_type_aim_dst": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "UnitType fields",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_expr": "aimDst = -1f,",
+      "godot_symbol": "source_weapons_aim_input.aim_dst",
+      "status": "source-backed",
+      "rule": "UnitType aim distance field default."
+    },
+    "weapons_aim.weapon_controllable": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean controllable = true;",
+      "godot_symbol": "source_weapons_aim_input.mount_states.controllable",
+      "status": "source-backed",
+      "rule": "Weapon controllable field default."
+    },
+    "weapons_aim.weapon_mount_aim": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float aimX, aimY;",
+      "godot_symbol": "source_weapons_aim_input.mount_states.aimX",
+      "status": "source-backed",
+      "rule": "WeaponMount aim coordinate fields."
+    },
+    "weapons_aim.tmp_v1": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "Tmp fields",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/util/Tmp.java",
+      "java_expr": "public static final Vec2 v1 = new Vec2();",
+      "godot_symbol": "source_weapons_aim_result.tmp",
+      "status": "source-backed",
+      "rule": "Tmp.v1 bridge backing vector operations."
+    },
+    "weapons_aim.vec2_set_length": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "Vec2.setLength(float len)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "public Vec2 setLength(float len){",
+      "godot_symbol": "source_weapons_aim_result.minDistance",
+      "status": "source-backed",
+      "rule": "Vec2 setLength method used by aim distance guard."
+    },
+    "weapons_aim.vec2_set_length_zero_noop": {
+      "godot_owner": "PortGame.source_weapons_aim_state",
+      "java_method": "Vec2.setLength2(float len2)",
+      "runtime_proof": "/root/Main.source_weapons_aim_state",
+      "tests": [
+        "test_weapons_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));",
+      "godot_symbol": "source_weapons_aim_result.zeroVectorSetLength",
+      "status": "source-backed",
+      "rule": "Vec2 setLength zero-vector no-op behavior."
     }
   },
   "version": 1

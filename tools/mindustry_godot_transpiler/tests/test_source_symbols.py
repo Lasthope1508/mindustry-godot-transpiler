@@ -5739,6 +5739,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(position_get_y["java_expr"], "float getY();")
         self.assertEqual(position_get_y["godot_symbol"], "source_weapons_aim_position_input.position_y")
 
+    def test_weapons_aim_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "weapons_aim.float_method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(method["java_expr"], "void aim(float x, float y){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_weapons_aim_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_weapons_aim_state")
+        self.assertEqual(method["godot_symbol"], "source_weapons_aim_result.floatMethod")
+
+        tmp_set_sub = source_symbols.source_symbol(registry, "weapons_aim.tmp_set_sub")
+        self.assertEqual(tmp_set_sub["java_expr"], "Tmp.v1.set(x, y).sub(this.x, this.y);")
+        self.assertEqual(tmp_set_sub["godot_symbol"], "source_weapons_aim_result.tmp")
+
+        aim_dst_guard = source_symbols.source_symbol(registry, "weapons_aim.aim_dst_guard")
+        self.assertEqual(aim_dst_guard["java_expr"], "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);")
+        self.assertEqual(aim_dst_guard["godot_symbol"], "source_weapons_aim_result.minDistance")
+
+        mount_aim_x = source_symbols.source_symbol(registry, "weapons_aim.mount_aim_x")
+        self.assertEqual(mount_aim_x["java_expr"], "mount.aimX = x;")
+        self.assertEqual(mount_aim_x["godot_symbol"], "source_weapons_aim_result.mounts.aimX")
+
+        unit_aim_y = source_symbols.source_symbol(registry, "weapons_aim.unit_aim_y")
+        self.assertEqual(unit_aim_y["java_expr"], "aimY = y;")
+        self.assertEqual(unit_aim_y["godot_symbol"], "source_weapons_aim_result.aimY")
+
+        zero_noop = source_symbols.source_symbol(registry, "weapons_aim.vec2_set_length_zero_noop")
+        self.assertEqual(zero_noop["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(zero_noop["java_expr"], "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));")
+        self.assertEqual(zero_noop["godot_symbol"], "source_weapons_aim_result.zeroVectorSetLength")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16607,9 +16641,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 474)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 475)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 479)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 480)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16641,6 +16675,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_velocity_length_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapons_aim_position_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapons_aim_position_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapons_aim_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapons_aim_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19768,6 +19804,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("WeaponsComp.aim(float x, float y)", weapons_aim_position["deferred_exprs"])
         self.assertIn("weapons_aim_position.method", weapons_aim_position["source_symbols"])
         self.assertIn("weapons_aim_position.delegate", weapons_aim_position["source_symbols"])
+
+        weapons_aim = source_symbols.source_slice(ledger, "N877")
+        self.assertEqual(weapons_aim["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(weapons_aim["java_method"], "WeaponsComp.aim(float x, float y)")
+        self.assertEqual(weapons_aim["godot_owner"], "PortGame.source_weapons_aim_state")
+        self.assertIn("void aim(float x, float y){", weapons_aim["exact_exprs"])
+        self.assertIn("Tmp.v1.set(x, y).sub(this.x, this.y);", weapons_aim["exact_exprs"])
+        self.assertIn("if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);", weapons_aim["exact_exprs"])
+        self.assertIn("mount.aimX = x;", weapons_aim["exact_exprs"])
+        self.assertIn("aimY = y;", weapons_aim["exact_exprs"])
+        self.assertIn("public static final Vec2 v1 = new Vec2();", weapons_aim["bridge_exprs"])
+        self.assertIn("return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));", weapons_aim["bridge_exprs"])
+        self.assertIn("weapons_aim.float_method", weapons_aim["source_symbols"])
+        self.assertIn("weapons_aim.vec2_set_length_zero_noop", weapons_aim["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23297,6 +23347,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("aimX", weapons_aim_position["return_keys"])
         self.assertIn("mounts", weapons_aim_position["return_keys"])
         self.assertEqual(weapons_aim_position["source_method"], "WeaponsComp.aim(Position pos)")
+
+        weapons_aim = source_symbols.api_contract(contracts, "PortGame.source_weapons_aim_state")
+        self.assertEqual([param["name"] for param in weapons_aim["params"]], ["mount_states", "unit_x", "unit_y", "target_x", "target_y", "aim_dst"])
+        self.assertEqual(weapons_aim["params"][0]["schema"], "source_weapons_aim_input.mount_states")
+        self.assertEqual(weapons_aim["params"][3]["schema"], "source_weapons_aim_input.target_x")
+        self.assertEqual(weapons_aim["params"][4]["schema"], "source_weapons_aim_input.target_y")
+        self.assertIn("floatMethod", weapons_aim["return_keys"])
+        self.assertIn("tmp", weapons_aim["return_keys"])
+        self.assertIn("minDistance", weapons_aim["return_keys"])
+        self.assertIn("zeroVectorSetLength", weapons_aim["return_keys"])
+        self.assertIn("aimX", weapons_aim["return_keys"])
+        self.assertIn("mounts", weapons_aim["return_keys"])
+        self.assertEqual(weapons_aim["source_method"], "WeaponsComp.aim(float x, float y)")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -30196,6 +30259,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapons_aim_position_result["keys"]["positionDelegate"]["java_expr"], "aim(pos.getX(), pos.getY());")
         self.assertEqual(source_weapons_aim_position_result["keys"]["aimX"]["java_expr"], "aimX = x;")
         self.assertEqual(source_weapons_aim_position_result["keys"]["mounts"]["java_expr"], "for(WeaponMount mount : mounts){")
+
+        source_weapons_aim_input = source_symbols.state_schema(schema, "source_weapons_aim_input")
+        self.assertEqual(source_weapons_aim_input["keys"]["mount_states"]["java_expr"], "WeaponMount[] mounts")
+        self.assertEqual(source_weapons_aim_input["keys"]["target_x"]["java_expr"], "void aim(float x, float y){")
+        self.assertEqual(source_weapons_aim_input["keys"]["target_y"]["java_expr"], "void aim(float x, float y){")
+        self.assertEqual(source_weapons_aim_input["keys"]["aim_dst"]["java_expr"], "aimDst = -1f,")
+
+        source_weapons_aim_result = source_symbols.state_schema(schema, "source_weapons_aim_result")
+        self.assertEqual(source_weapons_aim_result["keys"]["floatMethod"]["java_expr"], "void aim(float x, float y){")
+        self.assertEqual(source_weapons_aim_result["keys"]["tmp"]["java_expr"], "Tmp.v1.set(x, y).sub(this.x, this.y);")
+        self.assertEqual(source_weapons_aim_result["keys"]["minDistance"]["java_expr"], "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);")
+        self.assertEqual(source_weapons_aim_result["keys"]["zeroVectorSetLength"]["java_expr"], "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));")
+        self.assertEqual(source_weapons_aim_result["keys"]["aimX"]["java_expr"], "aimX = x;")
+        self.assertEqual(source_weapons_aim_result["keys"]["mounts"]["java_expr"], "for(WeaponMount mount : mounts){")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
