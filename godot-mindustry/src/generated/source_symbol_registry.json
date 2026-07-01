@@ -65163,6 +65163,240 @@
       "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.deferred_body",
       "rule": "Puddles.deposit and shake remain deferred to later slices.",
       "status": "deferred"
+    },
+    "power_generator_create_explosion_puddle_deposit.should_explode_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shouldExplode()",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_input.should_explode_value",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_input.should_explode_value maps to createExplosion puddle deposit source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_deposit.explosion_puddle_liquid": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddleLiquid",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_input.explosion_puddle_liquid_value",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_input.explosion_puddle_liquid_value maps to createExplosion puddle deposit source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_deposit.explosion_puddles": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddles",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_input.explosion_puddles",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_input.explosion_puddles maps to createExplosion puddle deposit source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_deposit.explosion_puddle_amount": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddleAmount",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_input.explosion_puddle_amount",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_input.explosion_puddle_amount maps to createExplosion puddle deposit source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_deposit.tile_world_calls": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_input.tile_world_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_input.tile_world_calls maps to createExplosion puddle deposit source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_deposit.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void createExplosion(){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.method",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.method maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.gate": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(shouldExplode()){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.branch_entered",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.branch_entered maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddle_guard": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(explosionPuddleLiquid != null){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.puddle_guard_entered",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.puddle_guard_entered maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddle_loop": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "for(int i = 0; i < explosionPuddles; i++){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.puddle_loop_count",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.puddle_loop_count maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddle_amount_field": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public float explosionPuddleAmount = 100f;",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.puddle_amount_field",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.puddle_amount_field maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.deposit_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.deposit_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.deposit_calls maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddles_deposit_tile_method": {
+      "java_source": "core/src/mindustry/entities/Puddles.java",
+      "java_method": "deposit(Tile,Liquid,float)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public static void deposit(Tile tile, Liquid liquid, float amount){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.puddles_deposit_tile_method",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.puddles_deposit_tile_method maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddles_deposit_tile_dispatch": {
+      "java_source": "core/src/mindustry/entities/Puddles.java",
+      "java_method": "deposit(Tile,Liquid,float)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "deposit(tile, tile, liquid, amount, true);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.deposit_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.deposit_calls maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddles_deposit_initial_method": {
+      "java_source": "core/src/mindustry/entities/Puddles.java",
+      "java_method": "deposit(Tile,Tile,Liquid,float,boolean)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.puddles_deposit_initial_method",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.puddles_deposit_initial_method maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddles_deposit_initial_dispatch": {
+      "java_source": "core/src/mindustry/entities/Puddles.java",
+      "java_method": "deposit(Tile,Tile,Liquid,float,boolean)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "deposit(tile, source, liquid, amount, initial, false);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.deposit_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.deposit_calls maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddles_deposit_full_method": {
+      "java_source": "core/src/mindustry/entities/Puddles.java",
+      "java_method": "deposit(Tile,Tile,Liquid,float,boolean,boolean)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial, boolean cap){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.puddles_deposit_full_method",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.puddles_deposit_full_method maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.puddles_null_guard": {
+      "java_source": "core/src/mindustry/entities/Puddles.java",
+      "java_method": "deposit(Tile,Tile,Liquid,float,boolean,boolean)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(tile == null) return;",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.deposit_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.deposit_calls maps to createExplosion puddle deposit source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_deposit.deferred_body": {
+      "java_source": "core/src/mindustry/entities/Puddles.java",
+      "java_method": "deposit(Tile,Tile,Liquid,float,boolean,boolean)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Puddles.deposit final puddle world mutation and createExplosion shake body",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.deferred_body",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.deferred_body maps to createExplosion puddle deposit source.",
+      "status": "deferred"
     }
   },
   "version": 1

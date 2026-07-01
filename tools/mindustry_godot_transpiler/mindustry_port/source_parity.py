@@ -17,6 +17,7 @@ POWER_GRAPH_SOURCE = "core/src/mindustry/world/blocks/power/PowerGraph.java"
 CONSUME_POWER_SOURCE = "core/src/mindustry/world/consumers/ConsumePower.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 DAMAGE_SOURCE = "core/src/mindustry/entities/Damage.java"
+PUDDLES_SOURCE = "core/src/mindustry/entities/Puddles.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 WEAPONS_COMP_SOURCE = "core/src/mindustry/entities/comp/WeaponsComp.java"
 HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
@@ -434,6 +435,40 @@ def verify_power_generator_create_explosion_puddle_tile_world_source(upstream_ro
     return {
         "source": POWER_GENERATOR_SOURCE,
         "sources": [WORLD_SOURCE, VARS_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_generator_create_explosion_puddle_deposit_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    puddles_path = Path(upstream_root) / PUDDLES_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    puddles_source = puddles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "puddle_amount_field": "public float explosionPuddleAmount = 100f;",
+        "deposit_call": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "puddles_deposit_tile_method": "public static void deposit(Tile tile, Liquid liquid, float amount){",
+        "puddles_deposit_tile_dispatch": "deposit(tile, tile, liquid, amount, true);",
+        "puddles_deposit_initial_method": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial){",
+        "puddles_deposit_initial_dispatch": "deposit(tile, source, liquid, amount, initial, false);",
+        "puddles_deposit_full_method": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial, boolean cap){",
+        "puddles_null_guard": "if(tile == null) return;",
+    }
+    sources_by_key = {
+        "puddles_deposit_tile_method": puddles_source,
+        "puddles_deposit_tile_dispatch": puddles_source,
+        "puddles_deposit_initial_method": puddles_source,
+        "puddles_deposit_initial_dispatch": puddles_source,
+        "puddles_deposit_full_method": puddles_source,
+        "puddles_null_guard": puddles_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [PUDDLES_SOURCE],
         "checked": checked,
         "missing": missing,
     }

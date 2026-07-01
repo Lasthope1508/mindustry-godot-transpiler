@@ -824,6 +824,82 @@ func source_power_generator_create_explosion_puddle_tile_world_state(should_expl
 		],
 	}
 
+func source_power_generator_create_explosion_puddle_deposit_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int, explosion_puddle_amount: float, tile_world_calls: Array) -> Dictionary:
+	var branch_entered := should_explode_value
+	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
+	var puddle_loop_count := 0
+	if puddle_guard_entered:
+		puddle_loop_count = max(explosion_puddles, 0)
+	var deposit_call_count = min(puddle_loop_count, tile_world_calls.size())
+	var missing_tile_world_call_count = max(puddle_loop_count - tile_world_calls.size(), 0)
+	var deposit_calls := []
+	for i in range(deposit_call_count):
+		var tile_call: Dictionary = tile_world_calls[i]
+		var tile_null_known := tile_call.has("tile_is_null")
+		var tile_is_null = tile_call.get("tile_is_null", null)
+		var null_tile_guard_returns = null
+		if tile_null_known:
+			null_tile_guard_returns = bool(tile_is_null)
+		deposit_calls.append({
+			"i": i,
+			"tile_world_call": tile_call.duplicate(true),
+			"tile_x": tile_call.get("tile_x", null),
+			"tile_y": tile_call.get("tile_y", null),
+			"tile_is_null": tile_is_null,
+			"tile_null_known": tile_null_known,
+			"liquid": explosion_puddle_liquid_value,
+			"amount": explosion_puddle_amount,
+			"call": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount)",
+			"overload": "public static void deposit(Tile tile, Liquid liquid, float amount){",
+			"delegated_tile_source": "tile",
+			"delegated_initial": true,
+			"delegated_cap": false,
+			"delegated_call": "deposit(tile, tile, liquid, amount, true); deposit(tile, source, liquid, amount, initial, false);",
+			"null_tile_guard": "if(tile == null) return;",
+			"null_tile_guard_returns": null_tile_guard_returns,
+			"puddle_mutation_deferred": not (tile_null_known and bool(tile_is_null)),
+		})
+	return {
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"puddle_guard": "if(explosionPuddleLiquid != null){",
+		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+		"puddle_amount_field": "public float explosionPuddleAmount = 100f;",
+		"deposit_call": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+		"puddles_deposit_tile_method": "public static void deposit(Tile tile, Liquid liquid, float amount){",
+		"puddles_deposit_tile_dispatch": "deposit(tile, tile, liquid, amount, true);",
+		"puddles_deposit_initial_method": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial){",
+		"puddles_deposit_initial_dispatch": "deposit(tile, source, liquid, amount, initial, false);",
+		"puddles_deposit_full_method": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial, boolean cap){",
+		"puddles_null_guard": "if(tile == null) return;",
+		"input_should_explode_value": should_explode_value,
+		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
+		"input_explosion_puddles": explosion_puddles,
+		"input_explosion_puddle_amount": explosion_puddle_amount,
+		"input_tile_world_calls": tile_world_calls,
+		"branch_entered": branch_entered,
+		"puddle_guard_entered": puddle_guard_entered,
+		"puddle_loop_count": puddle_loop_count,
+		"deposit_calls": deposit_calls,
+		"deposit_call_count": deposit_call_count,
+		"missing_tile_world_call_count": missing_tile_world_call_count,
+		"puddle_mutation_deferred": true,
+		"effects_deferred": [
+			"liquid.vaporEffect.at(ax, ay, liquid.gasColor);",
+			"Bullets.spaceLiquid.create(null, source.team(), ax, ay, source.angleTo(tile) + Mathf.range(50f), -1f, Mathf.random(0f, 0.2f), Mathf.random(0.6f, 1f), liquid);",
+			"Fx.ripple.at(ax, ay, 1f, tile.floor().liquidDrop.color);",
+			"reactPuddle(tile.floor().liquidDrop, liquid, amount, tile, ax, ay);",
+			"Puddle.create();",
+			"p.accepting = Math.max(amount, p.accepting);",
+		],
+		"shake_deferred": "Effect.shake(explosionShake, explosionShakeDuration, this);",
+		"deferred_body": [
+			"Puddles.deposit final puddle world mutation",
+			"if(explosionShake > 0){",
+			"Effect.shake(explosionShake, explosionShakeDuration, this);",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

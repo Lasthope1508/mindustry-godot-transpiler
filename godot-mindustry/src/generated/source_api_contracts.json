@@ -20760,6 +20760,73 @@
       "tests": [
         "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_create_explosion_puddle_deposit_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "createExplosion()",
+      "source_slice": "N919",
+      "params": [
+        {
+          "name": "should_explode_value",
+          "type": "bool",
+          "schema": "source_power_generator_create_explosion_puddle_deposit_input.should_explode_value"
+        },
+        {
+          "name": "explosion_puddle_liquid_value",
+          "type": "Variant",
+          "schema": "source_power_generator_create_explosion_puddle_deposit_input.explosion_puddle_liquid_value"
+        },
+        {
+          "name": "explosion_puddles",
+          "type": "int",
+          "schema": "source_power_generator_create_explosion_puddle_deposit_input.explosion_puddles"
+        },
+        {
+          "name": "explosion_puddle_amount",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_puddle_deposit_input.explosion_puddle_amount"
+        },
+        {
+          "name": "tile_world_calls",
+          "type": "Array",
+          "schema": "source_power_generator_create_explosion_puddle_deposit_input.tile_world_calls"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "gate",
+        "puddle_guard",
+        "puddle_loop",
+        "puddle_amount_field",
+        "deposit_call",
+        "puddles_deposit_tile_method",
+        "puddles_deposit_tile_dispatch",
+        "puddles_deposit_initial_method",
+        "puddles_deposit_initial_dispatch",
+        "puddles_deposit_full_method",
+        "puddles_null_guard",
+        "input_should_explode_value",
+        "input_explosion_puddle_liquid_value",
+        "input_explosion_puddles",
+        "input_explosion_puddle_amount",
+        "input_tile_world_calls",
+        "branch_entered",
+        "puddle_guard_entered",
+        "puddle_loop_count",
+        "deposit_calls",
+        "deposit_call_count",
+        "missing_tile_world_call_count",
+        "puddle_mutation_deferred",
+        "effects_deferred",
+        "shake_deferred",
+        "deferred_body"
+      ],
+      "rule": "Public runtime contract for createExplosion puddle deposit call and Puddles overload/null guard only; final puddle world mutation, effects, and shake remain deferred.",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -18657,6 +18657,54 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N919": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_deposit.should_explode_call",
+        "power_generator_create_explosion_puddle_deposit.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_deposit.explosion_puddles",
+        "power_generator_create_explosion_puddle_deposit.explosion_puddle_amount",
+        "power_generator_create_explosion_puddle_deposit.tile_world_calls",
+        "power_generator_create_explosion_puddle_deposit.method",
+        "power_generator_create_explosion_puddle_deposit.gate",
+        "power_generator_create_explosion_puddle_deposit.puddle_guard",
+        "power_generator_create_explosion_puddle_deposit.puddle_loop",
+        "power_generator_create_explosion_puddle_deposit.puddle_amount_field",
+        "power_generator_create_explosion_puddle_deposit.deposit_call",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_tile_method",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_tile_dispatch",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_initial_method",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_initial_dispatch",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_full_method",
+        "power_generator_create_explosion_puddle_deposit.puddles_null_guard",
+        "power_generator_create_explosion_puddle_deposit.deferred_body"
+      ],
+      "exact_exprs": [
+        "public float explosionPuddleAmount = 100f;",
+        "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "public static void deposit(Tile tile, Liquid liquid, float amount){",
+        "deposit(tile, tile, liquid, amount, true);",
+        "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial){",
+        "deposit(tile, source, liquid, amount, initial, false);",
+        "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial, boolean cap){",
+        "if(tile == null) return;"
+      ],
+      "deferred_exprs": [
+        "Puddles.deposit final puddle world mutation",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
