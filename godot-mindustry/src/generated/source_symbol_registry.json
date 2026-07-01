@@ -64071,6 +64071,58 @@
       "godot_symbol": "source_power_generator_should_explode_result.should_explode",
       "rule": "Explosion predicate preserves inclusive warmup threshold check.",
       "status": "source-backed"
+    },
+    "power_generator_ambient_volume.production_efficiency": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "ambientVolume()",
+      "godot_owner": "PortGame.source_power_generator_ambient_volume_state",
+      "runtime_proof": "/root/Main.source_power_generator_ambient_volume_state",
+      "tests": [
+        "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "productionEfficiency",
+      "godot_symbol": "source_power_generator_ambient_volume_input.production_efficiency",
+      "rule": "Runtime production_efficiency parameter maps to GeneratorBuild productionEfficiency.",
+      "status": "explicit-input"
+    },
+    "power_generator_ambient_volume.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "ambientVolume()",
+      "godot_owner": "PortGame.source_power_generator_ambient_volume_state",
+      "runtime_proof": "/root/Main.source_power_generator_ambient_volume_state",
+      "tests": [
+        "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public float ambientVolume(){",
+      "godot_symbol": "source_power_generator_ambient_volume_result.method",
+      "rule": "Method boundary for PowerGenerator.GeneratorBuild.ambientVolume().",
+      "status": "source-backed"
+    },
+    "power_generator_ambient_volume.return_clamp": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "ambientVolume()",
+      "godot_owner": "PortGame.source_power_generator_ambient_volume_state",
+      "runtime_proof": "/root/Main.source_power_generator_ambient_volume_state",
+      "tests": [
+        "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return Mathf.clamp(productionEfficiency);",
+      "godot_symbol": "source_power_generator_ambient_volume_result.ambient_volume",
+      "rule": "Ambient volume returns Arc Mathf.clamp(productionEfficiency).",
+      "status": "source-backed"
+    },
+    "power_generator_ambient_volume.mathf_clamp_unit": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "clamp(float value)",
+      "java_expr": "return Math.max(Math.min(value, 1f), 0f);",
+      "godot_owner": "PortGame.source_power_generator_ambient_volume_state",
+      "godot_symbol": "source_power_generator_ambient_volume_result.mathf_clamp_return",
+      "rule": "Arc unary clamp bounds ambient volume to [0, 1].",
+      "runtime_proof": "/root/Main.source_power_generator_ambient_volume_state",
+      "status": "source-backed",
+      "tests": [
+        "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

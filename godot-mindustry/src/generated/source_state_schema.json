@@ -77008,6 +77008,67 @@
           "java_expr": "return warmup() >= explosionMinWarmup;"
         }
       }
+    },
+    "source_power_generator_ambient_volume_input": {
+      "owner": "PortGame.source_power_generator_ambient_volume_state",
+      "source_slice": "N912",
+      "status": "active",
+      "keys": {
+        "production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "productionEfficiency"
+        }
+      }
+    },
+    "source_power_generator_ambient_volume_result": {
+      "owner": "PortGame.source_power_generator_ambient_volume_state",
+      "source_slice": "N912",
+      "status": "active",
+      "keys": {
+        "production_efficiency": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public float productionEfficiency = 0.0f;"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public float ambientVolume(){"
+        },
+        "return_clamp": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "return Mathf.clamp(productionEfficiency);"
+        },
+        "mathf_clamp_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "public static float clamp(float value){"
+        },
+        "mathf_clamp_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return Math.max(Math.min(value, 1f), 0f);"
+        },
+        "input_production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_ambient_volume_input.production_efficiency"
+        },
+        "ambient_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "return Mathf.clamp(productionEfficiency);"
+        }
+      }
     }
   },
   "version": 1

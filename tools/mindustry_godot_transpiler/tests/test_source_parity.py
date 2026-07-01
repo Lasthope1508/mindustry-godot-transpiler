@@ -199,6 +199,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_ambient_volume_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_ambient_volume_source"))
+        report = source_parity.verify_power_generator_ambient_volume_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "production_efficiency": "public float productionEfficiency = 0.0f;",
+            "method": "public float ambientVolume(){",
+            "return_clamp": "return Mathf.clamp(productionEfficiency);",
+            "mathf_clamp_method": "public static float clamp(float value){",
+            "mathf_clamp_return": "return Math.max(Math.min(value, 1f), 0f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

@@ -219,6 +219,29 @@ def verify_power_generator_should_explode_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_power_generator_ambient_volume_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "production_efficiency": "public float productionEfficiency = 0.0f;",
+        "method": "public float ambientVolume(){",
+        "return_clamp": "return Mathf.clamp(productionEfficiency);",
+        "mathf_clamp_method": "public static float clamp(float value){",
+        "mathf_clamp_return": "return Math.max(Math.min(value, 1f), 0f);",
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in (mathf_source if key.startswith("mathf_") else power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

@@ -20384,6 +20384,33 @@
       "tests": [
         "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_ambient_volume_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "ambientVolume()",
+      "source_slice": "N912",
+      "params": [
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_power_generator_ambient_volume_input.production_efficiency"
+        }
+      ],
+      "return_keys": [
+        "production_efficiency",
+        "method",
+        "return_clamp",
+        "mathf_clamp_method",
+        "mathf_clamp_return",
+        "input_production_efficiency",
+        "ambient_volume"
+      ],
+      "rule": "Public runtime contract for PowerGenerator.GeneratorBuild.ambientVolume() Arc clamp result.",
+      "runtime_proof": "/root/Main.source_power_generator_ambient_volume_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

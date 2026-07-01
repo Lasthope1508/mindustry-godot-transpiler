@@ -537,6 +537,18 @@ func source_power_generator_should_explode_state(warmup_value: float, explosion_
 		"should_explode": should_explode,
 	}
 
+func source_power_generator_ambient_volume_state(production_efficiency: float) -> Dictionary:
+	var ambient_volume := clampf(production_efficiency, 0.0, 1.0)
+	return {
+		"production_efficiency": "public float productionEfficiency = 0.0f;",
+		"method": "public float ambientVolume(){",
+		"return_clamp": "return Mathf.clamp(productionEfficiency);",
+		"mathf_clamp_method": "public static float clamp(float value){",
+		"mathf_clamp_return": "return Math.max(Math.min(value, 1f), 0f);",
+		"input_production_efficiency": production_efficiency,
+		"ambient_volume": ambient_volume,
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

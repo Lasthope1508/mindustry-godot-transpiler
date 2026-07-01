@@ -18357,6 +18357,32 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N912": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "ambientVolume()",
+      "godot_owner": "PortGame.source_power_generator_ambient_volume_state",
+      "runtime_proof": "/root/Main.source_power_generator_ambient_volume_state",
+      "source_symbols": [
+        "power_generator_ambient_volume.production_efficiency",
+        "power_generator_ambient_volume.method",
+        "power_generator_ambient_volume.return_clamp",
+        "power_generator_ambient_volume.mathf_clamp_unit"
+      ],
+      "exact_exprs": [
+        "public float productionEfficiency = 0.0f;",
+        "public float ambientVolume(){",
+        "return Mathf.clamp(productionEfficiency);",
+        "public static float clamp(float value){",
+        "return Math.max(Math.min(value, 1f), 0f);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_ambient_volume_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
