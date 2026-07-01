@@ -17189,6 +17189,36 @@
         "test_weapons_aim_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp aim(float x, float y) wrapper against exact upstream source."
+    },
+    "N878": {
+      "exact_exprs": [
+        "@Import boolean disarmed;",
+        "boolean canShoot(){",
+        "return !disarmed;"
+      ],
+      "bridge_exprs": [],
+      "deferred_exprs": [
+        "void controlWeapons(boolean rotateShoot){",
+        "Control methods remain owned by source_weapons_control_rotate_shoot_state and source_weapons_control_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_can_shoot_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.canShoot()",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_can_shoot_state",
+      "source_symbols": [
+        "weapons_can_shoot.disarmed_import",
+        "weapons_can_shoot.method",
+        "weapons_can_shoot.return_expr",
+        "weapons_can_shoot.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_can_shoot_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_can_shoot_state",
+        "test_weapons_can_shoot_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp canShoot() wrapper against exact upstream source."
     }
   },
   "version": 1

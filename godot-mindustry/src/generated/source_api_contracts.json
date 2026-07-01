@@ -19007,6 +19007,32 @@
         "test_port_game_exposes_source_weapons_aim_state",
         "test_weapons_aim_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_can_shoot_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "disarmed_value",
+          "schema": "source_weapons_can_shoot_input.disarmed_value",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "canShootMethod",
+        "return",
+        "disarmed",
+        "canShoot"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.canShoot() state.",
+      "runtime_proof": "/root/Main.source_weapons_can_shoot_state",
+      "source_method": "WeaponsComp.canShoot()",
+      "source_slice": "N878",
+      "status": "active",
+      "tests": [
+        "test_weapons_can_shoot_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_can_shoot_state",
+        "test_weapons_can_shoot_matches_upstream_source"
+      ]
     }
   },
   "policy": {

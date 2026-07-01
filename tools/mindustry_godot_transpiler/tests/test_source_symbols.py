@@ -5773,6 +5773,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(zero_noop["java_expr"], "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));")
         self.assertEqual(zero_noop["godot_symbol"], "source_weapons_aim_result.zeroVectorSetLength")
 
+    def test_weapons_can_shoot_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        disarmed_import = source_symbols.source_symbol(registry, "weapons_can_shoot.disarmed_import")
+        self.assertEqual(disarmed_import["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(disarmed_import["java_expr"], "@Import boolean disarmed;")
+        self.assertEqual(disarmed_import["godot_owner"], "PortGame.source_weapons_can_shoot_state")
+        self.assertEqual(disarmed_import["runtime_proof"], "/root/Main.source_weapons_can_shoot_state")
+        self.assertEqual(disarmed_import["godot_symbol"], "source_weapons_can_shoot_input.disarmed_value")
+
+        method = source_symbols.source_symbol(registry, "weapons_can_shoot.method")
+        self.assertEqual(method["java_expr"], "boolean canShoot(){")
+        self.assertEqual(method["godot_symbol"], "source_weapons_can_shoot_result.canShootMethod")
+
+        return_expr = source_symbols.source_symbol(registry, "weapons_can_shoot.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return !disarmed;")
+        self.assertEqual(return_expr["godot_symbol"], "source_weapons_can_shoot_result.return")
+
+        result = source_symbols.source_symbol(registry, "weapons_can_shoot.result")
+        self.assertEqual(result["java_expr"], "return !disarmed;")
+        self.assertEqual(result["godot_symbol"], "source_weapons_can_shoot_result.canShoot")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16641,9 +16666,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 475)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 476)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 480)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 481)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16677,6 +16702,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapons_aim_position_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapons_aim_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapons_aim_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapons_can_shoot_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapons_can_shoot_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19818,6 +19845,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));", weapons_aim["bridge_exprs"])
         self.assertIn("weapons_aim.float_method", weapons_aim["source_symbols"])
         self.assertIn("weapons_aim.vec2_set_length_zero_noop", weapons_aim["source_symbols"])
+
+        weapons_can_shoot = source_symbols.source_slice(ledger, "N878")
+        self.assertEqual(weapons_can_shoot["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(weapons_can_shoot["java_method"], "WeaponsComp.canShoot()")
+        self.assertEqual(weapons_can_shoot["godot_owner"], "PortGame.source_weapons_can_shoot_state")
+        self.assertIn("@Import boolean disarmed;", weapons_can_shoot["exact_exprs"])
+        self.assertIn("boolean canShoot(){", weapons_can_shoot["exact_exprs"])
+        self.assertIn("return !disarmed;", weapons_can_shoot["exact_exprs"])
+        self.assertIn("weapons_can_shoot.disarmed_import", weapons_can_shoot["source_symbols"])
+        self.assertIn("weapons_can_shoot.return_expr", weapons_can_shoot["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23360,6 +23397,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("aimX", weapons_aim["return_keys"])
         self.assertIn("mounts", weapons_aim["return_keys"])
         self.assertEqual(weapons_aim["source_method"], "WeaponsComp.aim(float x, float y)")
+
+        weapons_can_shoot = source_symbols.api_contract(contracts, "PortGame.source_weapons_can_shoot_state")
+        self.assertEqual([param["name"] for param in weapons_can_shoot["params"]], ["disarmed_value"])
+        self.assertEqual(weapons_can_shoot["params"][0]["schema"], "source_weapons_can_shoot_input.disarmed_value")
+        self.assertIn("canShootMethod", weapons_can_shoot["return_keys"])
+        self.assertIn("return", weapons_can_shoot["return_keys"])
+        self.assertIn("disarmed", weapons_can_shoot["return_keys"])
+        self.assertIn("canShoot", weapons_can_shoot["return_keys"])
+        self.assertEqual(weapons_can_shoot["source_method"], "WeaponsComp.canShoot()")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -30273,6 +30319,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapons_aim_result["keys"]["zeroVectorSetLength"]["java_expr"], "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));")
         self.assertEqual(source_weapons_aim_result["keys"]["aimX"]["java_expr"], "aimX = x;")
         self.assertEqual(source_weapons_aim_result["keys"]["mounts"]["java_expr"], "for(WeaponMount mount : mounts){")
+
+        source_weapons_can_shoot_input = source_symbols.state_schema(schema, "source_weapons_can_shoot_input")
+        self.assertEqual(source_weapons_can_shoot_input["keys"]["disarmed_value"]["java_expr"], "@Import boolean disarmed;")
+
+        source_weapons_can_shoot_result = source_symbols.state_schema(schema, "source_weapons_can_shoot_result")
+        self.assertEqual(source_weapons_can_shoot_result["keys"]["canShootMethod"]["java_expr"], "boolean canShoot(){")
+        self.assertEqual(source_weapons_can_shoot_result["keys"]["return"]["java_expr"], "return !disarmed;")
+        self.assertEqual(source_weapons_can_shoot_result["keys"]["disarmed"]["alias_of"], "source_weapons_can_shoot_input.disarmed_value")
+        self.assertEqual(source_weapons_can_shoot_result["keys"]["canShoot"]["java_expr"], "return !disarmed;")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

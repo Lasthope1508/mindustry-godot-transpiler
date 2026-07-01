@@ -4343,7 +4343,8 @@ func source_weapons_aim_position_state(mount_states: Array, unit_x: float, unit_
 func source_weapons_can_shoot_state(disarmed_value: bool) -> Dictionary:
 	var can_shoot := not disarmed_value
 	return {
-		"return": "!disarmed",
+		"canShootMethod": "boolean canShoot(){",
+		"return": "return !disarmed;",
 		"disarmed": disarmed_value,
 		"canShoot": can_shoot,
 	}

@@ -71641,6 +71641,78 @@
           ]
         }
       }
+    },
+    "source_weapons_can_shoot_input": {
+      "owner": "PortGame.source_weapons_can_shoot_state",
+      "runtime_proof": "/root/Main.source_weapons_can_shoot_state",
+      "status": "active",
+      "keys": {
+        "disarmed_value": {
+          "godot_symbol": "source_weapons_can_shoot_input.disarmed_value",
+          "java_expr": "@Import boolean disarmed;",
+          "java_method": "WeaponsComp fields",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Imported disarmed field input for canShoot().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_can_shoot_state"
+          ]
+        }
+      }
+    },
+    "source_weapons_can_shoot_result": {
+      "owner": "PortGame.source_weapons_can_shoot_state",
+      "runtime_proof": "/root/Main.source_weapons_can_shoot_state",
+      "status": "active",
+      "keys": {
+        "canShootMethod": {
+          "godot_symbol": "source_weapons_can_shoot_result.canShootMethod",
+          "java_expr": "boolean canShoot(){",
+          "java_method": "WeaponsComp.canShoot()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact canShoot method header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_can_shoot_state"
+          ]
+        },
+        "return": {
+          "godot_symbol": "source_weapons_can_shoot_result.return",
+          "java_expr": "return !disarmed;",
+          "java_method": "WeaponsComp.canShoot()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact return expression source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_can_shoot_state"
+          ]
+        },
+        "disarmed": {
+          "alias_of": "source_weapons_can_shoot_input.disarmed_value",
+          "godot_symbol": "source_weapons_can_shoot_result.disarmed",
+          "rule": "Result echoes disarmed input field.",
+          "status": "alias",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_can_shoot_state"
+          ]
+        },
+        "canShoot": {
+          "godot_symbol": "source_weapons_can_shoot_result.canShoot",
+          "java_expr": "return !disarmed;",
+          "java_method": "WeaponsComp.canShoot()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Boolean result of exact canShoot return expression.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_can_shoot_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -4375,7 +4375,8 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_weapons_can_shoot_state(disarmed_value: bool) -> Dictionary:", source)
         self.assertIn("var can_shoot := not disarmed_value", source)
-        self.assertIn('"return": "!disarmed"', source)
+        self.assertIn('"canShootMethod": "boolean canShoot(){"', source)
+        self.assertIn('"return": "return !disarmed;"', source)
         self.assertIn('"canShoot": can_shoot', source)
         self.assertIn('"disarmed": disarmed_value', source)
 
