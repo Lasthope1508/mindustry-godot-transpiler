@@ -16113,6 +16113,50 @@
         "test_weapon_update_alternating_side_flip_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update alternating side flip wrapper against exact upstream source."
+    },
+    "N857": {
+      "exact_exprs": [
+        "if(alwaysContinuous && mount.shoot){",
+        "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;",
+        "mount.bullet.keepAlive = true;",
+        "unit.apply(shootStatus, shootStatusDuration);"
+      ],
+      "bridge_exprs": [
+        "public boolean alwaysContinuous;",
+        "public StatusEffect shootStatus = StatusEffects.none;",
+        "public float shootStatusDuration = 60f * 5f;",
+        "public boolean shoot = false;",
+        "public float warmup;",
+        "public float optimalLifeFract = 0f;",
+        "transient boolean keepAlive;",
+        "float time, lifetime;",
+        "public void apply(StatusEffect effect, float duration){",
+        "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
+      ],
+      "deferred_exprs": [
+        "Continuous idle heat/sound else branch remains owned by source_weapon_update_continuous_idle_heat_sound_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "source_symbols": [
+        "weapon_update_always_continuous_keepalive.guard",
+        "weapon_update_always_continuous_keepalive.bullet_time_assignment",
+        "weapon_update_always_continuous_keepalive.bullet_keep_alive",
+        "weapon_update_always_continuous_keepalive.unit_apply",
+        "weapon_update_always_continuous_keepalive.always_continuous",
+        "weapon_update_always_continuous_keepalive.optimal_life_fract",
+        "weapon_update_always_continuous_keepalive.status_apply_guard"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update alwaysContinuous keepalive wrapper against exact upstream source."
     }
   },
   "version": 1

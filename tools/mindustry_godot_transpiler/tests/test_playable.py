@@ -4689,9 +4689,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("next_keep_alive = true", source)
         self.assertIn("var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)", source)
         self.assertIn("var status_applied := keepalive_gate and bool(status_result.get(\"statusApplied\", false))", source)
-        self.assertIn('"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup"', source)
-        self.assertIn('"keepAliveSource": "mount.bullet.keepAlive = true"', source)
-        self.assertIn('"unitApplySource": "unit.apply(shootStatus, shootStatusDuration)"', source)
+        self.assertIn('"guardSource": "if(alwaysContinuous && mount.shoot){"', source)
+        self.assertIn('"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;"', source)
+        self.assertIn('"keepAliveSource": "mount.bullet.keepAlive = true;"', source)
+        self.assertIn('"unitApplySource": "unit.apply(shootStatus, shootStatusDuration);"', source)
 
     def test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

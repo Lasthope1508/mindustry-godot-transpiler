@@ -4991,10 +4991,10 @@ func source_weapon_update_always_continuous_keepalive_state(mount_state: Diction
 		"statusImmune": status_immune,
 		"statusApplied": status_applied,
 		"statusApplication": status_application,
-		"guardSource": "if(alwaysContinuous && mount.shoot)",
-		"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup",
-		"keepAliveSource": "mount.bullet.keepAlive = true",
-		"unitApplySource": "unit.apply(shootStatus, shootStatusDuration)",
+		"guardSource": "if(alwaysContinuous && mount.shoot){",
+		"timeSource": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;",
+		"keepAliveSource": "mount.bullet.keepAlive = true;",
+		"unitApplySource": "unit.apply(shootStatus, shootStatusDuration);",
 		"statusApplyGuardSource": status_result.get("statusApplyGuardSource", ""),
 	}
 

@@ -65323,6 +65323,304 @@
           ]
         }
       }
+    },
+    "source_weapon_update_always_continuous_keepalive_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.weapon_state",
+          "java_expr": "Weapon always continuous fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input for alwaysContinuous keepalive fields.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.bullet_state",
+          "java_expr": "mount.bullet",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source continuous bullet input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "unit_state": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source unit input for status application.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "alwaysContinuous": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.weapon_state.alwaysContinuous",
+          "java_expr": "public boolean alwaysContinuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon alwaysContinuous field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "shootStatus": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.weapon_state.shootStatus",
+          "java_expr": "public StatusEffect shootStatus = StatusEffects.none;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shootStatus field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "shootStatusDuration": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.weapon_state.shootStatusDuration",
+          "java_expr": "public float shootStatusDuration = 60f * 5f;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shootStatusDuration field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "shoot": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.mount_state.shoot",
+          "java_expr": "public boolean shoot = false;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount shoot field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.mount_state.warmup",
+          "java_expr": "public float warmup;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount warmup field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "optimalLifeFract": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.bullet_state.optimalLifeFract",
+          "java_expr": "public float optimalLifeFract = 0f;",
+          "java_method": "BulletType fields",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType optimalLifeFract field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "keepAlive": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.bullet_state.keepAlive",
+          "java_expr": "transient boolean keepAlive;",
+          "java_method": "BulletComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Bullet keepAlive input before optional assignment.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "time": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.bullet_state.time",
+          "java_expr": "float time, lifetime;",
+          "java_method": "TimedComp fields",
+          "java_source": "core/src/mindustry/entities/comp/TimedComp.java",
+          "rule": "Bullet current time input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "lifetime": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.bullet_state.lifetime",
+          "java_expr": "float time, lifetime;",
+          "java_method": "TimedComp fields",
+          "java_source": "core/src/mindustry/entities/comp/TimedComp.java",
+          "rule": "Bullet lifetime input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "statusImmune": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.unit_state.statusImmune",
+          "java_expr": "isImmune(effect)",
+          "java_method": "StatusComp.apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Unit status immunity input for apply guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_always_continuous_keepalive_result": {
+      "status": "active",
+      "keys": {
+        "keepaliveGate": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.keepaliveGate",
+          "java_expr": "if(alwaysContinuous && mount.shoot){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed alwaysContinuous keepalive gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "bulletTime": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.bulletTime",
+          "java_expr": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned bullet time after optional keepalive reset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "keepAlive": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.keepAlive",
+          "java_expr": "mount.bullet.keepAlive = true;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned bullet keepAlive after optional keepalive assignment.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "statusApplied": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.statusApplied",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Whether unit.apply survived StatusComp guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "statusApplication": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.statusApplication",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned status application payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "guardSource": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.guardSource",
+          "java_expr": "if(alwaysContinuous && mount.shoot){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact alwaysContinuous keepalive guard metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "timeSource": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.timeSource",
+          "java_expr": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact bullet time assignment metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "keepAliveSource": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.keepAliveSource",
+          "java_expr": "mount.bullet.keepAlive = true;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact keepAlive assignment metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "unitApplySource": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.unitApplySource",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact unit.apply metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        },
+        "statusApplyGuardSource": {
+          "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.statusApplyGuardSource",
+          "java_expr": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+          "java_method": "StatusComp.apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Exact StatusComp.apply guard metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_continuous_keepalive_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

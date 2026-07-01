@@ -55623,6 +55623,111 @@
       "godot_symbol": "source_weapon_update_alternating_side_flip_result.shootGateSource",
       "status": "deferred",
       "rule": "Following shoot gate uses wasFlipped; owned by shoot gate prefix slice."
+    },
+    "weapon_update_always_continuous_keepalive.guard": {
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(alwaysContinuous && mount.shoot){",
+      "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.guardSource",
+      "status": "source-backed",
+      "rule": "Always-continuous keepalive guard."
+    },
+    "weapon_update_always_continuous_keepalive.bullet_time_assignment": {
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;",
+      "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.bulletTime",
+      "status": "source-backed",
+      "rule": "Resets continuous bullet time from lifetime, optimalLifeFract, and mount warmup."
+    },
+    "weapon_update_always_continuous_keepalive.bullet_keep_alive": {
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet.keepAlive = true;",
+      "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.keepAlive",
+      "status": "source-backed",
+      "rule": "Marks continuous bullet keepAlive."
+    },
+    "weapon_update_always_continuous_keepalive.unit_apply": {
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+      "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.statusApplication",
+      "status": "source-backed",
+      "rule": "Applies shootStatus while alwaysContinuous keepalive is active."
+    },
+    "weapon_update_always_continuous_keepalive.always_continuous": {
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean alwaysContinuous;",
+      "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.weapon_state.alwaysContinuous",
+      "status": "source-backed",
+      "rule": "Weapon alwaysContinuous field."
+    },
+    "weapon_update_always_continuous_keepalive.optimal_life_fract": {
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_method": "BulletType fields",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_expr": "public float optimalLifeFract = 0f;",
+      "godot_symbol": "source_weapon_update_always_continuous_keepalive_input.bullet_state.optimalLifeFract",
+      "status": "source-backed",
+      "rule": "BulletType optimalLifeFract field used by keepalive time assignment."
+    },
+    "weapon_update_always_continuous_keepalive.status_apply_guard": {
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "java_method": "StatusComp.apply(StatusEffect effect, float duration)",
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "java_expr": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+      "godot_symbol": "source_weapon_update_always_continuous_keepalive_result.statusApplyGuardSource",
+      "status": "source-backed",
+      "rule": "Status application guard used by unit.apply."
     }
   },
   "version": 1
