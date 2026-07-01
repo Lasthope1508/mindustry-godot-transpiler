@@ -4532,10 +4532,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("aim_x = float(mount_state.get(\"targetX\", aim_x))", source)
         self.assertIn("var next_rotate := shoot", source)
         self.assertNotIn("var rotate := shoot", source)
+        self.assertIn('"shootInitSource": "boolean shoot = false;"', source)
+        self.assertIn('"targetGuardSource": "if(mount.target != null){"', source)
         self.assertIn('"withinSource": "mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f))"', source)
-        self.assertIn('"predictSource": "Predict.intercept(unit, mount.target, bullet)"', source)
-        self.assertIn('"directAimSource": "mount.target.x()/mount.target.y()"', source)
-        self.assertIn('"shootRotateSource": "mount.shoot = mount.rotate = shoot"', source)
+        self.assertIn('"shootSource": "shoot = mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f)) && can;"', source)
+        self.assertIn('"predictGuardSource": "if(predictTarget){"', source)
+        self.assertIn('"predictSource": "Vec2 to = Predict.intercept(unit, mount.target, bullet);"', source)
+        self.assertIn('"predictAimXSource": "mount.aimX = to.x;"', source)
+        self.assertIn('"predictAimYSource": "mount.aimY = to.y;"', source)
+        self.assertIn('"directAimXSource": "mount.aimX = mount.target.x();"', source)
+        self.assertIn('"directAimYSource": "mount.aimY = mount.target.y();"', source)
+        self.assertIn('"shootRotateSource": "mount.shoot = mount.rotate = shoot;"', source)
+        self.assertIn('"logicNoteSource": "//note that shooting state is not affected, as these cannot be controlled"', source)
 
     def test_port_game_exposes_source_weapon_update_rotate_toward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

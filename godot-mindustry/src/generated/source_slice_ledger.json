@@ -16274,6 +16274,73 @@
         "test_weapon_update_auto_target_retarget_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update auto-target retarget wrapper against exact upstream source."
+    },
+    "N861": {
+      "exact_exprs": [
+        "boolean shoot = false;",
+        "if(mount.target != null){",
+        "shoot = mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f)) && can;",
+        "if(predictTarget){",
+        "Vec2 to = Predict.intercept(unit, mount.target, bullet);",
+        "mount.aimX = to.x;",
+        "mount.aimY = to.y;",
+        "mount.aimX = mount.target.x();",
+        "mount.aimY = mount.target.y();",
+        "mount.shoot = mount.rotate = shoot;",
+        "//note that shooting state is not affected, as these cannot be controlled"
+      ],
+      "bridge_exprs": [
+        "public boolean predictTarget = true;",
+        "public float shootX = 0f, shootY = 3f;",
+        "public @Nullable Teamc target;",
+        "public float aimX, aimY;",
+        "public boolean shoot = false;",
+        "public boolean rotate = false;",
+        "public static Vec2 intercept(Position src, Position dst, BulletType bullet){",
+        "return intercept(src, dst, 0f, 0f, bullet.keepVelocity, bullet.speed);",
+        "public float speed = 1f;",
+        "public boolean keepVelocity = true;",
+        "public float range = 0f;"
+      ],
+      "deferred_exprs": [
+        "Following rotate toward block remains owned by source_weapon_update_rotate_toward_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "source_symbols": [
+        "weapon_update_auto_target_shoot_aim.shoot_init",
+        "weapon_update_auto_target_shoot_aim.target_guard",
+        "weapon_update_auto_target_shoot_aim.shoot_assignment",
+        "weapon_update_auto_target_shoot_aim.predict_guard",
+        "weapon_update_auto_target_shoot_aim.predict_call",
+        "weapon_update_auto_target_shoot_aim.predict_aim_x",
+        "weapon_update_auto_target_shoot_aim.predict_aim_y",
+        "weapon_update_auto_target_shoot_aim.direct_aim_x",
+        "weapon_update_auto_target_shoot_aim.direct_aim_y",
+        "weapon_update_auto_target_shoot_aim.shoot_rotate_assignment",
+        "weapon_update_auto_target_shoot_aim.logic_note",
+        "weapon_update_auto_target_shoot_aim.weapon_predict_target",
+        "weapon_update_auto_target_shoot_aim.weapon_shoot_y",
+        "weapon_update_auto_target_shoot_aim.mount_target",
+        "weapon_update_auto_target_shoot_aim.mount_aim",
+        "weapon_update_auto_target_shoot_aim.mount_shoot",
+        "weapon_update_auto_target_shoot_aim.mount_rotate",
+        "weapon_update_auto_target_shoot_aim.predict_intercept_bullet",
+        "weapon_update_auto_target_shoot_aim.predict_intercept_bullet_return",
+        "weapon_update_auto_target_shoot_aim.bullet_speed",
+        "weapon_update_auto_target_shoot_aim.bullet_keep_velocity",
+        "weapon_update_auto_target_shoot_aim.bullet_range"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update auto-target shoot/aim wrapper against exact upstream source."
     }
   },
   "version": 1

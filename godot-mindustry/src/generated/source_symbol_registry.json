@@ -55968,6 +55968,336 @@
       "godot_symbol": "source_weapon_update_auto_target_retarget_input.mount_state.retarget",
       "status": "source-backed",
       "rule": "WeaponMount retarget counter."
+    },
+    "weapon_update_auto_target_shoot_aim.shoot_init": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "boolean shoot = false;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.shootInitSource",
+      "status": "source-backed",
+      "rule": "Initial shoot flag for auto-target shoot/aim block."
+    },
+    "weapon_update_auto_target_shoot_aim.target_guard": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(mount.target != null){",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.targetGuardSource",
+      "status": "source-backed",
+      "rule": "Target presence guard."
+    },
+    "weapon_update_auto_target_shoot_aim.shoot_assignment": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "shoot = mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized s ? s.hitSize()/2f : 0f)) && can;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.shootSource",
+      "status": "source-backed",
+      "rule": "Computes shoot from target within range and can gate."
+    },
+    "weapon_update_auto_target_shoot_aim.predict_guard": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(predictTarget){",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.predictGuardSource",
+      "status": "source-backed",
+      "rule": "Predictive aim branch gate."
+    },
+    "weapon_update_auto_target_shoot_aim.predict_call": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "Vec2 to = Predict.intercept(unit, mount.target, bullet);",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.predictSource",
+      "status": "source-backed",
+      "rule": "Calls Predict.intercept for predictive aim."
+    },
+    "weapon_update_auto_target_shoot_aim.predict_aim_x": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.aimX = to.x;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.predictAimXSource",
+      "status": "source-backed",
+      "rule": "Assigns predicted aim X."
+    },
+    "weapon_update_auto_target_shoot_aim.predict_aim_y": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.aimY = to.y;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.predictAimYSource",
+      "status": "source-backed",
+      "rule": "Assigns predicted aim Y."
+    },
+    "weapon_update_auto_target_shoot_aim.direct_aim_x": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.aimX = mount.target.x();",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.directAimXSource",
+      "status": "source-backed",
+      "rule": "Assigns direct aim X."
+    },
+    "weapon_update_auto_target_shoot_aim.direct_aim_y": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.aimY = mount.target.y();",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.directAimYSource",
+      "status": "source-backed",
+      "rule": "Assigns direct aim Y."
+    },
+    "weapon_update_auto_target_shoot_aim.shoot_rotate_assignment": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.shoot = mount.rotate = shoot;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.shootRotateSource",
+      "status": "source-backed",
+      "rule": "Applies shoot state to mount.shoot and mount.rotate."
+    },
+    "weapon_update_auto_target_shoot_aim.logic_note": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//note that shooting state is not affected, as these cannot be controlled",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.logicNoteSource",
+      "status": "source-backed",
+      "rule": "Source note for uncontrollable auto-target logic."
+    },
+    "weapon_update_auto_target_shoot_aim.weapon_predict_target": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean predictTarget = true;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_input.weapon_state.predictTarget",
+      "status": "source-backed",
+      "rule": "Weapon predictTarget field."
+    },
+    "weapon_update_auto_target_shoot_aim.weapon_shoot_y": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float shootX = 0f, shootY = 3f;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_input.weapon_state.shootY",
+      "status": "source-backed",
+      "rule": "Weapon shootY field for within range extension."
+    },
+    "weapon_update_auto_target_shoot_aim.mount_target": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable Teamc target;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_input.mount_state.targetExists",
+      "status": "source-backed",
+      "rule": "WeaponMount target field."
+    },
+    "weapon_update_auto_target_shoot_aim.mount_aim": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float aimX, aimY;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.aimX",
+      "status": "source-backed",
+      "rule": "WeaponMount aim fields."
+    },
+    "weapon_update_auto_target_shoot_aim.mount_shoot": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean shoot = false;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.shoot",
+      "status": "source-backed",
+      "rule": "WeaponMount shoot field."
+    },
+    "weapon_update_auto_target_shoot_aim.mount_rotate": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean rotate = false;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.rotate",
+      "status": "source-backed",
+      "rule": "WeaponMount rotate field."
+    },
+    "weapon_update_auto_target_shoot_aim.predict_intercept_bullet": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Predict.intercept(Position src, Position dst, BulletType bullet)",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_expr": "public static Vec2 intercept(Position src, Position dst, BulletType bullet){",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.predictInterceptSource",
+      "status": "source-backed",
+      "rule": "Predict intercept overload used by Weapon.update."
+    },
+    "weapon_update_auto_target_shoot_aim.predict_intercept_bullet_return": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "Predict.intercept(Position src, Position dst, BulletType bullet)",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/Predict.java",
+      "java_expr": "return intercept(src, dst, 0f, 0f, bullet.keepVelocity, bullet.speed);",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_result.predictInterceptReturnSource",
+      "status": "source-backed",
+      "rule": "Predict intercept delegates keepVelocity and speed."
+    },
+    "weapon_update_auto_target_shoot_aim.bullet_speed": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "BulletType fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_expr": "public float speed = 1f;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_input.bullet_state.speed",
+      "status": "source-backed",
+      "rule": "Bullet speed field used by Predict.intercept."
+    },
+    "weapon_update_auto_target_shoot_aim.bullet_keep_velocity": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "BulletType fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_expr": "public boolean keepVelocity = true;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_input.bullet_state.keepVelocity",
+      "status": "source-backed",
+      "rule": "Bullet keepVelocity field used by Predict.intercept."
+    },
+    "weapon_update_auto_target_shoot_aim.bullet_range": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "java_method": "BulletType fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_expr": "public float range = 0f;",
+      "godot_symbol": "source_weapon_update_auto_target_shoot_aim_input.bullet_state.range",
+      "status": "source-backed",
+      "rule": "Bullet range field used by target within check."
     }
   },
   "version": 1

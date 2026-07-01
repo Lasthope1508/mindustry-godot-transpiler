@@ -18036,6 +18036,88 @@
         "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
         "test_weapon_update_auto_target_retarget_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_auto_target_shoot_aim_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.mount_y",
+          "type": "float"
+        },
+        {
+          "name": "target_within_result",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.target_within_result",
+          "type": "bool"
+        },
+        {
+          "name": "predicted_aim",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.predicted_aim",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "targetExists",
+        "withinRange",
+        "targetWithin",
+        "canShoot",
+        "shoot",
+        "rotate",
+        "aimX",
+        "aimY",
+        "predictTarget",
+        "mountX",
+        "mountY",
+        "shootInitSource",
+        "targetGuardSource",
+        "withinSource",
+        "shootSource",
+        "predictGuardSource",
+        "predictSource",
+        "predictAimXSource",
+        "predictAimYSource",
+        "directAimXSource",
+        "directAimYSource",
+        "shootRotateSource",
+        "logicNoteSource",
+        "predictInterceptSource",
+        "predictInterceptReturnSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update auto-target shoot/aim state.",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "source_slice": "N861",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ]
     }
   },
   "policy": {
