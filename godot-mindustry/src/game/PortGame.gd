@@ -5318,6 +5318,41 @@ func source_building_dump_liquid_routing_gate_state(liquid: Variant, proximity_s
 		"final_cdump": final_cdump,
 	}
 
+func source_building_dump_liquid_fraction_transfer_state(liquid: Variant, scaling: float, eligible_indices: Array, current_liquid_amount: float, block_liquid_capacity: float, other_liquid_amount_by_index: Array, other_block_liquid_capacity_by_index: Array) -> Dictionary:
+	var ofract_by_index := {}
+	var fract := current_liquid_amount / block_liquid_capacity
+	var transfer_guard_by_index := {}
+	var transfer_amount_by_index := {}
+	var transfer_indices := []
+	var transfer_liquid_call := "transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid)"
+	for raw_index in eligible_indices:
+		var other_index := int(raw_index)
+		var ofract := float(other_liquid_amount_by_index[other_index]) / float(other_block_liquid_capacity_by_index[other_index])
+		ofract_by_index[other_index] = ofract
+		var transfer_guard_passed := ofract < fract
+		transfer_guard_by_index[other_index] = transfer_guard_passed
+		if transfer_guard_passed:
+			transfer_amount_by_index[other_index] = (fract - ofract) * block_liquid_capacity / scaling
+			transfer_indices.append(other_index)
+	return {
+		"ofract": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+		"fract": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+		"transfer_guard": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+		"transfer_liquid_call": transfer_liquid_call,
+		"liquid": liquid,
+		"scaling": scaling,
+		"eligible_indices": eligible_indices,
+		"current_liquid_amount": current_liquid_amount,
+		"block_liquid_capacity": block_liquid_capacity,
+		"other_liquid_amount_by_index": other_liquid_amount_by_index,
+		"other_block_liquid_capacity_by_index": other_block_liquid_capacity_by_index,
+		"ofract_by_index": ofract_by_index,
+		"fract_value": fract,
+		"transfer_guard_by_index": transfer_guard_by_index,
+		"transfer_amount_by_index": transfer_amount_by_index,
+		"transfer_indices": transfer_indices,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

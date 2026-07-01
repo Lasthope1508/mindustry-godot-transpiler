@@ -17587,6 +17587,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(eligible_indices["java_expr"], "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null")
         self.assertEqual(eligible_indices["godot_symbol"], "source_building_dump_liquid_routing_gate_result.eligible_indices")
 
+    def test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        ofract = source_symbols.source_symbol(registry, "building_dump_liquid_fraction_transfer.ofract")
+        self.assertEqual(ofract["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(ofract["java_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer")
+        self.assertEqual(ofract["java_expr"], "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;")
+        self.assertEqual(ofract["godot_owner"], "PortGame.source_building_dump_liquid_fraction_transfer_state")
+        self.assertEqual(ofract["runtime_proof"], "/root/Main.source_building_dump_liquid_fraction_transfer_state")
+        self.assertEqual(ofract["godot_symbol"], "source_building_dump_liquid_fraction_transfer_result.ofract")
+
+        fract = source_symbols.source_symbol(registry, "building_dump_liquid_fraction_transfer.fract")
+        self.assertEqual(fract["java_expr"], "float fract = liquids.get(liquid) / block.liquidCapacity;")
+        self.assertEqual(fract["godot_symbol"], "source_building_dump_liquid_fraction_transfer_result.fract")
+
+        scaling = source_symbols.source_symbol(registry, "building_dump_liquid_fraction_transfer.scaling")
+        self.assertEqual(scaling["status"], "explicit-input")
+        self.assertEqual(scaling["java_expr"], "scaling")
+        self.assertEqual(scaling["godot_symbol"], "source_building_dump_liquid_fraction_transfer_input.scaling")
+
+        eligible_indices = source_symbols.source_symbol(registry, "building_dump_liquid_fraction_transfer.eligible_indices")
+        self.assertEqual(eligible_indices["status"], "explicit-input")
+        self.assertEqual(eligible_indices["java_expr"], "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null")
+        self.assertEqual(eligible_indices["godot_symbol"], "source_building_dump_liquid_fraction_transfer_input.eligible_indices")
+
+        transfer_amount = source_symbols.source_symbol(registry, "building_dump_liquid_fraction_transfer.transfer_amount")
+        self.assertEqual(transfer_amount["java_expr"], "(fract - ofract) * block.liquidCapacity / scaling")
+        self.assertEqual(transfer_amount["godot_symbol"], "source_building_dump_liquid_fraction_transfer_result.transfer_amount_by_index")
+
+        transfer_indices = source_symbols.source_symbol(registry, "building_dump_liquid_fraction_transfer.transfer_indices")
+        self.assertEqual(transfer_indices["java_expr"], "ofract < fract")
+        self.assertEqual(transfer_indices["godot_symbol"], "source_building_dump_liquid_fraction_transfer_result.transfer_indices")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18547,9 +18583,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 537)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 538)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 542)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 543)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23326,6 +23362,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;", building_dump_liquid_routing_gate["exact_exprs"])
         self.assertIn("other = other.getLiquidDestination(self(), liquid);", building_dump_liquid_routing_gate["exact_exprs"])
         self.assertIn("if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){", building_dump_liquid_routing_gate["exact_exprs"])
+
+        building_dump_liquid_fraction_transfer = source_symbols.source_slice(ledger, "N941")
+        self.assertEqual(building_dump_liquid_fraction_transfer["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_liquid_fraction_transfer["java_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer")
+        self.assertEqual(building_dump_liquid_fraction_transfer["godot_owner"], "PortGame.source_building_dump_liquid_fraction_transfer_state")
+        self.assertIn("float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;", building_dump_liquid_fraction_transfer["exact_exprs"])
+        self.assertIn("float fract = liquids.get(liquid) / block.liquidCapacity;", building_dump_liquid_fraction_transfer["exact_exprs"])
+        self.assertIn("if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);", building_dump_liquid_fraction_transfer["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28526,6 +28570,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("eligible_indices", building_dump_liquid_routing_gate["return_keys"])
         self.assertIn("final_cdump", building_dump_liquid_routing_gate["return_keys"])
         self.assertEqual(building_dump_liquid_routing_gate["source_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate")
+
+        building_dump_liquid_fraction_transfer = source_symbols.api_contract(contracts, "PortGame.source_building_dump_liquid_fraction_transfer_state")
+        self.assertEqual([param["name"] for param in building_dump_liquid_fraction_transfer["params"]], ["liquid", "scaling", "eligible_indices", "current_liquid_amount", "block_liquid_capacity", "other_liquid_amount_by_index", "other_block_liquid_capacity_by_index"])
+        self.assertEqual(building_dump_liquid_fraction_transfer["params"][2]["schema"], "source_building_dump_liquid_fraction_transfer_input.eligible_indices")
+        self.assertEqual(building_dump_liquid_fraction_transfer["params"][6]["schema"], "source_building_dump_liquid_fraction_transfer_input.other_block_liquid_capacity_by_index")
+        self.assertIn("ofract_by_index", building_dump_liquid_fraction_transfer["return_keys"])
+        self.assertIn("fract", building_dump_liquid_fraction_transfer["return_keys"])
+        self.assertIn("transfer_guard_by_index", building_dump_liquid_fraction_transfer["return_keys"])
+        self.assertIn("transfer_amount_by_index", building_dump_liquid_fraction_transfer["return_keys"])
+        self.assertIn("transfer_indices", building_dump_liquid_fraction_transfer["return_keys"])
+        self.assertEqual(building_dump_liquid_fraction_transfer["source_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36458,6 +36513,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["eligibility_guard"]["java_expr"], "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){")
         self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["eligible_indices"]["java_expr"], "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null")
         self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["proximity_size"]["alias_of"], "source_building_dump_liquid_routing_gate_input.proximity_size")
+
+        source_building_dump_liquid_fraction_transfer_input = source_symbols.state_schema(schema, "source_building_dump_liquid_fraction_transfer_input")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_input["keys"]["liquid"]["java_expr"], "liquid")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_input["keys"]["scaling"]["java_expr"], "scaling")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_input["keys"]["eligible_indices"]["java_expr"], "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_input["keys"]["current_liquid_amount"]["java_expr"], "liquids.get(liquid)")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_input["keys"]["block_liquid_capacity"]["java_expr"], "block.liquidCapacity")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_input["keys"]["other_liquid_amount_by_index"]["java_expr"], "other.liquids.get(liquid)")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_input["keys"]["other_block_liquid_capacity_by_index"]["java_expr"], "other.block.liquidCapacity")
+
+        source_building_dump_liquid_fraction_transfer_result = source_symbols.state_schema(schema, "source_building_dump_liquid_fraction_transfer_result")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["ofract"]["java_expr"], "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["fract"]["java_expr"], "float fract = liquids.get(liquid) / block.liquidCapacity;")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["transfer_guard"]["java_expr"], "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["ofract_by_index"]["java_expr"], "other.liquids.get(liquid) / other.block.liquidCapacity")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["transfer_amount_by_index"]["java_expr"], "(fract - ofract) * block.liquidCapacity / scaling")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["transfer_indices"]["java_expr"], "ofract < fract")
+        self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_dump_liquid_fraction_transfer_input.current_liquid_amount")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")

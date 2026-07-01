@@ -67903,6 +67903,246 @@
       "tests": [
         "test_building_dump_liquid_routing_gate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "building_dump_liquid_fraction_transfer.ofract": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.ofract",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "rule": "Preserves source ofract declaration inside dumpLiquid eligible-liquid branch.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.fract": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.fract",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+      "rule": "Preserves source fract declaration inside dumpLiquid eligible-liquid branch.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.transfer_guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.transfer_guard",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+      "rule": "Preserves source transferLiquid guard and call line.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.transfer_liquid_call": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.transfer_liquid_call",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid)",
+      "rule": "Preserves source transferLiquid call expression; side effects are deferred to transferLiquid slice.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.liquid": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_input.liquid",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "liquid",
+      "rule": "Runtime liquid supplies dumpLiquid liquid input.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.scaling": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_input.scaling",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "scaling",
+      "rule": "Runtime scaling supplies dumpLiquid scaling input.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.eligible_indices": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_input.eligible_indices",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null",
+      "rule": "Eligible indices come from N940 routing gate result and preserve the source eligibility guard.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.current_liquid_amount": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_input.current_liquid_amount",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "liquids.get(liquid)",
+      "rule": "Runtime current_liquid_amount supplies source liquids.get(liquid).",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.block_liquid_capacity": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_input.block_liquid_capacity",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "block.liquidCapacity",
+      "rule": "Runtime block_liquid_capacity supplies source block.liquidCapacity.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.other_liquid_amount_by_index": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_input.other_liquid_amount_by_index",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "other.liquids.get(liquid)",
+      "rule": "Runtime other_liquid_amount_by_index supplies source other.liquids.get(liquid) per eligible index.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.other_block_liquid_capacity_by_index": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_input.other_block_liquid_capacity_by_index",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "other.block.liquidCapacity",
+      "rule": "Runtime other_block_liquid_capacity_by_index supplies source other.block.liquidCapacity per eligible index.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.ofract_by_index": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.ofract_by_index",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "other.liquids.get(liquid) / other.block.liquidCapacity",
+      "rule": "Computed ofract value per eligible index from source expression.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.fract_value": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.fract_value",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "liquids.get(liquid) / block.liquidCapacity",
+      "rule": "Computed fract value from source expression.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.transfer_guard_by_index": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.transfer_guard_by_index",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "ofract < fract",
+      "rule": "Computed transfer guard per eligible index from source condition.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.transfer_amount": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.transfer_amount_by_index",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "(fract - ofract) * block.liquidCapacity / scaling",
+      "rule": "Computed transfer amount per eligible index from source transferLiquid argument.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "building_dump_liquid_fraction_transfer.transfer_indices": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_dump_liquid_fraction_transfer_result.transfer_indices",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "java_expr": "ofract < fract",
+      "rule": "Eligible indices where source transfer guard passes.",
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state"
     }
   },
   "version": 1

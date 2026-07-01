@@ -19458,6 +19458,46 @@
         "test_port_game_exposes_source_building_dump_liquid_routing_gate_state",
         "test_building_dump_liquid_routing_gate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N941": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "godot_owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
+      "exact_exprs": [
+        "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+        "float fract = liquids.get(liquid) / block.liquidCapacity;",
+        "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);"
+      ],
+      "deferred_exprs": [
+        "transferLiquid side effects remain a separate slice backed by BuildingComp.transferLiquid(Building next, float amount, Liquid liquid)."
+      ],
+      "source_symbols": [
+        "building_dump_liquid_fraction_transfer.ofract",
+        "building_dump_liquid_fraction_transfer.fract",
+        "building_dump_liquid_fraction_transfer.transfer_guard",
+        "building_dump_liquid_fraction_transfer.transfer_liquid_call",
+        "building_dump_liquid_fraction_transfer.liquid",
+        "building_dump_liquid_fraction_transfer.scaling",
+        "building_dump_liquid_fraction_transfer.eligible_indices",
+        "building_dump_liquid_fraction_transfer.current_liquid_amount",
+        "building_dump_liquid_fraction_transfer.block_liquid_capacity",
+        "building_dump_liquid_fraction_transfer.other_liquid_amount_by_index",
+        "building_dump_liquid_fraction_transfer.other_block_liquid_capacity_by_index",
+        "building_dump_liquid_fraction_transfer.ofract_by_index",
+        "building_dump_liquid_fraction_transfer.fract_value",
+        "building_dump_liquid_fraction_transfer.transfer_guard_by_index",
+        "building_dump_liquid_fraction_transfer.transfer_amount",
+        "building_dump_liquid_fraction_transfer.transfer_indices"
+      ],
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state",
+      "rule": "Adds source-backed dumpLiquid fraction comparison and transfer amount math after N940 routing eligibility."
     }
   },
   "version": 1

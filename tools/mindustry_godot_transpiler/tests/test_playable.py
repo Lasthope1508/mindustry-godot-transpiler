@@ -2084,6 +2084,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"eligibility_guard": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){"', source)
         self.assertIn('"eligible_indices": eligible_indices', source)
 
+    def test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_liquid_fraction_transfer_state(liquid: Variant, scaling: float, eligible_indices: Array, current_liquid_amount: float, block_liquid_capacity: float, other_liquid_amount_by_index: Array, other_block_liquid_capacity_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"ofract": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;"', source)
+        self.assertIn('"fract": "float fract = liquids.get(liquid) / block.liquidCapacity;"', source)
+        self.assertIn('"transfer_guard": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);"', source)
+        self.assertIn('"ofract_by_index": ofract_by_index', source)
+        self.assertIn('"transfer_amount_by_index": transfer_amount_by_index', source)
+        self.assertIn('"transfer_indices": transfer_indices', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

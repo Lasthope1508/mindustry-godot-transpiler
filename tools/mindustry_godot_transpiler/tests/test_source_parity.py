@@ -1493,6 +1493,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_dump_liquid_fraction_transfer_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_liquid_fraction_transfer_source"))
+        report = source_parity.verify_building_dump_liquid_fraction_transfer_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "ofract": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+            "fract": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+            "transfer_guard": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

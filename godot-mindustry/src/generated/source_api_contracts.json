@@ -21961,6 +21961,74 @@
         "test_port_game_exposes_source_building_dump_liquid_routing_gate_state",
         "test_building_dump_liquid_routing_gate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_building_dump_liquid_fraction_transfer_state": {
+      "status": "active",
+      "source_slice": "N941",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer",
+      "params": [
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_building_dump_liquid_fraction_transfer_input.liquid"
+        },
+        {
+          "name": "scaling",
+          "type": "float",
+          "schema": "source_building_dump_liquid_fraction_transfer_input.scaling"
+        },
+        {
+          "name": "eligible_indices",
+          "type": "Array",
+          "schema": "source_building_dump_liquid_fraction_transfer_input.eligible_indices"
+        },
+        {
+          "name": "current_liquid_amount",
+          "type": "float",
+          "schema": "source_building_dump_liquid_fraction_transfer_input.current_liquid_amount"
+        },
+        {
+          "name": "block_liquid_capacity",
+          "type": "float",
+          "schema": "source_building_dump_liquid_fraction_transfer_input.block_liquid_capacity"
+        },
+        {
+          "name": "other_liquid_amount_by_index",
+          "type": "Array",
+          "schema": "source_building_dump_liquid_fraction_transfer_input.other_liquid_amount_by_index"
+        },
+        {
+          "name": "other_block_liquid_capacity_by_index",
+          "type": "Array",
+          "schema": "source_building_dump_liquid_fraction_transfer_input.other_block_liquid_capacity_by_index"
+        }
+      ],
+      "return_keys": [
+        "ofract",
+        "fract",
+        "transfer_guard",
+        "transfer_liquid_call",
+        "liquid",
+        "scaling",
+        "eligible_indices",
+        "current_liquid_amount",
+        "block_liquid_capacity",
+        "other_liquid_amount_by_index",
+        "other_block_liquid_capacity_by_index",
+        "ofract_by_index",
+        "fract_value",
+        "transfer_guard_by_index",
+        "transfer_amount_by_index",
+        "transfer_indices"
+      ],
+      "tests": [
+        "test_building_dump_liquid_fraction_transfer_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state",
+        "test_building_dump_liquid_fraction_transfer_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.dumpLiquid fraction transfer math helper."
     }
   },
   "policy": {
