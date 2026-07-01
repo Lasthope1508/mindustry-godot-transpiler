@@ -56688,6 +56688,216 @@
       "godot_symbol": "source_weapon_update_cone_gate_result.anglesAngleDistSource",
       "status": "source-backed",
       "rule": "Arc Angles.angleDist helper."
+    },
+    "weapon_update_continuous_idle_heat_sound.continuous_guard": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(continuous && mount.bullet != null){",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_result.continuousLiveGate",
+      "status": "source-backed",
+      "rule": "Enclosing continuous live gate boundary."
+    },
+    "weapon_update_continuous_idle_heat_sound.continuous_else": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "}else{",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_result.idleGate",
+      "status": "source-backed",
+      "rule": "Continuous idle else branch."
+    },
+    "weapon_update_continuous_idle_heat_sound.heat_comment": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//heat decreases when not firing",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_result.heatCommentSource",
+      "status": "source-backed",
+      "rule": "Exact idle heat comment metadata."
+    },
+    "weapon_update_continuous_idle_heat_sound.heat_decay": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_result.heat",
+      "status": "source-backed",
+      "rule": "Decays idle weapon mount heat."
+    },
+    "weapon_update_continuous_idle_heat_sound.sound_guard": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(mount.sound != null){",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_result.soundGuardSource",
+      "status": "source-backed",
+      "rule": "Guards sound loop update."
+    },
+    "weapon_update_continuous_idle_heat_sound.sound_update_false": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.sound.update(bulletX, bulletY, false);",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_result.soundUpdateCall",
+      "status": "source-backed",
+      "rule": "Stops sound loop while idle."
+    },
+    "weapon_update_continuous_idle_heat_sound.weapon_continuous": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean continuous;",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_input.weapon_state.continuous",
+      "status": "source-backed",
+      "rule": "Weapon continuous field."
+    },
+    "weapon_update_continuous_idle_heat_sound.weapon_cooldown_time": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float cooldownTime = 20f;",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_input.weapon_state.cooldownTime",
+      "status": "source-backed",
+      "rule": "Weapon cooldownTime field."
+    },
+    "weapon_update_continuous_idle_heat_sound.weapon_mount_bullet": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable Bullet bullet;",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_input.mount_state.bulletExists",
+      "status": "source-backed",
+      "rule": "WeaponMount bullet field modeled as bulletExists."
+    },
+    "weapon_update_continuous_idle_heat_sound.weapon_mount_heat": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float heat;",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_input.mount_state.heat",
+      "status": "source-backed",
+      "rule": "WeaponMount heat field."
+    },
+    "weapon_update_continuous_idle_heat_sound.weapon_mount_sound": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable SoundLoop sound;",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_input.mount_state.hasSound",
+      "status": "source-backed",
+      "rule": "WeaponMount sound field modeled as hasSound."
+    },
+    "weapon_update_continuous_idle_heat_sound.status_reload_multiplier": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "StatusComp fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "java_expr": "reloadMultiplier = 1",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_input.unit_state.reloadMultiplier",
+      "status": "source-backed",
+      "rule": "Unit reloadMultiplier field source."
+    },
+    "weapon_update_continuous_idle_heat_sound.time_delta": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "Time fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "java_expr": "public static float delta = 1f;",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_input.source_delta",
+      "status": "source-backed",
+      "rule": "Arc Time.delta field."
+    },
+    "weapon_update_continuous_idle_heat_sound.sound_loop_update": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "java_method": "SoundLoop.update(float x, float y, boolean play)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/audio/SoundLoop.java",
+      "java_expr": "public void update(float x, float y, boolean play){",
+      "godot_symbol": "source_weapon_update_continuous_idle_heat_sound_result.soundUpdateSource",
+      "status": "source-backed",
+      "rule": "SoundLoop update method boundary."
     }
   },
   "version": 1

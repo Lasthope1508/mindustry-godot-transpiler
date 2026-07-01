@@ -5081,6 +5081,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(status_guard["java_expr"], "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;")
         self.assertEqual(status_guard["godot_symbol"], "source_weapon_update_always_continuous_keepalive_result.statusApplyGuardSource")
 
+    def test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        continuous_else = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.continuous_else")
+        self.assertEqual(continuous_else["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(continuous_else["java_expr"], "}else{")
+        self.assertEqual(continuous_else["godot_owner"], "PortGame.source_weapon_update_continuous_idle_heat_sound_state")
+        self.assertEqual(continuous_else["runtime_proof"], "/root/Main.source_weapon_update_continuous_idle_heat_sound_state")
+        self.assertEqual(continuous_else["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_result.idleGate")
+
+        heat_decay = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.heat_decay")
+        self.assertEqual(heat_decay["java_expr"], "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);")
+        self.assertEqual(heat_decay["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_result.heat")
+
+        sound_guard = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.sound_guard")
+        self.assertEqual(sound_guard["java_expr"], "if(mount.sound != null){")
+        self.assertEqual(sound_guard["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_result.soundGuardSource")
+
+        sound_update = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.sound_update_false")
+        self.assertEqual(sound_update["java_expr"], "mount.sound.update(bulletX, bulletY, false);")
+        self.assertEqual(sound_update["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_result.soundUpdateCall")
+
+        cooldown_time = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.weapon_cooldown_time")
+        self.assertEqual(cooldown_time["java_expr"], "public float cooldownTime = 20f;")
+        self.assertEqual(cooldown_time["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_input.weapon_state.cooldownTime")
+
+        mount_heat = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.weapon_mount_heat")
+        self.assertEqual(mount_heat["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_heat["java_expr"], "public float heat;")
+        self.assertEqual(mount_heat["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_input.mount_state.heat")
+
+        reload_multiplier = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.status_reload_multiplier")
+        self.assertEqual(reload_multiplier["java_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(reload_multiplier["java_expr"], "reloadMultiplier = 1")
+        self.assertEqual(reload_multiplier["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_input.unit_state.reloadMultiplier")
+
+        time_delta = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.time_delta")
+        self.assertEqual(time_delta["java_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(time_delta["java_expr"], "public static float delta = 1f;")
+        self.assertEqual(time_delta["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_input.source_delta")
+
+        sound_loop_update = source_symbols.source_symbol(registry, "weapon_update_continuous_idle_heat_sound.sound_loop_update")
+        self.assertEqual(sound_loop_update["java_source"], "core/src/mindustry/audio/SoundLoop.java")
+        self.assertEqual(sound_loop_update["java_expr"], "public void update(float x, float y, boolean play){")
+        self.assertEqual(sound_loop_update["godot_symbol"], "source_weapon_update_continuous_idle_heat_sound_result.soundUpdateSource")
+
     def test_weapon_update_always_shooting_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15976,9 +16025,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 461)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 462)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 466)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 467)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16045,6 +16094,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_active_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_alternating_side_flip_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_continuous_keepalive_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_continuous_idle_heat_sound_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_shooting_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_auto_target_invalidation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_auto_target_retarget_state", audit["legacyUnregisteredOwners"])
@@ -18939,6 +18989,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float optimalLifeFract = 0f;", weapon_update_always_continuous_keepalive["bridge_exprs"])
         self.assertIn("if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;", weapon_update_always_continuous_keepalive["bridge_exprs"])
         self.assertIn("Continuous idle heat/sound else branch remains owned by source_weapon_update_continuous_idle_heat_sound_state.", weapon_update_always_continuous_keepalive["deferred_exprs"])
+
+        weapon_update_continuous_idle_heat_sound = source_symbols.source_slice(ledger, "N864")
+        self.assertEqual(weapon_update_continuous_idle_heat_sound["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_continuous_idle_heat_sound["java_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound")
+        self.assertEqual(weapon_update_continuous_idle_heat_sound["godot_owner"], "PortGame.source_weapon_update_continuous_idle_heat_sound_state")
+        self.assertIn("}else{", weapon_update_continuous_idle_heat_sound["exact_exprs"])
+        self.assertIn("//heat decreases when not firing", weapon_update_continuous_idle_heat_sound["exact_exprs"])
+        self.assertIn("mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);", weapon_update_continuous_idle_heat_sound["exact_exprs"])
+        self.assertIn("if(mount.sound != null){", weapon_update_continuous_idle_heat_sound["exact_exprs"])
+        self.assertIn("mount.sound.update(bulletX, bulletY, false);", weapon_update_continuous_idle_heat_sound["exact_exprs"])
+        self.assertIn("public float cooldownTime = 20f;", weapon_update_continuous_idle_heat_sound["bridge_exprs"])
+        self.assertIn("public @Nullable SoundLoop sound;", weapon_update_continuous_idle_heat_sound["bridge_exprs"])
+        self.assertIn("weapon_update_continuous_idle_heat_sound.heat_decay", weapon_update_continuous_idle_heat_sound["source_symbols"])
+        self.assertIn("weapon_update_continuous_idle_heat_sound.sound_loop_update", weapon_update_continuous_idle_heat_sound["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -22306,6 +22370,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("keepAliveSource", weapon_update_always_continuous_keepalive["return_keys"])
         self.assertIn("unitApplySource", weapon_update_always_continuous_keepalive["return_keys"])
         self.assertEqual(weapon_update_always_continuous_keepalive["source_method"], "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive")
+
+        weapon_update_continuous_idle_heat_sound = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_continuous_idle_heat_sound_state")
+        self.assertEqual([param["name"] for param in weapon_update_continuous_idle_heat_sound["params"]], ["mount_state", "weapon_state", "unit_state", "source_delta", "bullet_x", "bullet_y"])
+        self.assertEqual(weapon_update_continuous_idle_heat_sound["params"][0]["schema"], "source_weapon_update_continuous_idle_heat_sound_input.mount_state")
+        self.assertEqual(weapon_update_continuous_idle_heat_sound["params"][1]["schema"], "source_weapon_update_continuous_idle_heat_sound_input.weapon_state")
+        self.assertEqual(weapon_update_continuous_idle_heat_sound["params"][2]["schema"], "source_weapon_update_continuous_idle_heat_sound_input.unit_state")
+        self.assertIn("idleGate", weapon_update_continuous_idle_heat_sound["return_keys"])
+        self.assertIn("heat", weapon_update_continuous_idle_heat_sound["return_keys"])
+        self.assertIn("soundUpdateCall", weapon_update_continuous_idle_heat_sound["return_keys"])
+        self.assertIn("heatSource", weapon_update_continuous_idle_heat_sound["return_keys"])
+        self.assertIn("soundUpdateSource", weapon_update_continuous_idle_heat_sound["return_keys"])
+        self.assertEqual(weapon_update_continuous_idle_heat_sound["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -28991,6 +29067,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["loopSource"]["java_expr"], "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);")
         self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["soundControlGuardSource"]["java_expr"], "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;")
         self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["velLenReservedSource"]["java_expr"], "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;")
+
+        source_weapon_update_continuous_idle_heat_sound_input = source_symbols.state_schema(schema, "source_weapon_update_continuous_idle_heat_sound_input")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_input["keys"]["weapon_state"]["java_expr"], "Weapon continuous idle heat sound fields")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_input["keys"]["source_delta"]["java_expr"], "public static float delta = 1f;")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_input["keys"]["cooldownTime"]["java_expr"], "public float cooldownTime = 20f;")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_input["keys"]["reloadMultiplier"]["java_expr"], "reloadMultiplier = 1")
+
+        source_weapon_update_continuous_idle_heat_sound_result = source_symbols.state_schema(schema, "source_weapon_update_continuous_idle_heat_sound_result")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["idleGate"]["java_expr"], "}else{")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["heat"]["java_expr"], "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["soundUpdateCall"]["java_expr"], "mount.sound.update(bulletX, bulletY, false);")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["soundGuardSource"]["java_expr"], "if(mount.sound != null){")
+        self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["soundUpdateSource"]["java_expr"], "public void update(float x, float y, boolean play){")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
