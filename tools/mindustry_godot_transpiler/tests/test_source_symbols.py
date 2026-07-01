@@ -13624,6 +13624,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_power_production["java_expr"], "return enabled ? powerProduction * productionEfficiency : 0f;")
         self.assertEqual(return_power_production["godot_symbol"], "source_power_generator_get_power_production_result.computed_power_production")
 
+    def test_power_generator_warmup_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        enabled = source_symbols.source_symbol(registry, "power_generator_warmup.enabled")
+        self.assertEqual(enabled["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(enabled["java_method"], "warmup()")
+        self.assertEqual(enabled["status"], "explicit-input")
+        self.assertEqual(enabled["java_expr"], "enabled")
+        self.assertEqual(enabled["godot_owner"], "PortGame.source_power_generator_warmup_state")
+        self.assertEqual(enabled["runtime_proof"], "/root/Main.source_power_generator_warmup_state")
+        self.assertEqual(enabled["godot_symbol"], "source_power_generator_warmup_input.enabled")
+
+        production_efficiency = source_symbols.source_symbol(registry, "power_generator_warmup.production_efficiency")
+        self.assertEqual(production_efficiency["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(production_efficiency["status"], "explicit-input")
+        self.assertEqual(production_efficiency["java_expr"], "productionEfficiency")
+        self.assertEqual(production_efficiency["godot_symbol"], "source_power_generator_warmup_input.production_efficiency")
+
+        return_warmup = source_symbols.source_symbol(registry, "power_generator_warmup.return_warmup")
+        self.assertEqual(return_warmup["java_expr"], "return enabled ? productionEfficiency : 0f;")
+        self.assertEqual(return_warmup["godot_symbol"], "source_power_generator_warmup_result.warmup")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17540,9 +17565,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 506)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 507)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 511)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 512)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22200,6 +22225,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float productionEfficiency = 0.0f;", power_generator_get_power_production["exact_exprs"])
         self.assertIn("public float getPowerProduction(){", power_generator_get_power_production["exact_exprs"])
         self.assertIn("return enabled ? powerProduction * productionEfficiency : 0f;", power_generator_get_power_production["exact_exprs"])
+
+        power_generator_warmup = source_symbols.source_slice(ledger, "N910")
+        self.assertEqual(power_generator_warmup["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_warmup["java_method"], "warmup()")
+        self.assertEqual(power_generator_warmup["godot_owner"], "PortGame.source_power_generator_warmup_state")
+        self.assertIn("public class GeneratorBuild extends Building{", power_generator_warmup["exact_exprs"])
+        self.assertIn("public float productionEfficiency = 0.0f;", power_generator_warmup["exact_exprs"])
+        self.assertIn("public float warmup(){", power_generator_warmup["exact_exprs"])
+        self.assertIn("return enabled ? productionEfficiency : 0f;", power_generator_warmup["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27080,6 +27114,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_generator_get_power_production["params"][2]["schema"], "source_power_generator_get_power_production_input.production_efficiency")
         self.assertIn("computed_power_production", power_generator_get_power_production["return_keys"])
         self.assertEqual(power_generator_get_power_production["source_method"], "getPowerProduction()")
+
+        power_generator_warmup = source_symbols.api_contract(contracts, "PortGame.source_power_generator_warmup_state")
+        self.assertEqual([param["name"] for param in power_generator_warmup["params"]], ["enabled", "production_efficiency"])
+        self.assertEqual(power_generator_warmup["params"][0]["schema"], "source_power_generator_warmup_input.enabled")
+        self.assertEqual(power_generator_warmup["params"][1]["schema"], "source_power_generator_warmup_input.production_efficiency")
+        self.assertIn("warmup", power_generator_warmup["return_keys"])
+        self.assertEqual(power_generator_warmup["source_method"], "warmup()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33033,6 +33074,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_power_generator_get_power_production_result = source_symbols.state_schema(schema, "source_power_generator_get_power_production_result")
         self.assertEqual(source_power_generator_get_power_production_result["keys"]["method"]["java_expr"], "public float getPowerProduction(){")
         self.assertEqual(source_power_generator_get_power_production_result["keys"]["computed_power_production"]["java_expr"], "return enabled ? powerProduction * productionEfficiency : 0f;")
+
+        source_power_generator_warmup_input = source_symbols.state_schema(schema, "source_power_generator_warmup_input")
+        self.assertEqual(source_power_generator_warmup_input["keys"]["enabled"]["java_expr"], "enabled")
+        self.assertEqual(source_power_generator_warmup_input["keys"]["enabled"]["status"], "explicit-input")
+        self.assertEqual(source_power_generator_warmup_input["keys"]["production_efficiency"]["java_expr"], "productionEfficiency")
+
+        source_power_generator_warmup_result = source_symbols.state_schema(schema, "source_power_generator_warmup_result")
+        self.assertEqual(source_power_generator_warmup_result["keys"]["method"]["java_expr"], "public float warmup(){")
+        self.assertEqual(source_power_generator_warmup_result["keys"]["warmup"]["java_expr"], "return enabled ? productionEfficiency : 0f;")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

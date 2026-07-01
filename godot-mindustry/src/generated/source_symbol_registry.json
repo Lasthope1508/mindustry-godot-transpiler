@@ -63980,6 +63980,45 @@
         "test_power_generator_get_power_production_matches_upstream_source"
       ],
       "rule": "Source-backed GeneratorBuild.getPowerProduction() ternary return."
+    },
+    "power_generator_warmup.enabled": {
+      "java_method": "warmup()",
+      "godot_owner": "PortGame.source_power_generator_warmup_state",
+      "runtime_proof": "/root/Main.source_power_generator_warmup_state",
+      "tests": [
+        "test_power_generator_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_expr": "enabled",
+      "godot_symbol": "source_power_generator_warmup_input.enabled",
+      "rule": "Runtime enabled parameter maps to BuildingComp enabled field used by PowerGenerator.GeneratorBuild.warmup().",
+      "status": "explicit-input"
+    },
+    "power_generator_warmup.production_efficiency": {
+      "java_method": "warmup()",
+      "godot_owner": "PortGame.source_power_generator_warmup_state",
+      "runtime_proof": "/root/Main.source_power_generator_warmup_state",
+      "tests": [
+        "test_power_generator_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_expr": "productionEfficiency",
+      "godot_symbol": "source_power_generator_warmup_input.production_efficiency",
+      "rule": "Runtime production_efficiency parameter maps to GeneratorBuild productionEfficiency.",
+      "status": "explicit-input"
+    },
+    "power_generator_warmup.return_warmup": {
+      "java_method": "warmup()",
+      "godot_owner": "PortGame.source_power_generator_warmup_state",
+      "runtime_proof": "/root/Main.source_power_generator_warmup_state",
+      "tests": [
+        "test_power_generator_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_expr": "return enabled ? productionEfficiency : 0f;",
+      "godot_symbol": "source_power_generator_warmup_result.warmup",
+      "rule": "Warmup result follows PowerGenerator.GeneratorBuild.warmup enabled ternary exactly.",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -511,6 +511,20 @@ func source_power_generator_get_power_production_state(enabled: bool, power_prod
 		"computed_power_production": computed_power_production,
 	}
 
+func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
+	var warmup := production_efficiency if enabled else 0.0
+	return {
+		"build_class": "public class GeneratorBuild extends Building{",
+		"production_efficiency": "public float productionEfficiency = 0.0f;",
+		"enabled": "transient boolean enabled = true;",
+		"override": "@Override",
+		"method": "public float warmup(){",
+		"return_warmup": "return enabled ? productionEfficiency : 0f;",
+		"input_enabled": enabled,
+		"input_production_efficiency": production_efficiency,
+		"warmup": warmup,
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

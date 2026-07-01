@@ -76862,6 +76862,85 @@
           "alias_of": "source_power_generator_get_power_production_input.production_efficiency"
         }
       }
+    },
+    "source_power_generator_warmup_input": {
+      "owner": "PortGame.source_power_generator_warmup_state",
+      "source_slice": "N910",
+      "status": "active",
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "enabled"
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "productionEfficiency"
+        }
+      }
+    },
+    "source_power_generator_warmup_result": {
+      "owner": "PortGame.source_power_generator_warmup_state",
+      "source_slice": "N910",
+      "status": "active",
+      "keys": {
+        "build_class": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public class GeneratorBuild extends Building{"
+        },
+        "production_efficiency": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public float productionEfficiency = 0.0f;"
+        },
+        "enabled": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient boolean enabled = true;",
+          "alias_of": "source_power_generator_warmup_input.enabled"
+        },
+        "override": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "@Override"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public float warmup(){"
+        },
+        "return_warmup": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "return enabled ? productionEfficiency : 0f;"
+        },
+        "input_enabled": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_warmup_input.enabled"
+        },
+        "input_production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_warmup_input.production_efficiency"
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "return enabled ? productionEfficiency : 0f;"
+        }
+      }
     }
   },
   "version": 1

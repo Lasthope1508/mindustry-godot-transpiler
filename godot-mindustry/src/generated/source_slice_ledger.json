@@ -18306,6 +18306,32 @@
         "test_power_generator_get_power_production_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGenerator.GeneratorBuild.getPowerProduction() return."
+    },
+    "N910": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "warmup()",
+      "godot_owner": "PortGame.source_power_generator_warmup_state",
+      "runtime_proof": "/root/Main.source_power_generator_warmup_state",
+      "source_symbols": [
+        "power_generator_warmup.enabled",
+        "power_generator_warmup.production_efficiency",
+        "power_generator_warmup.return_warmup"
+      ],
+      "exact_exprs": [
+        "public class GeneratorBuild extends Building{",
+        "public float productionEfficiency = 0.0f;",
+        "transient boolean enabled = true;",
+        "@Override",
+        "public float warmup(){",
+        "return enabled ? productionEfficiency : 0f;"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_warmup_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_warmup_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

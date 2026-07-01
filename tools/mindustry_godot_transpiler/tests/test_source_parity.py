@@ -170,6 +170,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_warmup_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
+        report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "build_class": "public class GeneratorBuild extends Building{",
+            "production_efficiency": "public float productionEfficiency = 0.0f;",
+            "enabled": "transient boolean enabled = true;",
+            "override": "@Override",
+            "method": "public float warmup(){",
+            "return_warmup": "return enabled ? productionEfficiency : 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

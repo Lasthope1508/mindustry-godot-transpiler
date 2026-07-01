@@ -20318,6 +20318,40 @@
       ],
       "runtime_proof": "/root/Main.source_power_generator_get_power_production_state",
       "rule": "Public runtime contract for GeneratorBuild.getPowerProduction()."
+    },
+    "PortGame.source_power_generator_warmup_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "warmup()",
+      "source_slice": "N910",
+      "params": [
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_power_generator_warmup_input.enabled"
+        },
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_power_generator_warmup_input.production_efficiency"
+        }
+      ],
+      "return_keys": [
+        "build_class",
+        "production_efficiency",
+        "enabled",
+        "override",
+        "method",
+        "return_warmup",
+        "input_enabled",
+        "input_production_efficiency",
+        "warmup"
+      ],
+      "rule": "Public runtime contract for PowerGenerator.GeneratorBuild.warmup() enabled ternary.",
+      "runtime_proof": "/root/Main.source_power_generator_warmup_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_warmup_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
