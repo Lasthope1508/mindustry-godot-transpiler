@@ -300,6 +300,43 @@ def verify_power_graph_battery_state_source(upstream_root: Path) -> dict[str, An
     }
 
 
+def verify_power_graph_use_batteries_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "use_batteries_method": "public float useBatteries(float needed){",
+        "stored": "float stored = getBatteryStored();",
+        "stored_zero_guard": "if(Mathf.equal(stored, 0f)) return 0f;",
+        "used": "float used = Math.min(stored, needed);",
+        "consumed_percent": "float consumedPowerPercentage = Math.min(1.0f, needed / stored);",
+        "items": "var items = batteries.items;",
+        "loop": "for(int i = 0; i < batteries.size; i++){",
+        "battery": "var battery = items[i];",
+        "enabled_guard": "if(battery.enabled){",
+        "status_mul": "battery.power.status *= (1f-consumedPowerPercentage);",
+        "return_used": "return used;",
+        "mathf_equal": "public static boolean equal(float a, float b){",
+        "mathf_equal_body": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+    }
+    source_by_key = {
+        "mathf_equal": mathf_source,
+        "mathf_equal_body": mathf_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, power_graph_source)
+    ]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "sources": [ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

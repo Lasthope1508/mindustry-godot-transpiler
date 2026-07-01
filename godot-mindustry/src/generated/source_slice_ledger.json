@@ -17689,6 +17689,41 @@
         "test_power_graph_battery_state_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph battery stored/capacity aggregate state without power distribution mutation yet."
+    },
+    "N892": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "useBatteries(float needed)",
+      "godot_owner": "PortGame.source_power_graph_use_batteries_state",
+      "runtime_proof": "/root/Main.source_power_graph_use_batteries_state",
+      "exact_exprs": [
+        "public float useBatteries(float needed){",
+        "float stored = getBatteryStored();",
+        "if(Mathf.equal(stored, 0f)) return 0f;",
+        "float used = Math.min(stored, needed);",
+        "float consumedPowerPercentage = Math.min(1.0f, needed / stored);",
+        "var items = batteries.items;",
+        "for(int i = 0; i < batteries.size; i++){",
+        "var battery = items[i];",
+        "if(battery.enabled){",
+        "battery.power.status *= (1f-consumedPowerPercentage);",
+        "return used;",
+        "public static boolean equal(float a, float b){",
+        "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;"
+      ],
+      "source_symbols": [
+        "power_graph_use_batteries.used",
+        "power_graph_use_batteries.consumed_percent",
+        "power_graph_use_batteries.status_mul",
+        "power_graph_use_batteries.needed"
+      ],
+      "tests": [
+        "test_power_graph_use_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp",
+        "test_power_graph_use_batteries_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.useBatteries battery discharge state without full update loop distribution yet."
     }
   },
   "version": 1

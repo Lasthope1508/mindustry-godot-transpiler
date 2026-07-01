@@ -244,6 +244,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_use_batteries_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_use_batteries_source"))
+        report = source_parity.verify_power_graph_use_batteries_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "use_batteries_method": "public float useBatteries(float needed){",
+            "stored": "float stored = getBatteryStored();",
+            "stored_zero_guard": "if(Mathf.equal(stored, 0f)) return 0f;",
+            "used": "float used = Math.min(stored, needed);",
+            "consumed_percent": "float consumedPowerPercentage = Math.min(1.0f, needed / stored);",
+            "items": "var items = batteries.items;",
+            "loop": "for(int i = 0; i < batteries.size; i++){",
+            "battery": "var battery = items[i];",
+            "enabled_guard": "if(battery.enabled){",
+            "status_mul": "battery.power.status *= (1f-consumedPowerPercentage);",
+            "return_used": "return used;",
+            "mathf_equal": "public static boolean equal(float a, float b){",
+            "mathf_equal_body": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

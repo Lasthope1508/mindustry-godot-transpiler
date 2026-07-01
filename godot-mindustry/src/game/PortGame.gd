@@ -1041,6 +1041,45 @@ func source_power_graph_battery_state(batteries: Array) -> Dictionary:
 		"enabled_count": enabled_count,
 	}
 
+func source_power_graph_use_batteries_state(batteries: Array, needed: float) -> Dictionary:
+	var source_batteries: Array = []
+	for battery in batteries:
+		if typeof(battery) != TYPE_DICTIONARY:
+			continue
+		source_batteries.append(battery.duplicate(true))
+	var stored_state := source_power_graph_battery_state(source_batteries)
+	var stored := float(stored_state.get("stored", 0.0))
+	var used := 0.0
+	var consumed_power_percentage := 0.0
+	var zero_guard_returned: bool = abs(stored - 0.0) <= SOURCE_FLOAT_ROUNDING_ERROR
+	if not zero_guard_returned:
+		used = min(stored, needed)
+		consumed_power_percentage = min(1.0, needed / stored)
+		for battery_state in source_batteries:
+			if bool(battery_state.get("enabled", false)):
+				var power_status := float(battery_state.get("power_status", 0.0))
+				battery_state["power_status"] = power_status * (1.0 - consumed_power_percentage)
+	return {
+		"method": "public float useBatteries(float needed){",
+		"stored_expr": "float stored = getBatteryStored();",
+		"zero_guard": "if(Mathf.equal(stored, 0f)) return 0f;",
+		"used_expr": "float used = Math.min(stored, needed);",
+		"consumed_percent_expr": "float consumedPowerPercentage = Math.min(1.0f, needed / stored);",
+		"items": "var items = batteries.items;",
+		"loop": "for(int i = 0; i < batteries.size; i++){",
+		"battery": "var battery = items[i];",
+		"guard": "if(battery.enabled){",
+		"status_mul": "battery.power.status *= (1f-consumedPowerPercentage);",
+		"return_expr": "return used;",
+		"mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+		"needed": needed,
+		"stored": stored,
+		"used": used,
+		"consumed_power_percentage": consumed_power_percentage,
+		"zero_guard_returned": zero_guard_returned,
+		"batteries": source_batteries,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)

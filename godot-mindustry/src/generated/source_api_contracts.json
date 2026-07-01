@@ -19493,6 +19493,51 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_battery_state",
       "rule": "Public runtime contract for PowerGraph battery aggregate state with explicit battery inputs."
+    },
+    "PortGame.source_power_graph_use_batteries_state": {
+      "status": "active",
+      "source_slice": "N892",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "useBatteries(float needed)",
+      "params": [
+        {
+          "name": "batteries",
+          "type": "Array",
+          "schema": "source_power_graph_use_batteries_input.batteries"
+        },
+        {
+          "name": "needed",
+          "type": "float",
+          "schema": "source_power_graph_use_batteries_input.needed"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "stored_expr",
+        "zero_guard",
+        "used_expr",
+        "consumed_percent_expr",
+        "items",
+        "loop",
+        "battery",
+        "guard",
+        "status_mul",
+        "return_expr",
+        "mathf_equal",
+        "needed",
+        "stored",
+        "used",
+        "consumed_power_percentage",
+        "zero_guard_returned",
+        "batteries"
+      ],
+      "tests": [
+        "test_power_graph_use_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp",
+        "test_power_graph_use_batteries_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_use_batteries_state",
+      "rule": "Public runtime contract for PowerGraph.useBatteries(float needed) with explicit battery inputs."
     }
   },
   "policy": {

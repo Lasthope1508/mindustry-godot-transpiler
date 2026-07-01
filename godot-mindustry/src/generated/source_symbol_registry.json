@@ -61700,6 +61700,66 @@
         "test_power_graph_battery_state_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph battery stored/capacity aggregate state mapping."
+    },
+    "power_graph_use_batteries.used": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "useBatteries(float needed)",
+      "java_expr": "float used = Math.min(stored, needed);",
+      "godot_owner": "PortGame.source_power_graph_use_batteries_state",
+      "godot_symbol": "source_power_graph_use_batteries_result.used",
+      "runtime_proof": "/root/Main.source_power_graph_use_batteries_state",
+      "tests": [
+        "test_power_graph_use_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp",
+        "test_power_graph_use_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.useBatteries state transition mapping."
+    },
+    "power_graph_use_batteries.consumed_percent": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "useBatteries(float needed)",
+      "java_expr": "float consumedPowerPercentage = Math.min(1.0f, needed / stored);",
+      "godot_owner": "PortGame.source_power_graph_use_batteries_state",
+      "godot_symbol": "source_power_graph_use_batteries_result.consumed_power_percentage",
+      "runtime_proof": "/root/Main.source_power_graph_use_batteries_state",
+      "tests": [
+        "test_power_graph_use_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp",
+        "test_power_graph_use_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.useBatteries state transition mapping."
+    },
+    "power_graph_use_batteries.status_mul": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "useBatteries(float needed)",
+      "java_expr": "battery.power.status *= (1f-consumedPowerPercentage);",
+      "godot_owner": "PortGame.source_power_graph_use_batteries_state",
+      "godot_symbol": "source_power_graph_use_batteries_result.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_use_batteries_state",
+      "tests": [
+        "test_power_graph_use_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp",
+        "test_power_graph_use_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.useBatteries state transition mapping."
+    },
+    "power_graph_use_batteries.needed": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "useBatteries(float needed)",
+      "java_expr": "needed",
+      "godot_owner": "PortGame.source_power_graph_use_batteries_state",
+      "godot_symbol": "source_power_graph_use_batteries_input.needed",
+      "runtime_proof": "/root/Main.source_power_graph_use_batteries_state",
+      "tests": [
+        "test_power_graph_use_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp",
+        "test_power_graph_use_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.useBatteries state transition mapping."
     }
   },
   "version": 1

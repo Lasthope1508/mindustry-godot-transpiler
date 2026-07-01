@@ -152,6 +152,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func placed_power_battery_state() -> Dictionary:", source)
         self.assertIn('"placed_power_battery": placed_power_battery_state()', source)
 
+    def test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_use_batteries_state(batteries: Array, needed: float) -> Dictionary:", source)
+        self.assertIn('"method": "public float useBatteries(float needed){"', source)
+        self.assertIn('"stored_expr": "float stored = getBatteryStored();"', source)
+        self.assertIn('"zero_guard": "if(Mathf.equal(stored, 0f)) return 0f;"', source)
+        self.assertIn('"used_expr": "float used = Math.min(stored, needed);"', source)
+        self.assertIn('"consumed_percent_expr": "float consumedPowerPercentage = Math.min(1.0f, needed / stored);"', source)
+        self.assertIn('"status_mul": "battery.power.status *= (1f-consumedPowerPercentage);"', source)
+        self.assertIn('battery_state["power_status"] = power_status * (1.0 - consumed_power_percentage)', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
