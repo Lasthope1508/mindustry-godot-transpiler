@@ -62930,6 +62930,156 @@
         "test_power_graph_check_add_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.checkAdd entity add guard."
+    },
+    "power_graph_clear.all": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "all",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_input.all",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.producers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "producers",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_input.producers",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "consumers",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_input.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.batteries": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "batteries",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_input.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.entity_present": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "entity != null",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_input.entity_present",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.all_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "all.clear();",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_result.all",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.producers_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "producers.clear();",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_result.producers",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.consumers_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "consumers.clear();",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.batteries_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "batteries.clear();",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_result.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_clear.entity_remove_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "java_expr": "if(entity != null) entity.remove();",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "godot_symbol": "source_power_graph_clear_result.entity_removed",
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.clear list clear and entity remove state."
     }
   },
   "version": 1

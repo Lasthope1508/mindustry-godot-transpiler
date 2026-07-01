@@ -251,6 +251,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"entity_add_guard": "if(entity != null) entity.add();"', source)
         self.assertIn('"entity_add_called": entity_present', source)
 
+    def test_port_game_exposes_source_power_graph_clear_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_clear_state(all: Array, producers: Array, consumers: Array, batteries: Array, entity_present: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public void clear(){"', source)
+        self.assertIn('"all_clear": "all.clear();"', source)
+        self.assertIn('"producers_clear": "producers.clear();"', source)
+        self.assertIn('"consumers_clear": "consumers.clear();"', source)
+        self.assertIn('"batteries_clear": "batteries.clear();"', source)
+        self.assertIn('"entity_remove_guard": "if(entity != null) entity.remove();"', source)
+        self.assertIn('"entity_removed": entity_present', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

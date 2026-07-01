@@ -995,6 +995,30 @@ func source_power_graph_check_add_state(entity_present: bool) -> Dictionary:
 		"entity_add_called": entity_present,
 	}
 
+func source_power_graph_clear_state(all: Array, producers: Array, consumers: Array, batteries: Array, entity_present: bool) -> Dictionary:
+	var source_all := all.duplicate(true)
+	var source_producers := producers.duplicate(true)
+	var source_consumers := consumers.duplicate(true)
+	var source_batteries := batteries.duplicate(true)
+	source_all.clear()
+	source_producers.clear()
+	source_consumers.clear()
+	source_batteries.clear()
+	return {
+		"method": "public void clear(){",
+		"all_clear": "all.clear();",
+		"producers_clear": "producers.clear();",
+		"consumers_clear": "consumers.clear();",
+		"batteries_clear": "batteries.clear();",
+		"nothing_left_comment": "//nothing left",
+		"entity_remove_guard": "if(entity != null) entity.remove();",
+		"all": source_all,
+		"producers": source_producers,
+		"consumers": source_consumers,
+		"batteries": source_batteries,
+		"entity_removed": entity_present,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

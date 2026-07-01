@@ -19923,6 +19923,60 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_check_add_state",
       "rule": "Public runtime contract for PowerGraph.checkAdd()."
+    },
+    "PortGame.source_power_graph_clear_state": {
+      "status": "active",
+      "source_slice": "N900",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "clear()",
+      "params": [
+        {
+          "name": "all",
+          "type": "Array",
+          "schema": "source_power_graph_clear_input.all"
+        },
+        {
+          "name": "producers",
+          "type": "Array",
+          "schema": "source_power_graph_clear_input.producers"
+        },
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_power_graph_clear_input.consumers"
+        },
+        {
+          "name": "batteries",
+          "type": "Array",
+          "schema": "source_power_graph_clear_input.batteries"
+        },
+        {
+          "name": "entity_present",
+          "type": "bool",
+          "schema": "source_power_graph_clear_input.entity_present"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "all_clear",
+        "producers_clear",
+        "consumers_clear",
+        "batteries_clear",
+        "nothing_left_comment",
+        "entity_remove_guard",
+        "all",
+        "producers",
+        "consumers",
+        "batteries",
+        "entity_removed"
+      ],
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_clear_state",
+      "rule": "Public runtime contract for PowerGraph.clear()."
     }
   },
   "policy": {
