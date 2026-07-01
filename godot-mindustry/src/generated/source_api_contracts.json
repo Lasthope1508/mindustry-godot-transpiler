@@ -18284,6 +18284,49 @@
         "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
         "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_continuous_invalidation_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_invalidation_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_invalidation_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_continuous_invalidation_input.bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "bulletExists",
+        "continuous",
+        "bulletIsAdded",
+        "bulletTime",
+        "bulletLifetime",
+        "bulletTypeMatches",
+        "guardSource",
+        "invalidConditionSource",
+        "clearSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update continuous bullet invalidation state.",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_invalidation_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+      "source_slice": "N865",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_continuous_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_invalidation_state",
+        "test_weapon_update_continuous_invalidation_matches_upstream_source"
+      ]
     }
   },
   "policy": {

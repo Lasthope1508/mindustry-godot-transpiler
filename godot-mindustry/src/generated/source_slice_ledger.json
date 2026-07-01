@@ -16493,6 +16493,49 @@
         "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update continuous idle heat/sound wrapper against exact upstream source."
+    },
+    "N865": {
+      "exact_exprs": [
+        "//update continuous state",
+        "if(continuous && mount.bullet != null){",
+        "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){",
+        "mount.bullet = null;"
+      ],
+      "bridge_exprs": [
+        "public boolean continuous;",
+        "public BulletType bullet = Bullets.placeholder;",
+        "public @Nullable Bullet bullet;",
+        "BulletType type;",
+        "float time, lifetime;",
+        "boolean isAdded(){"
+      ],
+      "deferred_exprs": [
+        "}else{",
+        "Live continuous bullet position, reload, recoil, heat, sound, and warmup branch remains owned by later continuous live slices."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_continuous_invalidation_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_invalidation_state",
+      "source_symbols": [
+        "weapon_update_continuous_invalidation.guard",
+        "weapon_update_continuous_invalidation.invalid_condition",
+        "weapon_update_continuous_invalidation.clear_bullet",
+        "weapon_update_continuous_invalidation.weapon_continuous",
+        "weapon_update_continuous_invalidation.weapon_bullet",
+        "weapon_update_continuous_invalidation.weapon_mount_bullet",
+        "weapon_update_continuous_invalidation.bullet_comp_type",
+        "weapon_update_continuous_invalidation.timed_comp_time_lifetime",
+        "weapon_update_continuous_invalidation.entity_comp_is_added"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_continuous_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_invalidation_state",
+        "test_weapon_update_continuous_invalidation_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update continuous bullet invalidation wrapper against exact upstream source."
     }
   },
   "version": 1

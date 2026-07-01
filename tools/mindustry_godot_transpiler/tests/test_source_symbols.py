@@ -5157,6 +5157,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(continuous_reserved["godot_symbol"], "source_weapon_update_always_shooting_result.continuousReservedSource")
         self.assertEqual(continuous_reserved["status"], "deferred")
 
+    def test_weapon_update_continuous_invalidation_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(guard["java_expr"], "if(continuous && mount.bullet != null){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_weapon_update_continuous_invalidation_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_weapon_update_continuous_invalidation_state")
+        self.assertEqual(guard["godot_symbol"], "source_weapon_update_continuous_invalidation_result.guardSource")
+
+        invalid_condition = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.invalid_condition")
+        self.assertEqual(invalid_condition["java_expr"], "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){")
+        self.assertEqual(invalid_condition["godot_symbol"], "source_weapon_update_continuous_invalidation_result.invalidConditionSource")
+
+        clear_bullet = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.clear_bullet")
+        self.assertEqual(clear_bullet["java_expr"], "mount.bullet = null;")
+        self.assertEqual(clear_bullet["godot_symbol"], "source_weapon_update_continuous_invalidation_result.clearSource")
+
+        weapon_continuous = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.weapon_continuous")
+        self.assertEqual(weapon_continuous["java_expr"], "public boolean continuous;")
+        self.assertEqual(weapon_continuous["godot_symbol"], "source_weapon_update_continuous_invalidation_input.weapon_state.continuous")
+
+        weapon_bullet = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.weapon_bullet")
+        self.assertEqual(weapon_bullet["java_expr"], "public BulletType bullet = Bullets.placeholder;")
+        self.assertEqual(weapon_bullet["godot_symbol"], "source_weapon_update_continuous_invalidation_input.bullet_state.typeMatches")
+
+        mount_bullet = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.weapon_mount_bullet")
+        self.assertEqual(mount_bullet["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_bullet["java_expr"], "public @Nullable Bullet bullet;")
+        self.assertEqual(mount_bullet["godot_symbol"], "source_weapon_update_continuous_invalidation_input.mount_state.bulletExists")
+
+        bullet_type = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.bullet_comp_type")
+        self.assertEqual(bullet_type["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(bullet_type["java_expr"], "BulletType type;")
+        self.assertEqual(bullet_type["godot_symbol"], "source_weapon_update_continuous_invalidation_input.bullet_state.typeMatches")
+
+        bullet_time_lifetime = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.timed_comp_time_lifetime")
+        self.assertEqual(bullet_time_lifetime["java_source"], "core/src/mindustry/entities/comp/TimedComp.java")
+        self.assertEqual(bullet_time_lifetime["java_expr"], "float time, lifetime;")
+        self.assertEqual(bullet_time_lifetime["godot_symbol"], "source_weapon_update_continuous_invalidation_input.bullet_state.time")
+
+        is_added = source_symbols.source_symbol(registry, "weapon_update_continuous_invalidation.entity_comp_is_added")
+        self.assertEqual(is_added["java_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(is_added["java_expr"], "boolean isAdded(){")
+        self.assertEqual(is_added["godot_symbol"], "source_weapon_update_continuous_invalidation_input.bullet_state.isAdded")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16025,9 +16074,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 462)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 463)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 467)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 468)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16094,6 +16143,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_active_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_alternating_side_flip_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_continuous_keepalive_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_continuous_invalidation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_idle_heat_sound_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_shooting_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_auto_target_invalidation_state", audit["legacyUnregisteredOwners"])
@@ -19003,6 +19053,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public @Nullable SoundLoop sound;", weapon_update_continuous_idle_heat_sound["bridge_exprs"])
         self.assertIn("weapon_update_continuous_idle_heat_sound.heat_decay", weapon_update_continuous_idle_heat_sound["source_symbols"])
         self.assertIn("weapon_update_continuous_idle_heat_sound.sound_loop_update", weapon_update_continuous_idle_heat_sound["source_symbols"])
+
+        weapon_update_continuous_invalidation = source_symbols.source_slice(ledger, "N865")
+        self.assertEqual(weapon_update_continuous_invalidation["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_continuous_invalidation["java_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation")
+        self.assertEqual(weapon_update_continuous_invalidation["godot_owner"], "PortGame.source_weapon_update_continuous_invalidation_state")
+        self.assertIn("//update continuous state", weapon_update_continuous_invalidation["exact_exprs"])
+        self.assertIn("if(continuous && mount.bullet != null){", weapon_update_continuous_invalidation["exact_exprs"])
+        self.assertIn("if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){", weapon_update_continuous_invalidation["exact_exprs"])
+        self.assertIn("mount.bullet = null;", weapon_update_continuous_invalidation["exact_exprs"])
+        self.assertIn("}else{", weapon_update_continuous_invalidation["deferred_exprs"])
+        self.assertIn("public BulletType bullet = Bullets.placeholder;", weapon_update_continuous_invalidation["bridge_exprs"])
+        self.assertIn("boolean isAdded(){", weapon_update_continuous_invalidation["bridge_exprs"])
+        self.assertIn("weapon_update_continuous_invalidation.invalid_condition", weapon_update_continuous_invalidation["source_symbols"])
+        self.assertIn("weapon_update_continuous_invalidation.entity_comp_is_added", weapon_update_continuous_invalidation["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -22382,6 +22446,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("heatSource", weapon_update_continuous_idle_heat_sound["return_keys"])
         self.assertIn("soundUpdateSource", weapon_update_continuous_idle_heat_sound["return_keys"])
         self.assertEqual(weapon_update_continuous_idle_heat_sound["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound")
+
+        weapon_update_continuous_invalidation = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_continuous_invalidation_state")
+        self.assertEqual([param["name"] for param in weapon_update_continuous_invalidation["params"]], ["mount_state", "weapon_state", "bullet_state"])
+        self.assertEqual(weapon_update_continuous_invalidation["params"][0]["schema"], "source_weapon_update_continuous_invalidation_input.mount_state")
+        self.assertEqual(weapon_update_continuous_invalidation["params"][1]["schema"], "source_weapon_update_continuous_invalidation_input.weapon_state")
+        self.assertEqual(weapon_update_continuous_invalidation["params"][2]["schema"], "source_weapon_update_continuous_invalidation_input.bullet_state")
+        self.assertIn("gate", weapon_update_continuous_invalidation["return_keys"])
+        self.assertIn("invalid", weapon_update_continuous_invalidation["return_keys"])
+        self.assertIn("bulletExists", weapon_update_continuous_invalidation["return_keys"])
+        self.assertIn("invalidConditionSource", weapon_update_continuous_invalidation["return_keys"])
+        self.assertIn("clearSource", weapon_update_continuous_invalidation["return_keys"])
+        self.assertEqual(weapon_update_continuous_invalidation["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -29082,6 +29158,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["soundUpdateCall"]["java_expr"], "mount.sound.update(bulletX, bulletY, false);")
         self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["soundGuardSource"]["java_expr"], "if(mount.sound != null){")
         self.assertEqual(source_weapon_update_continuous_idle_heat_sound_result["keys"]["soundUpdateSource"]["java_expr"], "public void update(float x, float y, boolean play){")
+
+        source_weapon_update_continuous_invalidation_input = source_symbols.state_schema(schema, "source_weapon_update_continuous_invalidation_input")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["weapon_state"]["java_expr"], "Weapon continuous invalidation fields")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["bullet_state"]["java_expr"], "mount.bullet")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["continuous"]["java_expr"], "public boolean continuous;")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["bulletExists"]["java_expr"], "public @Nullable Bullet bullet;")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["isAdded"]["java_expr"], "boolean isAdded(){")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["time"]["java_expr"], "float time, lifetime;")
+        self.assertEqual(source_weapon_update_continuous_invalidation_input["keys"]["typeMatches"]["java_expr"], "BulletType type;")
+
+        source_weapon_update_continuous_invalidation_result = source_symbols.state_schema(schema, "source_weapon_update_continuous_invalidation_result")
+        self.assertEqual(source_weapon_update_continuous_invalidation_result["keys"]["gate"]["java_expr"], "if(continuous && mount.bullet != null){")
+        self.assertEqual(source_weapon_update_continuous_invalidation_result["keys"]["invalid"]["java_expr"], "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){")
+        self.assertEqual(source_weapon_update_continuous_invalidation_result["keys"]["bulletExists"]["java_expr"], "mount.bullet = null;")
+        self.assertEqual(source_weapon_update_continuous_invalidation_result["keys"]["clearSource"]["java_expr"], "mount.bullet = null;")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

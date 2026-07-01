@@ -67506,6 +67506,256 @@
           ]
         }
       }
+    },
+    "source_weapon_update_continuous_invalidation_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.weapon_state",
+          "java_expr": "Weapon continuous invalidation fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.bullet_state",
+          "java_expr": "mount.bullet",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Mount bullet facts used by invalidation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "continuous": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.weapon_state.continuous",
+          "java_expr": "public boolean continuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon continuous field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "bulletExists": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.mount_state.bulletExists",
+          "java_expr": "public @Nullable Bullet bullet;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount bullet presence.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "isAdded": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.bullet_state.isAdded",
+          "java_expr": "boolean isAdded(){",
+          "java_method": "EntityComp.isAdded()",
+          "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+          "rule": "Bullet added-state fact.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "time": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.bullet_state.time",
+          "java_expr": "float time, lifetime;",
+          "java_method": "TimedComp fields",
+          "java_source": "core/src/mindustry/entities/comp/TimedComp.java",
+          "rule": "Bullet time fact.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "lifetime": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.bullet_state.lifetime",
+          "java_expr": "float time, lifetime;",
+          "java_method": "TimedComp fields",
+          "java_source": "core/src/mindustry/entities/comp/TimedComp.java",
+          "rule": "Bullet lifetime fact.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "typeMatches": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_input.bullet_state.typeMatches",
+          "java_expr": "BulletType type;",
+          "java_method": "BulletComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Bullet type equality against Weapon.bullet.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_continuous_invalidation_result": {
+      "status": "active",
+      "keys": {
+        "gate": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.gate",
+          "java_expr": "if(continuous && mount.bullet != null){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed continuous bullet invalidation gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "invalid": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.invalid",
+          "java_expr": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed invalidation result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "bulletExists": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.bulletExists",
+          "java_expr": "mount.bullet = null;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated bullet presence after invalidation.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "continuous": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.continuous",
+          "java_expr": "public boolean continuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Mirrors continuous input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "bulletIsAdded": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.bulletIsAdded",
+          "java_expr": "boolean isAdded(){",
+          "java_method": "EntityComp.isAdded()",
+          "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+          "rule": "Mirrors bullet added-state input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "bulletTime": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.bulletTime",
+          "java_expr": "float time, lifetime;",
+          "java_method": "TimedComp fields",
+          "java_source": "core/src/mindustry/entities/comp/TimedComp.java",
+          "rule": "Mirrors bullet time input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "bulletLifetime": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.bulletLifetime",
+          "java_expr": "float time, lifetime;",
+          "java_method": "TimedComp fields",
+          "java_source": "core/src/mindustry/entities/comp/TimedComp.java",
+          "rule": "Mirrors bullet lifetime input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "bulletTypeMatches": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.bulletTypeMatches",
+          "java_expr": "BulletType type;",
+          "java_method": "BulletComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Mirrors bullet type equality input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "guardSource": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.guardSource",
+          "java_expr": "if(continuous && mount.bullet != null){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact guard metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "invalidConditionSource": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.invalidConditionSource",
+          "java_expr": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact invalidation condition metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        },
+        "clearSource": {
+          "godot_symbol": "source_weapon_update_continuous_invalidation_result.clearSource",
+          "java_expr": "mount.bullet = null;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact clear metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_invalidation_state"
+          ]
+        }
+      }
     }
   },
   "version": 1
