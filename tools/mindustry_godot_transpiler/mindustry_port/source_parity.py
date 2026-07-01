@@ -155,6 +155,30 @@ def verify_consume_power_usage_params_parity(upstream_root: Path, godot_root: Pa
         "mismatches": mismatches,
     }
 
+def verify_power_generator_get_power_production_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "public float powerProduction;",
+        "build_class": "public class GeneratorBuild extends Building{",
+        "production_efficiency": "public float productionEfficiency = 0.0f;",
+        "enabled": "transient boolean enabled = true;",
+        "method": "public float getPowerProduction(){",
+        "return_power_production": "return enabled ? powerProduction * productionEfficiency : 0f;",
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in (building_comp_source if key == "enabled" else power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [BUILDING_COMP_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

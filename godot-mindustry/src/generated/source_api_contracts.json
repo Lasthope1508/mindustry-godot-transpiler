@@ -20285,6 +20285,39 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_to_string_state",
       "rule": "Public runtime contract for PowerGraph.toString() with Java Seq-formatted string inputs."
+    },
+    "PortGame.source_power_generator_get_power_production_state": {
+      "status": "active",
+      "source_slice": "N909",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "getPowerProduction()",
+      "params": [
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_power_generator_get_power_production_input.enabled"
+        },
+        {
+          "name": "power_production",
+          "type": "float",
+          "schema": "source_power_generator_get_power_production_input.power_production"
+        },
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_power_generator_get_power_production_input.production_efficiency"
+        }
+      ],
+      "return_keys": [
+        "computed_power_production"
+      ],
+      "tests": [
+        "test_power_generator_get_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_get_power_production_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_get_power_production_state",
+      "rule": "Public runtime contract for GeneratorBuild.getPowerProduction()."
     }
   },
   "policy": {

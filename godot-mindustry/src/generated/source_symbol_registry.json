@@ -63920,6 +63920,66 @@
         "test_power_graph_to_string_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.toString() return expression prefix and composition."
+    },
+    "power_generator_get_power_production.enabled": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "getPowerProduction()",
+      "java_expr": "enabled",
+      "godot_owner": "PortGame.source_power_generator_get_power_production_state",
+      "godot_symbol": "source_power_generator_get_power_production_input.enabled",
+      "runtime_proof": "/root/Main.source_power_generator_get_power_production_state",
+      "tests": [
+        "test_power_generator_get_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_get_power_production_matches_upstream_source"
+      ],
+      "rule": "Explicit BuildingComp enabled flag used by GeneratorBuild.getPowerProduction()."
+    },
+    "power_generator_get_power_production.power_production": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "getPowerProduction()",
+      "java_expr": "powerProduction",
+      "godot_owner": "PortGame.source_power_generator_get_power_production_state",
+      "godot_symbol": "source_power_generator_get_power_production_input.power_production",
+      "runtime_proof": "/root/Main.source_power_generator_get_power_production_state",
+      "tests": [
+        "test_power_generator_get_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_get_power_production_matches_upstream_source"
+      ],
+      "rule": "Explicit PowerGenerator powerProduction field."
+    },
+    "power_generator_get_power_production.production_efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "getPowerProduction()",
+      "java_expr": "productionEfficiency",
+      "godot_owner": "PortGame.source_power_generator_get_power_production_state",
+      "godot_symbol": "source_power_generator_get_power_production_input.production_efficiency",
+      "runtime_proof": "/root/Main.source_power_generator_get_power_production_state",
+      "tests": [
+        "test_power_generator_get_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_get_power_production_matches_upstream_source"
+      ],
+      "rule": "Explicit GeneratorBuild productionEfficiency field."
+    },
+    "power_generator_get_power_production.return_power_production": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "getPowerProduction()",
+      "java_expr": "return enabled ? powerProduction * productionEfficiency : 0f;",
+      "godot_owner": "PortGame.source_power_generator_get_power_production_state",
+      "godot_symbol": "source_power_generator_get_power_production_result.computed_power_production",
+      "runtime_proof": "/root/Main.source_power_generator_get_power_production_state",
+      "tests": [
+        "test_power_generator_get_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_get_power_production_matches_upstream_source"
+      ],
+      "rule": "Source-backed GeneratorBuild.getPowerProduction() ternary return."
     }
   },
   "version": 1

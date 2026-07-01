@@ -76758,6 +76758,110 @@
           "alias_of": "source_power_graph_to_string_input.graph_id"
         }
       }
+    },
+    "source_power_generator_get_power_production_input": {
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_generator_get_power_production_input key enabled.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_input.enabled",
+          "java_expr": "enabled"
+        },
+        "power_production": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_generator_get_power_production_input key power_production.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_input.power_production",
+          "java_expr": "powerProduction"
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_generator_get_power_production_input key production_efficiency.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_input.production_efficiency",
+          "java_expr": "productionEfficiency"
+        }
+      }
+    },
+    "source_power_generator_get_power_production_result": {
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_get_power_production_result key method.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_result.method",
+          "java_expr": "public float getPowerProduction(){"
+        },
+        "computed_power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_generator_get_power_production_result key computed_power_production.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_result.computed_power_production",
+          "java_expr": "return enabled ? powerProduction * productionEfficiency : 0f;"
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_power_generator_get_power_production_result key enabled.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_result.enabled",
+          "alias_of": "source_power_generator_get_power_production_input.enabled"
+        },
+        "power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_generator_get_power_production_result key power_production.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_result.power_production",
+          "alias_of": "source_power_generator_get_power_production_input.power_production"
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_generator_get_power_production_result key production_efficiency.",
+          "used_by": [
+            "PortGame.source_power_generator_get_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getPowerProduction()",
+          "godot_symbol": "source_power_generator_get_power_production_result.production_efficiency",
+          "alias_of": "source_power_generator_get_power_production_input.production_efficiency"
+        }
+      }
     }
   },
   "version": 1

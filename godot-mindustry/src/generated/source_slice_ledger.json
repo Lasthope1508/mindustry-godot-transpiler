@@ -18278,6 +18278,34 @@
         "test_power_graph_to_string_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.toString() string composition with Java Seq-formatted inputs."
+    },
+    "N909": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "getPowerProduction()",
+      "godot_owner": "PortGame.source_power_generator_get_power_production_state",
+      "runtime_proof": "/root/Main.source_power_generator_get_power_production_state",
+      "exact_exprs": [
+        "public float powerProduction;",
+        "public class GeneratorBuild extends Building{",
+        "public float productionEfficiency = 0.0f;",
+        "transient boolean enabled = true;",
+        "public float getPowerProduction(){",
+        "return enabled ? powerProduction * productionEfficiency : 0f;"
+      ],
+      "source_symbols": [
+        "power_generator_get_power_production.enabled",
+        "power_generator_get_power_production.power_production",
+        "power_generator_get_power_production.production_efficiency",
+        "power_generator_get_power_production.return_power_production"
+      ],
+      "tests": [
+        "test_power_generator_get_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_get_power_production_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGenerator.GeneratorBuild.getPowerProduction() return."
     }
   },
   "version": 1

@@ -496,6 +496,21 @@ func selected_build_power_production() -> float:
 	var selected = build_palette[selected_build_index]
 	return float(selected.properties.get("powerProduction", 0.0))
 
+func source_power_generator_get_power_production_state(enabled: bool, power_production: float, production_efficiency: float) -> Dictionary:
+	var computed_power_production := power_production * production_efficiency if enabled else 0.0
+	return {
+		"field": "public float powerProduction;",
+		"build_class": "public class GeneratorBuild extends Building{",
+		"production_efficiency": "public float productionEfficiency = 0.0f;",
+		"enabled": "transient boolean enabled = true;",
+		"method": "public float getPowerProduction(){",
+		"return_power_production": "return enabled ? powerProduction * productionEfficiency : 0f;",
+		"input_enabled": enabled,
+		"input_power_production": power_production,
+		"input_production_efficiency": production_efficiency,
+		"computed_power_production": computed_power_production,
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0
