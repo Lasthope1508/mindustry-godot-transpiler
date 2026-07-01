@@ -5501,6 +5501,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_lerp_delta["java_expr"], "public static float lerpDelta(float fromValue, float toValue, float progress){")
         self.assertEqual(mathf_lerp_delta["godot_symbol"], "source_weapon_update_passive_timers_result.smoothReload")
 
+    def test_weapon_update_reload_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        reload_gate = source_symbols.source_symbol(registry, "weapon_update_reload_gate.reload_gate")
+        self.assertEqual(reload_gate["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(reload_gate["java_expr"], "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon")
+        self.assertEqual(reload_gate["godot_owner"], "PortGame.source_weapon_update_reload_gate_state")
+        self.assertEqual(reload_gate["runtime_proof"], "/root/Main.source_weapon_update_reload_gate_state")
+        self.assertEqual(reload_gate["godot_symbol"], "source_weapon_update_reload_gate_result.reloadGate")
+
+        cone_gate_reserved = source_symbols.source_symbol(registry, "weapon_update_reload_gate.cone_gate_reserved")
+        self.assertEqual(cone_gate_reserved["java_expr"], "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone")
+        self.assertEqual(cone_gate_reserved["status"], "deferred")
+        self.assertEqual(cone_gate_reserved["godot_symbol"], "source_weapon_update_reload_gate_result.coneGateReservedSource")
+
+        weapon_always_continuous = source_symbols.source_symbol(registry, "weapon_update_reload_gate.weapon_always_continuous")
+        self.assertEqual(weapon_always_continuous["java_expr"], "public boolean alwaysContinuous;")
+        self.assertEqual(weapon_always_continuous["godot_symbol"], "source_weapon_update_reload_gate_input.weapon_state.alwaysContinuous")
+
+        weapon_reload = source_symbols.source_symbol(registry, "weapon_update_reload_gate.weapon_reload")
+        self.assertEqual(weapon_reload["java_expr"], "public float reload = 1;")
+        self.assertEqual(weapon_reload["godot_symbol"], "source_weapon_update_reload_gate_input.weapon_state.reload")
+
+        mount_reload = source_symbols.source_symbol(registry, "weapon_update_reload_gate.mount_reload")
+        self.assertEqual(mount_reload["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_reload["java_expr"], "public float reload;")
+        self.assertEqual(mount_reload["godot_symbol"], "source_weapon_update_reload_gate_input.mount_state.reload")
+
+        mount_bullet = source_symbols.source_symbol(registry, "weapon_update_reload_gate.mount_bullet")
+        self.assertEqual(mount_bullet["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_bullet["java_expr"], "public @Nullable Bullet bullet;")
+        self.assertEqual(mount_bullet["godot_symbol"], "source_weapon_update_reload_gate_input.mount_state.hasBullet")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16369,9 +16405,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 468)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 469)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 473)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 474)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16391,6 +16427,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_mount_origin_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapon_update_passive_timers_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapon_update_passive_timers_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapon_update_reload_gate_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_reload_gate_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19438,6 +19476,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return !disarmed && !(type.canBoost && isFlying());", weapon_update_passive_timers["bridge_exprs"])
         self.assertIn("weapon_update_passive_timers.reload_decay", weapon_update_passive_timers["source_symbols"])
         self.assertIn("weapon_update_passive_timers.mathf_lerp_delta_return", weapon_update_passive_timers["source_symbols"])
+
+        weapon_update_reload_gate = source_symbols.source_slice(ledger, "N871")
+        self.assertEqual(weapon_update_reload_gate["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_reload_gate["java_method"], "Weapon.update(Unit unit, WeaponMount mount) reload gate")
+        self.assertEqual(weapon_update_reload_gate["godot_owner"], "PortGame.source_weapon_update_reload_gate_state")
+        self.assertIn("(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon", weapon_update_reload_gate["exact_exprs"])
+        self.assertIn("(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone", weapon_update_reload_gate["deferred_exprs"])
+        self.assertIn("public boolean alwaysContinuous;", weapon_update_reload_gate["bridge_exprs"])
+        self.assertIn("public @Nullable Bullet bullet;", weapon_update_reload_gate["bridge_exprs"])
+        self.assertIn("weapon_update_reload_gate.reload_gate", weapon_update_reload_gate["source_symbols"])
+        self.assertIn("weapon_update_reload_gate.mount_bullet", weapon_update_reload_gate["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -22893,6 +22942,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("warmupTarget", weapon_update_passive_timers["return_keys"])
         self.assertIn("warmup", weapon_update_passive_timers["return_keys"])
         self.assertEqual(weapon_update_passive_timers["source_method"], "Weapon.update(Unit unit, WeaponMount mount) passive timers")
+
+        weapon_update_reload_gate = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_reload_gate_state")
+        self.assertEqual([param["name"] for param in weapon_update_reload_gate["params"]], ["mount_state", "weapon_state"])
+        self.assertEqual(weapon_update_reload_gate["params"][0]["schema"], "source_weapon_update_reload_gate_input.mount_state")
+        self.assertEqual(weapon_update_reload_gate["params"][1]["schema"], "source_weapon_update_reload_gate_input.weapon_state")
+        self.assertIn("reloadGate", weapon_update_reload_gate["return_keys"])
+        self.assertIn("reloadReady", weapon_update_reload_gate["return_keys"])
+        self.assertIn("alwaysContinuousReady", weapon_update_reload_gate["return_keys"])
+        self.assertIn("mountBulletNull", weapon_update_reload_gate["return_keys"])
+        self.assertIn("coneGateReservedSource", weapon_update_reload_gate["return_keys"])
+        self.assertEqual(weapon_update_reload_gate["source_method"], "Weapon.update(Unit unit, WeaponMount mount) reload gate")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -29693,6 +29753,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_passive_timers_result["keys"]["charge"]["java_expr"], "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;")
         self.assertEqual(source_weapon_update_passive_timers_result["keys"]["warmupTarget"]["java_expr"], "float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;")
         self.assertEqual(source_weapon_update_passive_timers_result["keys"]["warmup"]["java_expr"], "mount.warmup = Mathf.lerpDelta(mount.warmup, warmupTarget, shootWarmupSpeed);")
+
+        source_weapon_update_reload_gate_input = source_symbols.state_schema(schema, "source_weapon_update_reload_gate_input")
+        self.assertEqual(source_weapon_update_reload_gate_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_reload_gate_input["keys"]["weapon_state"]["java_expr"], "Weapon reload gate fields")
+        self.assertEqual(source_weapon_update_reload_gate_input["keys"]["reload"]["java_expr"], "public float reload;")
+        self.assertEqual(source_weapon_update_reload_gate_input["keys"]["alwaysContinuous"]["java_expr"], "public boolean alwaysContinuous;")
+        self.assertEqual(source_weapon_update_reload_gate_input["keys"]["hasBullet"]["java_expr"], "public @Nullable Bullet bullet;")
+
+        source_weapon_update_reload_gate_result = source_symbols.state_schema(schema, "source_weapon_update_reload_gate_result")
+        self.assertEqual(source_weapon_update_reload_gate_result["keys"]["reloadGate"]["java_expr"], "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon")
+        self.assertEqual(source_weapon_update_reload_gate_result["keys"]["reloadReady"]["java_expr"], "mount.reload <= 0.0001f")
+        self.assertEqual(source_weapon_update_reload_gate_result["keys"]["alwaysContinuousReady"]["java_expr"], "alwaysContinuous && mount.bullet == null")
+        self.assertEqual(source_weapon_update_reload_gate_result["keys"]["coneGateReservedSource"]["java_expr"], "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

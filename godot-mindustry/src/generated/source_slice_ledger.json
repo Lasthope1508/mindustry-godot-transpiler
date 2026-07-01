@@ -16839,6 +16839,41 @@
         "test_weapon_update_passive_timers_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update passive timers wrapper against exact upstream source."
+    },
+    "N871": {
+      "exact_exprs": [
+        "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon"
+      ],
+      "bridge_exprs": [
+        "public boolean alwaysContinuous;",
+        "public float reload = 1;",
+        "public float reload;",
+        "public @Nullable Bullet bullet;"
+      ],
+      "deferred_exprs": [
+        "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+        "Cone gate remains owned by source_weapon_update_cone_gate_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "source_symbols": [
+        "weapon_update_reload_gate.reload_gate",
+        "weapon_update_reload_gate.cone_gate_reserved",
+        "weapon_update_reload_gate.weapon_always_continuous",
+        "weapon_update_reload_gate.weapon_reload",
+        "weapon_update_reload_gate.mount_reload",
+        "weapon_update_reload_gate.mount_bullet"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update reload gate wrapper against exact upstream source."
     }
   },
   "version": 1

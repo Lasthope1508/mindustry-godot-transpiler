@@ -69630,6 +69630,220 @@
           ]
         }
       }
+    },
+    "source_weapon_update_reload_gate_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_reload_gate_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "WeaponMount state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_reload_gate_input.weapon_state",
+          "java_expr": "Weapon reload gate fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon reload gate fields input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_weapon_update_reload_gate_input.mount_state.reload",
+          "java_expr": "public float reload;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount reload input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "weaponReload": {
+          "godot_symbol": "source_weapon_update_reload_gate_input.weapon_state.reload",
+          "java_expr": "public float reload = 1;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon reload input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "alwaysContinuous": {
+          "godot_symbol": "source_weapon_update_reload_gate_input.weapon_state.alwaysContinuous",
+          "java_expr": "public boolean alwaysContinuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon alwaysContinuous input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "hasBullet": {
+          "godot_symbol": "source_weapon_update_reload_gate_input.mount_state.hasBullet",
+          "java_expr": "public @Nullable Bullet bullet;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount bullet presence input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_reload_gate_result": {
+      "status": "active",
+      "keys": {
+        "reloadGate": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.reloadGate",
+          "java_expr": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Combined reload gate result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "reloadReady": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.reloadReady",
+          "java_expr": "mount.reload <= 0.0001f",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Reload threshold term.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "alwaysContinuousReady": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.alwaysContinuousReady",
+          "java_expr": "alwaysContinuous && mount.bullet == null",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Always-continuous null-bullet term.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "mountReload": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.mountReload",
+          "java_expr": "public float reload;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount reload result echo.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "alwaysContinuous": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.alwaysContinuous",
+          "java_expr": "public boolean alwaysContinuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Always continuous result echo.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "mountBulletNull": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.mountBulletNull",
+          "java_expr": "public @Nullable Bullet bullet;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount bullet null result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "reloadGateSource": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.reloadGateSource",
+          "java_expr": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact reload gate source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "coneGateReservedSource": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.coneGateReservedSource",
+          "java_expr": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Reserved cone gate source.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "weaponAlwaysContinuousSource": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.weaponAlwaysContinuousSource",
+          "java_expr": "public boolean alwaysContinuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon alwaysContinuous source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "mountReloadSource": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.mountReloadSource",
+          "java_expr": "public float reload;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount reload source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        },
+        "mountBulletSource": {
+          "godot_symbol": "source_weapon_update_reload_gate_result.mountBulletSource",
+          "java_expr": "public @Nullable Bullet bullet;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount bullet source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_reload_gate_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -18627,6 +18627,44 @@
         "test_port_game_exposes_source_weapon_update_passive_timers_state",
         "test_weapon_update_passive_timers_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_reload_gate_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_reload_gate_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_reload_gate_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "reloadGate",
+        "reloadReady",
+        "alwaysContinuousReady",
+        "mountReload",
+        "alwaysContinuous",
+        "mountBulletNull",
+        "reloadGateSource",
+        "coneGateReservedSource",
+        "weaponAlwaysContinuousSource",
+        "mountReloadSource",
+        "mountBulletSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update reload gate state.",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+      "source_slice": "N871",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ]
     }
   },
   "policy": {

@@ -58428,6 +58428,96 @@
       "godot_symbol": "source_weapon_update_passive_timers_result.smoothReload",
       "status": "source-backed",
       "rule": "Arc Mathf.lerpDelta return."
+    },
+    "weapon_update_reload_gate.reload_gate": {
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
+      "godot_symbol": "source_weapon_update_reload_gate_result.reloadGate",
+      "status": "source-backed",
+      "rule": "Exact reload gate term."
+    },
+    "weapon_update_reload_gate.cone_gate_reserved": {
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+      "godot_symbol": "source_weapon_update_reload_gate_result.coneGateReservedSource",
+      "status": "deferred",
+      "rule": "Following cone gate remains owned by source_weapon_update_cone_gate_state."
+    },
+    "weapon_update_reload_gate.weapon_always_continuous": {
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean alwaysContinuous;",
+      "godot_symbol": "source_weapon_update_reload_gate_input.weapon_state.alwaysContinuous",
+      "status": "source-backed",
+      "rule": "Weapon alwaysContinuous field."
+    },
+    "weapon_update_reload_gate.weapon_reload": {
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float reload = 1;",
+      "godot_symbol": "source_weapon_update_reload_gate_input.weapon_state.reload",
+      "status": "source-backed",
+      "rule": "Weapon reload field."
+    },
+    "weapon_update_reload_gate.mount_reload": {
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float reload;",
+      "godot_symbol": "source_weapon_update_reload_gate_input.mount_state.reload",
+      "status": "source-backed",
+      "rule": "WeaponMount reload field."
+    },
+    "weapon_update_reload_gate.mount_bullet": {
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable Bullet bullet;",
+      "godot_symbol": "source_weapon_update_reload_gate_input.mount_state.hasBullet",
+      "status": "source-backed",
+      "rule": "WeaponMount bullet field."
     }
   },
   "version": 1
