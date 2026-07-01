@@ -64942,6 +64942,227 @@
       "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.deferred_body",
       "rule": "Tile lookup, deposit call, and shake remain deferred to later slices.",
       "status": "deferred"
+    },
+    "power_generator_create_explosion_puddle_tile_world.should_explode_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shouldExplode()",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.should_explode_value",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_input.should_explode_value maps to createExplosion puddle tileWorld source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_tile_world.explosion_puddle_liquid": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddleLiquid",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.explosion_puddle_liquid_value",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_input.explosion_puddle_liquid_value maps to createExplosion puddle tileWorld source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_tile_world.explosion_puddles": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddles",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.explosion_puddles",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_input.explosion_puddles maps to createExplosion puddle tileWorld source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_tile_world.source_x": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "x",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.source_x",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_input.source_x maps to createExplosion puddle tileWorld source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_tile_world.source_y": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "y",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.source_y",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_input.source_y maps to createExplosion puddle tileWorld source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_tile_world.source_tilesize": {
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "tilesize",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.source_tilesize",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_input.source_tilesize maps to createExplosion puddle tileWorld source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_tile_world.tmp_v1_vectors": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Tmp.v1",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors",
+      "rule": "Runtime tmp_v1_vectors parameter reuses N917 source-backed Tmp.v1 vector samples.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_tile_world.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void createExplosion(){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.method",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.method maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.gate": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(shouldExplode()){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.branch_entered",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.branch_entered maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.puddle_guard": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(explosionPuddleLiquid != null){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.puddle_guard_entered",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.puddle_guard_entered maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.puddle_loop": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "for(int i = 0; i < explosionPuddles; i++){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.puddle_loop_count",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.puddle_loop_count maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.random_vector": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.tile_assignment": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.world_tile_world": {
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "tileWorld(float x, float y)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return tile(Math.round(x / tilesize), Math.round(y / tilesize));",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.world_tile": {
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "tile(int x, int y)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return tiles.get(x, y);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.world_to_tile": {
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "toTile(float coord)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return Math.round(coord / tilesize);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls maps to createExplosion puddle tileWorld source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_tile_world.deferred_body": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "createExplosion() puddle deposit and shake body",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_tile_world_result.deferred_body",
+      "rule": "Puddles.deposit and shake remain deferred to later slices.",
+      "status": "deferred"
     }
   },
   "version": 1

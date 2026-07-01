@@ -400,6 +400,44 @@ def verify_power_generator_create_explosion_puddle_vector_source(upstream_root: 
         "missing": missing,
     }
 
+def verify_power_generator_create_explosion_puddle_tile_world_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    world_path = Path(upstream_root) / WORLD_SOURCE
+    vars_path = Path(upstream_root) / VARS_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    world_source = world_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "tile_assignment": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+        "deposit": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "world_tile_world_method": "public @Nullable Tile tileWorld(float x, float y){",
+        "world_tile_world_return": "return tile(Math.round(x / tilesize), Math.round(y / tilesize));",
+        "world_tile_method": "public Tile tile(int x, int y){",
+        "world_tile_return": "return tiles.get(x, y);",
+        "world_to_tile_method": "public static int toTile(float coord){",
+        "world_to_tile_return": "return Math.round(coord / tilesize);",
+        "tilesize_field": "public static final int tilesize = 8;",
+    }
+    sources_by_key = {
+        "world_tile_world_method": world_source,
+        "world_tile_world_return": world_source,
+        "world_tile_method": world_source,
+        "world_tile_return": world_source,
+        "world_to_tile_method": world_source,
+        "world_to_tile_return": world_source,
+        "tilesize_field": vars_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [WORLD_SOURCE, VARS_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

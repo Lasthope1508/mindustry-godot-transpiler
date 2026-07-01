@@ -316,6 +316,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_create_explosion_puddle_tile_world_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_create_explosion_puddle_tile_world_source"))
+        report = source_parity.verify_power_generator_create_explosion_puddle_tile_world_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(report["sources"], [
+            "core/src/mindustry/core/World.java",
+            "core/src/mindustry/Vars.java",
+        ])
+        self.assertEqual(report["checked"], {
+            "tile_assignment": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+            "deposit": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+            "world_tile_world_method": "public @Nullable Tile tileWorld(float x, float y){",
+            "world_tile_world_return": "return tile(Math.round(x / tilesize), Math.round(y / tilesize));",
+            "world_tile_method": "public Tile tile(int x, int y){",
+            "world_tile_return": "return tiles.get(x, y);",
+            "world_to_tile_method": "public static int toTile(float coord){",
+            "world_to_tile_return": "return Math.round(coord / tilesize);",
+            "tilesize_field": "public static final int tilesize = 8;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

@@ -77762,6 +77762,228 @@
           "java_expr": "createExplosion() puddle tile lookup deposit and shake body"
         }
       }
+    },
+    "source_power_generator_create_explosion_puddle_tile_world_input": {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "source_slice": "N918",
+      "status": "active",
+      "keys": {
+        "should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "shouldExplode()",
+          "alias_of": "source_power_generator_should_explode_result.should_explode"
+        },
+        "explosion_puddle_liquid_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionPuddleLiquid"
+        },
+        "explosion_puddles": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionPuddles"
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "x"
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "y"
+        },
+        "source_tilesize": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "tilesize"
+        },
+        "tmp_v1_vectors": {
+          "type": "Array[Dictionary]",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Tmp.v1",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors"
+        }
+      }
+    },
+    "source_power_generator_create_explosion_puddle_tile_world_result": {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "source_slice": "N918",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public void createExplosion(){"
+        },
+        "gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){"
+        },
+        "puddle_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(explosionPuddleLiquid != null){"
+        },
+        "puddle_loop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "for(int i = 0; i < explosionPuddles; i++){"
+        },
+        "random_vector": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));"
+        },
+        "tile_assignment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);"
+        },
+        "world_tile_world_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "public @Nullable Tile tileWorld(float x, float y){"
+        },
+        "world_tile_world_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "return tile(Math.round(x / tilesize), Math.round(y / tilesize));"
+        },
+        "world_tile_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "public Tile tile(int x, int y){"
+        },
+        "world_tile_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "return tiles.get(x, y);"
+        },
+        "world_to_tile_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "public static int toTile(float coord){"
+        },
+        "world_to_tile_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/World.java",
+          "java_expr": "return Math.round(coord / tilesize);"
+        },
+        "vars_tilesize_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;"
+        },
+        "input_should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.should_explode_value"
+        },
+        "input_explosion_puddle_liquid_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.explosion_puddle_liquid_value"
+        },
+        "input_explosion_puddles": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.explosion_puddles"
+        },
+        "input_source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.source_x"
+        },
+        "input_source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.source_y"
+        },
+        "input_source_tilesize": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.source_tilesize"
+        },
+        "input_tmp_v1_vectors": {
+          "type": "Array[Dictionary]",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors"
+        },
+        "branch_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.should_explode_value"
+        },
+        "puddle_guard_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(explosionPuddleLiquid != null){"
+        },
+        "puddle_loop_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "for(int i = 0; i < explosionPuddles; i++){"
+        },
+        "tile_world_calls": {
+          "type": "Array[Dictionary]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);"
+        },
+        "tile_lookup_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);"
+        },
+        "missing_tmp_v1_count": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors"
+        },
+        "deposit_deferred": {
+          "type": "String",
+          "status": "deferred",
+          "java_expr": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);"
+        },
+        "shake_deferred": {
+          "type": "String",
+          "status": "deferred",
+          "java_expr": "Effect.shake(explosionShake, explosionShakeDuration, this);"
+        },
+        "deferred_body": {
+          "type": "Array[String]",
+          "status": "deferred",
+          "java_expr": "createExplosion() puddle deposit and shake body"
+        }
+      }
     }
   },
   "version": 1

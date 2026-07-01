@@ -757,6 +757,73 @@ func source_power_generator_create_explosion_puddle_vector_state(should_explode_
 		],
 	}
 
+func source_power_generator_create_explosion_puddle_tile_world_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int, source_x: float, source_y: float, source_tilesize: int, tmp_v1_vectors: Array) -> Dictionary:
+	var branch_entered := should_explode_value
+	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
+	var puddle_loop_count := 0
+	if puddle_guard_entered:
+		puddle_loop_count = max(explosion_puddles, 0)
+	var tile_lookup_count = min(puddle_loop_count, tmp_v1_vectors.size())
+	var missing_tmp_v1_count = max(puddle_loop_count - tmp_v1_vectors.size(), 0)
+	var tile_world_calls := []
+	for i in range(tile_lookup_count):
+		var tmp_vector: Dictionary = tmp_v1_vectors[i]
+		var tmp_v1_x := float(tmp_vector.get("x", 0.0))
+		var tmp_v1_y := float(tmp_vector.get("y", 0.0))
+		var world_x := source_x + tmp_v1_x
+		var world_y := source_y + tmp_v1_y
+		var tile_x := int(floor(world_x / float(source_tilesize) + 0.5))
+		var tile_y := int(floor(world_y / float(source_tilesize) + 0.5))
+		tile_world_calls.append({
+			"i": i,
+			"base_x": source_x,
+			"base_y": source_y,
+			"tmp_v1_x": tmp_v1_x,
+			"tmp_v1_y": tmp_v1_y,
+			"world_x": world_x,
+			"world_y": world_y,
+			"source_tilesize": source_tilesize,
+			"tile_x": tile_x,
+			"tile_y": tile_y,
+			"call": "world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y)",
+			"tile_result_deferred": true,
+		})
+	return {
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"puddle_guard": "if(explosionPuddleLiquid != null){",
+		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+		"random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+		"tile_assignment": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+		"world_tile_world_method": "public @Nullable Tile tileWorld(float x, float y){",
+		"world_tile_world_return": "return tile(Math.round(x / tilesize), Math.round(y / tilesize));",
+		"world_tile_method": "public Tile tile(int x, int y){",
+		"world_tile_return": "return tiles.get(x, y);",
+		"world_to_tile_method": "public static int toTile(float coord){",
+		"world_to_tile_return": "return Math.round(coord / tilesize);",
+		"vars_tilesize_field": "public static final int tilesize = 8;",
+		"input_should_explode_value": should_explode_value,
+		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
+		"input_explosion_puddles": explosion_puddles,
+		"input_source_x": source_x,
+		"input_source_y": source_y,
+		"input_source_tilesize": source_tilesize,
+		"input_tmp_v1_vectors": tmp_v1_vectors,
+		"branch_entered": branch_entered,
+		"puddle_guard_entered": puddle_guard_entered,
+		"puddle_loop_count": puddle_loop_count,
+		"tile_world_calls": tile_world_calls,
+		"tile_lookup_count": tile_lookup_count,
+		"missing_tmp_v1_count": missing_tmp_v1_count,
+		"deposit_deferred": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+		"shake_deferred": "Effect.shake(explosionShake, explosionShakeDuration, this);",
+		"deferred_body": [
+			"Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+			"if(explosionShake > 0){",
+			"Effect.shake(explosionShake, explosionShakeDuration, this);",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

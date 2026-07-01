@@ -13921,6 +13921,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(deferred_body["java_expr"], "createExplosion() puddle tile lookup deposit and shake body")
         self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_puddle_vector_result.deferred_body")
 
+    def test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        source_x = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_tile_world.source_x")
+        self.assertEqual(source_x["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(source_x["java_method"], "createExplosion()")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "x")
+        self.assertEqual(source_x["godot_owner"], "PortGame.source_power_generator_create_explosion_puddle_tile_world_state")
+        self.assertEqual(source_x["runtime_proof"], "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state")
+        self.assertEqual(source_x["godot_symbol"], "source_power_generator_create_explosion_puddle_tile_world_input.source_x")
+
+        tmp_v1_vectors = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_tile_world.tmp_v1_vectors")
+        self.assertEqual(tmp_v1_vectors["status"], "explicit-input")
+        self.assertEqual(tmp_v1_vectors["java_expr"], "Tmp.v1")
+        self.assertEqual(tmp_v1_vectors["godot_symbol"], "source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors")
+
+        tile_assignment = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_tile_world.tile_assignment")
+        self.assertEqual(tile_assignment["java_expr"], "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);")
+        self.assertEqual(tile_assignment["godot_symbol"], "source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls")
+
+        world_tile_world = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_tile_world.world_tile_world")
+        self.assertEqual(world_tile_world["java_source"], "core/src/mindustry/core/World.java")
+        self.assertEqual(world_tile_world["java_expr"], "return tile(Math.round(x / tilesize), Math.round(y / tilesize));")
+        self.assertEqual(world_tile_world["godot_symbol"], "source_power_generator_create_explosion_puddle_tile_world_result.tile_world_calls")
+
+        tilesize = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_tile_world.source_tilesize")
+        self.assertEqual(tilesize["java_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(tilesize["java_expr"], "tilesize")
+        self.assertEqual(tilesize["godot_symbol"], "source_power_generator_create_explosion_puddle_tile_world_input.source_tilesize")
+
+        deferred_body = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_tile_world.deferred_body")
+        self.assertEqual(deferred_body["status"], "deferred")
+        self.assertEqual(deferred_body["java_expr"], "createExplosion() puddle deposit and shake body")
+        self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_puddle_tile_world_result.deferred_body")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17837,9 +17876,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 514)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 515)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 519)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 520)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -18329,6 +18368,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_draw_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_draw_liquid_light_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_generator_create_explosion_puddle_vector_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_power_generator_create_explosion_puddle_tile_world_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -22578,6 +22618,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float newX = this.x * cos - this.y * sin;", power_generator_create_explosion_puddle_vector["exact_exprs"])
         self.assertIn("Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);", power_generator_create_explosion_puddle_vector["deferred_exprs"])
         self.assertIn("Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);", power_generator_create_explosion_puddle_vector["deferred_exprs"])
+
+        power_generator_create_explosion_puddle_tile_world = source_symbols.source_slice(ledger, "N918")
+        self.assertEqual(power_generator_create_explosion_puddle_tile_world["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_create_explosion_puddle_tile_world["java_method"], "createExplosion()")
+        self.assertEqual(power_generator_create_explosion_puddle_tile_world["godot_owner"], "PortGame.source_power_generator_create_explosion_puddle_tile_world_state")
+        self.assertIn("Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);", power_generator_create_explosion_puddle_tile_world["exact_exprs"])
+        self.assertIn("return tile(Math.round(x / tilesize), Math.round(y / tilesize));", power_generator_create_explosion_puddle_tile_world["exact_exprs"])
+        self.assertIn("return tiles.get(x, y);", power_generator_create_explosion_puddle_tile_world["exact_exprs"])
+        self.assertIn("public static final int tilesize = 8;", power_generator_create_explosion_puddle_tile_world["exact_exprs"])
+        self.assertIn("Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);", power_generator_create_explosion_puddle_tile_world["deferred_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27527,6 +27577,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("vector_count", power_generator_create_explosion_puddle_vector["return_keys"])
         self.assertIn("missing_random_input_count", power_generator_create_explosion_puddle_vector["return_keys"])
         self.assertEqual(power_generator_create_explosion_puddle_vector["source_method"], "createExplosion()")
+
+        power_generator_create_explosion_puddle_tile_world = source_symbols.api_contract(contracts, "PortGame.source_power_generator_create_explosion_puddle_tile_world_state")
+        self.assertEqual([param["name"] for param in power_generator_create_explosion_puddle_tile_world["params"]], ["should_explode_value", "explosion_puddle_liquid_value", "explosion_puddles", "source_x", "source_y", "source_tilesize", "tmp_v1_vectors"])
+        self.assertEqual(power_generator_create_explosion_puddle_tile_world["params"][0]["schema"], "source_power_generator_create_explosion_puddle_tile_world_input.should_explode_value")
+        self.assertEqual(power_generator_create_explosion_puddle_tile_world["params"][3]["schema"], "source_power_generator_create_explosion_puddle_tile_world_input.source_x")
+        self.assertEqual(power_generator_create_explosion_puddle_tile_world["params"][6]["schema"], "source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors")
+        self.assertIn("tile_world_calls", power_generator_create_explosion_puddle_tile_world["return_keys"])
+        self.assertIn("missing_tmp_v1_count", power_generator_create_explosion_puddle_tile_world["return_keys"])
+        self.assertIn("deposit_deferred", power_generator_create_explosion_puddle_tile_world["return_keys"])
+        self.assertEqual(power_generator_create_explosion_puddle_tile_world["source_method"], "createExplosion()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33575,6 +33635,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_generator_create_explosion_puddle_vector_result["keys"]["vec2_trns"]["java_expr"], "return set(amount, 0).rotate(angle);")
         self.assertEqual(source_power_generator_create_explosion_puddle_vector_result["keys"]["tmp_v1_vectors"]["java_expr"], "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));")
         self.assertEqual(source_power_generator_create_explosion_puddle_vector_result["keys"]["vector_count"]["java_expr"], "for(int i = 0; i < explosionPuddles; i++){")
+
+        source_power_generator_create_explosion_puddle_tile_world_input = source_symbols.state_schema(schema, "source_power_generator_create_explosion_puddle_tile_world_input")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_input["keys"]["should_explode_value"]["alias_of"], "source_power_generator_should_explode_result.should_explode")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_input["keys"]["source_tilesize"]["java_expr"], "tilesize")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_input["keys"]["tmp_v1_vectors"]["alias_of"], "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors")
+
+        source_power_generator_create_explosion_puddle_tile_world_result = source_symbols.state_schema(schema, "source_power_generator_create_explosion_puddle_tile_world_result")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_result["keys"]["tile_assignment"]["java_expr"], "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_result["keys"]["world_tile_world_return"]["java_expr"], "return tile(Math.round(x / tilesize), Math.round(y / tilesize));")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_result["keys"]["world_tile_return"]["java_expr"], "return tiles.get(x, y);")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_result["keys"]["tile_world_calls"]["java_expr"], "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);")
+        self.assertEqual(source_power_generator_create_explosion_puddle_tile_world_result["keys"]["missing_tmp_v1_count"]["alias_of"], "source_power_generator_create_explosion_puddle_tile_world_input.tmp_v1_vectors")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

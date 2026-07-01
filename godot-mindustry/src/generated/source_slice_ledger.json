@@ -18610,6 +18610,53 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N918": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_tile_world.should_explode_call",
+        "power_generator_create_explosion_puddle_tile_world.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_tile_world.explosion_puddles",
+        "power_generator_create_explosion_puddle_tile_world.source_x",
+        "power_generator_create_explosion_puddle_tile_world.source_y",
+        "power_generator_create_explosion_puddle_tile_world.source_tilesize",
+        "power_generator_create_explosion_puddle_tile_world.tmp_v1_vectors",
+        "power_generator_create_explosion_puddle_tile_world.method",
+        "power_generator_create_explosion_puddle_tile_world.gate",
+        "power_generator_create_explosion_puddle_tile_world.puddle_guard",
+        "power_generator_create_explosion_puddle_tile_world.puddle_loop",
+        "power_generator_create_explosion_puddle_tile_world.random_vector",
+        "power_generator_create_explosion_puddle_tile_world.tile_assignment",
+        "power_generator_create_explosion_puddle_tile_world.world_tile_world",
+        "power_generator_create_explosion_puddle_tile_world.world_tile",
+        "power_generator_create_explosion_puddle_tile_world.world_to_tile",
+        "power_generator_create_explosion_puddle_tile_world.deferred_body"
+      ],
+      "exact_exprs": [
+        "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+        "public @Nullable Tile tileWorld(float x, float y){",
+        "return tile(Math.round(x / tilesize), Math.round(y / tilesize));",
+        "public Tile tile(int x, int y){",
+        "return tiles.get(x, y);",
+        "public static int toTile(float coord){",
+        "return Math.round(coord / tilesize);",
+        "public static final int tilesize = 8;"
+      ],
+      "deferred_exprs": [
+        "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
