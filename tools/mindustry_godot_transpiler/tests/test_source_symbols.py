@@ -13449,6 +13449,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(queue_add["java_expr"], "queue.addLast(other);")
         self.assertEqual(queue_add["godot_symbol"], "source_power_graph_remove_branch_seed_result.queued_positions")
 
+    def test_power_graph_remove_branch_bfs_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        tile_input = source_symbols.source_symbol(registry, "power_graph_remove_branch_bfs.tile")
+        self.assertEqual(tile_input["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(tile_input["java_method"], "remove(Building tile)")
+        self.assertEqual(tile_input["status"], "explicit-input")
+        self.assertEqual(tile_input["java_expr"], "tile")
+        self.assertEqual(tile_input["godot_owner"], "PortGame.source_power_graph_remove_branch_bfs_state")
+        self.assertEqual(tile_input["runtime_proof"], "/root/Main.source_power_graph_remove_branch_bfs_state")
+        self.assertEqual(tile_input["godot_symbol"], "source_power_graph_remove_branch_bfs_input.tile")
+
+        while_queue = source_symbols.source_symbol(registry, "power_graph_remove_branch_bfs.while_queue")
+        self.assertEqual(while_queue["java_expr"], "while(queue.size > 0){")
+        self.assertEqual(while_queue["godot_symbol"], "source_power_graph_remove_branch_bfs_result.branch_traversals")
+
+        remove_first = source_symbols.source_symbol(registry, "power_graph_remove_branch_bfs.remove_first")
+        self.assertEqual(remove_first["java_expr"], "Building child = queue.removeFirst();")
+        self.assertEqual(remove_first["godot_symbol"], "source_power_graph_remove_branch_bfs_result.visited_positions")
+
+        graph_add_child = source_symbols.source_symbol(registry, "power_graph_remove_branch_bfs.graph_add_child")
+        self.assertEqual(graph_add_child["java_expr"], "graph.add(child);")
+        self.assertEqual(graph_add_child["godot_symbol"], "source_power_graph_remove_branch_bfs_result.child_add_states")
+
+        branch_guard = source_symbols.source_symbol(registry, "power_graph_remove_branch_bfs.branch_guard")
+        self.assertEqual(branch_guard["java_expr"], "if(next != tile && next.power.graph != graph){")
+        self.assertEqual(branch_guard["godot_symbol"], "source_power_graph_remove_branch_bfs_result.skipped_next_positions")
+
+        graph_add_next = source_symbols.source_symbol(registry, "power_graph_remove_branch_bfs.graph_add_next")
+        self.assertEqual(graph_add_next["java_expr"], "graph.add(next);")
+        self.assertEqual(graph_add_next["godot_symbol"], "source_power_graph_remove_branch_bfs_result.next_add_states")
+
+        queue_add_next = source_symbols.source_symbol(registry, "power_graph_remove_branch_bfs.queue_add_next")
+        self.assertEqual(queue_add_next["java_expr"], "queue.addLast(next);")
+        self.assertEqual(queue_add_next["godot_symbol"], "source_power_graph_remove_branch_bfs_result.queued_positions")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17365,9 +17404,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 500)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 501)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 505)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 506)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -21969,6 +22008,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("graph.add(other);", power_graph_remove_branch_seed["exact_exprs"])
         self.assertIn("queue.clear();", power_graph_remove_branch_seed["exact_exprs"])
         self.assertIn("queue.addLast(other);", power_graph_remove_branch_seed["exact_exprs"])
+
+        power_graph_remove_branch_bfs = source_symbols.source_slice(ledger, "N904")
+        self.assertEqual(power_graph_remove_branch_bfs["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_remove_branch_bfs["java_method"], "remove(Building tile)")
+        self.assertEqual(power_graph_remove_branch_bfs["godot_owner"], "PortGame.source_power_graph_remove_branch_bfs_state")
+        self.assertIn("while(queue.size > 0){", power_graph_remove_branch_bfs["exact_exprs"])
+        self.assertIn("Building child = queue.removeFirst();", power_graph_remove_branch_bfs["exact_exprs"])
+        self.assertIn("graph.add(child);", power_graph_remove_branch_bfs["exact_exprs"])
+        self.assertIn("for(Building next : child.getPowerConnections(outArray2)){", power_graph_remove_branch_bfs["exact_exprs"])
+        self.assertIn("if(next != tile && next.power.graph != graph){", power_graph_remove_branch_bfs["exact_exprs"])
+        self.assertIn("graph.add(next);", power_graph_remove_branch_bfs["exact_exprs"])
+        self.assertIn("queue.addLast(next);", power_graph_remove_branch_bfs["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26798,6 +26849,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("skipped_others", power_graph_remove_branch_seed["return_keys"])
         self.assertIn("queued_positions", power_graph_remove_branch_seed["return_keys"])
         self.assertEqual(power_graph_remove_branch_seed["source_method"], "remove(Building tile)")
+
+        power_graph_remove_branch_bfs = source_symbols.api_contract(contracts, "PortGame.source_power_graph_remove_branch_bfs_state")
+        self.assertEqual([param["name"] for param in power_graph_remove_branch_bfs["params"]], ["tile"])
+        self.assertEqual(power_graph_remove_branch_bfs["params"][0]["schema"], "source_power_graph_remove_branch_bfs_input.tile")
+        self.assertIn("branch_traversals", power_graph_remove_branch_bfs["return_keys"])
+        self.assertIn("visited_positions", power_graph_remove_branch_bfs["return_keys"])
+        self.assertIn("queued_positions", power_graph_remove_branch_bfs["return_keys"])
+        self.assertIn("child_add_states", power_graph_remove_branch_bfs["return_keys"])
+        self.assertIn("next_add_states", power_graph_remove_branch_bfs["return_keys"])
+        self.assertIn("branch_graph_positions", power_graph_remove_branch_bfs["return_keys"])
+        self.assertIn("skipped_next_positions", power_graph_remove_branch_bfs["return_keys"])
+        self.assertEqual(power_graph_remove_branch_bfs["source_method"], "remove(Building tile)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -32687,6 +32750,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_graph_remove_branch_seed_result["keys"]["branch_seeds"]["java_expr"], "PowerGraph graph = new PowerGraph();/graph.add(other);")
         self.assertEqual(source_power_graph_remove_branch_seed_result["keys"]["skipped_others"]["java_expr"], "if(other.power.graph != this) continue;")
         self.assertEqual(source_power_graph_remove_branch_seed_result["keys"]["queued_positions"]["java_expr"], "queue.addLast(other);")
+
+        source_power_graph_remove_branch_bfs_input = source_symbols.state_schema(schema, "source_power_graph_remove_branch_bfs_input")
+        self.assertEqual(source_power_graph_remove_branch_bfs_input["keys"]["tile"]["java_expr"], "tile")
+        self.assertEqual(source_power_graph_remove_branch_bfs_input["keys"]["tile"]["status"], "explicit-input")
+
+        source_power_graph_remove_branch_bfs_result = source_symbols.state_schema(schema, "source_power_graph_remove_branch_bfs_result")
+        self.assertEqual(source_power_graph_remove_branch_bfs_result["keys"]["branch_traversals"]["java_expr"], "while(queue.size > 0){")
+        self.assertEqual(source_power_graph_remove_branch_bfs_result["keys"]["visited_positions"]["java_expr"], "Building child = queue.removeFirst();")
+        self.assertEqual(source_power_graph_remove_branch_bfs_result["keys"]["child_add_states"]["java_expr"], "graph.add(child);")
+        self.assertEqual(source_power_graph_remove_branch_bfs_result["keys"]["branch_graph_positions"]["java_expr"], "next.power.graph = graph via graph.add(next)")
+        self.assertEqual(source_power_graph_remove_branch_bfs_result["keys"]["skipped_next_positions"]["java_expr"], "if(next != tile && next.power.graph != graph){")
+        self.assertEqual(source_power_graph_remove_branch_bfs_result["keys"]["next_add_states"]["java_expr"], "graph.add(next);")
+        self.assertEqual(source_power_graph_remove_branch_bfs_result["keys"]["queued_positions"]["java_expr"], "queue.addLast(next);")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

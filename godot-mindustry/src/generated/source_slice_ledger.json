@@ -18136,6 +18136,44 @@
         "test_power_graph_remove_branch_seed_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "N904": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_bfs_state",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_bfs_state",
+      "exact_exprs": [
+        "while(queue.size > 0){",
+        "//get child from queue",
+        "Building child = queue.removeFirst();",
+        "//add it to the new branch graph",
+        "graph.add(child);",
+        "//go through connections",
+        "for(Building next : child.getPowerConnections(outArray2)){",
+        "//make sure it hasn't looped back, and that the new graph being assigned hasn't already been assigned",
+        "//also skip closed tiles",
+        "if(next != tile && next.power.graph != graph){",
+        "graph.add(next);",
+        "queue.addLast(next);"
+      ],
+      "source_symbols": [
+        "power_graph_remove_branch_bfs.tile",
+        "power_graph_remove_branch_bfs.while_queue",
+        "power_graph_remove_branch_bfs.remove_first",
+        "power_graph_remove_branch_bfs.graph_add_child",
+        "power_graph_remove_branch_bfs.connections_loop",
+        "power_graph_remove_branch_bfs.branch_guard",
+        "power_graph_remove_branch_bfs.graph_add_next",
+        "power_graph_remove_branch_bfs.queue_add_next"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_bfs_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_bfs_state_for_mcp",
+        "test_power_graph_remove_branch_bfs_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.remove(Building tile) BFS traversal before graph.update(); branch graph membership is represented internally from queued Building pos values, not as a public parameter."
     }
   },
   "version": 1

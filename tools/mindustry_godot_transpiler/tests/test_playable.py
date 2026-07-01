@@ -309,6 +309,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"queue_add_other": "queue.addLast(other);"', source)
         self.assertIn("source_power_graph_add_role_state(", source)
 
+    def test_port_game_exposes_source_power_graph_remove_branch_bfs_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:", source)
+        self.assertIn("var seed_state := source_power_graph_remove_branch_seed_state(tile)", source)
+        self.assertIn('"while_queue": "while(queue.size > 0){"', source)
+        self.assertIn('"remove_first": "Building child = queue.removeFirst();"', source)
+        self.assertIn('"graph_add_child": "graph.add(child);"', source)
+        self.assertIn('"connections_loop": "for(Building next : child.getPowerConnections(outArray2)){"', source)
+        self.assertIn('"branch_guard": "if(next != tile && next.power.graph != graph){"', source)
+        self.assertIn('"graph_add_next": "graph.add(next);"', source)
+        self.assertIn('"queue_add_next": "queue.addLast(next);"', source)
+        self.assertIn("branch_graph_positions", source)
+        self.assertIn("skipped_next_positions", source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -20108,6 +20108,49 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
       "rule": "Public runtime contract for PowerGraph.remove(Building tile) branch seed before BFS."
+    },
+    "PortGame.source_power_graph_remove_branch_bfs_state": {
+      "status": "active",
+      "source_slice": "N904",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "remove(Building tile)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Dictionary",
+          "schema": "source_power_graph_remove_branch_bfs_input.tile"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "while_queue",
+        "get_child_comment",
+        "remove_first",
+        "add_child_comment",
+        "graph_add_child",
+        "connections_comment",
+        "connections_loop",
+        "branch_guard_comment",
+        "skip_closed_comment",
+        "branch_guard",
+        "graph_add_next",
+        "queue_add_next",
+        "tile",
+        "branch_traversals",
+        "visited_positions",
+        "queued_positions",
+        "child_add_states",
+        "next_add_states",
+        "branch_graph_positions",
+        "skipped_next_positions"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_bfs_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_bfs_state_for_mcp",
+        "test_power_graph_remove_branch_bfs_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_bfs_state",
+      "rule": "Public runtime contract for PowerGraph.remove(Building tile) BFS loop before graph.update()."
     }
   },
   "policy": {

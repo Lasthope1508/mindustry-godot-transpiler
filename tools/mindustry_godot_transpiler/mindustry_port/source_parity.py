@@ -618,6 +618,30 @@ def verify_power_graph_remove_branch_seed_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_power_graph_remove_branch_bfs_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "while_queue": "while(queue.size > 0){",
+        "get_child_comment": "//get child from queue",
+        "remove_first": "Building child = queue.removeFirst();",
+        "add_child_comment": "//add it to the new branch graph",
+        "graph_add_child": "graph.add(child);",
+        "connections_comment": "//go through connections",
+        "connections_loop": "for(Building next : child.getPowerConnections(outArray2)){",
+        "branch_guard_comment": "//make sure it hasn't looped back, and that the new graph being assigned hasn't already been assigned",
+        "skip_closed_comment": "//also skip closed tiles",
+        "branch_guard": "if(next != tile && next.power.graph != graph){",
+        "graph_add_next": "graph.add(next);",
+        "queue_add_next": "queue.addLast(next);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

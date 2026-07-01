@@ -1160,6 +1160,117 @@ func source_power_graph_remove_branch_seed_state(tile: Dictionary) -> Dictionary
 		"queued_positions": queued_positions,
 	}
 
+func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:
+	var seed_state := source_power_graph_remove_branch_seed_state(tile)
+	var branch_traversals: Array = []
+	var visited_positions: Array = []
+	var queued_positions: Array = []
+	var child_add_states: Array = []
+	var next_add_states: Array = []
+	var branch_graph_positions: Array = []
+	var skipped_next_positions: Array = []
+	var tile_pos = tile.get("pos", null)
+	for seed_variant in seed_state.get("branch_seeds", []):
+		if typeof(seed_variant) != TYPE_DICTIONARY:
+			continue
+		var seed_entry: Dictionary = seed_variant
+		var other: Dictionary = seed_entry.get("other", {})
+		var queue: Array = []
+		var branch_lookup: Dictionary = {}
+		var branch_positions: Array = []
+		var other_pos = other.get("pos", seed_entry.get("other_pos", null))
+		var other_pos_key := var_to_str(other_pos)
+		branch_lookup[other_pos_key] = true
+		branch_positions.append(other_pos)
+		branch_graph_positions.append(other_pos)
+		queue.append(other.duplicate(true))
+		queued_positions.append(other_pos)
+		var traversal := {
+			"other_pos": other_pos,
+			"visited_positions": [],
+			"queued_positions": [other_pos],
+			"branch_graph_positions": [other_pos],
+			"skipped_next_positions": [],
+		}
+		while queue.size() > 0:
+			var child_variant = queue.pop_front()
+			if typeof(child_variant) != TYPE_DICTIONARY:
+				continue
+			var child: Dictionary = child_variant
+			var child_pos = child.get("pos", null)
+			visited_positions.append(child_pos)
+			traversal["visited_positions"].append(child_pos)
+			child_add_states.append(source_power_graph_add_role_state(
+				bool(child.get("build_present", true)),
+				bool(child.get("power_present", true)),
+				true,
+				true,
+				bool(child.get("old_graph_present", false)),
+				bool(child.get("old_graph_is_self", false)),
+				bool(child.get("old_graph_has_entity", false)),
+				bool(child.get("outputs_power", false)),
+				bool(child.get("consumes_power", false)),
+				bool(child.get("has_cons_power", false)),
+				bool(child.get("cons_power_buffered", false))
+			))
+			var connections: Array = child.get("connections", [])
+			for next_variant in connections:
+				if typeof(next_variant) != TYPE_DICTIONARY:
+					continue
+				var next: Dictionary = next_variant
+				var next_pos = next.get("pos", null)
+				var next_pos_key := var_to_str(next_pos)
+				if next_pos != tile_pos and not branch_lookup.has(next_pos_key):
+					var next_add_state := source_power_graph_add_role_state(
+						bool(next.get("build_present", true)),
+						bool(next.get("power_present", true)),
+						bool(next.get("graph_matches", false)),
+						bool(next.get("power_init", false)),
+						bool(next.get("old_graph_present", false)),
+						bool(next.get("old_graph_is_self", false)),
+						bool(next.get("old_graph_has_entity", false)),
+						bool(next.get("outputs_power", false)),
+						bool(next.get("consumes_power", false)),
+						bool(next.get("has_cons_power", false)),
+						bool(next.get("cons_power_buffered", false))
+					)
+					next_add_states.append(next_add_state)
+					branch_lookup[next_pos_key] = true
+					branch_positions.append(next_pos)
+					branch_graph_positions.append(next_pos)
+					traversal["branch_graph_positions"].append(next_pos)
+					queued_positions.append(next_pos)
+					traversal["queued_positions"].append(next_pos)
+					queue.append(next.duplicate(true))
+				else:
+					skipped_next_positions.append(next_pos)
+					traversal["skipped_next_positions"].append(next_pos)
+		traversal["branch_positions"] = branch_positions
+		branch_traversals.append(traversal)
+	return {
+		"method": "public void remove(Building tile){",
+		"while_queue": "while(queue.size > 0){",
+		"get_child_comment": "//get child from queue",
+		"remove_first": "Building child = queue.removeFirst();",
+		"add_child_comment": "//add it to the new branch graph",
+		"graph_add_child": "graph.add(child);",
+		"connections_comment": "//go through connections",
+		"connections_loop": "for(Building next : child.getPowerConnections(outArray2)){",
+		"branch_guard_comment": "//make sure it hasn't looped back, and that the new graph being assigned hasn't already been assigned",
+		"skip_closed_comment": "//also skip closed tiles",
+		"branch_guard": "if(next != tile && next.power.graph != graph){",
+		"graph_add_next": "graph.add(next);",
+		"queue_add_next": "queue.addLast(next);",
+		"tile": tile.duplicate(true),
+		"branch_traversals": branch_traversals,
+		"visited_positions": visited_positions,
+		"queued_positions": queued_positions,
+		"child_add_states": child_add_states,
+		"next_add_states": next_add_states,
+		"branch_graph_positions": branch_graph_positions,
+		"skipped_next_positions": skipped_next_positions,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:
