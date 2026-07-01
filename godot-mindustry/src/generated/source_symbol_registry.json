@@ -66369,6 +66369,141 @@
         "test_thermal_generator_can_place_on_matches_upstream_source"
       ],
       "rule": "Source-backed ThermalGenerator placement heat predicate."
+    },
+    "thermal_generator_draw_light.source_x": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawLight()",
+      "java_expr": "x",
+      "godot_symbol": "source_thermal_generator_draw_light_input.source_x",
+      "rule": "Explicit x coordinate passed to Drawf.light."
+    },
+    "thermal_generator_draw_light.source_y": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawLight()",
+      "java_expr": "y",
+      "godot_symbol": "source_thermal_generator_draw_light_input.source_y",
+      "rule": "Explicit y coordinate passed to Drawf.light."
+    },
+    "thermal_generator_draw_light.source_time": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "java_method": "Mathf.absin(float scl, float mag)",
+      "java_expr": "Time.time",
+      "godot_symbol": "source_thermal_generator_draw_light_input.source_time",
+      "rule": "Explicit Time.time input used by Mathf.absin(10f, 5f)."
+    },
+    "thermal_generator_draw_light.production_efficiency": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "drawLight()",
+      "java_expr": "productionEfficiency",
+      "godot_symbol": "source_thermal_generator_draw_light_input.production_efficiency",
+      "rule": "Explicit productionEfficiency input for Math.min(productionEfficiency, 2f)."
+    },
+    "thermal_generator_draw_light.size": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawLight()",
+      "java_expr": "size",
+      "godot_symbol": "source_thermal_generator_draw_light_input.size",
+      "rule": "Explicit block size multiplier for ThermalGenerator light radius."
+    },
+    "thermal_generator_draw_light.absin": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "absin(float scl, float mag)",
+      "java_expr": "Mathf.absin(10f, 5f)",
+      "godot_symbol": "source_thermal_generator_draw_light_result.absin",
+      "rule": "Source-backed absin value for ThermalGenerator drawLight."
+    },
+    "thermal_generator_draw_light.capped_production_efficiency": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawLight()",
+      "java_expr": "Math.min(productionEfficiency, 2f)",
+      "godot_symbol": "source_thermal_generator_draw_light_result.capped_production_efficiency",
+      "rule": "Source-backed Math.min cap for ThermalGenerator drawLight."
+    },
+    "thermal_generator_draw_light.light_radius": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawLight()",
+      "java_expr": "(40f + Mathf.absin(10f, 5f)) * Math.min(productionEfficiency, 2f) * size",
+      "godot_symbol": "source_thermal_generator_draw_light_result.light_radius",
+      "rule": "Source-backed ThermalGenerator light radius formula."
+    },
+    "thermal_generator_draw_light.light_call": {
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawLight()",
+      "java_expr": "Drawf.light(x, y, (40f + Mathf.absin(10f, 5f)) * Math.min(productionEfficiency, 2f) * size, Color.scarlet, 0.4f);",
+      "godot_symbol": "source_thermal_generator_draw_light_result.light_call",
+      "rule": "Source-backed Drawf.light dispatch summary."
     }
   },
   "version": 1

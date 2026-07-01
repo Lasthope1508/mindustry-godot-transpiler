@@ -710,6 +710,43 @@ func source_thermal_generator_can_place_on_state(linked_attribute_sum: float, mi
 		"can_place_on": can_place_on,
 	}
 
+func source_thermal_generator_draw_light_state(source_x: float, source_y: float, source_time: float, production_efficiency: float, size: float) -> Dictionary:
+	var absin_value := source_absin(source_time, 10.0, 5.0)
+	var capped_production_efficiency: float = min(production_efficiency, 2.0)
+	var light_radius := (40.0 + absin_value) * capped_production_efficiency * size
+	return {
+		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+		"override": "@Override",
+		"method": "public void drawLight(){",
+		"drawf_light_call": "Drawf.light(x, y, (40f + Mathf.absin(10f, 5f)) * Math.min(productionEfficiency, 2f) * size, Color.scarlet, 0.4f);",
+		"drawf_light_method": "public static void light(float x, float y, float radius, Color color, float opacity){",
+		"drawf_renderer_guard": "if(renderer == null) return;",
+		"drawf_lights_add": "renderer.lights.add(x, y, radius, color, opacity);",
+		"absin_time_overload": "public static float absin(float scl, float mag){",
+		"absin_time_return": "return absin(Time.time, scl, mag);",
+		"absin_formula": "return (sin(in, scl * 2f, mag) + mag) / 2f;",
+		"scarlet": "public static final Color scarlet = new Color(0xff341cff);",
+		"source_x": source_x,
+		"source_y": source_y,
+		"source_time": source_time,
+		"production_efficiency": production_efficiency,
+		"size": size,
+		"absin": absin_value,
+		"capped_production_efficiency": capped_production_efficiency,
+		"light_radius": light_radius,
+		"light_color": "Color.scarlet",
+		"light_color_rgba8888": "0xff341cff",
+		"opacity": 0.4,
+		"light_call": {
+			"call": "Drawf.light(x, y, radius, Color.scarlet, 0.4f)",
+			"x": source_x,
+			"y": source_y,
+			"radius": light_radius,
+			"color": "Color.scarlet",
+			"opacity": 0.4,
+		},
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

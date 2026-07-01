@@ -375,6 +375,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_draw_light_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_draw_light_source"))
+        report = source_parity.verify_thermal_generator_draw_light_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/graphics/Drawf.java", report["sources"])
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertIn("arc-core/src/arc/graphics/Color.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+            "override": "@Override",
+            "method": "public void drawLight(){",
+            "drawf_light_call": "Drawf.light(x, y, (40f + Mathf.absin(10f, 5f)) * Math.min(productionEfficiency, 2f) * size, Color.scarlet, 0.4f);",
+            "drawf_light_method": "public static void light(float x, float y, float radius, Color color, float opacity){",
+            "drawf_renderer_guard": "if(renderer == null) return;",
+            "drawf_lights_add": "renderer.lights.add(x, y, radius, color, opacity);",
+            "absin_time_overload": "public static float absin(float scl, float mag){",
+            "absin_time_return": "return absin(Time.time, scl, mag);",
+            "absin_formula": "return (sin(in, scl * 2f, mag) + mag) / 2f;",
+            "scarlet": "public static final Color scarlet = new Color(0xff341cff);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

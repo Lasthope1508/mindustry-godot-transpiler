@@ -21361,6 +21361,71 @@
         "test_thermal_generator_can_place_on_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGenerator.canPlaceOn heat threshold predicate."
+    },
+    "PortGame.source_thermal_generator_draw_light_state": {
+      "status": "active",
+      "source_slice": "N932",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "drawLight()",
+      "params": [
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_thermal_generator_draw_light_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_thermal_generator_draw_light_input.source_y"
+        },
+        {
+          "name": "source_time",
+          "type": "float",
+          "schema": "source_thermal_generator_draw_light_input.source_time"
+        },
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_thermal_generator_draw_light_input.production_efficiency"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_thermal_generator_draw_light_input.size"
+        }
+      ],
+      "return_keys": [
+        "build_class",
+        "override",
+        "method",
+        "drawf_light_call",
+        "drawf_light_method",
+        "drawf_renderer_guard",
+        "drawf_lights_add",
+        "absin_time_overload",
+        "absin_time_return",
+        "absin_formula",
+        "scarlet",
+        "source_x",
+        "source_y",
+        "source_time",
+        "production_efficiency",
+        "size",
+        "absin",
+        "capped_production_efficiency",
+        "light_radius",
+        "light_color",
+        "light_color_rgba8888",
+        "opacity",
+        "light_call"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state",
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGeneratorBuild.drawLight radius and Drawf.light dispatch."
     }
   },
   "policy": {

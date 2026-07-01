@@ -61,6 +61,8 @@ ARC_RAND_SOURCE = "arc-core/src/arc/math/Rand.java"
 ARC_STRINGS_SOURCE = "arc-core/src/arc/util/Strings.java"
 ARC_TIME_SOURCE = "arc-core/src/arc/util/Time.java"
 ARC_TMP_SOURCE = "arc-core/src/arc/util/Tmp.java"
+ARC_COLOR_SOURCE = "arc-core/src/arc/graphics/Color.java"
+DRAWF_SOURCE = "core/src/mindustry/graphics/Drawf.java"
 
 def verify_overdrive_projector_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
     blocks_path = Path(upstream_root) / DUO_SOURCE
@@ -505,6 +507,49 @@ def verify_thermal_generator_can_place_on_source(upstream_root: Path) -> dict[st
     return {
         "source": THERMAL_GENERATOR_SOURCE,
         "sources": [BLOCK_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_thermal_generator_draw_light_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    drawf_path = Path(upstream_root) / DRAWF_SOURCE
+    arc_root = Path(upstream_root).parent / "arc-upstream"
+    mathf_path = arc_root / ARC_MATHF_SOURCE
+    color_path = arc_root / ARC_COLOR_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    drawf_source = drawf_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    color_source = color_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "override": "@Override",
+        "method": "public void drawLight(){",
+        "drawf_light_call": "Drawf.light(x, y, (40f + Mathf.absin(10f, 5f)) * Math.min(productionEfficiency, 2f) * size, Color.scarlet, 0.4f);",
+        "drawf_light_method": "public static void light(float x, float y, float radius, Color color, float opacity){",
+        "drawf_renderer_guard": "if(renderer == null) return;",
+        "drawf_lights_add": "renderer.lights.add(x, y, radius, color, opacity);",
+        "absin_time_overload": "public static float absin(float scl, float mag){",
+        "absin_time_return": "return absin(Time.time, scl, mag);",
+        "absin_formula": "return (sin(in, scl * 2f, mag) + mag) / 2f;",
+        "scarlet": "public static final Color scarlet = new Color(0xff341cff);",
+    }
+    sources_by_key = {
+        "drawf_light_method": drawf_source,
+        "drawf_renderer_guard": drawf_source,
+        "drawf_lights_add": drawf_source,
+        "absin_time_overload": mathf_source,
+        "absin_time_return": mathf_source,
+        "absin_formula": mathf_source,
+        "scarlet": color_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [DRAWF_SOURCE, ARC_MATHF_SOURCE, ARC_COLOR_SOURCE],
         "checked": checked,
         "missing": missing,
     }
