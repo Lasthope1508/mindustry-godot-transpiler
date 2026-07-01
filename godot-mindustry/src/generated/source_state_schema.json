@@ -64062,6 +64062,425 @@
           ]
         }
       }
+    },
+    "source_weapon_shoot_charge_start_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state",
+          "java_expr": "Weapon charge start fields",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input for charge-start fields.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.bullet_state",
+          "java_expr": "BulletType bullet",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source BulletType input for charge effect fields.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "unit_state": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Unit input for status apply and effect parent.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "shoot_x": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.shoot_x",
+          "java_expr": "float shootX",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit shootX argument.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "shoot_y": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.shoot_y",
+          "java_expr": "float shootY",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit shootY argument.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "charge_rotation": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.charge_rotation",
+          "java_expr": "float rotation",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit rotation argument renamed to avoid GDScript shadowing.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "shootStatus": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state.shootStatus",
+          "java_expr": "public StatusEffect shootStatus = StatusEffects.none;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shoot status field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "shootStatusDuration": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state.shootStatusDuration",
+          "java_expr": "public float shootStatusDuration = 60f * 5f;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shoot status duration field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "firstShotDelay": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state.firstShotDelay",
+          "java_expr": "public float firstShotDelay = 0;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern firstShotDelay copied into weapon_state.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeSound": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state.chargeSound",
+          "java_expr": "public Sound chargeSound = Sounds.none;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon charge sound field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "soundPitchMin": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state.soundPitchMin",
+          "java_expr": "public float soundPitchMin = 0.8f, soundPitchMax = 1f;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon sound pitch minimum reused by charge sound.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "soundPitchMax": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state.soundPitchMax",
+          "java_expr": "public float soundPitchMin = 0.8f, soundPitchMax = 1f;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon sound pitch maximum reused by charge sound.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "parentizeEffects": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.weapon_state.parentizeEffects",
+          "java_expr": "public boolean parentizeEffects;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon parentizeEffects field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeEffect": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.bullet_state.chargeEffect",
+          "java_expr": "public Effect chargeEffect = Fx.none;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType chargeEffect field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "keepVelocity": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.bullet_state.keepVelocity",
+          "java_expr": "public boolean keepVelocity = true;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType keepVelocity field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "statusImmune": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.unit_state.statusImmune",
+          "java_expr": "isImmune(effect)",
+          "java_method": "apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Explicit Unit status immunity input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "id": {
+          "godot_symbol": "source_weapon_shoot_charge_start_input.unit_state.id",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit unit id used as effect parent payload.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_shoot_charge_start_result": {
+      "status": "active",
+      "keys": {
+        "statusApplied": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.statusApplied",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Status application result forwarded from source_status_apply_result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ],
+          "alias_of": "source_status_apply_result_result.statusApplied"
+        },
+        "statusApplication": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.statusApplication",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Status application payload forwarded from source_status_apply_result.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeGate": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.chargeGate",
+          "java_expr": "if(shoot.firstShotDelay > 0){",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime firstShotDelay charge gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "mountCharging": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.mountCharging",
+          "java_expr": "mount.charging = true;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned mount charging state.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeSoundCall": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.chargeSoundCall",
+          "java_expr": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned charge sound call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeEffectCall": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.chargeEffectCall",
+          "java_expr": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned charge effect call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "firstShotDelay": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.firstShotDelay",
+          "java_expr": "public float firstShotDelay = 0;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Runtime firstShotDelay copy.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "keepVelocity": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.keepVelocity",
+          "java_expr": "public boolean keepVelocity = true;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Runtime keepVelocity copy.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "parentizeEffects": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.parentizeEffects",
+          "java_expr": "public boolean parentizeEffects;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime parentizeEffects copy.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "statusApplySource": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.statusApplySource",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact status apply source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "statusApplyGuardSource": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.statusApplyGuardSource",
+          "java_expr": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+          "java_method": "apply(StatusEffect effect, float duration)",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "rule": "Status apply guard metadata forwarded from helper.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeGateSource": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.chargeGateSource",
+          "java_expr": "if(shoot.firstShotDelay > 0){",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact charge gate metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "mountChargingSource": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.mountChargingSource",
+          "java_expr": "mount.charging = true;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact mount charging metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeSoundSource": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.chargeSoundSource",
+          "java_expr": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact charge sound metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "chargeEffectSource": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.chargeEffectSource",
+          "java_expr": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact charge effect metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        },
+        "shootLoopReservedSource": {
+          "godot_symbol": "source_weapon_shoot_charge_start_result.shootLoopReservedSource",
+          "java_expr": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Next shoot dispatch source reserved for N854.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_charge_start_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

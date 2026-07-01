@@ -17623,6 +17623,74 @@
         "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
         "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_shoot_charge_start_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_shoot_charge_start_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_shoot_charge_start_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_shoot_charge_start_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_shoot_charge_start_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "shoot_x",
+          "schema": "source_weapon_shoot_charge_start_input.shoot_x",
+          "type": "float"
+        },
+        {
+          "name": "shoot_y",
+          "schema": "source_weapon_shoot_charge_start_input.shoot_y",
+          "type": "float"
+        },
+        {
+          "name": "charge_rotation",
+          "schema": "source_weapon_shoot_charge_start_input.charge_rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "statusApplied",
+        "statusApplication",
+        "chargeGate",
+        "mountCharging",
+        "chargeSoundCall",
+        "chargeEffectCall",
+        "firstShotDelay",
+        "keepVelocity",
+        "parentizeEffects",
+        "statusApplySource",
+        "statusApplyGuardSource",
+        "chargeGateSource",
+        "mountChargingSource",
+        "chargeSoundSource",
+        "chargeEffectSource",
+        "shootLoopReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.shoot charge-start branch.",
+      "runtime_proof": "/root/Main.source_weapon_shoot_charge_start_state",
+      "source_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+      "source_slice": "N853",
+      "status": "active",
+      "tests": [
+        "test_weapon_shoot_charge_start_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state",
+        "test_weapon_shoot_charge_start_matches_upstream_source"
+      ]
     }
   },
   "policy": {

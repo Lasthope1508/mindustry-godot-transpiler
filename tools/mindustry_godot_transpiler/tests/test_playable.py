@@ -4831,9 +4831,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("charge_effect_parent = unit_id", source)
         self.assertNotIn("var charge_effect_parent: Variant = unit_id if keep_velocity or parentize_effects else null", source)
         self.assertIn('"effectParent": charge_effect_parent', source)
-        self.assertIn('"statusApplySource": "unit.apply(shootStatus, shootStatusDuration)"', source)
-        self.assertIn('"chargeGateSource": "if(shoot.firstShotDelay > 0)"', source)
-        self.assertIn('"chargeEffectSource": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null)"', source)
+        self.assertIn('"statusApplySource": "unit.apply(shootStatus, shootStatusDuration);"', source)
+        self.assertIn('"chargeGateSource": "if(shoot.firstShotDelay > 0){"', source)
+        self.assertIn('"mountChargingSource": "mount.charging = true;"', source)
+        self.assertIn('"chargeSoundSource": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));"', source)
+        self.assertIn('"chargeEffectSource": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null);"', source)
         self.assertIn('"shootLoopReservedSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {"', source)
 
     def test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state(self):

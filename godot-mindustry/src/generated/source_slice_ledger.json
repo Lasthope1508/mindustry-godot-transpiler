@@ -15924,6 +15924,50 @@
         "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.handleBullet continuous geometry wrapper against exact upstream source."
+    },
+    "N853": {
+      "exact_exprs": [
+        "unit.apply(shootStatus, shootStatusDuration);",
+        "if(shoot.firstShotDelay > 0){",
+        "mount.charging = true;",
+        "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));",
+        "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null);"
+      ],
+      "bridge_exprs": [
+        "public boolean parentizeEffects;",
+        "public Sound chargeSound = Sounds.none;",
+        "public StatusEffect shootStatus = StatusEffects.none;",
+        "public float shootStatusDuration = 60f * 5f;",
+        "public float firstShotDelay = 0;",
+        "public Effect chargeEffect = Fx.none;",
+        "public boolean keepVelocity = true;",
+        "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
+      ],
+      "deferred_exprs": [
+        "shoot.shoot(...) dispatch remains owned by source_weapon_shoot_default_pattern_dispatch_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_shoot_charge_start_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_shoot_charge_start_state",
+      "source_symbols": [
+        "weapon_shoot_charge_start.status_apply",
+        "weapon_shoot_charge_start.charge_gate",
+        "weapon_shoot_charge_start.mount_charging",
+        "weapon_shoot_charge_start.charge_sound",
+        "weapon_shoot_charge_start.charge_effect",
+        "weapon_shoot_charge_start.first_shot_delay",
+        "weapon_shoot_charge_start.keep_velocity",
+        "weapon_shoot_charge_start.shoot_loop_reserved"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_shoot_charge_start_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state",
+        "test_weapon_shoot_charge_start_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.shoot charge-start wrapper against exact upstream source."
     }
   },
   "version": 1

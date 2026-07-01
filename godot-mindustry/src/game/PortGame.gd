@@ -5276,12 +5276,12 @@ func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_stat
 		"firstShotDelay": first_shot_delay,
 		"keepVelocity": keep_velocity,
 		"parentizeEffects": parentize_effects,
-		"statusApplySource": "unit.apply(shootStatus, shootStatusDuration)",
+		"statusApplySource": "unit.apply(shootStatus, shootStatusDuration);",
 		"statusApplyGuardSource": status_result.get("statusApplyGuardSource", ""),
-		"chargeGateSource": "if(shoot.firstShotDelay > 0)",
-		"mountChargingSource": "mount.charging = true",
-		"chargeSoundSource": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax))",
-		"chargeEffectSource": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null)",
+		"chargeGateSource": "if(shoot.firstShotDelay > 0){",
+		"mountChargingSource": "mount.charging = true;",
+		"chargeSoundSource": "chargeSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));",
+		"chargeEffectSource": "bullet.chargeEffect.at(shootX, shootY, rotation, bullet.keepVelocity || parentizeEffects ? unit : null);",
 		"shootLoopReservedSource": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
 	}
 
