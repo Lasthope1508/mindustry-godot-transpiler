@@ -5242,10 +5242,10 @@ func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapo
 		"previousReload": current_reload,
 		"weaponReload": weapon_reload,
 		"shootCall": shoot_call,
-		"shootCallSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)",
-		"reloadResetSource": "mount.reload = reload",
-		"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)",
-		"shootStatusApplyReservedSource": "unit.apply(shootStatus, shootStatusDuration)",
+		"shootCallSource": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+		"reloadResetSource": "mount.reload = reload;",
+		"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){",
+		"shootStatusApplyReservedSource": "unit.apply(shootStatus, shootStatusDuration);",
 	}
 
 func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:

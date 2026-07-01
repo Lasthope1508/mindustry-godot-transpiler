@@ -4823,9 +4823,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"x": bullet_x', source)
         self.assertIn('"y": bullet_y', source)
         self.assertIn('"rotation": shoot_angle', source)
-        self.assertIn('"shootCallSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)"', source)
-        self.assertIn('"reloadResetSource": "mount.reload = reload"', source)
-        self.assertIn('"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation)"', source)
+        self.assertIn('"shootCallSource": "shoot(unit, mount, bulletX, bulletY, shootAngle);"', source)
+        self.assertIn('"reloadResetSource": "mount.reload = reload;"', source)
+        self.assertIn('"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){"', source)
+        self.assertIn('"shootStatusApplyReservedSource": "unit.apply(shootStatus, shootStatusDuration);"', source)
 
     def test_port_game_exposes_source_weapon_shoot_charge_start_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

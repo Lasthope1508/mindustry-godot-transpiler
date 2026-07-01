@@ -5597,6 +5597,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(time_delta["java_expr"], "public static float delta = 1f;")
         self.assertEqual(time_delta["godot_symbol"], "source_weapon_update_rotate_toward_input.source_delta")
 
+    def test_weapon_update_shoot_call_reload_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        shoot_call = source_symbols.source_symbol(registry, "weapon_update_shoot_call_reload.shoot_call")
+        self.assertEqual(shoot_call["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(shoot_call["java_expr"], "shoot(unit, mount, bulletX, bulletY, shootAngle);")
+        self.assertEqual(shoot_call["godot_owner"], "PortGame.source_weapon_update_shoot_call_reload_state")
+        self.assertEqual(shoot_call["runtime_proof"], "/root/Main.source_weapon_update_shoot_call_reload_state")
+        self.assertEqual(shoot_call["godot_symbol"], "source_weapon_update_shoot_call_reload_result.shootCall")
+
+        reload_reset = source_symbols.source_symbol(registry, "weapon_update_shoot_call_reload.reload_reset")
+        self.assertEqual(reload_reset["java_expr"], "mount.reload = reload;")
+        self.assertEqual(reload_reset["godot_symbol"], "source_weapon_update_shoot_call_reload_result.mountReload")
+
+        shoot_method = source_symbols.source_symbol(registry, "weapon_update_shoot_call_reload.shoot_method_reserved")
+        self.assertEqual(shoot_method["java_expr"], "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){")
+        self.assertEqual(shoot_method["godot_symbol"], "source_weapon_update_shoot_call_reload_result.shootMethodReservedSource")
+
+        shoot_status_apply = source_symbols.source_symbol(registry, "weapon_update_shoot_call_reload.shoot_status_apply_reserved")
+        self.assertEqual(shoot_status_apply["java_expr"], "unit.apply(shootStatus, shootStatusDuration);")
+        self.assertEqual(shoot_status_apply["godot_symbol"], "source_weapon_update_shoot_call_reload_result.shootStatusApplyReservedSource")
+
+        weapon_reload = source_symbols.source_symbol(registry, "weapon_update_shoot_call_reload.weapon_reload")
+        self.assertEqual(weapon_reload["java_expr"], "public float reload = 1;")
+        self.assertEqual(weapon_reload["godot_symbol"], "source_weapon_update_shoot_call_reload_input.weapon_state.reload")
+
+        mount_reload = source_symbols.source_symbol(registry, "weapon_update_shoot_call_reload.mount_reload")
+        self.assertEqual(mount_reload["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_reload["java_expr"], "public float reload;")
+        self.assertEqual(mount_reload["godot_symbol"], "source_weapon_update_shoot_call_reload_input.mount_state.reload")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16465,9 +16499,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 470)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 471)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 475)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 476)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16491,6 +16525,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_reload_gate_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapon_update_rotate_toward_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapon_update_rotate_toward_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapon_update_shoot_call_reload_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_shoot_call_reload_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19565,6 +19601,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static float moveToward(float angle, float to, float speed){", weapon_update_rotate_toward["bridge_exprs"])
         self.assertIn("weapon_update_rotate_toward.rotate_gate", weapon_update_rotate_toward["source_symbols"])
         self.assertIn("weapon_update_rotate_toward.limit_move_toward", weapon_update_rotate_toward["source_symbols"])
+
+        weapon_update_shoot_call_reload = source_symbols.source_slice(ledger, "N873")
+        self.assertEqual(weapon_update_shoot_call_reload["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_shoot_call_reload["java_method"], "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset")
+        self.assertEqual(weapon_update_shoot_call_reload["godot_owner"], "PortGame.source_weapon_update_shoot_call_reload_state")
+        self.assertIn("shoot(unit, mount, bulletX, bulletY, shootAngle);", weapon_update_shoot_call_reload["exact_exprs"])
+        self.assertIn("mount.reload = reload;", weapon_update_shoot_call_reload["exact_exprs"])
+        self.assertIn("protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){", weapon_update_shoot_call_reload["deferred_exprs"])
+        self.assertIn("unit.apply(shootStatus, shootStatusDuration);", weapon_update_shoot_call_reload["deferred_exprs"])
+        self.assertIn("public float reload = 1;", weapon_update_shoot_call_reload["bridge_exprs"])
+        self.assertIn("public float reload;", weapon_update_shoot_call_reload["bridge_exprs"])
+        self.assertIn("weapon_update_shoot_call_reload.shoot_call", weapon_update_shoot_call_reload["source_symbols"])
+        self.assertIn("weapon_update_shoot_call_reload.reload_reset", weapon_update_shoot_call_reload["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23044,6 +23093,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("rotationLimitApplied", weapon_update_rotate_toward["return_keys"])
         self.assertIn("nonRotateApplied", weapon_update_rotate_toward["return_keys"])
         self.assertEqual(weapon_update_rotate_toward["source_method"], "Weapon.update(Unit unit, WeaponMount mount) rotate toward")
+
+        weapon_update_shoot_call_reload = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_shoot_call_reload_state")
+        self.assertEqual([param["name"] for param in weapon_update_shoot_call_reload["params"]], ["mount_state", "weapon_state", "unit_id", "bullet_x", "bullet_y", "shoot_angle", "shoot_gate"])
+        self.assertEqual(weapon_update_shoot_call_reload["params"][0]["schema"], "source_weapon_update_shoot_call_reload_input.mount_state")
+        self.assertEqual(weapon_update_shoot_call_reload["params"][1]["schema"], "source_weapon_update_shoot_call_reload_input.weapon_state")
+        self.assertEqual(weapon_update_shoot_call_reload["params"][2]["schema"], "source_weapon_update_shoot_call_reload_input.unit_id")
+        self.assertEqual(weapon_update_shoot_call_reload["params"][6]["schema"], "source_weapon_update_shoot_call_reload_input.shoot_gate")
+        self.assertIn("shootGate", weapon_update_shoot_call_reload["return_keys"])
+        self.assertIn("mountReload", weapon_update_shoot_call_reload["return_keys"])
+        self.assertIn("previousReload", weapon_update_shoot_call_reload["return_keys"])
+        self.assertIn("shootCall", weapon_update_shoot_call_reload["return_keys"])
+        self.assertIn("shootStatusApplyReservedSource", weapon_update_shoot_call_reload["return_keys"])
+        self.assertEqual(weapon_update_shoot_call_reload["source_method"], "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -29879,6 +29941,25 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_rotate_toward_result["keys"]["limitMoveSource"]["java_expr"], "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f);")
         self.assertEqual(source_weapon_update_rotate_toward_result["keys"]["nonRotateApplied"]["java_expr"], "else if(!rotate){")
         self.assertEqual(source_weapon_update_rotate_toward_result["keys"]["angleToSource"]["java_expr"], "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY);")
+
+        source_weapon_update_shoot_call_reload_input = source_symbols.state_schema(schema, "source_weapon_update_shoot_call_reload_input")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["weapon_state"]["java_expr"], "Weapon reload fields")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["unit_id"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["bullet_x"]["java_expr"], "bulletX")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["bullet_y"]["java_expr"], "bulletY")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["shoot_angle"]["java_expr"], "shootAngle")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["shoot_gate"]["java_expr"], "Weapon.update(Unit unit, WeaponMount mount) shoot gate")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["reload"]["java_expr"], "public float reload;")
+        self.assertEqual(source_weapon_update_shoot_call_reload_input["keys"]["weaponReload"]["java_expr"], "public float reload = 1;")
+
+        source_weapon_update_shoot_call_reload_result = source_symbols.state_schema(schema, "source_weapon_update_shoot_call_reload_result")
+        self.assertEqual(source_weapon_update_shoot_call_reload_result["keys"]["shootCall"]["java_expr"], "shoot(unit, mount, bulletX, bulletY, shootAngle);")
+        self.assertEqual(source_weapon_update_shoot_call_reload_result["keys"]["mountReload"]["java_expr"], "mount.reload = reload;")
+        self.assertEqual(source_weapon_update_shoot_call_reload_result["keys"]["shootCallSource"]["java_expr"], "shoot(unit, mount, bulletX, bulletY, shootAngle);")
+        self.assertEqual(source_weapon_update_shoot_call_reload_result["keys"]["reloadResetSource"]["java_expr"], "mount.reload = reload;")
+        self.assertEqual(source_weapon_update_shoot_call_reload_result["keys"]["shootMethodReservedSource"]["java_expr"], "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){")
+        self.assertEqual(source_weapon_update_shoot_call_reload_result["keys"]["shootStatusApplyReservedSource"]["java_expr"], "unit.apply(shootStatus, shootStatusDuration);")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

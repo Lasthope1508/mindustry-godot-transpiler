@@ -16962,6 +16962,46 @@
         "test_weapon_update_rotation_limit_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update rotate toward wrapper against exact upstream source, including rotation limit and non-rotate branch."
+    },
+    "N873": {
+      "exact_exprs": [
+        "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+        "mount.reload = reload;"
+      ],
+      "bridge_exprs": [
+        "public float reload = 1;",
+        "public float reload;"
+      ],
+      "deferred_exprs": [
+        "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){",
+        "unit.apply(shootStatus, shootStatusDuration);",
+        "Weapon.shoot internals remain owned by source_weapon_shoot_* slices."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_shoot_call_reload_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_call_reload_state",
+      "source_symbols": [
+        "weapon_update_shoot_call_reload.shoot_call",
+        "weapon_update_shoot_call_reload.reload_reset",
+        "weapon_update_shoot_call_reload.shoot_method_reserved",
+        "weapon_update_shoot_call_reload.shoot_status_apply_reserved",
+        "weapon_update_shoot_call_reload.weapon_reload",
+        "weapon_update_shoot_call_reload.mount_reload",
+        "weapon_update_shoot_call_reload.unit",
+        "weapon_update_shoot_call_reload.bullet_x",
+        "weapon_update_shoot_call_reload.bullet_y",
+        "weapon_update_shoot_call_reload.shoot_angle",
+        "weapon_update_shoot_call_reload.shoot_gate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_shoot_call_reload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_call_reload_state",
+        "test_weapon_update_shoot_call_reload_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update shoot call and reload reset wrapper against exact upstream source."
     }
   },
   "version": 1

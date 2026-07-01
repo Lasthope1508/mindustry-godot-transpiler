@@ -70358,6 +70358,237 @@
           ]
         }
       }
+    },
+    "source_weapon_update_shoot_call_reload_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "WeaponMount state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.weapon_state",
+          "java_expr": "Weapon reload fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon reload field input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.unit_id",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime unit id for Java Unit unit argument.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "bullet_x": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.bullet_x",
+          "java_expr": "bulletX",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime bullet_x carries prior bulletX local.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "bullet_y": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.bullet_y",
+          "java_expr": "bulletY",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime bullet_y carries prior bulletY local.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "shoot_angle": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.shoot_angle",
+          "java_expr": "shootAngle",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime shoot_angle carries prior shootAngle local.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "shoot_gate": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.shoot_gate",
+          "java_expr": "Weapon.update(Unit unit, WeaponMount mount) shoot gate",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime shoot gate from already-evaluated upstream gate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.mount_state.reload",
+          "java_expr": "public float reload;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount reload input before reset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "weaponReload": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_input.weapon_state.reload",
+          "java_expr": "public float reload = 1;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon reload reset value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_weapon_update_shoot_call_reload_state",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_call_reload_state"
+    },
+    "source_weapon_update_shoot_call_reload_result": {
+      "status": "active",
+      "keys": {
+        "shootGate": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.shootGate",
+          "java_expr": "Weapon.update(Unit unit, WeaponMount mount) shoot gate",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Result aliases explicit shoot gate.",
+          "status": "alias",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ],
+          "alias_of": "source_weapon_update_shoot_call_reload_input.shoot_gate"
+        },
+        "mountReload": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.mountReload",
+          "java_expr": "mount.reload = reload;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Mount reload after reset when shoot gate passes, otherwise previous reload.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "previousReload": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.previousReload",
+          "java_expr": "public float reload;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount reload before reset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "weaponReload": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.weaponReload",
+          "java_expr": "public float reload = 1;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon reload value echoed from input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "shootCall": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.shootCall",
+          "java_expr": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Recorded shoot call when gate passes.",
+          "status": "source-backed",
+          "type": "Dictionary|null",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "shootCallSource": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.shootCallSource",
+          "java_expr": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact shoot call source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "reloadResetSource": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.reloadResetSource",
+          "java_expr": "mount.reload = reload;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact reload reset source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "shootMethodReservedSource": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.shootMethodReservedSource",
+          "java_expr": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Reserved Weapon.shoot method source.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        },
+        "shootStatusApplyReservedSource": {
+          "godot_symbol": "source_weapon_update_shoot_call_reload_result.shootStatusApplyReservedSource",
+          "java_expr": "unit.apply(shootStatus, shootStatusDuration);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Reserved status apply source inside Weapon.shoot.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_shoot_call_reload_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_weapon_update_shoot_call_reload_state",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_call_reload_state"
     }
   },
   "version": 1

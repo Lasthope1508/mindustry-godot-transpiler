@@ -18733,6 +18733,67 @@
         "test_weapon_update_rotate_toward_matches_upstream_source",
         "test_weapon_update_rotation_limit_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_shoot_call_reload_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_shoot_call_reload_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_shoot_call_reload_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_weapon_update_shoot_call_reload_input.unit_id",
+          "type": "int"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_shoot_call_reload_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_shoot_call_reload_input.bullet_y",
+          "type": "float"
+        },
+        {
+          "name": "shoot_angle",
+          "schema": "source_weapon_update_shoot_call_reload_input.shoot_angle",
+          "type": "float"
+        },
+        {
+          "name": "shoot_gate",
+          "schema": "source_weapon_update_shoot_call_reload_input.shoot_gate",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "shootGate",
+        "mountReload",
+        "previousReload",
+        "weaponReload",
+        "shootCall",
+        "shootCallSource",
+        "reloadResetSource",
+        "shootMethodReservedSource",
+        "shootStatusApplyReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update shoot call reload reset state.",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_call_reload_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+      "source_slice": "N873",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_shoot_call_reload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_call_reload_state",
+        "test_weapon_update_shoot_call_reload_matches_upstream_source"
+      ]
     }
   },
   "policy": {
