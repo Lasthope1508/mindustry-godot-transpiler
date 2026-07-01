@@ -1002,6 +1002,45 @@ func source_power_graph_power_produced_state(producers: Array) -> Dictionary:
 		"producer_count": counted_producers,
 	}
 
+func source_power_graph_battery_state(batteries: Array) -> Dictionary:
+	var stored := 0.0
+	var capacity := 0.0
+	var total_capacity := 0.0
+	var battery_count := 0
+	var enabled_count := 0
+	for battery in batteries:
+		if typeof(battery) != TYPE_DICTIONARY:
+			continue
+		battery_count += 1
+		if bool(battery.get("enabled", false)):
+			var power_status := float(battery.get("power_status", 0.0))
+			var source_capacity := float(battery.get("capacity", 0.0))
+			stored += power_status * source_capacity
+			capacity += (1.0 - power_status) * source_capacity
+			total_capacity += source_capacity
+			enabled_count += 1
+	return {
+		"stored_method": "public float getBatteryStored(){",
+		"stored_initial": "float totalAccumulator = 0f;",
+		"capacity_method": "public float getBatteryCapacity(){",
+		"capacity_initial": "float totalCapacity = 0f;",
+		"total_capacity_method": "public float getTotalBatteryCapacity(){",
+		"items": "var items = batteries.items;",
+		"loop": "for(int i = 0; i < batteries.size; i++){",
+		"battery": "var battery = items[i];",
+		"guard": "if(battery.enabled){",
+		"stored_add": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+		"capacity_add": "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;",
+		"total_capacity_add": "totalCapacity += battery.block.consPower.capacity;",
+		"stored_return": "return totalAccumulator;",
+		"capacity_return": "return totalCapacity;",
+		"stored": stored,
+		"capacity": capacity,
+		"total_capacity": total_capacity,
+		"battery_count": battery_count,
+		"enabled_count": enabled_count,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)
@@ -1069,6 +1108,22 @@ func placed_power_produced_state() -> Dictionary:
 			"delta": SOURCE_TICK_RATE,
 		})
 	return source_power_graph_power_produced_state(producers)
+
+func placed_power_battery_state() -> Dictionary:
+	var batteries: Array = []
+	for key in placed_block_origins.keys():
+		var block = block_from_sprite(placed_block_origins.get(key))
+		if block == null:
+			continue
+		var role_state := power_graph_role_for_block(block)
+		if not bool(role_state.get("add_battery", false)):
+			continue
+		batteries.append({
+			"enabled": true,
+			"power_status": 0.0,
+			"capacity": float(block.properties.get("powerCapacity", 0.0)),
+		})
+	return source_power_graph_battery_state(batteries)
 
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
@@ -11604,6 +11659,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_graph_roles": placed_power_graph_role_counts(),
 		"placed_power_needed": placed_power_needed_state(),
 		"placed_power_produced": placed_power_produced_state(),
+		"placed_power_battery": placed_power_battery_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y},

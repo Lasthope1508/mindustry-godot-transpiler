@@ -19452,6 +19452,47 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
       "rule": "Public runtime contract for PowerGraph.getPowerProduced() aggregate state with explicit producer inputs."
+    },
+    "PortGame.source_power_graph_battery_state": {
+      "status": "active",
+      "source_slice": "N891",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "getBatteryStored()/getBatteryCapacity()/getTotalBatteryCapacity()",
+      "params": [
+        {
+          "name": "batteries",
+          "type": "Array",
+          "schema": "source_power_graph_battery_input.batteries"
+        }
+      ],
+      "return_keys": [
+        "stored_method",
+        "stored_initial",
+        "capacity_method",
+        "capacity_initial",
+        "total_capacity_method",
+        "items",
+        "loop",
+        "battery",
+        "guard",
+        "stored_add",
+        "capacity_add",
+        "total_capacity_add",
+        "stored_return",
+        "capacity_return",
+        "stored",
+        "capacity",
+        "total_capacity",
+        "battery_count",
+        "enabled_count"
+      ],
+      "tests": [
+        "test_power_graph_battery_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_battery_state_for_mcp",
+        "test_power_graph_battery_state_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_battery_state",
+      "rule": "Public runtime contract for PowerGraph battery aggregate state with explicit battery inputs."
     }
   },
   "policy": {

@@ -61640,6 +61640,66 @@
         "test_power_graph_power_produced_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_battery_state.stored_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getBatteryStored()/getBatteryCapacity()/getTotalBatteryCapacity()",
+      "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+      "godot_owner": "PortGame.source_power_graph_battery_state",
+      "godot_symbol": "source_power_graph_battery_result.stored",
+      "runtime_proof": "/root/Main.source_power_graph_battery_state",
+      "tests": [
+        "test_power_graph_battery_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_battery_state_for_mcp",
+        "test_power_graph_battery_state_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph battery stored/capacity aggregate state mapping."
+    },
+    "power_graph_battery_state.capacity_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getBatteryStored()/getBatteryCapacity()/getTotalBatteryCapacity()",
+      "java_expr": "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;",
+      "godot_owner": "PortGame.source_power_graph_battery_state",
+      "godot_symbol": "source_power_graph_battery_result.capacity",
+      "runtime_proof": "/root/Main.source_power_graph_battery_state",
+      "tests": [
+        "test_power_graph_battery_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_battery_state_for_mcp",
+        "test_power_graph_battery_state_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph battery stored/capacity aggregate state mapping."
+    },
+    "power_graph_battery_state.total_capacity_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getBatteryStored()/getBatteryCapacity()/getTotalBatteryCapacity()",
+      "java_expr": "totalCapacity += battery.block.consPower.capacity;",
+      "godot_owner": "PortGame.source_power_graph_battery_state",
+      "godot_symbol": "source_power_graph_battery_result.total_capacity",
+      "runtime_proof": "/root/Main.source_power_graph_battery_state",
+      "tests": [
+        "test_power_graph_battery_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_battery_state_for_mcp",
+        "test_power_graph_battery_state_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph battery stored/capacity aggregate state mapping."
+    },
+    "power_graph_battery_state.enabled": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getBatteryStored()/getBatteryCapacity()/getTotalBatteryCapacity()",
+      "java_expr": "battery.enabled",
+      "godot_owner": "PortGame.source_power_graph_battery_state",
+      "godot_symbol": "source_power_graph_battery_battery.enabled",
+      "runtime_proof": "/root/Main.source_power_graph_battery_state",
+      "tests": [
+        "test_power_graph_battery_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_battery_state_for_mcp",
+        "test_power_graph_battery_state_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph battery stored/capacity aggregate state mapping."
     }
   },
   "version": 1

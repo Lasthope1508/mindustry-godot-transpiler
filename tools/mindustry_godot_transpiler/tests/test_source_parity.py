@@ -221,6 +221,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_battery_state_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_battery_state_source"))
+        report = source_parity.verify_power_graph_battery_state_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "battery_stored_method": "public float getBatteryStored(){",
+            "battery_stored_initial": "float totalAccumulator = 0f;",
+            "battery_capacity_method": "public float getBatteryCapacity(){",
+            "battery_capacity_initial": "float totalCapacity = 0f;",
+            "battery_total_capacity_method": "public float getTotalBatteryCapacity(){",
+            "battery_items": "var items = batteries.items;",
+            "battery_loop": "for(int i = 0; i < batteries.size; i++){",
+            "battery_building": "var battery = items[i];",
+            "battery_enabled_guard": "if(battery.enabled){",
+            "battery_stored_add": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+            "battery_capacity_add": "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;",
+            "battery_total_capacity_add": "totalCapacity += battery.block.consPower.capacity;",
+            "battery_stored_return": "return totalAccumulator;",
+            "battery_capacity_return": "return totalCapacity;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

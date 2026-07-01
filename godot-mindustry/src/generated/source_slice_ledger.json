@@ -17653,6 +17653,42 @@
         "test_power_graph_power_produced_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.getPowerProduced aggregate state without generator efficiency overrides yet."
+    },
+    "N891": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "getBatteryStored()/getBatteryCapacity()/getTotalBatteryCapacity()",
+      "godot_owner": "PortGame.source_power_graph_battery_state",
+      "runtime_proof": "/root/Main.source_power_graph_battery_state",
+      "exact_exprs": [
+        "public float getBatteryStored(){",
+        "float totalAccumulator = 0f;",
+        "public float getBatteryCapacity(){",
+        "float totalCapacity = 0f;",
+        "public float getTotalBatteryCapacity(){",
+        "var items = batteries.items;",
+        "for(int i = 0; i < batteries.size; i++){",
+        "var battery = items[i];",
+        "if(battery.enabled){",
+        "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+        "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;",
+        "totalCapacity += battery.block.consPower.capacity;",
+        "return totalAccumulator;",
+        "return totalCapacity;"
+      ],
+      "source_symbols": [
+        "power_graph_battery_state.stored_add",
+        "power_graph_battery_state.capacity_add",
+        "power_graph_battery_state.total_capacity_add",
+        "power_graph_battery_state.enabled"
+      ],
+      "tests": [
+        "test_power_graph_battery_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_battery_state_for_mcp",
+        "test_power_graph_battery_state_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph battery stored/capacity aggregate state without power distribution mutation yet."
     }
   },
   "version": 1

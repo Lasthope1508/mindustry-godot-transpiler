@@ -272,6 +272,34 @@ def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+
+def verify_power_graph_battery_state_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "battery_stored_method": "public float getBatteryStored(){",
+        "battery_stored_initial": "float totalAccumulator = 0f;",
+        "battery_capacity_method": "public float getBatteryCapacity(){",
+        "battery_capacity_initial": "float totalCapacity = 0f;",
+        "battery_total_capacity_method": "public float getTotalBatteryCapacity(){",
+        "battery_items": "var items = batteries.items;",
+        "battery_loop": "for(int i = 0; i < batteries.size; i++){",
+        "battery_building": "var battery = items[i];",
+        "battery_enabled_guard": "if(battery.enabled){",
+        "battery_stored_add": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+        "battery_capacity_add": "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;",
+        "battery_total_capacity_add": "totalCapacity += battery.block.consPower.capacity;",
+        "battery_stored_return": "return totalAccumulator;",
+        "battery_capacity_return": "return totalCapacity;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

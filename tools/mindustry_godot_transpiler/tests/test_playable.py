@@ -137,6 +137,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func placed_power_produced_state() -> Dictionary:", source)
         self.assertIn('"placed_power_produced": placed_power_produced_state()', source)
 
+    def test_port_game_exposes_source_power_graph_battery_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_battery_state(batteries: Array) -> Dictionary:", source)
+        self.assertIn('"stored_method": "public float getBatteryStored(){"', source)
+        self.assertIn('"capacity_method": "public float getBatteryCapacity(){"', source)
+        self.assertIn('"total_capacity_method": "public float getTotalBatteryCapacity(){"', source)
+        self.assertIn('"stored_add": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;"', source)
+        self.assertIn('"capacity_add": "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;"', source)
+        self.assertIn('"total_capacity_add": "totalCapacity += battery.block.consPower.capacity;"', source)
+        self.assertIn('if bool(battery.get("enabled", false)):', source)
+        self.assertIn("func placed_power_battery_state() -> Dictionary:", source)
+        self.assertIn('"placed_power_battery": placed_power_battery_state()', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
