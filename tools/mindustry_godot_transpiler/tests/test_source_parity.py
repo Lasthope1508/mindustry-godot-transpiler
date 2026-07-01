@@ -100,6 +100,35 @@ class SourceParityTests(unittest.TestCase):
             "canOverdrive": False,
         })
 
+    def test_generated_power_block_params_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_block_params_parity"))
+        report = source_parity.verify_power_block_params_parity(ROOT / "mindustry-upstream", ROOT / "godot-mindustry")
+
+        self.assertEqual(report["source"], "core/src/mindustry/content/Blocks.java")
+        self.assertEqual(report["mismatches"], [])
+        self.assertEqual(report["checked"]["power-node"], {
+            "maxNodes": 10,
+            "laserRange": 6,
+            "hasPower": True,
+            "consumesPower": False,
+            "outputsPower": False,
+            "canOverdrive": False,
+        })
+        self.assertEqual(report["checked"]["battery"], {
+            "consumePowerBuffered": 4000.0,
+            "hasPower": True,
+            "consumesPower": True,
+            "outputsPower": True,
+            "canOverdrive": False,
+        })
+        self.assertEqual(report["checked"]["combustion-generator"], {
+            "powerProduction": 1.0,
+            "itemDuration": 120.0,
+            "hasPower": True,
+            "consumesPower": False,
+            "outputsPower": True,
+        })
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

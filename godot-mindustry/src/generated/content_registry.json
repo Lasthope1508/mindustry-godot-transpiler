@@ -5,7 +5,11 @@
       "id": "air",
       "implementation": "AirBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": ""
     },
@@ -14,7 +18,11 @@
       "id": "spawn",
       "implementation": "SpawnBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spawn.png"
     },
@@ -23,7 +31,11 @@
       "id": "remove-wall",
       "implementation": "RemoveWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/remove-wall.png"
     },
@@ -32,7 +44,11 @@
       "id": "remove-ore",
       "implementation": "RemoveOre",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/remove-ore.png"
     },
@@ -41,7 +57,11 @@
       "id": "cliff",
       "implementation": "Cliff",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/cliff.png"
     },
@@ -50,7 +70,11 @@
       "id": "deep-water",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/deep-water.png"
     },
@@ -59,7 +83,11 @@
       "id": "shallow-water",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shallow-water.png"
     },
@@ -68,7 +96,11 @@
       "id": "tainted-water",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/tainted-water.png"
     },
@@ -77,7 +109,11 @@
       "id": "deep-tainted-water",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/deep-tainted-water.png"
     },
@@ -86,7 +122,11 @@
       "id": "darksand-tainted-water",
       "implementation": "ShallowLiquid",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/darksand-tainted-water.png"
     },
@@ -95,7 +135,11 @@
       "id": "sand-water",
       "implementation": "ShallowLiquid",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/sand-water.png"
     },
@@ -104,7 +148,11 @@
       "id": "darksand-water",
       "implementation": "ShallowLiquid",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/darksand-water.png"
     },
@@ -113,7 +161,11 @@
       "id": "tar",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/tar.png"
     },
@@ -123,8 +175,12 @@
       "implementation": "Floor",
       "properties": {
         "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
-        "lightRadius": 25.0
+        "hasPower": true,
+        "lightRadius": 25.0,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pooled-cryofluid.png"
     },
@@ -134,8 +190,12 @@
       "implementation": "Floor",
       "properties": {
         "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
-        "lightRadius": 40.0
+        "hasPower": true,
+        "lightRadius": 40.0,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/molten-slag.png"
     },
@@ -144,7 +204,11 @@
       "id": "space",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/space.png"
     },
@@ -153,7 +217,11 @@
       "id": "empty",
       "implementation": "EmptyFloor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/empty.png"
     },
@@ -162,7 +230,11 @@
       "id": "stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png"
     },
@@ -171,7 +243,11 @@
       "id": "crater-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crater-stone1.png"
     },
@@ -180,7 +256,11 @@
       "id": "char",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/char1.png"
     },
@@ -189,7 +269,11 @@
       "id": "basalt",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/basalt1.png"
     },
@@ -199,8 +283,12 @@
       "implementation": "Floor",
       "properties": {
         "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
-        "lightRadius": 30.0
+        "hasPower": true,
+        "lightRadius": 30.0,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/hotrock1.png"
     },
@@ -210,8 +298,12 @@
       "implementation": "Floor",
       "properties": {
         "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
-        "lightRadius": 50.0
+        "hasPower": true,
+        "lightRadius": 50.0,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/magmarock1.png"
     },
@@ -220,7 +312,11 @@
       "id": "sand-floor",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/sand-floor1.png"
     },
@@ -229,7 +325,11 @@
       "id": "darksand",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/darksand1.png"
     },
@@ -238,7 +338,11 @@
       "id": "dirt",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dirt1.png"
     },
@@ -247,7 +351,11 @@
       "id": "mud",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/mud1.png"
     },
@@ -256,7 +364,11 @@
       "id": "dacite",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dacite1.png"
     },
@@ -265,7 +377,11 @@
       "id": "rhyolite",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite1.png"
     },
@@ -274,7 +390,11 @@
       "id": "rhyolite-crater",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite-crater1.png"
     },
@@ -283,7 +403,11 @@
       "id": "rough-rhyolite",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rough-rhyolite1.png"
     },
@@ -292,7 +416,11 @@
       "id": "regolith",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/regolith1.png"
     },
@@ -301,7 +429,11 @@
       "id": "yellow-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone1.png"
     },
@@ -310,7 +442,11 @@
       "id": "carbon-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/carbon-stone1.png"
     },
@@ -319,7 +455,11 @@
       "id": "ferric-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ferric-stone1.png"
     },
@@ -328,7 +468,11 @@
       "id": "ferric-craters",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ferric-craters1.png"
     },
@@ -337,7 +481,11 @@
       "id": "beryllic-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/beryllic-stone1.png"
     },
@@ -346,7 +494,11 @@
       "id": "crystalline-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystalline-stone1.png"
     },
@@ -355,7 +507,11 @@
       "id": "crystal-floor",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystal-floor1.png"
     },
@@ -364,7 +520,11 @@
       "id": "yellow-stone-plates",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone-plates1.png"
     },
@@ -373,7 +533,11 @@
       "id": "red-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-stone1.png"
     },
@@ -382,7 +546,11 @@
       "id": "dense-red-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dense-red-stone1.png"
     },
@@ -391,7 +559,11 @@
       "id": "red-ice",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-ice1.png"
     },
@@ -400,7 +572,11 @@
       "id": "arkycite-floor",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkycite-floor.png"
     },
@@ -409,7 +585,11 @@
       "id": "arkyic-stone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkyic-stone1.png"
     },
@@ -418,7 +598,11 @@
       "id": "rhyolite-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite-vent1.png"
     },
@@ -427,7 +611,11 @@
       "id": "carbon-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/carbon-vent1.png"
     },
@@ -436,7 +624,11 @@
       "id": "arkyic-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkyic-vent1.png"
     },
@@ -445,7 +637,11 @@
       "id": "yellow-stone-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone-vent1.png"
     },
@@ -454,7 +650,11 @@
       "id": "red-stone-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-stone-vent1.png"
     },
@@ -463,7 +663,11 @@
       "id": "crystalline-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystalline-vent1.png"
     },
@@ -472,7 +676,11 @@
       "id": "stone-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone-vent1.png"
     },
@@ -481,7 +689,11 @@
       "id": "basalt-vent",
       "implementation": "SteamVent",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/basalt-vent1.png"
     },
@@ -490,7 +702,11 @@
       "id": "redmat",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/redmat1.png"
     },
@@ -499,7 +715,11 @@
       "id": "bluemat",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/bluemat1.png"
     },
@@ -508,7 +728,11 @@
       "id": "grass",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/grass1.png"
     },
@@ -517,7 +741,11 @@
       "id": "salt",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/salt.png"
     },
@@ -526,7 +754,11 @@
       "id": "snow",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/snow1.png"
     },
@@ -535,7 +767,11 @@
       "id": "ice",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ice1.png"
     },
@@ -544,7 +780,11 @@
       "id": "ice-snow",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ice-snow1.png"
     },
@@ -553,7 +793,11 @@
       "id": "shale",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shale1.png"
     },
@@ -562,7 +806,11 @@
       "id": "moss",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/moss1.png"
     },
@@ -571,7 +819,11 @@
       "id": "core-zone",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/core-zone.png"
     },
@@ -580,7 +832,11 @@
       "id": "spore-moss",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spore-moss1.png"
     },
@@ -589,7 +845,11 @@
       "id": "stone-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone-wall1.png"
     },
@@ -598,7 +858,11 @@
       "id": "spore-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spore-wall1.png"
     },
@@ -607,7 +871,11 @@
       "id": "dirt-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dirt-wall1.png"
     },
@@ -616,7 +884,11 @@
       "id": "dacite-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dacite-wall1.png"
     },
@@ -625,7 +897,11 @@
       "id": "ice-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ice-wall1.png"
     },
@@ -634,7 +910,11 @@
       "id": "snow-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/snow-wall1.png"
     },
@@ -643,7 +923,11 @@
       "id": "dune-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dune-wall1.png"
     },
@@ -652,7 +936,11 @@
       "id": "regolith-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/regolith-wall1.png"
     },
@@ -661,7 +949,11 @@
       "id": "yellow-stone-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellow-stone-wall1.png"
     },
@@ -670,7 +962,11 @@
       "id": "rhyolite-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rhyolite-wall1.png"
     },
@@ -679,7 +975,11 @@
       "id": "carbon-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/carbon-wall1.png"
     },
@@ -688,7 +988,11 @@
       "id": "ferric-stone-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ferric-stone-wall1.png"
     },
@@ -697,7 +1001,11 @@
       "id": "beryllic-stone-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/beryllic-stone-wall1.png"
     },
@@ -706,7 +1014,11 @@
       "id": "arkyic-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/arkyic-wall1.png"
     },
@@ -715,7 +1027,11 @@
       "id": "crystalline-stone-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/crystalline-stone-wall1.png"
     },
@@ -724,7 +1040,11 @@
       "id": "red-ice-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-ice-wall1.png"
     },
@@ -733,7 +1053,11 @@
       "id": "red-stone-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-stone-wall1.png"
     },
@@ -742,7 +1066,11 @@
       "id": "red-diamond-wall",
       "implementation": "StaticTree",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/red-diamond-wall1.png"
     },
@@ -751,7 +1079,11 @@
       "id": "sand-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/sand-wall1.png"
     },
@@ -760,7 +1092,11 @@
       "id": "salt-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/salt-wall1.png"
     },
@@ -769,7 +1105,11 @@
       "id": "shrubs",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shrubs1.png"
     },
@@ -778,7 +1118,11 @@
       "id": "shale-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/shale-wall1.png"
     },
@@ -787,7 +1131,11 @@
       "id": "spore-pine",
       "implementation": "StaticTree",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/spore-pine.png"
     },
@@ -796,7 +1144,11 @@
       "id": "snow-pine",
       "implementation": "StaticTree",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/snow-pine.png"
     },
@@ -805,7 +1157,11 @@
       "id": "pine",
       "implementation": "StaticTree",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pine.png"
     },
@@ -814,7 +1170,11 @@
       "id": "white-tree-dead",
       "implementation": "TreeBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/white-tree-dead.png"
     },
@@ -823,7 +1183,11 @@
       "id": "white-tree",
       "implementation": "TreeBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/white-tree.png"
     },
@@ -832,7 +1196,11 @@
       "id": "spore-cluster",
       "implementation": "Prop",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/spore-cluster1.png"
     },
@@ -841,7 +1209,11 @@
       "id": "redweed",
       "implementation": "Seaweed",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/redweed1.png"
     },
@@ -850,7 +1222,11 @@
       "id": "pur-bush",
       "implementation": "SeaBush",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/pur-bush.png"
     },
@@ -859,7 +1235,11 @@
       "id": "yellowcoral",
       "implementation": "SeaBush",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/yellowcoral.png"
     },
@@ -868,7 +1248,11 @@
       "id": "boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/boulder1.png"
     },
@@ -877,7 +1261,11 @@
       "id": "snow-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/snow-boulder1.png"
     },
@@ -886,7 +1274,11 @@
       "id": "shale-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/shale-boulder1.png"
     },
@@ -895,7 +1287,11 @@
       "id": "sand-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/sand-boulder1.png"
     },
@@ -904,7 +1300,11 @@
       "id": "dacite-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/dacite-boulder1.png"
     },
@@ -913,7 +1313,11 @@
       "id": "basalt-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/basalt-boulder1.png"
     },
@@ -922,7 +1326,11 @@
       "id": "carbon-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/carbon-boulder1.png"
     },
@@ -931,7 +1339,11 @@
       "id": "ferric-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/ferric-boulder1.png"
     },
@@ -940,7 +1352,11 @@
       "id": "beryllic-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/beryllic-boulder1.png"
     },
@@ -949,7 +1365,11 @@
       "id": "yellow-stone-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/yellow-stone-boulder1.png"
     },
@@ -958,7 +1378,11 @@
       "id": "arkyic-boulder",
       "implementation": "Prop",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/arkyic-boulder1.png"
     },
@@ -967,7 +1391,11 @@
       "id": "crystal-cluster",
       "implementation": "TallBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystal-cluster1.png"
     },
@@ -976,7 +1404,11 @@
       "id": "vibrant-crystal-cluster",
       "implementation": "TallBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/vibrant-crystal-cluster1.png"
     },
@@ -985,7 +1417,11 @@
       "id": "crystal-blocks",
       "implementation": "TallBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystal-blocks1.png"
     },
@@ -994,7 +1430,11 @@
       "id": "crystal-orbs",
       "implementation": "TallBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystal-orbs1.png"
     },
@@ -1003,7 +1443,11 @@
       "id": "crystalline-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/crystalline-boulder1.png"
     },
@@ -1012,7 +1456,11 @@
       "id": "red-ice-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/red-ice-boulder1.png"
     },
@@ -1021,7 +1469,11 @@
       "id": "rhyolite-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/rhyolite-boulder1.png"
     },
@@ -1030,7 +1482,11 @@
       "id": "red-stone-boulder",
       "implementation": "StaticProp",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/props/red-stone-boulder1.png"
     },
@@ -1039,7 +1495,11 @@
       "id": "metal-floor",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor.png"
     },
@@ -1048,7 +1508,11 @@
       "id": "metal-floor-damaged",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-damaged1.png"
     },
@@ -1057,7 +1521,11 @@
       "id": "metal-floor-2",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-2.png"
     },
@@ -1066,7 +1534,11 @@
       "id": "metal-floor-3",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-3.png"
     },
@@ -1075,7 +1547,11 @@
       "id": "metal-floor-4",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-4.png"
     },
@@ -1084,7 +1560,11 @@
       "id": "metal-floor-5",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-floor-5.png"
     },
@@ -1093,7 +1573,11 @@
       "id": "dark-panel-1",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-1.png"
     },
@@ -1102,7 +1586,11 @@
       "id": "dark-panel-2",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-2.png"
     },
@@ -1111,7 +1599,11 @@
       "id": "dark-panel-3",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-3.png"
     },
@@ -1120,7 +1612,11 @@
       "id": "dark-panel-4",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-4.png"
     },
@@ -1129,7 +1625,11 @@
       "id": "dark-panel-5",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-5.png"
     },
@@ -1138,7 +1638,11 @@
       "id": "dark-panel-6",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-panel-6.png"
     },
@@ -1147,7 +1651,11 @@
       "id": "dark-metal",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/dark-metal1.png"
     },
@@ -1156,7 +1664,11 @@
       "id": "metal-tiles-1",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-1.png"
     },
@@ -1165,7 +1677,11 @@
       "id": "metal-tiles-2",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-2-autotile.png"
     },
@@ -1174,7 +1690,11 @@
       "id": "metal-tiles-3",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-3-autotile.png"
     },
@@ -1183,7 +1703,11 @@
       "id": "metal-tiles-4",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-4-autotile.png"
     },
@@ -1192,7 +1716,11 @@
       "id": "metal-tiles-5",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-5-autotile.png"
     },
@@ -1202,8 +1730,12 @@
       "implementation": "Floor",
       "properties": {
         "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
-        "lightRadius": 30.0
+        "hasPower": true,
+        "lightRadius": 30.0,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-6-autotile.png"
     },
@@ -1212,7 +1744,11 @@
       "id": "metal-tiles-7",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-7-autotile.png"
     },
@@ -1221,7 +1757,11 @@
       "id": "metal-tiles-8",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-8-autotile.png"
     },
@@ -1230,7 +1770,11 @@
       "id": "metal-tiles-9",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-9-autotile.png"
     },
@@ -1239,7 +1783,11 @@
       "id": "metal-tiles-10",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-10-autotile.png"
     },
@@ -1248,7 +1796,11 @@
       "id": "metal-tiles-11",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-11.png"
     },
@@ -1258,8 +1810,12 @@
       "implementation": "Floor",
       "properties": {
         "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
-        "lightRadius": 30.0
+        "hasPower": true,
+        "lightRadius": 30.0,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-12.png"
     },
@@ -1268,7 +1824,11 @@
       "id": "metal-tiles-13",
       "implementation": "Floor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-tiles-13-autotile.png"
     },
@@ -1277,7 +1837,11 @@
       "id": "metal-wall-1",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-wall-1.png"
     },
@@ -1286,7 +1850,11 @@
       "id": "metal-wall-2",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-wall-2.png"
     },
@@ -1295,7 +1863,11 @@
       "id": "metal-wall-3",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/metal-wall-3.png"
     },
@@ -1304,7 +1876,11 @@
       "id": "colored-floor",
       "implementation": "ColoredFloor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/colored-floor.png"
     },
@@ -1313,7 +1889,11 @@
       "id": "colored-wall",
       "implementation": "ColoredWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/colored-wall.png"
     },
@@ -1322,7 +1902,11 @@
       "id": "character-overlay",
       "implementation": "CharacterOverlay",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/character-overlay/character-overlay.png"
     },
@@ -1331,7 +1915,11 @@
       "id": "character-overlay-white",
       "implementation": "CharacterOverlay",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/character-overlay/character-overlay-white.png"
     },
@@ -1340,7 +1928,11 @@
       "id": "rune-overlay",
       "implementation": "RuneOverlay",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rune-overlay/rune-overlay.png"
     },
@@ -1349,7 +1941,11 @@
       "id": "rune-overlay-crux",
       "implementation": "RuneOverlay",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/rune-overlay/rune-overlay-crux.png"
     },
@@ -1358,7 +1954,11 @@
       "id": "pebbles",
       "implementation": "OverlayFloor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/pebbles1.png"
     },
@@ -1367,7 +1967,11 @@
       "id": "tendrils",
       "implementation": "OverlayFloor",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/tendrils1.png"
     },
@@ -1376,7 +1980,11 @@
       "id": "ore-crystal-thorium",
       "implementation": "OreBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-crystal-thorium1.png"
     },
@@ -1385,7 +1993,11 @@
       "id": "ore-wall-thorium",
       "implementation": "OreBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-thorium1.png"
     },
@@ -1394,7 +2006,11 @@
       "id": "ore-wall-beryllium",
       "implementation": "OreBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-beryllium1.png"
     },
@@ -1403,7 +2019,11 @@
       "id": "graphitic-wall",
       "implementation": "StaticWall",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/graphitic-wall1.png"
     },
@@ -1412,7 +2032,11 @@
       "id": "ore-wall-graphite",
       "implementation": "OreBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-graphite1.png"
     },
@@ -1421,7 +2045,11 @@
       "id": "ore-wall-tungsten",
       "implementation": "OreBlock",
       "properties": {
-        "canOverdrive": true
+        "canOverdrive": true,
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-wall-tungsten1.png"
     },
@@ -1432,8 +2060,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 75,
@@ -1455,8 +2087,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 100,
@@ -1486,8 +2122,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -1509,7 +2149,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 30,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 120,
@@ -1539,8 +2183,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 60,
@@ -1566,9 +2214,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 320,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -1598,8 +2250,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 30,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 130,
@@ -1625,8 +2281,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -1652,8 +2312,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 65,
@@ -1679,8 +2343,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 50,
@@ -1702,8 +2370,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -1725,9 +2397,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 200,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -1752,8 +2428,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -1775,8 +2455,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 40,
@@ -1806,9 +2490,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 320,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 35,
@@ -1830,8 +2518,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -1853,8 +2545,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 20,
@@ -1880,7 +2576,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 90,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 5,
@@ -1901,8 +2601,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 30,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 70,
@@ -1924,8 +2628,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 0,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 50,
@@ -1955,7 +2663,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 0,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 60,
@@ -1981,6 +2693,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 120,
@@ -2010,7 +2726,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 0,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -2036,7 +2756,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 0,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 50,
@@ -2062,6 +2786,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -2087,6 +2815,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -2108,6 +2840,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 3,
@@ -2129,6 +2865,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 15,
@@ -2150,6 +2890,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 15,
@@ -2167,8 +2911,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 110,
@@ -2194,8 +2942,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 70,
@@ -2225,7 +2977,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 100,
@@ -2255,6 +3011,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -2284,7 +3044,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 40,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 90,
@@ -2315,7 +3079,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 70,
@@ -2345,6 +3113,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2361,6 +3133,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/copper-wall-large.png"
@@ -2372,6 +3148,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2388,6 +3168,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/titanium-wall-large.png"
@@ -2399,6 +3183,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 5,
@@ -2419,6 +3207,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/plastanium-wall-large.png"
@@ -2430,6 +3222,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2446,6 +3242,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/thorium-wall-large.png"
@@ -2457,6 +3257,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2473,6 +3277,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/phase-wall-large.png"
@@ -2484,6 +3292,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2500,6 +3312,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/surge-wall-large.png"
@@ -2511,6 +3327,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2531,6 +3351,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/door-large.png"
@@ -2542,6 +3366,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2558,6 +3386,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall-large1.png"
@@ -2569,6 +3401,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall-huge1.png"
@@ -2580,6 +3416,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/scrap-wall-gigantic.png"
@@ -2591,6 +3431,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 96,
@@ -2608,6 +3452,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2624,6 +3472,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/beryllium-wall-large.png"
@@ -2635,6 +3487,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2651,6 +3507,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/tungsten-wall-large.png"
@@ -2662,6 +3522,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 24,
@@ -2683,6 +3547,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2703,6 +3571,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/reinforced-surge-wall-large.png"
@@ -2714,6 +3586,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6,
@@ -2734,6 +3610,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 2
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/walls/carbide-wall-large.png"
@@ -2745,6 +3625,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "defense",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 20,
@@ -2773,12 +3657,16 @@
         "boosterUseTime": 400.0,
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
         "hasItems": true,
+        "hasPower": true,
         "healPercent": 4.0,
         "health": 80,
         "itemCapacity": 10,
         "lightRadius": 50.0,
+        "outputsPower": false,
         "phaseBoost": 4.0,
         "phaseRangeBoost": 20.0,
         "range": 40.0,
@@ -2807,12 +3695,16 @@
         "boosterUseTime": 400.0,
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
         "hasItems": true,
+        "hasPower": true,
         "healPercent": 11.0,
         "health": 320,
         "itemCapacity": 10,
         "lightRadius": 50.0,
+        "outputsPower": false,
         "phaseBoost": 15.0,
         "phaseRangeBoost": 50.0,
         "range": 85.0,
@@ -2850,11 +3742,15 @@
         "boosterUseTime": 400.0,
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
         "hasBoost": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
         "lightRadius": 50.0,
+        "outputsPower": false,
         "phaseColor": "ffd59e",
         "phaseRangeBoost": 20.0,
         "range": 80.0,
@@ -2892,11 +3788,15 @@
         "baseColor": "feb380",
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "emitLight": true,
         "hasBoost": false,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
         "lightRadius": 50.0,
+        "outputsPower": false,
         "phaseColor": "ffd59e",
         "phaseRangeBoost": 20.0,
         "range": 200.0,
@@ -2938,8 +3838,12 @@
         "boosterItem": "phase-fabric",
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 100,
@@ -2965,7 +3869,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 50,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 25,
@@ -2986,6 +3894,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 60,
@@ -3010,6 +3922,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "range": 200.0,
         "requirements": [
           {
@@ -3037,8 +3953,12 @@
         "boosterItem": "phase-fabric",
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "range": 28,
         "requirements": [
           {
@@ -3069,6 +3989,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "range": 170.0,
         "reload": 80.0,
         "requirements": [
@@ -3100,6 +4024,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 3
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/shield-projector.png"
@@ -3111,6 +4039,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 4
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/defense/large-shield-projector.png"
@@ -3122,10 +4054,14 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "displayedSpeed": 4.2,
         "hasItems": true,
+        "hasPower": true,
         "health": 45,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1,
@@ -3143,10 +4079,14 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "displayedSpeed": 10.0,
         "hasItems": true,
+        "hasPower": true,
         "health": 65,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1,
@@ -3172,9 +4112,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 90,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1,
@@ -3199,8 +4143,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "displayedSpeed": 11.0,
+        "hasPower": true,
         "health": 280,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1,
@@ -3226,7 +4174,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 30,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 3,
@@ -3244,8 +4196,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": false,
         "itemCapacity": 10,
+        "outputsPower": false,
         "range": 4,
         "requirements": [
           {
@@ -3268,8 +4224,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "range": 12,
         "requirements": [
           {
@@ -3299,6 +4259,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -3319,6 +4283,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -3339,8 +4307,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 3,
@@ -3357,8 +4329,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 4,
@@ -3380,8 +4356,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -3402,8 +4382,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -3424,8 +4408,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 25,
@@ -3446,8 +4434,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 120,
+        "outputsPower": false,
         "range": 440.0,
         "reload": 200.0,
         "requirements": [
@@ -3479,9 +4471,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 90,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1,
@@ -3499,9 +4495,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 140,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -3523,9 +4523,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 90,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -3543,9 +4547,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 90,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 8,
@@ -3567,9 +4575,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 90,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 8,
@@ -3591,9 +4603,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 90,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 15,
@@ -3611,9 +4627,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 120,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 20,
@@ -3639,9 +4659,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 130,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1,
@@ -3662,7 +4686,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 130,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 5,
@@ -3684,8 +4712,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 200,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -3711,8 +4743,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 100,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 60,
@@ -3734,6 +4770,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 15,
@@ -3754,6 +4794,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 70,
@@ -3783,6 +4827,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -3816,7 +4864,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 45,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1,
@@ -3833,7 +4885,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 90,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -3854,7 +4910,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 220,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -3879,6 +4939,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 4,
@@ -3899,6 +4963,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -3920,7 +4988,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 500,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -3942,6 +5014,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 4,
@@ -3962,7 +5038,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": false,
+        "hasPower": true,
+        "outputsPower": false,
         "range": 4,
         "requirements": [
           {
@@ -3984,7 +5064,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": false,
+        "hasPower": true,
+        "outputsPower": false,
         "range": 12,
         "requirements": [
           {
@@ -4014,6 +5098,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 40,
@@ -4039,7 +5127,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 250,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -4056,7 +5148,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 250,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 4,
@@ -4077,7 +5173,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 250,
+        "outputsPower": false,
         "range": 4,
         "requirements": [
           {
@@ -4099,7 +5199,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 250,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 8,
@@ -4120,7 +5224,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 400,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -4142,7 +5250,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 900,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 40,
@@ -4164,6 +5276,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "laserRange": 6,
+        "maxNodes": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2,
@@ -4184,6 +5302,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "laserRange": 15.0,
+        "maxNodes": 15,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 5,
@@ -4209,6 +5333,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "laserRange": 40.0,
+        "maxNodes": 2,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 7,
@@ -4238,6 +5368,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -4262,6 +5396,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "power",
+        "connectedPower": true,
+        "consumePowerBuffered": 4000.0,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": true,
+        "powerBuffered": true,
+        "powerCapacity": 4000.0,
         "requirements": [
           {
             "amount": 5,
@@ -4282,6 +5423,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "power",
+        "connectedPower": true,
+        "consumePowerBuffered": 50000.0,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": true,
+        "powerBuffered": true,
+        "powerCapacity": 50000.0,
         "requirements": [
           {
             "amount": 20,
@@ -4307,6 +5455,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "itemDuration": 120.0,
+        "outputsPower": true,
+        "powerProduction": 1.0,
         "requirements": [
           {
             "amount": 25,
@@ -4327,6 +5481,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
+        "powerProduction": 1.8,
         "requirements": [
           {
             "amount": 40,
@@ -4360,6 +5519,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "itemDuration": 90.0,
+        "outputsPower": true,
+        "powerProduction": 5.5,
         "requirements": [
           {
             "amount": 35,
@@ -4390,8 +5555,14 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "itemDuration": 220.0,
+        "outputsPower": true,
+        "powerProduction": 18.0,
         "requirements": [
           {
             "amount": 70,
@@ -4425,6 +5596,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
+        "powerProduction": 4.5,
         "requirements": [
           {
             "amount": 100,
@@ -4458,6 +5634,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
+        "powerProduction": 0.12,
         "requirements": [
           {
             "amount": 10,
@@ -4478,6 +5659,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
+        "powerProduction": 1.6,
         "requirements": [
           {
             "amount": 60,
@@ -4503,9 +5689,15 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
         "hasItems": true,
+        "hasPower": true,
         "health": 700,
         "itemCapacity": 10,
+        "itemDuration": 360.0,
+        "outputsPower": true,
+        "powerProduction": 15.0,
         "requirements": [
           {
             "amount": 300,
@@ -4539,9 +5731,15 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 900,
         "itemCapacity": 10,
+        "itemDuration": 140.0,
+        "outputsPower": true,
+        "powerProduction": 130.0,
         "requirements": [
           {
             "amount": 500,
@@ -4579,7 +5777,14 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumePowerBuffered": 1000.0,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 90,
+        "outputsPower": false,
+        "powerBuffered": true,
+        "powerCapacity": 1000.0,
         "range": 10,
         "requirements": [
           {
@@ -4597,7 +5802,14 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumePowerBuffered": 40000.0,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 810,
+        "outputsPower": false,
+        "powerBuffered": true,
+        "powerCapacity": 40000.0,
         "range": 23,
         "requirements": [
           {
@@ -4625,7 +5837,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
         "health": 1170,
+        "laserRange": 500.0,
+        "maxNodes": 1,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 250,
@@ -4664,6 +5882,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
         "requirements": [
           {
             "amount": 60,
@@ -4681,6 +5903,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
         "requirements": [
           {
             "amount": 40,
@@ -4710,6 +5936,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
         "requirements": [
           {
             "amount": 100,
@@ -4739,6 +5969,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true,
         "requirements": [
           {
             "amount": 240,
@@ -4772,7 +6006,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": true,
+        "powerProduction": 140.0,
         "range": 4.0,
         "requirements": [
           {
@@ -4811,9 +6050,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 600,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 12,
@@ -4832,9 +6075,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 400,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 18,
@@ -4857,9 +6104,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 280,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 35,
@@ -4890,9 +6141,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 280,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 65,
@@ -4924,6 +6179,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -4954,8 +6213,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 25,
@@ -4981,8 +6244,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 150,
@@ -5016,7 +6283,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 0,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 20,
@@ -5038,9 +6309,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 110.0,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 25,
@@ -5063,9 +6338,13 @@
         "boosterItem": "graphite",
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 48.0,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -5095,9 +6374,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 160.0,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "range": 5,
         "requirements": [
           {
@@ -5117,9 +6400,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 100.0,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 20,
+        "outputsPower": false,
         "range": 6,
         "requirements": [
           {
@@ -5151,7 +6438,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 40,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 70,
@@ -5178,8 +6469,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "production",
+        "connectedPower": true,
+        "consumesPower": true,
         "drillTime": 281.25,
+        "hasPower": true,
         "itemCapacity": 60,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 300,
@@ -5210,9 +6505,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1100,
         "itemCapacity": 4000,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1000,
@@ -5234,9 +6533,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 3500,
         "itemCapacity": 9000,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 3000,
@@ -5262,9 +6565,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 6000,
         "itemCapacity": 13000,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 8000,
@@ -5294,9 +6601,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 4500,
         "itemCapacity": 2000,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 1000,
@@ -5322,9 +6633,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 16000,
         "itemCapacity": 3000,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 4000,
@@ -5354,9 +6669,13 @@
       "properties": {
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 30000,
         "itemCapacity": 4000,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 6000,
@@ -5390,9 +6709,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 220,
         "itemCapacity": 300,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 100,
@@ -5411,9 +6734,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 495,
         "itemCapacity": 1000,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 250,
@@ -5436,9 +6763,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 480,
         "itemCapacity": 160,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -5461,9 +6792,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1080,
         "itemCapacity": 900,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 125,
@@ -5526,13 +6861,17 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 250,
         "inaccuracy": 2.0,
         "itemCapacity": 10,
         "limitRangeMargin": 5.0,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 160,
         "recoil": 0.5,
         "recoils": 2,
@@ -5561,12 +6900,16 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 800,
         "inaccuracy": 17.0,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 220.0,
         "recoil": 1.0,
         "reload": 18.0,
@@ -5595,11 +6938,15 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 400,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 60.0,
         "recoil": 0.0,
         "reload": 6.0,
@@ -5626,12 +6973,16 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 260,
         "inaccuracy": 1.0,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 235.0,
         "recoil": 2.0,
         "reload": 60.0,
@@ -5656,8 +7007,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 1000,
         "inaccuracy": 5.0,
+        "outputsPower": false,
         "range": 110.0,
         "recoil": 0.0,
         "reload": 3.0,
@@ -5688,7 +7043,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 1120,
+        "outputsPower": false,
         "range": 165.0,
         "recoil": 2.0,
         "reload": 80.0,
@@ -5722,7 +7081,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 260,
+        "outputsPower": false,
         "range": 90.0,
         "recoil": 1.0,
         "reload": 35.0,
@@ -5749,7 +7112,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 640,
+        "outputsPower": false,
         "range": 300.0,
         "requirements": [
           {
@@ -5779,12 +7146,16 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": false,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1200,
         "inaccuracy": 10.0,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 240.0,
         "requirements": [
           {
@@ -5872,12 +7243,16 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": false,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 960,
         "itemCapacity": 10,
         "limitRangeMargin": 9.0,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 190.0,
         "recoil": 0.0,
         "reload": 29.0,
@@ -5907,7 +7282,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 1000,
+        "outputsPower": false,
         "range": 180.0,
         "reload": 8.0,
         "requirements": [
@@ -5940,8 +7319,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 2250,
         "inaccuracy": 3.0,
+        "outputsPower": false,
         "range": 190.0,
         "recoil": 1.0,
         "reload": 3.0,
@@ -5982,11 +7365,15 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1980,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 90.0,
         "recoil": 5.0,
         "reload": 35.0,
@@ -6018,12 +7405,16 @@
         "ammoPerShot": 2,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1170,
         "inaccuracy": 11.0,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 290.0,
         "recoil": 6.0,
         "reload": 120.0,
@@ -6054,12 +7445,16 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1305,
         "inaccuracy": 10.0,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 200.0,
         "recoil": 1.5,
         "recoils": 3,
@@ -6094,11 +7489,15 @@
         "ammoPerShot": 5,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 2400,
         "itemCapacity": 10,
         "maxAmmo": 40,
+        "outputsPower": false,
         "range": 500.0,
         "recoil": 5.0,
         "reload": 200.0,
@@ -6174,13 +7573,17 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 2560,
         "inaccuracy": 3.0,
         "itemCapacity": 10,
         "limitRangeMargin": 9.0,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 260.0,
         "recoil": 3.0,
         "reload": 7.0,
@@ -6223,7 +7626,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 3200,
+        "outputsPower": false,
         "range": 195.0,
         "recoil": 4.0,
         "reload": 90.0,
@@ -6301,12 +7708,16 @@
         "ammoPerShot": 2,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1620,
         "itemCapacity": 10,
         "limitRangeMargin": 12.0,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 190,
         "recoil": 2.0,
         "reload": 40.0,
@@ -6374,13 +7785,17 @@
         "ammoPerShot": 3,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 1890,
         "inaccuracy": 0.2,
         "itemCapacity": 10,
         "limitRangeMargin": 25.0,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 125,
         "recoil": 2.0,
         "reload": 30.0,
@@ -6417,7 +7832,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 1890,
+        "outputsPower": false,
         "range": 130.0,
         "requirements": [
           {
@@ -6451,10 +7870,14 @@
         "ammoPerShot": 4,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 4000,
         "itemCapacity": 10,
+        "outputsPower": false,
         "range": 390.0,
         "recoil": 1.0,
         "requirements": [
@@ -6486,12 +7909,16 @@
         "ammoPerShot": 1,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 4480,
         "inaccuracy": 8.0,
         "itemCapacity": 10,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 310.0,
         "reload": 9.0,
         "requirements": [
@@ -6528,8 +7955,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 3520,
         "inaccuracy": 1.0,
+        "outputsPower": false,
         "range": 368,
         "recoil": 3.0,
         "reload": 50.0,
@@ -6567,7 +7998,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 3360,
+        "outputsPower": false,
         "range": 250.0,
         "requirements": [
           {
@@ -6603,12 +8038,16 @@
         "ammoPerShot": 15,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 240,
         "itemCapacity": 10,
         "lightRadius": 30.0,
         "maxAmmo": 45,
+        "outputsPower": false,
         "range": 1350,
         "recoil": 0.5,
         "reload": 1.0,
@@ -6663,12 +8102,16 @@
         "ammoPerShot": 2,
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
         "consumeAmmoOnce": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 8750,
         "itemCapacity": 10,
         "limitRangeMargin": 9.0,
         "maxAmmo": 30,
+        "outputsPower": false,
         "range": 300,
         "recoil": 2.0,
         "reload": 100.0,
@@ -6709,7 +8152,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "turret",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 9250,
+        "outputsPower": false,
         "range": 410,
         "recoil": 0.5,
         "reload": 3.5,
@@ -6749,8 +8196,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 50,
@@ -6776,8 +8227,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 60,
@@ -6803,8 +8258,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 150,
@@ -6830,6 +8289,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 200,
@@ -6855,6 +8318,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 650,
@@ -6884,6 +8351,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 2000,
@@ -6921,6 +8392,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 4000,
@@ -6958,6 +8433,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -6982,6 +8461,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 90,
@@ -7007,8 +8490,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 200,
@@ -7030,8 +8517,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 250,
@@ -7053,8 +8544,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 200,
@@ -7080,6 +8575,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 200,
@@ -7105,6 +8604,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 250,
@@ -7134,6 +8637,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 250,
@@ -7159,6 +8666,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 250,
@@ -7188,8 +8699,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 500,
@@ -7219,8 +8734,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 100,
@@ -7254,8 +8773,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 200,
@@ -7289,6 +8812,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 300,
@@ -7318,6 +8845,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "range": 100.0,
         "requirements": [
           {
@@ -7344,6 +8875,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -7364,6 +8899,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 15,
@@ -7384,7 +8923,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 800,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -7401,7 +8944,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 800,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 15,
@@ -7418,6 +8965,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "range": 700.0,
         "reload": 130.0,
         "requirements": [
@@ -7445,6 +8996,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "range": 2100.0,
         "reload": 130.0,
         "requirements": [
@@ -7480,8 +9035,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 100,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 100,
@@ -7511,8 +9070,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 250,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 250,
@@ -7542,6 +9105,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 50,
@@ -7567,6 +9134,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 150,
@@ -7596,8 +9167,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -7623,6 +9198,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": true,
         "requirements": [
           {
             "amount": 140,
@@ -7647,7 +9226,11 @@
       "implementation": "PowerSource",
       "properties": {
         "canOverdrive": true,
-        "category": "power"
+        "category": "power",
+        "connectedPower": true,
+        "consumesPower": false,
+        "hasPower": true,
+        "outputsPower": true
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-source.png"
     },
@@ -7657,7 +9240,11 @@
       "implementation": "PowerVoid",
       "properties": {
         "canOverdrive": true,
-        "category": "power"
+        "category": "power",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/power/power-void.png"
     },
@@ -7668,8 +9255,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
-        "itemCapacity": 10
+        "hasPower": true,
+        "itemCapacity": 10,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/item-source.png"
     },
@@ -7679,7 +9270,11 @@
       "implementation": "ItemVoid",
       "properties": {
         "canOverdrive": true,
-        "category": "distribution"
+        "category": "distribution",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/item-void.png"
     },
@@ -7689,7 +9284,11 @@
       "implementation": "LiquidSource",
       "properties": {
         "canOverdrive": true,
-        "category": "liquid"
+        "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/liquid-source.png"
     },
@@ -7699,7 +9298,11 @@
       "implementation": "LiquidVoid",
       "properties": {
         "canOverdrive": true,
-        "category": "liquid"
+        "category": "liquid",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/liquid-void.png"
     },
@@ -7710,6 +9313,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": false,
+        "outputsPower": false,
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-source.png"
@@ -7721,6 +9328,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "units",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 5
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/payload/payload-void.png"
@@ -7732,7 +9343,11 @@
       "properties": {
         "canOverdrive": false,
         "category": "crafting",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "itemCapacity": 0,
+        "outputsPower": false,
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/sandbox/heat-source.png"
@@ -7744,6 +9359,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 12,
@@ -7768,8 +9387,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 100,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 350,
@@ -7799,8 +9422,12 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 100,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 350,
@@ -7830,8 +9457,12 @@
       "properties": {
         "canOverdrive": false,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "itemCapacity": 100,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 200,
@@ -7857,9 +9488,13 @@
       "properties": {
         "canOverdrive": true,
         "category": "effect",
+        "connectedPower": true,
+        "consumesPower": true,
         "hasItems": true,
+        "hasPower": true,
         "health": 3920,
         "itemCapacity": 10,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 16000,
@@ -7898,6 +9533,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 5,
@@ -7918,6 +9557,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 5,
@@ -7938,6 +9581,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 90,
@@ -7963,6 +9610,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 320,
@@ -7992,6 +9643,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 450,
@@ -8021,6 +9676,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 30,
@@ -8045,6 +9704,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 80,
@@ -8074,6 +9737,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 100,
@@ -8099,6 +9766,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 200,
@@ -8128,6 +9799,10 @@
       "properties": {
         "canOverdrive": true,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 8,
@@ -8156,6 +9831,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -8177,6 +9856,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 15,
@@ -8202,7 +9885,11 @@
       "properties": {
         "canOverdrive": true,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
         "health": 100,
+        "outputsPower": false,
         "requirements": [
           {
             "amount": 10,
@@ -8223,6 +9910,10 @@
       "properties": {
         "canOverdrive": false,
         "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false,
         "size": 1
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-processor.png"
@@ -8233,7 +9924,11 @@
       "implementation": "MemoryBlock",
       "properties": {
         "canOverdrive": false,
-        "category": "logic"
+        "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-cell.png"
     },
@@ -8243,7 +9938,11 @@
       "implementation": "MessageBlock",
       "properties": {
         "canOverdrive": true,
-        "category": "logic"
+        "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-message.png"
     },
@@ -8253,7 +9952,11 @@
       "implementation": "SwitchBlock",
       "properties": {
         "canOverdrive": true,
-        "category": "logic"
+        "category": "logic",
+        "connectedPower": true,
+        "consumesPower": true,
+        "hasPower": true,
+        "outputsPower": false
       },
       "texture": "res://assets/core/assets-raw/sprites/blocks/logic/world-switch.png"
     }

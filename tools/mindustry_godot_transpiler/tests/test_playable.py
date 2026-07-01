@@ -61,6 +61,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"loaded_generated_class_names": loaded_generated_class_names.duplicate()', source)
         self.assertIn('"content_counts": content_counts.duplicate()', source)
 
+    def test_port_game_exposes_selected_build_power_metadata_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func selected_build_has_power() -> bool:", source)
+        self.assertIn('return bool(selected.properties.get("hasPower", false))', source)
+        self.assertIn("func selected_build_consumes_power() -> bool:", source)
+        self.assertIn('return bool(selected.properties.get("consumesPower", true))', source)
+        self.assertIn("func selected_build_outputs_power() -> bool:", source)
+        self.assertIn('return bool(selected.properties.get("outputsPower", false))', source)
+        self.assertIn("func selected_build_power_capacity() -> float:", source)
+        self.assertIn('return float(selected.properties.get("powerCapacity", 0.0))', source)
+        self.assertIn("func selected_build_power_buffered() -> bool:", source)
+        self.assertIn('return bool(selected.properties.get("powerBuffered", false))', source)
+        self.assertIn("func selected_build_power_production() -> float:", source)
+        self.assertIn('return float(selected.properties.get("powerProduction", 0.0))', source)
+        self.assertIn("func selected_build_item_duration() -> float:", source)
+        self.assertIn('return float(selected.properties.get("itemDuration", 0.0))', source)
+        self.assertIn("func selected_build_max_nodes() -> int:", source)
+        self.assertIn('return int(selected.properties.get("maxNodes", 0))', source)
+        self.assertIn("func selected_build_laser_range() -> float:", source)
+        self.assertIn('return float(selected.properties.get("laserRange", 0.0))', source)
+        self.assertIn('"selected_build_has_power": selected_build_has_power()', source)
+        self.assertIn('"selected_build_consumes_power": selected_build_consumes_power()', source)
+        self.assertIn('"selected_build_outputs_power": selected_build_outputs_power()', source)
+        self.assertIn('"selected_build_power_capacity": selected_build_power_capacity()', source)
+        self.assertIn('"selected_build_power_buffered": selected_build_power_buffered()', source)
+        self.assertIn('"selected_build_power_production": selected_build_power_production()', source)
+        self.assertIn('"selected_build_item_duration": selected_build_item_duration()', source)
+        self.assertIn('"selected_build_max_nodes": selected_build_max_nodes()', source)
+        self.assertIn('"selected_build_laser_range": selected_build_laser_range()', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -374,5 +374,146 @@ public class OverdriveProjector extends Block{
         self.assertEqual(props.get("lightRadius"), 50.0)
         self.assertEqual(props.get("hasBoost"), True)
         self.assertEqual(props.get("canOverdrive"), False)
+
+    def test_block_registry_extracts_power_block_source_params(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "upstream" / "core" / "src" / "mindustry" / "content"
+            power_source = root / "upstream" / "core" / "src" / "mindustry" / "world" / "blocks" / "power"
+            source.mkdir(parents=True)
+            power_source.mkdir(parents=True)
+            self._write_block_base(root)
+            (source / "Items.java").write_text(
+                """
+package mindustry.content;
+public class Items{
+    public static Item copper, lead, coal;
+}
+""",
+                encoding="utf-8",
+            )
+            (source / "Liquids.java").write_text(
+                """
+package mindustry.content;
+public class Liquids{}
+""",
+                encoding="utf-8",
+            )
+            (source / "Blocks.java").write_text(
+                """
+package mindustry.content;
+public class Blocks{
+    public static Block powerNode, battery, combustionGenerator;
+    public static void load(){
+        powerNode = new PowerNode("power-node"){{
+            requirements(Category.power, with(Items.copper, 2, Items.lead, 6));
+            maxNodes = 10;
+            laserRange = 6;
+        }};
+        battery = new Battery("battery"){{
+            requirements(Category.power, with(Items.copper, 5, Items.lead, 20));
+            consumePowerBuffered(4000f);
+        }};
+        combustionGenerator = new ConsumeGenerator("combustion-generator"){{
+            requirements(Category.power, with(Items.copper, 25, Items.lead, 15));
+            powerProduction = 1f;
+            itemDuration = 120f;
+        }};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (power_source / "PowerBlock.java").write_text(
+                """
+package mindustry.world.blocks.power;
+public class PowerBlock extends Block{
+    public PowerBlock(String name){
+        hasPower = true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (power_source / "PowerDistributor.java").write_text(
+                """
+package mindustry.world.blocks.power;
+public class PowerDistributor extends PowerBlock{
+    public PowerDistributor(String name){
+        consumesPower = false;
+        outputsPower = true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (power_source / "PowerNode.java").write_text(
+                """
+package mindustry.world.blocks.power;
+public class PowerNode extends PowerBlock{
+    public float laserRange = 6;
+    public int maxNodes = 3;
+    public PowerNode(String name){
+        consumesPower = false;
+        outputsPower = false;
+        canOverdrive = false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (power_source / "Battery.java").write_text(
+                """
+package mindustry.world.blocks.power;
+public class Battery extends PowerDistributor{
+    public Battery(String name){
+        outputsPower = true;
+        consumesPower = true;
+        canOverdrive = false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            (power_source / "PowerGenerator.java").write_text(
+                """
+package mindustry.world.blocks.power;
+public class PowerGenerator extends PowerDistributor{
+    public float powerProduction;
+}
+""",
+                encoding="utf-8",
+            )
+            (power_source / "ConsumeGenerator.java").write_text(
+                """
+package mindustry.world.blocks.power;
+public class ConsumeGenerator extends PowerGenerator{
+    public float itemDuration = 120f;
+}
+""",
+                encoding="utf-8",
+            )
+
+            registry = build_content_registry(root / "upstream", root / "godot")
+
+        power_node = registry["blocks"][0]["properties"]
+        self.assertEqual(power_node.get("maxNodes"), 10)
+        self.assertEqual(power_node.get("laserRange"), 6)
+        self.assertEqual(power_node.get("hasPower"), True)
+        self.assertEqual(power_node.get("consumesPower"), False)
+        self.assertEqual(power_node.get("outputsPower"), False)
+        self.assertEqual(power_node.get("canOverdrive"), False)
+        battery = registry["blocks"][1]["properties"]
+        self.assertEqual(battery.get("consumePowerBuffered"), 4000.0)
+        self.assertEqual(battery.get("hasPower"), True)
+        self.assertEqual(battery.get("consumesPower"), True)
+        self.assertEqual(battery.get("outputsPower"), True)
+        self.assertEqual(battery.get("canOverdrive"), False)
+        generator = registry["blocks"][2]["properties"]
+        self.assertEqual(generator.get("powerProduction"), 1.0)
+        self.assertEqual(generator.get("itemDuration"), 120.0)
+        self.assertEqual(generator.get("hasPower"), True)
+        self.assertEqual(generator.get("consumesPower"), False)
+        self.assertEqual(generator.get("outputsPower"), True)
 if __name__ == "__main__":
     unittest.main()

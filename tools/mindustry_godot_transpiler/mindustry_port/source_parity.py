@@ -7,6 +7,12 @@ from typing import Any
 DUO_SOURCE = "core/src/mindustry/content/Blocks.java"
 MEND_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/MendProjector.java"
 OVERDRIVE_PROJECTOR_SOURCE = "core/src/mindustry/world/blocks/defense/OverdriveProjector.java"
+POWER_BLOCK_SOURCE = "core/src/mindustry/world/blocks/power/PowerBlock.java"
+POWER_DISTRIBUTOR_SOURCE = "core/src/mindustry/world/blocks/power/PowerDistributor.java"
+POWER_NODE_SOURCE = "core/src/mindustry/world/blocks/power/PowerNode.java"
+BATTERY_SOURCE = "core/src/mindustry/world/blocks/power/Battery.java"
+POWER_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/PowerGenerator.java"
+CONSUME_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/ConsumeGenerator.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 WEAPONS_COMP_SOURCE = "core/src/mindustry/entities/comp/WeaponsComp.java"
@@ -82,6 +88,36 @@ def verify_overdrive_projector_target_filter_source(upstream_root: Path) -> dict
         "source": OVERDRIVE_PROJECTOR_SOURCE,
         "checked": {"predicate": predicate, "action": action},
         "missing": missing,
+    }
+
+def verify_power_block_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
+    blocks_path = Path(upstream_root) / DUO_SOURCE
+    registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
+    blocks_source = blocks_path.read_text(encoding="utf-8", errors="replace")
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    class_sources = {
+        "PowerBlock": (Path(upstream_root) / POWER_BLOCK_SOURCE).read_text(encoding="utf-8", errors="replace"),
+        "PowerDistributor": (Path(upstream_root) / POWER_DISTRIBUTOR_SOURCE).read_text(encoding="utf-8", errors="replace"),
+        "PowerNode": (Path(upstream_root) / POWER_NODE_SOURCE).read_text(encoding="utf-8", errors="replace"),
+        "Battery": (Path(upstream_root) / BATTERY_SOURCE).read_text(encoding="utf-8", errors="replace"),
+        "PowerGenerator": (Path(upstream_root) / POWER_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace"),
+        "ConsumeGenerator": (Path(upstream_root) / CONSUME_GENERATOR_SOURCE).read_text(encoding="utf-8", errors="replace"),
+    }
+    expected = {
+        "power-node": _extract_power_block_params(blocks_source, class_sources, "powerNode", "PowerNode"),
+        "battery": _extract_power_block_params(blocks_source, class_sources, "battery", "Battery"),
+        "combustion-generator": _extract_power_block_params(blocks_source, class_sources, "combustionGenerator", "ConsumeGenerator"),
+    }
+    mismatches: list[dict[str, Any]] = []
+    for block_id, expected_props in expected.items():
+        actual_props = _registry_block(registry, block_id).get("properties", {})
+        for key, expected_value in expected_props.items():
+            _append_mismatch(mismatches, f"{block_id}.properties.{key}", expected_value, actual_props.get(key))
+    return {
+        "source": DUO_SOURCE,
+        "sources": [POWER_BLOCK_SOURCE, POWER_DISTRIBUTOR_SOURCE, POWER_NODE_SOURCE, BATTERY_SOURCE, POWER_GENERATOR_SOURCE, CONSUME_GENERATOR_SOURCE],
+        "checked": expected,
+        "mismatches": mismatches,
     }
 
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
@@ -12227,6 +12263,85 @@ def _extract_overdrive_projector_params(blocks_source: str, overdrive_source: st
         raise ValueError("OverdriveProjector canOverdrive assignment not found")
     expected["canOverdrive"] = can_overdrive
     return expected
+
+def _extract_power_block_params(blocks_source: str, class_sources: dict[str, str], field: str, implementation: str) -> dict[str, Any]:
+    match = re.search(rf'\b{field}\s*=\s*new\s+{implementation}\s*\(\s*"[^"]+"\s*\)', blocks_source)
+    if not match:
+        raise ValueError(f"{field} {implementation} initializer not found in Blocks.java")
+    body = _double_brace_body(blocks_source, match.end())
+    expected: dict[str, Any] = _power_role_defaults(class_sources, implementation)
+    can_overdrive = _boolean_assignment(_constructor_body(class_sources.get(implementation, ""), implementation), "canOverdrive")
+    if can_overdrive is not None:
+        expected["canOverdrive"] = can_overdrive
+    if implementation == "PowerNode":
+        for key in ["maxNodes", "laserRange"]:
+            value = _numeric_assignment(body, key)
+            if value is None:
+                value = _numeric_assignment(class_sources["PowerNode"], key)
+            if value is None:
+                raise ValueError(f"PowerNode {key} value not found")
+            expected[key] = int(value) if key == "maxNodes" else value
+    buffered_capacity = _consume_power_buffered_capacity(body)
+    if buffered_capacity is not None:
+        expected["consumePowerBuffered"] = buffered_capacity
+    if implementation == "ConsumeGenerator":
+        power_production = _numeric_assignment(body, "powerProduction")
+        item_duration = _numeric_assignment(body, "itemDuration")
+        if item_duration is None:
+            item_duration = _numeric_assignment(class_sources["ConsumeGenerator"], "itemDuration")
+        if power_production is None or item_duration is None:
+            raise ValueError("ConsumeGenerator powerProduction or itemDuration value not found")
+        expected["powerProduction"] = power_production
+        expected["itemDuration"] = item_duration
+    return expected
+
+def _power_role_defaults(class_sources: dict[str, str], implementation: str) -> dict[str, bool]:
+    parents = {
+        "PowerBlock": "Block",
+        "PowerDistributor": "PowerBlock",
+        "PowerNode": "PowerBlock",
+        "Battery": "PowerDistributor",
+        "PowerGenerator": "PowerDistributor",
+        "ConsumeGenerator": "PowerGenerator",
+    }
+    values: dict[str, bool] = {
+        "hasPower": False,
+        "consumesPower": True,
+        "outputsPower": False,
+    }
+    chain: list[str] = []
+    current = implementation
+    while current in parents:
+        chain.insert(0, current)
+        current = parents[current]
+    for class_name in chain:
+        constructor = _constructor_body(class_sources.get(class_name, ""), class_name)
+        for key in ["hasPower", "consumesPower", "outputsPower"]:
+            value = _boolean_assignment(constructor, key)
+            if value is not None:
+                values[key] = value
+    return values
+
+def _consume_power_buffered_capacity(source: str) -> float | None:
+    match = re.search(r"\bconsumePowerBuffered\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*\)\s*;", source)
+    return float(_number_literal(match.group(1))) if match else None
+
+def _constructor_body(source: str, class_name: str) -> str:
+    match = re.search(rf"\b{class_name}\s*\([^)]*\)\s*\{{", source)
+    if not match:
+        return ""
+    start = match.end() - 1
+    depth = 0
+    for index in range(start, len(source)):
+        char = source[index]
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return source[start:index + 1]
+    return ""
+
 def _mend_projector_repair_amount(health: Any, heal_percent: Any, phase_boost: Any, phase_heat: float = 0.0, efficiency: float = 1.0) -> dict[str, Any]:
     health_value = float(health)
     heal_value = float(heal_percent)

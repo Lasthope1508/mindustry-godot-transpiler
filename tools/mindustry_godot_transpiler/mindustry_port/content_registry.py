@@ -232,6 +232,7 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
     declared = _declared_block_fields(source)
     asset_root = _asset_root(godot_root) if godot_root is not None else None
     can_overdrive_defaults = _can_overdrive_defaults(upstream_root)
+    power_defaults = _power_defaults(upstream_root)
     has_items_defaults = _has_items_defaults(upstream_root)
     default_item_capacity = _block_item_capacity_default(upstream_root)
     pattern = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*new\s+([A-Za-z_]\w*)\s*\(\s*\"([^\"]+)\"", re.MULTILINE)
@@ -240,7 +241,7 @@ def extract_blocks(upstream_root: Path, godot_root: Path | None = None) -> list[
         field, implementation, content_id = match.groups()
         if field not in declared:
             continue
-        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity)}
+        entry = {"field": field, "id": content_id, "implementation": implementation, "properties": _block_properties(source, match.end(), implementation, can_overdrive_defaults, has_items_defaults, default_item_capacity, power_defaults)}
         if asset_root is not None:
             entry["texture"] = _block_texture_path(asset_root, content_id)
         blocks.append(entry)
@@ -279,11 +280,53 @@ def _can_overdrive_defaults(upstream_root: Path) -> dict[str, bool]:
             defaults[class_match.group(1)] = assignment
     return defaults
 
-def _block_properties(source: str, assignment_end: int, implementation: str = "", can_overdrive_defaults: dict[str, bool] | None = None, has_items_defaults: dict[str, bool] | None = None, default_item_capacity: int | None = None) -> dict[str, Any]:
+def _power_defaults(upstream_root: Path) -> dict[str, dict[str, bool]]:
+    world_root = _source_world_dir(upstream_root)
+    block_source = (world_root / "Block.java").read_text(encoding="utf-8", errors="replace")
+    base = {}
+    for key in ["hasPower", "consumesPower", "outputsPower", "connectedPower"]:
+        value = _boolean_assignment(block_source, key)
+        if value is not None:
+            base[key] = value
+    class_sources: dict[str, str] = {"Block": block_source}
+    class_parents: dict[str, str] = {}
+    blocks_root = world_root / "blocks"
+    if blocks_root.exists():
+        for source_path in blocks_root.rglob("*.java"):
+            source = source_path.read_text(encoding="utf-8", errors="replace")
+            class_match = re.search(r"\bclass\s+([A-Za-z_]\w*)\s+extends\s+([A-Za-z_]\w*)", source)
+            if not class_match:
+                continue
+            class_name, parent = class_match.groups()
+            class_sources[class_name] = source
+            class_parents[class_name] = parent
+    defaults: dict[str, dict[str, bool]] = {"Block": base}
+
+    def resolved(class_name: str) -> dict[str, bool]:
+        if class_name in defaults:
+            return defaults[class_name]
+        parent = class_parents.get(class_name, "Block")
+        values = dict(resolved(parent) if parent != class_name else base)
+        source = class_sources.get(class_name, "")
+        constructor = _constructor_body(source, class_name)
+        for key in ["hasPower", "consumesPower", "outputsPower", "connectedPower"]:
+            value = _boolean_assignment(constructor, key)
+            if value is not None:
+                values[key] = value
+        defaults[class_name] = values
+        return values
+
+    for class_name in class_sources:
+        resolved(class_name)
+    return defaults
+
+def _block_properties(source: str, assignment_end: int, implementation: str = "", can_overdrive_defaults: dict[str, bool] | None = None, has_items_defaults: dict[str, bool] | None = None, default_item_capacity: int | None = None, power_defaults: dict[str, dict[str, bool]] | None = None) -> dict[str, Any]:
     initializer = _initializer_body(source, assignment_end)
     properties: dict[str, Any] = {}
     if can_overdrive_defaults is not None:
         properties["canOverdrive"] = can_overdrive_defaults.get(implementation, can_overdrive_defaults["Block"])
+    if power_defaults is not None and implementation in power_defaults:
+        properties.update(power_defaults[implementation])
     if has_items_defaults is not None and implementation in has_items_defaults:
         properties["hasItems"] = has_items_defaults[implementation]
     category = re.search(r"requirements\s*\(\s*Category\.([A-Za-z_]\w*)", initializer)
@@ -292,7 +335,7 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
     requirements = _block_requirements(initializer)
     if requirements:
         properties["requirements"] = requirements
-    for key in ["size", "health", "itemCapacity", "tier", "recoils"]:
+    for key in ["size", "health", "itemCapacity", "tier", "recoils", "maxNodes"]:
         match = re.search(rf"\b{key}\s*=\s*([0-9_]+)\s*;", initializer)
         if match:
             properties[key] = int(match.group(1).replace("_", ""))
@@ -301,10 +344,15 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         properties["hasItems"] = has_items
     if properties.get("hasItems") is True and "itemCapacity" not in properties and default_item_capacity is not None:
         properties["itemCapacity"] = default_item_capacity
-    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius"]:
+    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius", "laserRange", "powerProduction", "itemDuration"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
+    buffered_capacity = _consume_power_buffered_capacity(initializer)
+    if buffered_capacity is not None:
+        properties["consumePowerBuffered"] = buffered_capacity
+        properties["powerCapacity"] = buffered_capacity
+        properties["powerBuffered"] = True
     base_color = _color_value_assignment(initializer, "baseColor")
     if base_color is not None:
         properties["baseColor"] = base_color
@@ -393,6 +441,10 @@ def _has_assignment(source: str, key: str) -> bool:
 def _boolean_assignment(source: str, key: str) -> bool | None:
     match = re.search(rf"\b{key}\s*=\s*(true|false)\s*;", source)
     return match.group(1) == "true" if match else None
+
+def _consume_power_buffered_capacity(source: str) -> float | None:
+    match = re.search(r"\bconsumePowerBuffered\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*\)\s*;", source)
+    return float(_number_literal(match.group(1))) if match else None
 
 def _color_value_assignment(source: str, key: str) -> str | None:
     match = re.search(rf"\b{key}\s*=\s*Color\.valueOf\(\s*\"([0-9A-Fa-f]+)\"\s*\)\s*;", source)
@@ -494,6 +546,22 @@ def _initializer_body(source: str, start: int) -> str:
             if depth == 0:
                 return source[double_brace:index + 1]
         index += 1
+    return ""
+
+def _constructor_body(source: str, class_name: str) -> str:
+    match = re.search(rf"\b{class_name}\s*\([^)]*\)\s*\{{", source)
+    if not match:
+        return ""
+    start = match.end() - 1
+    depth = 0
+    for index in range(start, len(source)):
+        char = source[index]
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return source[start:index + 1]
     return ""
 
 

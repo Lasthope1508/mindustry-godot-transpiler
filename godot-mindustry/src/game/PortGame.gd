@@ -454,6 +454,60 @@ func selected_build_can_overdrive() -> bool:
 	var selected = build_palette[selected_build_index]
 	return bool(selected.properties.get("canOverdrive", true))
 
+func selected_build_has_power() -> bool:
+	if build_palette.is_empty():
+		return false
+	var selected = build_palette[selected_build_index]
+	return bool(selected.properties.get("hasPower", false))
+
+func selected_build_consumes_power() -> bool:
+	if build_palette.is_empty():
+		return true
+	var selected = build_palette[selected_build_index]
+	return bool(selected.properties.get("consumesPower", true))
+
+func selected_build_outputs_power() -> bool:
+	if build_palette.is_empty():
+		return false
+	var selected = build_palette[selected_build_index]
+	return bool(selected.properties.get("outputsPower", false))
+
+func selected_build_power_capacity() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("powerCapacity", 0.0))
+
+func selected_build_power_buffered() -> bool:
+	if build_palette.is_empty():
+		return false
+	var selected = build_palette[selected_build_index]
+	return bool(selected.properties.get("powerBuffered", false))
+
+func selected_build_power_production() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("powerProduction", 0.0))
+
+func selected_build_item_duration() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("itemDuration", 0.0))
+
+func selected_build_max_nodes() -> int:
+	if build_palette.is_empty():
+		return 0
+	var selected = build_palette[selected_build_index]
+	return int(selected.properties.get("maxNodes", 0))
+
+func selected_build_laser_range() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("laserRange", 0.0))
+
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_METHOD := "public float range(){\n            return range;\n        }"
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_RETURN := "return range;"
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_FIELD := "public float range = 80f;"
@@ -11371,6 +11425,15 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_phase_boost": selected_build_phase_boost(),
 		"selected_build_phase_range_boost": selected_build_phase_range_boost(),
 		"selected_build_can_overdrive": selected_build_can_overdrive(),
+		"selected_build_has_power": selected_build_has_power(),
+		"selected_build_consumes_power": selected_build_consumes_power(),
+		"selected_build_outputs_power": selected_build_outputs_power(),
+		"selected_build_power_capacity": selected_build_power_capacity(),
+		"selected_build_power_buffered": selected_build_power_buffered(),
+		"selected_build_power_production": selected_build_power_production(),
+		"selected_build_item_duration": selected_build_item_duration(),
+		"selected_build_max_nodes": selected_build_max_nodes(),
+		"selected_build_laser_range": selected_build_laser_range(),
 		"selected_build_overdrive_real_boost": selected_build_overdrive_real_boost(),
 		"selected_build_overdrive_phase_real_boost": selected_build_overdrive_phase_real_boost(),
 		"selected_build_overdrive_boost_bar_fraction": selected_build_overdrive_boost_bar_fraction(),
