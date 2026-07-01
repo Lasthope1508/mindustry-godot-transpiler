@@ -551,6 +551,32 @@ func source_power_generator_build_serialization_state(production_efficiency: flo
 		"read_generate_time": read_generate_time,
 	}
 
+func source_solar_generator_update_tile_state(enabled: bool, solar_multiplier: float, light_env: float, lighting: bool, ambient_light_alpha: float) -> Dictionary:
+	var lighting_bonus: float = (1.0 - ambient_light_alpha) if lighting else 1.0
+	var max_zero_input: float = light_env + lighting_bonus
+	var max_zero_value: float = max(max_zero_input, 0.0)
+	var production_efficiency: float = solar_multiplier * max_zero_value if enabled else 0.0
+	return {
+		"build_class": "public class SolarGeneratorBuild extends GeneratorBuild{",
+		"method": "public void updateTile(){",
+		"assignment": "productionEfficiency = enabled ?",
+		"solar_multiplier_source": "state.rules.solarMultiplier * Mathf.maxZero(Attribute.light.env() +",
+		"lighting_branch": "(state.rules.lighting ?",
+		"ambient_alpha": "1f - state.rules.ambientLight.a :",
+		"unlit_bonus": "1f",
+		"disabled_return": ")) : 0f;",
+		"mathf_max_zero": "return Math.max(val, 0);",
+		"enabled": enabled,
+		"solar_multiplier": solar_multiplier,
+		"light_env": light_env,
+		"lighting": lighting,
+		"ambient_light_alpha": ambient_light_alpha,
+		"lighting_bonus": lighting_bonus,
+		"max_zero_input": max_zero_input,
+		"max_zero_value": max_zero_value,
+		"production_efficiency": production_efficiency,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

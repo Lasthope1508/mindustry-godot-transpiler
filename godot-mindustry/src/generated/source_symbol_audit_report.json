@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 525,
-  "registeredSourceOwnerCount": 520,
+  "totalSourceFunctions": 526,
+  "registeredSourceOwnerCount": 521,
   "exemptSourceOwnerCount": 5,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -378,6 +378,7 @@
     "PortGame.source_power_graph_update_cheat_state",
     "PortGame.source_power_graph_use_batteries_state",
     "PortGame.source_shoot_pattern_default_events",
+    "PortGame.source_solar_generator_update_tile_state",
     "PortGame.source_status_apply_result",
     "PortGame.source_turret_ammo_data",
     "PortGame.source_turret_bullet_origin",
@@ -577,6 +578,11 @@
     {
       "owner": "PortGame.source_power_generator_build_serialization_state",
       "function": "source_power_generator_build_serialization_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_solar_generator_update_tile_state",
+      "function": "source_solar_generator_update_tile_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {

@@ -208,6 +208,35 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_solar_generator_update_tile_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_solar_generator_update_tile_source"))
+        report = source_parity.verify_solar_generator_update_tile_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/SolarGenerator.java")
+        self.assertIn("core/src/mindustry/game/Rules.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Attribute.java", report["sources"])
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "build_class": "public class SolarGeneratorBuild extends GeneratorBuild{",
+            "override": "@Override",
+            "method": "public void updateTile(){",
+            "assignment": "productionEfficiency = enabled ?",
+            "solar_multiplier": "state.rules.solarMultiplier * Mathf.maxZero(Attribute.light.env() +",
+            "lighting_branch": "(state.rules.lighting ?",
+            "ambient_alpha": "1f - state.rules.ambientLight.a :",
+            "unlit_bonus": "1f",
+            "disabled_return": ")) : 0f;",
+            "rules_solar_multiplier": "public float solarMultiplier = 1f;",
+            "rules_lighting": "public boolean lighting = false;",
+            "rules_ambient_light": "public Color ambientLight = new Color(0.01f, 0.01f, 0.04f, 0.99f);",
+            "attribute_light": "light = add(\"light\"),",
+            "attribute_env_method": "public float env(){",
+            "attribute_env_return": "return Vars.state.envAttrs.get(this);",
+            "mathf_max_zero": "public static float maxZero(float val){",
+            "mathf_max_zero_return": "return Math.max(val, 0);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

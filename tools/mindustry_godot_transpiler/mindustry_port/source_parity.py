@@ -12,6 +12,7 @@ POWER_DISTRIBUTOR_SOURCE = "core/src/mindustry/world/blocks/power/PowerDistribut
 POWER_NODE_SOURCE = "core/src/mindustry/world/blocks/power/PowerNode.java"
 BATTERY_SOURCE = "core/src/mindustry/world/blocks/power/Battery.java"
 POWER_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/PowerGenerator.java"
+SOLAR_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/SolarGenerator.java"
 CONSUME_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/ConsumeGenerator.java"
 POWER_GRAPH_SOURCE = "core/src/mindustry/world/blocks/power/PowerGraph.java"
 CONSUME_POWER_SOURCE = "core/src/mindustry/world/consumers/ConsumePower.java"
@@ -230,6 +231,55 @@ def verify_power_generator_build_serialization_source(upstream_root: Path) -> di
     ]
     return {
         "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_solar_generator_update_tile_source(upstream_root: Path) -> dict[str, Any]:
+    solar_generator_path = Path(upstream_root) / SOLAR_GENERATOR_SOURCE
+    rules_path = Path(upstream_root) / RULES_SOURCE
+    attribute_path = Path(upstream_root) / "core/src/mindustry/world/meta/Attribute.java"
+    arc_mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    solar_generator_source = solar_generator_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    attribute_source = attribute_path.read_text(encoding="utf-8", errors="replace")
+    arc_mathf_source = arc_mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "build_class": "public class SolarGeneratorBuild extends GeneratorBuild{",
+        "override": "@Override",
+        "method": "public void updateTile(){",
+        "assignment": "productionEfficiency = enabled ?",
+        "solar_multiplier": "state.rules.solarMultiplier * Mathf.maxZero(Attribute.light.env() +",
+        "lighting_branch": "(state.rules.lighting ?",
+        "ambient_alpha": "1f - state.rules.ambientLight.a :",
+        "unlit_bonus": "1f",
+        "disabled_return": ")) : 0f;",
+        "rules_solar_multiplier": "public float solarMultiplier = 1f;",
+        "rules_lighting": "public boolean lighting = false;",
+        "rules_ambient_light": "public Color ambientLight = new Color(0.01f, 0.01f, 0.04f, 0.99f);",
+        "attribute_light": "light = add(\"light\"),",
+        "attribute_env_method": "public float env(){",
+        "attribute_env_return": "return Vars.state.envAttrs.get(this);",
+        "mathf_max_zero": "public static float maxZero(float val){",
+        "mathf_max_zero_return": "return Math.max(val, 0);",
+    }
+    sources_by_key = {
+        "rules_solar_multiplier": rules_source,
+        "rules_lighting": rules_source,
+        "rules_ambient_light": rules_source,
+        "attribute_light": attribute_source,
+        "attribute_env_method": attribute_source,
+        "attribute_env_return": attribute_source,
+        "mathf_max_zero": arc_mathf_source,
+        "mathf_max_zero_return": arc_mathf_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, solar_generator_source)
+    ]
+    return {
+        "source": SOLAR_GENERATOR_SOURCE,
+        "sources": [RULES_SOURCE, "core/src/mindustry/world/meta/Attribute.java", ARC_MATHF_SOURCE],
         "checked": checked,
         "missing": missing,
     }

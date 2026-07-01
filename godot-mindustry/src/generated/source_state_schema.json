@@ -78872,6 +78872,227 @@
           "alias_of": "source_power_generator_build_serialization_input.revision"
         }
       }
+    },
+    "source_solar_generator_update_tile_input": {
+      "owner": "PortGame.source_solar_generator_update_tile_state",
+      "status": "active",
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_solar_generator_update_tile_input key enabled.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_input.enabled",
+          "java_expr": "enabled"
+        },
+        "solar_multiplier": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_solar_generator_update_tile_input key solar_multiplier.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_input.solar_multiplier",
+          "java_expr": "state.rules.solarMultiplier"
+        },
+        "light_env": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_solar_generator_update_tile_input key light_env.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_input.light_env",
+          "java_expr": "Attribute.light.env()"
+        },
+        "lighting": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_solar_generator_update_tile_input key lighting.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_input.lighting",
+          "java_expr": "state.rules.lighting"
+        },
+        "ambient_light_alpha": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_solar_generator_update_tile_input key ambient_light_alpha.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_input.ambient_light_alpha",
+          "java_expr": "state.rules.ambientLight.a"
+        }
+      }
+    },
+    "source_solar_generator_update_tile_result": {
+      "owner": "PortGame.source_solar_generator_update_tile_state",
+      "status": "active",
+      "keys": {
+        "build_class": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_solar_generator_update_tile_result key build_class.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.build_class",
+          "java_expr": "public class SolarGeneratorBuild extends GeneratorBuild{"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_solar_generator_update_tile_result key method.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.method",
+          "java_expr": "public void updateTile(){"
+        },
+        "assignment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_solar_generator_update_tile_result key assignment.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.assignment",
+          "java_expr": "productionEfficiency = enabled ?"
+        },
+        "lighting_bonus": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_solar_generator_update_tile_result key lighting_bonus.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.lighting_bonus",
+          "java_expr": "(state.rules.lighting ? 1f - state.rules.ambientLight.a : 1f)"
+        },
+        "max_zero_input": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_solar_generator_update_tile_result key max_zero_input.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.max_zero_input",
+          "java_expr": "Attribute.light.env() + (state.rules.lighting ? 1f - state.rules.ambientLight.a : 1f)"
+        },
+        "max_zero_value": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_solar_generator_update_tile_result key max_zero_value.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.max_zero_value",
+          "java_expr": "return Math.max(val, 0);"
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_solar_generator_update_tile_result key production_efficiency.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.production_efficiency",
+          "java_expr": "productionEfficiency = enabled ?"
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "generated",
+          "rule": "source_solar_generator_update_tile_result key enabled.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.enabled",
+          "java_expr": "enabled",
+          "alias_of": "source_solar_generator_update_tile_input.enabled"
+        },
+        "solar_multiplier": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_solar_generator_update_tile_result key solar_multiplier.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.solar_multiplier",
+          "java_expr": "state.rules.solarMultiplier",
+          "alias_of": "source_solar_generator_update_tile_input.solar_multiplier"
+        },
+        "light_env": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_solar_generator_update_tile_result key light_env.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.light_env",
+          "java_expr": "Attribute.light.env()",
+          "alias_of": "source_solar_generator_update_tile_input.light_env"
+        },
+        "lighting": {
+          "type": "bool",
+          "status": "generated",
+          "rule": "source_solar_generator_update_tile_result key lighting.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.lighting",
+          "java_expr": "state.rules.lighting",
+          "alias_of": "source_solar_generator_update_tile_input.lighting"
+        },
+        "ambient_light_alpha": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_solar_generator_update_tile_result key ambient_light_alpha.",
+          "used_by": [
+            "PortGame.source_solar_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_solar_generator_update_tile_result.ambient_light_alpha",
+          "java_expr": "state.rules.ambientLight.a",
+          "alias_of": "source_solar_generator_update_tile_input.ambient_light_alpha"
+        }
+      }
     }
   },
   "version": 1

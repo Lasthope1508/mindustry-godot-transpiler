@@ -21013,6 +21013,60 @@
         "test_power_generator_build_serialization_matches_upstream_source"
       ],
       "rule": "Public runtime contract for PowerGenerator.GeneratorBuild serialization slice."
+    },
+    "PortGame.source_solar_generator_update_tile_state": {
+      "status": "active",
+      "source_slice": "N924",
+      "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_solar_generator_update_tile_input.enabled"
+        },
+        {
+          "name": "solar_multiplier",
+          "type": "float",
+          "schema": "source_solar_generator_update_tile_input.solar_multiplier"
+        },
+        {
+          "name": "light_env",
+          "type": "float",
+          "schema": "source_solar_generator_update_tile_input.light_env"
+        },
+        {
+          "name": "lighting",
+          "type": "bool",
+          "schema": "source_solar_generator_update_tile_input.lighting"
+        },
+        {
+          "name": "ambient_light_alpha",
+          "type": "float",
+          "schema": "source_solar_generator_update_tile_input.ambient_light_alpha"
+        }
+      ],
+      "return_keys": [
+        "build_class",
+        "method",
+        "assignment",
+        "lighting_bonus",
+        "max_zero_input",
+        "max_zero_value",
+        "production_efficiency",
+        "enabled",
+        "solar_multiplier",
+        "light_env",
+        "lighting",
+        "ambient_light_alpha"
+      ],
+      "runtime_proof": "/root/Main.source_solar_generator_update_tile_state",
+      "tests": [
+        "test_solar_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_solar_generator_update_tile_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for SolarGeneratorBuild.updateTile productionEfficiency formula."
     }
   },
   "policy": {

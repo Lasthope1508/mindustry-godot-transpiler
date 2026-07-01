@@ -18849,6 +18849,47 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_build_serialization_matches_upstream_source"
       ]
+    },
+    "N924": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+      "java_class": "mindustry.world.blocks.power.SolarGenerator.SolarGeneratorBuild",
+      "java_method": "updateTile()",
+      "godot_owner": "PortGame.source_solar_generator_update_tile_state",
+      "runtime_proof": "/root/Main.source_solar_generator_update_tile_state",
+      "exact_exprs": [
+        "public class SolarGeneratorBuild extends GeneratorBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "productionEfficiency = enabled ?",
+        "state.rules.solarMultiplier * Mathf.maxZero(Attribute.light.env() +",
+        "(state.rules.lighting ?",
+        "1f - state.rules.ambientLight.a :",
+        "1f",
+        ")) : 0f;",
+        "public float solarMultiplier = 1f;",
+        "public boolean lighting = false;",
+        "public Color ambientLight = new Color(0.01f, 0.01f, 0.04f, 0.99f);",
+        "light = add(\"light\"),",
+        "public float env(){",
+        "return Vars.state.envAttrs.get(this);",
+        "public static float maxZero(float val){",
+        "return Math.max(val, 0);"
+      ],
+      "source_symbols": [
+        "solar_generator_update_tile.enabled",
+        "solar_generator_update_tile.solar_multiplier",
+        "solar_generator_update_tile.light_env",
+        "solar_generator_update_tile.lighting",
+        "solar_generator_update_tile.ambient_light_alpha",
+        "solar_generator_update_tile.production_efficiency",
+        "solar_generator_update_tile.max_zero"
+      ],
+      "tests": [
+        "test_solar_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_solar_generator_update_tile_matches_upstream_source"
+      ]
     }
   },
   "version": 1
