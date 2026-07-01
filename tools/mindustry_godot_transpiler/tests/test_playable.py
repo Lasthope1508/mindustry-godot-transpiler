@@ -4352,7 +4352,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_weapons_aim_state(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:", source)
         self.assertIn("func source_weapons_aim_position_state(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:", source)
-        self.assertIn("return source_weapons_aim_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)", source)
+        self.assertIn("var aim_state := source_weapons_aim_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)", source)
+        self.assertIn("return aim_state", source)
+        self.assertIn('aim_state["positionMethod"] = "void aim(Position pos){"', source)
+        self.assertIn('aim_state["positionDelegate"] = "aim(pos.getX(), pos.getY());"', source)
         self.assertIn("var aim_vector := Vector2(target_x, target_y) - Vector2(unit_x, unit_y)", source)
         self.assertIn("if aim_vector.length() < aim_dst and aim_vector.length_squared() > 0.0:", source)
         self.assertIn("aim_vector = aim_vector.normalized() * aim_dst", source)

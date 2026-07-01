@@ -59615,6 +59615,66 @@
       "godot_symbol": "source_weapon_update_velocity_length_input.unit_state.deltaX",
       "status": "explicit-input",
       "rule": "Runtime deltaX/deltaY represent HitboxComp delta for local branch."
+    },
+    "weapons_aim_position.method": {
+      "godot_owner": "PortGame.source_weapons_aim_position_state",
+      "java_method": "WeaponsComp.aim(Position pos)",
+      "runtime_proof": "/root/Main.source_weapons_aim_position_state",
+      "tests": [
+        "test_weapons_aim_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "void aim(Position pos){",
+      "godot_symbol": "source_weapons_aim_position_result.positionMethod",
+      "status": "source-backed",
+      "rule": "Exact position overload method header."
+    },
+    "weapons_aim_position.delegate": {
+      "godot_owner": "PortGame.source_weapons_aim_position_state",
+      "java_method": "WeaponsComp.aim(Position pos)",
+      "runtime_proof": "/root/Main.source_weapons_aim_position_state",
+      "tests": [
+        "test_weapons_aim_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "aim(pos.getX(), pos.getY());",
+      "godot_symbol": "source_weapons_aim_position_result.positionDelegate",
+      "status": "source-backed",
+      "rule": "Exact delegate from Position overload to float aim overload."
+    },
+    "weapons_aim_position.position_get_x": {
+      "godot_owner": "PortGame.source_weapons_aim_position_state",
+      "java_method": "Position.getX()",
+      "runtime_proof": "/root/Main.source_weapons_aim_position_state",
+      "tests": [
+        "test_weapons_aim_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "java_expr": "float getX();",
+      "godot_symbol": "source_weapons_aim_position_input.position_x",
+      "status": "source-backed",
+      "rule": "Position x accessor consumed by aim(Position pos)."
+    },
+    "weapons_aim_position.position_get_y": {
+      "godot_owner": "PortGame.source_weapons_aim_position_state",
+      "java_method": "Position.getY()",
+      "runtime_proof": "/root/Main.source_weapons_aim_position_state",
+      "tests": [
+        "test_weapons_aim_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "java_expr": "float getY();",
+      "godot_symbol": "source_weapons_aim_position_input.position_y",
+      "status": "source-backed",
+      "rule": "Position y accessor consumed by aim(Position pos)."
     }
   },
   "version": 1

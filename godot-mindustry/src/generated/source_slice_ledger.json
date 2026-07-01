@@ -17099,6 +17099,38 @@
         "test_weapon_update_velocity_length_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update velocity length wrapper against exact upstream source."
+    },
+    "N876": {
+      "exact_exprs": [
+        "void aim(Position pos){",
+        "aim(pos.getX(), pos.getY());"
+      ],
+      "bridge_exprs": [
+        "float getX();",
+        "float getY();"
+      ],
+      "deferred_exprs": [
+        "WeaponsComp.aim(float x, float y)",
+        "Float overload remains owned by source_weapons_aim_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_aim_position_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.aim(Position pos)",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_aim_position_state",
+      "source_symbols": [
+        "weapons_aim_position.method",
+        "weapons_aim_position.delegate",
+        "weapons_aim_position.position_get_x",
+        "weapons_aim_position.position_get_y"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_aim_position_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_aim_state",
+        "test_weapons_aim_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp aim(Position) wrapper against exact upstream source."
     }
   },
   "version": 1

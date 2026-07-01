@@ -71229,6 +71229,188 @@
       },
       "owner": "PortGame.source_weapon_update_velocity_length_state",
       "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state"
+    },
+    "source_weapons_aim_position_input": {
+      "owner": "PortGame.source_weapons_aim_position_state",
+      "runtime_proof": "/root/Main.source_weapons_aim_position_state",
+      "status": "active",
+      "keys": {
+        "mount_states": {
+          "godot_symbol": "source_weapons_aim_position_input.mount_states",
+          "java_expr": "WeaponMount[] mounts",
+          "java_method": "WeaponsComp fields",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Weapon mount state array input.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "unit_x": {
+          "godot_symbol": "source_weapons_aim_position_input.unit_x",
+          "java_expr": "this.x",
+          "java_method": "WeaponsComp.aim(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Unit x coordinate supplied to delegated float overload.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "unit_y": {
+          "godot_symbol": "source_weapons_aim_position_input.unit_y",
+          "java_expr": "this.y",
+          "java_method": "WeaponsComp.aim(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Unit y coordinate supplied to delegated float overload.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "position_x": {
+          "godot_symbol": "source_weapons_aim_position_input.position_x",
+          "java_expr": "float getX();",
+          "java_method": "Position.getX()",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Position x accessor delegated to aim(float x, float y).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "position_y": {
+          "godot_symbol": "source_weapons_aim_position_input.position_y",
+          "java_expr": "float getY();",
+          "java_method": "Position.getY()",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Position y accessor delegated to aim(float x, float y).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "aim_dst": {
+          "godot_symbol": "source_weapons_aim_position_input.aim_dst",
+          "java_expr": "aimDst = -1f,",
+          "java_method": "UnitType fields",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "rule": "Unit type aim distance used by delegated float overload.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        }
+      }
+    },
+    "source_weapons_aim_position_result": {
+      "owner": "PortGame.source_weapons_aim_position_state",
+      "runtime_proof": "/root/Main.source_weapons_aim_position_state",
+      "status": "active",
+      "keys": {
+        "positionMethod": {
+          "godot_symbol": "source_weapons_aim_position_result.positionMethod",
+          "java_expr": "void aim(Position pos){",
+          "java_method": "WeaponsComp.aim(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact position overload method header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "positionDelegate": {
+          "godot_symbol": "source_weapons_aim_position_result.positionDelegate",
+          "java_expr": "aim(pos.getX(), pos.getY());",
+          "java_method": "WeaponsComp.aim(Position pos)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact delegate to float aim overload.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "tmp": {
+          "godot_symbol": "source_weapons_aim_position_result.tmp",
+          "java_expr": "Tmp.v1.set(x, y).sub(this.x, this.y);",
+          "java_method": "WeaponsComp.aim(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Delegated float overload tmp vector source.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "minDistance": {
+          "godot_symbol": "source_weapons_aim_position_result.minDistance",
+          "java_expr": "if(Tmp.v1.len() < type.aimDst) Tmp.v1.setLength(type.aimDst);",
+          "java_method": "WeaponsComp.aim(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Delegated float overload aim distance source.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "zeroVectorSetLength": {
+          "godot_symbol": "source_weapons_aim_position_result.zeroVectorSetLength",
+          "java_expr": "return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));",
+          "java_method": "Vec2.setLength2(float len2)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Delegated float overload zero-vector no-op source.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "aimX": {
+          "godot_symbol": "source_weapons_aim_position_result.aimX",
+          "java_expr": "aimX = x;",
+          "java_method": "WeaponsComp.aim(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Delegated float overload unit aim x result.",
+          "status": "deferred",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "aimY": {
+          "godot_symbol": "source_weapons_aim_position_result.aimY",
+          "java_expr": "aimY = y;",
+          "java_method": "WeaponsComp.aim(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Delegated float overload unit aim y result.",
+          "status": "deferred",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        },
+        "mounts": {
+          "godot_symbol": "source_weapons_aim_position_result.mounts",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "WeaponsComp.aim(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Delegated float overload mount loop result.",
+          "status": "deferred",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_aim_position_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -4334,7 +4334,10 @@ func source_weapons_aim_state(mount_states: Array, unit_x: float, unit_y: float,
 	}
 
 func source_weapons_aim_position_state(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:
-	return source_weapons_aim_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)
+	var aim_state := source_weapons_aim_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)
+	aim_state["positionMethod"] = "void aim(Position pos){"
+	aim_state["positionDelegate"] = "aim(pos.getX(), pos.getY());"
+	return aim_state
 
 func source_weapons_can_shoot_state(disarmed_value: bool) -> Dictionary:
 	var can_shoot := not disarmed_value
