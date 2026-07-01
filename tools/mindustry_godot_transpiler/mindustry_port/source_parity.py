@@ -203,6 +203,22 @@ def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_power_generator_should_explode_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "public float explosionMinWarmup = 0f;",
+        "method": "public boolean shouldExplode(){",
+        "warmup_call": "warmup()",
+        "return_should_explode": "return warmup() >= explosionMinWarmup;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

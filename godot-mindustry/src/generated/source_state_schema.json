@@ -76941,6 +76941,73 @@
           "java_expr": "return enabled ? productionEfficiency : 0f;"
         }
       }
+    },
+    "source_power_generator_should_explode_input": {
+      "owner": "PortGame.source_power_generator_should_explode_state",
+      "source_slice": "N911",
+      "status": "active",
+      "keys": {
+        "warmup_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "warmup()",
+          "alias_of": "source_power_generator_warmup_result.warmup"
+        },
+        "explosion_min_warmup": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionMinWarmup"
+        }
+      }
+    },
+    "source_power_generator_should_explode_result": {
+      "owner": "PortGame.source_power_generator_should_explode_state",
+      "source_slice": "N911",
+      "status": "active",
+      "keys": {
+        "field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public float explosionMinWarmup = 0f;"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public boolean shouldExplode(){"
+        },
+        "warmup_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "warmup()"
+        },
+        "return_should_explode": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "return warmup() >= explosionMinWarmup;"
+        },
+        "input_warmup_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_should_explode_input.warmup_value"
+        },
+        "input_explosion_min_warmup": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_should_explode_input.explosion_min_warmup"
+        },
+        "should_explode": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "return warmup() >= explosionMinWarmup;"
+        }
+      }
     }
   },
   "version": 1

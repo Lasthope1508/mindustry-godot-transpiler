@@ -64019,6 +64019,58 @@
       "godot_symbol": "source_power_generator_warmup_result.warmup",
       "rule": "Warmup result follows PowerGenerator.GeneratorBuild.warmup enabled ternary exactly.",
       "status": "source-backed"
+    },
+    "power_generator_should_explode.explosion_min_warmup": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "shouldExplode()",
+      "godot_owner": "PortGame.source_power_generator_should_explode_state",
+      "runtime_proof": "/root/Main.source_power_generator_should_explode_state",
+      "tests": [
+        "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionMinWarmup",
+      "godot_symbol": "source_power_generator_should_explode_input.explosion_min_warmup",
+      "rule": "Runtime explosion_min_warmup parameter maps to PowerGenerator explosionMinWarmup field.",
+      "status": "explicit-input"
+    },
+    "power_generator_should_explode.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "shouldExplode()",
+      "godot_owner": "PortGame.source_power_generator_should_explode_state",
+      "runtime_proof": "/root/Main.source_power_generator_should_explode_state",
+      "tests": [
+        "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public boolean shouldExplode(){",
+      "godot_symbol": "source_power_generator_should_explode_result.method",
+      "rule": "Method boundary for PowerGenerator.GeneratorBuild.shouldExplode().",
+      "status": "source-backed"
+    },
+    "power_generator_should_explode.warmup_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "shouldExplode()",
+      "godot_owner": "PortGame.source_power_generator_should_explode_state",
+      "runtime_proof": "/root/Main.source_power_generator_should_explode_state",
+      "tests": [
+        "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "warmup()",
+      "godot_symbol": "source_power_generator_should_explode_result.warmup_call",
+      "rule": "Predicate reads warmup() result from the same GeneratorBuild instance.",
+      "status": "source-backed"
+    },
+    "power_generator_should_explode.return_should_explode": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "shouldExplode()",
+      "godot_owner": "PortGame.source_power_generator_should_explode_state",
+      "runtime_proof": "/root/Main.source_power_generator_should_explode_state",
+      "tests": [
+        "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return warmup() >= explosionMinWarmup;",
+      "godot_symbol": "source_power_generator_should_explode_result.should_explode",
+      "rule": "Explosion predicate preserves inclusive warmup threshold check.",
+      "status": "source-backed"
     }
   },
   "version": 1

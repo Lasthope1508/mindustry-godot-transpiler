@@ -186,6 +186,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_should_explode_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_should_explode_source"))
+        report = source_parity.verify_power_generator_should_explode_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(report["checked"], {
+            "field": "public float explosionMinWarmup = 0f;",
+            "method": "public boolean shouldExplode(){",
+            "warmup_call": "warmup()",
+            "return_should_explode": "return warmup() >= explosionMinWarmup;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

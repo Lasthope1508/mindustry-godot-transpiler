@@ -525,6 +525,18 @@ func source_power_generator_warmup_state(enabled: bool, production_efficiency: f
 		"warmup": warmup,
 	}
 
+func source_power_generator_should_explode_state(warmup_value: float, explosion_min_warmup: float) -> Dictionary:
+	var should_explode := warmup_value >= explosion_min_warmup
+	return {
+		"field": "public float explosionMinWarmup = 0f;",
+		"method": "public boolean shouldExplode(){",
+		"warmup_call": "warmup()",
+		"return_should_explode": "return warmup() >= explosionMinWarmup;",
+		"input_warmup_value": warmup_value,
+		"input_explosion_min_warmup": explosion_min_warmup,
+		"should_explode": should_explode,
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

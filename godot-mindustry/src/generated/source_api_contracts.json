@@ -20352,6 +20352,38 @@
       "tests": [
         "test_power_generator_warmup_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_should_explode_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "shouldExplode()",
+      "source_slice": "N911",
+      "params": [
+        {
+          "name": "warmup_value",
+          "type": "float",
+          "schema": "source_power_generator_should_explode_input.warmup_value"
+        },
+        {
+          "name": "explosion_min_warmup",
+          "type": "float",
+          "schema": "source_power_generator_should_explode_input.explosion_min_warmup"
+        }
+      ],
+      "return_keys": [
+        "field",
+        "method",
+        "warmup_call",
+        "return_should_explode",
+        "input_warmup_value",
+        "input_explosion_min_warmup",
+        "should_explode"
+      ],
+      "rule": "Public runtime contract for PowerGenerator.GeneratorBuild.shouldExplode() warmup threshold predicate.",
+      "runtime_proof": "/root/Main.source_power_generator_should_explode_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

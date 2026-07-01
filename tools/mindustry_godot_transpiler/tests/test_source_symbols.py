@@ -13649,6 +13649,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_warmup["java_expr"], "return enabled ? productionEfficiency : 0f;")
         self.assertEqual(return_warmup["godot_symbol"], "source_power_generator_warmup_result.warmup")
 
+    def test_power_generator_should_explode_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        explosion_min_warmup = source_symbols.source_symbol(registry, "power_generator_should_explode.explosion_min_warmup")
+        self.assertEqual(explosion_min_warmup["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(explosion_min_warmup["java_method"], "shouldExplode()")
+        self.assertEqual(explosion_min_warmup["status"], "explicit-input")
+        self.assertEqual(explosion_min_warmup["java_expr"], "explosionMinWarmup")
+        self.assertEqual(explosion_min_warmup["godot_owner"], "PortGame.source_power_generator_should_explode_state")
+        self.assertEqual(explosion_min_warmup["runtime_proof"], "/root/Main.source_power_generator_should_explode_state")
+        self.assertEqual(explosion_min_warmup["godot_symbol"], "source_power_generator_should_explode_input.explosion_min_warmup")
+
+        method = source_symbols.source_symbol(registry, "power_generator_should_explode.method")
+        self.assertEqual(method["java_expr"], "public boolean shouldExplode(){")
+        self.assertEqual(method["godot_symbol"], "source_power_generator_should_explode_result.method")
+
+        warmup_call = source_symbols.source_symbol(registry, "power_generator_should_explode.warmup_call")
+        self.assertEqual(warmup_call["java_expr"], "warmup()")
+        self.assertEqual(warmup_call["godot_symbol"], "source_power_generator_should_explode_result.warmup_call")
+
+        return_should_explode = source_symbols.source_symbol(registry, "power_generator_should_explode.return_should_explode")
+        self.assertEqual(return_should_explode["java_expr"], "return warmup() >= explosionMinWarmup;")
+        self.assertEqual(return_should_explode["godot_symbol"], "source_power_generator_should_explode_result.should_explode")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17565,9 +17592,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 507)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 508)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 512)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 513)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22234,6 +22261,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float productionEfficiency = 0.0f;", power_generator_warmup["exact_exprs"])
         self.assertIn("public float warmup(){", power_generator_warmup["exact_exprs"])
         self.assertIn("return enabled ? productionEfficiency : 0f;", power_generator_warmup["exact_exprs"])
+
+        power_generator_should_explode = source_symbols.source_slice(ledger, "N911")
+        self.assertEqual(power_generator_should_explode["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_should_explode["java_method"], "shouldExplode()")
+        self.assertEqual(power_generator_should_explode["godot_owner"], "PortGame.source_power_generator_should_explode_state")
+        self.assertIn("public float explosionMinWarmup = 0f;", power_generator_should_explode["exact_exprs"])
+        self.assertIn("public boolean shouldExplode(){", power_generator_should_explode["exact_exprs"])
+        self.assertIn("return warmup() >= explosionMinWarmup;", power_generator_should_explode["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27121,6 +27156,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_generator_warmup["params"][1]["schema"], "source_power_generator_warmup_input.production_efficiency")
         self.assertIn("warmup", power_generator_warmup["return_keys"])
         self.assertEqual(power_generator_warmup["source_method"], "warmup()")
+
+        power_generator_should_explode = source_symbols.api_contract(contracts, "PortGame.source_power_generator_should_explode_state")
+        self.assertEqual([param["name"] for param in power_generator_should_explode["params"]], ["warmup_value", "explosion_min_warmup"])
+        self.assertEqual(power_generator_should_explode["params"][0]["schema"], "source_power_generator_should_explode_input.warmup_value")
+        self.assertEqual(power_generator_should_explode["params"][1]["schema"], "source_power_generator_should_explode_input.explosion_min_warmup")
+        self.assertIn("should_explode", power_generator_should_explode["return_keys"])
+        self.assertEqual(power_generator_should_explode["source_method"], "shouldExplode()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33083,6 +33125,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_power_generator_warmup_result = source_symbols.state_schema(schema, "source_power_generator_warmup_result")
         self.assertEqual(source_power_generator_warmup_result["keys"]["method"]["java_expr"], "public float warmup(){")
         self.assertEqual(source_power_generator_warmup_result["keys"]["warmup"]["java_expr"], "return enabled ? productionEfficiency : 0f;")
+
+        source_power_generator_should_explode_input = source_symbols.state_schema(schema, "source_power_generator_should_explode_input")
+        self.assertEqual(source_power_generator_should_explode_input["keys"]["warmup_value"]["java_expr"], "warmup()")
+        self.assertEqual(source_power_generator_should_explode_input["keys"]["warmup_value"]["status"], "explicit-input")
+        self.assertEqual(source_power_generator_should_explode_input["keys"]["explosion_min_warmup"]["java_expr"], "explosionMinWarmup")
+        self.assertEqual(source_power_generator_should_explode_input["keys"]["explosion_min_warmup"]["status"], "explicit-input")
+
+        source_power_generator_should_explode_result = source_symbols.state_schema(schema, "source_power_generator_should_explode_result")
+        self.assertEqual(source_power_generator_should_explode_result["keys"]["field"]["java_expr"], "public float explosionMinWarmup = 0f;")
+        self.assertEqual(source_power_generator_should_explode_result["keys"]["method"]["java_expr"], "public boolean shouldExplode(){")
+        self.assertEqual(source_power_generator_should_explode_result["keys"]["warmup_call"]["java_expr"], "warmup()")
+        self.assertEqual(source_power_generator_should_explode_result["keys"]["should_explode"]["java_expr"], "return warmup() >= explosionMinWarmup;")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

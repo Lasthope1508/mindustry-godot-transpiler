@@ -18332,6 +18332,31 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_warmup_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N911": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "shouldExplode()",
+      "godot_owner": "PortGame.source_power_generator_should_explode_state",
+      "runtime_proof": "/root/Main.source_power_generator_should_explode_state",
+      "source_symbols": [
+        "power_generator_should_explode.explosion_min_warmup",
+        "power_generator_should_explode.method",
+        "power_generator_should_explode.warmup_call",
+        "power_generator_should_explode.return_should_explode"
+      ],
+      "exact_exprs": [
+        "public float explosionMinWarmup = 0f;",
+        "public boolean shouldExplode(){",
+        "warmup()",
+        "return warmup() >= explosionMinWarmup;"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_should_explode_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
