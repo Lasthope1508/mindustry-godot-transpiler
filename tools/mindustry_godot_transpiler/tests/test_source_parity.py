@@ -356,6 +356,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_can_place_on_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_can_place_on_source"))
+        report = source_parity.verify_thermal_generator_can_place_on_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "attribute_field": "public Attribute attribute = Attribute.heat;",
+            "min_efficiency_field": "public float minEfficiency = 0f;",
+            "override": "@Override",
+            "method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+            "heat_comment": "//make sure there's heat at this location",
+            "return_can_place_on": "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;",
+            "parent_method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+            "parent_return": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

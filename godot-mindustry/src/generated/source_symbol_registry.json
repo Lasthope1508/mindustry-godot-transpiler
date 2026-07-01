@@ -66324,6 +66324,51 @@
         "test_thermal_generator_on_proximity_added_matches_upstream_source"
       ],
       "rule": "Source-backed ThermalGeneratorBuild sum cache assignment on proximity add."
+    },
+    "thermal_generator_can_place_on.linked_attribute_sum": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+      "java_expr": "tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute))",
+      "godot_owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "godot_symbol": "source_thermal_generator_can_place_on_input.linked_attribute_sum",
+      "runtime_proof": "/root/Main.source_thermal_generator_can_place_on_state",
+      "tests": [
+        "test_thermal_generator_can_place_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_can_place_on_matches_upstream_source"
+      ],
+      "rule": "Explicit scalar input for ThermalGenerator canPlaceOn linked tile attribute sum."
+    },
+    "thermal_generator_can_place_on.min_efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+      "java_expr": "minEfficiency",
+      "godot_owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "godot_symbol": "source_thermal_generator_can_place_on_input.min_efficiency",
+      "runtime_proof": "/root/Main.source_thermal_generator_can_place_on_state",
+      "tests": [
+        "test_thermal_generator_can_place_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_can_place_on_matches_upstream_source"
+      ],
+      "rule": "Explicit source field threshold for ThermalGenerator canPlaceOn predicate."
+    },
+    "thermal_generator_can_place_on.can_place_on": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+      "java_expr": "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;",
+      "godot_owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "godot_symbol": "source_thermal_generator_can_place_on_result.can_place_on",
+      "runtime_proof": "/root/Main.source_thermal_generator_can_place_on_state",
+      "tests": [
+        "test_thermal_generator_can_place_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_can_place_on_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator placement heat predicate."
     }
   },
   "version": 1

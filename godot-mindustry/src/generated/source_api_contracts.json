@@ -21322,6 +21322,45 @@
         "test_thermal_generator_on_proximity_added_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGeneratorBuild.onProximityAdded parent call plus sumAttribute cache."
+    },
+    "PortGame.source_thermal_generator_can_place_on_state": {
+      "status": "active",
+      "source_slice": "N931",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "linked_attribute_sum",
+          "type": "float",
+          "schema": "source_thermal_generator_can_place_on_input.linked_attribute_sum"
+        },
+        {
+          "name": "min_efficiency",
+          "type": "float",
+          "schema": "source_thermal_generator_can_place_on_input.min_efficiency"
+        }
+      ],
+      "return_keys": [
+        "class",
+        "attribute_field",
+        "min_efficiency_field",
+        "override",
+        "method",
+        "heat_comment",
+        "return_can_place_on",
+        "parent_method",
+        "parent_return",
+        "linked_attribute_sum",
+        "min_efficiency",
+        "can_place_on"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_can_place_on_state",
+      "tests": [
+        "test_thermal_generator_can_place_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_can_place_on_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGenerator.canPlaceOn heat threshold predicate."
     }
   },
   "policy": {

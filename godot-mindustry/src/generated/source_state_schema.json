@@ -80188,6 +80188,66 @@
           "alias_of": "source_thermal_generator_on_proximity_added_input.sum_attribute"
         }
       }
+    },
+    "source_thermal_generator_can_place_on_input": {
+      "owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "status": "active",
+      "keys": {
+        "linked_attribute_sum": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_can_place_on_input key linked_attribute_sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_can_place_on_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+          "godot_symbol": "source_thermal_generator_can_place_on_input.linked_attribute_sum",
+          "java_expr": "tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute))"
+        },
+        "min_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_can_place_on_input key min_efficiency.",
+          "used_by": [
+            "PortGame.source_thermal_generator_can_place_on_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+          "godot_symbol": "source_thermal_generator_can_place_on_input.min_efficiency",
+          "java_expr": "minEfficiency"
+        }
+      }
+    },
+    "source_thermal_generator_can_place_on_result": {
+      "owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_can_place_on_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_can_place_on_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+          "godot_symbol": "source_thermal_generator_can_place_on_result.method",
+          "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){"
+        },
+        "can_place_on": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_can_place_on_result key can_place_on.",
+          "used_by": [
+            "PortGame.source_thermal_generator_can_place_on_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+          "godot_symbol": "source_thermal_generator_can_place_on_result.can_place_on",
+          "java_expr": "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;"
+        }
+      }
     }
   },
   "version": 1

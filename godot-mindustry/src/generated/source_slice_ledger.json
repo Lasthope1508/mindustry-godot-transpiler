@@ -19070,6 +19070,34 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_on_proximity_added_matches_upstream_source"
       ]
+    },
+    "N931": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator",
+      "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+      "godot_owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_can_place_on_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public Attribute attribute = Attribute.heat;",
+        "public float minEfficiency = 0f;",
+        "@Override",
+        "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+        "//make sure there's heat at this location",
+        "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;",
+        "return true;"
+      ],
+      "source_symbols": [
+        "thermal_generator_can_place_on.linked_attribute_sum",
+        "thermal_generator_can_place_on.min_efficiency",
+        "thermal_generator_can_place_on.can_place_on"
+      ],
+      "tests": [
+        "test_thermal_generator_can_place_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_can_place_on_matches_upstream_source"
+      ]
     }
   },
   "version": 1

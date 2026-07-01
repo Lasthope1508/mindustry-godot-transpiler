@@ -13897,6 +13897,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(sum_cache["java_expr"], "sum = sumAttribute(attribute, tile.x, tile.y);")
         self.assertEqual(sum_cache["godot_symbol"], "source_thermal_generator_on_proximity_added_result.sum")
 
+    def test_thermal_generator_can_place_on_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        linked_attribute_sum = source_symbols.source_symbol(registry, "thermal_generator_can_place_on.linked_attribute_sum")
+        self.assertEqual(linked_attribute_sum["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(linked_attribute_sum["java_method"], "canPlaceOn(Tile tile, Team team, int rotation)")
+        self.assertEqual(linked_attribute_sum["status"], "explicit-input")
+        self.assertEqual(linked_attribute_sum["java_expr"], "tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute))")
+        self.assertEqual(linked_attribute_sum["godot_owner"], "PortGame.source_thermal_generator_can_place_on_state")
+        self.assertEqual(linked_attribute_sum["runtime_proof"], "/root/Main.source_thermal_generator_can_place_on_state")
+        self.assertEqual(linked_attribute_sum["godot_symbol"], "source_thermal_generator_can_place_on_input.linked_attribute_sum")
+
+        min_efficiency = source_symbols.source_symbol(registry, "thermal_generator_can_place_on.min_efficiency")
+        self.assertEqual(min_efficiency["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(min_efficiency["status"], "explicit-input")
+        self.assertEqual(min_efficiency["java_expr"], "minEfficiency")
+        self.assertEqual(min_efficiency["godot_symbol"], "source_thermal_generator_can_place_on_input.min_efficiency")
+
+        can_place_on = source_symbols.source_symbol(registry, "thermal_generator_can_place_on.can_place_on")
+        self.assertEqual(can_place_on["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(can_place_on["status"], "source-backed")
+        self.assertEqual(can_place_on["java_expr"], "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;")
+        self.assertEqual(can_place_on["godot_symbol"], "source_thermal_generator_can_place_on_result.can_place_on")
+
     def test_power_generator_warmup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18254,9 +18281,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 527)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 528)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 532)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 533)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23029,6 +23056,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("sum = sumAttribute(attribute, tile.x, tile.y);", thermal_generator_on_proximity_added["exact_exprs"])
         self.assertIn("updatePowerGraph();", thermal_generator_on_proximity_added["exact_exprs"])
         self.assertIn("public float sumAttribute(@Nullable Attribute attr, int x, int y){", thermal_generator_on_proximity_added["exact_exprs"])
+
+        thermal_generator_can_place_on = source_symbols.source_slice(ledger, "N931")
+        self.assertEqual(thermal_generator_can_place_on["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(thermal_generator_can_place_on["java_method"], "canPlaceOn(Tile tile, Team team, int rotation)")
+        self.assertEqual(thermal_generator_can_place_on["godot_owner"], "PortGame.source_thermal_generator_can_place_on_state")
+        self.assertIn("public class ThermalGenerator extends PowerGenerator{", thermal_generator_can_place_on["exact_exprs"])
+        self.assertIn("public Attribute attribute = Attribute.heat;", thermal_generator_can_place_on["exact_exprs"])
+        self.assertIn("public float minEfficiency = 0f;", thermal_generator_can_place_on["exact_exprs"])
+        self.assertIn("public boolean canPlaceOn(Tile tile, Team team, int rotation){", thermal_generator_can_place_on["exact_exprs"])
+        self.assertIn("//make sure there's heat at this location", thermal_generator_can_place_on["exact_exprs"])
+        self.assertIn("return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;", thermal_generator_can_place_on["exact_exprs"])
+        self.assertIn("return true;", thermal_generator_can_place_on["exact_exprs"])
 
         power_generator_warmup = source_symbols.source_slice(ledger, "N910")
         self.assertEqual(power_generator_warmup["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
@@ -28115,6 +28154,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("sum", thermal_generator_on_proximity_added["return_keys"])
         self.assertIn("super_on_proximity_added_state", thermal_generator_on_proximity_added["return_keys"])
         self.assertEqual(thermal_generator_on_proximity_added["source_method"], "onProximityAdded()")
+
+        thermal_generator_can_place_on = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_can_place_on_state")
+        self.assertEqual([param["name"] for param in thermal_generator_can_place_on["params"]], ["linked_attribute_sum", "min_efficiency"])
+        self.assertEqual(thermal_generator_can_place_on["params"][0]["schema"], "source_thermal_generator_can_place_on_input.linked_attribute_sum")
+        self.assertEqual(thermal_generator_can_place_on["params"][1]["schema"], "source_thermal_generator_can_place_on_input.min_efficiency")
+        self.assertIn("can_place_on", thermal_generator_can_place_on["return_keys"])
+        self.assertEqual(thermal_generator_can_place_on["source_method"], "canPlaceOn(Tile tile, Team team, int rotation)")
 
         power_generator_warmup = source_symbols.api_contract(contracts, "PortGame.source_power_generator_warmup_state")
         self.assertEqual([param["name"] for param in power_generator_warmup["params"]], ["enabled", "production_efficiency"])
@@ -34233,6 +34279,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_thermal_generator_on_proximity_added_result["keys"]["method"]["java_expr"], "public void onProximityAdded(){")
         self.assertEqual(source_thermal_generator_on_proximity_added_result["keys"]["super_call"]["java_expr"], "super.onProximityAdded();")
         self.assertEqual(source_thermal_generator_on_proximity_added_result["keys"]["sum"]["java_expr"], "sum = sumAttribute(attribute, tile.x, tile.y);")
+
+        source_thermal_generator_can_place_on_input = source_symbols.state_schema(schema, "source_thermal_generator_can_place_on_input")
+        self.assertEqual(source_thermal_generator_can_place_on_input["keys"]["linked_attribute_sum"]["java_expr"], "tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute))")
+        self.assertEqual(source_thermal_generator_can_place_on_input["keys"]["min_efficiency"]["java_expr"], "minEfficiency")
+
+        source_thermal_generator_can_place_on_result = source_symbols.state_schema(schema, "source_thermal_generator_can_place_on_result")
+        self.assertEqual(source_thermal_generator_can_place_on_result["keys"]["method"]["java_expr"], "public boolean canPlaceOn(Tile tile, Team team, int rotation){")
+        self.assertEqual(source_thermal_generator_can_place_on_result["keys"]["can_place_on"]["java_expr"], "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;")
 
         source_power_generator_build_serialization_input = source_symbols.state_schema(schema, "source_power_generator_build_serialization_input")
         self.assertEqual(source_power_generator_build_serialization_input["keys"]["production_efficiency"]["java_expr"], "productionEfficiency")

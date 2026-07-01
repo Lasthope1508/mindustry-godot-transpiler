@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 532,
-  "registeredSourceOwnerCount": 527,
+  "totalSourceFunctions": 533,
+  "registeredSourceOwnerCount": 528,
   "exemptSourceOwnerCount": 5,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -381,6 +381,7 @@
     "PortGame.source_solar_generator_update_tile_state",
     "PortGame.source_status_apply_result",
     "PortGame.source_thermal_generator_after_picked_up_state",
+    "PortGame.source_thermal_generator_can_place_on_state",
     "PortGame.source_thermal_generator_displayed_power_production_state",
     "PortGame.source_thermal_generator_init_state",
     "PortGame.source_thermal_generator_on_proximity_added_state",
@@ -619,6 +620,11 @@
     {
       "owner": "PortGame.source_thermal_generator_on_proximity_added_state",
       "function": "source_thermal_generator_on_proximity_added_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "function": "source_thermal_generator_can_place_on_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {

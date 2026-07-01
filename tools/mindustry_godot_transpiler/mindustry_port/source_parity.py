@@ -478,6 +478,37 @@ def verify_thermal_generator_on_proximity_added_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_thermal_generator_can_place_on_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "attribute_field": "public Attribute attribute = Attribute.heat;",
+        "min_efficiency_field": "public float minEfficiency = 0f;",
+        "override": "@Override",
+        "method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+        "heat_comment": "//make sure there's heat at this location",
+        "return_can_place_on": "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;",
+        "parent_method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+        "parent_return": "return true;",
+    }
+    sources_by_key = {
+        "parent_method": block_source,
+        "parent_return": block_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [BLOCK_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

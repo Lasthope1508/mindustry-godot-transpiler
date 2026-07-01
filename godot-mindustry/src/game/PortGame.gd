@@ -693,6 +693,23 @@ func source_thermal_generator_on_proximity_added_state(sum_attribute: float, sup
 		"sum": sum_attribute,
 	}
 
+func source_thermal_generator_can_place_on_state(linked_attribute_sum: float, min_efficiency: float) -> Dictionary:
+	var can_place_on := linked_attribute_sum > min_efficiency
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"attribute_field": "public Attribute attribute = Attribute.heat;",
+		"min_efficiency_field": "public float minEfficiency = 0f;",
+		"override": "@Override",
+		"method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+		"heat_comment": "//make sure there's heat at this location",
+		"return_can_place_on": "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;",
+		"parent_method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+		"parent_return": "return true;",
+		"linked_attribute_sum": linked_attribute_sum,
+		"min_efficiency": min_efficiency,
+		"can_place_on": can_place_on,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {
