@@ -5488,8 +5488,11 @@ func source_weapon_bullet_shooter_state(unit_state: Dictionary, controller_state
 		"shooter": shooter,
 		"shooterSelectionSource": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit",
 		"missileShooterSource": "public @Nullable Unit shooter",
+		"unitControllerFieldSource": "private UnitController controller",
 		"unitControllerSource": "public UnitController controller(){ return controller; }",
+		"missileAiClassSource": "public class MissileAI extends AIController{",
 		"bulletCreateReservedSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)",
+		"bulletCreateShooterParamSource": "@Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,",
 		"bulletCreateNullShooterFallbackSource": "bullet.shooter = (shooter == null ? owner : shooter)",
 	}
 

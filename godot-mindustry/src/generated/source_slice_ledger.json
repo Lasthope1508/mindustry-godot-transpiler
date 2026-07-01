@@ -15747,6 +15747,52 @@
       ],
       "runtime_proof": "/root/Main.source_weapon_bullet_shake_state",
       "rule": "Backfills SSOT for existing Weapon.bullet shake effect wrapper against exact upstream source."
+    },
+    "N849": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+      "godot_owner": "PortGame.source_weapon_bullet_shooter_state",
+      "exact_exprs": [
+        "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets"
+      ],
+      "bridge_exprs": [
+        "private UnitController controller;",
+        "public UnitController controller(){\n        return controller;\n    }",
+        "public class MissileAI extends AIController{",
+        "public @Nullable Unit shooter;",
+        "@Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,",
+        "bullet.shooter = (shooter == null ? owner : shooter);"
+      ],
+      "deferred_exprs": [
+        "BulletType.create call remains owned by source_weapon_bullet_create_call_state.",
+        "Bullet identity and shooter assignment internals remain owned by BulletType.create slices."
+      ],
+      "source_symbols": [
+        "weapon_bullet_shooter.selection",
+        "weapon_bullet_shooter.unit_state",
+        "weapon_bullet_shooter.controller_state",
+        "weapon_bullet_shooter.unit_id",
+        "weapon_bullet_shooter.controller_type",
+        "weapon_bullet_shooter.controller_shooter",
+        "weapon_bullet_shooter.controller_is_missile_ai",
+        "weapon_bullet_shooter.missile_shooter_result",
+        "weapon_bullet_shooter.unit_controller_field",
+        "weapon_bullet_shooter.unit_controller_getter",
+        "weapon_bullet_shooter.missile_ai_class",
+        "weapon_bullet_shooter.missile_ai_shooter",
+        "weapon_bullet_shooter.bullet_create_reserved",
+        "weapon_bullet_shooter.bullet_create_shooter_param",
+        "weapon_bullet_shooter.bullet_shooter_assignment"
+      ],
+      "tests": [
+        "test_weapon_bullet_shooter_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_shooter_state",
+        "test_weapon_bullet_shooter_selection_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_shooter_state",
+      "rule": "Backfills SSOT for existing Weapon.bullet shooter selection wrapper against exact upstream source."
     }
   },
   "version": 1

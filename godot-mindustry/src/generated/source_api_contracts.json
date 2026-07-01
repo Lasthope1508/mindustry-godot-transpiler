@@ -17430,6 +17430,45 @@
         "test_port_game_exposes_source_weapon_bullet_shake_state",
         "test_weapon_bullet_shake_effect_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_bullet_shooter_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_shooter_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "controller_state",
+          "schema": "source_weapon_bullet_shooter_input.controller_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "unit",
+        "controllerIsMissileAI",
+        "missileShooter",
+        "shooter",
+        "shooterSelectionSource",
+        "missileShooterSource",
+        "unitControllerFieldSource",
+        "missileAiClassSource",
+        "unitControllerSource",
+        "bulletCreateShooterParamSource",
+        "bulletCreateReservedSource",
+        "bulletCreateNullShooterFallbackSource"
+      ],
+      "rule": "Public runtime contract for Weapon.bullet shooter selection.",
+      "runtime_proof": "/root/Main.source_weapon_bullet_shooter_state",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+      "source_slice": "N849",
+      "status": "active",
+      "tests": [
+        "test_weapon_bullet_shooter_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_shooter_state",
+        "test_weapon_bullet_shooter_selection_matches_upstream_source"
+      ]
     }
   },
   "policy": {

@@ -3146,6 +3146,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(angle_spread["java_expr"], "Mathf.range(inaccuracy + bullet.inaccuracy)")
         self.assertEqual(angle_spread["godot_symbol"], "source_weapon_bullet_angle_life_input.angle_spread")
 
+    def test_weapon_bullet_shooter_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        shooter_selection = source_symbols.source_symbol(registry, "weapon_bullet_shooter.selection")
+        self.assertEqual(shooter_selection["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(shooter_selection["java_expr"], "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets")
+        self.assertEqual(shooter_selection["godot_owner"], "PortGame.source_weapon_bullet_shooter_state")
+        self.assertEqual(shooter_selection["runtime_proof"], "/root/Main.source_weapon_bullet_shooter_state")
+        self.assertEqual(shooter_selection["godot_symbol"], "source_weapon_bullet_shooter_result.shooter")
+
+        unit_state = source_symbols.source_symbol(registry, "weapon_bullet_shooter.unit_state")
+        self.assertEqual(unit_state["status"], "explicit-input")
+        self.assertEqual(unit_state["java_expr"], "Unit unit")
+        self.assertEqual(unit_state["godot_symbol"], "source_weapon_bullet_shooter_input.unit_state")
+
+        controller_state = source_symbols.source_symbol(registry, "weapon_bullet_shooter.controller_state")
+        self.assertEqual(controller_state["status"], "explicit-input")
+        self.assertEqual(controller_state["java_expr"], "unit.controller()")
+        self.assertEqual(controller_state["godot_symbol"], "source_weapon_bullet_shooter_input.controller_state")
+
+        controller_getter = source_symbols.source_symbol(registry, "weapon_bullet_shooter.unit_controller_getter")
+        self.assertEqual(controller_getter["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
+        self.assertEqual(controller_getter["java_expr"], "public UnitController controller(){\n        return controller;\n    }")
+        self.assertEqual(controller_getter["godot_symbol"], "source_weapon_bullet_shooter_result.unitControllerSource")
+
+        missile_shooter = source_symbols.source_symbol(registry, "weapon_bullet_shooter.missile_ai_shooter")
+        self.assertEqual(missile_shooter["java_source"], "core/src/mindustry/ai/types/MissileAI.java")
+        self.assertEqual(missile_shooter["java_expr"], "public @Nullable Unit shooter;")
+        self.assertEqual(missile_shooter["godot_symbol"], "source_weapon_bullet_shooter_result.missileShooter")
+
+        create_reserved = source_symbols.source_symbol(registry, "weapon_bullet_shooter.bullet_create_reserved")
+        self.assertEqual(create_reserved["status"], "deferred")
+        self.assertEqual(create_reserved["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(create_reserved["godot_symbol"], "source_weapon_bullet_shooter_result.bulletCreateReservedSource")
+
+        bullet_shooter_fallback = source_symbols.source_symbol(registry, "weapon_bullet_shooter.bullet_shooter_assignment")
+        self.assertEqual(bullet_shooter_fallback["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_shooter_fallback["java_expr"], "bullet.shooter = (shooter == null ? owner : shooter);")
+        self.assertEqual(bullet_shooter_fallback["godot_symbol"], "source_weapon_bullet_shooter_result.bulletCreateNullShooterFallbackSource")
+
     def test_weapon_bullet_create_call_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15381,9 +15424,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 446)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 447)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 451)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 452)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15441,6 +15484,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_bullet_recoil_slots_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_recoil_velocity_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_bullet_shake_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_bullet_shooter_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18220,6 +18264,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(Core.camera == null) return;", weapon_bullet_shake["bridge_exprs"])
         self.assertIn("Vars.renderer.shake(intensity, duration);", weapon_bullet_shake["bridge_exprs"])
         self.assertIn("Mount recoil, recoil slot, and heat assignments remain owned by later registered Weapon.bullet slices.", weapon_bullet_shake["deferred_exprs"])
+
+        weapon_bullet_shooter = source_symbols.source_slice(ledger, "N849")
+        self.assertEqual(weapon_bullet_shooter["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_bullet_shooter["java_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection")
+        self.assertEqual(weapon_bullet_shooter["godot_owner"], "PortGame.source_weapon_bullet_shooter_state")
+        self.assertIn("Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets", weapon_bullet_shooter["exact_exprs"])
+        self.assertIn("public UnitController controller(){\n        return controller;\n    }", weapon_bullet_shooter["bridge_exprs"])
+        self.assertIn("public @Nullable Unit shooter;", weapon_bullet_shooter["bridge_exprs"])
+        self.assertIn("bullet.shooter = (shooter == null ? owner : shooter);", weapon_bullet_shooter["bridge_exprs"])
+        self.assertIn("BulletType.create call remains owned by source_weapon_bullet_create_call_state.", weapon_bullet_shooter["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21372,6 +21426,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("effectPrivateShakeSource", weapon_bullet_shake["return_keys"])
         self.assertIn("mountRecoilReservedSource", weapon_bullet_shake["return_keys"])
         self.assertEqual(weapon_bullet_shake["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect")
+
+        weapon_bullet_shooter = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_shooter_state")
+        self.assertEqual([param["name"] for param in weapon_bullet_shooter["params"]], ["unit_state", "controller_state"])
+        self.assertEqual(weapon_bullet_shooter["params"][0]["schema"], "source_weapon_bullet_shooter_input.unit_state")
+        self.assertEqual(weapon_bullet_shooter["params"][1]["schema"], "source_weapon_bullet_shooter_input.controller_state")
+        self.assertIn("controllerIsMissileAI", weapon_bullet_shooter["return_keys"])
+        self.assertIn("missileShooter", weapon_bullet_shooter["return_keys"])
+        self.assertIn("shooter", weapon_bullet_shooter["return_keys"])
+        self.assertIn("shooterSelectionSource", weapon_bullet_shooter["return_keys"])
+        self.assertIn("unitControllerFieldSource", weapon_bullet_shooter["return_keys"])
+        self.assertIn("missileAiClassSource", weapon_bullet_shooter["return_keys"])
+        self.assertIn("bulletCreateShooterParamSource", weapon_bullet_shooter["return_keys"])
+        self.assertIn("bulletCreateReservedSource", weapon_bullet_shooter["return_keys"])
+        self.assertIn("bulletCreateNullShooterFallbackSource", weapon_bullet_shooter["return_keys"])
+        self.assertEqual(weapon_bullet_shooter["source_method"], "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -25919,6 +25988,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_bullet_shake_result["keys"]["effectPrivateShakeSource"]["java_expr"], "private static void shake(float intensity, float duration){")
         self.assertEqual(source_weapon_bullet_shake_result["keys"]["rendererShakeSource"]["java_expr"], "Vars.renderer.shake(intensity, duration);")
         self.assertEqual(source_weapon_bullet_shake_result["keys"]["mountRecoilReservedSource"]["java_expr"], "mount.recoil = 1f;")
+
+        source_weapon_bullet_shooter_input = source_symbols.state_schema(schema, "source_weapon_bullet_shooter_input")
+        self.assertEqual(source_weapon_bullet_shooter_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_bullet_shooter_input["keys"]["controller_state"]["java_expr"], "unit.controller()")
+        self.assertEqual(source_weapon_bullet_shooter_input["keys"]["id"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_bullet_shooter_input["keys"]["type"]["java_expr"], "unit.controller() instanceof MissileAI ai")
+        self.assertEqual(source_weapon_bullet_shooter_input["keys"]["shooter"]["java_expr"], "public @Nullable Unit shooter;")
+
+        source_weapon_bullet_shooter_result = source_symbols.state_schema(schema, "source_weapon_bullet_shooter_result")
+        self.assertEqual(source_weapon_bullet_shooter_result["keys"]["shooter"]["java_expr"], "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets")
+        self.assertEqual(source_weapon_bullet_shooter_result["keys"]["controllerIsMissileAI"]["java_expr"], "unit.controller() instanceof MissileAI ai")
+        self.assertEqual(source_weapon_bullet_shooter_result["keys"]["unitControllerSource"]["java_expr"], "public UnitController controller(){\n        return controller;\n    }")
+        self.assertEqual(source_weapon_bullet_shooter_result["keys"]["bulletCreateReservedSource"]["java_expr"], "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);")
+        self.assertEqual(source_weapon_bullet_shooter_result["keys"]["bulletCreateNullShooterFallbackSource"]["java_expr"], "bullet.shooter = (shooter == null ? owner : shooter);")
 
         source_weapon_bullet_initial_guard_input = source_symbols.state_schema(schema, "source_weapon_bullet_initial_guard_input")
         self.assertEqual(source_weapon_bullet_initial_guard_input["keys"]["unit_state"]["java_expr"], "Unit unit")

@@ -4934,6 +4934,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"controllerIsMissileAI": controller_is_missile_ai', source)
         self.assertIn('"shooter": shooter', source)
         self.assertIn('"shooterSelectionSource": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit"', source)
+        self.assertIn('"unitControllerFieldSource": "private UnitController controller"', source)
+        self.assertIn('"missileAiClassSource": "public class MissileAI extends AIController{"', source)
+        self.assertIn('"bulletCreateShooterParamSource": "@Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,"', source)
         self.assertIn('"bulletCreateReservedSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)"', source)
 
     def test_port_game_exposes_source_weapon_bullet_create_call_state(self):

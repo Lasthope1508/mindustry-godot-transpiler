@@ -62798,6 +62798,220 @@
           ]
         }
       }
+    },
+    "source_weapon_bullet_shooter_input": {
+      "status": "active",
+      "keys": {
+        "unit_state": {
+          "godot_symbol": "source_weapon_bullet_shooter_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Unit input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "controller_state": {
+          "godot_symbol": "source_weapon_bullet_shooter_input.controller_state",
+          "java_expr": "unit.controller()",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit controller input for source branch.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "id": {
+          "godot_symbol": "source_weapon_bullet_shooter_input.unit_state.id",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Unit identity used as fallback shooter.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "type": {
+          "godot_symbol": "source_weapon_bullet_shooter_input.controller_state.type",
+          "java_expr": "unit.controller() instanceof MissileAI ai",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Controller runtime type used by instanceof branch.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "shooter": {
+          "godot_symbol": "source_weapon_bullet_shooter_input.controller_state.shooter",
+          "java_expr": "public @Nullable Unit shooter;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/ai/types/MissileAI.java",
+          "rule": "MissileAI shooter field input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_bullet_shooter_result": {
+      "status": "active",
+      "keys": {
+        "unit": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.unit",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime record of fallback Unit identity.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "controllerIsMissileAI": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.controllerIsMissileAI",
+          "java_expr": "unit.controller() instanceof MissileAI ai",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime branch flag.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "missileShooter": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.missileShooter",
+          "java_expr": "ai.shooter",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime record of MissileAI shooter field.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "shooter": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.shooter",
+          "java_expr": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Selected shooter value passed to BulletType.create.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "shooterSelectionSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.shooterSelectionSource",
+          "java_expr": "Entityc shooter = unit.controller() instanceof MissileAI ai ? ai.shooter : unit; //Pass the missile's shooter down to its bullets",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact shooter selection source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "missileShooterSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.missileShooterSource",
+          "java_expr": "public @Nullable Unit shooter;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/ai/types/MissileAI.java",
+          "rule": "MissileAI shooter field source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "unitControllerSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.unitControllerSource",
+          "java_expr": "public UnitController controller(){\n        return controller;\n    }",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit controller getter source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "unitControllerFieldSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.unitControllerFieldSource",
+          "java_expr": "private UnitController controller;",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit controller field source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "missileAiClassSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.missileAiClassSource",
+          "java_expr": "public class MissileAI extends AIController{",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/ai/types/MissileAI.java",
+          "rule": "MissileAI class source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "bulletCreateReservedSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.bulletCreateReservedSource",
+          "java_expr": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Following BulletType.create call remains owned by create-call slice.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "bulletCreateShooterParamSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.bulletCreateShooterParamSource",
+          "java_expr": "@Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType.create shooter parameter source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        },
+        "bulletCreateNullShooterFallbackSource": {
+          "godot_symbol": "source_weapon_bullet_shooter_result.bulletCreateNullShooterFallbackSource",
+          "java_expr": "bullet.shooter = (shooter == null ? owner : shooter);",
+          "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "BulletType.create null-shooter fallback source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_bullet_shooter_state"
+          ]
+        }
+      }
     }
   },
   "version": 1
