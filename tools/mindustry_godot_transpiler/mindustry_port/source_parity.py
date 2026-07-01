@@ -464,6 +464,38 @@ def verify_power_graph_update_balance_source(upstream_root: Path) -> dict[str, A
     }
 
 
+def verify_power_graph_update_battery_distribute_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "nonempty_guard": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+        "charged_init": "boolean charged = false;",
+        "unequal_guard": "if(!Mathf.equal(powerNeeded, powerProduced)){",
+        "deficit_gate": "if(powerNeeded > powerProduced){",
+        "power_battery_used": "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);",
+        "power_produced_battery_add": "powerProduced += powerBatteryUsed;",
+        "last_power_produced_battery_add": "lastPowerProduced += powerBatteryUsed;",
+        "surplus_gate": "}else if(powerProduced > powerNeeded){",
+        "charged_true": "charged = true;",
+        "power_produced_charge_sub": "powerProduced -= chargeBatteries(powerProduced - powerNeeded);",
+        "distribute_power": "distributePower(powerNeeded, powerProduced, charged);",
+        "mathf_equal": "public static boolean equal(float a, float b){",
+        "mathf_equal_body": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in (mathf_source if key.startswith("mathf_") else power_graph_source)
+    ]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "sources": [ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

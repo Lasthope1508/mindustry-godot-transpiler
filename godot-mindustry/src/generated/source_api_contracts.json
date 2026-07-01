@@ -19757,6 +19757,83 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
       "rule": "Public runtime contract for PowerGraph.update() balance metrics before battery/distribute branch."
+    },
+    "PortGame.source_power_graph_update_battery_distribute_state": {
+      "status": "active",
+      "source_slice": "N897",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "update()",
+      "params": [
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_power_graph_update_battery_distribute_input.consumers"
+        },
+        {
+          "name": "producers",
+          "type": "Array",
+          "schema": "source_power_graph_update_battery_distribute_input.producers"
+        },
+        {
+          "name": "batteries",
+          "type": "Array",
+          "schema": "source_power_graph_update_battery_distribute_input.batteries"
+        },
+        {
+          "name": "power_needed",
+          "type": "float",
+          "schema": "source_power_graph_update_battery_distribute_input.power_needed"
+        },
+        {
+          "name": "power_produced",
+          "type": "float",
+          "schema": "source_power_graph_update_battery_distribute_input.power_produced"
+        },
+        {
+          "name": "last_power_produced",
+          "type": "float",
+          "schema": "source_power_graph_update_battery_distribute_input.last_power_produced"
+        },
+        {
+          "name": "last_power_stored",
+          "type": "float",
+          "schema": "source_power_graph_update_battery_distribute_input.last_power_stored"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "nonempty_guard",
+        "charged_init",
+        "unequal_guard_expr",
+        "deficit_gate",
+        "power_battery_used_expr",
+        "power_produced_battery_add_expr",
+        "last_power_produced_battery_add_expr",
+        "surplus_gate",
+        "charged_true_expr",
+        "power_produced_charge_sub_expr",
+        "distribute_power_expr",
+        "mathf_equal",
+        "branch_entered",
+        "charged",
+        "power_battery_used",
+        "power_battery_charged",
+        "power_needed",
+        "power_produced",
+        "last_power_produced",
+        "last_power_stored",
+        "coverage",
+        "consumers",
+        "producers",
+        "batteries"
+      ],
+      "tests": [
+        "test_power_graph_update_battery_distribute_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_battery_distribute_state_for_mcp",
+        "test_power_graph_update_battery_distribute_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_battery_distribute_state",
+      "rule": "Public runtime contract for PowerGraph.update() battery/distribute branch."
     }
   },
   "policy": {

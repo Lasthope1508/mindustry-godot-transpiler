@@ -17876,6 +17876,53 @@
         "test_power_graph_update_balance_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.update() balance metrics through energyDelta reset; battery use/charge/distribute branch remains deferred."
+    },
+    "N897": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_power_graph_update_battery_distribute_state",
+      "runtime_proof": "/root/Main.source_power_graph_update_battery_distribute_state",
+      "exact_exprs": [
+        "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+        "boolean charged = false;",
+        "if(!Mathf.equal(powerNeeded, powerProduced)){",
+        "if(powerNeeded > powerProduced){",
+        "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);",
+        "powerProduced += powerBatteryUsed;",
+        "lastPowerProduced += powerBatteryUsed;",
+        "}else if(powerProduced > powerNeeded){",
+        "charged = true;",
+        "powerProduced -= chargeBatteries(powerProduced - powerNeeded);",
+        "distributePower(powerNeeded, powerProduced, charged);"
+      ],
+      "source_symbols": [
+        "power_graph_update_battery_distribute.nonempty_guard",
+        "power_graph_update_battery_distribute.charged_init",
+        "power_graph_update_battery_distribute.unequal_guard",
+        "power_graph_update_battery_distribute.deficit_gate",
+        "power_graph_update_battery_distribute.power_battery_used",
+        "power_graph_update_battery_distribute.power_produced_battery_add",
+        "power_graph_update_battery_distribute.last_power_produced_battery_add",
+        "power_graph_update_battery_distribute.surplus_gate",
+        "power_graph_update_battery_distribute.charged_true",
+        "power_graph_update_battery_distribute.power_produced_charge_sub",
+        "power_graph_update_battery_distribute.distribute_power",
+        "power_graph_update_battery_distribute.consumers",
+        "power_graph_update_battery_distribute.producers",
+        "power_graph_update_battery_distribute.batteries",
+        "power_graph_update_battery_distribute.power_needed",
+        "power_graph_update_battery_distribute.power_produced",
+        "power_graph_update_battery_distribute.last_power_produced",
+        "power_graph_update_battery_distribute.last_power_stored"
+      ],
+      "tests": [
+        "test_power_graph_update_battery_distribute_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_battery_distribute_state_for_mcp",
+        "test_power_graph_update_battery_distribute_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.update() battery use/charge and distribute branch after balance metrics."
     }
   },
   "version": 1

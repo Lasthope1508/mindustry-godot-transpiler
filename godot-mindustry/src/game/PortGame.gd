@@ -1280,6 +1280,74 @@ func source_power_graph_update_balance_state(consumers: Array, producers: Array,
 		"source_delta": source_delta,
 	}
 
+func source_power_graph_update_battery_distribute_state(consumers: Array, producers: Array, batteries: Array, power_needed: float, power_produced: float, last_power_produced: float, last_power_stored: float) -> Dictionary:
+	var source_consumers: Array = []
+	for consumer in consumers:
+		if typeof(consumer) != TYPE_DICTIONARY:
+			continue
+		source_consumers.append(consumer.duplicate(true))
+	var source_producers: Array = []
+	for producer in producers:
+		if typeof(producer) != TYPE_DICTIONARY:
+			continue
+		source_producers.append(producer.duplicate(true))
+	var source_batteries: Array = []
+	for battery in batteries:
+		if typeof(battery) != TYPE_DICTIONARY:
+			continue
+		source_batteries.append(battery.duplicate(true))
+	var branch_entered: bool = not (source_consumers.is_empty() and source_producers.is_empty() and source_batteries.is_empty())
+	var charged := false
+	var power_battery_used := 0.0
+	var power_battery_charged := 0.0
+	var next_power_produced := power_produced
+	var next_last_power_produced := last_power_produced
+	var coverage := 0.0
+	if branch_entered:
+		if abs(power_needed - next_power_produced) > SOURCE_FLOAT_ROUNDING_ERROR:
+			if power_needed > next_power_produced:
+				var use_state := source_power_graph_use_batteries_state(source_batteries, power_needed - next_power_produced)
+				power_battery_used = float(use_state.get("used", 0.0))
+				source_batteries = use_state.get("batteries", source_batteries)
+				next_power_produced += power_battery_used
+				next_last_power_produced += power_battery_used
+			elif next_power_produced > power_needed:
+				charged = true
+				var charge_state := source_power_graph_charge_batteries_state(source_batteries, next_power_produced - power_needed)
+				power_battery_charged = float(charge_state.get("charged", 0.0))
+				source_batteries = charge_state.get("batteries", source_batteries)
+				next_power_produced -= power_battery_charged
+		var distribute_state := source_power_graph_distribute_power_state(source_consumers, power_needed, next_power_produced, charged, last_power_stored)
+		source_consumers = distribute_state.get("consumers", source_consumers)
+		coverage = float(distribute_state.get("coverage", 0.0))
+	return {
+		"method": "public void update(){",
+		"nonempty_guard": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+		"charged_init": "boolean charged = false;",
+		"unequal_guard_expr": "if(!Mathf.equal(powerNeeded, powerProduced)){",
+		"deficit_gate": "if(powerNeeded > powerProduced){",
+		"power_battery_used_expr": "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);",
+		"power_produced_battery_add_expr": "powerProduced += powerBatteryUsed;",
+		"last_power_produced_battery_add_expr": "lastPowerProduced += powerBatteryUsed;",
+		"surplus_gate": "}else if(powerProduced > powerNeeded){",
+		"charged_true_expr": "charged = true;",
+		"power_produced_charge_sub_expr": "powerProduced -= chargeBatteries(powerProduced - powerNeeded);",
+		"distribute_power_expr": "distributePower(powerNeeded, powerProduced, charged);",
+		"mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+		"branch_entered": branch_entered,
+		"charged": charged,
+		"power_battery_used": power_battery_used,
+		"power_battery_charged": power_battery_charged,
+		"power_needed": power_needed,
+		"power_produced": next_power_produced,
+		"last_power_produced": next_last_power_produced,
+		"last_power_stored": last_power_stored,
+		"coverage": coverage,
+		"consumers": source_consumers,
+		"producers": source_producers,
+		"batteries": source_batteries,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)

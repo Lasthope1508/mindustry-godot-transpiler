@@ -74626,6 +74626,218 @@
           "godot_symbol": "source_power_graph_update_balance_result.energy_delta"
         }
       }
+    },
+    "source_power_graph_update_battery_distribute_input": {
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_battery_distribute_input key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "consumers.items",
+          "godot_symbol": "source_power_graph_update_battery_distribute_input.consumers"
+        },
+        "producers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_battery_distribute_input key producers.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "producers.items",
+          "godot_symbol": "source_power_graph_update_battery_distribute_input.producers"
+        },
+        "batteries": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_battery_distribute_input key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "batteries.items",
+          "godot_symbol": "source_power_graph_update_battery_distribute_input.batteries"
+        },
+        "power_needed": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_battery_distribute_input key power_needed.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "powerNeeded",
+          "godot_symbol": "source_power_graph_update_battery_distribute_input.power_needed"
+        },
+        "power_produced": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_battery_distribute_input key power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "powerProduced",
+          "godot_symbol": "source_power_graph_update_battery_distribute_input.power_produced"
+        },
+        "last_power_produced": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_battery_distribute_input key last_power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerProduced",
+          "godot_symbol": "source_power_graph_update_battery_distribute_input.last_power_produced"
+        },
+        "last_power_stored": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_battery_distribute_input key last_power_stored.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerStored",
+          "godot_symbol": "source_power_graph_update_battery_distribute_input.last_power_stored"
+        }
+      }
+    },
+    "source_power_graph_update_battery_distribute_result": {
+      "keys": {
+        "branch_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key branch_entered.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.branch_entered"
+        },
+        "charged": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key charged.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "boolean charged = false;",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.charged"
+        },
+        "power_battery_used": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key power_battery_used.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.power_battery_used"
+        },
+        "power_battery_charged": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key power_battery_charged.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "powerProduced -= chargeBatteries(powerProduced - powerNeeded);",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.power_battery_charged"
+        },
+        "power_needed": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key power_needed.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "powerNeeded",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.power_needed"
+        },
+        "power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "PowerGraph.update battery branch powerProduced",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.power_produced"
+        },
+        "last_power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key last_power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerProduced += powerBatteryUsed;",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.last_power_produced"
+        },
+        "coverage": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key coverage.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "distributePower(powerNeeded, powerProduced, charged);",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.coverage"
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "distributePower(powerNeeded, powerProduced, charged);",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.consumers"
+        },
+        "batteries": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_battery_distribute_result key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_update_battery_distribute_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "useBatteries(powerNeeded - powerProduced)/chargeBatteries(powerProduced - powerNeeded)",
+          "godot_symbol": "source_power_graph_update_battery_distribute_result.batteries"
+        }
+      }
     }
   },
   "version": 1

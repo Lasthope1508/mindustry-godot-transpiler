@@ -216,6 +216,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"energy_delta_zero_expr": "energyDelta = 0f;"', source)
         self.assertIn('var power_needed_state := source_power_graph_power_needed_state(consumers)', source)
 
+    def test_port_game_exposes_source_power_graph_update_battery_distribute_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_update_battery_distribute_state(consumers: Array, producers: Array, batteries: Array, power_needed: float, power_produced: float, last_power_produced: float, last_power_stored: float) -> Dictionary:", source)
+        self.assertIn('"nonempty_guard": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){"', source)
+        self.assertIn('"unequal_guard_expr": "if(!Mathf.equal(powerNeeded, powerProduced)){"', source)
+        self.assertIn('"power_battery_used_expr": "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);"', source)
+        self.assertIn('"power_produced_charge_sub_expr": "powerProduced -= chargeBatteries(powerProduced - powerNeeded);"', source)
+        self.assertIn('"distribute_power_expr": "distributePower(powerNeeded, powerProduced, charged);"', source)
+        self.assertIn('var distribute_state := source_power_graph_distribute_power_state(source_consumers, power_needed, next_power_produced, charged, last_power_stored)', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -356,6 +356,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_update_battery_distribute_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_update_battery_distribute_source"))
+        report = source_parity.verify_power_graph_update_battery_distribute_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "nonempty_guard": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
+            "charged_init": "boolean charged = false;",
+            "unequal_guard": "if(!Mathf.equal(powerNeeded, powerProduced)){",
+            "deficit_gate": "if(powerNeeded > powerProduced){",
+            "power_battery_used": "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);",
+            "power_produced_battery_add": "powerProduced += powerBatteryUsed;",
+            "last_power_produced_battery_add": "lastPowerProduced += powerBatteryUsed;",
+            "surplus_gate": "}else if(powerProduced > powerNeeded){",
+            "charged_true": "charged = true;",
+            "power_produced_charge_sub": "powerProduced -= chargeBatteries(powerProduced - powerNeeded);",
+            "distribute_power": "distributePower(powerNeeded, powerProduced, charged);",
+            "mathf_equal": "public static boolean equal(float a, float b){",
+            "mathf_equal_body": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")
