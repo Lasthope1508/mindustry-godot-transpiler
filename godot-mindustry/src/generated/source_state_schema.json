@@ -80710,6 +80710,176 @@
           "java_expr": "true"
         }
       }
+    },
+    "source_thermal_generator_draw_place_input": {
+      "owner": "PortGame.source_thermal_generator_draw_place_state",
+      "status": "active",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_draw_place_input key x.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_input.x",
+          "java_expr": "x"
+        },
+        "y": {
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_draw_place_input key y.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_input.y",
+          "java_expr": "y"
+        },
+        "rotation": {
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_draw_place_input key rotation.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_input.rotation",
+          "java_expr": "rotation"
+        },
+        "valid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_draw_place_input key valid.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_input.valid",
+          "java_expr": "valid"
+        },
+        "display_efficiency": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_draw_place_input key display_efficiency.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_input.display_efficiency",
+          "java_expr": "displayEfficiency"
+        },
+        "sum_attribute": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_draw_place_input key sum_attribute.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_input.sum_attribute",
+          "java_expr": "sumAttribute(attribute, x, y)"
+        },
+        "display_efficiency_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_draw_place_input key display_efficiency_scale.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_input.display_efficiency_scale",
+          "java_expr": "displayEfficiencyScale"
+        }
+      }
+    },
+    "source_thermal_generator_draw_place_result": {
+      "owner": "PortGame.source_thermal_generator_draw_place_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_draw_place_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_result.method",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){"
+        },
+        "super_draw_place": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_draw_place_result key super_draw_place.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_result.super_draw_place",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);"
+        },
+        "display_efficiency_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_draw_place_result key display_efficiency_guard.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_result.display_efficiency_guard",
+          "java_expr": "if(displayEfficiency){"
+        },
+        "efficiency_value": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_draw_place_result key efficiency_value.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_result.efficiency_value",
+          "java_expr": "sumAttribute(attribute, x, y) * 100 * displayEfficiencyScale",
+          "alias_of": "computed from source_thermal_generator_draw_place_input.sum_attribute/source_thermal_generator_draw_place_input.display_efficiency_scale"
+        },
+        "draw_place_text_call": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_draw_place_result key draw_place_text_call.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_result.draw_place_text_call",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.efficiency\", sumAttribute(attribute, x, y) * 100 * displayEfficiencyScale, 1), x, y, valid);"
+        },
+        "draw_place_text_added": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_draw_place_result key draw_place_text_added.",
+          "used_by": [
+            "PortGame.source_thermal_generator_draw_place_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "godot_symbol": "source_thermal_generator_draw_place_result.draw_place_text_added",
+          "java_expr": "if(displayEfficiency){",
+          "alias_of": "source_thermal_generator_draw_place_input.display_efficiency"
+        }
+      }
     }
   },
   "version": 1

@@ -453,6 +453,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_draw_place_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_draw_place_source"))
+        report = source_parity.verify_thermal_generator_draw_place_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertIn("core/assets/bundles/bundle.properties", report["sources"])
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "display_efficiency_scale": "public float displayEfficiencyScale = 1f;",
+            "display_efficiency": "public boolean displayEfficiency = true;",
+            "attribute_field": "public Attribute attribute = Attribute.heat;",
+            "method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+            "super_call": "super.drawPlace(x, y, rotation, valid);",
+            "display_efficiency_guard": "if(displayEfficiency){",
+            "draw_place_text_call": "drawPlaceText(Core.bundle.formatFloat(\"bar.efficiency\", sumAttribute(attribute, x, y) * 100 * displayEfficiencyScale, 1), x, y, valid);",
+            "block_draw_place": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+            "block_draw_place_text": "public float drawPlaceText(String text, int x, int y, boolean valid){",
+            "bundle_efficiency": "bar.efficiency = Efficiency: {0}%",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

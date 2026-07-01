@@ -21559,6 +21559,81 @@
         "test_thermal_generator_set_stats_output_liquid_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGenerator.setStats outputLiquid stat branch."
+    },
+    "PortGame.source_thermal_generator_draw_place_state": {
+      "status": "active",
+      "source_slice": "N935",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_thermal_generator_draw_place_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_thermal_generator_draw_place_input.y"
+        },
+        {
+          "name": "rotation_value",
+          "type": "int",
+          "schema": "source_thermal_generator_draw_place_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_thermal_generator_draw_place_input.valid"
+        },
+        {
+          "name": "display_efficiency",
+          "type": "bool",
+          "schema": "source_thermal_generator_draw_place_input.display_efficiency"
+        },
+        {
+          "name": "sum_attribute",
+          "type": "float",
+          "schema": "source_thermal_generator_draw_place_input.sum_attribute"
+        },
+        {
+          "name": "display_efficiency_scale",
+          "type": "float",
+          "schema": "source_thermal_generator_draw_place_input.display_efficiency_scale"
+        }
+      ],
+      "return_keys": [
+        "class",
+        "display_efficiency_scale_field",
+        "display_efficiency_field",
+        "attribute_field",
+        "method",
+        "super_draw_place",
+        "display_efficiency_guard",
+        "draw_place_text_call",
+        "block_draw_place",
+        "block_draw_place_text",
+        "bundle_efficiency",
+        "x",
+        "y",
+        "rotation",
+        "valid",
+        "display_efficiency",
+        "sum_attribute",
+        "display_efficiency_scale",
+        "efficiency_value",
+        "bundle_key",
+        "decimals",
+        "draw_place_text_added",
+        "draw_place_text_state"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_place_state",
+      "tests": [
+        "test_thermal_generator_draw_place_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_place_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGenerator.drawPlace displayEfficiency placement text branch."
     }
   },
   "policy": {

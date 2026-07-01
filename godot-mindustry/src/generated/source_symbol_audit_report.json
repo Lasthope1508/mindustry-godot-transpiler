@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 531,
+  "registeredSourceOwnerCount": 532,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -390,6 +390,7 @@
     "PortGame.source_thermal_generator_can_place_on_state",
     "PortGame.source_thermal_generator_displayed_power_production_state",
     "PortGame.source_thermal_generator_draw_light_state",
+    "PortGame.source_thermal_generator_draw_place_state",
     "PortGame.source_thermal_generator_init_state",
     "PortGame.source_thermal_generator_on_proximity_added_state",
     "PortGame.source_thermal_generator_set_stats_output_liquid_state",
@@ -642,6 +643,11 @@
       "function": "source_thermal_generator_set_stats_output_liquid_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+    },
+    {
+      "function": "source_thermal_generator_draw_place_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_thermal_generator_draw_place_state"
     },
     {
       "function": "source_power_generator_warmup_state",
@@ -3229,6 +3235,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 536,
+  "totalSourceFunctions": 537,
   "version": 1
 }

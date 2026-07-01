@@ -649,6 +649,42 @@ def verify_thermal_generator_set_stats_output_liquid_source(upstream_root: Path)
         "missing": missing,
     }
 
+def verify_thermal_generator_draw_place_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    bundle_path = Path(upstream_root) / "core/assets/bundles/bundle.properties"
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    bundle_source = bundle_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "display_efficiency_scale": "public float displayEfficiencyScale = 1f;",
+        "display_efficiency": "public boolean displayEfficiency = true;",
+        "attribute_field": "public Attribute attribute = Attribute.heat;",
+        "method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super_call": "super.drawPlace(x, y, rotation, valid);",
+        "display_efficiency_guard": "if(displayEfficiency){",
+        "draw_place_text_call": "drawPlaceText(Core.bundle.formatFloat(\"bar.efficiency\", sumAttribute(attribute, x, y) * 100 * displayEfficiencyScale, 1), x, y, valid);",
+        "block_draw_place": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "block_draw_place_text": "public float drawPlaceText(String text, int x, int y, boolean valid){",
+        "bundle_efficiency": "bar.efficiency = Efficiency: {0}%",
+    }
+    sources_by_key = {
+        "block_draw_place": block_source,
+        "block_draw_place_text": block_source,
+        "bundle_efficiency": bundle_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [BLOCK_SOURCE, "core/assets/bundles/bundle.properties"],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

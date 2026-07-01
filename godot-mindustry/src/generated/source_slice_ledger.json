@@ -19216,6 +19216,46 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_set_stats_output_liquid_matches_upstream_source"
       ]
+    },
+    "N935": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "godot_owner": "PortGame.source_thermal_generator_draw_place_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_place_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public float displayEfficiencyScale = 1f;",
+        "public boolean displayEfficiency = true;",
+        "public Attribute attribute = Attribute.heat;",
+        "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super.drawPlace(x, y, rotation, valid);",
+        "if(displayEfficiency){",
+        "drawPlaceText(Core.bundle.formatFloat(\"bar.efficiency\", sumAttribute(attribute, x, y) * 100 * displayEfficiencyScale, 1), x, y, valid);",
+        "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "public float drawPlaceText(String text, int x, int y, boolean valid){",
+        "bar.efficiency = Efficiency: {0}%"
+      ],
+      "source_symbols": [
+        "thermal_generator_draw_place.display_efficiency",
+        "thermal_generator_draw_place.display_efficiency_guard",
+        "thermal_generator_draw_place.display_efficiency_scale",
+        "thermal_generator_draw_place.draw_place_text_added",
+        "thermal_generator_draw_place.draw_place_text_call",
+        "thermal_generator_draw_place.efficiency_value",
+        "thermal_generator_draw_place.rotation",
+        "thermal_generator_draw_place.sum_attribute",
+        "thermal_generator_draw_place.super_draw_place",
+        "thermal_generator_draw_place.valid",
+        "thermal_generator_draw_place.x",
+        "thermal_generator_draw_place.y"
+      ],
+      "tests": [
+        "test_thermal_generator_draw_place_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_place_matches_upstream_source"
+      ]
     }
   },
   "version": 1

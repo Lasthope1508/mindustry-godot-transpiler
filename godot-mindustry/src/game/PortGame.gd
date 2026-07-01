@@ -828,6 +828,44 @@ func source_thermal_generator_set_stats_output_liquid_state(output_liquid_presen
 		"output_stat_call": output_stat_call,
 	}
 
+func source_thermal_generator_draw_place_state(x: int, y: int, rotation_value: int, valid: bool, display_efficiency: bool, sum_attribute: float, display_efficiency_scale: float) -> Dictionary:
+	var efficiency_value := sum_attribute * 100.0 * display_efficiency_scale if display_efficiency else 0.0
+	var draw_place_text_call := {}
+	if display_efficiency:
+		draw_place_text_call = {
+			"bundle_key": "bar.efficiency",
+			"value": efficiency_value,
+			"decimals": 1,
+			"x": x,
+			"y": y,
+			"valid": valid,
+		}
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;",
+		"display_efficiency_field": "public boolean displayEfficiency = true;",
+		"attribute_field": "public Attribute attribute = Attribute.heat;",
+		"method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+		"super_draw_place": "super.drawPlace(x, y, rotation, valid);",
+		"display_efficiency_guard": "if(displayEfficiency){",
+		"draw_place_text_call": "drawPlaceText(Core.bundle.formatFloat(\"bar.efficiency\", sumAttribute(attribute, x, y) * 100 * displayEfficiencyScale, 1), x, y, valid);",
+		"block_draw_place": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+		"block_draw_place_text": "public float drawPlaceText(String text, int x, int y, boolean valid){",
+		"bundle_efficiency": "bar.efficiency = Efficiency: {0}%",
+		"x": x,
+		"y": y,
+		"rotation": rotation_value,
+		"valid": valid,
+		"display_efficiency": display_efficiency,
+		"sum_attribute": sum_attribute,
+		"display_efficiency_scale": display_efficiency_scale,
+		"efficiency_value": efficiency_value,
+		"bundle_key": "bar.efficiency",
+		"decimals": 1,
+		"draw_place_text_added": display_efficiency,
+		"draw_place_text_state": draw_place_text_call,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {
