@@ -5005,6 +5005,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vel_len_reserved["java_expr"], "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;")
         self.assertEqual(vel_len_reserved["godot_symbol"], "source_weapon_update_active_sound_loop_result.velLenReservedSource")
 
+    def test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        was_flipped = source_symbols.source_symbol(registry, "weapon_update_alternating_side_flip.was_flipped")
+        self.assertEqual(was_flipped["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(was_flipped["java_expr"], "boolean wasFlipped = mount.side;")
+        self.assertEqual(was_flipped["godot_owner"], "PortGame.source_weapon_update_alternating_side_flip_state")
+        self.assertEqual(was_flipped["runtime_proof"], "/root/Main.source_weapon_update_alternating_side_flip_state")
+        self.assertEqual(was_flipped["godot_symbol"], "source_weapon_update_alternating_side_flip_result.wasFlipped")
+
+        guard = source_symbols.source_symbol(registry, "weapon_update_alternating_side_flip.guard")
+        self.assertEqual(guard["java_expr"], "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){")
+        self.assertEqual(guard["godot_symbol"], "source_weapon_update_alternating_side_flip_result.guardSource")
+
+        other_side_flip = source_symbols.source_symbol(registry, "weapon_update_alternating_side_flip.other_side_flip")
+        self.assertEqual(other_side_flip["java_expr"], "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;")
+        self.assertEqual(other_side_flip["godot_symbol"], "source_weapon_update_alternating_side_flip_result.unitMounts")
+
+        mount_side_flip = source_symbols.source_symbol(registry, "weapon_update_alternating_side_flip.mount_side_flip")
+        self.assertEqual(mount_side_flip["java_expr"], "mount.side = !mount.side;")
+        self.assertEqual(mount_side_flip["godot_symbol"], "source_weapon_update_alternating_side_flip_result.mountSide")
+
+        other_side = source_symbols.source_symbol(registry, "weapon_update_alternating_side_flip.other_side")
+        self.assertEqual(other_side["java_expr"], "public int otherSide = -1;")
+        self.assertEqual(other_side["godot_symbol"], "source_weapon_update_alternating_side_flip_input.weapon_state.otherSide")
+
+        alternate = source_symbols.source_symbol(registry, "weapon_update_alternating_side_flip.alternate")
+        self.assertEqual(alternate["java_expr"], "public boolean alternate = true;")
+        self.assertEqual(alternate["godot_symbol"], "source_weapon_update_alternating_side_flip_input.weapon_state.alternate")
+
+        shoot_gate = source_symbols.source_symbol(registry, "weapon_update_alternating_side_flip.shoot_gate_uses_was_flipped")
+        self.assertEqual(shoot_gate["java_expr"], "(!alternate || wasFlipped == flipSprite) &&")
+        self.assertEqual(shoot_gate["godot_symbol"], "source_weapon_update_alternating_side_flip_result.shootGateSource")
+
     def test_status_apply_result_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15663,9 +15700,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 453)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 454)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 458)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 459)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15730,6 +15767,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_shoot_charge_start_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_shoot_default_pattern_dispatch_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_active_sound_loop_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_alternating_side_flip_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18592,6 +18630,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean shoot = false;", weapon_update_active_sound_loop["bridge_exprs"])
         self.assertIn("public void loop(Sound sound, Position pos, float volume){", weapon_update_active_sound_loop["bridge_exprs"])
         self.assertIn("float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;", weapon_update_active_sound_loop["deferred_exprs"])
+
+        weapon_update_alternating_side_flip = source_symbols.source_slice(ledger, "N856")
+        self.assertEqual(weapon_update_alternating_side_flip["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_alternating_side_flip["java_method"], "Weapon.update(Unit unit, WeaponMount mount) alternating side flip")
+        self.assertEqual(weapon_update_alternating_side_flip["godot_owner"], "PortGame.source_weapon_update_alternating_side_flip_state")
+        self.assertIn("boolean wasFlipped = mount.side;", weapon_update_alternating_side_flip["exact_exprs"])
+        self.assertIn("if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){", weapon_update_alternating_side_flip["exact_exprs"])
+        self.assertIn("unit.mounts[otherSide].side = !unit.mounts[otherSide].side;", weapon_update_alternating_side_flip["exact_exprs"])
+        self.assertIn("mount.side = !mount.side;", weapon_update_alternating_side_flip["exact_exprs"])
+        self.assertIn("public int otherSide = -1;", weapon_update_alternating_side_flip["bridge_exprs"])
+        self.assertIn("public boolean alternate = true;", weapon_update_alternating_side_flip["bridge_exprs"])
+        self.assertIn("public boolean flipSprite = false;", weapon_update_alternating_side_flip["bridge_exprs"])
+        self.assertIn("(!alternate || wasFlipped == flipSprite) &&", weapon_update_alternating_side_flip["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21853,6 +21904,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("soundControlGuardSource", weapon_update_active_sound_loop["return_keys"])
         self.assertIn("velLenReservedSource", weapon_update_active_sound_loop["return_keys"])
         self.assertEqual(weapon_update_active_sound_loop["source_method"], "Weapon.update(Unit unit, WeaponMount mount) active sound loop")
+
+        weapon_update_alternating_side_flip = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_alternating_side_flip_state")
+        self.assertEqual([param["name"] for param in weapon_update_alternating_side_flip["params"]], ["mount_state", "weapon_state", "unit_mount_states"])
+        self.assertEqual(weapon_update_alternating_side_flip["params"][0]["schema"], "source_weapon_update_alternating_side_flip_input.mount_state")
+        self.assertEqual(weapon_update_alternating_side_flip["params"][1]["schema"], "source_weapon_update_alternating_side_flip_input.weapon_state")
+        self.assertEqual(weapon_update_alternating_side_flip["params"][2]["schema"], "source_weapon_update_alternating_side_flip_input.unit_mount_states")
+        self.assertIn("wasFlipped", weapon_update_alternating_side_flip["return_keys"])
+        self.assertIn("flipGate", weapon_update_alternating_side_flip["return_keys"])
+        self.assertIn("unitMounts", weapon_update_alternating_side_flip["return_keys"])
+        self.assertIn("mountSide", weapon_update_alternating_side_flip["return_keys"])
+        self.assertIn("guardSource", weapon_update_alternating_side_flip["return_keys"])
+        self.assertIn("otherSideFlipSource", weapon_update_alternating_side_flip["return_keys"])
+        self.assertIn("mountSideFlipSource", weapon_update_alternating_side_flip["return_keys"])
+        self.assertIn("shootGateSource", weapon_update_alternating_side_flip["return_keys"])
+        self.assertEqual(weapon_update_alternating_side_flip["source_method"], "Weapon.update(Unit unit, WeaponMount mount) alternating side flip")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -28463,6 +28529,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["loopSource"]["java_expr"], "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);")
         self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["soundControlGuardSource"]["java_expr"], "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;")
         self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["velLenReservedSource"]["java_expr"], "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;")
+
+        source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["weapon_state"]["java_expr"], "Weapon alternating side fields")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["unit_mount_states"]["java_expr"], "@SyncLocal WeaponMount[] mounts = {};")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["otherSide"]["java_expr"], "public int otherSide = -1;")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["alternate"]["java_expr"], "public boolean alternate = true;")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["flipSprite"]["java_expr"], "public boolean flipSprite = false;")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["reload"]["java_expr"], "public float reload = 1;")
+        self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["side"]["java_expr"], "public boolean side;")
+
+        source_weapon_update_alternating_side_flip_result = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_result")
+        self.assertEqual(source_weapon_update_alternating_side_flip_result["keys"]["wasFlipped"]["java_expr"], "boolean wasFlipped = mount.side;")
+        self.assertEqual(source_weapon_update_alternating_side_flip_result["keys"]["flipGate"]["java_expr"], "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){")
+        self.assertEqual(source_weapon_update_alternating_side_flip_result["keys"]["unitMounts"]["java_expr"], "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;")
+        self.assertEqual(source_weapon_update_alternating_side_flip_result["keys"]["mountSide"]["java_expr"], "mount.side = !mount.side;")
+        self.assertEqual(source_weapon_update_alternating_side_flip_result["keys"]["guardSource"]["java_expr"], "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){")
+        self.assertEqual(source_weapon_update_alternating_side_flip_result["keys"]["shootGateSource"]["java_expr"], "(!alternate || wasFlipped == flipSprite) &&")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

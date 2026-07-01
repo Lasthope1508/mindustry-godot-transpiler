@@ -17788,6 +17788,48 @@
         "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
         "test_weapon_update_active_sound_loop_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_alternating_side_flip_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_alternating_side_flip_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_alternating_side_flip_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_mount_states",
+          "schema": "source_weapon_update_alternating_side_flip_input.unit_mount_states",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "wasFlipped",
+        "flipGate",
+        "crossesHalfReload",
+        "mountSide",
+        "otherSide",
+        "unitMounts",
+        "guardSource",
+        "otherSideFlipSource",
+        "mountSideFlipSource",
+        "shootGateSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update alternating side flip state.",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "source_slice": "N856",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ]
     }
   },
   "policy": {

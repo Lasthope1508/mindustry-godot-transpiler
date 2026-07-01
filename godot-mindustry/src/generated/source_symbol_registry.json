@@ -55443,6 +55443,186 @@
       "godot_symbol": "source_weapon_update_active_sound_loop_result.velLenReservedSource",
       "status": "deferred",
       "rule": "Next Weapon.update velocity length expression follows active sound block and remains owned by source_weapon_update_velocity_length_state."
+    },
+    "weapon_update_alternating_side_flip.was_flipped": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "boolean wasFlipped = mount.side;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_result.wasFlipped",
+      "status": "source-backed",
+      "rule": "Weapon.update captures mount.side before alternating flip."
+    },
+    "weapon_update_alternating_side_flip.guard": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_result.guardSource",
+      "status": "source-backed",
+      "rule": "Alternating side flip guard."
+    },
+    "weapon_update_alternating_side_flip.other_side_flip": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_result.unitMounts",
+      "status": "source-backed",
+      "rule": "Flips paired mount side."
+    },
+    "weapon_update_alternating_side_flip.mount_side_flip": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.side = !mount.side;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_result.mountSide",
+      "status": "source-backed",
+      "rule": "Flips current mount side."
+    },
+    "weapon_update_alternating_side_flip.other_side": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public int otherSide = -1;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_input.weapon_state.otherSide",
+      "status": "source-backed",
+      "rule": "Weapon otherSide field."
+    },
+    "weapon_update_alternating_side_flip.alternate": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean alternate = true;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_input.weapon_state.alternate",
+      "status": "source-backed",
+      "rule": "Weapon alternate field."
+    },
+    "weapon_update_alternating_side_flip.flip_sprite": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean flipSprite = false;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_input.weapon_state.flipSprite",
+      "status": "source-backed",
+      "rule": "Weapon flipSprite field."
+    },
+    "weapon_update_alternating_side_flip.reload": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float reload = 1;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_input.weapon_state.reload",
+      "status": "source-backed",
+      "rule": "Weapon reload field for half-reload crossing."
+    },
+    "weapon_update_alternating_side_flip.mount_side": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean side;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_input.mount_state.side",
+      "status": "source-backed",
+      "rule": "WeaponMount side field."
+    },
+    "weapon_update_alternating_side_flip.mount_reload": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float reload;",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_input.mount_state.reload",
+      "status": "source-backed",
+      "rule": "WeaponMount reload field."
+    },
+    "weapon_update_alternating_side_flip.unit_mounts": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "WeaponsComp fields",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_input.unit_mount_states",
+      "status": "source-backed",
+      "rule": "Unit mount array containing otherSide mount."
+    },
+    "weapon_update_alternating_side_flip.shoot_gate_uses_was_flipped": {
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "(!alternate || wasFlipped == flipSprite) &&",
+      "godot_symbol": "source_weapon_update_alternating_side_flip_result.shootGateSource",
+      "status": "deferred",
+      "rule": "Following shoot gate uses wasFlipped; owned by shoot gate prefix slice."
     }
   },
   "version": 1

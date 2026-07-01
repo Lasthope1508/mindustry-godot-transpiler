@@ -4716,7 +4716,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var flip_gate := other_side >= 0 and alternate and current_side == flip_sprite and other_side < unit_mount_states.size() and crosses_half_reload", source)
         self.assertIn("next_unit_mount_states[other_side][\"side\"] = not bool(next_unit_mount_states[other_side].get(\"side\", false))", source)
         self.assertIn("next_mount_side = not current_side", source)
-        self.assertIn('"guardSource": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f)"', source)
+        self.assertIn('"guardSource": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){"', source)
+        self.assertIn('"otherSideFlipSource": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;"', source)
+        self.assertIn('"mountSideFlipSource": "mount.side = !mount.side;"', source)
         self.assertIn('"shootGateSource": "(!alternate || wasFlipped == flipSprite) &&"', source)
 
     def test_port_game_exposes_source_weapon_update_active_sound_loop_state(self):

@@ -5060,9 +5060,9 @@ func source_weapon_update_alternating_side_flip_state(mount_state: Dictionary, w
 		"mountSide": next_mount_side,
 		"otherSide": other_side,
 		"unitMounts": next_unit_mount_states,
-		"guardSource": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f)",
-		"otherSideFlipSource": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side",
-		"mountSideFlipSource": "mount.side = !mount.side",
+		"guardSource": "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){",
+		"otherSideFlipSource": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+		"mountSideFlipSource": "mount.side = !mount.side;",
 		"shootGateSource": "(!alternate || wasFlipped == flipSprite) &&",
 	}
 

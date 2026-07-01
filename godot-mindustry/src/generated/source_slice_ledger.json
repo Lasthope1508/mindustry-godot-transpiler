@@ -16065,6 +16065,54 @@
         "test_weapon_update_active_sound_loop_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update active sound loop wrapper against exact upstream source."
+    },
+    "N856": {
+      "exact_exprs": [
+        "boolean wasFlipped = mount.side;",
+        "if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){",
+        "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+        "mount.side = !mount.side;"
+      ],
+      "bridge_exprs": [
+        "float lastReload = mount.reload;",
+        "public int otherSide = -1;",
+        "public boolean alternate = true;",
+        "public boolean flipSprite = false;",
+        "public float reload = 1;",
+        "public boolean side;",
+        "public float reload;",
+        "@SyncLocal WeaponMount[] mounts = {};"
+      ],
+      "deferred_exprs": [
+        "(!alternate || wasFlipped == flipSprite) &&",
+        "Following active sound loop remains owned by source_weapon_update_active_sound_loop_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "source_symbols": [
+        "weapon_update_alternating_side_flip.was_flipped",
+        "weapon_update_alternating_side_flip.guard",
+        "weapon_update_alternating_side_flip.other_side_flip",
+        "weapon_update_alternating_side_flip.mount_side_flip",
+        "weapon_update_alternating_side_flip.other_side",
+        "weapon_update_alternating_side_flip.alternate",
+        "weapon_update_alternating_side_flip.flip_sprite",
+        "weapon_update_alternating_side_flip.reload",
+        "weapon_update_alternating_side_flip.mount_side",
+        "weapon_update_alternating_side_flip.mount_reload",
+        "weapon_update_alternating_side_flip.unit_mounts",
+        "weapon_update_alternating_side_flip.shoot_gate_uses_was_flipped"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update alternating side flip wrapper against exact upstream source."
     }
   },
   "version": 1
