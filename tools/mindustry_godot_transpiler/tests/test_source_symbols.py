@@ -13747,6 +13747,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(production_efficiency["java_expr"], "productionEfficiency = sum + attribute.env();")
         self.assertEqual(production_efficiency["godot_symbol"], "source_thermal_generator_update_tile_result.production_efficiency")
 
+    def test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        power_production = source_symbols.source_symbol(registry, "thermal_generator_displayed_power_production.power_production")
+        self.assertEqual(power_production["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_production["java_method"], "getDisplayedPowerProduction()")
+        self.assertEqual(power_production["status"], "explicit-input")
+        self.assertEqual(power_production["java_expr"], "powerProduction")
+        self.assertEqual(power_production["godot_owner"], "PortGame.source_thermal_generator_displayed_power_production_state")
+        self.assertEqual(power_production["runtime_proof"], "/root/Main.source_thermal_generator_displayed_power_production_state")
+        self.assertEqual(power_production["godot_symbol"], "source_thermal_generator_displayed_power_production_input.power_production")
+
+        display_efficiency_scale = source_symbols.source_symbol(registry, "thermal_generator_displayed_power_production.display_efficiency_scale")
+        self.assertEqual(display_efficiency_scale["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(display_efficiency_scale["java_expr"], "displayEfficiencyScale")
+        self.assertEqual(display_efficiency_scale["godot_symbol"], "source_thermal_generator_displayed_power_production_input.display_efficiency_scale")
+
+        displayed_power = source_symbols.source_symbol(registry, "thermal_generator_displayed_power_production.displayed_power_production")
+        self.assertEqual(displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(displayed_power["java_expr"], "return powerProduction / displayEfficiencyScale;")
+        self.assertEqual(displayed_power["godot_symbol"], "source_thermal_generator_displayed_power_production_result.displayed_power_production")
+
     def test_power_generator_warmup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18104,9 +18129,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 522)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 523)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 527)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 528)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -18604,6 +18629,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_power_generator_build_serialization_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_solar_generator_update_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_update_tile_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_thermal_generator_displayed_power_production_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -22820,6 +22846,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Attribute attribute = Attribute.heat;", thermal_generator_update_tile["exact_exprs"])
         self.assertIn("heat = add(\"heat\"),", thermal_generator_update_tile["exact_exprs"])
         self.assertIn("return Vars.state.envAttrs.get(this);", thermal_generator_update_tile["exact_exprs"])
+
+        thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
+        self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(thermal_generator_displayed_power["java_method"], "getDisplayedPowerProduction()")
+        self.assertEqual(thermal_generator_displayed_power["godot_owner"], "PortGame.source_thermal_generator_displayed_power_production_state")
+        self.assertIn("public float displayEfficiencyScale = 1f;", thermal_generator_displayed_power["exact_exprs"])
+        self.assertIn("public float getDisplayedPowerProduction(){", thermal_generator_displayed_power["exact_exprs"])
+        self.assertIn("return powerProduction / displayEfficiencyScale;", thermal_generator_displayed_power["exact_exprs"])
+        self.assertIn("public float powerProduction;", thermal_generator_displayed_power["exact_exprs"])
 
         power_generator_warmup = source_symbols.source_slice(ledger, "N910")
         self.assertEqual(power_generator_warmup["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
@@ -27864,6 +27899,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(thermal_generator_update_tile["params"][1]["schema"], "source_thermal_generator_update_tile_input.attribute_env")
         self.assertIn("production_efficiency", thermal_generator_update_tile["return_keys"])
         self.assertEqual(thermal_generator_update_tile["source_method"], "updateTile()")
+
+        thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
+        self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
+        self.assertEqual(thermal_generator_displayed_power["params"][0]["schema"], "source_thermal_generator_displayed_power_production_input.power_production")
+        self.assertEqual(thermal_generator_displayed_power["params"][1]["schema"], "source_thermal_generator_displayed_power_production_input.display_efficiency_scale")
+        self.assertIn("displayed_power_production", thermal_generator_displayed_power["return_keys"])
+        self.assertEqual(thermal_generator_displayed_power["source_method"], "getDisplayedPowerProduction()")
 
         power_generator_warmup = source_symbols.api_contract(contracts, "PortGame.source_power_generator_warmup_state")
         self.assertEqual([param["name"] for param in power_generator_warmup["params"]], ["enabled", "production_efficiency"])
@@ -33935,6 +33977,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_generator_displayed_power_production_result["keys"]["displayed_power_production"]["java_expr"], "return powerProduction;")
         self.assertEqual(source_power_generator_displayed_power_production_result["keys"]["displayed_power_production"]["alias_of"], "source_power_generator_displayed_power_production_input.power_production")
         self.assertEqual(source_power_generator_displayed_power_production_result["keys"]["schematic_sum_source"]["java_expr"], "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);")
+
+        source_thermal_generator_displayed_power_production_input = source_symbols.state_schema(schema, "source_thermal_generator_displayed_power_production_input")
+        self.assertEqual(source_thermal_generator_displayed_power_production_input["keys"]["power_production"]["java_expr"], "powerProduction")
+        self.assertEqual(source_thermal_generator_displayed_power_production_input["keys"]["display_efficiency_scale"]["java_expr"], "displayEfficiencyScale")
+
+        source_thermal_generator_displayed_power_production_result = source_symbols.state_schema(schema, "source_thermal_generator_displayed_power_production_result")
+        self.assertEqual(source_thermal_generator_displayed_power_production_result["keys"]["method"]["java_expr"], "public float getDisplayedPowerProduction(){")
+        self.assertEqual(source_thermal_generator_displayed_power_production_result["keys"]["displayed_power_production"]["java_expr"], "return powerProduction / displayEfficiencyScale;")
 
         source_power_generator_build_serialization_input = source_symbols.state_schema(schema, "source_power_generator_build_serialization_input")
         self.assertEqual(source_power_generator_build_serialization_input["keys"]["production_efficiency"]["java_expr"], "productionEfficiency")

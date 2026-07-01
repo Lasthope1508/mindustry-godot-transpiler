@@ -260,6 +260,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_displayed_power_production_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_displayed_power_production_source"))
+        report = source_parity.verify_thermal_generator_displayed_power_production_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "power_production": "public float powerProduction;",
+            "display_efficiency_scale": "public float displayEfficiencyScale = 1f;",
+            "override": "@Override",
+            "method": "public float getDisplayedPowerProduction(){",
+            "return_displayed_power": "return powerProduction / displayEfficiencyScale;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

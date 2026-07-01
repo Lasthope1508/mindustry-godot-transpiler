@@ -18923,6 +18923,32 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_update_tile_matches_upstream_source"
       ]
+    },
+    "N926": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator",
+      "java_method": "getDisplayedPowerProduction()",
+      "godot_owner": "PortGame.source_thermal_generator_displayed_power_production_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_displayed_power_production_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public float powerProduction;",
+        "public float displayEfficiencyScale = 1f;",
+        "@Override",
+        "public float getDisplayedPowerProduction(){",
+        "return powerProduction / displayEfficiencyScale;"
+      ],
+      "source_symbols": [
+        "thermal_generator_displayed_power_production.power_production",
+        "thermal_generator_displayed_power_production.display_efficiency_scale",
+        "thermal_generator_displayed_power_production.displayed_power_production"
+      ],
+      "tests": [
+        "test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_displayed_power_production_matches_upstream_source"
+      ]
     }
   },
   "version": 1

@@ -79323,6 +79323,152 @@
           "java_expr": "productionEfficiency = sum + attribute.env();"
         }
       }
+    },
+    "source_thermal_generator_displayed_power_production_input": {
+      "owner": "PortGame.source_thermal_generator_displayed_power_production_state",
+      "status": "active",
+      "keys": {
+        "power_production": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_displayed_power_production_input key power_production.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_input.power_production",
+          "java_expr": "powerProduction"
+        },
+        "display_efficiency_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_displayed_power_production_input key display_efficiency_scale.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_input.display_efficiency_scale",
+          "java_expr": "displayEfficiencyScale"
+        }
+      }
+    },
+    "source_thermal_generator_displayed_power_production_result": {
+      "owner": "PortGame.source_thermal_generator_displayed_power_production_state",
+      "status": "active",
+      "keys": {
+        "class": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_displayed_power_production_result key class.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.class",
+          "java_expr": "public class ThermalGenerator extends PowerGenerator{"
+        },
+        "power_production_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_displayed_power_production_result key power_production_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.power_production_field",
+          "java_expr": "public float powerProduction;"
+        },
+        "display_efficiency_scale_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_displayed_power_production_result key display_efficiency_scale_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.display_efficiency_scale_field",
+          "java_expr": "public float displayEfficiencyScale = 1f;"
+        },
+        "override": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_displayed_power_production_result key override.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.override",
+          "java_expr": "@Override"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_displayed_power_production_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.method",
+          "java_expr": "public float getDisplayedPowerProduction(){"
+        },
+        "return_displayed_power": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_displayed_power_production_result key return_displayed_power.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.return_displayed_power",
+          "java_expr": "return powerProduction / displayEfficiencyScale;"
+        },
+        "power_production": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_displayed_power_production_result key power_production.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.power_production",
+          "java_expr": "powerProduction",
+          "alias_of": "source_thermal_generator_displayed_power_production_input.power_production"
+        },
+        "display_efficiency_scale": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_displayed_power_production_result key display_efficiency_scale.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.display_efficiency_scale",
+          "java_expr": "displayEfficiencyScale",
+          "alias_of": "source_thermal_generator_displayed_power_production_input.display_efficiency_scale"
+        },
+        "displayed_power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_displayed_power_production_result key displayed_power_production.",
+          "used_by": [
+            "PortGame.source_thermal_generator_displayed_power_production_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "godot_symbol": "source_thermal_generator_displayed_power_production_result.displayed_power_production",
+          "java_expr": "return powerProduction / displayEfficiencyScale;"
+        }
+      }
     }
   },
   "version": 1

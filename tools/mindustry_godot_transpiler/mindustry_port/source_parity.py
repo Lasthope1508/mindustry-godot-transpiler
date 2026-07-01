@@ -323,6 +323,30 @@ def verify_thermal_generator_update_tile_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "power_production": "public float powerProduction;",
+        "display_efficiency_scale": "public float displayEfficiencyScale = 1f;",
+        "override": "@Override",
+        "method": "public float getDisplayedPowerProduction(){",
+        "return_displayed_power": "return powerProduction / displayEfficiencyScale;",
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in (power_generator_source if key == "power_production" else thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [POWER_GENERATOR_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

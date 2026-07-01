@@ -66024,6 +66024,51 @@
         "test_thermal_generator_update_tile_matches_upstream_source"
       ],
       "rule": "Source-backed ThermalGeneratorBuild productionEfficiency assignment."
+    },
+    "thermal_generator_displayed_power_production.power_production": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "getDisplayedPowerProduction()",
+      "java_expr": "powerProduction",
+      "godot_owner": "PortGame.source_thermal_generator_displayed_power_production_state",
+      "godot_symbol": "source_thermal_generator_displayed_power_production_input.power_production",
+      "runtime_proof": "/root/Main.source_thermal_generator_displayed_power_production_state",
+      "tests": [
+        "test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_displayed_power_production_matches_upstream_source"
+      ],
+      "rule": "Explicit PowerGenerator powerProduction input for ThermalGenerator display override."
+    },
+    "thermal_generator_displayed_power_production.display_efficiency_scale": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "getDisplayedPowerProduction()",
+      "java_expr": "displayEfficiencyScale",
+      "godot_owner": "PortGame.source_thermal_generator_displayed_power_production_state",
+      "godot_symbol": "source_thermal_generator_displayed_power_production_input.display_efficiency_scale",
+      "runtime_proof": "/root/Main.source_thermal_generator_displayed_power_production_state",
+      "tests": [
+        "test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_displayed_power_production_matches_upstream_source"
+      ],
+      "rule": "Explicit ThermalGenerator displayEfficiencyScale input."
+    },
+    "thermal_generator_displayed_power_production.displayed_power_production": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "getDisplayedPowerProduction()",
+      "java_expr": "return powerProduction / displayEfficiencyScale;",
+      "godot_owner": "PortGame.source_thermal_generator_displayed_power_production_state",
+      "godot_symbol": "source_thermal_generator_displayed_power_production_result.displayed_power_production",
+      "runtime_proof": "/root/Main.source_thermal_generator_displayed_power_production_state",
+      "tests": [
+        "test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_displayed_power_production_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator displayed power scaling."
     }
   },
   "version": 1

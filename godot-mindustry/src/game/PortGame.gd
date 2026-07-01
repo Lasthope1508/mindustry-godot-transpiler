@@ -598,6 +598,20 @@ func source_thermal_generator_update_tile_state(sum: float, attribute_env: float
 		"production_efficiency": production_efficiency,
 	}
 
+func source_thermal_generator_displayed_power_production_state(power_production: float, display_efficiency_scale: float) -> Dictionary:
+	var displayed_power_production: float = power_production / display_efficiency_scale
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"power_production_field": "public float powerProduction;",
+		"display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;",
+		"override": "@Override",
+		"method": "public float getDisplayedPowerProduction(){",
+		"return_displayed_power": "return powerProduction / displayEfficiencyScale;",
+		"power_production": power_production,
+		"display_efficiency_scale": display_efficiency_scale,
+		"displayed_power_production": displayed_power_production,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

@@ -21110,6 +21110,42 @@
         "test_thermal_generator_update_tile_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGeneratorBuild.updateTile productionEfficiency assignment."
+    },
+    "PortGame.source_thermal_generator_displayed_power_production_state": {
+      "status": "active",
+      "source_slice": "N926",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "getDisplayedPowerProduction()",
+      "params": [
+        {
+          "name": "power_production",
+          "type": "float",
+          "schema": "source_thermal_generator_displayed_power_production_input.power_production"
+        },
+        {
+          "name": "display_efficiency_scale",
+          "type": "float",
+          "schema": "source_thermal_generator_displayed_power_production_input.display_efficiency_scale"
+        }
+      ],
+      "return_keys": [
+        "class",
+        "power_production_field",
+        "display_efficiency_scale_field",
+        "override",
+        "method",
+        "return_displayed_power",
+        "power_production",
+        "display_efficiency_scale",
+        "displayed_power_production"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_displayed_power_production_state",
+      "tests": [
+        "test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_displayed_power_production_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGenerator.getDisplayedPowerProduction displayEfficiencyScale override."
     }
   },
   "policy": {
