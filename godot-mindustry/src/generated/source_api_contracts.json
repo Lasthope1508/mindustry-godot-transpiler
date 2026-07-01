@@ -20151,6 +20151,36 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_remove_branch_bfs_state",
       "rule": "Public runtime contract for PowerGraph.remove(Building tile) BFS loop before graph.update()."
+    },
+    "PortGame.source_power_graph_remove_branch_update_state": {
+      "status": "active",
+      "source_slice": "N905",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "remove(Building tile)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Dictionary",
+          "schema": "source_power_graph_remove_branch_update_input.tile"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "update_comment",
+        "graph_update",
+        "tile",
+        "branch_updates",
+        "branch_update_count",
+        "updated_branch_positions",
+        "branch_traversals"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp",
+        "test_power_graph_remove_branch_update_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_update_state",
+      "rule": "Public runtime contract for PowerGraph.remove(Building tile) graph.update() dispatch after branch BFS; it does not fabricate PowerGraph.update() internals."
     }
   },
   "policy": {

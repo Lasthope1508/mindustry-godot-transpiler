@@ -18174,6 +18174,29 @@
         "test_power_graph_remove_branch_bfs_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.remove(Building tile) BFS traversal before graph.update(); branch graph membership is represented internally from queued Building pos values, not as a public parameter."
+    },
+    "N905": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_update_state",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_update_state",
+      "exact_exprs": [
+        "//update the graph once so direct consumers without any connected producer lose their power",
+        "graph.update();"
+      ],
+      "source_symbols": [
+        "power_graph_remove_branch_update.tile",
+        "power_graph_remove_branch_update.update_comment",
+        "power_graph_remove_branch_update.graph_update"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp",
+        "test_power_graph_remove_branch_update_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.remove(Building tile) graph.update() dispatch after N904 BFS. Full PowerGraph.update() internals stay owned by existing update slices and are not fabricated from this call-site."
     }
   },
   "version": 1

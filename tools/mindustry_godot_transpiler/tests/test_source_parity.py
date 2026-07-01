@@ -504,6 +504,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_remove_branch_update_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_remove_branch_update_source"))
+        report = source_parity.verify_power_graph_remove_branch_update_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "update_comment": "//update the graph once so direct consumers without any connected producer lose their power",
+            "graph_update": "graph.update();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

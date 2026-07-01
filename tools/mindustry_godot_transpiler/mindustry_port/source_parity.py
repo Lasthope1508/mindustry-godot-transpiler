@@ -642,6 +642,20 @@ def verify_power_graph_remove_branch_bfs_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_power_graph_remove_branch_update_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_comment": "//update the graph once so direct consumers without any connected producer lose their power",
+        "graph_update": "graph.update();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

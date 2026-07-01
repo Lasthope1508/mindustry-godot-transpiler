@@ -1271,6 +1271,33 @@ func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:
 		"skipped_next_positions": skipped_next_positions,
 	}
 
+func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:
+	var bfs_state := source_power_graph_remove_branch_bfs_state(tile)
+	var branch_updates: Array = []
+	var updated_branch_positions: Array = []
+	for traversal_variant in bfs_state.get("branch_traversals", []):
+		if typeof(traversal_variant) != TYPE_DICTIONARY:
+			continue
+		var traversal: Dictionary = traversal_variant
+		var branch_positions: Array = traversal.get("branch_positions", [])
+		branch_updates.append({
+			"other_pos": traversal.get("other_pos", null),
+			"branch_positions": branch_positions.duplicate(true),
+			"branch_graph_positions": traversal.get("branch_graph_positions", []).duplicate(true),
+			"update_dispatched": true,
+		})
+		updated_branch_positions.append(branch_positions.duplicate(true))
+	return {
+		"method": "public void remove(Building tile){",
+		"update_comment": "//update the graph once so direct consumers without any connected producer lose their power",
+		"graph_update": "graph.update();",
+		"tile": tile.duplicate(true),
+		"branch_updates": branch_updates,
+		"branch_update_count": branch_updates.size(),
+		"updated_branch_positions": updated_branch_positions,
+		"branch_traversals": bfs_state.get("branch_traversals", []),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

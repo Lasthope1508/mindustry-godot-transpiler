@@ -325,6 +325,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("branch_graph_positions", source)
         self.assertIn("skipped_next_positions", source)
 
+    def test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:", source)
+        self.assertIn("var bfs_state := source_power_graph_remove_branch_bfs_state(tile)", source)
+        self.assertIn('"update_comment": "//update the graph once so direct consumers without any connected producer lose their power"', source)
+        self.assertIn('"graph_update": "graph.update();"', source)
+        self.assertIn('"branch_update_count"', source)
+        self.assertIn('"updated_branch_positions"', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

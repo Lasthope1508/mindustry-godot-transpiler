@@ -63665,6 +63665,51 @@
         "test_power_graph_remove_branch_bfs_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.remove(Building tile) BFS branch traversal after seed graph creation."
+    },
+    "power_graph_remove_branch_update.tile": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "tile",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_update_state",
+      "godot_symbol": "source_power_graph_remove_branch_update_input.tile",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_update_state",
+      "tests": [
+        "test_power_graph_remove_branch_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp",
+        "test_power_graph_remove_branch_update_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.remove(Building tile) branch update dispatch."
+    },
+    "power_graph_remove_branch_update.update_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "//update the graph once so direct consumers without any connected producer lose their power",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_update_state",
+      "godot_symbol": "source_power_graph_remove_branch_update_result.update_comment",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_update_state",
+      "tests": [
+        "test_power_graph_remove_branch_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp",
+        "test_power_graph_remove_branch_update_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch graph update dispatch after BFS traversal."
+    },
+    "power_graph_remove_branch_update.graph_update": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "graph.update();",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_update_state",
+      "godot_symbol": "source_power_graph_remove_branch_update_result.branch_update_count",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_update_state",
+      "tests": [
+        "test_power_graph_remove_branch_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp",
+        "test_power_graph_remove_branch_update_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch graph update dispatch after BFS traversal."
     }
   },
   "version": 1
