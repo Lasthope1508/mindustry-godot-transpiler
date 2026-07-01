@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 523,
+  "registeredSourceOwnerCount": 524,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -387,6 +387,7 @@
     "PortGame.source_solar_generator_update_tile_state",
     "PortGame.source_status_apply_result",
     "PortGame.source_thermal_generator_displayed_power_production_state",
+    "PortGame.source_thermal_generator_init_state",
     "PortGame.source_thermal_generator_update_tile_state",
     "PortGame.source_turret_ammo_data",
     "PortGame.source_turret_bullet_origin",
@@ -594,6 +595,11 @@
       "function": "source_thermal_generator_displayed_power_production_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_thermal_generator_displayed_power_production_state"
+    },
+    {
+      "function": "source_thermal_generator_init_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_thermal_generator_init_state"
     },
     {
       "function": "source_power_generator_warmup_state",
@@ -3181,6 +3187,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 528,
+  "totalSourceFunctions": 529,
   "version": 1
 }

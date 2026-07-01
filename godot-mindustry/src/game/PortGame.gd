@@ -612,6 +612,32 @@ func source_thermal_generator_displayed_power_production_state(power_production:
 		"displayed_power_production": displayed_power_production,
 	}
 
+func source_thermal_generator_init_state(output_liquid_present: bool, light_clip_size: float, size: float) -> Dictionary:
+	var outputs_liquid := output_liquid_present
+	var has_liquids := output_liquid_present
+	var emit_light := true
+	var computed_light_clip_size: float = max(light_clip_size, 45.0 * size * 2.0 * 2.0)
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+		"override": "@Override",
+		"method": "public void init(){",
+		"output_liquid_guard": "if(outputLiquid != null){",
+		"outputs_liquid_source": "outputsLiquid = true;",
+		"has_liquids_source": "hasLiquids = true;",
+		"emit_light_source": "emitLight = true;",
+		"super_init": "super.init();",
+		"light_clip_comment": "//proper light clipping",
+		"light_clip_assignment": "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);",
+		"output_liquid_present": output_liquid_present,
+		"input_light_clip_size": light_clip_size,
+		"size": size,
+		"outputs_liquid": outputs_liquid,
+		"has_liquids": has_liquids,
+		"emit_light": emit_light,
+		"light_clip_size": computed_light_clip_size,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

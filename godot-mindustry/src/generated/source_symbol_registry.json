@@ -66069,6 +66069,111 @@
         "test_thermal_generator_displayed_power_production_matches_upstream_source"
       ],
       "rule": "Source-backed ThermalGenerator displayed power scaling."
+    },
+    "thermal_generator_init.output_liquid_present": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "java_expr": "outputLiquid != null",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "godot_symbol": "source_thermal_generator_init_input.output_liquid_present",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator.init output liquid present."
+    },
+    "thermal_generator_init.initial_light_clip_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "java_expr": "lightClipSize",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "godot_symbol": "source_thermal_generator_init_input.light_clip_size",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator.init initial light clip size."
+    },
+    "thermal_generator_init.size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "java_expr": "size",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "godot_symbol": "source_thermal_generator_init_input.size",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator.init size."
+    },
+    "thermal_generator_init.outputs_liquid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "java_expr": "outputsLiquid = true;",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "godot_symbol": "source_thermal_generator_init_result.outputs_liquid",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator.init outputs liquid."
+    },
+    "thermal_generator_init.has_liquids": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "java_expr": "hasLiquids = true;",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "godot_symbol": "source_thermal_generator_init_result.has_liquids",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator.init has liquids."
+    },
+    "thermal_generator_init.emit_light": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "java_expr": "emitLight = true;",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "godot_symbol": "source_thermal_generator_init_result.emit_light",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator.init emit light."
+    },
+    "thermal_generator_init.light_clip_size": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "java_expr": "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "godot_symbol": "source_thermal_generator_init_result.light_clip_size",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGenerator.init light clip size."
     }
   },
   "version": 1

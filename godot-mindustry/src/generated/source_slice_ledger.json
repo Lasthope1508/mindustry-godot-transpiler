@@ -18949,6 +18949,41 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_displayed_power_production_matches_upstream_source"
       ]
+    },
+    "N927": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public @Nullable LiquidStack outputLiquid;",
+        "@Override",
+        "public void init(){",
+        "if(outputLiquid != null){",
+        "outputsLiquid = true;",
+        "hasLiquids = true;",
+        "emitLight = true;",
+        "super.init();",
+        "//proper light clipping",
+        "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);"
+      ],
+      "source_symbols": [
+        "thermal_generator_init.output_liquid_present",
+        "thermal_generator_init.initial_light_clip_size",
+        "thermal_generator_init.size",
+        "thermal_generator_init.outputs_liquid",
+        "thermal_generator_init.has_liquids",
+        "thermal_generator_init.emit_light",
+        "thermal_generator_init.light_clip_size"
+      ],
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ]
     }
   },
   "version": 1

@@ -13772,6 +13772,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(displayed_power["java_expr"], "return powerProduction / displayEfficiencyScale;")
         self.assertEqual(displayed_power["godot_symbol"], "source_thermal_generator_displayed_power_production_result.displayed_power_production")
 
+    def test_thermal_generator_init_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        output_liquid_present = source_symbols.source_symbol(registry, "thermal_generator_init.output_liquid_present")
+        self.assertEqual(output_liquid_present["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(output_liquid_present["java_method"], "init()")
+        self.assertEqual(output_liquid_present["status"], "explicit-input")
+        self.assertEqual(output_liquid_present["java_expr"], "outputLiquid != null")
+        self.assertEqual(output_liquid_present["godot_owner"], "PortGame.source_thermal_generator_init_state")
+        self.assertEqual(output_liquid_present["runtime_proof"], "/root/Main.source_thermal_generator_init_state")
+        self.assertEqual(output_liquid_present["godot_symbol"], "source_thermal_generator_init_input.output_liquid_present")
+
+        initial_light_clip_size = source_symbols.source_symbol(registry, "thermal_generator_init.initial_light_clip_size")
+        self.assertEqual(initial_light_clip_size["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(initial_light_clip_size["java_expr"], "lightClipSize")
+        self.assertEqual(initial_light_clip_size["godot_symbol"], "source_thermal_generator_init_input.light_clip_size")
+
+        size = source_symbols.source_symbol(registry, "thermal_generator_init.size")
+        self.assertEqual(size["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(size["java_expr"], "size")
+        self.assertEqual(size["godot_symbol"], "source_thermal_generator_init_input.size")
+
+        outputs_liquid = source_symbols.source_symbol(registry, "thermal_generator_init.outputs_liquid")
+        self.assertEqual(outputs_liquid["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(outputs_liquid["status"], "source-backed")
+        self.assertEqual(outputs_liquid["java_expr"], "outputsLiquid = true;")
+        self.assertEqual(outputs_liquid["godot_symbol"], "source_thermal_generator_init_result.outputs_liquid")
+
+        has_liquids = source_symbols.source_symbol(registry, "thermal_generator_init.has_liquids")
+        self.assertEqual(has_liquids["java_expr"], "hasLiquids = true;")
+        self.assertEqual(has_liquids["godot_symbol"], "source_thermal_generator_init_result.has_liquids")
+
+        emit_light = source_symbols.source_symbol(registry, "thermal_generator_init.emit_light")
+        self.assertEqual(emit_light["java_expr"], "emitLight = true;")
+        self.assertEqual(emit_light["godot_symbol"], "source_thermal_generator_init_result.emit_light")
+
+        computed_light_clip_size = source_symbols.source_symbol(registry, "thermal_generator_init.light_clip_size")
+        self.assertEqual(computed_light_clip_size["java_expr"], "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);")
+        self.assertEqual(computed_light_clip_size["godot_symbol"], "source_thermal_generator_init_result.light_clip_size")
+
     def test_power_generator_warmup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18129,9 +18172,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 523)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 524)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 528)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 529)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -18630,6 +18673,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_solar_generator_update_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_update_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_displayed_power_production_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_thermal_generator_init_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -22855,6 +22899,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float getDisplayedPowerProduction(){", thermal_generator_displayed_power["exact_exprs"])
         self.assertIn("return powerProduction / displayEfficiencyScale;", thermal_generator_displayed_power["exact_exprs"])
         self.assertIn("public float powerProduction;", thermal_generator_displayed_power["exact_exprs"])
+
+        thermal_generator_init = source_symbols.source_slice(ledger, "N927")
+        self.assertEqual(thermal_generator_init["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(thermal_generator_init["java_method"], "init()")
+        self.assertEqual(thermal_generator_init["godot_owner"], "PortGame.source_thermal_generator_init_state")
+        self.assertIn("public @Nullable LiquidStack outputLiquid;", thermal_generator_init["exact_exprs"])
+        self.assertIn("public void init(){", thermal_generator_init["exact_exprs"])
+        self.assertIn("if(outputLiquid != null){", thermal_generator_init["exact_exprs"])
+        self.assertIn("outputsLiquid = true;", thermal_generator_init["exact_exprs"])
+        self.assertIn("hasLiquids = true;", thermal_generator_init["exact_exprs"])
+        self.assertIn("emitLight = true;", thermal_generator_init["exact_exprs"])
+        self.assertIn("super.init();", thermal_generator_init["exact_exprs"])
+        self.assertIn("lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);", thermal_generator_init["exact_exprs"])
 
         power_generator_warmup = source_symbols.source_slice(ledger, "N910")
         self.assertEqual(power_generator_warmup["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
@@ -27906,6 +27963,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(thermal_generator_displayed_power["params"][1]["schema"], "source_thermal_generator_displayed_power_production_input.display_efficiency_scale")
         self.assertIn("displayed_power_production", thermal_generator_displayed_power["return_keys"])
         self.assertEqual(thermal_generator_displayed_power["source_method"], "getDisplayedPowerProduction()")
+
+        thermal_generator_init = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_init_state")
+        self.assertEqual([param["name"] for param in thermal_generator_init["params"]], ["output_liquid_present", "light_clip_size", "size"])
+        self.assertEqual(thermal_generator_init["params"][0]["schema"], "source_thermal_generator_init_input.output_liquid_present")
+        self.assertEqual(thermal_generator_init["params"][1]["schema"], "source_thermal_generator_init_input.light_clip_size")
+        self.assertEqual(thermal_generator_init["params"][2]["schema"], "source_thermal_generator_init_input.size")
+        self.assertIn("outputs_liquid", thermal_generator_init["return_keys"])
+        self.assertIn("has_liquids", thermal_generator_init["return_keys"])
+        self.assertIn("emit_light", thermal_generator_init["return_keys"])
+        self.assertIn("light_clip_size", thermal_generator_init["return_keys"])
+        self.assertEqual(thermal_generator_init["source_method"], "init()")
 
         power_generator_warmup = source_symbols.api_contract(contracts, "PortGame.source_power_generator_warmup_state")
         self.assertEqual([param["name"] for param in power_generator_warmup["params"]], ["enabled", "production_efficiency"])
@@ -33985,6 +34053,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_thermal_generator_displayed_power_production_result = source_symbols.state_schema(schema, "source_thermal_generator_displayed_power_production_result")
         self.assertEqual(source_thermal_generator_displayed_power_production_result["keys"]["method"]["java_expr"], "public float getDisplayedPowerProduction(){")
         self.assertEqual(source_thermal_generator_displayed_power_production_result["keys"]["displayed_power_production"]["java_expr"], "return powerProduction / displayEfficiencyScale;")
+
+        source_thermal_generator_init_input = source_symbols.state_schema(schema, "source_thermal_generator_init_input")
+        self.assertEqual(source_thermal_generator_init_input["keys"]["output_liquid_present"]["java_expr"], "outputLiquid != null")
+        self.assertEqual(source_thermal_generator_init_input["keys"]["light_clip_size"]["java_expr"], "lightClipSize")
+        self.assertEqual(source_thermal_generator_init_input["keys"]["size"]["java_expr"], "size")
+
+        source_thermal_generator_init_result = source_symbols.state_schema(schema, "source_thermal_generator_init_result")
+        self.assertEqual(source_thermal_generator_init_result["keys"]["method"]["java_expr"], "public void init(){")
+        self.assertEqual(source_thermal_generator_init_result["keys"]["outputs_liquid"]["java_expr"], "outputsLiquid = true;")
+        self.assertEqual(source_thermal_generator_init_result["keys"]["has_liquids"]["java_expr"], "hasLiquids = true;")
+        self.assertEqual(source_thermal_generator_init_result["keys"]["emit_light"]["java_expr"], "emitLight = true;")
+        self.assertEqual(source_thermal_generator_init_result["keys"]["light_clip_size"]["java_expr"], "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);")
 
         source_power_generator_build_serialization_input = source_symbols.state_schema(schema, "source_power_generator_build_serialization_input")
         self.assertEqual(source_power_generator_build_serialization_input["keys"]["production_efficiency"]["java_expr"], "productionEfficiency")

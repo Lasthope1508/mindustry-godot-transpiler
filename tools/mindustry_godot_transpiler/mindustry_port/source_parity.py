@@ -347,6 +347,32 @@ def verify_thermal_generator_displayed_power_production_source(upstream_root: Pa
         "missing": missing,
     }
 
+def verify_thermal_generator_init_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+        "override": "@Override",
+        "method": "public void init(){",
+        "output_liquid_guard": "if(outputLiquid != null){",
+        "outputs_liquid": "outputsLiquid = true;",
+        "has_liquids": "hasLiquids = true;",
+        "emit_light": "emitLight = true;",
+        "super_init": "super.init();",
+        "light_clip_comment": "//proper light clipping",
+        "light_clip_assignment": "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in thermal_generator_source
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
