@@ -4560,11 +4560,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if gate:", source)
         self.assertIn("target_rotation = source_arc_angles_angle(axis_x, axis_y, aim_x, aim_y) - unit_rotation", source)
         self.assertIn("next_rotation = source_arc_angles_move_toward(current_rotation, target_rotation, rotate_speed * source_delta)", source)
-        self.assertIn('"gateSource": "if(rotate && (mount.rotate || mount.shoot) && can)"', source)
-        self.assertIn('"axisXSource": "axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y)"', source)
-        self.assertIn('"axisYSource": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y)"', source)
-        self.assertIn('"targetRotationSource": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation"', source)
-        self.assertIn('"rotationSource": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta)"', source)
+        self.assertIn('"gateSource": "if(rotate && (mount.rotate || mount.shoot) && can){"', source)
+        self.assertIn('"axisXSource": "float axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y),"', source)
+        self.assertIn('"axisYSource": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y);"', source)
+        self.assertIn('"targetRotationSource": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;"', source)
+        self.assertIn('"rotationSource": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);"', source)
 
     def test_port_game_applies_source_weapon_update_rotation_limit_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4579,9 +4579,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if limit_dst > rotation_limit / 2.0:", helper_source)
         self.assertIn("next_rotation = source_arc_angles_move_toward(next_rotation, base_rotation, limit_dst - rotation_limit / 2.0)", helper_source)
         self.assertIn('"rotationLimitApplied": gate and rotation_limit < 360.0 and limit_dst > rotation_limit / 2.0', helper_source)
-        self.assertIn('"rotationLimitSource": "if(rotationLimit < 360)"', helper_source)
-        self.assertIn('"limitDistanceSource": "float dst = Angles.angleDist(mount.rotation, baseRotation)"', helper_source)
-        self.assertIn('"limitMoveSource": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f)"', helper_source)
+        self.assertIn('"rotationLimitSource": "if(rotationLimit < 360){"', helper_source)
+        self.assertIn('"limitDistanceSource": "float dst = Angles.angleDist(mount.rotation, baseRotation);"', helper_source)
+        self.assertIn('"limitMoveSource": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f);"', helper_source)
 
     def test_port_game_applies_source_weapon_update_non_rotate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4593,9 +4593,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("next_rotation = base_rotation", helper_source)
         self.assertIn("target_rotation = source_arc_angles_angle(unit_x, unit_y, aim_x, aim_y)", helper_source)
         self.assertIn('"nonRotateApplied": non_rotate_branch', helper_source)
-        self.assertIn('"nonRotateSource": "else if(!rotate)"', helper_source)
-        self.assertIn('"baseRotationSource": "mount.rotation = baseRotation"', helper_source)
-        self.assertIn('"angleToSource": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY)"', helper_source)
+        self.assertIn('"nonRotateSource": "else if(!rotate){"', helper_source)
+        self.assertIn('"baseRotationSource": "mount.rotation = baseRotation;"', helper_source)
+        self.assertIn('"angleToSource": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY);"', helper_source)
 
     def test_port_game_exposes_source_weapon_update_bullet_origin_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

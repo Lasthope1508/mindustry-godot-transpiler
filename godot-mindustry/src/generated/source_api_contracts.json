@@ -18665,6 +18665,74 @@
         "test_port_game_exposes_source_weapon_update_reload_gate_state",
         "test_weapon_update_reload_gate_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_rotate_toward_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_rotate_toward_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_rotate_toward_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_rotate_toward_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_rotate_toward_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_rotate_toward_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "axisAngle",
+        "axisX",
+        "axisY",
+        "targetRotation",
+        "rotation",
+        "rotationLimit",
+        "baseRotation",
+        "limitDistance",
+        "rotationLimitApplied",
+        "nonRotateApplied",
+        "canShoot",
+        "mountRotate",
+        "mountShoot",
+        "gateSource",
+        "axisXSource",
+        "axisYSource",
+        "targetRotationSource",
+        "rotationSource",
+        "rotationLimitSource",
+        "limitDistanceSource",
+        "limitMoveSource",
+        "nonRotateSource",
+        "baseRotationSource",
+        "angleToSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update rotate toward state.",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "source_slice": "N872",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ]
     }
   },
   "policy": {

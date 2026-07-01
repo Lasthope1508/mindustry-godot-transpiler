@@ -7,9 +7,8 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 14,
+  "legacyUnregisteredOwnerCount": 13,
   "legacyUnregisteredOwners": [
-    "PortGame.source_weapon_update_rotate_toward_state",
     "PortGame.source_weapon_update_shoot_call_reload_state",
     "PortGame.source_weapon_update_shoot_gate_prefix_state",
     "PortGame.source_weapon_update_velocity_length_state",
@@ -28,7 +27,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 469,
+  "registeredSourceOwnerCount": 470,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_weapon_update_continuous_sound_state",
     "PortGame.source_weapon_update_mount_origin_state",
     "PortGame.source_weapon_update_passive_timers_state",
-    "PortGame.source_weapon_update_reload_gate_state"
+    "PortGame.source_weapon_update_reload_gate_state",
+    "PortGame.source_weapon_update_rotate_toward_state"
   ],
   "sourceFunctions": [
     {

@@ -58518,6 +58518,518 @@
       "godot_symbol": "source_weapon_update_reload_gate_input.mount_state.hasBullet",
       "status": "source-backed",
       "rule": "WeaponMount bullet field."
+    },
+    "weapon_update_rotate_toward.rotate_comment": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//rotate if applicable",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.gateSource",
+      "status": "source-backed",
+      "rule": "Rotate branch comment."
+    },
+    "weapon_update_rotate_toward.rotate_gate": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(rotate && (mount.rotate || mount.shoot) && can){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.gate",
+      "status": "source-backed",
+      "rule": "Exact rotate gate."
+    },
+    "weapon_update_rotate_toward.axis_x": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y),",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.axisX",
+      "status": "source-backed",
+      "rule": "Exact axisX assignment."
+    },
+    "weapon_update_rotate_toward.axis_y": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y);",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.axisY",
+      "status": "source-backed",
+      "rule": "Exact axisY assignment."
+    },
+    "weapon_update_rotate_toward.target_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.targetRotation",
+      "status": "source-backed",
+      "rule": "Exact target rotation assignment."
+    },
+    "weapon_update_rotate_toward.rotation_move_toward": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Exact rotation move assignment."
+    },
+    "weapon_update_rotate_toward.rotation_limit_guard": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(rotationLimit < 360){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotationLimitApplied",
+      "status": "source-backed",
+      "rule": "Exact rotation limit guard."
+    },
+    "weapon_update_rotate_toward.limit_dst": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float dst = Angles.angleDist(mount.rotation, baseRotation);",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.limitDistance",
+      "status": "source-backed",
+      "rule": "Exact rotation limit distance local."
+    },
+    "weapon_update_rotate_toward.limit_guard": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(dst > rotationLimit/2f){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotationLimitApplied",
+      "status": "source-backed",
+      "rule": "Exact rotation limit application guard."
+    },
+    "weapon_update_rotate_toward.limit_move_toward": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f);",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Exact rotation limit move assignment."
+    },
+    "weapon_update_rotate_toward.non_rotate_guard": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "else if(!rotate){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.nonRotateApplied",
+      "status": "source-backed",
+      "rule": "Exact non-rotate branch guard."
+    },
+    "weapon_update_rotate_toward.base_rotation_assignment": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.rotation = baseRotation;",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Exact non-rotate base rotation assignment."
+    },
+    "weapon_update_rotate_toward.angle_to_assignment": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY);",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.targetRotation",
+      "status": "source-backed",
+      "rule": "Exact non-rotate target rotation assignment."
+    },
+    "weapon_update_rotate_toward.weapon_rotate": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean rotate = false;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.weapon_state.rotate",
+      "status": "source-backed",
+      "rule": "Weapon rotate field."
+    },
+    "weapon_update_rotate_toward.weapon_offsets": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float x = 5f, y = 0f;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.weapon_state.x",
+      "status": "source-backed",
+      "rule": "Weapon mount offset fields."
+    },
+    "weapon_update_rotate_toward.weapon_rotate_speed": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float rotateSpeed = 20f;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.weapon_state.rotateSpeed",
+      "status": "source-backed",
+      "rule": "Weapon rotateSpeed field."
+    },
+    "weapon_update_rotate_toward.weapon_rotation_limit": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float rotationLimit = 361f;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.weapon_state.rotationLimit",
+      "status": "source-backed",
+      "rule": "Weapon rotationLimit field."
+    },
+    "weapon_update_rotate_toward.weapon_base_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float baseRotation = 0f;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.weapon_state.baseRotation",
+      "status": "source-backed",
+      "rule": "Weapon baseRotation field."
+    },
+    "weapon_update_rotate_toward.weapon_mount_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float rotation;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.mount_state.rotation",
+      "status": "source-backed",
+      "rule": "WeaponMount rotation field."
+    },
+    "weapon_update_rotate_toward.weapon_mount_target_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float targetRotation;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.mount_state.targetRotation",
+      "status": "source-backed",
+      "rule": "WeaponMount targetRotation field."
+    },
+    "weapon_update_rotate_toward.weapon_mount_aim": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float aimX, aimY;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.mount_state.aimX",
+      "status": "source-backed",
+      "rule": "WeaponMount aim fields."
+    },
+    "weapon_update_rotate_toward.weapon_mount_shoot": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean shoot = false;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.mount_state.shoot",
+      "status": "source-backed",
+      "rule": "WeaponMount shoot field."
+    },
+    "weapon_update_rotate_toward.weapon_mount_rotate": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean rotate = false;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.mount_state.rotate",
+      "status": "source-backed",
+      "rule": "WeaponMount rotate field."
+    },
+    "weapon_update_rotate_toward.angles_angle": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Angles.angle(float, float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float angle(float x, float y, float x2, float y2){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.targetRotation",
+      "status": "source-backed",
+      "rule": "Arc Angles.angle helper."
+    },
+    "weapon_update_rotate_toward.angles_angle_body": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Angles.angle(float, float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.targetRotation",
+      "status": "source-backed",
+      "rule": "Arc Angles.angle formula."
+    },
+    "weapon_update_rotate_toward.angles_move_toward": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Angles.moveToward(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float moveToward(float angle, float to, float speed){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Arc Angles.moveToward helper."
+    },
+    "weapon_update_rotate_toward.angles_move_toward_snap": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Angles.moveToward(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Arc Angles.moveToward snap."
+    },
+    "weapon_update_rotate_toward.angles_move_toward_mod_angle": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Angles.moveToward(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "angle = Mathf.mod(angle, 360f);",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Arc Angles.moveToward angle mod."
+    },
+    "weapon_update_rotate_toward.angles_move_toward_mod_to": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Angles.moveToward(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "to = Mathf.mod(to, 360f);",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Arc Angles.moveToward target mod."
+    },
+    "weapon_update_rotate_toward.angles_angle_dist": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Angles.angleDist(float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float angleDist(float a, float b){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.limitDistance",
+      "status": "source-backed",
+      "rule": "Arc Angles.angleDist helper."
+    },
+    "weapon_update_rotate_toward.mathf_mod": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Mathf.mod(float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_expr": "public static float mod(float f, float n){",
+      "godot_symbol": "source_weapon_update_rotate_toward_result.rotation",
+      "status": "source-backed",
+      "rule": "Arc Mathf.mod helper."
+    },
+    "weapon_update_rotate_toward.time_delta": {
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "java_method": "Time fields",
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "java_expr": "public static float delta = 1f;",
+      "godot_symbol": "source_weapon_update_rotate_toward_input.source_delta",
+      "status": "source-backed",
+      "rule": "Arc Time.delta field."
     }
   },
   "version": 1
