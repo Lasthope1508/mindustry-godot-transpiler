@@ -81144,6 +81144,174 @@
           "java_expr": "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));"
         }
       }
+    },
+    "source_thermal_generator_update_tile_output_liquid_input": {
+      "owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "status": "active",
+      "keys": {
+        "output_liquid_present": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_output_liquid_input key output_liquid_present.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_present",
+          "java_expr": "outputLiquid != null"
+        },
+        "output_liquid_liquid": {
+          "type": "String",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_output_liquid_input key output_liquid_liquid.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_liquid",
+          "java_expr": "outputLiquid.liquid"
+        },
+        "output_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_output_liquid_input key output_liquid_amount.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_amount",
+          "java_expr": "outputLiquid.amount"
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_output_liquid_input key production_efficiency.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.production_efficiency",
+          "java_expr": "productionEfficiency"
+        },
+        "delta_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_output_liquid_input key delta_value.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.delta_value",
+          "java_expr": "delta()"
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_output_liquid_input key liquid_capacity.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.liquid_capacity",
+          "java_expr": "liquidCapacity"
+        },
+        "current_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_output_liquid_input key current_liquid_amount.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.current_liquid_amount",
+          "java_expr": "liquids.get(outputLiquid.liquid)"
+        }
+      }
+    },
+    "source_thermal_generator_update_tile_output_liquid_result": {
+      "owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "status": "active",
+      "keys": {
+        "output_liquid_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_output_liquid_result key output_liquid_guard.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.output_liquid_guard",
+          "java_expr": "if(outputLiquid != null){"
+        },
+        "production_liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_output_liquid_result key production_liquid_amount.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.production_liquid_amount",
+          "java_expr": "productionEfficiency * delta() * outputLiquid.amount"
+        },
+        "remaining_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_output_liquid_result key remaining_capacity.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.remaining_capacity",
+          "java_expr": "liquidCapacity - liquids.get(outputLiquid.liquid)"
+        },
+        "added": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_output_liquid_result key added.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.added",
+          "java_expr": "Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid))"
+        },
+        "liquid_amount_after": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_update_tile_output_liquid_result key liquid_amount_after.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.liquid_amount_after",
+          "java_expr": "liquids.get(outputLiquid.liquid) + added"
+        },
+        "dump_liquid_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_output_liquid_result key dump_liquid_called.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() outputLiquid branch",
+          "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.dump_liquid_called",
+          "java_expr": "dumpLiquid(outputLiquid.liquid);"
+        }
+      }
     }
   },
   "version": 1

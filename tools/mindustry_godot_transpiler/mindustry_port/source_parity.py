@@ -361,6 +361,29 @@ def verify_thermal_generator_update_tile_effect_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_thermal_generator_update_tile_output_liquid_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+        "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "method": "public void updateTile(){",
+        "output_liquid_guard": "if(outputLiquid != null){",
+        "added_assignment": "float added = Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid));",
+        "liquids_add_call": "liquids.add(outputLiquid.liquid, added);",
+        "dump_liquid_call": "dumpLiquid(outputLiquid.liquid);",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in thermal_generator_source
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

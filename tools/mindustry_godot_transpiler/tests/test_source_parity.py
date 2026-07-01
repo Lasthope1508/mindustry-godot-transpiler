@@ -282,6 +282,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_update_tile_output_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_update_tile_output_liquid_source"))
+        report = source_parity.verify_thermal_generator_update_tile_output_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+            "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+            "method": "public void updateTile(){",
+            "output_liquid_guard": "if(outputLiquid != null){",
+            "added_assignment": "float added = Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid));",
+            "liquids_add_call": "liquids.add(outputLiquid.liquid, added);",
+            "dump_liquid_call": "dumpLiquid(outputLiquid.liquid);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_thermal_generator_displayed_power_production_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_thermal_generator_displayed_power_production_source"))
         report = source_parity.verify_thermal_generator_displayed_power_production_source(ROOT / "mindustry-upstream")

@@ -635,6 +635,46 @@ func source_thermal_generator_update_tile_effect_state(source_x: float, source_y
 		"generate_effect_state": generate_effect_state,
 	}
 
+func source_thermal_generator_update_tile_output_liquid_state(output_liquid_present: bool, output_liquid_liquid: String, output_liquid_amount: float, production_efficiency: float, delta_value: float, liquid_capacity: float, current_liquid_amount: float) -> Dictionary:
+	var production_liquid_amount := 0.0
+	var remaining_capacity := 0.0
+	var added := 0.0
+	var liquid_amount_after := current_liquid_amount
+	var dump_liquid_called := false
+	var dump_liquid_state := {}
+	if output_liquid_present:
+		production_liquid_amount = production_efficiency * delta_value * output_liquid_amount
+		remaining_capacity = liquid_capacity - current_liquid_amount
+		added = min(production_liquid_amount, remaining_capacity)
+		liquid_amount_after = current_liquid_amount + added
+		dump_liquid_called = true
+		dump_liquid_state = {
+			"liquid": output_liquid_liquid,
+		}
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"method": "public void updateTile(){",
+		"output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+		"output_liquid_guard": "if(outputLiquid != null){",
+		"added_assignment": "float added = Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid));",
+		"liquids_add_call": "liquids.add(outputLiquid.liquid, added);",
+		"dump_liquid_call": "dumpLiquid(outputLiquid.liquid);",
+		"output_liquid_present": output_liquid_present,
+		"output_liquid_liquid": output_liquid_liquid,
+		"output_liquid_amount": output_liquid_amount,
+		"production_efficiency": production_efficiency,
+		"delta_value": delta_value,
+		"liquid_capacity": liquid_capacity,
+		"current_liquid_amount": current_liquid_amount,
+		"production_liquid_amount": production_liquid_amount,
+		"remaining_capacity": remaining_capacity,
+		"added": added,
+		"liquid_amount_after": liquid_amount_after,
+		"dump_liquid_called": dump_liquid_called,
+		"dump_liquid_state": dump_liquid_state,
+	}
+
 func source_thermal_generator_displayed_power_production_state(power_production: float, display_efficiency_scale: float) -> Dictionary:
 	var displayed_power_production: float = power_production / display_efficiency_scale
 	return {

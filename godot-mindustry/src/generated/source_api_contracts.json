@@ -21712,6 +21712,79 @@
         "test_thermal_generator_update_tile_effect_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGeneratorBuild.updateTile generateEffect branch."
+    },
+    "PortGame.source_thermal_generator_update_tile_output_liquid_state": {
+      "status": "active",
+      "source_slice": "N937",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "updateTile() outputLiquid branch",
+      "params": [
+        {
+          "name": "output_liquid_present",
+          "type": "bool",
+          "schema": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_present"
+        },
+        {
+          "name": "output_liquid_liquid",
+          "type": "String",
+          "schema": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_liquid"
+        },
+        {
+          "name": "output_liquid_amount",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_amount"
+        },
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_output_liquid_input.production_efficiency"
+        },
+        {
+          "name": "delta_value",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_output_liquid_input.delta_value"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_output_liquid_input.liquid_capacity"
+        },
+        {
+          "name": "current_liquid_amount",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_output_liquid_input.current_liquid_amount"
+        }
+      ],
+      "return_keys": [
+        "class",
+        "method",
+        "output_liquid_field",
+        "build_class",
+        "output_liquid_guard",
+        "added_assignment",
+        "liquids_add_call",
+        "dump_liquid_call",
+        "output_liquid_present",
+        "output_liquid_liquid",
+        "output_liquid_amount",
+        "production_efficiency",
+        "delta_value",
+        "liquid_capacity",
+        "current_liquid_amount",
+        "production_liquid_amount",
+        "remaining_capacity",
+        "added",
+        "liquid_amount_after",
+        "dump_liquid_called",
+        "dump_liquid_state"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGeneratorBuild.updateTile outputLiquid dump branch."
     }
   },
   "policy": {

@@ -19298,6 +19298,44 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_update_tile_effect_matches_upstream_source"
       ]
+    },
+    "N937": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator.ThermalGeneratorBuild",
+      "java_method": "updateTile() outputLiquid branch",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public @Nullable LiquidStack outputLiquid;",
+        "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "public void updateTile(){",
+        "if(outputLiquid != null){",
+        "float added = Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid));",
+        "liquids.add(outputLiquid.liquid, added);",
+        "dumpLiquid(outputLiquid.liquid);"
+      ],
+      "source_symbols": [
+        "thermal_generator_update_tile_output_liquid.added",
+        "thermal_generator_update_tile_output_liquid.current_liquid_amount",
+        "thermal_generator_update_tile_output_liquid.delta_value",
+        "thermal_generator_update_tile_output_liquid.dump_liquid_called",
+        "thermal_generator_update_tile_output_liquid.liquid_amount_after",
+        "thermal_generator_update_tile_output_liquid.liquid_capacity",
+        "thermal_generator_update_tile_output_liquid.output_liquid_guard",
+        "thermal_generator_update_tile_output_liquid.output_liquid_amount",
+        "thermal_generator_update_tile_output_liquid.output_liquid_liquid",
+        "thermal_generator_update_tile_output_liquid.output_liquid_present",
+        "thermal_generator_update_tile_output_liquid.production_efficiency",
+        "thermal_generator_update_tile_output_liquid.production_liquid_amount",
+        "thermal_generator_update_tile_output_liquid.remaining_capacity"
+      ],
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ]
     }
   },
   "version": 1

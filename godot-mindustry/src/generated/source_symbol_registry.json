@@ -67149,6 +67149,201 @@
         "test_thermal_generator_update_tile_effect_matches_upstream_source"
       ],
       "rule": "Exact generateEffect.at call for ThermalGenerator effect branch."
+    },
+    "thermal_generator_update_tile_output_liquid.output_liquid_present": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "outputLiquid != null",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_present",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Explicit outputLiquid null-guard input for ThermalGenerator.updateTile."
+    },
+    "thermal_generator_update_tile_output_liquid.output_liquid_liquid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "outputLiquid.liquid",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_liquid",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Explicit outputLiquid.liquid input."
+    },
+    "thermal_generator_update_tile_output_liquid.output_liquid_amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "outputLiquid.amount",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.output_liquid_amount",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Explicit outputLiquid.amount input."
+    },
+    "thermal_generator_update_tile_output_liquid.production_efficiency": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "productionEfficiency",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.production_efficiency",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Explicit productionEfficiency input for output liquid amount."
+    },
+    "thermal_generator_update_tile_output_liquid.delta_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "delta()",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.delta_value",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Explicit delta() input for output liquid amount."
+    },
+    "thermal_generator_update_tile_output_liquid.liquid_capacity": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "liquidCapacity",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.liquid_capacity",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Explicit liquidCapacity input."
+    },
+    "thermal_generator_update_tile_output_liquid.current_liquid_amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "liquids.get(outputLiquid.liquid)",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_input.current_liquid_amount",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Explicit liquids.get(outputLiquid.liquid) input."
+    },
+    "thermal_generator_update_tile_output_liquid.output_liquid_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "if(outputLiquid != null){",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.output_liquid_guard",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Source-backed outputLiquid branch guard."
+    },
+    "thermal_generator_update_tile_output_liquid.production_liquid_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "productionEfficiency * delta() * outputLiquid.amount",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.production_liquid_amount",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Source-backed produced liquid amount before capacity min."
+    },
+    "thermal_generator_update_tile_output_liquid.remaining_capacity": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "liquidCapacity - liquids.get(outputLiquid.liquid)",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.remaining_capacity",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Source-backed remaining liquid capacity."
+    },
+    "thermal_generator_update_tile_output_liquid.added": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid))",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.added",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Source-backed Math.min added liquid amount."
+    },
+    "thermal_generator_update_tile_output_liquid.liquid_amount_after": {
+      "status": "generated",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "liquids.get(outputLiquid.liquid) + added",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.liquid_amount_after",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Runtime post-add liquid amount from liquids.add(outputLiquid.liquid, added)."
+    },
+    "thermal_generator_update_tile_output_liquid.dump_liquid_called": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "java_expr": "dumpLiquid(outputLiquid.liquid);",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "godot_symbol": "source_thermal_generator_update_tile_output_liquid_result.dump_liquid_called",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Source-backed dumpLiquid output call."
     }
   },
   "version": 1
