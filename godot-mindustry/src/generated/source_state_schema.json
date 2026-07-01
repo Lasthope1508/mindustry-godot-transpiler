@@ -80880,6 +80880,270 @@
           "alias_of": "source_thermal_generator_draw_place_input.display_efficiency"
         }
       }
+    },
+    "source_thermal_generator_update_tile_effect_input": {
+      "owner": "PortGame.source_thermal_generator_update_tile_effect_state",
+      "status": "active",
+      "keys": {
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key source_x.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.source_x",
+          "java_expr": "x"
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key source_y.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.source_y",
+          "java_expr": "y"
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key production_efficiency.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.production_efficiency",
+          "java_expr": "productionEfficiency"
+        },
+        "effect_chance": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key effect_chance.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.effect_chance",
+          "java_expr": "effectChance"
+        },
+        "chance_delta_result": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key chance_delta_result.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.chance_delta_result",
+          "java_expr": "Mathf.chanceDelta(effectChance)"
+        },
+        "range_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key range_x.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.range_x",
+          "java_expr": "Mathf.range(3f)"
+        },
+        "range_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key range_y.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.range_y",
+          "java_expr": "Mathf.range(3f)"
+        },
+        "generate_effect_name": {
+          "type": "String",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_effect_input key generate_effect_name.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_input.generate_effect_name",
+          "java_expr": "generateEffect"
+        }
+      }
+    },
+    "source_thermal_generator_update_tile_effect_result": {
+      "owner": "PortGame.source_thermal_generator_update_tile_effect_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.method",
+          "java_expr": "public void updateTile(){"
+        },
+        "generate_effect_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key generate_effect_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.generate_effect_field",
+          "java_expr": "public Effect generateEffect = Fx.none;"
+        },
+        "effect_chance_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key effect_chance_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.effect_chance_field",
+          "java_expr": "public float effectChance = 0.05f;"
+        },
+        "effect_gate": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key effect_gate.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.effect_gate",
+          "java_expr": "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){"
+        },
+        "generate_effect_call": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key generate_effect_call.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.generate_effect_call",
+          "java_expr": "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));"
+        },
+        "chance_delta_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key chance_delta_method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.chance_delta_method",
+          "java_expr": "public static boolean chanceDelta(double d){"
+        },
+        "chance_delta_return": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key chance_delta_return.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.chance_delta_return",
+          "java_expr": "return rand.nextFloat() < d * Time.delta;"
+        },
+        "range_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key range_method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.range_method",
+          "java_expr": "public static float range(float range){"
+        },
+        "range_return": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key range_return.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.range_return",
+          "java_expr": "return random(-range, range);"
+        },
+        "effect_triggered": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key effect_triggered.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.effect_triggered",
+          "java_expr": "productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)"
+        },
+        "effect_x": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key effect_x.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.effect_x",
+          "java_expr": "x + Mathf.range(3f)"
+        },
+        "effect_y": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_effect_result key effect_y.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.effect_y",
+          "java_expr": "y + Mathf.range(3f)"
+        },
+        "generate_effect_state": {
+          "type": "Dictionary",
+          "status": "generated",
+          "rule": "source_thermal_generator_update_tile_effect_result key generate_effect_state.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_effect_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile() effect branch",
+          "godot_symbol": "source_thermal_generator_update_tile_effect_result.generate_effect_state",
+          "java_expr": "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));"
+        }
+      }
     }
   },
   "version": 1

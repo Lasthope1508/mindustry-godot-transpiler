@@ -325,6 +325,42 @@ def verify_thermal_generator_update_tile_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_thermal_generator_update_tile_effect_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    arc_mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    arc_mathf_source = arc_mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "generate_effect_field": "public Effect generateEffect = Fx.none;",
+        "effect_chance_field": "public float effectChance = 0.05f;",
+        "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "method": "public void updateTile(){",
+        "production_assignment": "productionEfficiency = sum + attribute.env();",
+        "effect_gate": "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){",
+        "generate_effect_call": "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));",
+        "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+        "mathf_chance_delta_body": "return rand.nextFloat() < d * Time.delta;",
+        "mathf_range_float": "public static float range(float range){",
+        "mathf_range_float_body": "return random(-range, range);",
+    }
+    sources_by_key = {
+        "mathf_chance_delta": arc_mathf_source,
+        "mathf_chance_delta_body": arc_mathf_source,
+        "mathf_range_float": arc_mathf_source,
+        "mathf_range_float_body": arc_mathf_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

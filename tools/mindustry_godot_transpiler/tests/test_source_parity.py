@@ -260,6 +260,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_update_tile_effect_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_update_tile_effect_source"))
+        report = source_parity.verify_thermal_generator_update_tile_effect_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "generate_effect_field": "public Effect generateEffect = Fx.none;",
+            "effect_chance_field": "public float effectChance = 0.05f;",
+            "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+            "method": "public void updateTile(){",
+            "production_assignment": "productionEfficiency = sum + attribute.env();",
+            "effect_gate": "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){",
+            "generate_effect_call": "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));",
+            "mathf_chance_delta": "public static boolean chanceDelta(double d){",
+            "mathf_chance_delta_body": "return rand.nextFloat() < d * Time.delta;",
+            "mathf_range_float": "public static float range(float range){",
+            "mathf_range_float_body": "return random(-range, range);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_thermal_generator_displayed_power_production_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_thermal_generator_displayed_power_production_source"))
         report = source_parity.verify_thermal_generator_displayed_power_production_source(ROOT / "mindustry-upstream")

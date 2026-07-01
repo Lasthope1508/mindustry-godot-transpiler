@@ -598,6 +598,43 @@ func source_thermal_generator_update_tile_state(sum: float, attribute_env: float
 		"production_efficiency": production_efficiency,
 	}
 
+func source_thermal_generator_update_tile_effect_state(source_x: float, source_y: float, production_efficiency: float, effect_chance: float, chance_delta_result: bool, range_x: float, range_y: float, generate_effect_name: String) -> Dictionary:
+	var effect_triggered := production_efficiency > 0.1 and chance_delta_result
+	var effect_x := source_x
+	var effect_y := source_y
+	var generate_effect_state := {}
+	if effect_triggered:
+		effect_x = source_x + range_x
+		effect_y = source_y + range_y
+		generate_effect_state = {
+			"effect": generate_effect_name,
+			"x": effect_x,
+			"y": effect_y,
+		}
+	return {
+		"method": "public void updateTile(){",
+		"generate_effect_field": "public Effect generateEffect = Fx.none;",
+		"effect_chance_field": "public float effectChance = 0.05f;",
+		"effect_gate": "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){",
+		"generate_effect_call": "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));",
+		"chance_delta_method": "public static boolean chanceDelta(double d){",
+		"chance_delta_return": "return rand.nextFloat() < d * Time.delta;",
+		"range_method": "public static float range(float range){",
+		"range_return": "return random(-range, range);",
+		"source_x": source_x,
+		"source_y": source_y,
+		"production_efficiency": production_efficiency,
+		"effect_chance": effect_chance,
+		"chance_delta_result": chance_delta_result,
+		"range_x": range_x,
+		"range_y": range_y,
+		"generate_effect_name": generate_effect_name,
+		"effect_triggered": effect_triggered,
+		"effect_x": effect_x,
+		"effect_y": effect_y,
+		"generate_effect_state": generate_effect_state,
+	}
+
 func source_thermal_generator_displayed_power_production_state(power_production: float, display_efficiency_scale: float) -> Dictionary:
 	var displayed_power_production: float = power_production / display_efficiency_scale
 	return {

@@ -21634,6 +21634,84 @@
         "test_thermal_generator_draw_place_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGenerator.drawPlace displayEfficiency placement text branch."
+    },
+    "PortGame.source_thermal_generator_update_tile_effect_state": {
+      "status": "active",
+      "source_slice": "N936",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "updateTile() effect branch",
+      "params": [
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_effect_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_effect_input.source_y"
+        },
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_effect_input.production_efficiency"
+        },
+        {
+          "name": "effect_chance",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_effect_input.effect_chance"
+        },
+        {
+          "name": "chance_delta_result",
+          "type": "bool",
+          "schema": "source_thermal_generator_update_tile_effect_input.chance_delta_result"
+        },
+        {
+          "name": "range_x",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_effect_input.range_x"
+        },
+        {
+          "name": "range_y",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_effect_input.range_y"
+        },
+        {
+          "name": "generate_effect_name",
+          "type": "String",
+          "schema": "source_thermal_generator_update_tile_effect_input.generate_effect_name"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "generate_effect_field",
+        "effect_chance_field",
+        "effect_gate",
+        "generate_effect_call",
+        "chance_delta_method",
+        "chance_delta_return",
+        "range_method",
+        "range_return",
+        "source_x",
+        "source_y",
+        "production_efficiency",
+        "effect_chance",
+        "chance_delta_result",
+        "range_x",
+        "range_y",
+        "generate_effect_name",
+        "effect_triggered",
+        "effect_x",
+        "effect_y",
+        "generate_effect_state"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_effect_state",
+      "tests": [
+        "test_thermal_generator_update_tile_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_effect_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGeneratorBuild.updateTile generateEffect branch."
     }
   },
   "policy": {

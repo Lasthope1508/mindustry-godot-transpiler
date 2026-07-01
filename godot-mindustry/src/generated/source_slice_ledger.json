@@ -19256,6 +19256,48 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_draw_place_matches_upstream_source"
       ]
+    },
+    "N936": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator.ThermalGeneratorBuild",
+      "java_method": "updateTile() effect branch",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_effect_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_effect_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public Effect generateEffect = Fx.none;",
+        "public float effectChance = 0.05f;",
+        "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "public void updateTile(){",
+        "productionEfficiency = sum + attribute.env();",
+        "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){",
+        "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));",
+        "public static boolean chanceDelta(double d){",
+        "return rand.nextFloat() < d * Time.delta;",
+        "public static float range(float range){",
+        "return random(-range, range);"
+      ],
+      "source_symbols": [
+        "thermal_generator_update_tile_effect.chance_delta_result",
+        "thermal_generator_update_tile_effect.effect_chance",
+        "thermal_generator_update_tile_effect.effect_gate",
+        "thermal_generator_update_tile_effect.effect_triggered",
+        "thermal_generator_update_tile_effect.effect_x",
+        "thermal_generator_update_tile_effect.effect_y",
+        "thermal_generator_update_tile_effect.generate_effect_call",
+        "thermal_generator_update_tile_effect.generate_effect_name",
+        "thermal_generator_update_tile_effect.production_efficiency",
+        "thermal_generator_update_tile_effect.range_x",
+        "thermal_generator_update_tile_effect.range_y",
+        "thermal_generator_update_tile_effect.source_x",
+        "thermal_generator_update_tile_effect.source_y"
+      ],
+      "tests": [
+        "test_thermal_generator_update_tile_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_effect_matches_upstream_source"
+      ]
     }
   },
   "version": 1

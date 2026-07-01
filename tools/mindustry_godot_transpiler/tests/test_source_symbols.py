@@ -13747,6 +13747,39 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(production_efficiency["java_expr"], "productionEfficiency = sum + attribute.env();")
         self.assertEqual(production_efficiency["godot_symbol"], "source_thermal_generator_update_tile_result.production_efficiency")
 
+    def test_thermal_generator_update_tile_effect_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        production_efficiency = source_symbols.source_symbol(registry, "thermal_generator_update_tile_effect.production_efficiency")
+        self.assertEqual(production_efficiency["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(production_efficiency["java_method"], "updateTile()")
+        self.assertEqual(production_efficiency["status"], "explicit-input")
+        self.assertEqual(production_efficiency["java_expr"], "productionEfficiency")
+        self.assertEqual(production_efficiency["godot_owner"], "PortGame.source_thermal_generator_update_tile_effect_state")
+        self.assertEqual(production_efficiency["runtime_proof"], "/root/Main.source_thermal_generator_update_tile_effect_state")
+        self.assertEqual(production_efficiency["godot_symbol"], "source_thermal_generator_update_tile_effect_input.production_efficiency")
+
+        chance_delta_result = source_symbols.source_symbol(registry, "thermal_generator_update_tile_effect.chance_delta_result")
+        self.assertEqual(chance_delta_result["status"], "explicit-input")
+        self.assertEqual(chance_delta_result["java_expr"], "Mathf.chanceDelta(effectChance)")
+        self.assertEqual(chance_delta_result["godot_symbol"], "source_thermal_generator_update_tile_effect_input.chance_delta_result")
+
+        effect_gate = source_symbols.source_symbol(registry, "thermal_generator_update_tile_effect.effect_gate")
+        self.assertEqual(effect_gate["status"], "source-backed")
+        self.assertEqual(effect_gate["java_expr"], "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){")
+        self.assertEqual(effect_gate["godot_symbol"], "source_thermal_generator_update_tile_effect_result.effect_gate")
+
+        generate_effect_call = source_symbols.source_symbol(registry, "thermal_generator_update_tile_effect.generate_effect_call")
+        self.assertEqual(generate_effect_call["java_expr"], "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));")
+        self.assertEqual(generate_effect_call["godot_symbol"], "source_thermal_generator_update_tile_effect_result.generate_effect_call")
+
+        effect_triggered = source_symbols.source_symbol(registry, "thermal_generator_update_tile_effect.effect_triggered")
+        self.assertEqual(effect_triggered["java_expr"], "productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)")
+        self.assertEqual(effect_triggered["godot_symbol"], "source_thermal_generator_update_tile_effect_result.effect_triggered")
+
     def test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18408,9 +18441,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 532)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 533)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 537)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 538)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -18908,6 +18941,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_power_generator_build_serialization_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_solar_generator_update_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_update_tile_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_thermal_generator_update_tile_effect_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_displayed_power_production_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_init_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_total_progress_state", audit["registeredSourceOwners"])
@@ -23131,6 +23165,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Attribute attribute = Attribute.heat;", thermal_generator_update_tile["exact_exprs"])
         self.assertIn("heat = add(\"heat\"),", thermal_generator_update_tile["exact_exprs"])
         self.assertIn("return Vars.state.envAttrs.get(this);", thermal_generator_update_tile["exact_exprs"])
+
+        thermal_generator_update_tile_effect = source_symbols.source_slice(ledger, "N936")
+        self.assertEqual(thermal_generator_update_tile_effect["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(thermal_generator_update_tile_effect["java_method"], "updateTile() effect branch")
+        self.assertEqual(thermal_generator_update_tile_effect["godot_owner"], "PortGame.source_thermal_generator_update_tile_effect_state")
+        self.assertIn("public Effect generateEffect = Fx.none;", thermal_generator_update_tile_effect["exact_exprs"])
+        self.assertIn("public float effectChance = 0.05f;", thermal_generator_update_tile_effect["exact_exprs"])
+        self.assertIn("if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){", thermal_generator_update_tile_effect["exact_exprs"])
+        self.assertIn("generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));", thermal_generator_update_tile_effect["exact_exprs"])
+        self.assertIn("public static boolean chanceDelta(double d){", thermal_generator_update_tile_effect["exact_exprs"])
+        self.assertIn("return rand.nextFloat() < d * Time.delta;", thermal_generator_update_tile_effect["exact_exprs"])
+        self.assertIn("public static float range(float range){", thermal_generator_update_tile_effect["exact_exprs"])
+        self.assertIn("return random(-range, range);", thermal_generator_update_tile_effect["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28287,6 +28334,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(thermal_generator_update_tile["params"][1]["schema"], "source_thermal_generator_update_tile_input.attribute_env")
         self.assertIn("production_efficiency", thermal_generator_update_tile["return_keys"])
         self.assertEqual(thermal_generator_update_tile["source_method"], "updateTile()")
+
+        thermal_generator_update_tile_effect = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_update_tile_effect_state")
+        self.assertEqual([param["name"] for param in thermal_generator_update_tile_effect["params"]], ["source_x", "source_y", "production_efficiency", "effect_chance", "chance_delta_result", "range_x", "range_y", "generate_effect_name"])
+        self.assertEqual(thermal_generator_update_tile_effect["params"][0]["schema"], "source_thermal_generator_update_tile_effect_input.source_x")
+        self.assertEqual(thermal_generator_update_tile_effect["params"][2]["schema"], "source_thermal_generator_update_tile_effect_input.production_efficiency")
+        self.assertEqual(thermal_generator_update_tile_effect["params"][4]["schema"], "source_thermal_generator_update_tile_effect_input.chance_delta_result")
+        self.assertIn("effect_triggered", thermal_generator_update_tile_effect["return_keys"])
+        self.assertIn("generate_effect_call", thermal_generator_update_tile_effect["return_keys"])
+        self.assertEqual(thermal_generator_update_tile_effect["source_method"], "updateTile() effect branch")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -34590,6 +34646,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_thermal_generator_update_tile_result["keys"]["method"]["java_expr"], "public void updateTile(){")
         self.assertEqual(source_thermal_generator_update_tile_result["keys"]["assignment"]["java_expr"], "productionEfficiency = sum + attribute.env();")
         self.assertEqual(source_thermal_generator_update_tile_result["keys"]["production_efficiency"]["java_expr"], "productionEfficiency = sum + attribute.env();")
+
+        source_thermal_generator_update_tile_effect_input = source_symbols.state_schema(schema, "source_thermal_generator_update_tile_effect_input")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["production_efficiency"]["java_expr"], "productionEfficiency")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["effect_chance"]["java_expr"], "effectChance")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["chance_delta_result"]["java_expr"], "Mathf.chanceDelta(effectChance)")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["range_x"]["java_expr"], "Mathf.range(3f)")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["range_y"]["java_expr"], "Mathf.range(3f)")
+        self.assertEqual(source_thermal_generator_update_tile_effect_input["keys"]["generate_effect_name"]["java_expr"], "generateEffect")
+
+        source_thermal_generator_update_tile_effect_result = source_symbols.state_schema(schema, "source_thermal_generator_update_tile_effect_result")
+        self.assertEqual(source_thermal_generator_update_tile_effect_result["keys"]["method"]["java_expr"], "public void updateTile(){")
+        self.assertEqual(source_thermal_generator_update_tile_effect_result["keys"]["effect_gate"]["java_expr"], "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){")
+        self.assertEqual(source_thermal_generator_update_tile_effect_result["keys"]["effect_triggered"]["java_expr"], "productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)")
+        self.assertEqual(source_thermal_generator_update_tile_effect_result["keys"]["effect_x"]["java_expr"], "x + Mathf.range(3f)")
+        self.assertEqual(source_thermal_generator_update_tile_effect_result["keys"]["effect_y"]["java_expr"], "y + Mathf.range(3f)")
+        self.assertEqual(source_thermal_generator_update_tile_effect_result["keys"]["generate_effect_call"]["java_expr"], "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));")
 
         source_power_generator_warmup_input = source_symbols.state_schema(schema, "source_power_generator_warmup_input")
         self.assertEqual(source_power_generator_warmup_input["keys"]["enabled"]["java_expr"], "enabled")
