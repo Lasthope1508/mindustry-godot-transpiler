@@ -472,6 +472,12 @@ func selected_build_outputs_power() -> bool:
 	var selected = build_palette[selected_build_index]
 	return bool(selected.properties.get("outputsPower", false))
 
+func selected_build_power_usage() -> float:
+	if build_palette.is_empty():
+		return 0.0
+	var selected = build_palette[selected_build_index]
+	return float(selected.properties.get("powerUsage", 0.0))
+
 func selected_build_power_capacity() -> float:
 	if build_palette.is_empty():
 		return 0.0
@@ -11428,6 +11434,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_build_has_power": selected_build_has_power(),
 		"selected_build_consumes_power": selected_build_consumes_power(),
 		"selected_build_outputs_power": selected_build_outputs_power(),
+		"selected_build_power_usage": selected_build_power_usage(),
 		"selected_build_power_capacity": selected_build_power_capacity(),
 		"selected_build_power_buffered": selected_build_power_buffered(),
 		"selected_build_power_production": selected_build_power_production(),

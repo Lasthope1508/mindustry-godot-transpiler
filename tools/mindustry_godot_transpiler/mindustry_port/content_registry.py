@@ -353,6 +353,14 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         properties["consumePowerBuffered"] = buffered_capacity
         properties["powerCapacity"] = buffered_capacity
         properties["powerBuffered"] = True
+    power_usage = _consume_power_usage(initializer)
+    if power_usage is not None:
+        properties["consumePower"] = power_usage
+        properties["powerUsage"] = power_usage
+        properties["powerCapacity"] = 0.0
+        properties["powerBuffered"] = False
+        properties["hasPower"] = True
+        properties["consumesPower"] = True
     base_color = _color_value_assignment(initializer, "baseColor")
     if base_color is not None:
         properties["baseColor"] = base_color
@@ -445,6 +453,17 @@ def _boolean_assignment(source: str, key: str) -> bool | None:
 def _consume_power_buffered_capacity(source: str) -> float | None:
     match = re.search(r"\bconsumePowerBuffered\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*\)\s*;", source)
     return float(_number_literal(match.group(1))) if match else None
+
+def _consume_power_usage(source: str) -> float | None:
+    match = re.search(r"\bconsumePower\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?(?:\s*/\s*[0-9_]+(?:\.[0-9_]+)?[fFdD]?)?)\s*\)\s*;", source)
+    return _numeric_expression(match.group(1)) if match else None
+
+def _numeric_expression(raw: str) -> float:
+    parts = [part.strip() for part in raw.split("/")]
+    value = float(_number_literal(parts[0]))
+    for part in parts[1:]:
+        value /= float(_number_literal(part))
+    return value
 
 def _color_value_assignment(source: str, key: str) -> str | None:
     match = re.search(rf"\b{key}\s*=\s*Color\.valueOf\(\s*\"([0-9A-Fa-f]+)\"\s*\)\s*;", source)

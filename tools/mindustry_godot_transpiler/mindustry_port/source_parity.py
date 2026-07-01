@@ -13,6 +13,7 @@ POWER_NODE_SOURCE = "core/src/mindustry/world/blocks/power/PowerNode.java"
 BATTERY_SOURCE = "core/src/mindustry/world/blocks/power/Battery.java"
 POWER_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/PowerGenerator.java"
 CONSUME_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/ConsumeGenerator.java"
+CONSUME_POWER_SOURCE = "core/src/mindustry/world/consumers/ConsumePower.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 WEAPONS_COMP_SOURCE = "core/src/mindustry/entities/comp/WeaponsComp.java"
@@ -116,6 +117,39 @@ def verify_power_block_params_parity(upstream_root: Path, godot_root: Path) -> d
     return {
         "source": DUO_SOURCE,
         "sources": [POWER_BLOCK_SOURCE, POWER_DISTRIBUTOR_SOURCE, POWER_NODE_SOURCE, BATTERY_SOURCE, POWER_GENERATOR_SOURCE, CONSUME_GENERATOR_SOURCE],
+        "checked": expected,
+        "mismatches": mismatches,
+    }
+
+def verify_consume_power_usage_params_parity(upstream_root: Path, godot_root: Path) -> dict[str, Any]:
+    blocks_path = Path(upstream_root) / DUO_SOURCE
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    consume_power_path = Path(upstream_root) / CONSUME_POWER_SOURCE
+    registry_path = Path(godot_root) / "src" / "generated" / "content_registry.json"
+    blocks_source = blocks_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    consume_power_source = consume_power_path.read_text(encoding="utf-8", errors="replace")
+    for required in [
+        "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+        "block.hasPower = true;",
+        "block.consPower = this;",
+        "usage * (entity.shouldConsume() ? 1f : 0f)",
+    ]:
+        if required not in block_source and required not in consume_power_source:
+            raise ValueError(f"ConsumePower source fact not found: {required}")
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    expected = {
+        "multi-press": _extract_consume_power_usage_params(blocks_source, "multiPress", "GenericCrafter"),
+        "silicon-smelter": _extract_consume_power_usage_params(blocks_source, "siliconSmelter", "GenericCrafter"),
+    }
+    mismatches: list[dict[str, Any]] = []
+    for block_id, expected_props in expected.items():
+        actual_props = _registry_block(registry, block_id).get("properties", {})
+        for key, expected_value in expected_props.items():
+            _append_mismatch(mismatches, f"{block_id}.properties.{key}", expected_value, actual_props.get(key))
+    return {
+        "source": DUO_SOURCE,
+        "sources": [BLOCK_SOURCE, CONSUME_POWER_SOURCE],
         "checked": expected,
         "mismatches": mismatches,
     }
@@ -12295,6 +12329,23 @@ def _extract_power_block_params(blocks_source: str, class_sources: dict[str, str
         expected["itemDuration"] = item_duration
     return expected
 
+def _extract_consume_power_usage_params(blocks_source: str, field: str, implementation: str) -> dict[str, Any]:
+    match = re.search(rf'\b{field}\s*=\s*new\s+{implementation}\s*\(\s*"[^"]+"\s*\)', blocks_source)
+    if not match:
+        raise ValueError(f"{field} {implementation} initializer not found in Blocks.java")
+    body = _double_brace_body(blocks_source, match.end())
+    usage = _consume_power_usage(body)
+    if usage is None:
+        raise ValueError(f"{field} consumePower usage not found in Blocks.java")
+    return {
+        "consumePower": usage,
+        "powerUsage": usage,
+        "powerCapacity": 0.0,
+        "powerBuffered": False,
+        "hasPower": True,
+        "consumesPower": True,
+    }
+
 def _power_role_defaults(class_sources: dict[str, str], implementation: str) -> dict[str, bool]:
     parents = {
         "PowerBlock": "Block",
@@ -12325,6 +12376,17 @@ def _power_role_defaults(class_sources: dict[str, str], implementation: str) -> 
 def _consume_power_buffered_capacity(source: str) -> float | None:
     match = re.search(r"\bconsumePowerBuffered\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?)\s*\)\s*;", source)
     return float(_number_literal(match.group(1))) if match else None
+
+def _consume_power_usage(source: str) -> float | None:
+    match = re.search(r"\bconsumePower\s*\(\s*([0-9_]+(?:\.[0-9_]+)?[fFdD]?(?:\s*/\s*[0-9_]+(?:\.[0-9_]+)?[fFdD]?)?)\s*\)\s*;", source)
+    return _numeric_expression(match.group(1)) if match else None
+
+def _numeric_expression(raw: str) -> float:
+    parts = [part.strip() for part in raw.split("/")]
+    value = float(_number_literal(parts[0]))
+    for part in parts[1:]:
+        value /= float(_number_literal(part))
+    return value
 
 def _constructor_body(source: str, class_name: str) -> str:
     match = re.search(rf"\b{class_name}\s*\([^)]*\)\s*\{{", source)

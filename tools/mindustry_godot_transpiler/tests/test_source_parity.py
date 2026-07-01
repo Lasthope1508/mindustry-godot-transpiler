@@ -129,6 +129,31 @@ class SourceParityTests(unittest.TestCase):
             "outputsPower": True,
         })
 
+    def test_generated_consume_power_usage_params_match_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_power_usage_params_parity"))
+        report = source_parity.verify_consume_power_usage_params_parity(ROOT / "mindustry-upstream", ROOT / "godot-mindustry")
+
+        self.assertEqual(report["source"], "core/src/mindustry/content/Blocks.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/ConsumePower.java", report["sources"])
+        self.assertEqual(report["mismatches"], [])
+        self.assertEqual(report["checked"]["multi-press"], {
+            "consumePower": 1.8,
+            "powerUsage": 1.8,
+            "powerCapacity": 0.0,
+            "powerBuffered": False,
+            "hasPower": True,
+            "consumesPower": True,
+        })
+        self.assertEqual(report["checked"]["silicon-smelter"], {
+            "consumePower": 0.5,
+            "powerUsage": 0.5,
+            "powerCapacity": 0.0,
+            "powerBuffered": False,
+            "hasPower": True,
+            "consumesPower": True,
+        })
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

@@ -403,8 +403,20 @@ public class Liquids{}
                 """
 package mindustry.content;
 public class Blocks{
-    public static Block powerNode, battery, combustionGenerator;
+    public static Block multiPress, siliconSmelter, powerNode, battery, combustionGenerator;
     public static void load(){
+        multiPress = new GenericCrafter("multi-press"){{
+            requirements(Category.crafting, with(Items.titanium, 100, Items.silicon, 25, Items.lead, 100, Items.graphite, 50));
+            size = 3;
+            hasPower = true;
+            consumePower(1.8f);
+        }};
+        siliconSmelter = new GenericCrafter("silicon-smelter"){{
+            requirements(Category.crafting, with(Items.copper, 30, Items.lead, 25));
+            size = 2;
+            hasPower = true;
+            consumePower(0.50f);
+        }};
         powerNode = new PowerNode("power-node"){{
             requirements(Category.power, with(Items.copper, 2, Items.lead, 6));
             maxNodes = 10;
@@ -496,20 +508,34 @@ public class ConsumeGenerator extends PowerGenerator{
 
             registry = build_content_registry(root / "upstream", root / "godot")
 
-        power_node = registry["blocks"][0]["properties"]
+        multi_press = registry["blocks"][0]["properties"]
+        self.assertEqual(multi_press.get("consumePower"), 1.8)
+        self.assertEqual(multi_press.get("powerUsage"), 1.8)
+        self.assertEqual(multi_press.get("powerCapacity"), 0.0)
+        self.assertEqual(multi_press.get("powerBuffered"), False)
+        self.assertEqual(multi_press.get("hasPower"), True)
+        self.assertEqual(multi_press.get("consumesPower"), True)
+        silicon_smelter = registry["blocks"][1]["properties"]
+        self.assertEqual(silicon_smelter.get("consumePower"), 0.5)
+        self.assertEqual(silicon_smelter.get("powerUsage"), 0.5)
+        self.assertEqual(silicon_smelter.get("powerCapacity"), 0.0)
+        self.assertEqual(silicon_smelter.get("powerBuffered"), False)
+        self.assertEqual(silicon_smelter.get("hasPower"), True)
+        self.assertEqual(silicon_smelter.get("consumesPower"), True)
+        power_node = registry["blocks"][2]["properties"]
         self.assertEqual(power_node.get("maxNodes"), 10)
         self.assertEqual(power_node.get("laserRange"), 6)
         self.assertEqual(power_node.get("hasPower"), True)
         self.assertEqual(power_node.get("consumesPower"), False)
         self.assertEqual(power_node.get("outputsPower"), False)
         self.assertEqual(power_node.get("canOverdrive"), False)
-        battery = registry["blocks"][1]["properties"]
+        battery = registry["blocks"][3]["properties"]
         self.assertEqual(battery.get("consumePowerBuffered"), 4000.0)
         self.assertEqual(battery.get("hasPower"), True)
         self.assertEqual(battery.get("consumesPower"), True)
         self.assertEqual(battery.get("outputsPower"), True)
         self.assertEqual(battery.get("canOverdrive"), False)
-        generator = registry["blocks"][2]["properties"]
+        generator = registry["blocks"][4]["properties"]
         self.assertEqual(generator.get("powerProduction"), 1.0)
         self.assertEqual(generator.get("itemDuration"), 120.0)
         self.assertEqual(generator.get("hasPower"), True)
