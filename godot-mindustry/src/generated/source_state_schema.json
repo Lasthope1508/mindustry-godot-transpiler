@@ -75074,6 +75074,62 @@
           "godot_symbol": "source_power_graph_add_graph_result.check_add_expr"
         }
       }
+    },
+    "source_power_graph_check_add_input": {
+      "keys": {
+        "entity_present": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_check_add_input key entity_present.",
+          "used_by": [
+            "PortGame.source_power_graph_check_add_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "checkAdd()",
+          "java_expr": "entity != null",
+          "godot_symbol": "source_power_graph_check_add_input.entity_present"
+        }
+      }
+    },
+    "source_power_graph_check_add_result": {
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_check_add_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_check_add_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "checkAdd()",
+          "java_expr": "public void checkAdd(){",
+          "godot_symbol": "source_power_graph_check_add_result.method"
+        },
+        "entity_add_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_check_add_result key entity_add_guard.",
+          "used_by": [
+            "PortGame.source_power_graph_check_add_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "checkAdd()",
+          "java_expr": "if(entity != null) entity.add();",
+          "godot_symbol": "source_power_graph_check_add_result.entity_add_guard"
+        },
+        "entity_add_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_power_graph_check_add_result key entity_add_called.",
+          "used_by": [
+            "PortGame.source_power_graph_check_add_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "checkAdd()",
+          "java_expr": "if(entity != null) entity.add();",
+          "godot_symbol": "source_power_graph_check_add_result.entity_add_called"
+        }
+      }
     }
   },
   "version": 1

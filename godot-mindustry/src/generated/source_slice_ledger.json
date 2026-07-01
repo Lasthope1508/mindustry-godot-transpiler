@@ -17964,6 +17964,28 @@
         "test_power_graph_add_graph_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.addGraph(PowerGraph graph) self/delegate/merge behavior and per-tile add delegation."
+    },
+    "N899": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "checkAdd()",
+      "godot_owner": "PortGame.source_power_graph_check_add_state",
+      "runtime_proof": "/root/Main.source_power_graph_check_add_state",
+      "exact_exprs": [
+        "public void checkAdd(){",
+        "if(entity != null) entity.add();"
+      ],
+      "source_symbols": [
+        "power_graph_check_add.entity_present",
+        "power_graph_check_add.entity_add_guard"
+      ],
+      "tests": [
+        "test_power_graph_check_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_check_add_state_for_mcp",
+        "test_power_graph_check_add_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.checkAdd() entity add guard."
     }
   },
   "version": 1

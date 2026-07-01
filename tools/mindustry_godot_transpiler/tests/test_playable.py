@@ -242,6 +242,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"check_add_expr": "checkAdd();"', source)
         self.assertIn('var add_state := source_power_graph_add_role_state(', source)
 
+    def test_port_game_exposes_source_power_graph_check_add_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_check_add_state(entity_present: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public void checkAdd(){"', source)
+        self.assertIn('"entity_add_guard": "if(entity != null) entity.add();"', source)
+        self.assertIn('"entity_add_called": entity_present', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

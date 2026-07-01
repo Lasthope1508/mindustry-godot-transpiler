@@ -19898,6 +19898,31 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
       "rule": "Public runtime contract for PowerGraph.addGraph(PowerGraph graph) merge and delegation state."
+    },
+    "PortGame.source_power_graph_check_add_state": {
+      "status": "active",
+      "source_slice": "N899",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "checkAdd()",
+      "params": [
+        {
+          "name": "entity_present",
+          "type": "bool",
+          "schema": "source_power_graph_check_add_input.entity_present"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "entity_add_guard",
+        "entity_add_called"
+      ],
+      "tests": [
+        "test_power_graph_check_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_check_add_state_for_mcp",
+        "test_power_graph_check_add_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_check_add_state",
+      "rule": "Public runtime contract for PowerGraph.checkAdd()."
     }
   },
   "policy": {

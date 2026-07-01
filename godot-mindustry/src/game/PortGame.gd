@@ -988,6 +988,13 @@ func source_power_graph_add_graph_state(graph_is_self: bool, graph_all_size: int
 		"check_add": check_add,
 	}
 
+func source_power_graph_check_add_state(entity_present: bool) -> Dictionary:
+	return {
+		"method": "public void checkAdd(){",
+		"entity_add_guard": "if(entity != null) entity.add();",
+		"entity_add_called": entity_present,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:
