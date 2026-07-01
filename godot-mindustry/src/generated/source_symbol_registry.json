@@ -65397,6 +65397,201 @@
       "godot_symbol": "source_power_generator_create_explosion_puddle_deposit_result.deferred_body",
       "rule": "Runtime source_power_generator_create_explosion_puddle_deposit_result.deferred_body maps to createExplosion puddle deposit source.",
       "status": "deferred"
+    },
+    "power_generator_create_explosion_shake.should_explode_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shouldExplode()",
+      "godot_symbol": "source_power_generator_create_explosion_shake_input.should_explode_value",
+      "rule": "Runtime source_power_generator_create_explosion_shake_input.should_explode_value maps to createExplosion shake source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_shake.source_x": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "shake(float,float,Position)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "loc.getX()",
+      "godot_symbol": "source_power_generator_create_explosion_shake_input.source_x",
+      "rule": "Runtime source_power_generator_create_explosion_shake_input.source_x maps to createExplosion shake source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_shake.source_y": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "shake(float,float,Position)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "loc.getY()",
+      "godot_symbol": "source_power_generator_create_explosion_shake_input.source_y",
+      "rule": "Runtime source_power_generator_create_explosion_shake_input.source_y maps to createExplosion shake source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_shake.explosion_shake": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionShake",
+      "godot_symbol": "source_power_generator_create_explosion_shake_input.explosion_shake",
+      "rule": "Runtime source_power_generator_create_explosion_shake_input.explosion_shake maps to createExplosion shake source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_shake.explosion_shake_duration": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionShakeDuration",
+      "godot_symbol": "source_power_generator_create_explosion_shake_input.explosion_shake_duration",
+      "rule": "Runtime source_power_generator_create_explosion_shake_input.explosion_shake_duration maps to createExplosion shake source.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_shake.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void createExplosion(){",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.method",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.method maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.gate": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(shouldExplode()){",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.branch_entered",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.branch_entered maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.shake_fields": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public float explosionShake = 0f, explosionShakeDuration = 6f;",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.shake_fields",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.shake_fields maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.shake_guard": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(explosionShake > 0){",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.shake_dispatched",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.shake_dispatched maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.shake_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Effect.shake(explosionShake, explosionShakeDuration, this);",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.shake_call",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.shake_call maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.effect_shake_position_method": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "shake(float,float,Position)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public static void shake(float intensity, float duration, Position loc){",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.effect_shake_position_method",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.effect_shake_position_method maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.effect_shake_position_dispatch": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "shake(float,float,Position)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shake(intensity, duration, loc.getX(), loc.getY());",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.shake_call",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.shake_call maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.position_get_x": {
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "java_method": "Position",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "float getX();",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.position_get_x",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.position_get_x maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.position_get_y": {
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "java_method": "Position",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "float getY();",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.position_get_y",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.position_get_y maps to createExplosion shake source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_shake.deferred_body": {
+      "java_source": "core/src/mindustry/entities/Effect.java",
+      "java_method": "shake(float,float,float,float)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Effect.shake camera falloff and renderer shake body",
+      "godot_symbol": "source_power_generator_create_explosion_shake_result.deferred_body",
+      "rule": "Runtime source_power_generator_create_explosion_shake_result.deferred_body maps to createExplosion shake source.",
+      "status": "deferred"
     }
   },
   "version": 1

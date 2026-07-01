@@ -18705,6 +18705,50 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N920": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "source_symbols": [
+        "power_generator_create_explosion_shake.should_explode_call",
+        "power_generator_create_explosion_shake.source_x",
+        "power_generator_create_explosion_shake.source_y",
+        "power_generator_create_explosion_shake.explosion_shake",
+        "power_generator_create_explosion_shake.explosion_shake_duration",
+        "power_generator_create_explosion_shake.method",
+        "power_generator_create_explosion_shake.gate",
+        "power_generator_create_explosion_shake.shake_fields",
+        "power_generator_create_explosion_shake.shake_guard",
+        "power_generator_create_explosion_shake.shake_call",
+        "power_generator_create_explosion_shake.effect_shake_position_method",
+        "power_generator_create_explosion_shake.effect_shake_position_dispatch",
+        "power_generator_create_explosion_shake.position_get_x",
+        "power_generator_create_explosion_shake.position_get_y",
+        "power_generator_create_explosion_shake.deferred_body"
+      ],
+      "exact_exprs": [
+        "public float explosionShake = 0f, explosionShakeDuration = 6f;",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);",
+        "public static void shake(float intensity, float duration, Position loc){",
+        "shake(intensity, duration, loc.getX(), loc.getY());",
+        "float getX();",
+        "float getY();"
+      ],
+      "deferred_exprs": [
+        "Effect.shake camera falloff and renderer shake body",
+        "public static void shake(float intensity, float duration, float x, float y){",
+        "Vars.renderer.shake(intensity, duration);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_shake_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

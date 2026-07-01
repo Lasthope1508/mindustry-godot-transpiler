@@ -473,6 +473,41 @@ def verify_power_generator_create_explosion_puddle_deposit_source(upstream_root:
         "missing": missing,
     }
 
+def verify_power_generator_create_explosion_shake_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    effect_path = Path(upstream_root) / EFFECT_SOURCE
+    position_path = Path(upstream_root).parent / "arc-upstream" / ARC_POSITION_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    effect_source = effect_path.read_text(encoding="utf-8", errors="replace")
+    position_source = position_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "shake_fields": "public float explosionShake = 0f, explosionShakeDuration = 6f;",
+        "method": "public void createExplosion(){",
+        "gate": "if(shouldExplode()){",
+        "shake_guard": "if(explosionShake > 0){",
+        "shake_call": "Effect.shake(explosionShake, explosionShakeDuration, this);",
+        "effect_shake_position_method": "public static void shake(float intensity, float duration, Position loc){",
+        "effect_shake_position_dispatch": "shake(intensity, duration, loc.getX(), loc.getY());",
+        "position_get_x": "float getX();",
+        "position_get_y": "float getY();",
+    }
+    sources_by_key = {
+        "effect_shake_position_method": effect_source,
+        "effect_shake_position_dispatch": effect_source,
+        "position_get_x": position_source,
+        "position_get_y": position_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [EFFECT_SOURCE, ARC_POSITION_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

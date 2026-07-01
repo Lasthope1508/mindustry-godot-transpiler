@@ -358,6 +358,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_create_explosion_shake_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_create_explosion_shake_source"))
+        report = source_parity.verify_power_generator_create_explosion_shake_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(report["sources"], [
+            "core/src/mindustry/entities/Effect.java",
+            "arc-core/src/arc/math/geom/Position.java",
+        ])
+        self.assertEqual(report["checked"], {
+            "shake_fields": "public float explosionShake = 0f, explosionShakeDuration = 6f;",
+            "method": "public void createExplosion(){",
+            "gate": "if(shouldExplode()){",
+            "shake_guard": "if(explosionShake > 0){",
+            "shake_call": "Effect.shake(explosionShake, explosionShakeDuration, this);",
+            "effect_shake_position_method": "public static void shake(float intensity, float duration, Position loc){",
+            "effect_shake_position_dispatch": "shake(intensity, duration, loc.getX(), loc.getY());",
+            "position_get_x": "float getX();",
+            "position_get_y": "float getY();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

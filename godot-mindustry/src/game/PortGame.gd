@@ -900,6 +900,50 @@ func source_power_generator_create_explosion_puddle_deposit_state(should_explode
 		],
 	}
 
+func source_power_generator_create_explosion_shake_state(should_explode_value: bool, source_x: float, source_y: float, explosion_shake: float, explosion_shake_duration: float) -> Dictionary:
+	var branch_entered := should_explode_value
+	var shake_dispatched := branch_entered and explosion_shake > 0.0
+	var shake_call := {}
+	if shake_dispatched:
+		shake_call = {
+			"intensity": explosion_shake,
+			"duration": explosion_shake_duration,
+			"loc_x": source_x,
+			"loc_y": source_y,
+			"position_dispatch": "shake(intensity, duration, loc.getX(), loc.getY());",
+			"xy_overload_deferred": true,
+		}
+	return {
+		"shake_fields": "public float explosionShake = 0f, explosionShakeDuration = 6f;",
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"shake_guard": "if(explosionShake > 0){",
+		"shake_call_source": "Effect.shake(explosionShake, explosionShakeDuration, this);",
+		"shake_call": "Effect.shake(explosionShake, explosionShakeDuration, this);",
+		"effect_shake_position_method": "public static void shake(float intensity, float duration, Position loc){",
+		"effect_shake_position_dispatch": "shake(intensity, duration, loc.getX(), loc.getY());",
+		"position_get_x": "float getX();",
+		"position_get_y": "float getY();",
+		"input_should_explode_value": should_explode_value,
+		"input_source_x": source_x,
+		"input_source_y": source_y,
+		"input_explosion_shake": explosion_shake,
+		"input_explosion_shake_duration": explosion_shake_duration,
+		"branch_entered": branch_entered,
+		"shake_guard_entered": shake_dispatched,
+		"shake_dispatched": shake_dispatched,
+		"shake_call_detail": shake_call,
+		"camera_falloff_deferred": true,
+		"renderer_shake_deferred": true,
+		"deferred_body": [
+			"public static void shake(float intensity, float duration, float x, float y){",
+			"if(Core.camera == null) return;",
+			"float distance = Core.camera.position.dst(x, y);",
+			"shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);",
+			"Vars.renderer.shake(intensity, duration);",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

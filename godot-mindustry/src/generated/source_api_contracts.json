@@ -20827,6 +20827,68 @@
       "tests": [
         "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_create_explosion_shake_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "createExplosion()",
+      "source_slice": "N920",
+      "params": [
+        {
+          "name": "should_explode_value",
+          "type": "bool",
+          "schema": "source_power_generator_create_explosion_shake_input.should_explode_value"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_shake_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_shake_input.source_y"
+        },
+        {
+          "name": "explosion_shake",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_shake_input.explosion_shake"
+        },
+        {
+          "name": "explosion_shake_duration",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_shake_input.explosion_shake_duration"
+        }
+      ],
+      "return_keys": [
+        "shake_fields",
+        "method",
+        "gate",
+        "shake_guard",
+        "shake_call_source",
+        "shake_call",
+        "effect_shake_position_method",
+        "effect_shake_position_dispatch",
+        "position_get_x",
+        "position_get_y",
+        "input_should_explode_value",
+        "input_source_x",
+        "input_source_y",
+        "input_explosion_shake",
+        "input_explosion_shake_duration",
+        "branch_entered",
+        "shake_guard_entered",
+        "shake_dispatched",
+        "shake_call_detail",
+        "camera_falloff_deferred",
+        "renderer_shake_deferred",
+        "deferred_body"
+      ],
+      "rule": "Public runtime contract for createExplosion shake guard and Effect.shake(Position) dispatch only; camera falloff and renderer shake mutation remain deferred.",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
