@@ -289,6 +289,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_create_explosion_puddle_vector_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_create_explosion_puddle_vector_source"))
+        report = source_parity.verify_power_generator_create_explosion_puddle_vector_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(report["sources"], [
+            "arc-core/src/arc/math/Mathf.java",
+            "arc-core/src/arc/math/geom/Vec2.java",
+        ])
+        self.assertEqual(report["checked"], {
+            "puddle_range_field": "public float explosionPuddleRange = tilesize * 2f;",
+            "puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+            "random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+            "mathf_random_float_method": "public static float random(float range){",
+            "mathf_random_float_return": "return rand.nextFloat() * range;",
+            "vec2_trns_method": "public Vec2 trns(float angle, float amount){",
+            "vec2_trns_return": "return set(amount, 0).rotate(angle);",
+            "vec2_rotate_method": "public Vec2 rotate(float degrees){",
+            "vec2_rotate_return": "return rotateRad(degrees * Mathf.degreesToRadians);",
+            "vec2_rotate_rad_method": "public Vec2 rotateRad(float radians){",
+            "vec2_rotate_rad_new_x": "float newX = this.x * cos - this.y * sin;",
+            "vec2_rotate_rad_new_y": "float newY = this.x * sin + this.y * cos;",
+            "tile_world": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+            "deposit": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

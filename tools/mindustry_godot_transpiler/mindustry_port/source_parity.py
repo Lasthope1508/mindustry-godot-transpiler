@@ -355,6 +355,51 @@ def verify_power_generator_create_explosion_puddle_loop_source(upstream_root: Pa
         "missing": missing,
     }
 
+def verify_power_generator_create_explosion_puddle_vector_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    vec2_path = Path(upstream_root).parent / "arc-upstream" / ARC_VEC2_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "puddle_range_field": "public float explosionPuddleRange = tilesize * 2f;",
+        "puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+        "random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+        "mathf_random_float_method": "public static float random(float range){",
+        "mathf_random_float_return": "return rand.nextFloat() * range;",
+        "vec2_trns_method": "public Vec2 trns(float angle, float amount){",
+        "vec2_trns_return": "return set(amount, 0).rotate(angle);",
+        "vec2_rotate_method": "public Vec2 rotate(float degrees){",
+        "vec2_rotate_return": "return rotateRad(degrees * Mathf.degreesToRadians);",
+        "vec2_rotate_rad_method": "public Vec2 rotateRad(float radians){",
+        "vec2_rotate_rad_new_x": "float newX = this.x * cos - this.y * sin;",
+        "vec2_rotate_rad_new_y": "float newY = this.x * sin + this.y * cos;",
+        "tile_world": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+        "deposit": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+    }
+    sources_by_key = {
+        "mathf_random_float_method": mathf_source,
+        "mathf_random_float_return": mathf_source,
+        "vec2_trns_method": vec2_source,
+        "vec2_trns_return": vec2_source,
+        "vec2_rotate_method": vec2_source,
+        "vec2_rotate_return": vec2_source,
+        "vec2_rotate_rad_method": vec2_source,
+        "vec2_rotate_rad_new_x": vec2_source,
+        "vec2_rotate_rad_new_y": vec2_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [ARC_MATHF_SOURCE, ARC_VEC2_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

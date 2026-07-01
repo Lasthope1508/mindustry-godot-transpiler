@@ -692,6 +692,71 @@ func source_power_generator_create_explosion_puddle_loop_state(should_explode_va
 		],
 	}
 
+func source_power_generator_create_explosion_puddle_vector_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int, explosion_puddle_range: float, random_angle_units: Array, random_range_units: Array) -> Dictionary:
+	var branch_entered := should_explode_value
+	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
+	var puddle_loop_count := 0
+	if puddle_guard_entered:
+		puddle_loop_count = max(explosion_puddles, 0)
+	var available_random_count = min(random_angle_units.size(), random_range_units.size())
+	var vector_count = min(puddle_loop_count, available_random_count)
+	var missing_random_input_count = max(puddle_loop_count - available_random_count, 0)
+	var tmp_v1_vectors := []
+	for i in range(vector_count):
+		var angle_unit := float(random_angle_units[i])
+		var range_unit := float(random_range_units[i])
+		var angle_degrees := angle_unit * 360.0
+		var amount := range_unit * explosion_puddle_range
+		var radians := deg_to_rad(angle_degrees)
+		var tmp_x := amount * cos(radians)
+		var tmp_y := amount * sin(radians)
+		tmp_v1_vectors.append({
+			"i": i,
+			"angle_unit": angle_unit,
+			"range_unit": range_unit,
+			"angle_degrees": angle_degrees,
+			"amount": amount,
+			"x": tmp_x,
+			"y": tmp_y,
+		})
+	return {
+		"puddle_range_field": "public float explosionPuddleRange = tilesize * 2f;",
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"puddle_guard": "if(explosionPuddleLiquid != null){",
+		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+		"random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+		"mathf_random_float_method": "public static float random(float range){",
+		"mathf_random_float_return": "return rand.nextFloat() * range;",
+		"vec2_trns_method": "public Vec2 trns(float angle, float amount){",
+		"vec2_trns_return": "return set(amount, 0).rotate(angle);",
+		"vec2_rotate_method": "public Vec2 rotate(float degrees){",
+		"vec2_rotate_return": "return rotateRad(degrees * Mathf.degreesToRadians);",
+		"vec2_rotate_rad_method": "public Vec2 rotateRad(float radians){",
+		"vec2_rotate_rad_new_x": "float newX = this.x * cos - this.y * sin;",
+		"vec2_rotate_rad_new_y": "float newY = this.x * sin + this.y * cos;",
+		"input_should_explode_value": should_explode_value,
+		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
+		"input_explosion_puddles": explosion_puddles,
+		"input_explosion_puddle_range": explosion_puddle_range,
+		"input_random_angle_units": random_angle_units,
+		"input_random_range_units": random_range_units,
+		"branch_entered": branch_entered,
+		"puddle_guard_entered": puddle_guard_entered,
+		"puddle_loop_count": puddle_loop_count,
+		"random_angle_range": 360.0,
+		"tmp_v1_vectors": tmp_v1_vectors,
+		"vector_count": vector_count,
+		"missing_random_input_count": missing_random_input_count,
+		"tile_deposit_deferred": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y); Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+		"deferred_body": [
+			"Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+			"Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+			"if(explosionShake > 0){",
+			"Effect.shake(explosionShake, explosionShakeDuration, this);",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

@@ -77563,6 +77563,205 @@
           "java_expr": "createExplosion() puddle random tile deposit and shake body"
         }
       }
+    },
+    "source_power_generator_create_explosion_puddle_vector_input": {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "source_slice": "N917",
+      "status": "active",
+      "keys": {
+        "should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "shouldExplode()",
+          "alias_of": "source_power_generator_should_explode_result.should_explode"
+        },
+        "explosion_puddle_liquid_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionPuddleLiquid"
+        },
+        "explosion_puddles": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionPuddles"
+        },
+        "explosion_puddle_range": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionPuddleRange"
+        },
+        "random_angle_units": {
+          "type": "Array[float]",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "rand.nextFloat()"
+        },
+        "random_range_units": {
+          "type": "Array[float]",
+          "status": "explicit-input",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "rand.nextFloat()"
+        }
+      }
+    },
+    "source_power_generator_create_explosion_puddle_vector_result": {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "source_slice": "N917",
+      "status": "active",
+      "keys": {
+        "puddle_range_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public float explosionPuddleRange = tilesize * 2f;"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public void createExplosion(){"
+        },
+        "gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){"
+        },
+        "puddle_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(explosionPuddleLiquid != null){"
+        },
+        "puddle_loop": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "for(int i = 0; i < explosionPuddles; i++){"
+        },
+        "random_vector": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));"
+        },
+        "mathf_random_float": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return rand.nextFloat() * range;"
+        },
+        "vec2_trns": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_expr": "return set(amount, 0).rotate(angle);"
+        },
+        "vec2_rotate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_expr": "return rotateRad(degrees * Mathf.degreesToRadians);"
+        },
+        "vec2_rotate_rad_new_x": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_expr": "float newX = this.x * cos - this.y * sin;"
+        },
+        "vec2_rotate_rad_new_y": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "java_expr": "float newY = this.x * sin + this.y * cos;"
+        },
+        "input_should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.should_explode_value"
+        },
+        "input_explosion_puddle_liquid_value": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddle_liquid_value"
+        },
+        "input_explosion_puddles": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddles"
+        },
+        "input_explosion_puddle_range": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddle_range"
+        },
+        "input_random_angle_units": {
+          "type": "Array[float]",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.random_angle_units"
+        },
+        "input_random_range_units": {
+          "type": "Array[float]",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.random_range_units"
+        },
+        "branch_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.should_explode_value"
+        },
+        "puddle_guard_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(explosionPuddleLiquid != null){"
+        },
+        "puddle_loop_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "for(int i = 0; i < explosionPuddles; i++){"
+        },
+        "random_angle_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Mathf.random(360f)"
+        },
+        "tmp_v1_vectors": {
+          "type": "Array[Dictionary]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));"
+        },
+        "vector_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "for(int i = 0; i < explosionPuddles; i++){"
+        },
+        "missing_random_input_count": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_puddle_vector_input.random_angle_units"
+        },
+        "tile_deposit_deferred": {
+          "type": "String",
+          "status": "deferred",
+          "java_expr": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);/Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);"
+        },
+        "deferred_body": {
+          "type": "Array[String]",
+          "status": "deferred",
+          "java_expr": "createExplosion() puddle tile lookup deposit and shake body"
+        }
+      }
     }
   },
   "version": 1

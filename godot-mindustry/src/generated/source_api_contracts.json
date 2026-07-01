@@ -20606,6 +20606,81 @@
       "tests": [
         "test_power_generator_create_explosion_puddle_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_create_explosion_puddle_vector_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "createExplosion()",
+      "source_slice": "N917",
+      "params": [
+        {
+          "name": "should_explode_value",
+          "type": "bool",
+          "schema": "source_power_generator_create_explosion_puddle_vector_input.should_explode_value"
+        },
+        {
+          "name": "explosion_puddle_liquid_value",
+          "type": "Variant",
+          "schema": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddle_liquid_value"
+        },
+        {
+          "name": "explosion_puddles",
+          "type": "int",
+          "schema": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddles"
+        },
+        {
+          "name": "explosion_puddle_range",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddle_range"
+        },
+        {
+          "name": "random_angle_units",
+          "type": "Array",
+          "schema": "source_power_generator_create_explosion_puddle_vector_input.random_angle_units"
+        },
+        {
+          "name": "random_range_units",
+          "type": "Array",
+          "schema": "source_power_generator_create_explosion_puddle_vector_input.random_range_units"
+        }
+      ],
+      "return_keys": [
+        "puddle_range_field",
+        "method",
+        "gate",
+        "puddle_guard",
+        "puddle_loop",
+        "random_vector",
+        "mathf_random_float_method",
+        "mathf_random_float_return",
+        "vec2_trns_method",
+        "vec2_trns_return",
+        "vec2_rotate_method",
+        "vec2_rotate_return",
+        "vec2_rotate_rad_method",
+        "vec2_rotate_rad_new_x",
+        "vec2_rotate_rad_new_y",
+        "input_should_explode_value",
+        "input_explosion_puddle_liquid_value",
+        "input_explosion_puddles",
+        "input_explosion_puddle_range",
+        "input_random_angle_units",
+        "input_random_range_units",
+        "branch_entered",
+        "puddle_guard_entered",
+        "puddle_loop_count",
+        "random_angle_range",
+        "tmp_v1_vectors",
+        "vector_count",
+        "missing_random_input_count",
+        "tile_deposit_deferred",
+        "deferred_body"
+      ],
+      "rule": "Public runtime contract for createExplosion puddle random vector only; RNG samples are explicit inputs, while tile lookup, Puddles.deposit, and shake remain deferred.",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -18557,6 +18557,59 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_puddle_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N917": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_vector.should_explode_call",
+        "power_generator_create_explosion_puddle_vector.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_vector.explosion_puddles",
+        "power_generator_create_explosion_puddle_vector.explosion_puddle_range",
+        "power_generator_create_explosion_puddle_vector.random_angle_units",
+        "power_generator_create_explosion_puddle_vector.random_range_units",
+        "power_generator_create_explosion_puddle_vector.puddle_range_field",
+        "power_generator_create_explosion_puddle_vector.method",
+        "power_generator_create_explosion_puddle_vector.gate",
+        "power_generator_create_explosion_puddle_vector.puddle_guard",
+        "power_generator_create_explosion_puddle_vector.puddle_loop",
+        "power_generator_create_explosion_puddle_vector.random_vector",
+        "power_generator_create_explosion_puddle_vector.mathf_random_float",
+        "power_generator_create_explosion_puddle_vector.vec2_trns",
+        "power_generator_create_explosion_puddle_vector.vec2_rotate",
+        "power_generator_create_explosion_puddle_vector.vec2_rotate_rad_new_x",
+        "power_generator_create_explosion_puddle_vector.vec2_rotate_rad_new_y",
+        "power_generator_create_explosion_puddle_vector.deferred_body"
+      ],
+      "exact_exprs": [
+        "public float explosionPuddleRange = tilesize * 2f;",
+        "for(int i = 0; i < explosionPuddles; i++){",
+        "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+        "public static float random(float range){",
+        "return rand.nextFloat() * range;",
+        "public Vec2 trns(float angle, float amount){",
+        "return set(amount, 0).rotate(angle);",
+        "public Vec2 rotate(float degrees){",
+        "return rotateRad(degrees * Mathf.degreesToRadians);",
+        "public Vec2 rotateRad(float radians){",
+        "float newX = this.x * cos - this.y * sin;",
+        "float newY = this.x * sin + this.y * cos;"
+      ],
+      "deferred_exprs": [
+        "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+        "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

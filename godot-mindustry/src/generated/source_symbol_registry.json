@@ -64708,6 +64708,240 @@
       "godot_symbol": "source_power_generator_create_explosion_puddle_loop_result.deferred_body",
       "rule": "Puddle random vector, tile lookup, deposit, and shake body remain deferred to later slices.",
       "status": "deferred"
+    },
+    "power_generator_create_explosion_puddle_vector.should_explode_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shouldExplode()",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_input.should_explode_value",
+      "rule": "Runtime should_explode_value parameter maps to createExplosion shouldExplode() gate call.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_vector.explosion_puddle_liquid": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddleLiquid",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddle_liquid_value",
+      "rule": "Runtime explosion_puddle_liquid_value parameter maps to PowerGenerator.explosionPuddleLiquid.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_vector.explosion_puddles": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddles",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddles",
+      "rule": "Runtime explosion_puddles parameter maps to PowerGenerator.explosionPuddles.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_vector.explosion_puddle_range": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionPuddleRange",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_input.explosion_puddle_range",
+      "rule": "Runtime explosion_puddle_range parameter maps to PowerGenerator.explosionPuddleRange.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_vector.random_angle_units": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "random(float range)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "rand.nextFloat()",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_input.random_angle_units",
+      "rule": "Explicit input supplies the rand.nextFloat() unit consumed by Mathf.random(360f); no GDScript RNG is introduced.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_vector.random_range_units": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "random(float range)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "rand.nextFloat()",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_input.random_range_units",
+      "rule": "Explicit input supplies the rand.nextFloat() unit consumed by Mathf.random(explosionPuddleRange); no GDScript RNG is introduced.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_puddle_vector.puddle_range_field": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public float explosionPuddleRange = tilesize * 2f;",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.puddle_range_field",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.puddle_range_field maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void createExplosion(){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.method",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.method maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.gate": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(shouldExplode()){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.branch_entered",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.branch_entered maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.puddle_guard": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(explosionPuddleLiquid != null){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.puddle_guard_entered",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.puddle_guard_entered maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.puddle_loop": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "for(int i = 0; i < explosionPuddles; i++){",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.puddle_loop_count",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.puddle_loop_count maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.random_vector": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.mathf_random_float": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "random(float range)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return rand.nextFloat() * range;",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.vec2_trns": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "trns(float angle, float amount)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return set(amount, 0).rotate(angle);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.vec2_rotate": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotate(float degrees)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "return rotateRad(degrees * Mathf.degreesToRadians);",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.vec2_rotate_rad_new_x": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotateRad(float radians)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "float newX = this.x * cos - this.y * sin;",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.vec2_rotate_rad_new_y": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "rotateRad(float radians)",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "float newY = this.x * sin + this.y * cos;",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors",
+      "rule": "Runtime source_power_generator_create_explosion_puddle_vector_result.tmp_v1_vectors maps to createExplosion puddle vector source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_puddle_vector.deferred_body": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "createExplosion() puddle tile lookup deposit and shake body",
+      "godot_symbol": "source_power_generator_create_explosion_puddle_vector_result.deferred_body",
+      "rule": "Tile lookup, deposit call, and shake remain deferred to later slices.",
+      "status": "deferred"
     }
   },
   "version": 1
