@@ -430,6 +430,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_set_stats_output_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_set_stats_output_liquid_source"))
+        report = source_parity.verify_thermal_generator_set_stats_output_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/type/LiquidStack.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stat.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatValues.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+            "method": "public void setStats(){",
+            "output_liquid_guard": "if(outputLiquid != null){",
+            "output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));",
+            "liquid_stack_class": "public class LiquidStack implements Comparable<LiquidStack>{",
+            "liquid_stack_liquid": "public Liquid liquid;",
+            "liquid_stack_amount": "public float amount;",
+            "stat_output": "output = new Stat(\"output\", StatCat.crafting),",
+            "stat_values_liquid": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){",
+            "stat_values_liquid_return": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

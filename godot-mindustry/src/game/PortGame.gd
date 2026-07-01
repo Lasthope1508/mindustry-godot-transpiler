@@ -796,6 +796,38 @@ func source_thermal_generator_set_stats_state(power_production: float, display_e
 		},
 	}
 
+func source_thermal_generator_set_stats_output_liquid_state(output_liquid_present: bool, output_liquid_liquid: String, output_liquid_amount: float, size: float) -> Dictionary:
+	var output_stat_amount := output_liquid_amount * size * size * 60.0 if output_liquid_present else 0.0
+	var output_stat_call := {}
+	if output_liquid_present:
+		output_stat_call = {
+			"stat": "Stat.output",
+			"liquid": output_liquid_liquid,
+			"amount": output_stat_amount,
+			"perSecond": true,
+			"statValue": "StatValues.liquid",
+		}
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+		"method": "public void setStats(){",
+		"output_liquid_guard": "if(outputLiquid != null){",
+		"output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));",
+		"liquid_stack_class": "public class LiquidStack implements Comparable<LiquidStack>{",
+		"liquid_stack_liquid": "public Liquid liquid;",
+		"liquid_stack_amount": "public float amount;",
+		"stat_output": "output = new Stat(\"output\", StatCat.crafting),",
+		"stat_values_liquid": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){",
+		"stat_values_liquid_return": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();",
+		"output_liquid_present": output_liquid_present,
+		"output_liquid_liquid": output_liquid_liquid,
+		"output_liquid_amount": output_liquid_amount,
+		"size": size,
+		"output_stat_added": output_liquid_present,
+		"output_stat_amount": output_stat_amount,
+		"output_stat_call": output_stat_call,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

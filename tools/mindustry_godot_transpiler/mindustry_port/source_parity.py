@@ -608,6 +608,47 @@ def verify_thermal_generator_set_stats_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_thermal_generator_set_stats_output_liquid_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    liquid_stack_path = Path(upstream_root) / "core/src/mindustry/type/LiquidStack.java"
+    stat_path = Path(upstream_root) / "core/src/mindustry/world/meta/Stat.java"
+    stat_values_path = Path(upstream_root) / "core/src/mindustry/world/meta/StatValues.java"
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    liquid_stack_source = liquid_stack_path.read_text(encoding="utf-8", errors="replace")
+    stat_source = stat_path.read_text(encoding="utf-8", errors="replace")
+    stat_values_source = stat_values_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
+        "method": "public void setStats(){",
+        "output_liquid_guard": "if(outputLiquid != null){",
+        "output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));",
+        "liquid_stack_class": "public class LiquidStack implements Comparable<LiquidStack>{",
+        "liquid_stack_liquid": "public Liquid liquid;",
+        "liquid_stack_amount": "public float amount;",
+        "stat_output": "output = new Stat(\"output\", StatCat.crafting),",
+        "stat_values_liquid": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){",
+        "stat_values_liquid_return": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();",
+    }
+    sources_by_key = {
+        "liquid_stack_class": liquid_stack_source,
+        "liquid_stack_liquid": liquid_stack_source,
+        "liquid_stack_amount": liquid_stack_source,
+        "stat_output": stat_source,
+        "stat_values_liquid": stat_values_source,
+        "stat_values_liquid_return": stat_values_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": ["core/src/mindustry/type/LiquidStack.java", "core/src/mindustry/world/meta/Stat.java", "core/src/mindustry/world/meta/StatValues.java"],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

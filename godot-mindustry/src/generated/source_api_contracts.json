@@ -21504,6 +21504,61 @@
         "test_thermal_generator_set_stats_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGenerator.setStats tile and power stat formulas before outputLiquid branch."
+    },
+    "PortGame.source_thermal_generator_set_stats_output_liquid_state": {
+      "status": "active",
+      "source_slice": "N934",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "setStats() outputLiquid branch",
+      "params": [
+        {
+          "name": "output_liquid_present",
+          "type": "bool",
+          "schema": "source_thermal_generator_set_stats_output_liquid_input.output_liquid_present"
+        },
+        {
+          "name": "output_liquid_liquid",
+          "type": "String",
+          "schema": "source_thermal_generator_set_stats_output_liquid_input.output_liquid_liquid"
+        },
+        {
+          "name": "output_liquid_amount",
+          "type": "float",
+          "schema": "source_thermal_generator_set_stats_output_liquid_input.output_liquid_amount"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_thermal_generator_set_stats_output_liquid_input.size"
+        }
+      ],
+      "return_keys": [
+        "class",
+        "output_liquid_field",
+        "method",
+        "output_liquid_guard",
+        "output_liquid_stat_add",
+        "liquid_stack_class",
+        "liquid_stack_liquid",
+        "liquid_stack_amount",
+        "stat_output",
+        "stat_values_liquid",
+        "stat_values_liquid_return",
+        "output_liquid_present",
+        "output_liquid_liquid",
+        "output_liquid_amount",
+        "size",
+        "output_stat_added",
+        "output_stat_amount",
+        "output_stat_call"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_output_liquid_state",
+      "tests": [
+        "test_thermal_generator_set_stats_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_output_liquid_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGenerator.setStats outputLiquid stat branch."
     }
   },
   "policy": {

@@ -80588,6 +80588,128 @@
           "java_expr": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);"
         }
       }
+    },
+    "source_thermal_generator_set_stats_output_liquid_input": {
+      "owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state",
+      "status": "active",
+      "keys": {
+        "output_liquid_present": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_output_liquid_input key output_liquid_present.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_input.output_liquid_present",
+          "java_expr": "outputLiquid != null"
+        },
+        "output_liquid_liquid": {
+          "type": "String",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_output_liquid_input key output_liquid_liquid.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/type/LiquidStack.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_input.output_liquid_liquid",
+          "java_expr": "outputLiquid.liquid"
+        },
+        "output_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_output_liquid_input key output_liquid_amount.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/type/LiquidStack.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_input.output_liquid_amount",
+          "java_expr": "outputLiquid.amount"
+        },
+        "size": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_output_liquid_input key size.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_input.size",
+          "java_expr": "size"
+        }
+      }
+    },
+    "source_thermal_generator_set_stats_output_liquid_result": {
+      "owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_output_liquid_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_result.method",
+          "java_expr": "public void setStats(){"
+        },
+        "output_stat_added": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_output_liquid_result key output_stat_added.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_result.output_stat_added",
+          "java_expr": "if(outputLiquid != null){",
+          "alias_of": "source_thermal_generator_set_stats_output_liquid_input.output_liquid_present"
+        },
+        "output_stat_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_output_liquid_result key output_stat_amount.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_result.output_stat_amount",
+          "java_expr": "outputLiquid.amount * size * size * 60f",
+          "alias_of": "computed from source_thermal_generator_set_stats_output_liquid_input.output_liquid_amount/source_thermal_generator_set_stats_output_liquid_input.size"
+        },
+        "output_stat_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_output_liquid_result key output_stat_call.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_result.output_stat_call",
+          "java_expr": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));"
+        },
+        "per_second": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_output_liquid_result key per_second.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_output_liquid_result.per_second",
+          "java_expr": "true"
+        }
+      }
     }
   },
   "version": 1

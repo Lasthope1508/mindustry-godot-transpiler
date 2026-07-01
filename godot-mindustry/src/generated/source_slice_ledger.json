@@ -19180,6 +19180,42 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_set_stats_matches_upstream_source"
       ]
+    },
+    "N934": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator",
+      "java_method": "setStats() outputLiquid branch",
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_output_liquid_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public @Nullable LiquidStack outputLiquid;",
+        "public void setStats(){",
+        "if(outputLiquid != null){",
+        "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));",
+        "public class LiquidStack implements Comparable<LiquidStack>{",
+        "public Liquid liquid;",
+        "public float amount;",
+        "output = new Stat(\"output\", StatCat.crafting),",
+        "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){",
+        "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();"
+      ],
+      "source_symbols": [
+        "thermal_generator_set_stats_output_liquid.output_liquid_amount",
+        "thermal_generator_set_stats_output_liquid.output_liquid_liquid",
+        "thermal_generator_set_stats_output_liquid.output_liquid_present",
+        "thermal_generator_set_stats_output_liquid.output_stat_added",
+        "thermal_generator_set_stats_output_liquid.output_stat_amount",
+        "thermal_generator_set_stats_output_liquid.output_stat_call",
+        "thermal_generator_set_stats_output_liquid.per_second",
+        "thermal_generator_set_stats_output_liquid.size"
+      ],
+      "tests": [
+        "test_thermal_generator_set_stats_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_output_liquid_matches_upstream_source"
+      ]
     }
   },
   "version": 1
