@@ -4302,7 +4302,10 @@ func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot
 	}
 
 func source_weapons_control_rotate_shoot_state(mount_states: Array, rotate_shoot: bool) -> Dictionary:
-	return source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)
+	var control_state := source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)
+	control_state["rotateShootMethod"] = "void controlWeapons(boolean rotateShoot){"
+	control_state["rotateShootDelegate"] = "controlWeapons(rotateShoot, rotateShoot);"
+	return control_state
 
 func source_weapons_aim_state(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:
 	var aim_vector := Vector2(target_x, target_y) - Vector2(unit_x, unit_y)

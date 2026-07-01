@@ -59990,6 +59990,66 @@
       "godot_symbol": "source_weapons_can_shoot_result.canShoot",
       "status": "source-backed",
       "rule": "Boolean canShoot result derived from exact return expression."
+    },
+    "weapons_control_rotate_shoot.method": {
+      "godot_owner": "PortGame.source_weapons_control_rotate_shoot_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotateShoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_rotate_shoot_state",
+      "tests": [
+        "test_weapons_control_rotate_shoot_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "void controlWeapons(boolean rotateShoot){",
+      "godot_symbol": "source_weapons_control_rotate_shoot_result.rotateShootMethod",
+      "status": "source-backed",
+      "rule": "Exact single-argument controlWeapons overload header."
+    },
+    "weapons_control_rotate_shoot.delegate": {
+      "godot_owner": "PortGame.source_weapons_control_rotate_shoot_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotateShoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_rotate_shoot_state",
+      "tests": [
+        "test_weapons_control_rotate_shoot_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "controlWeapons(rotateShoot, rotateShoot);",
+      "godot_symbol": "source_weapons_control_rotate_shoot_result.rotateShootDelegate",
+      "status": "source-backed",
+      "rule": "Exact delegate from rotateShoot overload to pair overload."
+    },
+    "weapons_control_rotate_shoot.rotate_shoot_input": {
+      "godot_owner": "PortGame.source_weapons_control_rotate_shoot_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotateShoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_rotate_shoot_state",
+      "tests": [
+        "test_weapons_control_rotate_shoot_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "void controlWeapons(boolean rotateShoot){",
+      "godot_symbol": "source_weapons_control_rotate_shoot_input.rotate_shoot",
+      "status": "explicit-input",
+      "rule": "rotateShoot parameter from exact single-argument overload."
+    },
+    "weapons_control_rotate_shoot.mounts_field": {
+      "godot_owner": "PortGame.source_weapons_control_rotate_shoot_state",
+      "java_method": "WeaponsComp fields",
+      "runtime_proof": "/root/Main.source_weapons_control_rotate_shoot_state",
+      "tests": [
+        "test_weapons_control_rotate_shoot_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+      "godot_symbol": "source_weapons_control_rotate_shoot_input.mount_states",
+      "status": "source-backed",
+      "rule": "Weapon mount array consumed by delegated control state."
     }
   },
   "version": 1

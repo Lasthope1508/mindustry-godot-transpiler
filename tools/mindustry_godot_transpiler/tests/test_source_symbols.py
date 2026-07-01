@@ -5798,6 +5798,31 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result["java_expr"], "return !disarmed;")
         self.assertEqual(result["godot_symbol"], "source_weapons_can_shoot_result.canShoot")
 
+    def test_weapons_control_rotate_shoot_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "weapons_control_rotate_shoot.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(method["java_expr"], "void controlWeapons(boolean rotateShoot){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_weapons_control_rotate_shoot_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_weapons_control_rotate_shoot_state")
+        self.assertEqual(method["godot_symbol"], "source_weapons_control_rotate_shoot_result.rotateShootMethod")
+
+        delegate = source_symbols.source_symbol(registry, "weapons_control_rotate_shoot.delegate")
+        self.assertEqual(delegate["java_expr"], "controlWeapons(rotateShoot, rotateShoot);")
+        self.assertEqual(delegate["godot_symbol"], "source_weapons_control_rotate_shoot_result.rotateShootDelegate")
+
+        rotate_shoot_input = source_symbols.source_symbol(registry, "weapons_control_rotate_shoot.rotate_shoot_input")
+        self.assertEqual(rotate_shoot_input["java_expr"], "void controlWeapons(boolean rotateShoot){")
+        self.assertEqual(rotate_shoot_input["godot_symbol"], "source_weapons_control_rotate_shoot_input.rotate_shoot")
+
+        mounts = source_symbols.source_symbol(registry, "weapons_control_rotate_shoot.mounts_field")
+        self.assertEqual(mounts["java_expr"], "@SyncLocal WeaponMount[] mounts = {};")
+        self.assertEqual(mounts["godot_symbol"], "source_weapons_control_rotate_shoot_input.mount_states")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16666,9 +16691,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 476)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 477)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 481)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 482)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16704,6 +16729,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapons_aim_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapons_can_shoot_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapons_can_shoot_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapons_control_rotate_shoot_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapons_control_rotate_shoot_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19855,6 +19882,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return !disarmed;", weapons_can_shoot["exact_exprs"])
         self.assertIn("weapons_can_shoot.disarmed_import", weapons_can_shoot["source_symbols"])
         self.assertIn("weapons_can_shoot.return_expr", weapons_can_shoot["source_symbols"])
+
+        weapons_control_rotate_shoot = source_symbols.source_slice(ledger, "N879")
+        self.assertEqual(weapons_control_rotate_shoot["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(weapons_control_rotate_shoot["java_method"], "WeaponsComp.controlWeapons(boolean rotateShoot)")
+        self.assertEqual(weapons_control_rotate_shoot["godot_owner"], "PortGame.source_weapons_control_rotate_shoot_state")
+        self.assertIn("void controlWeapons(boolean rotateShoot){", weapons_control_rotate_shoot["exact_exprs"])
+        self.assertIn("controlWeapons(rotateShoot, rotateShoot);", weapons_control_rotate_shoot["exact_exprs"])
+        self.assertIn("void controlWeapons(boolean rotate, boolean shoot){", weapons_control_rotate_shoot["deferred_exprs"])
+        self.assertIn("weapons_control_rotate_shoot.method", weapons_control_rotate_shoot["source_symbols"])
+        self.assertIn("weapons_control_rotate_shoot.delegate", weapons_control_rotate_shoot["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23406,6 +23443,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("disarmed", weapons_can_shoot["return_keys"])
         self.assertIn("canShoot", weapons_can_shoot["return_keys"])
         self.assertEqual(weapons_can_shoot["source_method"], "WeaponsComp.canShoot()")
+
+        weapons_control_rotate_shoot = source_symbols.api_contract(contracts, "PortGame.source_weapons_control_rotate_shoot_state")
+        self.assertEqual([param["name"] for param in weapons_control_rotate_shoot["params"]], ["mount_states", "rotate_shoot"])
+        self.assertEqual(weapons_control_rotate_shoot["params"][0]["schema"], "source_weapons_control_rotate_shoot_input.mount_states")
+        self.assertEqual(weapons_control_rotate_shoot["params"][1]["schema"], "source_weapons_control_rotate_shoot_input.rotate_shoot")
+        self.assertIn("rotateShootMethod", weapons_control_rotate_shoot["return_keys"])
+        self.assertIn("rotateShootDelegate", weapons_control_rotate_shoot["return_keys"])
+        self.assertIn("isRotate", weapons_control_rotate_shoot["return_keys"])
+        self.assertIn("isShooting", weapons_control_rotate_shoot["return_keys"])
+        self.assertIn("mounts", weapons_control_rotate_shoot["return_keys"])
+        self.assertEqual(weapons_control_rotate_shoot["source_method"], "WeaponsComp.controlWeapons(boolean rotateShoot)")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -30328,6 +30376,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapons_can_shoot_result["keys"]["return"]["java_expr"], "return !disarmed;")
         self.assertEqual(source_weapons_can_shoot_result["keys"]["disarmed"]["alias_of"], "source_weapons_can_shoot_input.disarmed_value")
         self.assertEqual(source_weapons_can_shoot_result["keys"]["canShoot"]["java_expr"], "return !disarmed;")
+
+        source_weapons_control_rotate_shoot_input = source_symbols.state_schema(schema, "source_weapons_control_rotate_shoot_input")
+        self.assertEqual(source_weapons_control_rotate_shoot_input["keys"]["mount_states"]["java_expr"], "@SyncLocal WeaponMount[] mounts = {};")
+        self.assertEqual(source_weapons_control_rotate_shoot_input["keys"]["rotate_shoot"]["java_expr"], "void controlWeapons(boolean rotateShoot){")
+
+        source_weapons_control_rotate_shoot_result = source_symbols.state_schema(schema, "source_weapons_control_rotate_shoot_result")
+        self.assertEqual(source_weapons_control_rotate_shoot_result["keys"]["rotateShootMethod"]["java_expr"], "void controlWeapons(boolean rotateShoot){")
+        self.assertEqual(source_weapons_control_rotate_shoot_result["keys"]["rotateShootDelegate"]["java_expr"], "controlWeapons(rotateShoot, rotateShoot);")
+        self.assertEqual(source_weapons_control_rotate_shoot_result["keys"]["isRotate"]["alias_of"], "source_weapons_control_state_result.isRotate")
+        self.assertEqual(source_weapons_control_rotate_shoot_result["keys"]["isShooting"]["alias_of"], "source_weapons_control_state_result.isShooting")
+        self.assertEqual(source_weapons_control_rotate_shoot_result["keys"]["mounts"]["alias_of"], "source_weapons_control_state_result.mounts")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

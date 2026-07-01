@@ -4336,7 +4336,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot_value: bool) -> Dictionary:", source)
         self.assertIn("func source_weapons_control_rotate_shoot_state(mount_states: Array, rotate_shoot: bool) -> Dictionary:", source)
-        self.assertIn("return source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)", source)
+        self.assertIn("var control_state := source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)", source)
+        self.assertIn('control_state["rotateShootMethod"] = "void controlWeapons(boolean rotateShoot){"', source)
+        self.assertIn('control_state["rotateShootDelegate"] = "controlWeapons(rotateShoot, rotateShoot);"', source)
+        self.assertIn("return control_state", source)
         self.assertIn("for index in mount_states.size():", source)
         self.assertIn('var controllable := bool(mount_state.get("controllable", true))', source)
         self.assertIn('"guard": "mount.weapon.controllable"', source)

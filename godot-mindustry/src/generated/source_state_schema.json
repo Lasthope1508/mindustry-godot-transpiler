@@ -71713,6 +71713,108 @@
           ]
         }
       }
+    },
+    "source_weapons_control_rotate_shoot_input": {
+      "owner": "PortGame.source_weapons_control_rotate_shoot_state",
+      "runtime_proof": "/root/Main.source_weapons_control_rotate_shoot_state",
+      "status": "active",
+      "keys": {
+        "mount_states": {
+          "godot_symbol": "source_weapons_control_rotate_shoot_input.mount_states",
+          "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+          "java_method": "WeaponsComp fields",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Weapon mount array input consumed by delegated pair overload.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        },
+        "rotate_shoot": {
+          "godot_symbol": "source_weapons_control_rotate_shoot_input.rotate_shoot",
+          "java_expr": "void controlWeapons(boolean rotateShoot){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotateShoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Single boolean parameter of rotateShoot overload.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        }
+      }
+    },
+    "source_weapons_control_rotate_shoot_result": {
+      "owner": "PortGame.source_weapons_control_rotate_shoot_state",
+      "runtime_proof": "/root/Main.source_weapons_control_rotate_shoot_state",
+      "status": "active",
+      "keys": {
+        "rotateShootMethod": {
+          "godot_symbol": "source_weapons_control_rotate_shoot_result.rotateShootMethod",
+          "java_expr": "void controlWeapons(boolean rotateShoot){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotateShoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact single-argument overload header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        },
+        "rotateShootDelegate": {
+          "godot_symbol": "source_weapons_control_rotate_shoot_result.rotateShootDelegate",
+          "java_expr": "controlWeapons(rotateShoot, rotateShoot);",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotateShoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact delegate call into pair overload.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        },
+        "delegate": {
+          "alias_of": "source_weapons_control_rotate_shoot_result.rotateShootDelegate",
+          "godot_symbol": "source_weapons_control_rotate_shoot_result.delegate",
+          "rule": "Legacy result key mirrors exact delegate source string.",
+          "status": "alias",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        },
+        "isRotate": {
+          "alias_of": "source_weapons_control_state_result.isRotate",
+          "godot_symbol": "source_weapons_control_rotate_shoot_result.isRotate",
+          "rule": "Delegate result owned by pair overload state.",
+          "status": "alias",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        },
+        "isShooting": {
+          "alias_of": "source_weapons_control_state_result.isShooting",
+          "godot_symbol": "source_weapons_control_rotate_shoot_result.isShooting",
+          "rule": "Delegate result owned by pair overload state.",
+          "status": "alias",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        },
+        "mounts": {
+          "alias_of": "source_weapons_control_state_result.mounts",
+          "godot_symbol": "source_weapons_control_rotate_shoot_result.mounts",
+          "rule": "Delegated mount results owned by pair overload state.",
+          "status": "alias",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_control_rotate_shoot_state"
+          ]
+        }
+      }
     }
   },
   "version": 1
