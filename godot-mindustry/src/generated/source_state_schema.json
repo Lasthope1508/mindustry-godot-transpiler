@@ -71815,6 +71815,164 @@
           ]
         }
       }
+    },
+    "source_weapons_control_state_input": {
+      "owner": "PortGame.source_weapons_control_state",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "status": "active",
+      "keys": {
+        "mount_states": {
+          "godot_symbol": "source_weapons_control_state_input.mount_states",
+          "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+          "java_method": "WeaponsComp fields",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Weapon mount array input for pair overload.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "rotate_value": {
+          "godot_symbol": "source_weapons_control_state_input.rotate_value",
+          "java_expr": "void controlWeapons(boolean rotate, boolean shoot){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "rotate parameter from exact pair overload.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "shoot_value": {
+          "godot_symbol": "source_weapons_control_state_input.shoot_value",
+          "java_expr": "void controlWeapons(boolean rotate, boolean shoot){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "shoot parameter from exact pair overload.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "controllable": {
+          "godot_symbol": "source_weapons_control_state_input.mount_states.controllable",
+          "java_expr": "public boolean controllable = true;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon controllable bridge field read through mount state.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        }
+      }
+    },
+    "source_weapons_control_state_result": {
+      "owner": "PortGame.source_weapons_control_state",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "status": "active",
+      "keys": {
+        "controlMethod": {
+          "godot_symbol": "source_weapons_control_state_result.controlMethod",
+          "java_expr": "void controlWeapons(boolean rotate, boolean shoot){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact pair overload header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_weapons_control_state_result.loop",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact mount loop in pair overload.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_weapons_control_state_result.mounts.guard",
+          "java_expr": "if(mount.weapon.controllable){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact controllable guard recorded per mount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "rotateAssignment": {
+          "godot_symbol": "source_weapons_control_state_result.mounts.rotateAssignment",
+          "java_expr": "mount.rotate = rotate;",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact rotate assignment recorded per mount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "shootAssignment": {
+          "godot_symbol": "source_weapons_control_state_result.mounts.shootAssignment",
+          "java_expr": "mount.shoot = shoot;",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact shoot assignment recorded per mount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "isRotate": {
+          "godot_symbol": "source_weapons_control_state_result.isRotate",
+          "java_expr": "isRotate = rotate;",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact unit rotate flag result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "isShooting": {
+          "godot_symbol": "source_weapons_control_state_result.isShooting",
+          "java_expr": "isShooting = shoot;",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact unit shooting flag result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        },
+        "mounts": {
+          "godot_symbol": "source_weapons_control_state_result.mounts",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Per-mount control results from exact loop.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_control_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

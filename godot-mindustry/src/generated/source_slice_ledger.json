@@ -17250,6 +17250,57 @@
         "test_weapons_control_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp controlWeapons(boolean rotateShoot) wrapper against exact upstream source."
+    },
+    "N880": {
+      "exact_exprs": [
+        "@SyncLocal WeaponMount[] mounts = {};",
+        "@ReadOnly transient boolean isRotate;",
+        "boolean isShooting;",
+        "void controlWeapons(boolean rotate, boolean shoot){",
+        "for(WeaponMount mount : mounts){",
+        "if(mount.weapon.controllable){",
+        "mount.rotate = rotate;",
+        "mount.shoot = shoot;",
+        "isRotate = rotate;",
+        "isShooting = shoot;"
+      ],
+      "bridge_exprs": [
+        "public boolean controllable = true;",
+        "public boolean shoot = false;",
+        "public boolean rotate = false;"
+      ],
+      "deferred_exprs": [
+        "void controlWeapons(boolean rotateShoot){",
+        "controlWeapons(rotateShoot, rotateShoot);",
+        "Single-argument overload remains owned by PortGame.source_weapons_control_rotate_shoot_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "source_symbols": [
+        "weapons_control.is_rotate_field",
+        "weapons_control.is_shooting_field",
+        "weapons_control.method",
+        "weapons_control.mounts_field",
+        "weapons_control.loop",
+        "weapons_control.controllable_guard",
+        "weapons_control.rotate_assignment",
+        "weapons_control.shoot_assignment",
+        "weapons_control.is_rotate_assignment",
+        "weapons_control.is_shooting_assignment",
+        "weapons_control.weapon_controllable",
+        "weapons_control.weapon_mount_shoot",
+        "weapons_control.weapon_mount_rotate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp controlWeapons(boolean rotate, boolean shoot) wrapper against exact upstream source."
     }
   },
   "version": 1

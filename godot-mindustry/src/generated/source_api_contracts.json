@@ -19066,6 +19066,43 @@
         "test_port_game_exposes_source_weapons_control_state",
         "test_weapons_control_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_control_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "mount_states",
+          "schema": "source_weapons_control_state_input.mount_states",
+          "type": "Array"
+        },
+        {
+          "name": "rotate_value",
+          "schema": "source_weapons_control_state_input.rotate_value",
+          "type": "bool"
+        },
+        {
+          "name": "shoot_value",
+          "schema": "source_weapons_control_state_input.shoot_value",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "controlMethod",
+        "loop",
+        "isRotate",
+        "isShooting",
+        "mounts"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.controlWeapons(boolean rotate, boolean shoot) state.",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "source_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "source_slice": "N880",
+      "status": "active",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ]
     }
   },
   "policy": {

@@ -4287,15 +4287,15 @@ func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot
 			"index": index,
 			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
 			"controlled": controllable,
-			"guard": "mount.weapon.controllable",
-			"rotateAssignment": "mount.rotate = rotate",
-			"shootAssignment": "mount.shoot = shoot",
+			"guard": "if(mount.weapon.controllable){",
+			"rotateAssignment": "mount.rotate = rotate;",
+			"shootAssignment": "mount.shoot = shoot;",
 			"rotate": rotate_value if controllable else bool(mount_state.get("rotate", false)),
 			"shoot": shoot_value if controllable else bool(mount_state.get("shoot", false)),
 		})
 	return {
-		"loop": "for(WeaponMount mount : mounts)",
-		"delegate": "controlWeapons(rotateShoot, rotateShoot)",
+		"controlMethod": "void controlWeapons(boolean rotate, boolean shoot){",
+		"loop": "for(WeaponMount mount : mounts){",
 		"isRotate": rotate_value,
 		"isShooting": shoot_value,
 		"mounts": mounts,
@@ -4303,6 +4303,7 @@ func source_weapons_control_state(mount_states: Array, rotate_value: bool, shoot
 
 func source_weapons_control_rotate_shoot_state(mount_states: Array, rotate_shoot: bool) -> Dictionary:
 	var control_state := source_weapons_control_state(mount_states, rotate_shoot, rotate_shoot)
+	control_state["delegate"] = "controlWeapons(rotateShoot, rotateShoot);"
 	control_state["rotateShootMethod"] = "void controlWeapons(boolean rotateShoot){"
 	control_state["rotateShootDelegate"] = "controlWeapons(rotateShoot, rotateShoot);"
 	return control_state

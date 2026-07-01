@@ -60050,6 +60050,201 @@
       "godot_symbol": "source_weapons_control_rotate_shoot_input.mount_states",
       "status": "source-backed",
       "rule": "Weapon mount array consumed by delegated control state."
+    },
+    "weapons_control.is_rotate_field": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp fields",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "@ReadOnly transient boolean isRotate;",
+      "godot_symbol": "source_weapons_control_state_result.isRotate",
+      "status": "source-backed",
+      "rule": "WeaponsComp isRotate field updated by pair overload."
+    },
+    "weapons_control.is_shooting_field": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp fields",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "boolean isShooting;",
+      "godot_symbol": "source_weapons_control_state_result.isShooting",
+      "status": "source-backed",
+      "rule": "WeaponsComp isShooting field updated by pair overload."
+    },
+    "weapons_control.method": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "void controlWeapons(boolean rotate, boolean shoot){",
+      "godot_symbol": "source_weapons_control_state_result.controlMethod",
+      "status": "source-backed",
+      "rule": "Exact pair controlWeapons overload header."
+    },
+    "weapons_control.mounts_field": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp fields",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+      "godot_symbol": "source_weapons_control_state_input.mount_states",
+      "status": "source-backed",
+      "rule": "Weapon mount array consumed by pair control state."
+    },
+    "weapons_control.loop": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "for(WeaponMount mount : mounts){",
+      "godot_symbol": "source_weapons_control_state_result.loop",
+      "status": "source-backed",
+      "rule": "Exact mount loop in pair overload."
+    },
+    "weapons_control.controllable_guard": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "if(mount.weapon.controllable){",
+      "godot_symbol": "source_weapons_control_state_result.mounts.guard",
+      "status": "source-backed",
+      "rule": "Exact controllable guard in pair overload."
+    },
+    "weapons_control.rotate_assignment": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "mount.rotate = rotate;",
+      "godot_symbol": "source_weapons_control_state_result.mounts.rotateAssignment",
+      "status": "source-backed",
+      "rule": "Exact rotate assignment for controllable mount."
+    },
+    "weapons_control.shoot_assignment": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "mount.shoot = shoot;",
+      "godot_symbol": "source_weapons_control_state_result.mounts.shootAssignment",
+      "status": "source-backed",
+      "rule": "Exact shoot assignment for controllable mount."
+    },
+    "weapons_control.is_rotate_assignment": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "isRotate = rotate;",
+      "godot_symbol": "source_weapons_control_state_result.isRotate",
+      "status": "source-backed",
+      "rule": "Exact unit rotate flag assignment."
+    },
+    "weapons_control.is_shooting_assignment": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "isShooting = shoot;",
+      "godot_symbol": "source_weapons_control_state_result.isShooting",
+      "status": "source-backed",
+      "rule": "Exact unit shooting flag assignment."
+    },
+    "weapons_control.weapon_controllable": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean controllable = true;",
+      "godot_symbol": "source_weapons_control_state_input.mount_states.controllable",
+      "status": "source-backed",
+      "rule": "Weapon controllable bridge field used by pair overload guard."
+    },
+    "weapons_control.weapon_mount_shoot": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean shoot = false;",
+      "godot_symbol": "source_weapons_control_state_result.mounts.shoot",
+      "status": "source-backed",
+      "rule": "WeaponMount shoot bridge field assigned by pair overload."
+    },
+    "weapons_control.weapon_mount_rotate": {
+      "godot_owner": "PortGame.source_weapons_control_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapons_control_state",
+      "tests": [
+        "test_weapons_control_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_control_state",
+        "test_weapons_control_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean rotate = false;",
+      "godot_symbol": "source_weapons_control_state_result.mounts.rotate",
+      "status": "source-backed",
+      "rule": "WeaponMount rotate bridge field assigned by pair overload."
     }
   },
   "version": 1
