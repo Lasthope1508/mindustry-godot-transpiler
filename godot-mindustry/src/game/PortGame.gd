@@ -549,6 +549,23 @@ func source_power_generator_ambient_volume_state(production_efficiency: float) -
 		"ambient_volume": ambient_volume,
 	}
 
+func source_power_generator_create_explosion_gate_state(should_explode_value: bool) -> Dictionary:
+	var branch_entered := should_explode_value
+	return {
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"input_should_explode_value": should_explode_value,
+		"branch_entered": branch_entered,
+		"deferred_body": [
+			"if(explosionDamage > 0){",
+			"Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+			"explodeEffect.at(this);",
+			"explodeSound.at(this);",
+			"if(explosionPuddleLiquid != null){",
+			"if(explosionShake > 0){",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 509,
+  "registeredSourceOwnerCount": 510,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -348,6 +348,7 @@
     "PortGame.source_overdrive_projector_target_filter_state",
     "PortGame.source_payload_forward_offset",
     "PortGame.source_power_generator_ambient_volume_state",
+    "PortGame.source_power_generator_create_explosion_gate_state",
     "PortGame.source_power_generator_get_power_production_state",
     "PortGame.source_power_generator_should_explode_state",
     "PortGame.source_power_generator_warmup_state",
@@ -570,6 +571,11 @@
       "function": "source_power_generator_ambient_volume_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_power_generator_ambient_volume_state"
+    },
+    {
+      "function": "source_power_generator_create_explosion_gate_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_power_generator_create_explosion_gate_state"
     },
     {
       "function": "source_overdrive_projector_range",
@@ -3097,6 +3103,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 514,
+  "totalSourceFunctions": 515,
   "version": 1
 }

@@ -64123,6 +64123,58 @@
       "tests": [
         "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
       ]
+    },
+    "power_generator_create_explosion_gate.should_explode_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_gate_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_gate_state",
+      "tests": [
+        "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shouldExplode()",
+      "godot_symbol": "source_power_generator_create_explosion_gate_input.should_explode_value",
+      "rule": "Runtime should_explode_value parameter maps to createExplosion shouldExplode() gate call.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_gate.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_gate_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_gate_state",
+      "tests": [
+        "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void createExplosion(){",
+      "godot_symbol": "source_power_generator_create_explosion_gate_result.method",
+      "rule": "Method boundary for PowerGenerator.GeneratorBuild.createExplosion().",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_gate.gate": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_gate_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_gate_state",
+      "tests": [
+        "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(shouldExplode()){",
+      "godot_symbol": "source_power_generator_create_explosion_gate_result.branch_entered",
+      "rule": "CreateExplosion body only runs under shouldExplode() gate.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_gate.deferred_body": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_gate_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_gate_state",
+      "tests": [
+        "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "createExplosion() side-effect body",
+      "godot_symbol": "source_power_generator_create_explosion_gate_result.deferred_body",
+      "rule": "Damage, effect, sound, puddle, and shake body stays deferred to later slices.",
+      "status": "deferred"
     }
   },
   "version": 1

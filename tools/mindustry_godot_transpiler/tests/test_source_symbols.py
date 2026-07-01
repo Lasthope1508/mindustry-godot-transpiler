@@ -13704,6 +13704,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_clamp_unit["java_expr"], "return Math.max(Math.min(value, 1f), 0f);")
         self.assertEqual(mathf_clamp_unit["godot_symbol"], "source_power_generator_ambient_volume_result.mathf_clamp_return")
 
+    def test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        should_explode_call = source_symbols.source_symbol(registry, "power_generator_create_explosion_gate.should_explode_call")
+        self.assertEqual(should_explode_call["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(should_explode_call["java_method"], "createExplosion()")
+        self.assertEqual(should_explode_call["status"], "explicit-input")
+        self.assertEqual(should_explode_call["java_expr"], "shouldExplode()")
+        self.assertEqual(should_explode_call["godot_owner"], "PortGame.source_power_generator_create_explosion_gate_state")
+        self.assertEqual(should_explode_call["runtime_proof"], "/root/Main.source_power_generator_create_explosion_gate_state")
+        self.assertEqual(should_explode_call["godot_symbol"], "source_power_generator_create_explosion_gate_input.should_explode_value")
+
+        method = source_symbols.source_symbol(registry, "power_generator_create_explosion_gate.method")
+        self.assertEqual(method["java_expr"], "public void createExplosion(){")
+        self.assertEqual(method["godot_symbol"], "source_power_generator_create_explosion_gate_result.method")
+
+        gate = source_symbols.source_symbol(registry, "power_generator_create_explosion_gate.gate")
+        self.assertEqual(gate["java_expr"], "if(shouldExplode()){")
+        self.assertEqual(gate["godot_symbol"], "source_power_generator_create_explosion_gate_result.branch_entered")
+
+        deferred_body = source_symbols.source_symbol(registry, "power_generator_create_explosion_gate.deferred_body")
+        self.assertEqual(deferred_body["status"], "deferred")
+        self.assertEqual(deferred_body["java_expr"], "createExplosion() side-effect body")
+        self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_gate_result.deferred_body")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17620,9 +17648,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 509)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 510)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 514)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 515)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22305,6 +22333,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float ambientVolume(){", power_generator_ambient_volume["exact_exprs"])
         self.assertIn("return Mathf.clamp(productionEfficiency);", power_generator_ambient_volume["exact_exprs"])
         self.assertIn("return Math.max(Math.min(value, 1f), 0f);", power_generator_ambient_volume["exact_exprs"])
+
+        power_generator_create_explosion_gate = source_symbols.source_slice(ledger, "N913")
+        self.assertEqual(power_generator_create_explosion_gate["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_create_explosion_gate["java_method"], "createExplosion()")
+        self.assertEqual(power_generator_create_explosion_gate["godot_owner"], "PortGame.source_power_generator_create_explosion_gate_state")
+        self.assertIn("public void createExplosion(){", power_generator_create_explosion_gate["exact_exprs"])
+        self.assertIn("if(shouldExplode()){", power_generator_create_explosion_gate["exact_exprs"])
+        self.assertIn("Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);", power_generator_create_explosion_gate["deferred_exprs"])
+        self.assertIn("explodeEffect.at(this);", power_generator_create_explosion_gate["deferred_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27205,6 +27242,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_generator_ambient_volume["params"][0]["schema"], "source_power_generator_ambient_volume_input.production_efficiency")
         self.assertIn("ambient_volume", power_generator_ambient_volume["return_keys"])
         self.assertEqual(power_generator_ambient_volume["source_method"], "ambientVolume()")
+
+        power_generator_create_explosion_gate = source_symbols.api_contract(contracts, "PortGame.source_power_generator_create_explosion_gate_state")
+        self.assertEqual([param["name"] for param in power_generator_create_explosion_gate["params"]], ["should_explode_value"])
+        self.assertEqual(power_generator_create_explosion_gate["params"][0]["schema"], "source_power_generator_create_explosion_gate_input.should_explode_value")
+        self.assertIn("branch_entered", power_generator_create_explosion_gate["return_keys"])
+        self.assertIn("deferred_body", power_generator_create_explosion_gate["return_keys"])
+        self.assertEqual(power_generator_create_explosion_gate["source_method"], "createExplosion()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33189,6 +33233,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_generator_ambient_volume_result["keys"]["return_clamp"]["java_expr"], "return Mathf.clamp(productionEfficiency);")
         self.assertEqual(source_power_generator_ambient_volume_result["keys"]["mathf_clamp_return"]["java_expr"], "return Math.max(Math.min(value, 1f), 0f);")
         self.assertEqual(source_power_generator_ambient_volume_result["keys"]["ambient_volume"]["java_expr"], "return Mathf.clamp(productionEfficiency);")
+
+        source_power_generator_create_explosion_gate_input = source_symbols.state_schema(schema, "source_power_generator_create_explosion_gate_input")
+        self.assertEqual(source_power_generator_create_explosion_gate_input["keys"]["should_explode_value"]["java_expr"], "shouldExplode()")
+        self.assertEqual(source_power_generator_create_explosion_gate_input["keys"]["should_explode_value"]["status"], "explicit-input")
+
+        source_power_generator_create_explosion_gate_result = source_symbols.state_schema(schema, "source_power_generator_create_explosion_gate_result")
+        self.assertEqual(source_power_generator_create_explosion_gate_result["keys"]["method"]["java_expr"], "public void createExplosion(){")
+        self.assertEqual(source_power_generator_create_explosion_gate_result["keys"]["gate"]["java_expr"], "if(shouldExplode()){")
+        self.assertEqual(source_power_generator_create_explosion_gate_result["keys"]["branch_entered"]["java_expr"], "if(shouldExplode()){")
+        self.assertEqual(source_power_generator_create_explosion_gate_result["keys"]["deferred_body"]["java_expr"], "createExplosion() side-effect body")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

@@ -18383,6 +18383,40 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N913": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_gate_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_gate_state",
+      "source_symbols": [
+        "power_generator_create_explosion_gate.should_explode_call",
+        "power_generator_create_explosion_gate.method",
+        "power_generator_create_explosion_gate.gate",
+        "power_generator_create_explosion_gate.deferred_body"
+      ],
+      "exact_exprs": [
+        "public void createExplosion(){",
+        "if(shouldExplode()){"
+      ],
+      "deferred_exprs": [
+        "if(explosionDamage > 0){",
+        "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+        "explodeEffect.at(this);",
+        "explodeSound.at(this);",
+        "if(explosionPuddleLiquid != null){",
+        "for(int i = 0; i < explosionPuddles; i++){",
+        "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_gate_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

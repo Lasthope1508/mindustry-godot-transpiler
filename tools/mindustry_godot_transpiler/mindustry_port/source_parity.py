@@ -242,6 +242,26 @@ def verify_power_generator_ambient_volume_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_power_generator_create_explosion_gate_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void createExplosion(){",
+        "gate": "if(shouldExplode()){",
+        "damage_guard": "if(explosionDamage > 0){",
+        "damage_dispatch": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+        "effect": "explodeEffect.at(this);",
+        "sound": "explodeSound.at(this);",
+        "puddle_guard": "if(explosionPuddleLiquid != null){",
+        "shake_guard": "if(explosionShake > 0){",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

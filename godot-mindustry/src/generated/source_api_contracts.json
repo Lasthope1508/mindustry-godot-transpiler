@@ -20411,6 +20411,31 @@
       "tests": [
         "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_create_explosion_gate_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "createExplosion()",
+      "source_slice": "N913",
+      "params": [
+        {
+          "name": "should_explode_value",
+          "type": "bool",
+          "schema": "source_power_generator_create_explosion_gate_input.should_explode_value"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "gate",
+        "input_should_explode_value",
+        "branch_entered",
+        "deferred_body"
+      ],
+      "rule": "Public runtime contract for createExplosion shouldExplode() gate only; side-effect body remains deferred.",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_gate_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
