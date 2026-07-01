@@ -523,6 +523,34 @@ func source_power_generator_displayed_power_production_state(power_production: f
 		"displayed_power_production": displayed_power_production,
 	}
 
+func source_power_generator_build_serialization_state(production_efficiency: float, generate_time: float, revision: int, read_production_efficiency_value: float, read_generate_time_value: float) -> Dictionary:
+	var write_values := [production_efficiency, generate_time]
+	var read_generate_time_applied := revision >= 1
+	var read_generate_time := read_generate_time_value if read_generate_time_applied else generate_time
+	return {
+		"generate_time": "public float generateTime;",
+		"production_efficiency": "public float productionEfficiency = 0.0f;",
+		"version_method": "public byte version(){",
+		"version_return": "return 1;",
+		"write_method": "public void write(Writes write){",
+		"write_super": "super.write(write);",
+		"write_production_efficiency": "write.f(productionEfficiency);",
+		"write_generate_time": "write.f(generateTime);",
+		"read_method": "public void read(Reads read, byte revision){",
+		"read_super": "super.read(read, revision);",
+		"read_production_efficiency_source": "productionEfficiency = read.f();",
+		"read_revision_guard": "if(revision >= 1){",
+		"read_generate_time_source": "generateTime = read.f();",
+		"version": 1,
+		"input_production_efficiency": production_efficiency,
+		"input_generate_time": generate_time,
+		"revision": revision,
+		"write_values": write_values,
+		"read_production_efficiency": read_production_efficiency_value,
+		"read_generate_time_applied": read_generate_time_applied,
+		"read_generate_time": read_generate_time,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

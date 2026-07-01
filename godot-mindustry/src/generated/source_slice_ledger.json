@@ -18810,6 +18810,45 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_displayed_power_production_matches_upstream_source"
       ]
+    },
+    "N923": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "version()/write(Writes write)/read(Reads read, byte revision)",
+      "godot_owner": "PortGame.source_power_generator_build_serialization_state",
+      "runtime_proof": "/root/Main.source_power_generator_build_serialization_state",
+      "exact_exprs": [
+        "public float generateTime;",
+        "public float productionEfficiency = 0.0f;",
+        "@Override",
+        "public byte version(){",
+        "return 1;",
+        "public void write(Writes write){",
+        "super.write(write);",
+        "write.f(productionEfficiency);",
+        "write.f(generateTime);",
+        "public void read(Reads read, byte revision){",
+        "super.read(read, revision);",
+        "productionEfficiency = read.f();",
+        "if(revision >= 1){",
+        "generateTime = read.f();"
+      ],
+      "source_symbols": [
+        "power_generator_build_serialization.production_efficiency",
+        "power_generator_build_serialization.generate_time",
+        "power_generator_build_serialization.version_return",
+        "power_generator_build_serialization.write_production_efficiency",
+        "power_generator_build_serialization.write_generate_time",
+        "power_generator_build_serialization.read_production_efficiency",
+        "power_generator_build_serialization.read_revision_guard",
+        "power_generator_build_serialization.read_generate_time"
+      ],
+      "tests": [
+        "test_power_generator_build_serialization_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_build_serialization_matches_upstream_source"
+      ]
     }
   },
   "version": 1

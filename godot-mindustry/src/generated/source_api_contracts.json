@@ -20955,6 +20955,64 @@
         "test_power_generator_displayed_power_production_matches_upstream_source"
       ],
       "rule": "Public runtime contract for PowerGenerator.getDisplayedPowerProduction()."
+    },
+    "PortGame.source_power_generator_build_serialization_state": {
+      "status": "active",
+      "source_slice": "N923",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "version()/write(Writes write)/read(Reads read, byte revision)",
+      "params": [
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_power_generator_build_serialization_input.production_efficiency"
+        },
+        {
+          "name": "generate_time",
+          "type": "float",
+          "schema": "source_power_generator_build_serialization_input.generate_time"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_power_generator_build_serialization_input.revision"
+        },
+        {
+          "name": "read_production_efficiency_value",
+          "type": "float",
+          "schema": "source_power_generator_build_serialization_input.read_production_efficiency_value"
+        },
+        {
+          "name": "read_generate_time_value",
+          "type": "float",
+          "schema": "source_power_generator_build_serialization_input.read_generate_time_value"
+        }
+      ],
+      "return_keys": [
+        "generate_time",
+        "production_efficiency",
+        "version_method",
+        "version",
+        "write_method",
+        "write_super",
+        "write_production_efficiency",
+        "write_generate_time",
+        "write_values",
+        "read_method",
+        "read_super",
+        "read_production_efficiency",
+        "read_revision_guard",
+        "read_generate_time_applied",
+        "read_generate_time",
+        "revision"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_build_serialization_state",
+      "tests": [
+        "test_power_generator_build_serialization_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_build_serialization_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for PowerGenerator.GeneratorBuild serialization slice."
     }
   },
   "policy": {

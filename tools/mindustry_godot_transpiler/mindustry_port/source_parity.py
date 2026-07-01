@@ -205,6 +205,35 @@ def verify_power_generator_displayed_power_production_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_power_generator_build_serialization_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "generate_time": "public float generateTime;",
+        "production_efficiency": "public float productionEfficiency = 0.0f;",
+        "version_override": "@Override",
+        "version_method": "public byte version(){",
+        "version_return": "return 1;",
+        "write_method": "public void write(Writes write){",
+        "write_super": "super.write(write);",
+        "write_production_efficiency": "write.f(productionEfficiency);",
+        "write_generate_time": "write.f(generateTime);",
+        "read_method": "public void read(Reads read, byte revision){",
+        "read_super": "super.read(read, revision);",
+        "read_production_efficiency": "productionEfficiency = read.f();",
+        "read_revision_guard": "if(revision >= 1){",
+        "read_generate_time": "generateTime = read.f();",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in power_generator_source
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

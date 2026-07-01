@@ -78607,6 +78607,271 @@
           ]
         }
       }
+    },
+    "source_power_generator_build_serialization_input": {
+      "owner": "PortGame.source_power_generator_build_serialization_state",
+      "status": "active",
+      "keys": {
+        "production_efficiency": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_generator_build_serialization_input key production_efficiency.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "version()/write(Writes write)/read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_input.production_efficiency",
+          "java_expr": "productionEfficiency"
+        },
+        "generate_time": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_generator_build_serialization_input key generate_time.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "version()/write(Writes write)/read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_input.generate_time",
+          "java_expr": "generateTime"
+        },
+        "revision": {
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "source_power_generator_build_serialization_input key revision.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_input.revision",
+          "java_expr": "revision"
+        },
+        "read_production_efficiency_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_generator_build_serialization_input key read_production_efficiency_value.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_input.read_production_efficiency_value",
+          "java_expr": "read.f() for productionEfficiency"
+        },
+        "read_generate_time_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_generator_build_serialization_input key read_generate_time_value.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_input.read_generate_time_value",
+          "java_expr": "read.f() for generateTime"
+        }
+      }
+    },
+    "source_power_generator_build_serialization_result": {
+      "owner": "PortGame.source_power_generator_build_serialization_state",
+      "status": "active",
+      "keys": {
+        "generate_time": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key generate_time.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "version()/write(Writes write)/read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.generate_time",
+          "java_expr": "public float generateTime;"
+        },
+        "production_efficiency": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key production_efficiency.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "version()/write(Writes write)/read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.production_efficiency",
+          "java_expr": "public float productionEfficiency = 0.0f;"
+        },
+        "version_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key version_method.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "version()",
+          "godot_symbol": "source_power_generator_build_serialization_result.version_method",
+          "java_expr": "public byte version(){"
+        },
+        "version": {
+          "type": "int",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key version.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "version()",
+          "godot_symbol": "source_power_generator_build_serialization_result.version",
+          "java_expr": "return 1;"
+        },
+        "write_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key write_method.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "write(Writes write)",
+          "godot_symbol": "source_power_generator_build_serialization_result.write_method",
+          "java_expr": "public void write(Writes write){"
+        },
+        "write_super": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key write_super.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "write(Writes write)",
+          "godot_symbol": "source_power_generator_build_serialization_result.write_super",
+          "java_expr": "super.write(write);"
+        },
+        "write_production_efficiency": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key write_production_efficiency.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "write(Writes write)",
+          "godot_symbol": "source_power_generator_build_serialization_result.write_production_efficiency",
+          "java_expr": "write.f(productionEfficiency);"
+        },
+        "write_generate_time": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key write_generate_time.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "write(Writes write)",
+          "godot_symbol": "source_power_generator_build_serialization_result.write_generate_time",
+          "java_expr": "write.f(generateTime);"
+        },
+        "write_values": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key write_values.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "write(Writes write)",
+          "godot_symbol": "source_power_generator_build_serialization_result.write_values",
+          "java_expr": "write.f(productionEfficiency);/write.f(generateTime);"
+        },
+        "read_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key read_method.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.read_method",
+          "java_expr": "public void read(Reads read, byte revision){"
+        },
+        "read_super": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key read_super.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.read_super",
+          "java_expr": "super.read(read, revision);"
+        },
+        "read_production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key read_production_efficiency.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.read_production_efficiency",
+          "java_expr": "productionEfficiency = read.f();"
+        },
+        "read_revision_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key read_revision_guard.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.read_revision_guard",
+          "java_expr": "if(revision >= 1){"
+        },
+        "read_generate_time_applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key read_generate_time_applied.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.read_generate_time_applied",
+          "java_expr": "if(revision >= 1){"
+        },
+        "read_generate_time": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_generator_build_serialization_result key read_generate_time.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.read_generate_time",
+          "java_expr": "generateTime = read.f();"
+        },
+        "revision": {
+          "type": "int",
+          "status": "generated",
+          "rule": "source_power_generator_build_serialization_result key revision.",
+          "used_by": [
+            "PortGame.source_power_generator_build_serialization_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "read(Reads read, byte revision)",
+          "godot_symbol": "source_power_generator_build_serialization_result.revision",
+          "java_expr": "revision",
+          "alias_of": "source_power_generator_build_serialization_input.revision"
+        }
+      }
     }
   },
   "version": 1
