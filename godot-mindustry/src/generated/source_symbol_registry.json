@@ -62720,6 +62720,186 @@
         "test_power_graph_update_battery_distribute_matches_upstream_source"
       ],
       "rule": "Explicit input for Source-backed PowerGraph.update battery use/charge branch and distribute call."
+    },
+    "power_graph_add_graph.graph_is_self": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "graph == this",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_input.graph_is_self",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.graph_all_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "graph.all.size",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_input.graph_all_size",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.all_size": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "all.size",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_input.all_size",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.graph_has_entity": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "graph.entity != null",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_input.graph_has_entity",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.graph_tiles": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "graph.all",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_input.graph_tiles",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.self_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "if(graph == this) return;",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_result.returned",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.delegate_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "if(graph.all.size > all.size){",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_result.delegate_to_other_graph",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.delegate_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "graph.addGraph(this);",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_result.delegate_to_other_graph",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.remove_graph_entity": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "if(graph.entity != null) graph.entity.remove();",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_result.remove_graph_entity",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.graph_all_loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "for(Building tile : graph.all){",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_result.add_call_count",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.add_tile": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "add(tile);",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_result.tile_add_states",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.addGraph merge and delegation state."
+    },
+    "power_graph_add_graph.check_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "java_expr": "checkAdd();",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "godot_symbol": "source_power_graph_add_graph_result.check_add",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.addGraph merge and delegation state."
     }
   },
   "version": 1

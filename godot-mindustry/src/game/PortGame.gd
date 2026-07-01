@@ -932,6 +932,62 @@ func source_power_graph_add_role_state(build_present: bool, power_present: bool,
 			result["add_consumer"] = true
 	return result
 
+func source_power_graph_add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array) -> Dictionary:
+	var tile_add_states: Array = []
+	var returned := false
+	var delegate_to_other_graph := false
+	var remove_graph_entity := false
+	var check_add := false
+	if graph_is_self:
+		returned = true
+	elif graph_all_size > all_size:
+		returned = true
+		delegate_to_other_graph = true
+	else:
+		remove_graph_entity = graph_has_entity
+		for tile in graph_tiles:
+			if typeof(tile) != TYPE_DICTIONARY:
+				continue
+			var add_state := source_power_graph_add_role_state(
+				bool(tile.get("build_present", true)),
+				bool(tile.get("power_present", true)),
+				bool(tile.get("graph_matches", false)),
+				bool(tile.get("power_init", false)),
+				bool(tile.get("old_graph_present", false)),
+				bool(tile.get("old_graph_is_self", false)),
+				bool(tile.get("old_graph_has_entity", false)),
+				bool(tile.get("outputs_power", false)),
+				bool(tile.get("consumes_power", false)),
+				bool(tile.get("has_cons_power", false)),
+				bool(tile.get("cons_power_buffered", false))
+			)
+			tile_add_states.append(add_state)
+		check_add = true
+	return {
+		"method": "public void addGraph(PowerGraph graph){",
+		"self_guard": "if(graph == this) return;",
+		"merge_comment": "//merge into other graph instead.",
+		"delegate_guard_expr": "if(graph.all.size > all.size){",
+		"delegate_call_expr": "graph.addGraph(this);",
+		"delegate_return_expr": "return;",
+		"remove_comment": "//other entity should be removed as the graph was merged",
+		"remove_graph_entity_expr": "if(graph.entity != null) graph.entity.remove();",
+		"graph_all_loop_expr": "for(Building tile : graph.all){",
+		"add_tile_expr": "add(tile);",
+		"check_add_expr": "checkAdd();",
+		"graph_is_self": graph_is_self,
+		"graph_all_size": graph_all_size,
+		"all_size": all_size,
+		"graph_has_entity": graph_has_entity,
+		"graph_tiles": graph_tiles.duplicate(true),
+		"returned": returned,
+		"delegate_to_other_graph": delegate_to_other_graph,
+		"remove_graph_entity": remove_graph_entity,
+		"add_call_count": tile_add_states.size(),
+		"tile_add_states": tile_add_states,
+		"check_add": check_add,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

@@ -228,6 +228,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"distribute_power_expr": "distributePower(powerNeeded, powerProduced, charged);"', source)
         self.assertIn('var distribute_state := source_power_graph_distribute_power_state(source_consumers, power_needed, next_power_produced, charged, last_power_stored)', source)
 
+    def test_port_game_exposes_source_power_graph_add_graph_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array) -> Dictionary:", source)
+        self.assertIn('"self_guard": "if(graph == this) return;"', source)
+        self.assertIn('"delegate_guard_expr": "if(graph.all.size > all.size){"', source)
+        self.assertIn('"delegate_call_expr": "graph.addGraph(this);"', source)
+        self.assertIn('"remove_graph_entity_expr": "if(graph.entity != null) graph.entity.remove();"', source)
+        self.assertIn('"graph_all_loop_expr": "for(Building tile : graph.all){"', source)
+        self.assertIn('"add_tile_expr": "add(tile);"', source)
+        self.assertIn('"check_add_expr": "checkAdd();"', source)
+        self.assertIn('var add_state := source_power_graph_add_role_state(', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

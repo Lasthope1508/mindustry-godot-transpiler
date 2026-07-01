@@ -17923,6 +17923,47 @@
         "test_power_graph_update_battery_distribute_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.update() battery use/charge and distribute branch after balance metrics."
+    },
+    "N898": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "addGraph(PowerGraph graph)",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "exact_exprs": [
+        "public void addGraph(PowerGraph graph){",
+        "if(graph == this) return;",
+        "//merge into other graph instead.",
+        "if(graph.all.size > all.size){",
+        "graph.addGraph(this);",
+        "return;",
+        "//other entity should be removed as the graph was merged",
+        "if(graph.entity != null) graph.entity.remove();",
+        "for(Building tile : graph.all){",
+        "add(tile);",
+        "checkAdd();"
+      ],
+      "source_symbols": [
+        "power_graph_add_graph.graph_is_self",
+        "power_graph_add_graph.graph_all_size",
+        "power_graph_add_graph.all_size",
+        "power_graph_add_graph.graph_has_entity",
+        "power_graph_add_graph.graph_tiles",
+        "power_graph_add_graph.self_guard",
+        "power_graph_add_graph.delegate_guard",
+        "power_graph_add_graph.delegate_call",
+        "power_graph_add_graph.remove_graph_entity",
+        "power_graph_add_graph.graph_all_loop",
+        "power_graph_add_graph.add_tile",
+        "power_graph_add_graph.check_add"
+      ],
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.addGraph(PowerGraph graph) self/delegate/merge behavior and per-tile add delegation."
     }
   },
   "version": 1

@@ -379,6 +379,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_add_graph_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_add_graph_source"))
+        report = source_parity.verify_power_graph_add_graph_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void addGraph(PowerGraph graph){",
+            "self_guard": "if(graph == this) return;",
+            "merge_comment": "//merge into other graph instead.",
+            "larger_graph_guard": "if(graph.all.size > all.size){",
+            "delegate_add_graph": "graph.addGraph(this);",
+            "delegate_return": "return;",
+            "remove_comment": "//other entity should be removed as the graph was merged",
+            "remove_entity_guard": "if(graph.entity != null) graph.entity.remove();",
+            "loop": "for(Building tile : graph.all){",
+            "add_tile": "add(tile);",
+            "check_add": "checkAdd();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

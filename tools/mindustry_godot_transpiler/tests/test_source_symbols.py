@@ -13275,6 +13275,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(last_power_stored["java_expr"], "lastPowerStored")
         self.assertEqual(last_power_stored["godot_symbol"], "source_power_graph_update_battery_distribute_input.last_power_stored")
 
+    def test_power_graph_add_graph_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        self_guard = source_symbols.source_symbol(registry, "power_graph_add_graph.self_guard")
+        self.assertEqual(self_guard["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(self_guard["java_method"], "addGraph(PowerGraph graph)")
+        self.assertEqual(self_guard["java_expr"], "if(graph == this) return;")
+        self.assertEqual(self_guard["godot_owner"], "PortGame.source_power_graph_add_graph_state")
+        self.assertEqual(self_guard["runtime_proof"], "/root/Main.source_power_graph_add_graph_state")
+        self.assertEqual(self_guard["godot_symbol"], "source_power_graph_add_graph_result.returned")
+
+        delegate_guard = source_symbols.source_symbol(registry, "power_graph_add_graph.delegate_guard")
+        self.assertEqual(delegate_guard["java_expr"], "if(graph.all.size > all.size){")
+        self.assertEqual(delegate_guard["godot_symbol"], "source_power_graph_add_graph_result.delegate_to_other_graph")
+
+        remove_entity = source_symbols.source_symbol(registry, "power_graph_add_graph.remove_graph_entity")
+        self.assertEqual(remove_entity["java_expr"], "if(graph.entity != null) graph.entity.remove();")
+        self.assertEqual(remove_entity["godot_symbol"], "source_power_graph_add_graph_result.remove_graph_entity")
+
+        add_tile = source_symbols.source_symbol(registry, "power_graph_add_graph.add_tile")
+        self.assertEqual(add_tile["java_expr"], "add(tile);")
+        self.assertEqual(add_tile["godot_symbol"], "source_power_graph_add_graph_result.tile_add_states")
+
+        graph_tiles = source_symbols.source_symbol(registry, "power_graph_add_graph.graph_tiles")
+        self.assertEqual(graph_tiles["status"], "explicit-input")
+        self.assertEqual(graph_tiles["java_expr"], "graph.all")
+        self.assertEqual(graph_tiles["godot_symbol"], "source_power_graph_add_graph_input.graph_tiles")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17191,9 +17222,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 494)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 495)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 499)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 500)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -17644,6 +17675,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_power_graph_update_cheat_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_graph_update_balance_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_graph_update_battery_distribute_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_power_graph_add_graph_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_allow_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_solid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_suppression_state", audit["registeredSourceOwners"])
@@ -21723,6 +21755,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);", power_graph_update_battery_distribute["exact_exprs"])
         self.assertIn("powerProduced -= chargeBatteries(powerProduced - powerNeeded);", power_graph_update_battery_distribute["exact_exprs"])
         self.assertIn("distributePower(powerNeeded, powerProduced, charged);", power_graph_update_battery_distribute["exact_exprs"])
+
+        power_graph_add_graph = source_symbols.source_slice(ledger, "N898")
+        self.assertEqual(power_graph_add_graph["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_add_graph["java_method"], "addGraph(PowerGraph graph)")
+        self.assertEqual(power_graph_add_graph["godot_owner"], "PortGame.source_power_graph_add_graph_state")
+        self.assertIn("if(graph == this) return;", power_graph_add_graph["exact_exprs"])
+        self.assertIn("if(graph.all.size > all.size){", power_graph_add_graph["exact_exprs"])
+        self.assertIn("graph.addGraph(this);", power_graph_add_graph["exact_exprs"])
+        self.assertIn("if(graph.entity != null) graph.entity.remove();", power_graph_add_graph["exact_exprs"])
+        self.assertIn("add(tile);", power_graph_add_graph["exact_exprs"])
+        self.assertIn("checkAdd();", power_graph_add_graph["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26499,6 +26542,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("power_battery_charged", power_graph_update_battery_distribute["return_keys"])
         self.assertIn("coverage", power_graph_update_battery_distribute["return_keys"])
         self.assertEqual(power_graph_update_battery_distribute["source_method"], "update()")
+
+        power_graph_add_graph = source_symbols.api_contract(contracts, "PortGame.source_power_graph_add_graph_state")
+        self.assertEqual([param["name"] for param in power_graph_add_graph["params"]], ["graph_is_self", "graph_all_size", "all_size", "graph_has_entity", "graph_tiles"])
+        self.assertEqual(power_graph_add_graph["params"][0]["schema"], "source_power_graph_add_graph_input.graph_is_self")
+        self.assertEqual(power_graph_add_graph["params"][4]["schema"], "source_power_graph_add_graph_input.graph_tiles")
+        self.assertIn("returned", power_graph_add_graph["return_keys"])
+        self.assertIn("delegate_to_other_graph", power_graph_add_graph["return_keys"])
+        self.assertIn("remove_graph_entity", power_graph_add_graph["return_keys"])
+        self.assertIn("tile_add_states", power_graph_add_graph["return_keys"])
+        self.assertEqual(power_graph_add_graph["source_method"], "addGraph(PowerGraph graph)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -32316,6 +32369,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_graph_update_battery_distribute_result["keys"]["last_power_produced"]["java_expr"], "lastPowerProduced += powerBatteryUsed;")
         self.assertEqual(source_power_graph_update_battery_distribute_result["keys"]["consumers"]["java_expr"], "distributePower(powerNeeded, powerProduced, charged);")
         self.assertEqual(source_power_graph_update_battery_distribute_result["keys"]["batteries"]["java_expr"], "useBatteries(powerNeeded - powerProduced)/chargeBatteries(powerProduced - powerNeeded)")
+
+        source_power_graph_add_graph_input = source_symbols.state_schema(schema, "source_power_graph_add_graph_input")
+        self.assertEqual(source_power_graph_add_graph_input["keys"]["graph_is_self"]["java_expr"], "graph == this")
+        self.assertEqual(source_power_graph_add_graph_input["keys"]["graph_all_size"]["java_expr"], "graph.all.size")
+        self.assertEqual(source_power_graph_add_graph_input["keys"]["all_size"]["java_expr"], "all.size")
+        self.assertEqual(source_power_graph_add_graph_input["keys"]["graph_has_entity"]["java_expr"], "graph.entity != null")
+        self.assertEqual(source_power_graph_add_graph_input["keys"]["graph_tiles"]["java_expr"], "graph.all")
+
+        source_power_graph_add_graph_result = source_symbols.state_schema(schema, "source_power_graph_add_graph_result")
+        self.assertEqual(source_power_graph_add_graph_result["keys"]["returned"]["java_expr"], "if(graph == this) return;")
+        self.assertEqual(source_power_graph_add_graph_result["keys"]["delegate_to_other_graph"]["java_expr"], "graph.addGraph(this);")
+        self.assertEqual(source_power_graph_add_graph_result["keys"]["remove_graph_entity"]["java_expr"], "if(graph.entity != null) graph.entity.remove();")
+        self.assertEqual(source_power_graph_add_graph_result["keys"]["tile_add_states"]["java_expr"], "add(tile);")
+        self.assertEqual(source_power_graph_add_graph_result["keys"]["check_add"]["java_expr"], "checkAdd();")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

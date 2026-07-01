@@ -19834,6 +19834,70 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_update_battery_distribute_state",
       "rule": "Public runtime contract for PowerGraph.update() battery/distribute branch."
+    },
+    "PortGame.source_power_graph_add_graph_state": {
+      "status": "active",
+      "source_slice": "N898",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "addGraph(PowerGraph graph)",
+      "params": [
+        {
+          "name": "graph_is_self",
+          "type": "bool",
+          "schema": "source_power_graph_add_graph_input.graph_is_self"
+        },
+        {
+          "name": "graph_all_size",
+          "type": "int",
+          "schema": "source_power_graph_add_graph_input.graph_all_size"
+        },
+        {
+          "name": "all_size",
+          "type": "int",
+          "schema": "source_power_graph_add_graph_input.all_size"
+        },
+        {
+          "name": "graph_has_entity",
+          "type": "bool",
+          "schema": "source_power_graph_add_graph_input.graph_has_entity"
+        },
+        {
+          "name": "graph_tiles",
+          "type": "Array",
+          "schema": "source_power_graph_add_graph_input.graph_tiles"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "self_guard",
+        "merge_comment",
+        "delegate_guard_expr",
+        "delegate_call_expr",
+        "delegate_return_expr",
+        "remove_comment",
+        "remove_graph_entity_expr",
+        "graph_all_loop_expr",
+        "add_tile_expr",
+        "check_add_expr",
+        "graph_is_self",
+        "graph_all_size",
+        "all_size",
+        "graph_has_entity",
+        "graph_tiles",
+        "returned",
+        "delegate_to_other_graph",
+        "remove_graph_entity",
+        "add_call_count",
+        "tile_add_states",
+        "check_add"
+      ],
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state",
+      "rule": "Public runtime contract for PowerGraph.addGraph(PowerGraph graph) merge and delegation state."
     }
   },
   "policy": {

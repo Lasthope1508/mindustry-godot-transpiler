@@ -496,6 +496,29 @@ def verify_power_graph_update_battery_distribute_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_power_graph_add_graph_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void addGraph(PowerGraph graph){",
+        "self_guard": "if(graph == this) return;",
+        "merge_comment": "//merge into other graph instead.",
+        "larger_graph_guard": "if(graph.all.size > all.size){",
+        "delegate_add_graph": "graph.addGraph(this);",
+        "delegate_return": "return;",
+        "remove_comment": "//other entity should be removed as the graph was merged",
+        "remove_entity_guard": "if(graph.entity != null) graph.entity.remove();",
+        "loop": "for(Building tile : graph.all){",
+        "add_tile": "add(tile);",
+        "check_add": "checkAdd();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
