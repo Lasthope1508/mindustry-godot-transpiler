@@ -18327,6 +18327,77 @@
         "test_port_game_exposes_source_weapon_update_continuous_invalidation_state",
         "test_weapon_update_continuous_invalidation_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_continuous_laser_aim_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_laser_aim_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_laser_aim_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_continuous_laser_aim_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_continuous_laser_aim_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_continuous_laser_aim_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_continuous_laser_aim_input.bullet_y",
+          "type": "float"
+        },
+        {
+          "name": "shoot_angle",
+          "schema": "source_weapon_update_continuous_laser_aim_input.shoot_angle",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "live",
+        "shootLength",
+        "curLength",
+        "resultLength",
+        "lastLength",
+        "bulletAimX",
+        "bulletAimY",
+        "weaponRange",
+        "aimChangeSpeed",
+        "shootLengthSource",
+        "curLengthSource",
+        "resultLengthSource",
+        "aimEndpointSource",
+        "bulletAimXSource",
+        "bulletAimYSource",
+        "rangeSource",
+        "alwaysContinuousReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update continuous laser aim state.",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "source_slice": "N866",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ]
     }
   },
   "policy": {

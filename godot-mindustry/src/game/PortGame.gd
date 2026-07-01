@@ -4936,14 +4936,14 @@ func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, we
 		"bulletAimY": next_bullet_aim_y,
 		"weaponRange": weapon_range,
 		"aimChangeSpeed": aim_change_speed,
-		"shootLengthSource": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range())",
-		"curLengthSource": "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY)",
-		"resultLengthSource": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed)",
-		"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY)",
-		"bulletAimXSource": "mount.bullet.aimX = Tmp.v1.x",
-		"bulletAimYSource": "mount.bullet.aimY = Tmp.v1.y",
-		"rangeSource": "return bullet.range",
-		"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)",
+		"shootLengthSource": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());",
+		"curLengthSource": "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY);",
+		"resultLengthSource": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);",
+		"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);",
+		"bulletAimXSource": "mount.bullet.aimX = Tmp.v1.x;",
+		"bulletAimYSource": "mount.bullet.aimY = Tmp.v1.y;",
+		"rangeSource": "return bullet.range;",
+		"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot){",
 	}
 
 const SOURCE_STATUS_APPLY_RESULT_METHOD := "public void apply(StatusEffect effect, float duration){"

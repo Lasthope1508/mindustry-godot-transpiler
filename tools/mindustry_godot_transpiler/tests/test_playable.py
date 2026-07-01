@@ -4684,10 +4684,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var result_length: float = source_mathf_approach_delta(cur_length, shoot_length, aim_change_speed, source_delta)", source)
         self.assertIn("var aim_vec := source_arc_angles_trns_vec(shoot_angle, result_length, 0.0)", source)
         self.assertIn("next_last_length = result_length", source)
-        self.assertIn('"shootLengthSource": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range())"', source)
-        self.assertIn('"resultLengthSource": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed)"', source)
-        self.assertIn('"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY)"', source)
-        self.assertIn('"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot)"', source)
+        self.assertIn('"shootLengthSource": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());"', source)
+        self.assertIn('"resultLengthSource": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);"', source)
+        self.assertIn('"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);"', source)
+        self.assertIn('"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot){"', source)
 
     def test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

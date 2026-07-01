@@ -57033,6 +57033,336 @@
       "godot_symbol": "source_weapon_update_continuous_invalidation_input.bullet_state.isAdded",
       "status": "source-backed",
       "rule": "Bullet added-state check."
+    },
+    "weapon_update_continuous_laser_aim.target_length_comment": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//target length of laser",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.targetLengthCommentSource",
+      "status": "source-backed",
+      "rule": "Exact target laser length comment metadata."
+    },
+    "weapon_update_continuous_laser_aim.shoot_length": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.shootLength",
+      "status": "source-backed",
+      "rule": "Exact target laser length formula."
+    },
+    "weapon_update_continuous_laser_aim.current_length_comment": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//current length of laser",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.currentLengthCommentSource",
+      "status": "source-backed",
+      "rule": "Exact current laser length comment metadata."
+    },
+    "weapon_update_continuous_laser_aim.cur_length": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY);",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.curLength",
+      "status": "source-backed",
+      "rule": "Exact current laser length formula."
+    },
+    "weapon_update_continuous_laser_aim.result_length_comment": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//resulting length of the bullet (smoothed)",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.resultLengthCommentSource",
+      "status": "source-backed",
+      "rule": "Exact smoothed length comment metadata."
+    },
+    "weapon_update_continuous_laser_aim.result_length": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.resultLength",
+      "status": "source-backed",
+      "rule": "Exact smoothed laser length formula."
+    },
+    "weapon_update_continuous_laser_aim.aim_endpoint_comment": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//actual aim end point based on length",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.aimEndpointCommentSource",
+      "status": "source-backed",
+      "rule": "Exact aim endpoint comment metadata."
+    },
+    "weapon_update_continuous_laser_aim.tmp_trns_add": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.aimEndpointSource",
+      "status": "source-backed",
+      "rule": "Exact aim endpoint vector expression."
+    },
+    "weapon_update_continuous_laser_aim.bullet_aim_x": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet.aimX = Tmp.v1.x;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.bulletAimX",
+      "status": "source-backed",
+      "rule": "Exact bullet aimX assignment."
+    },
+    "weapon_update_continuous_laser_aim.bullet_aim_y": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet.aimY = Tmp.v1.y;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.bulletAimY",
+      "status": "source-backed",
+      "rule": "Exact bullet aimY assignment."
+    },
+    "weapon_update_continuous_laser_aim.always_continuous_reserved": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(alwaysContinuous && mount.shoot){",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.alwaysContinuousReservedSource",
+      "status": "deferred",
+      "rule": "Following keepalive branch is owned by source_weapon_update_always_continuous_keepalive_state."
+    },
+    "weapon_update_continuous_laser_aim.weapon_aim_change_speed": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float aimChangeSpeed = Float.POSITIVE_INFINITY;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_input.weapon_state.aimChangeSpeed",
+      "status": "source-backed",
+      "rule": "Weapon aimChangeSpeed field."
+    },
+    "weapon_update_continuous_laser_aim.weapon_range_method": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.range()",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float range(){",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.rangeSource",
+      "status": "source-backed",
+      "rule": "Weapon range method boundary."
+    },
+    "weapon_update_continuous_laser_aim.weapon_range_return": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Weapon.range()",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "return bullet.range;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.rangeSource",
+      "status": "source-backed",
+      "rule": "Weapon range delegates to bullet range."
+    },
+    "weapon_update_continuous_laser_aim.weapon_mount_aim": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float aimX, aimY;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_input.mount_state.aimX",
+      "status": "source-backed",
+      "rule": "Mount aim endpoint input."
+    },
+    "weapon_update_continuous_laser_aim.weapon_mount_last_length": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float lastLength;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_input.mount_state.lastLength",
+      "status": "source-backed",
+      "rule": "Mount last laser length input/output."
+    },
+    "weapon_update_continuous_laser_aim.bullet_comp_aim": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "BulletComp fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_expr": "transient float aimX, aimY;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_input.bullet_state.aimX",
+      "status": "source-backed",
+      "rule": "Bullet aim endpoint input/output."
+    },
+    "weapon_update_continuous_laser_aim.bullet_type_range": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "BulletType fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_expr": "public float range = 0f;",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_input.bullet_state.range",
+      "status": "source-backed",
+      "rule": "Bullet range cap input."
+    },
+    "weapon_update_continuous_laser_aim.mathf_dst": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Mathf.dst(float, float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_expr": "public static float dst(float x1, float y1, float x2, float y2){",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.shootLength",
+      "status": "source-backed",
+      "rule": "Arc distance helper backing shoot/current length."
+    },
+    "weapon_update_continuous_laser_aim.mathf_approach_delta": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Mathf.approachDelta(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_expr": "public static float approachDelta(float from, float to, float speed){",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_input.source_delta",
+      "status": "source-backed",
+      "rule": "Arc delta-scaled smoothing helper."
+    },
+    "weapon_update_continuous_laser_aim.vec2_trns_amount": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Vec2.trns(float angle, float amount)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "public Vec2 trns(float angle, float amount){",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.aimEndpointSource",
+      "status": "source-backed",
+      "rule": "Arc vector transform helper backing aim endpoint."
+    },
+    "weapon_update_continuous_laser_aim.vec2_add_xy": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "java_method": "Vec2.add(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "public Vec2 add(float x, float y){",
+      "godot_symbol": "source_weapon_update_continuous_laser_aim_result.aimEndpointSource",
+      "status": "source-backed",
+      "rule": "Arc vector add helper backing aim endpoint."
     }
   },
   "version": 1

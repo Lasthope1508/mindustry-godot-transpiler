@@ -5206,6 +5206,68 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(is_added["java_expr"], "boolean isAdded(){")
         self.assertEqual(is_added["godot_symbol"], "source_weapon_update_continuous_invalidation_input.bullet_state.isAdded")
 
+    def test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        shoot_length = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.shoot_length")
+        self.assertEqual(shoot_length["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(shoot_length["java_expr"], "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());")
+        self.assertEqual(shoot_length["godot_owner"], "PortGame.source_weapon_update_continuous_laser_aim_state")
+        self.assertEqual(shoot_length["runtime_proof"], "/root/Main.source_weapon_update_continuous_laser_aim_state")
+        self.assertEqual(shoot_length["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.shootLength")
+
+        cur_length = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.cur_length")
+        self.assertEqual(cur_length["java_expr"], "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY);")
+        self.assertEqual(cur_length["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.curLength")
+
+        result_length = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.result_length")
+        self.assertEqual(result_length["java_expr"], "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);")
+        self.assertEqual(result_length["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.resultLength")
+
+        tmp_trns_add = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.tmp_trns_add")
+        self.assertEqual(tmp_trns_add["java_expr"], "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);")
+        self.assertEqual(tmp_trns_add["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.aimEndpointSource")
+
+        bullet_aim_x = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.bullet_aim_x")
+        self.assertEqual(bullet_aim_x["java_expr"], "mount.bullet.aimX = Tmp.v1.x;")
+        self.assertEqual(bullet_aim_x["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.bulletAimX")
+
+        always_continuous = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.always_continuous_reserved")
+        self.assertEqual(always_continuous["java_expr"], "if(alwaysContinuous && mount.shoot){")
+        self.assertEqual(always_continuous["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.alwaysContinuousReservedSource")
+        self.assertEqual(always_continuous["status"], "deferred")
+
+        aim_change_speed = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.weapon_aim_change_speed")
+        self.assertEqual(aim_change_speed["java_expr"], "public float aimChangeSpeed = Float.POSITIVE_INFINITY;")
+        self.assertEqual(aim_change_speed["godot_symbol"], "source_weapon_update_continuous_laser_aim_input.weapon_state.aimChangeSpeed")
+
+        weapon_range_return = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.weapon_range_return")
+        self.assertEqual(weapon_range_return["java_expr"], "return bullet.range;")
+        self.assertEqual(weapon_range_return["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.rangeSource")
+
+        mount_aim = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.weapon_mount_aim")
+        self.assertEqual(mount_aim["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_aim["java_expr"], "public float aimX, aimY;")
+        self.assertEqual(mount_aim["godot_symbol"], "source_weapon_update_continuous_laser_aim_input.mount_state.aimX")
+
+        bullet_comp_aim = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.bullet_comp_aim")
+        self.assertEqual(bullet_comp_aim["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(bullet_comp_aim["java_expr"], "transient float aimX, aimY;")
+        self.assertEqual(bullet_comp_aim["godot_symbol"], "source_weapon_update_continuous_laser_aim_input.bullet_state.aimX")
+
+        mathf_approach_delta = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.mathf_approach_delta")
+        self.assertEqual(mathf_approach_delta["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_approach_delta["java_expr"], "public static float approachDelta(float from, float to, float speed){")
+        self.assertEqual(mathf_approach_delta["godot_symbol"], "source_weapon_update_continuous_laser_aim_input.source_delta")
+
+        vec2_trns = source_symbols.source_symbol(registry, "weapon_update_continuous_laser_aim.vec2_trns_amount")
+        self.assertEqual(vec2_trns["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_trns["java_expr"], "public Vec2 trns(float angle, float amount){")
+        self.assertEqual(vec2_trns["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.aimEndpointSource")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16074,9 +16136,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 463)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 464)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 468)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 469)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16143,6 +16205,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_active_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_alternating_side_flip_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_continuous_keepalive_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_continuous_laser_aim_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_invalidation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_idle_heat_sound_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_shooting_state", audit["legacyUnregisteredOwners"])
@@ -19067,6 +19130,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("boolean isAdded(){", weapon_update_continuous_invalidation["bridge_exprs"])
         self.assertIn("weapon_update_continuous_invalidation.invalid_condition", weapon_update_continuous_invalidation["source_symbols"])
         self.assertIn("weapon_update_continuous_invalidation.entity_comp_is_added", weapon_update_continuous_invalidation["source_symbols"])
+
+        weapon_update_continuous_laser_aim = source_symbols.source_slice(ledger, "N866")
+        self.assertEqual(weapon_update_continuous_laser_aim["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_continuous_laser_aim["java_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim")
+        self.assertEqual(weapon_update_continuous_laser_aim["godot_owner"], "PortGame.source_weapon_update_continuous_laser_aim_state")
+        self.assertIn("//target length of laser", weapon_update_continuous_laser_aim["exact_exprs"])
+        self.assertIn("float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());", weapon_update_continuous_laser_aim["exact_exprs"])
+        self.assertIn("Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);", weapon_update_continuous_laser_aim["exact_exprs"])
+        self.assertIn("mount.bullet.aimY = Tmp.v1.y;", weapon_update_continuous_laser_aim["exact_exprs"])
+        self.assertIn("if(alwaysContinuous && mount.shoot){", weapon_update_continuous_laser_aim["deferred_exprs"])
+        self.assertIn("public float aimChangeSpeed = Float.POSITIVE_INFINITY;", weapon_update_continuous_laser_aim["bridge_exprs"])
+        self.assertIn("public Vec2 trns(float angle, float amount){", weapon_update_continuous_laser_aim["bridge_exprs"])
+        self.assertIn("weapon_update_continuous_laser_aim.shoot_length", weapon_update_continuous_laser_aim["source_symbols"])
+        self.assertIn("weapon_update_continuous_laser_aim.vec2_add_xy", weapon_update_continuous_laser_aim["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -22458,6 +22535,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("invalidConditionSource", weapon_update_continuous_invalidation["return_keys"])
         self.assertIn("clearSource", weapon_update_continuous_invalidation["return_keys"])
         self.assertEqual(weapon_update_continuous_invalidation["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation")
+
+        weapon_update_continuous_laser_aim = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_continuous_laser_aim_state")
+        self.assertEqual([param["name"] for param in weapon_update_continuous_laser_aim["params"]], ["mount_state", "weapon_state", "bullet_state", "source_delta", "bullet_x", "bullet_y", "shoot_angle"])
+        self.assertEqual(weapon_update_continuous_laser_aim["params"][0]["schema"], "source_weapon_update_continuous_laser_aim_input.mount_state")
+        self.assertEqual(weapon_update_continuous_laser_aim["params"][2]["schema"], "source_weapon_update_continuous_laser_aim_input.bullet_state")
+        self.assertEqual(weapon_update_continuous_laser_aim["params"][3]["schema"], "source_weapon_update_continuous_laser_aim_input.source_delta")
+        self.assertIn("live", weapon_update_continuous_laser_aim["return_keys"])
+        self.assertIn("shootLength", weapon_update_continuous_laser_aim["return_keys"])
+        self.assertIn("resultLength", weapon_update_continuous_laser_aim["return_keys"])
+        self.assertIn("lastLength", weapon_update_continuous_laser_aim["return_keys"])
+        self.assertIn("bulletAimX", weapon_update_continuous_laser_aim["return_keys"])
+        self.assertIn("aimEndpointSource", weapon_update_continuous_laser_aim["return_keys"])
+        self.assertEqual(weapon_update_continuous_laser_aim["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -29174,6 +29264,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_continuous_invalidation_result["keys"]["invalid"]["java_expr"], "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){")
         self.assertEqual(source_weapon_update_continuous_invalidation_result["keys"]["bulletExists"]["java_expr"], "mount.bullet = null;")
         self.assertEqual(source_weapon_update_continuous_invalidation_result["keys"]["clearSource"]["java_expr"], "mount.bullet = null;")
+
+        source_weapon_update_continuous_laser_aim_input = source_symbols.state_schema(schema, "source_weapon_update_continuous_laser_aim_input")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_input["keys"]["weapon_state"]["java_expr"], "Weapon continuous laser aim fields")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_input["keys"]["bullet_state"]["java_expr"], "mount.bullet")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_input["keys"]["aimChangeSpeed"]["java_expr"], "public float aimChangeSpeed = Float.POSITIVE_INFINITY;")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_input["keys"]["aimX"]["java_expr"], "public float aimX, aimY;")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_input["keys"]["bulletAimX"]["java_expr"], "transient float aimX, aimY;")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_input["keys"]["range"]["java_expr"], "public float range = 0f;")
+
+        source_weapon_update_continuous_laser_aim_result = source_symbols.state_schema(schema, "source_weapon_update_continuous_laser_aim_result")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["shootLength"]["java_expr"], "float shootLength = Math.min(Mathf.dst(bulletX, bulletY, mount.aimX, mount.aimY), range());")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["curLength"]["java_expr"], "float curLength = Mathf.dst(bulletX, bulletY, mount.bullet.aimX, mount.bullet.aimY);")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["resultLength"]["java_expr"], "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["lastLength"]["java_expr"], "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["bulletAimX"]["java_expr"], "mount.bullet.aimX = Tmp.v1.x;")
+        self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["bulletAimY"]["java_expr"], "mount.bullet.aimY = Tmp.v1.y;")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
