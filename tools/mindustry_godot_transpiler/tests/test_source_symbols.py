@@ -4921,6 +4921,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mover_null["java_expr"], "shoot(x, y, rotation, delay, null);")
         self.assertEqual(mover_null["godot_symbol"], "source_shoot_pattern_default_events_result.mover")
 
+    def test_weapon_shoot_default_pattern_dispatch_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        dispatch = source_symbols.source_symbol(registry, "weapon_shoot_default_pattern_dispatch.dispatch")
+        self.assertEqual(dispatch["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(dispatch["java_expr"], "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {")
+        self.assertEqual(dispatch["godot_owner"], "PortGame.source_weapon_shoot_default_pattern_dispatch_state")
+        self.assertEqual(dispatch["runtime_proof"], "/root/Main.source_weapon_shoot_default_pattern_dispatch_state")
+        self.assertEqual(dispatch["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.shootDispatchSource")
+
+        total_shots = source_symbols.source_symbol(registry, "weapon_shoot_default_pattern_dispatch.total_shots_increment")
+        self.assertEqual(total_shots["java_expr"], "mount.totalShots ++;")
+        self.assertEqual(total_shots["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.totalShots")
+
+        barrel_capture = source_symbols.source_symbol(registry, "weapon_shoot_default_pattern_dispatch.barrel_capture")
+        self.assertEqual(barrel_capture["java_expr"], "int barrel = mount.barrelCounter;")
+        self.assertEqual(barrel_capture["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.bulletCalls.barrel")
+
+        delay_gate = source_symbols.source_symbol(registry, "weapon_shoot_default_pattern_dispatch.delay_gate")
+        self.assertEqual(delay_gate["java_expr"], "if(delay > 0f){")
+        self.assertEqual(delay_gate["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.scheduledCalls")
+
+        time_run = source_symbols.source_symbol(registry, "weapon_shoot_default_pattern_dispatch.time_run")
+        self.assertEqual(time_run["java_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(time_run["java_expr"], "public static void run(float delay, Runnable r){")
+        self.assertEqual(time_run["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.timeRunSource")
+
+        direct_bullet = source_symbols.source_symbol(registry, "weapon_shoot_default_pattern_dispatch.direct_bullet_call")
+        self.assertEqual(direct_bullet["java_expr"], "}else{\n                bullet(unit, mount, xOffset, yOffset, angle, mover);")
+        self.assertEqual(direct_bullet["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.bulletCalls")
+
+        barrel_incrementer = source_symbols.source_symbol(registry, "weapon_shoot_default_pattern_dispatch.barrel_incrementer")
+        self.assertEqual(barrel_incrementer["java_expr"], "}, () -> mount.barrelCounter++);")
+        self.assertEqual(barrel_incrementer["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.barrelIncrementerSource")
+
     def test_status_apply_result_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15579,9 +15617,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 451)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 452)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 456)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 457)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15644,6 +15682,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_handle_bullet_aim_update_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_handle_bullet_continuous_geometry_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_shoot_charge_start_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_shoot_default_pattern_dispatch_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18480,6 +18519,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float firstShotDelay = 0;", weapon_shoot_charge_start["bridge_exprs"])
         self.assertIn("public boolean keepVelocity = true;", weapon_shoot_charge_start["bridge_exprs"])
         self.assertIn("shoot.shoot(...) dispatch remains owned by source_weapon_shoot_default_pattern_dispatch_state.", weapon_shoot_charge_start["deferred_exprs"])
+
+        weapon_shoot_default_pattern_dispatch = source_symbols.source_slice(ledger, "N854")
+        self.assertEqual(weapon_shoot_default_pattern_dispatch["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_shoot_default_pattern_dispatch["java_method"], "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch")
+        self.assertEqual(weapon_shoot_default_pattern_dispatch["godot_owner"], "PortGame.source_weapon_shoot_default_pattern_dispatch_state")
+        self.assertIn("shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {", weapon_shoot_default_pattern_dispatch["exact_exprs"])
+        self.assertIn("mount.totalShots ++;", weapon_shoot_default_pattern_dispatch["exact_exprs"])
+        self.assertIn("if(delay > 0f){", weapon_shoot_default_pattern_dispatch["exact_exprs"])
+        self.assertIn("Time.run(delay, () -> {", weapon_shoot_default_pattern_dispatch["exact_exprs"])
+        self.assertIn("bullet(unit, mount, xOffset, yOffset, angle, mover);", weapon_shoot_default_pattern_dispatch["exact_exprs"])
+        self.assertIn("public int totalShots;", weapon_shoot_default_pattern_dispatch["bridge_exprs"])
+        self.assertIn("public static void run(float delay, Runnable r){", weapon_shoot_default_pattern_dispatch["bridge_exprs"])
+        self.assertIn("Weapon.bullet(...) internals remain owned by source_weapon_bullet_* slices.", weapon_shoot_default_pattern_dispatch["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21712,6 +21764,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("chargeEffectCall", weapon_shoot_charge_start["return_keys"])
         self.assertIn("shootLoopReservedSource", weapon_shoot_charge_start["return_keys"])
         self.assertEqual(weapon_shoot_charge_start["source_method"], "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start")
+
+        weapon_shoot_default_pattern_dispatch = source_symbols.api_contract(contracts, "PortGame.source_weapon_shoot_default_pattern_dispatch_state")
+        self.assertEqual([param["name"] for param in weapon_shoot_default_pattern_dispatch["params"]], ["mount_state", "shoot_state"])
+        self.assertEqual(weapon_shoot_default_pattern_dispatch["params"][0]["schema"], "source_weapon_shoot_default_pattern_dispatch_input.mount_state")
+        self.assertEqual(weapon_shoot_default_pattern_dispatch["params"][1]["schema"], "source_weapon_shoot_default_pattern_dispatch_input.shoot_state")
+        self.assertIn("patternEvents", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertIn("bulletCalls", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertIn("scheduledCalls", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertIn("totalShots", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertIn("barrelCounter", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertIn("shootDispatchSource", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertIn("timeRunSource", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertIn("directBulletSource", weapon_shoot_default_pattern_dispatch["return_keys"])
+        self.assertEqual(weapon_shoot_default_pattern_dispatch["source_method"], "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -28287,6 +28353,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_shoot_pattern_default_events_result["keys"]["angleOffset"]["java_expr"], "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);")
         self.assertEqual(source_shoot_pattern_default_events_result["keys"]["delay"]["java_expr"], "firstShotDelay + shotDelay * i")
         self.assertEqual(source_shoot_pattern_default_events_result["keys"]["mover"]["java_expr"], "shoot(x, y, rotation, delay, null);")
+
+        source_weapon_shoot_default_pattern_dispatch_input = source_symbols.state_schema(schema, "source_weapon_shoot_default_pattern_dispatch_input")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_input["keys"]["shoot_state"]["java_expr"], "ShootPattern shoot")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_input["keys"]["totalShots"]["java_expr"], "public int totalShots;")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_input["keys"]["barrelCounter"]["java_expr"], "public int barrelCounter;")
+
+        source_weapon_shoot_default_pattern_dispatch_result = source_symbols.state_schema(schema, "source_weapon_shoot_default_pattern_dispatch_result")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["shootDispatchSource"]["java_expr"], "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["totalShots"]["java_expr"], "mount.totalShots ++;")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["barrelCounter"]["java_expr"], "public int barrelCounter;")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["scheduledCalls"]["java_expr"], "if(delay > 0f){")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["timeRunSource"]["java_expr"], "Time.run(delay, () -> {")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["directBulletSource"]["java_expr"], "}else{\n                bullet(unit, mount, xOffset, yOffset, angle, mover);")
+        self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["barrelIncrementerSource"]["java_expr"], "}, () -> mount.barrelCounter++);")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

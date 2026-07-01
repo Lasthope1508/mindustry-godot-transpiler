@@ -17691,6 +17691,48 @@
         "test_port_game_exposes_source_weapon_shoot_charge_start_state",
         "test_weapon_shoot_charge_start_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_shoot_default_pattern_dispatch_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_shoot_default_pattern_dispatch_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "shoot_state",
+          "schema": "source_weapon_shoot_default_pattern_dispatch_input.shoot_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "patternEvents",
+        "bulletCalls",
+        "scheduledCalls",
+        "totalShots",
+        "barrelCounter",
+        "barrelIncrementerCalls",
+        "shootDispatchSource",
+        "patternCompatSource",
+        "patternHandlerSource",
+        "totalShotsSource",
+        "barrelCaptureSource",
+        "timeRunSource",
+        "restoreBarrelSource",
+        "directBulletSource",
+        "barrelIncrementerSource"
+      ],
+      "rule": "Public runtime contract for Weapon.shoot default ShootPattern dispatch.",
+      "runtime_proof": "/root/Main.source_weapon_shoot_default_pattern_dispatch_state",
+      "source_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+      "source_slice": "N854",
+      "status": "active",
+      "tests": [
+        "test_weapon_shoot_default_pattern_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state",
+        "test_weapon_shoot_default_pattern_dispatch_matches_upstream_source"
+      ]
     }
   },
   "policy": {

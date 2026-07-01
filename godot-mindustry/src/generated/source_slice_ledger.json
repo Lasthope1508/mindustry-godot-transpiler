@@ -15968,6 +15968,54 @@
         "test_weapon_shoot_charge_start_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.shoot charge-start wrapper against exact upstream source."
+    },
+    "N854": {
+      "bridge_exprs": [
+        "public int totalShots;",
+        "public int barrelCounter;",
+        "public int shots = 1;",
+        "public float firstShotDelay = 0;",
+        "public float shotDelay = 0;",
+        "public void shoot(int totalShots, BulletHandler handler){",
+        "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+        "public static void run(float delay, Runnable r){"
+      ],
+      "deferred_exprs": [
+        "Weapon.bullet(...) internals remain owned by source_weapon_bullet_* slices.",
+        "Non-default ShootPattern overrides remain owned by pattern-specific slices."
+      ],
+      "exact_exprs": [
+        "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+        "mount.totalShots ++;",
+        "int barrel = mount.barrelCounter;",
+        "if(delay > 0f){",
+        "Time.run(delay, () -> {",
+        "mount.barrelCounter = barrel;",
+        "bullet(unit, mount, xOffset, yOffset, angle, mover);",
+        "mount.barrelCounter = prev;",
+        "}, () -> mount.barrelCounter++);"
+      ],
+      "godot_owner": "PortGame.source_weapon_shoot_default_pattern_dispatch_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "rule": "Backfills SSOT for existing Weapon.shoot default ShootPattern dispatch wrapper against exact upstream source.",
+      "runtime_proof": "/root/Main.source_weapon_shoot_default_pattern_dispatch_state",
+      "source_symbols": [
+        "weapon_shoot_default_pattern_dispatch.dispatch",
+        "weapon_shoot_default_pattern_dispatch.total_shots_increment",
+        "weapon_shoot_default_pattern_dispatch.barrel_capture",
+        "weapon_shoot_default_pattern_dispatch.delay_gate",
+        "weapon_shoot_default_pattern_dispatch.time_run",
+        "weapon_shoot_default_pattern_dispatch.direct_bullet_call",
+        "weapon_shoot_default_pattern_dispatch.barrel_incrementer"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_shoot_default_pattern_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state",
+        "test_weapon_shoot_default_pattern_dispatch_matches_upstream_source"
+      ]
     }
   },
   "version": 1

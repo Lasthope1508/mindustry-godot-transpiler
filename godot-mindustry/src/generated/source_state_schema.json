@@ -64481,6 +64481,280 @@
           ]
         }
       }
+    },
+    "source_weapon_shoot_default_pattern_dispatch_input": {
+      "keys": {
+        "barrelCounter": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_input.mount_state.barrelCounter",
+          "java_expr": "public int barrelCounter;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "WeaponMount barrelCounter field passed to ShootPattern and captured per bullet event.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "firstShotDelay": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_input.shoot_state.firstShotDelay",
+          "java_expr": "public float firstShotDelay = 0;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Default ShootPattern first shot delay field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "mount_state": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "shoot_state": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_input.shoot_state",
+          "java_expr": "ShootPattern shoot",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source ShootPattern input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "shotDelay": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_input.shoot_state.shotDelay",
+          "java_expr": "public float shotDelay = 0;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Default ShootPattern per-shot delay field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "shots": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_input.shoot_state.shots",
+          "java_expr": "public int shots = 1;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Default ShootPattern shots field.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "totalShots": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_input.mount_state.totalShots",
+          "java_expr": "public int totalShots;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "WeaponMount totalShots field consumed and incremented by handler.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_weapon_shoot_default_pattern_dispatch_result": {
+      "keys": {
+        "barrelCaptureSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.barrelCaptureSource",
+          "java_expr": "int barrel = mount.barrelCounter;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact barrel capture metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "barrelCounter": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.barrelCounter",
+          "java_expr": "public int barrelCounter;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime barrelCounter remains unchanged by default ShootPattern path.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "barrelIncrementerCalls": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.barrelIncrementerCalls",
+          "java_expr": "}, () -> mount.barrelCounter++);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Default ShootPattern overload does not execute barrel incrementer runnable.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "barrelIncrementerSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.barrelIncrementerSource",
+          "java_expr": "}, () -> mount.barrelCounter++);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact ShootPattern barrel incrementer metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "bulletCalls": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.bulletCalls",
+          "java_expr": "bullet(unit, mount, xOffset, yOffset, angle, mover);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Immediate bullet call payloads for zero-delay events.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "directBulletSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.directBulletSource",
+          "java_expr": "}else{\n                bullet(unit, mount, xOffset, yOffset, angle, mover);",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact immediate bullet call metadata including else branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "patternCompatSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.patternCompatSource",
+          "java_expr": "shoot(totalShots, handler)",
+          "java_method": "shoot(int totalShots, BulletHandler handler, Runnable barrelIncrementer)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern compatibility overload metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "patternEvents": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.patternEvents",
+          "java_expr": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Default ShootPattern events forwarded into Weapon.shoot handler.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "patternHandlerSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.patternHandlerSource",
+          "java_expr": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "Exact default handler source metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "restoreBarrelSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.restoreBarrelSource",
+          "java_expr": "mount.barrelCounter = prev;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact barrelCounter restore metadata after delayed bullet call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "scheduledCalls": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.scheduledCalls",
+          "java_expr": "if(delay > 0f){",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Scheduled bullet call payloads for positive-delay events.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "shootDispatchSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.shootDispatchSource",
+          "java_expr": "shoot.shoot(mount.barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact Weapon.shoot dispatch metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "timeRunSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.timeRunSource",
+          "java_expr": "Time.run(delay, () -> {",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact delayed scheduling call metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "totalShots": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.totalShots",
+          "java_expr": "mount.totalShots ++;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated total shot count after handler events.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        },
+        "totalShotsSource": {
+          "godot_symbol": "source_weapon_shoot_default_pattern_dispatch_result.totalShotsSource",
+          "java_expr": "mount.totalShots ++;",
+          "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact totalShots increment metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

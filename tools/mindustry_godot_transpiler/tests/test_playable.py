@@ -4868,10 +4868,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"restoreBarrelCounter": barrel_counter', source)
         self.assertIn("bullet_calls.append(bullet_call)", source)
         self.assertIn('"barrelIncrementerCalls": 0', source)
-        self.assertIn('"patternHandlerSource": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i)"', source)
-        self.assertIn('"totalShotsSource": "mount.totalShots ++"', source)
+        self.assertIn('"patternHandlerSource": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);"', source)
+        self.assertIn('"totalShotsSource": "mount.totalShots ++;"', source)
+        self.assertIn('"barrelCaptureSource": "int barrel = mount.barrelCounter;"', source)
         self.assertIn('"timeRunSource": "Time.run(delay, () -> {"', source)
-        self.assertIn('"directBulletSource": "bullet(unit, mount, xOffset, yOffset, angle, mover)"', source)
+        self.assertIn('"restoreBarrelSource": "mount.barrelCounter = prev;"', source)
+        self.assertIn('"directBulletSource": "bullet(unit, mount, xOffset, yOffset, angle, mover);"', source)
+        self.assertIn('"barrelIncrementerSource": "}, () -> mount.barrelCounter++);"', source)
 
     def test_port_game_exposes_source_weapon_bullet_initial_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
