@@ -944,6 +944,29 @@ func source_power_generator_create_explosion_shake_state(should_explode_value: b
 		],
 	}
 
+func source_power_generator_on_destroyed_reactor_explosion_state(reactor_explosions: bool, create_explosion_state: Dictionary) -> Dictionary:
+	var create_explosion_called := reactor_explosions
+	var create_explosion_result := {}
+	if create_explosion_called:
+		create_explosion_result = create_explosion_state.duplicate(true)
+	return {
+		"override": "@Override",
+		"method": "public void onDestroyed(){",
+		"super_call": "super.onDestroyed();",
+		"reactor_explosions_field": "public boolean reactorExplosions = true;",
+		"reactor_explosions_guard": "if(state.rules.reactorExplosions){",
+		"create_explosion_call": "createExplosion();",
+		"input_reactor_explosions": reactor_explosions,
+		"input_create_explosion_state": create_explosion_state,
+		"super_on_destroyed_deferred": true,
+		"create_explosion_called": create_explosion_called,
+		"create_explosion_result": create_explosion_result,
+		"deferred_body": [
+			"super.onDestroyed() base building destruction body",
+			"Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

@@ -380,6 +380,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_on_destroyed_reactor_explosion_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_on_destroyed_reactor_explosion_source"))
+        report = source_parity.verify_power_generator_on_destroyed_reactor_explosion_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(report["sources"], [
+            "core/src/mindustry/game/Rules.java",
+        ])
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void onDestroyed(){",
+            "super_call": "super.onDestroyed();",
+            "reactor_explosions_field": "public boolean reactorExplosions = true;",
+            "reactor_explosions_guard": "if(state.rules.reactorExplosions){",
+            "create_explosion_call": "createExplosion();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

@@ -78360,6 +78360,103 @@
           "java_expr": "Effect.shake camera falloff and renderer shake body"
         }
       }
+    },
+    "source_power_generator_on_destroyed_reactor_explosion_input": {
+      "owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "source_slice": "N921",
+      "status": "active",
+      "keys": {
+        "reactor_explosions": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "state.rules.reactorExplosions"
+        },
+        "create_explosion_state": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "createExplosion()",
+          "alias_of": "source_power_generator_create_explosion_shake_result"
+        }
+      }
+    },
+    "source_power_generator_on_destroyed_reactor_explosion_result": {
+      "owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "source_slice": "N921",
+      "status": "active",
+      "keys": {
+        "override": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "@Override"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public void onDestroyed(){"
+        },
+        "super_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "super.onDestroyed();"
+        },
+        "reactor_explosions_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "public boolean reactorExplosions = true;"
+        },
+        "reactor_explosions_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(state.rules.reactorExplosions){"
+        },
+        "create_explosion_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "createExplosion();"
+        },
+        "input_reactor_explosions": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_on_destroyed_reactor_explosion_input.reactor_explosions"
+        },
+        "input_create_explosion_state": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_on_destroyed_reactor_explosion_input.create_explosion_state"
+        },
+        "super_on_destroyed_deferred": {
+          "type": "bool",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "super.onDestroyed() base building destruction body"
+        },
+        "create_explosion_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(state.rules.reactorExplosions){"
+        },
+        "create_explosion_result": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "createExplosion();"
+        },
+        "deferred_body": {
+          "type": "Array[String]",
+          "status": "deferred",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "super.onDestroyed() base building destruction body"
+        }
+      }
     }
   },
   "version": 1

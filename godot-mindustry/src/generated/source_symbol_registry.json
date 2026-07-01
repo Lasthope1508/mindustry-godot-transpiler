@@ -65592,6 +65592,123 @@
       "godot_symbol": "source_power_generator_create_explosion_shake_result.deferred_body",
       "rule": "Runtime source_power_generator_create_explosion_shake_result.deferred_body maps to createExplosion shake source.",
       "status": "deferred"
+    },
+    "power_generator_on_destroyed_reactor_explosion.reactor_explosions": {
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "state.rules.reactorExplosions",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_input.reactor_explosions",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_input.reactor_explosions maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "explicit-input"
+    },
+    "power_generator_on_destroyed_reactor_explosion.create_explosion_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "createExplosion()",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_input.create_explosion_state",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_input.create_explosion_state maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "explicit-input"
+    },
+    "power_generator_on_destroyed_reactor_explosion.override": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "@Override",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_result.override",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_result.override maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "source-backed"
+    },
+    "power_generator_on_destroyed_reactor_explosion.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void onDestroyed(){",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_result.method",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_result.method maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "source-backed"
+    },
+    "power_generator_on_destroyed_reactor_explosion.super_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "super.onDestroyed();",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_result.super_call",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_result.super_call maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "source-backed"
+    },
+    "power_generator_on_destroyed_reactor_explosion.reactor_explosions_field": {
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public boolean reactorExplosions = true;",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_result.reactor_explosions_field",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_result.reactor_explosions_field maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "source-backed"
+    },
+    "power_generator_on_destroyed_reactor_explosion.reactor_explosions_guard": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(state.rules.reactorExplosions){",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_result.create_explosion_called",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_result.create_explosion_called maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "source-backed"
+    },
+    "power_generator_on_destroyed_reactor_explosion.create_explosion_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "createExplosion();",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_result.create_explosion_result",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_result.create_explosion_result maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "source-backed"
+    },
+    "power_generator_on_destroyed_reactor_explosion.deferred_body": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "super.onDestroyed() base building destruction body",
+      "godot_symbol": "source_power_generator_on_destroyed_reactor_explosion_result.deferred_body",
+      "rule": "Runtime source_power_generator_on_destroyed_reactor_explosion_result.deferred_body maps to PowerGenerator.onDestroyed reactor explosion source.",
+      "status": "deferred"
     }
   },
   "version": 1

@@ -18749,6 +18749,42 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N921": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "source_symbols": [
+        "power_generator_on_destroyed_reactor_explosion.reactor_explosions",
+        "power_generator_on_destroyed_reactor_explosion.create_explosion_state",
+        "power_generator_on_destroyed_reactor_explosion.override",
+        "power_generator_on_destroyed_reactor_explosion.method",
+        "power_generator_on_destroyed_reactor_explosion.super_call",
+        "power_generator_on_destroyed_reactor_explosion.reactor_explosions_field",
+        "power_generator_on_destroyed_reactor_explosion.reactor_explosions_guard",
+        "power_generator_on_destroyed_reactor_explosion.create_explosion_call",
+        "power_generator_on_destroyed_reactor_explosion.deferred_body"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void onDestroyed(){",
+        "super.onDestroyed();",
+        "public boolean reactorExplosions = true;",
+        "if(state.rules.reactorExplosions){",
+        "createExplosion();"
+      ],
+      "deferred_exprs": [
+        "super.onDestroyed() base building destruction body",
+        "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

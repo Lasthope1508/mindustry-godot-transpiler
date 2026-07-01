@@ -20889,6 +20889,43 @@
       "tests": [
         "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_on_destroyed_reactor_explosion_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "onDestroyed()",
+      "source_slice": "N921",
+      "params": [
+        {
+          "name": "reactor_explosions",
+          "type": "bool",
+          "schema": "source_power_generator_on_destroyed_reactor_explosion_input.reactor_explosions"
+        },
+        {
+          "name": "create_explosion_state",
+          "type": "Dictionary",
+          "schema": "source_power_generator_on_destroyed_reactor_explosion_input.create_explosion_state"
+        }
+      ],
+      "return_keys": [
+        "override",
+        "method",
+        "super_call",
+        "reactor_explosions_field",
+        "reactor_explosions_guard",
+        "create_explosion_call",
+        "input_reactor_explosions",
+        "input_create_explosion_state",
+        "super_on_destroyed_deferred",
+        "create_explosion_called",
+        "create_explosion_result",
+        "deferred_body"
+      ],
+      "rule": "Public runtime contract for PowerGenerator.onDestroyed reactorExplosions gate and createExplosion dispatch only; parent destruction body and createExplosion internals remain separately owned.",
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

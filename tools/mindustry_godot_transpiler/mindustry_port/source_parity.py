@@ -508,6 +508,33 @@ def verify_power_generator_create_explosion_shake_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_power_generator_on_destroyed_reactor_explosion_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    rules_path = Path(upstream_root) / RULES_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void onDestroyed(){",
+        "super_call": "super.onDestroyed();",
+        "reactor_explosions_field": "public boolean reactorExplosions = true;",
+        "reactor_explosions_guard": "if(state.rules.reactorExplosions){",
+        "create_explosion_call": "createExplosion();",
+    }
+    sources_by_key = {
+        "reactor_explosions_field": rules_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [RULES_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

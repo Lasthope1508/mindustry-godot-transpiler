@@ -14032,6 +14032,39 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(deferred_body["java_expr"], "Effect.shake camera falloff and renderer shake body")
         self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_shake_result.deferred_body")
 
+    def test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        reactor_explosions = source_symbols.source_symbol(registry, "power_generator_on_destroyed_reactor_explosion.reactor_explosions")
+        self.assertEqual(reactor_explosions["java_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(reactor_explosions["java_method"], "onDestroyed()")
+        self.assertEqual(reactor_explosions["status"], "explicit-input")
+        self.assertEqual(reactor_explosions["java_expr"], "state.rules.reactorExplosions")
+        self.assertEqual(reactor_explosions["godot_owner"], "PortGame.source_power_generator_on_destroyed_reactor_explosion_state")
+        self.assertEqual(reactor_explosions["runtime_proof"], "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state")
+        self.assertEqual(reactor_explosions["godot_symbol"], "source_power_generator_on_destroyed_reactor_explosion_input.reactor_explosions")
+
+        create_explosion_state = source_symbols.source_symbol(registry, "power_generator_on_destroyed_reactor_explosion.create_explosion_state")
+        self.assertEqual(create_explosion_state["status"], "explicit-input")
+        self.assertEqual(create_explosion_state["java_expr"], "createExplosion()")
+        self.assertEqual(create_explosion_state["godot_symbol"], "source_power_generator_on_destroyed_reactor_explosion_input.create_explosion_state")
+
+        guard = source_symbols.source_symbol(registry, "power_generator_on_destroyed_reactor_explosion.reactor_explosions_guard")
+        self.assertEqual(guard["java_expr"], "if(state.rules.reactorExplosions){")
+        self.assertEqual(guard["godot_symbol"], "source_power_generator_on_destroyed_reactor_explosion_result.create_explosion_called")
+
+        call = source_symbols.source_symbol(registry, "power_generator_on_destroyed_reactor_explosion.create_explosion_call")
+        self.assertEqual(call["java_expr"], "createExplosion();")
+        self.assertEqual(call["godot_symbol"], "source_power_generator_on_destroyed_reactor_explosion_result.create_explosion_result")
+
+        deferred_body = source_symbols.source_symbol(registry, "power_generator_on_destroyed_reactor_explosion.deferred_body")
+        self.assertEqual(deferred_body["status"], "deferred")
+        self.assertEqual(deferred_body["java_expr"], "super.onDestroyed() base building destruction body")
+        self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_on_destroyed_reactor_explosion_result.deferred_body")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17948,9 +17981,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 517)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 518)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 522)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 523)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -18443,6 +18476,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_power_generator_create_explosion_puddle_tile_world_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_generator_create_explosion_puddle_deposit_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_generator_create_explosion_shake_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_power_generator_on_destroyed_reactor_explosion_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -22725,6 +22759,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static void shake(float intensity, float duration, Position loc){", power_generator_create_explosion_shake["exact_exprs"])
         self.assertIn("shake(intensity, duration, loc.getX(), loc.getY());", power_generator_create_explosion_shake["exact_exprs"])
         self.assertIn("Effect.shake camera falloff and renderer shake body", power_generator_create_explosion_shake["deferred_exprs"])
+
+        power_generator_on_destroyed_reactor_explosion = source_symbols.source_slice(ledger, "N921")
+        self.assertEqual(power_generator_on_destroyed_reactor_explosion["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_on_destroyed_reactor_explosion["java_method"], "onDestroyed()")
+        self.assertEqual(power_generator_on_destroyed_reactor_explosion["godot_owner"], "PortGame.source_power_generator_on_destroyed_reactor_explosion_state")
+        self.assertIn("public void onDestroyed(){", power_generator_on_destroyed_reactor_explosion["exact_exprs"])
+        self.assertIn("super.onDestroyed();", power_generator_on_destroyed_reactor_explosion["exact_exprs"])
+        self.assertIn("public boolean reactorExplosions = true;", power_generator_on_destroyed_reactor_explosion["exact_exprs"])
+        self.assertIn("if(state.rules.reactorExplosions){", power_generator_on_destroyed_reactor_explosion["exact_exprs"])
+        self.assertIn("createExplosion();", power_generator_on_destroyed_reactor_explosion["exact_exprs"])
+        self.assertIn("super.onDestroyed() base building destruction body", power_generator_on_destroyed_reactor_explosion["deferred_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27704,6 +27749,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shake_call", power_generator_create_explosion_shake["return_keys"])
         self.assertIn("camera_falloff_deferred", power_generator_create_explosion_shake["return_keys"])
         self.assertEqual(power_generator_create_explosion_shake["source_method"], "createExplosion()")
+
+        power_generator_on_destroyed_reactor_explosion = source_symbols.api_contract(contracts, "PortGame.source_power_generator_on_destroyed_reactor_explosion_state")
+        self.assertEqual([param["name"] for param in power_generator_on_destroyed_reactor_explosion["params"]], ["reactor_explosions", "create_explosion_state"])
+        self.assertEqual(power_generator_on_destroyed_reactor_explosion["params"][0]["schema"], "source_power_generator_on_destroyed_reactor_explosion_input.reactor_explosions")
+        self.assertEqual(power_generator_on_destroyed_reactor_explosion["params"][1]["schema"], "source_power_generator_on_destroyed_reactor_explosion_input.create_explosion_state")
+        self.assertIn("create_explosion_called", power_generator_on_destroyed_reactor_explosion["return_keys"])
+        self.assertIn("create_explosion_result", power_generator_on_destroyed_reactor_explosion["return_keys"])
+        self.assertIn("super_on_destroyed_deferred", power_generator_on_destroyed_reactor_explosion["return_keys"])
+        self.assertEqual(power_generator_on_destroyed_reactor_explosion["source_method"], "onDestroyed()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33794,6 +33848,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_generator_create_explosion_shake_result["keys"]["effect_shake_position_dispatch"]["java_expr"], "shake(intensity, duration, loc.getX(), loc.getY());")
         self.assertEqual(source_power_generator_create_explosion_shake_result["keys"]["shake_dispatched"]["java_expr"], "if(explosionShake > 0){")
         self.assertEqual(source_power_generator_create_explosion_shake_result["keys"]["camera_falloff_deferred"]["java_expr"], "Effect.shake camera falloff and renderer shake body")
+
+        source_power_generator_on_destroyed_reactor_explosion_input = source_symbols.state_schema(schema, "source_power_generator_on_destroyed_reactor_explosion_input")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_input["keys"]["reactor_explosions"]["java_expr"], "state.rules.reactorExplosions")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_input["keys"]["create_explosion_state"]["alias_of"], "source_power_generator_create_explosion_shake_result")
+
+        source_power_generator_on_destroyed_reactor_explosion_result = source_symbols.state_schema(schema, "source_power_generator_on_destroyed_reactor_explosion_result")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_result["keys"]["method"]["java_expr"], "public void onDestroyed(){")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_result["keys"]["super_call"]["java_expr"], "super.onDestroyed();")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_result["keys"]["reactor_explosions_field"]["java_expr"], "public boolean reactorExplosions = true;")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_result["keys"]["reactor_explosions_guard"]["java_expr"], "if(state.rules.reactorExplosions){")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_result["keys"]["create_explosion_call"]["java_expr"], "createExplosion();")
+        self.assertEqual(source_power_generator_on_destroyed_reactor_explosion_result["keys"]["super_on_destroyed_deferred"]["java_expr"], "super.onDestroyed() base building destruction body")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")
