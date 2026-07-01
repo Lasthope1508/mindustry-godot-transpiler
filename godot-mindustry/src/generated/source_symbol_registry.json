@@ -55248,6 +55248,201 @@
         "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state",
         "test_weapon_shoot_default_pattern_dispatch_matches_upstream_source"
       ]
+    },
+    "weapon_update_active_sound_loop.guard": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){",
+      "godot_symbol": "source_weapon_update_active_sound_loop_result.guardSource",
+      "status": "source-backed",
+      "rule": "Weapon.update active sound loop guard."
+    },
+    "weapon_update_active_sound_loop.loop_call": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);",
+      "godot_symbol": "source_weapon_update_active_sound_loop_result.soundLoopCall",
+      "status": "source-backed",
+      "rule": "Weapon.update dispatches active sound loop through Vars.control.sound."
+    },
+    "weapon_update_active_sound_loop.active_sound": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public Sound activeSound = Sounds.none;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_input.weapon_state.activeSound",
+      "status": "source-backed",
+      "rule": "Weapon active sound field."
+    },
+    "weapon_update_active_sound_loop.active_sound_volume": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float activeSoundVolume = 1f;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_input.weapon_state.activeSoundVolume",
+      "status": "source-backed",
+      "rule": "Weapon active sound volume field."
+    },
+    "weapon_update_active_sound_loop.min_warmup": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float minWarmup = 0f;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_input.weapon_state.minWarmup",
+      "status": "source-backed",
+      "rule": "Weapon minimum warmup field for shoot and sound gates."
+    },
+    "weapon_update_active_sound_loop.mount_shoot": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean shoot = false;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_input.mount_state.shoot",
+      "status": "source-backed",
+      "rule": "WeaponMount shoot field used by active sound gate."
+    },
+    "weapon_update_active_sound_loop.mount_warmup": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float warmup;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_input.mount_state.warmup",
+      "status": "source-backed",
+      "rule": "WeaponMount warmup field used by active sound gate."
+    },
+    "weapon_update_active_sound_loop.vars_headless": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Vars fields",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_expr": "public static boolean headless;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_input.runtime_state.headless",
+      "status": "source-backed",
+      "rule": "Vars headless gate for active sound and SoundControl."
+    },
+    "weapon_update_active_sound_loop.vars_control": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Vars fields",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_expr": "public static Control control;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_input.runtime_state.control",
+      "status": "source-backed",
+      "rule": "Vars control provides SoundControl access."
+    },
+    "weapon_update_active_sound_loop.sound_control_loop_unit": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "SoundControl.loop(Sound sound, Position pos, float volume)",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_expr": "public void loop(Sound sound, Position pos, float volume){",
+      "godot_symbol": "source_weapon_update_active_sound_loop_result.loopSource",
+      "status": "source-backed",
+      "rule": "SoundControl position loop overload called by active sound loop."
+    },
+    "weapon_update_active_sound_loop.sound_control_loop_pitch": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "SoundControl.loop(Sound sound, Position pos, float volume, float pitch)",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_expr": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+      "godot_symbol": "source_weapon_update_active_sound_loop_result.loopSource",
+      "status": "source-backed",
+      "rule": "SoundControl pitch overload handles falloff and volume accumulation."
+    },
+    "weapon_update_active_sound_loop.sound_control_guard": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "SoundControl.loop(Sound sound, Position pos, float volume, float pitch)",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_expr": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_result.soundControlGuardSource",
+      "status": "source-backed",
+      "rule": "SoundControl inner guard for headless, none sound, and near-zero volume."
+    },
+    "weapon_update_active_sound_loop.vel_len_reserved": {
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+      "godot_symbol": "source_weapon_update_active_sound_loop_result.velLenReservedSource",
+      "status": "deferred",
+      "rule": "Next Weapon.update velocity length expression follows active sound block and remains owned by source_weapon_update_velocity_length_state."
     }
   },
   "version": 1

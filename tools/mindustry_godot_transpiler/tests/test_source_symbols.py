@@ -4959,6 +4959,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(barrel_incrementer["java_expr"], "}, () -> mount.barrelCounter++);")
         self.assertEqual(barrel_incrementer["godot_symbol"], "source_weapon_shoot_default_pattern_dispatch_result.barrelIncrementerSource")
 
+    def test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.guard")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(guard["java_expr"], "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_weapon_update_active_sound_loop_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_weapon_update_active_sound_loop_state")
+        self.assertEqual(guard["godot_symbol"], "source_weapon_update_active_sound_loop_result.guardSource")
+
+        loop_call = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.loop_call")
+        self.assertEqual(loop_call["java_expr"], "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);")
+        self.assertEqual(loop_call["godot_symbol"], "source_weapon_update_active_sound_loop_result.soundLoopCall")
+
+        active_sound = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.active_sound")
+        self.assertEqual(active_sound["java_expr"], "public Sound activeSound = Sounds.none;")
+        self.assertEqual(active_sound["godot_symbol"], "source_weapon_update_active_sound_loop_input.weapon_state.activeSound")
+
+        active_sound_volume = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.active_sound_volume")
+        self.assertEqual(active_sound_volume["java_expr"], "public float activeSoundVolume = 1f;")
+        self.assertEqual(active_sound_volume["godot_symbol"], "source_weapon_update_active_sound_loop_input.weapon_state.activeSoundVolume")
+
+        min_warmup = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.min_warmup")
+        self.assertEqual(min_warmup["java_expr"], "public float minWarmup = 0f;")
+        self.assertEqual(min_warmup["godot_symbol"], "source_weapon_update_active_sound_loop_input.weapon_state.minWarmup")
+
+        mount_shoot = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.mount_shoot")
+        self.assertEqual(mount_shoot["java_expr"], "public boolean shoot = false;")
+        self.assertEqual(mount_shoot["godot_symbol"], "source_weapon_update_active_sound_loop_input.mount_state.shoot")
+
+        mount_warmup = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.mount_warmup")
+        self.assertEqual(mount_warmup["java_expr"], "public float warmup;")
+        self.assertEqual(mount_warmup["godot_symbol"], "source_weapon_update_active_sound_loop_input.mount_state.warmup")
+
+        sound_control_guard = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.sound_control_guard")
+        self.assertEqual(sound_control_guard["java_source"], "core/src/mindustry/audio/SoundControl.java")
+        self.assertEqual(sound_control_guard["java_expr"], "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;")
+        self.assertEqual(sound_control_guard["godot_symbol"], "source_weapon_update_active_sound_loop_result.soundControlGuardSource")
+
+        vel_len_reserved = source_symbols.source_symbol(registry, "weapon_update_active_sound_loop.vel_len_reserved")
+        self.assertEqual(vel_len_reserved["java_expr"], "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;")
+        self.assertEqual(vel_len_reserved["godot_symbol"], "source_weapon_update_active_sound_loop_result.velLenReservedSource")
+
     def test_status_apply_result_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15617,9 +15663,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 452)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 453)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 457)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 458)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15683,6 +15729,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_handle_bullet_continuous_geometry_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_shoot_charge_start_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_shoot_default_pattern_dispatch_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_active_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18532,6 +18579,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public int totalShots;", weapon_shoot_default_pattern_dispatch["bridge_exprs"])
         self.assertIn("public static void run(float delay, Runnable r){", weapon_shoot_default_pattern_dispatch["bridge_exprs"])
         self.assertIn("Weapon.bullet(...) internals remain owned by source_weapon_bullet_* slices.", weapon_shoot_default_pattern_dispatch["deferred_exprs"])
+
+        weapon_update_active_sound_loop = source_symbols.source_slice(ledger, "N855")
+        self.assertEqual(weapon_update_active_sound_loop["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_active_sound_loop["java_method"], "Weapon.update(Unit unit, WeaponMount mount) active sound loop")
+        self.assertEqual(weapon_update_active_sound_loop["godot_owner"], "PortGame.source_weapon_update_active_sound_loop_state")
+        self.assertIn("if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){", weapon_update_active_sound_loop["exact_exprs"])
+        self.assertIn("Vars.control.sound.loop(activeSound, unit, activeSoundVolume);", weapon_update_active_sound_loop["exact_exprs"])
+        self.assertIn("public Sound activeSound = Sounds.none;", weapon_update_active_sound_loop["bridge_exprs"])
+        self.assertIn("public float activeSoundVolume = 1f;", weapon_update_active_sound_loop["bridge_exprs"])
+        self.assertIn("public float minWarmup = 0f;", weapon_update_active_sound_loop["bridge_exprs"])
+        self.assertIn("public boolean shoot = false;", weapon_update_active_sound_loop["bridge_exprs"])
+        self.assertIn("public void loop(Sound sound, Position pos, float volume){", weapon_update_active_sound_loop["bridge_exprs"])
+        self.assertIn("float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;", weapon_update_active_sound_loop["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21778,6 +21838,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("timeRunSource", weapon_shoot_default_pattern_dispatch["return_keys"])
         self.assertIn("directBulletSource", weapon_shoot_default_pattern_dispatch["return_keys"])
         self.assertEqual(weapon_shoot_default_pattern_dispatch["source_method"], "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch")
+
+        weapon_update_active_sound_loop = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_active_sound_loop_state")
+        self.assertEqual([param["name"] for param in weapon_update_active_sound_loop["params"]], ["mount_state", "weapon_state", "runtime_state", "can_shoot", "unit_id"])
+        self.assertEqual(weapon_update_active_sound_loop["params"][0]["schema"], "source_weapon_update_active_sound_loop_input.mount_state")
+        self.assertEqual(weapon_update_active_sound_loop["params"][1]["schema"], "source_weapon_update_active_sound_loop_input.weapon_state")
+        self.assertEqual(weapon_update_active_sound_loop["params"][2]["schema"], "source_weapon_update_active_sound_loop_input.runtime_state")
+        self.assertEqual(weapon_update_active_sound_loop["params"][3]["schema"], "source_weapon_update_active_sound_loop_input.can_shoot")
+        self.assertEqual(weapon_update_active_sound_loop["params"][4]["schema"], "source_weapon_update_active_sound_loop_input.unit_id")
+        self.assertIn("activeSoundGate", weapon_update_active_sound_loop["return_keys"])
+        self.assertIn("soundLoopCall", weapon_update_active_sound_loop["return_keys"])
+        self.assertIn("guardSource", weapon_update_active_sound_loop["return_keys"])
+        self.assertIn("loopSource", weapon_update_active_sound_loop["return_keys"])
+        self.assertIn("soundControlGuardSource", weapon_update_active_sound_loop["return_keys"])
+        self.assertIn("velLenReservedSource", weapon_update_active_sound_loop["return_keys"])
+        self.assertEqual(weapon_update_active_sound_loop["source_method"], "Weapon.update(Unit unit, WeaponMount mount) active sound loop")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -28368,6 +28443,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["timeRunSource"]["java_expr"], "Time.run(delay, () -> {")
         self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["directBulletSource"]["java_expr"], "}else{\n                bullet(unit, mount, xOffset, yOffset, angle, mover);")
         self.assertEqual(source_weapon_shoot_default_pattern_dispatch_result["keys"]["barrelIncrementerSource"]["java_expr"], "}, () -> mount.barrelCounter++);")
+
+        source_weapon_update_active_sound_loop_input = source_symbols.state_schema(schema, "source_weapon_update_active_sound_loop_input")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["weapon_state"]["java_expr"], "Weapon active sound fields")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["runtime_state"]["java_expr"], "Vars.headless / Vars.control")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["can_shoot"]["java_expr"], "boolean can")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["unit_id"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["activeSound"]["java_expr"], "public Sound activeSound = Sounds.none;")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["activeSoundVolume"]["java_expr"], "public float activeSoundVolume = 1f;")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["minWarmup"]["java_expr"], "public float minWarmup = 0f;")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["shoot"]["java_expr"], "public boolean shoot = false;")
+        self.assertEqual(source_weapon_update_active_sound_loop_input["keys"]["warmup"]["java_expr"], "public float warmup;")
+
+        source_weapon_update_active_sound_loop_result = source_symbols.state_schema(schema, "source_weapon_update_active_sound_loop_result")
+        self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["activeSoundGate"]["java_expr"], "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){")
+        self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["soundLoopCall"]["java_expr"], "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);")
+        self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["guardSource"]["java_expr"], "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){")
+        self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["loopSource"]["java_expr"], "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);")
+        self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["soundControlGuardSource"]["java_expr"], "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;")
+        self.assertEqual(source_weapon_update_active_sound_loop_result["keys"]["velLenReservedSource"]["java_expr"], "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

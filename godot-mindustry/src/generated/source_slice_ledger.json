@@ -16016,6 +16016,55 @@
         "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state",
         "test_weapon_shoot_default_pattern_dispatch_matches_upstream_source"
       ]
+    },
+    "N855": {
+      "exact_exprs": [
+        "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){",
+        "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);"
+      ],
+      "bridge_exprs": [
+        "public Sound activeSound = Sounds.none;",
+        "public float activeSoundVolume = 1f;",
+        "public float minWarmup = 0f;",
+        "public boolean shoot = false;",
+        "public float warmup;",
+        "public static boolean headless;",
+        "public static Control control;",
+        "public void loop(Sound sound, Position pos, float volume){",
+        "public void loop(Sound sound, Position pos, float volume, float pitch){",
+        "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;"
+      ],
+      "deferred_exprs": [
+        "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+        "Weapon.update shoot gate following velLen remains owned by later update gate slices."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "source_symbols": [
+        "weapon_update_active_sound_loop.guard",
+        "weapon_update_active_sound_loop.loop_call",
+        "weapon_update_active_sound_loop.active_sound",
+        "weapon_update_active_sound_loop.active_sound_volume",
+        "weapon_update_active_sound_loop.min_warmup",
+        "weapon_update_active_sound_loop.mount_shoot",
+        "weapon_update_active_sound_loop.mount_warmup",
+        "weapon_update_active_sound_loop.vars_headless",
+        "weapon_update_active_sound_loop.vars_control",
+        "weapon_update_active_sound_loop.sound_control_loop_unit",
+        "weapon_update_active_sound_loop.sound_control_loop_pitch",
+        "weapon_update_active_sound_loop.sound_control_guard",
+        "weapon_update_active_sound_loop.vel_len_reserved"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update active sound loop wrapper against exact upstream source."
     }
   },
   "version": 1

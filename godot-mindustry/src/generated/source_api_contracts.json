@@ -17733,6 +17733,61 @@
         "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state",
         "test_weapon_shoot_default_pattern_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_active_sound_loop_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_active_sound_loop_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_active_sound_loop_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "runtime_state",
+          "schema": "source_weapon_update_active_sound_loop_input.runtime_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_active_sound_loop_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_weapon_update_active_sound_loop_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "activeSoundGate",
+        "headless",
+        "activeSound",
+        "mountShoot",
+        "canShoot",
+        "mountWarmup",
+        "minWarmup",
+        "activeSoundVolume",
+        "soundLoopCall",
+        "guardSource",
+        "loopSource",
+        "soundControlGuardSource",
+        "velLenReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update active sound loop guard and dispatch.",
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "source_slice": "N855",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ]
     }
   },
   "policy": {

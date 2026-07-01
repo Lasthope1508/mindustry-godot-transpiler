@@ -5091,10 +5091,10 @@ func source_weapon_update_active_sound_loop_state(mount_state: Dictionary, weapo
 		"minWarmup": min_warmup,
 		"activeSoundVolume": active_sound_volume,
 		"soundLoopCall": sound_loop_call,
-		"guardSource": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup)",
-		"loopSource": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume)",
-		"soundControlGuardSource": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return",
-		"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta",
+		"guardSource": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){",
+		"loopSource": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);",
+		"soundControlGuardSource": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+		"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
 	}
 
 func source_weapon_update_velocity_length_state(unit_state: Dictionary, source_delta: float) -> Dictionary:

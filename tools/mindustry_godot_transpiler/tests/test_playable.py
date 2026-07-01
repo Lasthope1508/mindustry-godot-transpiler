@@ -4730,9 +4730,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"sound": active_sound', source)
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"volume": active_sound_volume', source)
-        self.assertIn('"guardSource": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup)"', source)
-        self.assertIn('"loopSource": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume)"', source)
-        self.assertIn('"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta"', source)
+        self.assertIn('"guardSource": "if(!headless && activeSound != Sounds.none && mount.shoot && can && mount.warmup >= minWarmup){"', source)
+        self.assertIn('"loopSource": "Vars.control.sound.loop(activeSound, unit, activeSoundVolume);"', source)
+        self.assertIn('"soundControlGuardSource": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;"', source)
+        self.assertIn('"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;"', source)
 
     def test_port_game_exposes_source_weapon_update_velocity_length_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
