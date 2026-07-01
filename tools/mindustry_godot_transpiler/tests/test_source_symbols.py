@@ -5270,6 +5270,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(position_angle_to["java_expr"], "default float angleTo(float x, float y){")
         self.assertEqual(position_angle_to["godot_symbol"], "source_weapon_update_bullet_origin_result.positionAngleToSource")
 
+    def test_weapon_update_cone_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        cone_gate = source_symbols.source_symbol(registry, "weapon_update_cone_gate.cone_gate")
+        self.assertEqual(cone_gate["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(cone_gate["java_expr"], "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone")
+        self.assertEqual(cone_gate["godot_owner"], "PortGame.source_weapon_update_cone_gate_state")
+        self.assertEqual(cone_gate["runtime_proof"], "/root/Main.source_weapon_update_cone_gate_state")
+        self.assertEqual(cone_gate["godot_symbol"], "source_weapon_update_cone_gate_result.coneGateSource")
+
+        shoot_call_reserved = source_symbols.source_symbol(registry, "weapon_update_cone_gate.shoot_call_reserved")
+        self.assertEqual(shoot_call_reserved["java_expr"], "shoot(unit, mount, bulletX, bulletY, shootAngle);")
+        self.assertEqual(shoot_call_reserved["godot_symbol"], "source_weapon_update_cone_gate_result.shootCallReservedSource")
+
+        always_shooting = source_symbols.source_symbol(registry, "weapon_update_cone_gate.weapon_always_shooting")
+        self.assertEqual(always_shooting["java_expr"], "public boolean alwaysShooting = false;")
+        self.assertEqual(always_shooting["godot_symbol"], "source_weapon_update_cone_gate_input.weapon_state.alwaysShooting")
+
+        weapon_rotate = source_symbols.source_symbol(registry, "weapon_update_cone_gate.weapon_rotate")
+        self.assertEqual(weapon_rotate["java_expr"], "public boolean rotate = false;")
+        self.assertEqual(weapon_rotate["godot_symbol"], "source_weapon_update_cone_gate_input.weapon_state.rotate")
+
+        weapon_shoot_cone = source_symbols.source_symbol(registry, "weapon_update_cone_gate.weapon_shoot_cone")
+        self.assertEqual(weapon_shoot_cone["java_expr"], "public float shootCone = 5f;")
+        self.assertEqual(weapon_shoot_cone["godot_symbol"], "source_weapon_update_cone_gate_input.weapon_state.shootCone")
+
+        mount_target_rotation = source_symbols.source_symbol(registry, "weapon_update_cone_gate.mount_target_rotation")
+        self.assertEqual(mount_target_rotation["java_expr"], "public float targetRotation;")
+        self.assertEqual(mount_target_rotation["godot_symbol"], "source_weapon_update_cone_gate_input.mount_state.targetRotation")
+
+        unit_rotation = source_symbols.source_symbol(registry, "weapon_update_cone_gate.unit_rotation")
+        self.assertEqual(unit_rotation["java_source"], "core/src/mindustry/entities/comp/RotComp.java")
+        self.assertEqual(unit_rotation["java_expr"], "@SyncField(false) @SyncLocal float rotation;")
+        self.assertEqual(unit_rotation["godot_symbol"], "source_weapon_update_cone_gate_input.unit_state.rotation")
+
+        angles_within = source_symbols.source_symbol(registry, "weapon_update_cone_gate.angles_within")
+        self.assertEqual(angles_within["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(angles_within["java_expr"], "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }")
+        self.assertEqual(angles_within["godot_symbol"], "source_weapon_update_cone_gate_result.anglesWithinSource")
+
+        angles_angle_dist = source_symbols.source_symbol(registry, "weapon_update_cone_gate.angles_angle_dist")
+        self.assertEqual(angles_angle_dist["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(angles_angle_dist["java_expr"], "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }")
+        self.assertEqual(angles_angle_dist["godot_symbol"], "source_weapon_update_cone_gate_result.anglesAngleDistSource")
+
     def test_status_apply_result_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15928,9 +15976,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 460)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 461)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 465)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 466)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16002,6 +16050,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_auto_target_retarget_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_auto_target_shoot_aim_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_bullet_origin_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_cone_gate_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18950,6 +18999,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;", weapon_update_bullet_origin["exact_exprs"])
         self.assertIn("public float shootX = 0f, shootY = 3f;", weapon_update_bullet_origin["bridge_exprs"])
         self.assertIn("protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){", weapon_update_bullet_origin["deferred_exprs"])
+
+        weapon_update_cone_gate = source_symbols.source_slice(ledger, "N863")
+        self.assertEqual(weapon_update_cone_gate["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_cone_gate["java_method"], "Weapon.update(Unit unit, WeaponMount mount) cone gate")
+        self.assertEqual(weapon_update_cone_gate["godot_owner"], "PortGame.source_weapon_update_cone_gate_state")
+        self.assertIn("//shoot if applicable", weapon_update_cone_gate["exact_exprs"])
+        self.assertIn("if(mount.shoot && //must be shooting", weapon_update_cone_gate["exact_exprs"])
+        self.assertIn("(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone", weapon_update_cone_gate["exact_exprs"])
+        self.assertIn("shoot(unit, mount, bulletX, bulletY, shootAngle);", weapon_update_cone_gate["deferred_exprs"])
+        self.assertIn("mount.reload = reload;", weapon_update_cone_gate["deferred_exprs"])
+        self.assertIn("public boolean alwaysShooting = false;", weapon_update_cone_gate["bridge_exprs"])
+        self.assertIn("public float shootCone = 5f;", weapon_update_cone_gate["bridge_exprs"])
+        self.assertIn("weapon_update_cone_gate.cone_gate", weapon_update_cone_gate["source_symbols"])
+        self.assertIn("weapon_update_cone_gate.angles_angle_dist", weapon_update_cone_gate["source_symbols"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -22305,6 +22368,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shootAngle", weapon_update_bullet_origin["return_keys"])
         self.assertIn("bulletRotationSource", weapon_update_bullet_origin["return_keys"])
         self.assertEqual(weapon_update_bullet_origin["source_method"], "Weapon.update(Unit unit, WeaponMount mount) bullet origin")
+
+        weapon_update_cone_gate = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_cone_gate_state")
+        self.assertEqual([param["name"] for param in weapon_update_cone_gate["params"]], ["mount_state", "weapon_state", "unit_state"])
+        self.assertEqual(weapon_update_cone_gate["params"][0]["schema"], "source_weapon_update_cone_gate_input.mount_state")
+        self.assertEqual(weapon_update_cone_gate["params"][1]["schema"], "source_weapon_update_cone_gate_input.weapon_state")
+        self.assertEqual(weapon_update_cone_gate["params"][2]["schema"], "source_weapon_update_cone_gate_input.unit_state")
+        self.assertIn("coneGate", weapon_update_cone_gate["return_keys"])
+        self.assertIn("currentRotation", weapon_update_cone_gate["return_keys"])
+        self.assertIn("angleDistance", weapon_update_cone_gate["return_keys"])
+        self.assertIn("withinCone", weapon_update_cone_gate["return_keys"])
+        self.assertIn("anglesWithinSource", weapon_update_cone_gate["return_keys"])
+        self.assertIn("shootCallReservedSource", weapon_update_cone_gate["return_keys"])
+        self.assertEqual(weapon_update_cone_gate["source_method"], "Weapon.update(Unit unit, WeaponMount mount) cone gate")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -29032,6 +29108,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["bulletY"]["java_expr"], "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),")
         self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["shootAngle"]["java_expr"], "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);")
         self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["bulletRotationSource"]["java_expr"], "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;")
+
+        source_weapon_update_cone_gate_input = source_symbols.state_schema(schema, "source_weapon_update_cone_gate_input")
+        self.assertEqual(source_weapon_update_cone_gate_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_cone_gate_input["keys"]["weapon_state"]["java_expr"], "Weapon cone gate fields")
+        self.assertEqual(source_weapon_update_cone_gate_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_cone_gate_input["keys"]["alwaysShooting"]["java_expr"], "public boolean alwaysShooting = false;")
+        self.assertEqual(source_weapon_update_cone_gate_input["keys"]["rotate"]["java_expr"], "public boolean rotate = false;")
+        self.assertEqual(source_weapon_update_cone_gate_input["keys"]["targetRotation"]["java_expr"], "public float targetRotation;")
+
+        source_weapon_update_cone_gate_result = source_symbols.state_schema(schema, "source_weapon_update_cone_gate_result")
+        self.assertEqual(source_weapon_update_cone_gate_result["keys"]["coneGate"]["java_expr"], "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone")
+        self.assertEqual(source_weapon_update_cone_gate_result["keys"]["withinCone"]["java_expr"], "return angleDist(a, b) <= margin;")
+        self.assertEqual(source_weapon_update_cone_gate_result["keys"]["angleDistance"]["java_expr"], "return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);")
+        self.assertEqual(source_weapon_update_cone_gate_result["keys"]["shootCallReservedSource"]["java_expr"], "shoot(unit, mount, bulletX, bulletY, shootAngle);")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

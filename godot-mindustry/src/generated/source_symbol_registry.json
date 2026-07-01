@@ -56523,6 +56523,171 @@
       "godot_symbol": "source_weapon_update_bullet_origin_result.positionAngleToSource",
       "status": "source-backed",
       "rule": "Arc Position angleTo helper."
+    },
+    "weapon_update_cone_gate.cone_gate": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) cone gate",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone",
+      "godot_symbol": "source_weapon_update_cone_gate_result.coneGateSource",
+      "status": "source-backed",
+      "rule": "Exact Weapon.update cone gate expression."
+    },
+    "weapon_update_cone_gate.shoot_call_reserved": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) cone gate",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "shoot(unit, mount, bulletX, bulletY, shootAngle);",
+      "godot_symbol": "source_weapon_update_cone_gate_result.shootCallReservedSource",
+      "status": "source-backed",
+      "rule": "Reserved following shoot dispatch call owned by shoot call reload slice."
+    },
+    "weapon_update_cone_gate.weapon_always_shooting": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean alwaysShooting = false;",
+      "godot_symbol": "source_weapon_update_cone_gate_input.weapon_state.alwaysShooting",
+      "status": "source-backed",
+      "rule": "Weapon alwaysShooting field."
+    },
+    "weapon_update_cone_gate.weapon_rotate": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean rotate = false;",
+      "godot_symbol": "source_weapon_update_cone_gate_input.weapon_state.rotate",
+      "status": "source-backed",
+      "rule": "Weapon rotate field."
+    },
+    "weapon_update_cone_gate.weapon_base_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float baseRotation = 0f;",
+      "godot_symbol": "source_weapon_update_cone_gate_input.weapon_state.baseRotation",
+      "status": "source-backed",
+      "rule": "Weapon baseRotation field."
+    },
+    "weapon_update_cone_gate.weapon_shoot_cone": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float shootCone = 5f;",
+      "godot_symbol": "source_weapon_update_cone_gate_input.weapon_state.shootCone",
+      "status": "source-backed",
+      "rule": "Weapon shootCone field."
+    },
+    "weapon_update_cone_gate.mount_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float rotation;",
+      "godot_symbol": "source_weapon_update_cone_gate_input.mount_state.rotation",
+      "status": "source-backed",
+      "rule": "WeaponMount rotation field."
+    },
+    "weapon_update_cone_gate.mount_target_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float targetRotation;",
+      "godot_symbol": "source_weapon_update_cone_gate_input.mount_state.targetRotation",
+      "status": "source-backed",
+      "rule": "WeaponMount targetRotation field."
+    },
+    "weapon_update_cone_gate.unit_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "RotComp fields",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/RotComp.java",
+      "java_expr": "@SyncField(false) @SyncLocal float rotation;",
+      "godot_symbol": "source_weapon_update_cone_gate_input.unit_state.rotation",
+      "status": "source-backed",
+      "rule": "Unit rotation field."
+    },
+    "weapon_update_cone_gate.angles_within": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Angles.within(float a, float b, float margin)",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
+      "godot_symbol": "source_weapon_update_cone_gate_result.anglesWithinSource",
+      "status": "source-backed",
+      "rule": "Arc Angles.within helper."
+    },
+    "weapon_update_cone_gate.angles_angle_dist": {
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "java_method": "Angles.angleDist(float a, float b)",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+      "godot_symbol": "source_weapon_update_cone_gate_result.anglesAngleDistSource",
+      "status": "source-backed",
+      "rule": "Arc Angles.angleDist helper."
     }
   },
   "version": 1

@@ -18180,6 +18180,50 @@
         "test_port_game_exposes_source_weapon_update_bullet_origin_state",
         "test_weapon_update_bullet_origin_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_cone_gate_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_cone_gate_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_cone_gate_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_cone_gate_input.unit_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "coneGate",
+        "alwaysShooting",
+        "rotate",
+        "currentRotation",
+        "targetRotation",
+        "shootCone",
+        "angleDistance",
+        "withinCone",
+        "coneGateSource",
+        "anglesWithinSource",
+        "anglesAngleDistSource",
+        "shootCallReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update cone gate state.",
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) cone gate",
+      "source_slice": "N863",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ]
     }
   },
   "policy": {
