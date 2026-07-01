@@ -19135,6 +19135,51 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_draw_light_matches_upstream_source"
       ]
+    },
+    "N933": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator",
+      "java_method": "setStats()",
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public Attribute attribute = Attribute.heat;",
+        "public float displayEfficiencyScale = 1f;",
+        "public boolean displayEfficiency = true;",
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);",
+        "stats.remove(generationType);",
+        "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);",
+        "public float powerProduction;",
+        "public Stat generationType = Stat.basePowerGeneration;",
+        "public boolean floating = false;",
+        "public void add(Stat stat, Attribute attr, boolean floating, float scale, boolean startZero){",
+        "public void remove(Stat stat){",
+        "basePowerGeneration = new Stat(\"basePowerGeneration\", StatCat.power),",
+        "tiles = new Stat(\"tiles\", StatCat.crafting),",
+        "powerSecond = new StatUnit(\"powerSecond\", \"[accent]\" + Iconc.power + \"[]\"),"
+      ],
+      "source_symbols": [
+        "thermal_generator_set_stats.display_efficiency",
+        "thermal_generator_set_stats.display_efficiency_scale",
+        "thermal_generator_set_stats.floating",
+        "thermal_generator_set_stats.generation_stat_removed",
+        "thermal_generator_set_stats.generation_stat_value",
+        "thermal_generator_set_stats.power_production",
+        "thermal_generator_set_stats.size",
+        "thermal_generator_set_stats.super_set_stats_state",
+        "thermal_generator_set_stats.tile_stat_scale",
+        "thermal_generator_set_stats.tile_stat_start_zero"
+      ],
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ]
     }
   },
   "version": 1

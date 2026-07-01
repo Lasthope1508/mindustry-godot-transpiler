@@ -66504,6 +66504,156 @@
       "java_expr": "Drawf.light(x, y, (40f + Mathf.absin(10f, 5f)) * Math.min(productionEfficiency, 2f) * size, Color.scarlet, 0.4f);",
       "godot_symbol": "source_thermal_generator_draw_light_result.light_call",
       "rule": "Source-backed Drawf.light dispatch summary."
+    },
+    "thermal_generator_set_stats.power_production": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "powerProduction",
+      "godot_symbol": "source_thermal_generator_set_stats_input.power_production",
+      "rule": "Explicit PowerGenerator.powerProduction input used by ThermalGenerator.setStats generation value."
+    },
+    "thermal_generator_set_stats.display_efficiency_scale": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "displayEfficiencyScale",
+      "godot_symbol": "source_thermal_generator_set_stats_input.display_efficiency_scale",
+      "rule": "Explicit displayEfficiencyScale input used by both stats scale formulas."
+    },
+    "thermal_generator_set_stats.display_efficiency": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "displayEfficiency",
+      "godot_symbol": "source_thermal_generator_set_stats_input.display_efficiency",
+      "rule": "Explicit displayEfficiency input used by !displayEfficiency startZero."
+    },
+    "thermal_generator_set_stats.size": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "size",
+      "godot_symbol": "source_thermal_generator_set_stats_input.size",
+      "rule": "Explicit block size input used by size * size * displayEfficiencyScale."
+    },
+    "thermal_generator_set_stats.floating": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "setStats()",
+      "java_expr": "floating",
+      "godot_symbol": "source_thermal_generator_set_stats_input.floating",
+      "rule": "Explicit Block.floating input passed to Stats.add for Stat.tiles."
+    },
+    "thermal_generator_set_stats.super_set_stats_state": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "super.setStats();",
+      "godot_symbol": "source_thermal_generator_set_stats_input.super_set_stats_state",
+      "rule": "Explicit parent setStats state preserves source call order without expanding parent behavior in this slice."
+    },
+    "thermal_generator_set_stats.tile_stat_scale": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "size * size * displayEfficiencyScale",
+      "godot_symbol": "source_thermal_generator_set_stats_result.tile_stat_scale",
+      "rule": "Computed scale argument of stats.add(Stat.tiles, ...)."
+    },
+    "thermal_generator_set_stats.tile_stat_start_zero": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "!displayEfficiency",
+      "godot_symbol": "source_thermal_generator_set_stats_result.tile_stat_start_zero",
+      "rule": "Computed startZero argument of stats.add(Stat.tiles, ...)."
+    },
+    "thermal_generator_set_stats.generation_stat_value": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "powerProduction * 60.0f / displayEfficiencyScale",
+      "godot_symbol": "source_thermal_generator_set_stats_result.generation_stat_value",
+      "rule": "Computed generationType stat value before StatUnit.powerSecond."
+    },
+    "thermal_generator_set_stats.generation_stat_removed": {
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "java_expr": "stats.remove(generationType);",
+      "godot_symbol": "source_thermal_generator_set_stats_result.generation_stat_removed",
+      "rule": "ThermalGenerator removes inherited generationType stat before adding scaled power stat."
     }
   },
   "version": 1

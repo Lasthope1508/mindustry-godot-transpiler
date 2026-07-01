@@ -21426,6 +21426,84 @@
         "test_thermal_generator_draw_light_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGeneratorBuild.drawLight radius and Drawf.light dispatch."
+    },
+    "PortGame.source_thermal_generator_set_stats_state": {
+      "status": "active",
+      "source_slice": "N933",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "setStats()",
+      "params": [
+        {
+          "name": "power_production",
+          "type": "float",
+          "schema": "source_thermal_generator_set_stats_input.power_production"
+        },
+        {
+          "name": "display_efficiency_scale",
+          "type": "float",
+          "schema": "source_thermal_generator_set_stats_input.display_efficiency_scale"
+        },
+        {
+          "name": "display_efficiency",
+          "type": "bool",
+          "schema": "source_thermal_generator_set_stats_input.display_efficiency"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_thermal_generator_set_stats_input.size"
+        },
+        {
+          "name": "floating",
+          "type": "bool",
+          "schema": "source_thermal_generator_set_stats_input.floating"
+        },
+        {
+          "name": "super_set_stats_state",
+          "type": "Dictionary",
+          "schema": "source_thermal_generator_set_stats_input.super_set_stats_state"
+        }
+      ],
+      "return_keys": [
+        "class",
+        "attribute_field",
+        "display_efficiency_scale_field",
+        "display_efficiency_field",
+        "override",
+        "method",
+        "super_call",
+        "tiles_stat_add",
+        "generation_type_remove",
+        "generation_type_add",
+        "power_production_field",
+        "generation_type_field",
+        "floating_field",
+        "stats_add_attribute",
+        "stats_remove",
+        "stat_base_power_generation",
+        "stat_tiles",
+        "stat_unit_power_second",
+        "power_production",
+        "display_efficiency_scale",
+        "display_efficiency",
+        "size",
+        "floating",
+        "super_set_stats_state",
+        "tile_stat_scale",
+        "tile_stat_start_zero",
+        "generation_stat_removed",
+        "generation_stat_value",
+        "generation_stat_unit",
+        "tile_stat_call",
+        "generation_stat_call"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state",
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGenerator.setStats tile and power stat formulas before outputLiquid branch."
     }
   },
   "policy": {

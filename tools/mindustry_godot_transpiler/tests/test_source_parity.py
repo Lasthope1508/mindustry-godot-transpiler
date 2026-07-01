@@ -398,6 +398,38 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_set_stats_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_set_stats_source"))
+        report = source_parity.verify_thermal_generator_set_stats_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/world/blocks/power/PowerGenerator.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stats.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stat.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatUnit.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "attribute_field": "public Attribute attribute = Attribute.heat;",
+            "display_efficiency_scale": "public float displayEfficiencyScale = 1f;",
+            "display_efficiency": "public boolean displayEfficiency = true;",
+            "override": "@Override",
+            "method": "public void setStats(){",
+            "super_call": "super.setStats();",
+            "tiles_stat_add": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);",
+            "generation_type_remove": "stats.remove(generationType);",
+            "generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);",
+            "power_production_field": "public float powerProduction;",
+            "generation_type_field": "public Stat generationType = Stat.basePowerGeneration;",
+            "floating_field": "public boolean floating = false;",
+            "stats_add_attribute": "public void add(Stat stat, Attribute attr, boolean floating, float scale, boolean startZero){",
+            "stats_remove": "public void remove(Stat stat){",
+            "stat_base_power_generation": "basePowerGeneration = new Stat(\"basePowerGeneration\", StatCat.power),",
+            "stat_tiles": "tiles = new Stat(\"tiles\", StatCat.crafting),",
+            "stat_unit_power_second": "powerSecond = new StatUnit(\"powerSecond\", \"[accent]\" + Iconc.power + \"[]\"),",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

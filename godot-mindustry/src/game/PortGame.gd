@@ -747,6 +747,55 @@ func source_thermal_generator_draw_light_state(source_x: float, source_y: float,
 		},
 	}
 
+func source_thermal_generator_set_stats_state(power_production: float, display_efficiency_scale: float, display_efficiency: bool, size: float, floating: bool, super_set_stats_state: Dictionary) -> Dictionary:
+	var parent_state := super_set_stats_state.duplicate(true)
+	var tile_stat_scale := size * size * display_efficiency_scale
+	var tile_stat_start_zero := not display_efficiency
+	var generation_stat_value := power_production * 60.0 / display_efficiency_scale
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"attribute_field": "public Attribute attribute = Attribute.heat;",
+		"display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;",
+		"display_efficiency_field": "public boolean displayEfficiency = true;",
+		"override": "@Override",
+		"method": "public void setStats(){",
+		"super_call": "super.setStats();",
+		"tiles_stat_add": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);",
+		"generation_type_remove": "stats.remove(generationType);",
+		"generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);",
+		"power_production_field": "public float powerProduction;",
+		"generation_type_field": "public Stat generationType = Stat.basePowerGeneration;",
+		"floating_field": "public boolean floating = false;",
+		"stats_add_attribute": "public void add(Stat stat, Attribute attr, boolean floating, float scale, boolean startZero){",
+		"stats_remove": "public void remove(Stat stat){",
+		"stat_base_power_generation": "basePowerGeneration = new Stat(\"basePowerGeneration\", StatCat.power),",
+		"stat_tiles": "tiles = new Stat(\"tiles\", StatCat.crafting),",
+		"stat_unit_power_second": "powerSecond = new StatUnit(\"powerSecond\", \"[accent]\" + Iconc.power + \"[]\"),",
+		"power_production": power_production,
+		"display_efficiency_scale": display_efficiency_scale,
+		"display_efficiency": display_efficiency,
+		"size": size,
+		"floating": floating,
+		"super_set_stats_state": parent_state,
+		"tile_stat_scale": tile_stat_scale,
+		"tile_stat_start_zero": tile_stat_start_zero,
+		"generation_stat_removed": true,
+		"generation_stat_value": generation_stat_value,
+		"generation_stat_unit": "StatUnit.powerSecond",
+		"tile_stat_call": {
+			"stat": "Stat.tiles",
+			"attribute": "Attribute.heat",
+			"floating": floating,
+			"scale": tile_stat_scale,
+			"startZero": tile_stat_start_zero,
+		},
+		"generation_stat_call": {
+			"stat": "generationType",
+			"value": generation_stat_value,
+			"unit": "StatUnit.powerSecond",
+		},
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

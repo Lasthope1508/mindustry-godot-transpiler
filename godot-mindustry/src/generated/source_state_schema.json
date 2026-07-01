@@ -80405,6 +80405,189 @@
           "java_expr": "0.4f"
         }
       }
+    },
+    "source_thermal_generator_set_stats_input": {
+      "owner": "PortGame.source_thermal_generator_set_stats_state",
+      "status": "active",
+      "keys": {
+        "power_production": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_input key power_production.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_input.power_production",
+          "java_expr": "powerProduction"
+        },
+        "display_efficiency_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_input key display_efficiency_scale.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_input.display_efficiency_scale",
+          "java_expr": "displayEfficiencyScale"
+        },
+        "display_efficiency": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_input key display_efficiency.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_input.display_efficiency",
+          "java_expr": "displayEfficiency"
+        },
+        "size": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_input key size.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_input.size",
+          "java_expr": "size"
+        },
+        "floating": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_input key floating.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_input.floating",
+          "java_expr": "floating"
+        },
+        "super_set_stats_state": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_set_stats_input key super_set_stats_state.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_input.super_set_stats_state",
+          "java_expr": "super.setStats();"
+        }
+      }
+    },
+    "source_thermal_generator_set_stats_result": {
+      "owner": "PortGame.source_thermal_generator_set_stats_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.method",
+          "java_expr": "public void setStats(){"
+        },
+        "tile_stat_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key tile_stat_scale.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.tile_stat_scale",
+          "java_expr": "size * size * displayEfficiencyScale",
+          "alias_of": "computed from source_thermal_generator_set_stats_input.size/source_thermal_generator_set_stats_input.display_efficiency_scale"
+        },
+        "tile_stat_start_zero": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key tile_stat_start_zero.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.tile_stat_start_zero",
+          "java_expr": "!displayEfficiency",
+          "alias_of": "computed from source_thermal_generator_set_stats_input.display_efficiency"
+        },
+        "generation_stat_removed": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key generation_stat_removed.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.generation_stat_removed",
+          "java_expr": "stats.remove(generationType);"
+        },
+        "generation_stat_value": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key generation_stat_value.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.generation_stat_value",
+          "java_expr": "powerProduction * 60.0f / displayEfficiencyScale",
+          "alias_of": "computed from source_thermal_generator_set_stats_input.power_production/source_thermal_generator_set_stats_input.display_efficiency_scale"
+        },
+        "generation_stat_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key generation_stat_unit.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/StatUnit.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.generation_stat_unit",
+          "java_expr": "StatUnit.powerSecond"
+        },
+        "tile_stat_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key tile_stat_call.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.tile_stat_call",
+          "java_expr": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);"
+        },
+        "generation_stat_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_set_stats_result key generation_stat_call.",
+          "used_by": [
+            "PortGame.source_thermal_generator_set_stats_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "setStats()",
+          "godot_symbol": "source_thermal_generator_set_stats_result.generation_stat_call",
+          "java_expr": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);"
+        }
+      }
     }
   },
   "version": 1

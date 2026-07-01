@@ -554,6 +554,60 @@ def verify_thermal_generator_draw_light_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_thermal_generator_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    stats_path = Path(upstream_root) / "core/src/mindustry/world/meta/Stats.java"
+    stat_path = Path(upstream_root) / "core/src/mindustry/world/meta/Stat.java"
+    stat_unit_path = Path(upstream_root) / "core/src/mindustry/world/meta/StatUnit.java"
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    stats_source = stats_path.read_text(encoding="utf-8", errors="replace")
+    stat_source = stat_path.read_text(encoding="utf-8", errors="replace")
+    stat_unit_source = stat_unit_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "attribute_field": "public Attribute attribute = Attribute.heat;",
+        "display_efficiency_scale": "public float displayEfficiencyScale = 1f;",
+        "display_efficiency": "public boolean displayEfficiency = true;",
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_call": "super.setStats();",
+        "tiles_stat_add": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);",
+        "generation_type_remove": "stats.remove(generationType);",
+        "generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);",
+        "power_production_field": "public float powerProduction;",
+        "generation_type_field": "public Stat generationType = Stat.basePowerGeneration;",
+        "floating_field": "public boolean floating = false;",
+        "stats_add_attribute": "public void add(Stat stat, Attribute attr, boolean floating, float scale, boolean startZero){",
+        "stats_remove": "public void remove(Stat stat){",
+        "stat_base_power_generation": "basePowerGeneration = new Stat(\"basePowerGeneration\", StatCat.power),",
+        "stat_tiles": "tiles = new Stat(\"tiles\", StatCat.crafting),",
+        "stat_unit_power_second": "powerSecond = new StatUnit(\"powerSecond\", \"[accent]\" + Iconc.power + \"[]\"),",
+    }
+    sources_by_key = {
+        "power_production_field": power_generator_source,
+        "generation_type_field": power_generator_source,
+        "floating_field": block_source,
+        "stats_add_attribute": stats_source,
+        "stats_remove": stats_source,
+        "stat_base_power_generation": stat_source,
+        "stat_tiles": stat_source,
+        "stat_unit_power_second": stat_unit_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [POWER_GENERATOR_SOURCE, BLOCK_SOURCE, "core/src/mindustry/world/meta/Stats.java", "core/src/mindustry/world/meta/Stat.java", "core/src/mindustry/world/meta/StatUnit.java"],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
