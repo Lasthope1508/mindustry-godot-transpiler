@@ -638,6 +638,23 @@ func source_thermal_generator_init_state(output_liquid_present: bool, light_clip
 		"light_clip_size": computed_light_clip_size,
 	}
 
+func source_thermal_generator_total_progress_state(enabled: bool, sum: float, super_total_progress: float) -> Dictionary:
+	var total_progress: float = super_total_progress if enabled and sum > 0.0 else 0.0
+	return {
+		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+		"sum_field": "public float sum;",
+		"override": "@Override",
+		"method": "public float totalProgress(){",
+		"return_total_progress": "return enabled && sum > 0 ? super.totalProgress() : 0f;",
+		"parent_comment": "/** @return total time this block has been producing something; non-crafter blocks usually return Time.time. */",
+		"parent_method": "public float totalProgress(){",
+		"parent_return": "return Time.time;",
+		"enabled": enabled,
+		"sum": sum,
+		"super_total_progress": super_total_progress,
+		"total_progress": total_progress,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

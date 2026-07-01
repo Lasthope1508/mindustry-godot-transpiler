@@ -18984,6 +18984,34 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_init_matches_upstream_source"
       ]
+    },
+    "N928": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator.ThermalGeneratorBuild",
+      "java_method": "totalProgress()",
+      "godot_owner": "PortGame.source_thermal_generator_total_progress_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_total_progress_state",
+      "exact_exprs": [
+        "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "public float sum;",
+        "@Override",
+        "public float totalProgress(){",
+        "return enabled && sum > 0 ? super.totalProgress() : 0f;",
+        "/** @return total time this block has been producing something; non-crafter blocks usually return Time.time. */",
+        "return Time.time;"
+      ],
+      "source_symbols": [
+        "thermal_generator_total_progress.enabled",
+        "thermal_generator_total_progress.sum",
+        "thermal_generator_total_progress.super_total_progress",
+        "thermal_generator_total_progress.total_progress"
+      ],
+      "tests": [
+        "test_thermal_generator_total_progress_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_total_progress_matches_upstream_source"
+      ]
     }
   },
   "version": 1

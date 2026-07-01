@@ -373,6 +373,37 @@ def verify_thermal_generator_init_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_thermal_generator_total_progress_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "sum_field": "public float sum;",
+        "override": "@Override",
+        "method": "public float totalProgress(){",
+        "return_total_progress": "return enabled && sum > 0 ? super.totalProgress() : 0f;",
+        "parent_comment": "/** @return total time this block has been producing something; non-crafter blocks usually return Time.time. */",
+        "parent_method": "public float totalProgress(){",
+        "parent_return": "return Time.time;",
+    }
+    sources_by_key = {
+        "parent_comment": building_comp_source,
+        "parent_method": building_comp_source,
+        "parent_return": building_comp_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [BUILDING_COMP_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

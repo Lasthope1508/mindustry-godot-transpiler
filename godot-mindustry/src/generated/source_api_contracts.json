@@ -21196,6 +21196,50 @@
         "test_thermal_generator_init_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGenerator.init liquid flags, emitted light, and light clipping."
+    },
+    "PortGame.source_thermal_generator_total_progress_state": {
+      "status": "active",
+      "source_slice": "N928",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "totalProgress()",
+      "params": [
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_thermal_generator_total_progress_input.enabled"
+        },
+        {
+          "name": "sum",
+          "type": "float",
+          "schema": "source_thermal_generator_total_progress_input.sum"
+        },
+        {
+          "name": "super_total_progress",
+          "type": "float",
+          "schema": "source_thermal_generator_total_progress_input.super_total_progress"
+        }
+      ],
+      "return_keys": [
+        "build_class",
+        "sum_field",
+        "override",
+        "method",
+        "return_total_progress",
+        "parent_comment",
+        "parent_method",
+        "parent_return",
+        "enabled",
+        "sum",
+        "super_total_progress",
+        "total_progress"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_total_progress_state",
+      "tests": [
+        "test_thermal_generator_total_progress_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_total_progress_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGeneratorBuild.totalProgress enabled/sum gate."
     }
   },
   "policy": {

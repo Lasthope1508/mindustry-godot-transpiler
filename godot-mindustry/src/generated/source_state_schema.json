@@ -79736,6 +79736,201 @@
           "java_expr": "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);"
         }
       }
+    },
+    "source_thermal_generator_total_progress_input": {
+      "owner": "PortGame.source_thermal_generator_total_progress_state",
+      "status": "active",
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_total_progress_input key enabled.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_input.enabled",
+          "java_expr": "enabled"
+        },
+        "sum": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_total_progress_input key sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_input.sum",
+          "java_expr": "sum"
+        },
+        "super_total_progress": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_total_progress_input key super_total_progress.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_input.super_total_progress",
+          "java_expr": "super.totalProgress() / return Time.time;"
+        }
+      }
+    },
+    "source_thermal_generator_total_progress_result": {
+      "owner": "PortGame.source_thermal_generator_total_progress_state",
+      "status": "active",
+      "keys": {
+        "build_class": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key build_class.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.build_class",
+          "java_expr": "public class ThermalGeneratorBuild extends GeneratorBuild{"
+        },
+        "sum_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key sum_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.sum_field",
+          "java_expr": "public float sum;"
+        },
+        "override": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key override.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.override",
+          "java_expr": "@Override"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.method",
+          "java_expr": "public float totalProgress(){"
+        },
+        "return_total_progress": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key return_total_progress.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.return_total_progress",
+          "java_expr": "return enabled && sum > 0 ? super.totalProgress() : 0f;"
+        },
+        "parent_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key parent_comment.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.parent_comment",
+          "java_expr": "/** @return total time this block has been producing something; non-crafter blocks usually return Time.time. */"
+        },
+        "parent_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key parent_method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.parent_method",
+          "java_expr": "public float totalProgress(){"
+        },
+        "parent_return": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key parent_return.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.parent_return",
+          "java_expr": "return Time.time;"
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "generated",
+          "rule": "source_thermal_generator_total_progress_result key enabled.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.enabled",
+          "java_expr": "enabled",
+          "alias_of": "source_thermal_generator_total_progress_input.enabled"
+        },
+        "sum": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_total_progress_result key sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.sum",
+          "java_expr": "sum",
+          "alias_of": "source_thermal_generator_total_progress_input.sum"
+        },
+        "super_total_progress": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_total_progress_result key super_total_progress.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.super_total_progress",
+          "java_expr": "super.totalProgress() / return Time.time;",
+          "alias_of": "source_thermal_generator_total_progress_input.super_total_progress"
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_total_progress_result key total_progress.",
+          "used_by": [
+            "PortGame.source_thermal_generator_total_progress_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "totalProgress()",
+          "godot_symbol": "source_thermal_generator_total_progress_result.total_progress",
+          "java_expr": "return enabled && sum > 0 ? super.totalProgress() : 0f;"
+        }
+      }
     }
   },
   "version": 1

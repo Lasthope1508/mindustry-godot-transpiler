@@ -295,6 +295,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_total_progress_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_total_progress_source"))
+        report = source_parity.verify_thermal_generator_total_progress_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+            "sum_field": "public float sum;",
+            "override": "@Override",
+            "method": "public float totalProgress(){",
+            "return_total_progress": "return enabled && sum > 0 ? super.totalProgress() : 0f;",
+            "parent_comment": "/** @return total time this block has been producing something; non-crafter blocks usually return Time.time. */",
+            "parent_method": "public float totalProgress(){",
+            "parent_return": "return Time.time;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")
