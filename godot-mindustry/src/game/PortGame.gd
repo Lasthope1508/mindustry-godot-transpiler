@@ -4612,9 +4612,9 @@ func source_weapon_update_auto_target_invalidation_state(mount_state: Dictionary
 		"targetExists": target_exists,
 		"targetCleared": check_called and check_target_result,
 		"gateSource": "if(!controllable && autoTarget)",
-		"guardSource": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range))",
-		"clearSource": "mount.target = null",
-		"checkTargetSource": "Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY))",
+		"guardSource": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){",
+		"clearSource": "mount.target = null;",
+		"checkTargetSource": "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));",
 		"invalidateTargetSource": "target == null || out of range || same team || invalid health || unit not targetable",
 	}
 

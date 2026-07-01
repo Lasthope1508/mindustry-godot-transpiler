@@ -5108,6 +5108,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(continuous_reserved["godot_symbol"], "source_weapon_update_always_shooting_result.continuousReservedSource")
         self.assertEqual(continuous_reserved["status"], "deferred")
 
+    def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        gate = source_symbols.source_symbol(registry, "weapon_update_auto_target_invalidation.gate")
+        self.assertEqual(gate["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(gate["java_expr"], "if(!controllable && autoTarget){")
+        self.assertEqual(gate["godot_owner"], "PortGame.source_weapon_update_auto_target_invalidation_state")
+        self.assertEqual(gate["runtime_proof"], "/root/Main.source_weapon_update_auto_target_invalidation_state")
+        self.assertEqual(gate["godot_symbol"], "source_weapon_update_auto_target_invalidation_result.gateSource")
+
+        guard = source_symbols.source_symbol(registry, "weapon_update_auto_target_invalidation.check_target_guard")
+        self.assertEqual(guard["java_expr"], "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){")
+        self.assertEqual(guard["godot_symbol"], "source_weapon_update_auto_target_invalidation_result.guardSource")
+
+        clear = source_symbols.source_symbol(registry, "weapon_update_auto_target_invalidation.target_clear")
+        self.assertEqual(clear["java_expr"], "mount.target = null;")
+        self.assertEqual(clear["godot_symbol"], "source_weapon_update_auto_target_invalidation_result.targetExists")
+
+        check_return = source_symbols.source_symbol(registry, "weapon_update_auto_target_invalidation.check_target_return")
+        self.assertEqual(check_return["java_expr"], "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));")
+        self.assertEqual(check_return["godot_symbol"], "source_weapon_update_auto_target_invalidation_result.checkTargetSource")
+
+        auto_target = source_symbols.source_symbol(registry, "weapon_update_auto_target_invalidation.auto_target")
+        self.assertEqual(auto_target["java_expr"], "public boolean autoTarget = false;")
+        self.assertEqual(auto_target["godot_symbol"], "source_weapon_update_auto_target_invalidation_input.weapon_state.autoTarget")
+
+        target = source_symbols.source_symbol(registry, "weapon_update_auto_target_invalidation.mount_target")
+        self.assertEqual(target["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(target["java_expr"], "public @Nullable Teamc target;")
+        self.assertEqual(target["godot_symbol"], "source_weapon_update_auto_target_invalidation_input.mount_state.targetExists")
+
     def test_status_apply_result_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15766,9 +15800,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 456)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 457)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 461)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 462)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15836,6 +15870,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_alternating_side_flip_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_continuous_keepalive_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_shooting_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_auto_target_invalidation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18734,6 +18769,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean shoot = false;", weapon_update_always_shooting["bridge_exprs"])
         self.assertIn("//update continuous state", weapon_update_always_shooting["deferred_exprs"])
         self.assertIn("if(continuous && mount.bullet != null){", weapon_update_always_shooting["deferred_exprs"])
+
+        weapon_update_auto_target_invalidation = source_symbols.source_slice(ledger, "N859")
+        self.assertEqual(weapon_update_auto_target_invalidation["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_auto_target_invalidation["java_method"], "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation")
+        self.assertEqual(weapon_update_auto_target_invalidation["godot_owner"], "PortGame.source_weapon_update_auto_target_invalidation_state")
+        self.assertIn("if(!controllable && autoTarget){", weapon_update_auto_target_invalidation["exact_exprs"])
+        self.assertIn("if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){", weapon_update_auto_target_invalidation["exact_exprs"])
+        self.assertIn("mount.target = null;", weapon_update_auto_target_invalidation["exact_exprs"])
+        self.assertIn("return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));", weapon_update_auto_target_invalidation["bridge_exprs"])
+        self.assertIn("public @Nullable Teamc target;", weapon_update_auto_target_invalidation["bridge_exprs"])
+        self.assertIn("public boolean autoTarget = false;", weapon_update_auto_target_invalidation["bridge_exprs"])
+        self.assertIn("Following target shoot/aim block remains owned by source_weapon_update_auto_target_shoot_aim_state.", weapon_update_auto_target_invalidation["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -22037,6 +22084,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("alwaysShootingSource", weapon_update_always_shooting["return_keys"])
         self.assertIn("continuousReservedSource", weapon_update_always_shooting["return_keys"])
         self.assertEqual(weapon_update_always_shooting["source_method"], "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment")
+
+        weapon_update_auto_target_invalidation = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_auto_target_invalidation_state")
+        self.assertEqual([param["name"] for param in weapon_update_auto_target_invalidation["params"]], ["mount_state", "weapon_state", "bullet_state", "mount_x", "mount_y", "check_target_result"])
+        self.assertEqual(weapon_update_auto_target_invalidation["params"][0]["schema"], "source_weapon_update_auto_target_invalidation_input.mount_state")
+        self.assertEqual(weapon_update_auto_target_invalidation["params"][1]["schema"], "source_weapon_update_auto_target_invalidation_input.weapon_state")
+        self.assertEqual(weapon_update_auto_target_invalidation["params"][2]["schema"], "source_weapon_update_auto_target_invalidation_input.bullet_state")
+        self.assertIn("checkTargetCalled", weapon_update_auto_target_invalidation["return_keys"])
+        self.assertIn("targetCleared", weapon_update_auto_target_invalidation["return_keys"])
+        self.assertIn("guardSource", weapon_update_auto_target_invalidation["return_keys"])
+        self.assertIn("clearSource", weapon_update_auto_target_invalidation["return_keys"])
+        self.assertIn("checkTargetSource", weapon_update_auto_target_invalidation["return_keys"])
+        self.assertEqual(weapon_update_auto_target_invalidation["source_method"], "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -28699,6 +28758,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_always_shooting_result["keys"]["alwaysShooting"]["java_expr"], "public boolean alwaysShooting = false;")
         self.assertEqual(source_weapon_update_always_shooting_result["keys"]["alwaysShootingSource"]["java_expr"], "if(alwaysShooting) mount.shoot = true;")
         self.assertEqual(source_weapon_update_always_shooting_result["keys"]["continuousReservedSource"]["java_expr"], "if(continuous && mount.bullet != null){")
+
+        source_weapon_update_auto_target_invalidation_input = source_symbols.state_schema(schema, "source_weapon_update_auto_target_invalidation_input")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_input["keys"]["weapon_state"]["java_expr"], "Weapon auto-target invalidation fields")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_input["keys"]["bullet_state"]["java_expr"], "BulletType bullet")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_input["keys"]["targetExists"]["java_expr"], "public @Nullable Teamc target;")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_input["keys"]["autoTarget"]["java_expr"], "public boolean autoTarget = false;")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_input["keys"]["controllable"]["java_expr"], "public boolean controllable = true;")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_input["keys"]["range"]["java_expr"], "public float range = 0f;")
+
+        source_weapon_update_auto_target_invalidation_result = source_symbols.state_schema(schema, "source_weapon_update_auto_target_invalidation_result")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_result["keys"]["gate"]["java_expr"], "if(!controllable && autoTarget){")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_result["keys"]["checkTargetCalled"]["java_expr"], "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_result["keys"]["targetExists"]["java_expr"], "mount.target = null;")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_result["keys"]["guardSource"]["java_expr"], "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_result["keys"]["clearSource"]["java_expr"], "mount.target = null;")
+        self.assertEqual(source_weapon_update_auto_target_invalidation_result["keys"]["checkTargetSource"]["java_expr"], "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

@@ -55788,6 +55788,96 @@
       "godot_symbol": "source_weapon_update_always_shooting_result.continuousReservedSource",
       "status": "deferred",
       "rule": "Following continuous update guard is owned by source_weapon_update_continuous_invalidation_state and related continuous slices."
+    },
+    "weapon_update_auto_target_invalidation.gate": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(!controllable && autoTarget){",
+      "godot_symbol": "source_weapon_update_auto_target_invalidation_result.gateSource",
+      "status": "source-backed",
+      "rule": "Auto-target update gate."
+    },
+    "weapon_update_auto_target_invalidation.check_target_guard": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){",
+      "godot_symbol": "source_weapon_update_auto_target_invalidation_result.guardSource",
+      "status": "source-backed",
+      "rule": "Auto-target invalidation guard."
+    },
+    "weapon_update_auto_target_invalidation.target_clear": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.target = null;",
+      "godot_symbol": "source_weapon_update_auto_target_invalidation_result.targetExists",
+      "status": "source-backed",
+      "rule": "Clears mount target when checkTarget invalidates it."
+    },
+    "weapon_update_auto_target_invalidation.check_target_return": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "java_method": "Weapon.checkTarget(Unit unit, Teamc target, float x, float y, float range)",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));",
+      "godot_symbol": "source_weapon_update_auto_target_invalidation_result.checkTargetSource",
+      "status": "source-backed",
+      "rule": "Weapon.checkTarget delegates to Units.invalidateTarget with shootY range extension."
+    },
+    "weapon_update_auto_target_invalidation.auto_target": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean autoTarget = false;",
+      "godot_symbol": "source_weapon_update_auto_target_invalidation_input.weapon_state.autoTarget",
+      "status": "source-backed",
+      "rule": "Weapon autoTarget field."
+    },
+    "weapon_update_auto_target_invalidation.mount_target": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable Teamc target;",
+      "godot_symbol": "source_weapon_update_auto_target_invalidation_input.mount_state.targetExists",
+      "status": "source-backed",
+      "rule": "WeaponMount target field."
     }
   },
   "version": 1

@@ -65728,6 +65728,281 @@
           ]
         }
       }
+    },
+    "source_weapon_update_auto_target_invalidation_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.weapon_state",
+          "java_expr": "Weapon auto-target invalidation fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input for auto-target invalidation fields.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.bullet_state",
+          "java_expr": "BulletType bullet",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source BulletType input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "mount_x": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.mount_x",
+          "java_expr": "mountX",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed mountX input from earlier geometry slice.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "mount_y": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.mount_y",
+          "java_expr": "mountY",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed mountY input from earlier geometry slice.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "check_target_result": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.check_target_result",
+          "java_expr": "checkTarget(unit, mount.target, mountX, mountY, bullet.range)",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Result of source checkTarget boundary.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "targetExists": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.mount_state.targetExists",
+          "java_expr": "public @Nullable Teamc target;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount target presence.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "controllable": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.weapon_state.controllable",
+          "java_expr": "public boolean controllable = true;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon controllable field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "autoTarget": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.weapon_state.autoTarget",
+          "java_expr": "public boolean autoTarget = false;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon autoTarget field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "shootY": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.weapon_state.shootY",
+          "java_expr": "public float shootX = 0f, shootY = 3f;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon shootY field used by checkTarget range extension.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "range": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_input.bullet_state.range",
+          "java_expr": "public float range = 0f;",
+          "java_method": "BulletType fields",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Bullet range field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_auto_target_invalidation_result": {
+      "status": "active",
+      "keys": {
+        "gate": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.gate",
+          "java_expr": "if(!controllable && autoTarget){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed auto-target update gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "checkTargetCalled": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.checkTargetCalled",
+          "java_expr": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Whether checkTarget guard was evaluated.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "checkTargetCall": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.checkTargetCall",
+          "java_expr": "checkTarget(unit, mount.target, mountX, mountY, bullet.range)",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Recorded checkTarget call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "checkTargetResult": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.checkTargetResult",
+          "java_expr": "checkTarget(unit, mount.target, mountX, mountY, bullet.range)",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit checkTarget boundary result.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ],
+          "alias_of": "source_weapon_update_auto_target_invalidation_input.check_target_result"
+        },
+        "targetExists": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.targetExists",
+          "java_expr": "mount.target = null;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned target presence after optional clear.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "targetCleared": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.targetCleared",
+          "java_expr": "mount.target = null;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Whether target clear assignment ran.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "gateSource": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.gateSource",
+          "java_expr": "if(!controllable && autoTarget){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact auto-target gate metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "guardSource": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.guardSource",
+          "java_expr": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact checkTarget guard metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "clearSource": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.clearSource",
+          "java_expr": "mount.target = null;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact target clear metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "checkTargetSource": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.checkTargetSource",
+          "java_expr": "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));",
+          "java_method": "Weapon.checkTarget(Unit unit, Teamc target, float x, float y, float range)",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact checkTarget return metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        },
+        "invalidateTargetSource": {
+          "godot_symbol": "source_weapon_update_auto_target_invalidation_result.invalidateTargetSource",
+          "java_expr": "target == null || out of range || same team || invalid health || unit not targetable",
+          "java_method": "Units.invalidateTarget(Posc target, Team team, float x, float y, float range)",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "rule": "Summarized invalidateTarget clauses backed by parity exact fragments.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_invalidation_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

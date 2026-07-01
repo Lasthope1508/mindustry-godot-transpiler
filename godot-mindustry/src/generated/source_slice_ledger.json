@@ -16188,6 +16188,51 @@
         "test_weapon_update_always_shooting_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update alwaysShooting assignment wrapper against exact upstream source."
+    },
+    "N859": {
+      "exact_exprs": [
+        "if(!controllable && autoTarget){",
+        "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){",
+        "mount.target = null;"
+      ],
+      "bridge_exprs": [
+        "protected boolean checkTarget(Unit unit, Teamc target, float x, float y, float range){",
+        "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));",
+        "public static boolean invalidateTarget(Posc target, Team team, float x, float y, float range){",
+        "return target == null ||",
+        "(range != Float.MAX_VALUE && !target.within(x, y, range + (target instanceof Sized hb ? hb.hitSize()/2f : 0f))) ||",
+        "(target instanceof Teamc t && t.team() == team) ||",
+        "(target instanceof Healthc h && !h.isValid()) ||",
+        "(target instanceof Unit u && !u.targetable(team));",
+        "public @Nullable Teamc target;",
+        "public boolean autoTarget = false;",
+        "public boolean controllable = true;",
+        "public float shootX = 0f, shootY = 3f;",
+        "public float range = 0f;"
+      ],
+      "deferred_exprs": [
+        "Following target shoot/aim block remains owned by source_weapon_update_auto_target_shoot_aim_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "source_symbols": [
+        "weapon_update_auto_target_invalidation.gate",
+        "weapon_update_auto_target_invalidation.check_target_guard",
+        "weapon_update_auto_target_invalidation.target_clear",
+        "weapon_update_auto_target_invalidation.check_target_return",
+        "weapon_update_auto_target_invalidation.auto_target",
+        "weapon_update_auto_target_invalidation.mount_target"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update auto-target invalidation wrapper against exact upstream source."
     }
   },
   "version": 1

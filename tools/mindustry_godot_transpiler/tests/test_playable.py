@@ -4513,9 +4513,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "checkTarget(unit, mount.target, mountX, mountY, bullet.range)"', source)
         self.assertIn('"range": float(bullet_state.get("range", 0.0))', source)
         self.assertIn('"rangeWithShootY": float(bullet_state.get("range", 0.0)) + absf(float(weapon_state.get("shootY", 3.0)))', source)
-        self.assertIn('"guardSource": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range))"', source)
-        self.assertIn('"clearSource": "mount.target = null"', source)
-        self.assertIn('"checkTargetSource": "Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY))"', source)
+        self.assertIn('"guardSource": "if(mount.target != null && checkTarget(unit, mount.target, mountX, mountY, bullet.range)){"', source)
+        self.assertIn('"clearSource": "mount.target = null;"', source)
+        self.assertIn('"checkTargetSource": "return Units.invalidateTarget(target, unit.team, x, y, range + Math.abs(shootY));"', source)
 
     def test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

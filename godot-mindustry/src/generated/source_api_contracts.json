@@ -17916,6 +17916,64 @@
         "test_port_game_exposes_source_weapon_update_always_shooting_state",
         "test_weapon_update_always_shooting_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_auto_target_invalidation_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_auto_target_invalidation_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_auto_target_invalidation_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_auto_target_invalidation_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_auto_target_invalidation_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_auto_target_invalidation_input.mount_y",
+          "type": "float"
+        },
+        {
+          "name": "check_target_result",
+          "schema": "source_weapon_update_auto_target_invalidation_input.check_target_result",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "checkTargetCalled",
+        "checkTargetCall",
+        "checkTargetResult",
+        "targetExists",
+        "targetCleared",
+        "gateSource",
+        "guardSource",
+        "clearSource",
+        "checkTargetSource",
+        "invalidateTargetSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update auto-target invalidation state.",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+      "source_slice": "N859",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ]
     }
   },
   "policy": {
