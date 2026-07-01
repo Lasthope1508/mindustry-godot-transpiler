@@ -1547,6 +1547,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_move_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_source"))
+        report = source_parity.verify_building_move_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public float moveLiquid(Building next, Liquid liquid){",
+            "null_return": "if(next == null) return 0;",
+            "get_liquid_destination_call": "next = next.getLiquidDestination(self(), liquid);",
+            "main_guard": "if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){",
+            "ofract": "float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;",
+            "fract": "float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;",
+            "flow_initial": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));",
+            "flow_capacity_clamp": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));",
+            "transfer_guard": "if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){",
+            "handle_liquid_call": "next.handleLiquid(self(), liquid, flow);",
+            "remove_liquid_call": "liquids.remove(liquid, flow);",
+            "return_flow": "return flow;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

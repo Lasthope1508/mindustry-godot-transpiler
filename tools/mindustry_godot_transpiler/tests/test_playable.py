@@ -2134,6 +2134,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"current_liquid_amount_after": current_liquid_amount_after', source)
         self.assertIn('"return_value": return_value', source)
 
+    def test_port_game_exposes_source_building_move_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_move_liquid_state(liquid: Variant, next_present: bool, destination_team_matches: bool, destination_block_has_liquids: bool, current_liquid_amount: float, destination_liquid_amount: float, source_block_liquid_capacity: float, source_block_liquid_pressure: float, destination_block_liquid_capacity: float, destination_accepts_liquid: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public float moveLiquid(Building next, Liquid liquid){"', source)
+        self.assertIn('"null_return": "if(next == null) return 0;"', source)
+        self.assertIn('"get_liquid_destination_call": "next = next.getLiquidDestination(self(), liquid);"', source)
+        self.assertIn('"main_guard": "if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){"', source)
+        self.assertIn('"ofract": "float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;"', source)
+        self.assertIn('"fract": "float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;"', source)
+        self.assertIn('"flow_initial": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));"', source)
+        self.assertIn('"flow_capacity_clamp": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));"', source)
+        self.assertIn('"transfer_guard": "if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){"', source)
+        self.assertIn('"destination_liquid_amount_after": destination_liquid_amount_after', source)
+        self.assertIn('"return_value": return_value', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

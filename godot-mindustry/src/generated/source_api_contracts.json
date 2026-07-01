@@ -22205,6 +22205,106 @@
       ],
       "runtime_proof": "/root/Main.source_building_move_liquid_forward_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.moveLiquidForward branch helper."
+    },
+    "PortGame.source_building_move_liquid_state": {
+      "status": "active",
+      "source_slice": "N945",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "moveLiquid(Building next, Liquid liquid)",
+      "params": [
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_building_move_liquid_input.liquid"
+        },
+        {
+          "name": "next_present",
+          "type": "bool",
+          "schema": "source_building_move_liquid_input.next_present"
+        },
+        {
+          "name": "destination_team_matches",
+          "type": "bool",
+          "schema": "source_building_move_liquid_input.destination_team_matches"
+        },
+        {
+          "name": "destination_block_has_liquids",
+          "type": "bool",
+          "schema": "source_building_move_liquid_input.destination_block_has_liquids"
+        },
+        {
+          "name": "current_liquid_amount",
+          "type": "float",
+          "schema": "source_building_move_liquid_input.current_liquid_amount"
+        },
+        {
+          "name": "destination_liquid_amount",
+          "type": "float",
+          "schema": "source_building_move_liquid_input.destination_liquid_amount"
+        },
+        {
+          "name": "source_block_liquid_capacity",
+          "type": "float",
+          "schema": "source_building_move_liquid_input.source_block_liquid_capacity"
+        },
+        {
+          "name": "source_block_liquid_pressure",
+          "type": "float",
+          "schema": "source_building_move_liquid_input.source_block_liquid_pressure"
+        },
+        {
+          "name": "destination_block_liquid_capacity",
+          "type": "float",
+          "schema": "source_building_move_liquid_input.destination_block_liquid_capacity"
+        },
+        {
+          "name": "destination_accepts_liquid",
+          "type": "bool",
+          "schema": "source_building_move_liquid_input.destination_accepts_liquid"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "null_return",
+        "get_liquid_destination_call",
+        "main_guard",
+        "ofract",
+        "fract",
+        "flow_initial",
+        "flow_capacity_clamp",
+        "transfer_guard",
+        "handle_liquid_call",
+        "remove_liquid_call",
+        "return_flow",
+        "liquid",
+        "next_present",
+        "destination_team_matches",
+        "destination_block_has_liquids",
+        "current_liquid_amount",
+        "destination_liquid_amount",
+        "source_block_liquid_capacity",
+        "source_block_liquid_pressure",
+        "destination_block_liquid_capacity",
+        "destination_accepts_liquid",
+        "main_guard_passed",
+        "ofract_value",
+        "fract_value",
+        "flow_initial_value",
+        "flow_value",
+        "transfer_guard_passed",
+        "handle_liquid_called",
+        "remove_liquid_called",
+        "destination_liquid_amount_after",
+        "current_liquid_amount_after",
+        "return_value"
+      ],
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.moveLiquid transfer path before reaction branch."
     }
   },
   "policy": {

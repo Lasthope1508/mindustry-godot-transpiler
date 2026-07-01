@@ -5437,6 +5437,68 @@ func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, nex
 		"return_value": return_value,
 	}
 
+func source_building_move_liquid_state(liquid: Variant, next_present: bool, destination_team_matches: bool, destination_block_has_liquids: bool, current_liquid_amount: float, destination_liquid_amount: float, source_block_liquid_capacity: float, source_block_liquid_pressure: float, destination_block_liquid_capacity: float, destination_accepts_liquid: bool) -> Dictionary:
+	var main_guard_passed := false
+	var ofract := 0.0
+	var fract := 0.0
+	var flow_initial := 0.0
+	var flow := 0.0
+	var transfer_guard_passed := false
+	var handle_liquid_called := false
+	var remove_liquid_called := false
+	var destination_liquid_amount_after := destination_liquid_amount
+	var current_liquid_amount_after := current_liquid_amount
+	var return_value := 0.0
+	if next_present:
+		main_guard_passed = destination_team_matches and destination_block_has_liquids and current_liquid_amount > 0.0
+		if main_guard_passed:
+			ofract = destination_liquid_amount / destination_block_liquid_capacity
+			fract = current_liquid_amount / source_block_liquid_capacity * source_block_liquid_pressure
+			flow_initial = minf(clampf(fract - ofract, 0.0, 1.0) * source_block_liquid_capacity, current_liquid_amount)
+			flow = minf(flow_initial, destination_block_liquid_capacity - destination_liquid_amount)
+			transfer_guard_passed = flow > 0.0 and ofract <= fract and destination_accepts_liquid
+			if transfer_guard_passed:
+				handle_liquid_called = true
+				remove_liquid_called = true
+				destination_liquid_amount_after = destination_liquid_amount + flow
+				current_liquid_amount_after = current_liquid_amount - flow
+				return_value = flow
+	return {
+		"method": "public float moveLiquid(Building next, Liquid liquid){",
+		"null_return": "if(next == null) return 0;",
+		"get_liquid_destination_call": "next = next.getLiquidDestination(self(), liquid);",
+		"main_guard": "if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){",
+		"ofract": "float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;",
+		"fract": "float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;",
+		"flow_initial": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));",
+		"flow_capacity_clamp": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));",
+		"transfer_guard": "if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){",
+		"handle_liquid_call": "next.handleLiquid(self(), liquid, flow);",
+		"remove_liquid_call": "liquids.remove(liquid, flow);",
+		"return_flow": "return flow;",
+		"liquid": liquid,
+		"next_present": next_present,
+		"destination_team_matches": destination_team_matches,
+		"destination_block_has_liquids": destination_block_has_liquids,
+		"current_liquid_amount": current_liquid_amount,
+		"destination_liquid_amount": destination_liquid_amount,
+		"source_block_liquid_capacity": source_block_liquid_capacity,
+		"source_block_liquid_pressure": source_block_liquid_pressure,
+		"destination_block_liquid_capacity": destination_block_liquid_capacity,
+		"destination_accepts_liquid": destination_accepts_liquid,
+		"main_guard_passed": main_guard_passed,
+		"ofract_value": ofract,
+		"fract_value": fract,
+		"flow_initial_value": flow_initial,
+		"flow_value": flow,
+		"transfer_guard_passed": transfer_guard_passed,
+		"handle_liquid_called": handle_liquid_called,
+		"remove_liquid_called": remove_liquid_called,
+		"destination_liquid_amount_after": destination_liquid_amount_after,
+		"current_liquid_amount_after": current_liquid_amount_after,
+		"return_value": return_value,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

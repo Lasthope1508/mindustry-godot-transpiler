@@ -82642,6 +82642,344 @@
           "rule": "N944 return value, or delegated moveLiquid result when next.build exists."
         }
       }
+    },
+    "source_building_move_liquid_input": {
+      "status": "active",
+      "source_slice": "N945",
+      "owner": "PortGame.source_building_move_liquid_state",
+      "keys": {
+        "liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "liquid",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "next_present": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next == null",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "destination_team_matches": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.team == team",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "destination_block_has_liquids": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.block.hasLiquids",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "current_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "liquids.get(liquid)",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "destination_liquid_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.liquids.get(liquid)",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "source_block_liquid_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "block.liquidCapacity",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "source_block_liquid_pressure": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "block.liquidPressure",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "destination_block_liquid_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.block.liquidCapacity",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        },
+        "destination_accepts_liquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.acceptLiquid(self(), liquid)",
+          "rule": "N945 BuildingComp.moveLiquid canonical input key."
+        }
+      }
+    },
+    "source_building_move_liquid_result": {
+      "status": "active",
+      "source_slice": "N945",
+      "owner": "PortGame.source_building_move_liquid_state",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "public float moveLiquid(Building next, Liquid liquid){",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "null_return": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "if(next == null) return 0;",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "get_liquid_destination_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next = next.getLiquidDestination(self(), liquid);",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "main_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "ofract": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "fract": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "flow_initial": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "flow_capacity_clamp": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "transfer_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "handle_liquid_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.handleLiquid(self(), liquid, flow);",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "remove_liquid_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "return_flow": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "return flow;",
+          "rule": "N945 BuildingComp.moveLiquid canonical result key."
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.liquid",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "next_present": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.next_present",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "destination_team_matches": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.destination_team_matches",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "destination_block_has_liquids": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.destination_block_has_liquids",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "current_liquid_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.current_liquid_amount",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "destination_liquid_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.destination_liquid_amount",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "source_block_liquid_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.source_block_liquid_capacity",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "source_block_liquid_pressure": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.source_block_liquid_pressure",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "destination_block_liquid_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.destination_block_liquid_capacity",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "destination_accepts_liquid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_input.destination_accepts_liquid",
+          "rule": "Echoes canonical input key in N945 result."
+        },
+        "main_guard_passed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f",
+          "rule": "N945 main transfer guard state."
+        },
+        "ofract_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.liquids.get(liquid) / next.block.liquidCapacity",
+          "rule": "N945 computed destination fraction."
+        },
+        "fract_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "liquids.get(liquid) / block.liquidCapacity * block.liquidPressure",
+          "rule": "N945 computed source fraction."
+        },
+        "flow_initial_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid))",
+          "rule": "N945 computed initial flow."
+        },
+        "flow_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid))",
+          "rule": "N945 flow after destination capacity clamp."
+        },
+        "transfer_guard_passed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)",
+          "rule": "N945 transfer guard state."
+        },
+        "handle_liquid_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.handleLiquid(self(), liquid, flow);",
+          "rule": "N945 handleLiquid dispatch state."
+        },
+        "remove_liquid_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "N945 liquid removal dispatch state."
+        },
+        "destination_liquid_amount_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "next.handleLiquid(self(), liquid, flow)",
+          "rule": "N945 destination liquid amount after handleLiquid."
+        },
+        "current_liquid_amount_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "liquids.remove(liquid, flow)",
+          "rule": "N945 current liquid amount after remove."
+        },
+        "return_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid)",
+          "java_expr": "return flow;",
+          "rule": "N945 return value."
+        }
+      }
     }
   },
   "version": 1

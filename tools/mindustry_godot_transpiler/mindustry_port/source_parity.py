@@ -523,6 +523,33 @@ def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_building_move_liquid_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float moveLiquid(Building next, Liquid liquid){",
+        "null_return": "if(next == null) return 0;",
+        "get_liquid_destination_call": "next = next.getLiquidDestination(self(), liquid);",
+        "main_guard": "if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){",
+        "ofract": "float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;",
+        "fract": "float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;",
+        "flow_initial": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));",
+        "flow_capacity_clamp": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));",
+        "transfer_guard": "if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){",
+        "handle_liquid_call": "next.handleLiquid(self(), liquid, flow);",
+        "remove_liquid_call": "liquids.remove(liquid, flow);",
+        "return_flow": "return flow;",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

@@ -68773,6 +68773,501 @@
         "test_building_move_liquid_forward_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_move_liquid_forward_state"
+    },
+    "building_move_liquid.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.method",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "public float moveLiquid(Building next, Liquid liquid){",
+      "rule": "Preserves source moveLiquid method signature.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.null_return": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.null_return",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "if(next == null) return 0;",
+      "rule": "Preserves source null-next return.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.get_liquid_destination_call": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.get_liquid_destination_call",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next = next.getLiquidDestination(self(), liquid);",
+      "rule": "Preserves source destination rewrite call.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.main_guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.main_guard",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){",
+      "rule": "Preserves source main transfer guard.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.ofract": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.ofract",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;",
+      "rule": "Preserves source destination fraction assignment.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.fract": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.fract",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;",
+      "rule": "Preserves source source fraction assignment.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.flow_initial": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.flow_initial",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid))",
+      "rule": "Runtime initial flow from source Math.min/Mathf.clamp expression.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.flow_capacity_clamp": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.flow_capacity_clamp",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));",
+      "rule": "Preserves source destination capacity clamp.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.transfer_guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.transfer_guard",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){",
+      "rule": "Preserves source transfer guard.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.handle_liquid_call": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.handle_liquid_call",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.handleLiquid(self(), liquid, flow);",
+      "rule": "Records source destination handleLiquid call.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.remove_liquid_call": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.remove_liquid_call",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "liquids.remove(liquid, flow);",
+      "rule": "Records source liquid removal call.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.return_flow": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.return_flow",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "return flow;",
+      "rule": "Preserves source successful transfer return.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.liquid": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.liquid",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "liquid",
+      "rule": "Runtime liquid input supplies source parameter.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.next_present": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.next_present",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next == null",
+      "rule": "Runtime next_present models source null-next branch.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.destination_team_matches": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.destination_team_matches",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.team == team",
+      "rule": "Runtime destination_team_matches supplies source team predicate after destination rewrite.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.destination_block_has_liquids": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.destination_block_has_liquids",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.block.hasLiquids",
+      "rule": "Runtime destination_block_has_liquids supplies source block liquid predicate.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.current_liquid_amount": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.current_liquid_amount",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "liquids.get(liquid)",
+      "rule": "Runtime current_liquid_amount supplies source liquid module amount.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.destination_liquid_amount": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.destination_liquid_amount",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.liquids.get(liquid)",
+      "rule": "Runtime destination_liquid_amount supplies destination liquid module amount.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.source_block_liquid_capacity": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.source_block_liquid_capacity",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "block.liquidCapacity",
+      "rule": "Runtime source_block_liquid_capacity supplies source block capacity.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.source_block_liquid_pressure": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.source_block_liquid_pressure",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "block.liquidPressure",
+      "rule": "Runtime source_block_liquid_pressure supplies source pressure multiplier.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.destination_block_liquid_capacity": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.destination_block_liquid_capacity",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.block.liquidCapacity",
+      "rule": "Runtime destination_block_liquid_capacity supplies destination capacity.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.destination_accepts_liquid": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_input.destination_accepts_liquid",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.acceptLiquid(self(), liquid)",
+      "rule": "Runtime destination_accepts_liquid supplies source acceptLiquid predicate.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.main_guard_passed": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.main_guard_passed",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f",
+      "rule": "True only when source main transfer guard passes.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.ofract_value": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.ofract_value",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.liquids.get(liquid) / next.block.liquidCapacity",
+      "rule": "Runtime value for source ofract assignment.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.fract_value": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.fract_value",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "liquids.get(liquid) / block.liquidCapacity * block.liquidPressure",
+      "rule": "Runtime value for source fract assignment.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.flow_initial_value": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.flow_initial_value",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid))",
+      "rule": "Runtime value for source initial flow assignment.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.flow_value": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.flow_value",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid))",
+      "rule": "Runtime value after source destination capacity clamp.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.transfer_guard_passed": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.transfer_guard_passed",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)",
+      "rule": "True only when source transfer guard passes.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.handle_liquid_called": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.handle_liquid_called",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.handleLiquid(self(), liquid, flow);",
+      "rule": "True only when source handleLiquid call runs.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.remove_liquid_called": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.remove_liquid_called",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "liquids.remove(liquid, flow);",
+      "rule": "True only when source liquid removal call runs.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.destination_liquid_amount_after": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.destination_liquid_amount_after",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "next.handleLiquid(self(), liquid, flow)",
+      "rule": "Runtime destination amount after source handleLiquid call.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.current_liquid_amount_after": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.current_liquid_amount_after",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "liquids.remove(liquid, flow)",
+      "rule": "Runtime current amount after source liquid removal.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid.return_value": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_result.return_value",
+      "godot_owner": "PortGame.source_building_move_liquid_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid)",
+      "java_expr": "return flow;",
+      "rule": "Runtime return value for source moveLiquid transfer path and zero-return paths.",
+      "tests": [
+        "test_building_move_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_state",
+        "test_building_move_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_state"
     }
   },
   "version": 1
