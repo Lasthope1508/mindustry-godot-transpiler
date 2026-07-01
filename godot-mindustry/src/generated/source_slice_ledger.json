@@ -19336,6 +19336,46 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
       ]
+    },
+    "N938": {
+      "deferred_exprs": [
+        "Full proximity routing, liquid destination overrides, canDumpLiquid overrides, transferLiquid, campaign unlock, and cdump mutation remain separate slices."
+      ],
+      "exact_exprs": [
+        "public void dumpLiquid(Liquid liquid){",
+        "dumpLiquid(liquid, 2f);",
+        "public void dumpLiquid(Liquid liquid, float scaling){",
+        "dumpLiquid(liquid, scaling, -1);",
+        "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+        "int dump = this.cdump;",
+        "if(liquids.get(liquid) <= 0.0001f) return;"
+      ],
+      "godot_owner": "PortGame.source_building_dump_liquid_default_scaling_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed BuildingComp.dumpLiquid default/scaling overload delegation and empty-liquid routing gate state.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_default_scaling_state",
+      "source_symbols": [
+        "building_dump_liquid_default_scaling.method_default",
+        "building_dump_liquid_default_scaling.default_scaling_call",
+        "building_dump_liquid_default_scaling.method_scaling",
+        "building_dump_liquid_default_scaling.output_dir_call",
+        "building_dump_liquid_default_scaling.method_output_dir",
+        "building_dump_liquid_default_scaling.dump_cursor_assignment",
+        "building_dump_liquid_default_scaling.empty_liquid_return",
+        "building_dump_liquid_default_scaling.liquid",
+        "building_dump_liquid_default_scaling.current_liquid_amount",
+        "building_dump_liquid_default_scaling.default_scaling",
+        "building_dump_liquid_default_scaling.output_dir",
+        "building_dump_liquid_default_scaling.routing_enabled"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_liquid_default_scaling_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_default_scaling_state",
+        "test_building_dump_liquid_default_scaling_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

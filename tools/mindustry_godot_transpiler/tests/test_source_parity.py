@@ -1450,6 +1450,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_dump_liquid_default_scaling_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_liquid_default_scaling_source"))
+        report = source_parity.verify_building_dump_liquid_default_scaling_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method_default": "public void dumpLiquid(Liquid liquid){",
+            "default_scaling_call": "dumpLiquid(liquid, 2f);",
+            "method_scaling": "public void dumpLiquid(Liquid liquid, float scaling){",
+            "output_dir_call": "dumpLiquid(liquid, scaling, -1);",
+            "method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+            "dump_cursor_assignment": "int dump = this.cdump;",
+            "empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

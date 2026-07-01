@@ -81312,6 +81312,172 @@
           "java_expr": "dumpLiquid(outputLiquid.liquid);"
         }
       }
+    },
+    "source_building_dump_liquid_default_scaling_input": {
+      "keys": {
+        "liquid": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_input.liquid",
+          "java_expr": "liquid",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime liquid supplies dumpLiquid liquid input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "current_liquid_amount": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_input.current_liquid_amount",
+          "java_expr": "liquids.get(liquid)",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime current_liquid_amount supplies source liquids.get(liquid).",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_dump_liquid_default_scaling_result": {
+      "keys": {
+        "current_liquid_amount": {
+          "alias_of": "source_building_dump_liquid_default_scaling_input.current_liquid_amount",
+          "rule": "Carries current_liquid_amount input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "default_scaling": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.default_scaling",
+          "java_expr": "2f",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Default dumpLiquid overload uses scaling 2f.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "default_scaling_call": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.default_scaling_call",
+          "java_expr": "dumpLiquid(liquid, 2f);",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Default overload delegates to scaling overload with 2f.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "dump_cursor_assignment": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.dump_cursor_assignment",
+          "java_expr": "int dump = this.cdump;",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Main dumpLiquid overload snapshots cdump before routing.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "empty_liquid_return": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.empty_liquid_return",
+          "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Main dumpLiquid overload exits when no liquid is available.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "liquid": {
+          "alias_of": "source_building_dump_liquid_default_scaling_input.liquid",
+          "rule": "Carries liquid input into result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "method_default": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.method_default",
+          "java_expr": "public void dumpLiquid(Liquid liquid){",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source default dumpLiquid overload declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "method_output_dir": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.method_output_dir",
+          "java_expr": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source outputDir dumpLiquid overload declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "method_scaling": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.method_scaling",
+          "java_expr": "public void dumpLiquid(Liquid liquid, float scaling){",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source scaling dumpLiquid overload declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "output_dir": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.output_dir",
+          "java_expr": "-1",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Scaling overload uses outputDir -1 to use any direction.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "output_dir_call": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.output_dir_call",
+          "java_expr": "dumpLiquid(liquid, scaling, -1);",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Scaling overload delegates to outputDir overload with -1.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        },
+        "routing_enabled": {
+          "godot_symbol": "source_building_dump_liquid_default_scaling_result.routing_enabled",
+          "java_expr": "liquids.get(liquid) > 0.0001f",
+          "java_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated runtime gate mirrors inverse of source empty-liquid early return.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_default_scaling_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

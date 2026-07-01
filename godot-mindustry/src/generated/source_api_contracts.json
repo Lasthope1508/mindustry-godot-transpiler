@@ -21785,6 +21785,44 @@
         "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGeneratorBuild.updateTile outputLiquid dump branch."
+    },
+    "PortGame.source_building_dump_liquid_default_scaling_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "liquid",
+          "schema": "source_building_dump_liquid_default_scaling_input.liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "current_liquid_amount",
+          "schema": "source_building_dump_liquid_default_scaling_input.current_liquid_amount",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method_default",
+        "default_scaling_call",
+        "method_scaling",
+        "output_dir_call",
+        "method_output_dir",
+        "dump_cursor_assignment",
+        "empty_liquid_return",
+        "liquid",
+        "current_liquid_amount",
+        "default_scaling",
+        "output_dir",
+        "routing_enabled"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.dumpLiquid default/scaling overload and empty-liquid routing gate helper.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_default_scaling_state",
+      "source_method": "dumpLiquid(Liquid liquid) overload and empty-liquid gate",
+      "source_slice": "N938",
+      "status": "active",
+      "tests": [
+        "test_port_game_exposes_source_building_dump_liquid_default_scaling_state",
+        "test_building_dump_liquid_default_scaling_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

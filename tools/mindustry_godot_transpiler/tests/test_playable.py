@@ -2047,6 +2047,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_accept_liquid_state(has_liquids: bool, consumes_liquid: bool) -> bool:", source)
         self.assertIn("return has_liquids and consumes_liquid", source)
 
+    def test_port_game_exposes_source_building_dump_liquid_default_scaling_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_liquid_default_scaling_state(liquid: Variant, current_liquid_amount: float) -> Dictionary:", source)
+        self.assertIn('"method_default": "public void dumpLiquid(Liquid liquid){"', source)
+        self.assertIn('"default_scaling_call": "dumpLiquid(liquid, 2f);"', source)
+        self.assertIn('"method_scaling": "public void dumpLiquid(Liquid liquid, float scaling){"', source)
+        self.assertIn('"output_dir_call": "dumpLiquid(liquid, scaling, -1);"', source)
+        self.assertIn('"method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){"', source)
+        self.assertIn('"dump_cursor_assignment": "int dump = this.cdump;"', source)
+        self.assertIn('"empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;"', source)
+        self.assertIn('"routing_enabled": routing_enabled', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

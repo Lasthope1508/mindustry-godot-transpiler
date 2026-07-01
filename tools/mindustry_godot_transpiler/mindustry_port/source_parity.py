@@ -384,6 +384,28 @@ def verify_thermal_generator_update_tile_output_liquid_source(upstream_root: Pat
         "missing": missing,
     }
 
+def verify_building_dump_liquid_default_scaling_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method_default": "public void dumpLiquid(Liquid liquid){",
+        "default_scaling_call": "dumpLiquid(liquid, 2f);",
+        "method_scaling": "public void dumpLiquid(Liquid liquid, float scaling){",
+        "output_dir_call": "dumpLiquid(liquid, scaling, -1);",
+        "method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+        "dump_cursor_assignment": "int dump = this.cdump;",
+        "empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

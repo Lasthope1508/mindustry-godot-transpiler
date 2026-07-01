@@ -5240,6 +5240,25 @@ func source_building_handle_liquid_amount(current_amount: float, amount: float) 
 func source_building_accept_liquid_state(has_liquids: bool, consumes_liquid: bool) -> bool:
 	return has_liquids and consumes_liquid
 
+func source_building_dump_liquid_default_scaling_state(liquid: Variant, current_liquid_amount: float) -> Dictionary:
+	var default_scaling := 2.0
+	var output_dir := -1
+	var routing_enabled := current_liquid_amount > 0.0001
+	return {
+		"method_default": "public void dumpLiquid(Liquid liquid){",
+		"default_scaling_call": "dumpLiquid(liquid, 2f);",
+		"method_scaling": "public void dumpLiquid(Liquid liquid, float scaling){",
+		"output_dir_call": "dumpLiquid(liquid, scaling, -1);",
+		"method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+		"dump_cursor_assignment": "int dump = this.cdump;",
+		"empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;",
+		"liquid": liquid,
+		"current_liquid_amount": current_liquid_amount,
+		"default_scaling": default_scaling,
+		"output_dir": output_dir,
+		"routing_enabled": routing_enabled,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

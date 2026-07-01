@@ -17509,6 +17509,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(amount["java_expr"], "amount")
         self.assertEqual(amount["godot_symbol"], "source_building_handle_liquid_amount_input.amount")
 
+    def test_building_dump_liquid_default_scaling_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method_default = source_symbols.source_symbol(registry, "building_dump_liquid_default_scaling.method_default")
+        self.assertEqual(method_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method_default["java_method"], "dumpLiquid(Liquid liquid)")
+        self.assertEqual(method_default["java_expr"], "public void dumpLiquid(Liquid liquid){")
+        self.assertEqual(method_default["godot_owner"], "PortGame.source_building_dump_liquid_default_scaling_state")
+        self.assertEqual(method_default["runtime_proof"], "/root/Main.source_building_dump_liquid_default_scaling_state")
+        self.assertEqual(method_default["godot_symbol"], "source_building_dump_liquid_default_scaling_result.method_default")
+
+        default_scaling_call = source_symbols.source_symbol(registry, "building_dump_liquid_default_scaling.default_scaling_call")
+        self.assertEqual(default_scaling_call["java_expr"], "dumpLiquid(liquid, 2f);")
+        self.assertEqual(default_scaling_call["godot_symbol"], "source_building_dump_liquid_default_scaling_result.default_scaling_call")
+
+        current_liquid_amount = source_symbols.source_symbol(registry, "building_dump_liquid_default_scaling.current_liquid_amount")
+        self.assertEqual(current_liquid_amount["status"], "explicit-input")
+        self.assertEqual(current_liquid_amount["java_expr"], "liquids.get(liquid)")
+        self.assertEqual(current_liquid_amount["godot_symbol"], "source_building_dump_liquid_default_scaling_input.current_liquid_amount")
+
+        routing_enabled = source_symbols.source_symbol(registry, "building_dump_liquid_default_scaling.routing_enabled")
+        self.assertEqual(routing_enabled["java_expr"], "liquids.get(liquid) > 0.0001f")
+        self.assertEqual(routing_enabled["godot_symbol"], "source_building_dump_liquid_default_scaling_result.routing_enabled")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18469,9 +18496,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 534)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 535)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 539)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 540)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23217,6 +23244,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float added = Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid));", thermal_generator_update_tile_output_liquid["exact_exprs"])
         self.assertIn("liquids.add(outputLiquid.liquid, added);", thermal_generator_update_tile_output_liquid["exact_exprs"])
         self.assertIn("dumpLiquid(outputLiquid.liquid);", thermal_generator_update_tile_output_liquid["exact_exprs"])
+
+        building_dump_liquid_default_scaling = source_symbols.source_slice(ledger, "N938")
+        self.assertEqual(building_dump_liquid_default_scaling["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_liquid_default_scaling["java_method"], "dumpLiquid(Liquid liquid) overload and empty-liquid gate")
+        self.assertEqual(building_dump_liquid_default_scaling["godot_owner"], "PortGame.source_building_dump_liquid_default_scaling_state")
+        self.assertIn("public void dumpLiquid(Liquid liquid){", building_dump_liquid_default_scaling["exact_exprs"])
+        self.assertIn("dumpLiquid(liquid, 2f);", building_dump_liquid_default_scaling["exact_exprs"])
+        self.assertIn("public void dumpLiquid(Liquid liquid, float scaling){", building_dump_liquid_default_scaling["exact_exprs"])
+        self.assertIn("dumpLiquid(liquid, scaling, -1);", building_dump_liquid_default_scaling["exact_exprs"])
+        self.assertIn("public void dumpLiquid(Liquid liquid, float scaling, int outputDir){", building_dump_liquid_default_scaling["exact_exprs"])
+        self.assertIn("int dump = this.cdump;", building_dump_liquid_default_scaling["exact_exprs"])
+        self.assertIn("if(liquids.get(liquid) <= 0.0001f) return;", building_dump_liquid_default_scaling["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28391,6 +28430,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("added", thermal_generator_update_tile_output_liquid["return_keys"])
         self.assertIn("liquid_amount_after", thermal_generator_update_tile_output_liquid["return_keys"])
         self.assertEqual(thermal_generator_update_tile_output_liquid["source_method"], "updateTile() outputLiquid branch")
+
+        building_dump_liquid_default_scaling = source_symbols.api_contract(contracts, "PortGame.source_building_dump_liquid_default_scaling_state")
+        self.assertEqual([param["name"] for param in building_dump_liquid_default_scaling["params"]], ["liquid", "current_liquid_amount"])
+        self.assertEqual(building_dump_liquid_default_scaling["params"][0]["schema"], "source_building_dump_liquid_default_scaling_input.liquid")
+        self.assertEqual(building_dump_liquid_default_scaling["params"][1]["schema"], "source_building_dump_liquid_default_scaling_input.current_liquid_amount")
+        self.assertIn("default_scaling", building_dump_liquid_default_scaling["return_keys"])
+        self.assertIn("output_dir", building_dump_liquid_default_scaling["return_keys"])
+        self.assertIn("routing_enabled", building_dump_liquid_default_scaling["return_keys"])
+        self.assertEqual(building_dump_liquid_default_scaling["source_method"], "dumpLiquid(Liquid liquid) overload and empty-liquid gate")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36277,6 +36325,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_handle_liquid_amount_result["keys"]["liquid_amount_after"]["java_expr"], "liquids.add(liquid, amount);")
         self.assertEqual(source_building_handle_liquid_amount_result["keys"]["current_amount"]["alias_of"], "source_building_handle_liquid_amount_input.current_amount")
         self.assertEqual(source_building_handle_liquid_amount_result["keys"]["amount"]["alias_of"], "source_building_handle_liquid_amount_input.amount")
+
+        source_building_dump_liquid_default_scaling_input = source_symbols.state_schema(schema, "source_building_dump_liquid_default_scaling_input")
+        self.assertEqual(source_building_dump_liquid_default_scaling_input["keys"]["liquid"]["java_expr"], "liquid")
+        self.assertEqual(source_building_dump_liquid_default_scaling_input["keys"]["liquid"]["status"], "explicit-input")
+        self.assertEqual(source_building_dump_liquid_default_scaling_input["keys"]["current_liquid_amount"]["java_expr"], "liquids.get(liquid)")
+        self.assertEqual(source_building_dump_liquid_default_scaling_input["keys"]["current_liquid_amount"]["status"], "explicit-input")
+
+        source_building_dump_liquid_default_scaling_result = source_symbols.state_schema(schema, "source_building_dump_liquid_default_scaling_result")
+        self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["method_default"]["java_expr"], "public void dumpLiquid(Liquid liquid){")
+        self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["default_scaling_call"]["java_expr"], "dumpLiquid(liquid, 2f);")
+        self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["method_scaling"]["java_expr"], "public void dumpLiquid(Liquid liquid, float scaling){")
+        self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["output_dir_call"]["java_expr"], "dumpLiquid(liquid, scaling, -1);")
+        self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["empty_liquid_return"]["java_expr"], "if(liquids.get(liquid) <= 0.0001f) return;")
+        self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["liquid"]["alias_of"], "source_building_dump_liquid_default_scaling_input.liquid")
+        self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_dump_liquid_default_scaling_input.current_liquid_amount")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")
