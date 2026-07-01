@@ -57363,6 +57363,246 @@
       "godot_symbol": "source_weapon_update_continuous_laser_aim_result.aimEndpointSource",
       "status": "source-backed",
       "rule": "Arc vector add helper backing aim endpoint."
+    },
+    "weapon_update_continuous_live.continuous_else": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "}else{",
+      "godot_symbol": "source_weapon_update_continuous_live_result.live",
+      "status": "source-backed",
+      "rule": "Exact live continuous branch boundary."
+    },
+    "weapon_update_continuous_live.bullet_rotation_set": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet.rotation(weaponRotation + 90);",
+      "godot_symbol": "source_weapon_update_continuous_live_result.bulletRotation",
+      "status": "source-backed",
+      "rule": "Exact live bullet rotation assignment."
+    },
+    "weapon_update_continuous_live.bullet_position_set": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.bullet.set(bulletX, bulletY);",
+      "godot_symbol": "source_weapon_update_continuous_live_result.bulletX",
+      "status": "source-backed",
+      "rule": "Exact live bullet position assignment."
+    },
+    "weapon_update_continuous_live.mount_reload_set": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.reload = reload;",
+      "godot_symbol": "source_weapon_update_continuous_live_result.reload",
+      "status": "source-backed",
+      "rule": "Exact mount reload reset assignment."
+    },
+    "weapon_update_continuous_live.mount_recoil_set": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.recoil = 1f;",
+      "godot_symbol": "source_weapon_update_continuous_live_result.recoil",
+      "status": "source-backed",
+      "rule": "Exact mount recoil assignment."
+    },
+    "weapon_update_continuous_live.unit_vel_recoil_add": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+      "godot_symbol": "source_weapon_update_continuous_live_result.velX",
+      "status": "source-backed",
+      "rule": "Exact unit velocity recoil addition."
+    },
+    "weapon_update_continuous_live.sound_guard_reserved": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(shootSound != Sounds.none && !headless){",
+      "godot_symbol": "source_weapon_update_continuous_live_result.soundReservedSource",
+      "status": "deferred",
+      "rule": "Following continuous sound branch is owned by source_weapon_update_continuous_sound_state."
+    },
+    "weapon_update_continuous_live.weapon_reload": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float reload = 1;",
+      "godot_symbol": "source_weapon_update_continuous_live_input.weapon_state.reload",
+      "status": "source-backed",
+      "rule": "Weapon reload field."
+    },
+    "weapon_update_continuous_live.weapon_mount_reload": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float reload;",
+      "godot_symbol": "source_weapon_update_continuous_live_input.mount_state.reload",
+      "status": "source-backed",
+      "rule": "WeaponMount reload field."
+    },
+    "weapon_update_continuous_live.weapon_mount_recoil": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float recoil;",
+      "godot_symbol": "source_weapon_update_continuous_live_input.mount_state.recoil",
+      "status": "source-backed",
+      "rule": "WeaponMount recoil field."
+    },
+    "weapon_update_continuous_live.bullet_type_recoil": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "BulletType fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_expr": "public float recoil;",
+      "godot_symbol": "source_weapon_update_continuous_live_input.bullet_state.recoil",
+      "status": "source-backed",
+      "rule": "BulletType recoil field."
+    },
+    "weapon_update_continuous_live.unit_vel": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "UnitComp fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_expr": "@Import Vec2 vel;",
+      "godot_symbol": "source_weapon_update_continuous_live_input.unit_state.velX",
+      "status": "source-backed",
+      "rule": "Unit velocity field."
+    },
+    "weapon_update_continuous_live.vec2_trns_amount": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Vec2.trns(float angle, float amount)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "public Vec2 trns(float angle, float amount){",
+      "godot_symbol": "source_weapon_update_continuous_live_result.velX",
+      "status": "source-backed",
+      "rule": "Arc vector transform helper for recoil."
+    },
+    "weapon_update_continuous_live.vec2_trns_amount_body": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Vec2.trns(float angle, float amount)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "return set(amount, 0).rotate(angle);",
+      "godot_symbol": "source_weapon_update_continuous_live_result.velX",
+      "status": "source-backed",
+      "rule": "Arc vector transform body for recoil."
+    },
+    "weapon_update_continuous_live.vec2_add": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Vec2.add(Vec2 v)",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "public Vec2 add(Vec2 v){",
+      "godot_symbol": "source_weapon_update_continuous_live_result.velX",
+      "status": "source-backed",
+      "rule": "Arc vector add helper for unit velocity."
+    },
+    "weapon_update_continuous_live.time_delta": {
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_method": "Time fields",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "java_expr": "public static float delta = 1f;",
+      "godot_symbol": "source_weapon_update_continuous_live_input.source_delta",
+      "status": "source-backed",
+      "rule": "Time.delta input for recoil velocity."
     }
   },
   "version": 1

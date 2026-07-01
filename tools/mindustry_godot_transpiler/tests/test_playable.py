@@ -4653,10 +4653,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if live:", source)
         self.assertIn("next_reload = weapon_reload", source)
         self.assertIn("next_recoil = 1.0", source)
-        self.assertIn('"bulletRotationSource": "mount.bullet.rotation(weaponRotation + 90)"', source)
-        self.assertIn('"bulletSetSource": "mount.bullet.set(bulletX, bulletY)"', source)
-        self.assertIn('"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta))"', source)
-        self.assertIn('"soundReservedSource": "if(shootSound != Sounds.none && !headless)"', source)
+        self.assertIn('"bulletRotationSource": "mount.bullet.rotation(weaponRotation + 90);"', source)
+        self.assertIn('"bulletSetSource": "mount.bullet.set(bulletX, bulletY);"', source)
+        self.assertIn('"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));"', source)
+        self.assertIn('"soundReservedSource": "if(shootSound != Sounds.none && !headless){"', source)
 
     def test_port_game_exposes_source_weapon_update_continuous_sound_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

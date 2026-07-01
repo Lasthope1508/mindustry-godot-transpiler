@@ -18398,6 +18398,81 @@
         "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
         "test_weapon_update_continuous_laser_aim_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_continuous_live_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_live_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_live_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_continuous_live_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_continuous_live_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_continuous_live_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_continuous_live_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_continuous_live_input.bullet_y",
+          "type": "float"
+        },
+        {
+          "name": "weapon_rotation",
+          "schema": "source_weapon_update_continuous_live_input.weapon_rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "live",
+        "bulletRotation",
+        "bulletX",
+        "bulletY",
+        "reload",
+        "recoil",
+        "velX",
+        "velY",
+        "velAddX",
+        "velAddY",
+        "bulletRotationSource",
+        "bulletSetSource",
+        "reloadSource",
+        "recoilSource",
+        "velocityAddSource",
+        "soundReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update continuous live state.",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "source_slice": "N867",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ]
     }
   },
   "policy": {

@@ -5268,6 +5268,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_trns["java_expr"], "public Vec2 trns(float angle, float amount){")
         self.assertEqual(vec2_trns["godot_symbol"], "source_weapon_update_continuous_laser_aim_result.aimEndpointSource")
 
+    def test_weapon_update_continuous_live_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        continuous_else = source_symbols.source_symbol(registry, "weapon_update_continuous_live.continuous_else")
+        self.assertEqual(continuous_else["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(continuous_else["java_expr"], "}else{")
+        self.assertEqual(continuous_else["godot_owner"], "PortGame.source_weapon_update_continuous_live_state")
+        self.assertEqual(continuous_else["runtime_proof"], "/root/Main.source_weapon_update_continuous_live_state")
+        self.assertEqual(continuous_else["godot_symbol"], "source_weapon_update_continuous_live_result.live")
+
+        bullet_rotation = source_symbols.source_symbol(registry, "weapon_update_continuous_live.bullet_rotation_set")
+        self.assertEqual(bullet_rotation["java_expr"], "mount.bullet.rotation(weaponRotation + 90);")
+        self.assertEqual(bullet_rotation["godot_symbol"], "source_weapon_update_continuous_live_result.bulletRotation")
+
+        bullet_position = source_symbols.source_symbol(registry, "weapon_update_continuous_live.bullet_position_set")
+        self.assertEqual(bullet_position["java_expr"], "mount.bullet.set(bulletX, bulletY);")
+        self.assertEqual(bullet_position["godot_symbol"], "source_weapon_update_continuous_live_result.bulletX")
+
+        reload_set = source_symbols.source_symbol(registry, "weapon_update_continuous_live.mount_reload_set")
+        self.assertEqual(reload_set["java_expr"], "mount.reload = reload;")
+        self.assertEqual(reload_set["godot_symbol"], "source_weapon_update_continuous_live_result.reload")
+
+        recoil_set = source_symbols.source_symbol(registry, "weapon_update_continuous_live.mount_recoil_set")
+        self.assertEqual(recoil_set["java_expr"], "mount.recoil = 1f;")
+        self.assertEqual(recoil_set["godot_symbol"], "source_weapon_update_continuous_live_result.recoil")
+
+        velocity_add = source_symbols.source_symbol(registry, "weapon_update_continuous_live.unit_vel_recoil_add")
+        self.assertEqual(velocity_add["java_expr"], "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));")
+        self.assertEqual(velocity_add["godot_symbol"], "source_weapon_update_continuous_live_result.velX")
+
+        sound_reserved = source_symbols.source_symbol(registry, "weapon_update_continuous_live.sound_guard_reserved")
+        self.assertEqual(sound_reserved["java_expr"], "if(shootSound != Sounds.none && !headless){")
+        self.assertEqual(sound_reserved["status"], "deferred")
+
+        weapon_reload = source_symbols.source_symbol(registry, "weapon_update_continuous_live.weapon_reload")
+        self.assertEqual(weapon_reload["java_expr"], "public float reload = 1;")
+        self.assertEqual(weapon_reload["godot_symbol"], "source_weapon_update_continuous_live_input.weapon_state.reload")
+
+        bullet_type_recoil = source_symbols.source_symbol(registry, "weapon_update_continuous_live.bullet_type_recoil")
+        self.assertEqual(bullet_type_recoil["java_source"], "core/src/mindustry/entities/bullet/BulletType.java")
+        self.assertEqual(bullet_type_recoil["java_expr"], "public float recoil;")
+        self.assertEqual(bullet_type_recoil["godot_symbol"], "source_weapon_update_continuous_live_input.bullet_state.recoil")
+
+        vec2_add = source_symbols.source_symbol(registry, "weapon_update_continuous_live.vec2_add")
+        self.assertEqual(vec2_add["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_add["java_expr"], "public Vec2 add(Vec2 v){")
+        self.assertEqual(vec2_add["godot_symbol"], "source_weapon_update_continuous_live_result.velX")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16136,9 +16187,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 464)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 465)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 469)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 470)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16205,6 +16256,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_active_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_alternating_side_flip_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_continuous_keepalive_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_continuous_live_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_laser_aim_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_invalidation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_idle_heat_sound_state", audit["legacyUnregisteredOwners"])
@@ -19144,6 +19196,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Vec2 trns(float angle, float amount){", weapon_update_continuous_laser_aim["bridge_exprs"])
         self.assertIn("weapon_update_continuous_laser_aim.shoot_length", weapon_update_continuous_laser_aim["source_symbols"])
         self.assertIn("weapon_update_continuous_laser_aim.vec2_add_xy", weapon_update_continuous_laser_aim["source_symbols"])
+
+        weapon_update_continuous_live = source_symbols.source_slice(ledger, "N867")
+        self.assertEqual(weapon_update_continuous_live["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_continuous_live["java_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous live")
+        self.assertEqual(weapon_update_continuous_live["godot_owner"], "PortGame.source_weapon_update_continuous_live_state")
+        self.assertIn("}else{", weapon_update_continuous_live["exact_exprs"])
+        self.assertIn("mount.bullet.rotation(weaponRotation + 90);", weapon_update_continuous_live["exact_exprs"])
+        self.assertIn("unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));", weapon_update_continuous_live["exact_exprs"])
+        self.assertIn("if(shootSound != Sounds.none && !headless){", weapon_update_continuous_live["deferred_exprs"])
+        self.assertIn("public float reload = 1;", weapon_update_continuous_live["bridge_exprs"])
+        self.assertIn("public Vec2 add(Vec2 v){", weapon_update_continuous_live["bridge_exprs"])
+        self.assertIn("weapon_update_continuous_live.bullet_rotation_set", weapon_update_continuous_live["source_symbols"])
+        self.assertIn("weapon_update_continuous_live.time_delta", weapon_update_continuous_live["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -22548,6 +22613,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("bulletAimX", weapon_update_continuous_laser_aim["return_keys"])
         self.assertIn("aimEndpointSource", weapon_update_continuous_laser_aim["return_keys"])
         self.assertEqual(weapon_update_continuous_laser_aim["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim")
+
+        weapon_update_continuous_live = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_continuous_live_state")
+        self.assertEqual([param["name"] for param in weapon_update_continuous_live["params"]], ["mount_state", "weapon_state", "unit_state", "bullet_state", "source_delta", "bullet_x", "bullet_y", "weapon_rotation"])
+        self.assertEqual(weapon_update_continuous_live["params"][0]["schema"], "source_weapon_update_continuous_live_input.mount_state")
+        self.assertEqual(weapon_update_continuous_live["params"][2]["schema"], "source_weapon_update_continuous_live_input.unit_state")
+        self.assertEqual(weapon_update_continuous_live["params"][4]["schema"], "source_weapon_update_continuous_live_input.source_delta")
+        self.assertIn("live", weapon_update_continuous_live["return_keys"])
+        self.assertIn("bulletRotation", weapon_update_continuous_live["return_keys"])
+        self.assertIn("bulletX", weapon_update_continuous_live["return_keys"])
+        self.assertIn("reload", weapon_update_continuous_live["return_keys"])
+        self.assertIn("velX", weapon_update_continuous_live["return_keys"])
+        self.assertIn("velocityAddSource", weapon_update_continuous_live["return_keys"])
+        self.assertEqual(weapon_update_continuous_live["source_method"], "Weapon.update(Unit unit, WeaponMount mount) continuous live")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -29281,6 +29359,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["lastLength"]["java_expr"], "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);")
         self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["bulletAimX"]["java_expr"], "mount.bullet.aimX = Tmp.v1.x;")
         self.assertEqual(source_weapon_update_continuous_laser_aim_result["keys"]["bulletAimY"]["java_expr"], "mount.bullet.aimY = Tmp.v1.y;")
+
+        source_weapon_update_continuous_live_input = source_symbols.state_schema(schema, "source_weapon_update_continuous_live_input")
+        self.assertEqual(source_weapon_update_continuous_live_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_continuous_live_input["keys"]["weapon_state"]["java_expr"], "Weapon continuous live fields")
+        self.assertEqual(source_weapon_update_continuous_live_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_continuous_live_input["keys"]["reload"]["java_expr"], "public float reload = 1;")
+        self.assertEqual(source_weapon_update_continuous_live_input["keys"]["bulletRecoil"]["java_expr"], "public float recoil;")
+        self.assertEqual(source_weapon_update_continuous_live_input["keys"]["source_delta"]["java_expr"], "public static float delta = 1f;")
+
+        source_weapon_update_continuous_live_result = source_symbols.state_schema(schema, "source_weapon_update_continuous_live_result")
+        self.assertEqual(source_weapon_update_continuous_live_result["keys"]["live"]["java_expr"], "}else{")
+        self.assertEqual(source_weapon_update_continuous_live_result["keys"]["bulletRotation"]["java_expr"], "mount.bullet.rotation(weaponRotation + 90);")
+        self.assertEqual(source_weapon_update_continuous_live_result["keys"]["bulletX"]["java_expr"], "mount.bullet.set(bulletX, bulletY);")
+        self.assertEqual(source_weapon_update_continuous_live_result["keys"]["reload"]["java_expr"], "mount.reload = reload;")
+        self.assertEqual(source_weapon_update_continuous_live_result["keys"]["recoil"]["java_expr"], "mount.recoil = 1f;")
+        self.assertEqual(source_weapon_update_continuous_live_result["keys"]["velX"]["java_expr"], "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

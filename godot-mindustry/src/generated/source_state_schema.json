@@ -68186,6 +68186,400 @@
           ]
         }
       }
+    },
+    "source_weapon_update_continuous_live_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.weapon_state",
+          "java_expr": "Weapon continuous live fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "unit_state": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Unit state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.bullet_state",
+          "java_expr": "mount.bullet",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Mount bullet facts used by continuous live branch.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.source_delta",
+          "java_expr": "public static float delta = 1f;",
+          "java_method": "Time fields",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Time.delta input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bullet_x": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.bullet_x",
+          "java_expr": "bulletX",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Bullet X from prior origin slice.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bullet_y": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.bullet_y",
+          "java_expr": "bulletY",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Bullet Y from prior origin slice.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "weapon_rotation": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.weapon_rotation",
+          "java_expr": "weaponRotation",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon rotation from prior origin slice.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.weapon_state.reload",
+          "java_expr": "public float reload = 1;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon reload field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "mountReload": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.mount_state.reload",
+          "java_expr": "public float reload;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount reload field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "mountRecoil": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.mount_state.recoil",
+          "java_expr": "public float recoil;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount recoil field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bulletRecoil": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.bullet_state.recoil",
+          "java_expr": "public float recoil;",
+          "java_method": "BulletType fields",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Bullet type recoil field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "velX": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.unit_state.velX",
+          "java_expr": "@Import Vec2 vel;",
+          "java_method": "UnitComp fields",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit velocity X input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "velY": {
+          "godot_symbol": "source_weapon_update_continuous_live_input.unit_state.velY",
+          "java_expr": "@Import Vec2 vel;",
+          "java_method": "UnitComp fields",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "rule": "Unit velocity Y input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_continuous_live_result": {
+      "status": "active",
+      "keys": {
+        "gate": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.gate",
+          "java_expr": "if(continuous && mount.bullet != null){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuous bullet gate reused from invalidation slice.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "invalid": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.invalid",
+          "java_expr": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Invalidation state reused from invalidation slice.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "live": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.live",
+          "java_expr": "}else{",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed live continuous branch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bulletRotation": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.bulletRotation",
+          "java_expr": "mount.bullet.rotation(weaponRotation + 90);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated bullet rotation when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bulletX": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.bulletX",
+          "java_expr": "mount.bullet.set(bulletX, bulletY);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated bullet X when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bulletY": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.bulletY",
+          "java_expr": "mount.bullet.set(bulletX, bulletY);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated bullet Y when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.reload",
+          "java_expr": "mount.reload = reload;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated mount reload when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "recoil": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.recoil",
+          "java_expr": "mount.recoil = 1f;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated mount recoil when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "velX": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.velX",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated unit velocity X when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "velY": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.velY",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Updated unit velocity Y when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "velAddX": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.velAddX",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Velocity X delta when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "velAddY": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.velAddY",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Velocity Y delta when live.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bulletRotationSource": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.bulletRotationSource",
+          "java_expr": "mount.bullet.rotation(weaponRotation + 90);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact bullet rotation metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "bulletSetSource": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.bulletSetSource",
+          "java_expr": "mount.bullet.set(bulletX, bulletY);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact bullet position metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "reloadSource": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.reloadSource",
+          "java_expr": "mount.reload = reload;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact reload metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "recoilSource": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.recoilSource",
+          "java_expr": "mount.recoil = 1f;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact recoil metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "velocityAddSource": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.velocityAddSource",
+          "java_expr": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact velocity add metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        },
+        "soundReservedSource": {
+          "godot_symbol": "source_weapon_update_continuous_live_result.soundReservedSource",
+          "java_expr": "if(shootSound != Sounds.none && !headless){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Reserved sound branch metadata.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_live_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -16603,6 +16603,62 @@
         "test_weapon_update_continuous_laser_aim_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update continuous laser aim wrapper against exact upstream source."
+    },
+    "N867": {
+      "exact_exprs": [
+        "}else{",
+        "mount.bullet.rotation(weaponRotation + 90);",
+        "mount.bullet.set(bulletX, bulletY);",
+        "mount.reload = reload;",
+        "mount.recoil = 1f;",
+        "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));"
+      ],
+      "bridge_exprs": [
+        "public float reload = 1;",
+        "public float reload;",
+        "public float recoil;",
+        "@Import Vec2 vel;",
+        "public Vec2 trns(float angle, float amount){",
+        "return set(amount, 0).rotate(angle);",
+        "public Vec2 add(Vec2 v){",
+        "public static float delta = 1f;"
+      ],
+      "deferred_exprs": [
+        "if(shootSound != Sounds.none && !headless){",
+        "Continuous sound branch remains owned by source_weapon_update_continuous_sound_state.",
+        "Laser aim branch remains owned by source_weapon_update_continuous_laser_aim_state.",
+        "Always-continuous keepalive branch remains owned by source_weapon_update_always_continuous_keepalive_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "source_symbols": [
+        "weapon_update_continuous_live.continuous_else",
+        "weapon_update_continuous_live.bullet_rotation_set",
+        "weapon_update_continuous_live.bullet_position_set",
+        "weapon_update_continuous_live.mount_reload_set",
+        "weapon_update_continuous_live.mount_recoil_set",
+        "weapon_update_continuous_live.unit_vel_recoil_add",
+        "weapon_update_continuous_live.sound_guard_reserved",
+        "weapon_update_continuous_live.weapon_reload",
+        "weapon_update_continuous_live.weapon_mount_reload",
+        "weapon_update_continuous_live.weapon_mount_recoil",
+        "weapon_update_continuous_live.bullet_type_recoil",
+        "weapon_update_continuous_live.unit_vel",
+        "weapon_update_continuous_live.vec2_trns_amount",
+        "weapon_update_continuous_live.vec2_trns_amount_body",
+        "weapon_update_continuous_live.vec2_add",
+        "weapon_update_continuous_live.time_delta"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update continuous live wrapper against exact upstream source."
     }
   },
   "version": 1

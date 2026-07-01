@@ -4847,12 +4847,12 @@ func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_
 		"velY": next_vel_y,
 		"velAddX": float(recoil_vec.get("x", 0.0)) if live else 0.0,
 		"velAddY": float(recoil_vec.get("y", 0.0)) if live else 0.0,
-		"bulletRotationSource": "mount.bullet.rotation(weaponRotation + 90)",
-		"bulletSetSource": "mount.bullet.set(bulletX, bulletY)",
-		"reloadSource": "mount.reload = reload",
-		"recoilSource": "mount.recoil = 1f",
-		"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta))",
-		"soundReservedSource": "if(shootSound != Sounds.none && !headless)",
+		"bulletRotationSource": "mount.bullet.rotation(weaponRotation + 90);",
+		"bulletSetSource": "mount.bullet.set(bulletX, bulletY);",
+		"reloadSource": "mount.reload = reload;",
+		"recoilSource": "mount.recoil = 1f;",
+		"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));",
+		"soundReservedSource": "if(shootSound != Sounds.none && !headless){",
 	}
 
 func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:
