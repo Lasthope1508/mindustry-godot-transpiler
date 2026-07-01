@@ -5927,6 +5927,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mount_sound["java_expr"], "public @Nullable SoundLoop sound;")
         self.assertEqual(mount_sound["godot_symbol"], "source_weapons_remove_sound_stop_input.mount_states.sound")
 
+    def test_weapons_setup_mounts_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "weapons_setup_mounts.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(method["java_expr"], "void setupWeapons(UnitType def){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_weapons_setup_mounts_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_weapons_setup_mounts_state")
+        self.assertEqual(method["godot_symbol"], "source_weapons_setup_mounts_result.method")
+
+        array = source_symbols.source_symbol(registry, "weapons_setup_mounts.array")
+        self.assertEqual(array["java_expr"], "mounts = new WeaponMount[def.weapons.size];")
+        self.assertEqual(array["godot_symbol"], "source_weapons_setup_mounts_result.array")
+
+        loop = source_symbols.source_symbol(registry, "weapons_setup_mounts.loop")
+        self.assertEqual(loop["java_expr"], "for(int i = 0; i < mounts.length; i++){")
+        self.assertEqual(loop["godot_symbol"], "source_weapons_setup_mounts_result.loop")
+
+        assignment = source_symbols.source_symbol(registry, "weapons_setup_mounts.assignment")
+        self.assertEqual(assignment["java_expr"], "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));")
+        self.assertEqual(assignment["godot_symbol"], "source_weapons_setup_mounts_result.mounts.call")
+
+        unit_type_weapons = source_symbols.source_symbol(registry, "weapons_setup_mounts.unit_type_weapons")
+        self.assertEqual(unit_type_weapons["java_source"], "core/src/mindustry/type/UnitType.java")
+        self.assertEqual(unit_type_weapons["java_expr"], "public Seq<Weapon> weapons = new Seq<>();")
+        self.assertEqual(unit_type_weapons["godot_symbol"], "source_weapons_setup_mounts_input.weapon_states")
+
+        mount_type = source_symbols.source_symbol(registry, "weapons_setup_mounts.weapon_mount_type")
+        self.assertEqual(mount_type["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(mount_type["java_expr"], "public Func<Weapon, WeaponMount> mountType = WeaponMount::new;")
+        self.assertEqual(mount_type["godot_symbol"], "source_weapons_setup_mounts_result.mounts.call")
+
+        constructor = source_symbols.source_symbol(registry, "weapons_setup_mounts.weapon_mount_constructor")
+        self.assertEqual(constructor["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(constructor["java_expr"], "public WeaponMount(Weapon weapon){")
+        self.assertEqual(constructor["godot_symbol"], "source_weapons_setup_mounts_result.mounts.constructor")
+
+        rotation = source_symbols.source_symbol(registry, "weapons_setup_mounts.weapon_mount_rotation_assignment")
+        self.assertEqual(rotation["java_expr"], "this.rotation = weapon.baseRotation;")
+        self.assertEqual(rotation["godot_symbol"], "source_weapons_setup_mounts_result.mounts.rotation")
+
     def test_weapons_set_rotation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16826,9 +16870,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 481)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 482)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 486)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 487)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16872,6 +16916,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapons_remove_continuous_bullet_cleanup_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapons_remove_sound_stop_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapons_remove_sound_stop_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapons_setup_mounts_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapons_setup_mounts_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapons_set_rotation_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapons_set_rotation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
@@ -20095,6 +20141,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float rotation;", weapons_set_rotation["bridge_exprs"])
         self.assertIn("weapons_set_rotation.method", weapons_set_rotation["source_symbols"])
         self.assertIn("weapons_set_rotation.weapon_mount_rotation", weapons_set_rotation["source_symbols"])
+
+        weapons_setup_mounts = source_symbols.source_slice(ledger, "N884")
+        self.assertEqual(weapons_setup_mounts["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(weapons_setup_mounts["java_method"], "WeaponsComp.setupWeapons(UnitType def)")
+        self.assertEqual(weapons_setup_mounts["godot_owner"], "PortGame.source_weapons_setup_mounts_state")
+        self.assertIn("@SyncLocal WeaponMount[] mounts = {};", weapons_setup_mounts["exact_exprs"])
+        self.assertIn("void setupWeapons(UnitType def){", weapons_setup_mounts["exact_exprs"])
+        self.assertIn("mounts = new WeaponMount[def.weapons.size];", weapons_setup_mounts["exact_exprs"])
+        self.assertIn("for(int i = 0; i < mounts.length; i++){", weapons_setup_mounts["exact_exprs"])
+        self.assertIn("mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));", weapons_setup_mounts["exact_exprs"])
+        self.assertIn("public Seq<Weapon> weapons = new Seq<>();", weapons_setup_mounts["bridge_exprs"])
+        self.assertIn("public Func<Weapon, WeaponMount> mountType = WeaponMount::new;", weapons_setup_mounts["bridge_exprs"])
+        self.assertIn("public WeaponMount(Weapon weapon){", weapons_setup_mounts["bridge_exprs"])
+        self.assertIn("this.weapon = weapon;", weapons_setup_mounts["bridge_exprs"])
+        self.assertIn("this.rotation = weapon.baseRotation;", weapons_setup_mounts["bridge_exprs"])
+        self.assertIn("weapons_setup_mounts.method", weapons_setup_mounts["source_symbols"])
+        self.assertIn("weapons_setup_mounts.weapon_mount_rotation_assignment", weapons_setup_mounts["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23686,6 +23749,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("loop", weapons_remove_sound_stop["return_keys"])
         self.assertIn("mounts", weapons_remove_sound_stop["return_keys"])
         self.assertEqual(weapons_remove_sound_stop["source_method"], "WeaponsComp.remove() sound stop")
+
+        weapons_setup_mounts = source_symbols.api_contract(contracts, "PortGame.source_weapons_setup_mounts_state")
+        self.assertEqual([param["name"] for param in weapons_setup_mounts["params"]], ["weapon_states"])
+        self.assertEqual(weapons_setup_mounts["params"][0]["schema"], "source_weapons_setup_mounts_input.weapon_states")
+        self.assertIn("method", weapons_setup_mounts["return_keys"])
+        self.assertIn("array", weapons_setup_mounts["return_keys"])
+        self.assertIn("loop", weapons_setup_mounts["return_keys"])
+        self.assertIn("mounts", weapons_setup_mounts["return_keys"])
+        self.assertEqual(weapons_setup_mounts["source_method"], "WeaponsComp.setupWeapons(UnitType def)")
+        self.assertEqual(weapons_setup_mounts["source_slice"], "N884")
 
         weapons_set_rotation = source_symbols.api_contract(contracts, "PortGame.source_weapons_set_rotation_state")
         self.assertEqual([param["name"] for param in weapons_set_rotation["params"]], ["mount_states", "source_rotation"])
@@ -30673,6 +30746,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["soundLoopIdGuard"]["java_expr"], "if(id != -1){")
         self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["soundLoopEffects"]["java_expr"], "Core.audio.stop(id); id = -1; volume = 0f;")
         self.assertEqual(source_weapons_remove_sound_stop_result["keys"]["mounts"]["java_expr"], "for(WeaponMount mount : mounts){")
+
+        source_weapons_setup_mounts_input = source_symbols.state_schema(schema, "source_weapons_setup_mounts_input")
+        self.assertEqual(source_weapons_setup_mounts_input["keys"]["weapon_states"]["java_expr"], "public Seq<Weapon> weapons = new Seq<>();")
+        self.assertEqual(source_weapons_setup_mounts_input["keys"]["baseRotation"]["java_expr"], "public float baseRotation = 0f;")
+
+        source_weapons_setup_mounts_result = source_symbols.state_schema(schema, "source_weapons_setup_mounts_result")
+        self.assertEqual(source_weapons_setup_mounts_result["keys"]["method"]["java_expr"], "void setupWeapons(UnitType def){")
+        self.assertEqual(source_weapons_setup_mounts_result["keys"]["array"]["java_expr"], "mounts = new WeaponMount[def.weapons.size];")
+        self.assertEqual(source_weapons_setup_mounts_result["keys"]["loop"]["java_expr"], "for(int i = 0; i < mounts.length; i++){")
+        self.assertEqual(source_weapons_setup_mounts_result["keys"]["call"]["java_expr"], "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));")
+        self.assertEqual(source_weapons_setup_mounts_result["keys"]["constructor"]["java_expr"], "public WeaponMount(Weapon weapon){")
+        self.assertEqual(source_weapons_setup_mounts_result["keys"]["rotation"]["java_expr"], "this.rotation = weapon.baseRotation;")
+        self.assertEqual(source_weapons_setup_mounts_result["keys"]["mounts"]["java_expr"], "for(int i = 0; i < mounts.length; i++){")
 
         source_weapons_set_rotation_input = source_symbols.state_schema(schema, "source_weapons_set_rotation_input")
         self.assertEqual(source_weapons_set_rotation_input["keys"]["mount_states"]["java_expr"], "@SyncLocal WeaponMount[] mounts = {};")

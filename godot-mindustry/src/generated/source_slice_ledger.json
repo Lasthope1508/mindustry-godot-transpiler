@@ -17426,6 +17426,51 @@
         "test_weapons_set_rotation_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp.setWeaponRotation(float rotation) wrapper against exact upstream source and WeaponMount.rotation bridge."
+    },
+    "N884": {
+      "exact_exprs": [
+        "@SyncLocal WeaponMount[] mounts = {};",
+        "void setupWeapons(UnitType def){",
+        "mounts = new WeaponMount[def.weapons.size];",
+        "for(int i = 0; i < mounts.length; i++){",
+        "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));"
+      ],
+      "bridge_exprs": [
+        "public Seq<Weapon> weapons = new Seq<>();",
+        "public float baseRotation = 0f;",
+        "public Func<Weapon, WeaponMount> mountType = WeaponMount::new;",
+        "public WeaponMount(Weapon weapon){",
+        "this.weapon = weapon;",
+        "this.rotation = weapon.baseRotation;"
+      ],
+      "deferred_exprs": [
+        "Weapon update dispatch remains owned by PortGame.source_weapons_update_dispatch_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.setupWeapons(UnitType def)",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "source_symbols": [
+        "weapons_setup_mounts.mounts_field",
+        "weapons_setup_mounts.method",
+        "weapons_setup_mounts.array",
+        "weapons_setup_mounts.loop",
+        "weapons_setup_mounts.assignment",
+        "weapons_setup_mounts.unit_type_weapons",
+        "weapons_setup_mounts.weapon_base_rotation",
+        "weapons_setup_mounts.weapon_mount_type",
+        "weapons_setup_mounts.weapon_mount_constructor",
+        "weapons_setup_mounts.weapon_mount_weapon_assignment",
+        "weapons_setup_mounts.weapon_mount_rotation_assignment"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp.setupWeapons(UnitType def) wrapper against exact upstream source and WeaponMount constructor bridge."
     }
   },
   "version": 1

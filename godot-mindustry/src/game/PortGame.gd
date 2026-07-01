@@ -4252,13 +4252,14 @@ func source_weapons_setup_mounts_state(weapon_states: Array) -> Dictionary:
 		mounts.append({
 			"index": index,
 			"weapon": str(weapon_state.get("weapon", "weapon%d" % index)),
-			"call": "def.weapons.get(i).mountType.get(def.weapons.get(i))",
-			"constructor": "public WeaponMount(Weapon weapon)",
+			"call": "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));",
+			"constructor": "public WeaponMount(Weapon weapon){",
 			"rotation": float(weapon_state.get("baseRotation", 0.0)),
 		})
 	return {
-		"array": "mounts = new WeaponMount[def.weapons.size]",
-		"loop": "for(int i = 0; i < mounts.length; i++)",
+		"method": "void setupWeapons(UnitType def){",
+		"array": "mounts = new WeaponMount[def.weapons.size];",
+		"loop": "for(int i = 0; i < mounts.length; i++){",
 		"mounts": mounts,
 	}
 

@@ -7,16 +7,15 @@
     "PortGame.source_symbol_audit_state",
     "PortGame.source_symbol_registry_state"
   ],
-  "legacyUnregisteredOwnerCount": 2,
+  "legacyUnregisteredOwnerCount": 1,
   "legacyUnregisteredOwners": [
-    "PortGame.source_weapons_setup_mounts_state",
     "PortGame.source_weapons_update_dispatch_state"
   ],
   "policy": {
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 481,
+  "registeredSourceOwnerCount": 482,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -498,7 +497,8 @@
     "PortGame.source_weapons_control_state",
     "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
     "PortGame.source_weapons_remove_sound_stop_state",
-    "PortGame.source_weapons_set_rotation_state"
+    "PortGame.source_weapons_set_rotation_state",
+    "PortGame.source_weapons_setup_mounts_state"
   ],
   "sourceFunctions": [
     {

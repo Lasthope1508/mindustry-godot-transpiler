@@ -4313,10 +4313,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_weapons_setup_mounts_state(weapon_states: Array) -> Dictionary:", source)
         self.assertIn("for index in weapon_states.size():", source)
-        self.assertIn('"array": "mounts = new WeaponMount[def.weapons.size]"', source)
-        self.assertIn('"loop": "for(int i = 0; i < mounts.length; i++)"', source)
-        self.assertIn('"call": "def.weapons.get(i).mountType.get(def.weapons.get(i))"', source)
-        self.assertIn('"constructor": "public WeaponMount(Weapon weapon)"', source)
+        self.assertIn('"method": "void setupWeapons(UnitType def){"', source)
+        self.assertIn('"array": "mounts = new WeaponMount[def.weapons.size];"', source)
+        self.assertIn('"loop": "for(int i = 0; i < mounts.length; i++){"', source)
+        self.assertIn('"call": "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));"', source)
+        self.assertIn('"constructor": "public WeaponMount(Weapon weapon){"', source)
         self.assertIn('"rotation": float(weapon_state.get("baseRotation", 0.0))', source)
 
     def test_port_game_exposes_source_weapons_set_rotation_state(self):

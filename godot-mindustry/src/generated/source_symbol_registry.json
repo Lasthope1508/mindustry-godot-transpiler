@@ -60620,6 +60620,171 @@
       "godot_symbol": "source_weapons_set_rotation_result.mounts.rotation",
       "status": "source-backed",
       "rule": "WeaponMount rotation bridge field assigned by setWeaponRotation."
+    },
+    "weapons_setup_mounts.mounts_field": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp fields",
+      "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+      "godot_symbol": "source_weapons_setup_mounts_result.mounts",
+      "status": "source-backed",
+      "rule": "Weapon mount array assigned by setupWeapons."
+    },
+    "weapons_setup_mounts.method": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setupWeapons(UnitType def)",
+      "java_expr": "void setupWeapons(UnitType def){",
+      "godot_symbol": "source_weapons_setup_mounts_result.method",
+      "status": "source-backed",
+      "rule": "Exact setupWeapons method boundary."
+    },
+    "weapons_setup_mounts.array": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setupWeapons(UnitType def)",
+      "java_expr": "mounts = new WeaponMount[def.weapons.size];",
+      "godot_symbol": "source_weapons_setup_mounts_result.array",
+      "status": "source-backed",
+      "rule": "Exact mount array allocation from setupWeapons."
+    },
+    "weapons_setup_mounts.loop": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setupWeapons(UnitType def)",
+      "java_expr": "for(int i = 0; i < mounts.length; i++){",
+      "godot_symbol": "source_weapons_setup_mounts_result.loop",
+      "status": "source-backed",
+      "rule": "Exact setupWeapons mount loop."
+    },
+    "weapons_setup_mounts.assignment": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setupWeapons(UnitType def)",
+      "java_expr": "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));",
+      "godot_symbol": "source_weapons_setup_mounts_result.mounts.call",
+      "status": "source-backed",
+      "rule": "Exact WeaponMount construction assignment from UnitType weapons."
+    },
+    "weapons_setup_mounts.unit_type_weapons": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType fields",
+      "java_expr": "public Seq<Weapon> weapons = new Seq<>();",
+      "godot_symbol": "source_weapons_setup_mounts_input.weapon_states",
+      "status": "source-backed",
+      "rule": "UnitType weapons sequence supplies setupWeapons definitions."
+    },
+    "weapons_setup_mounts.weapon_base_rotation": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon fields",
+      "java_expr": "public float baseRotation = 0f;",
+      "godot_symbol": "source_weapons_setup_mounts_input.weapon_states.baseRotation",
+      "status": "source-backed",
+      "rule": "Weapon baseRotation seeds WeaponMount rotation."
+    },
+    "weapons_setup_mounts.weapon_mount_type": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon fields",
+      "java_expr": "public Func<Weapon, WeaponMount> mountType = WeaponMount::new;",
+      "godot_symbol": "source_weapons_setup_mounts_result.mounts.call",
+      "status": "source-backed",
+      "rule": "Weapon mountType factory creates each WeaponMount."
+    },
+    "weapons_setup_mounts.weapon_mount_constructor": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_method": "WeaponMount(Weapon weapon)",
+      "java_expr": "public WeaponMount(Weapon weapon){",
+      "godot_symbol": "source_weapons_setup_mounts_result.mounts.constructor",
+      "status": "source-backed",
+      "rule": "Exact WeaponMount constructor boundary."
+    },
+    "weapons_setup_mounts.weapon_mount_weapon_assignment": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_method": "WeaponMount(Weapon weapon)",
+      "java_expr": "this.weapon = weapon;",
+      "godot_symbol": "source_weapons_setup_mounts_result.mounts.weapon",
+      "status": "source-backed",
+      "rule": "WeaponMount constructor stores the source weapon."
+    },
+    "weapons_setup_mounts.weapon_mount_rotation_assignment": {
+      "godot_owner": "PortGame.source_weapons_setup_mounts_state",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_method": "WeaponMount(Weapon weapon)",
+      "java_expr": "this.rotation = weapon.baseRotation;",
+      "godot_symbol": "source_weapons_setup_mounts_result.mounts.rotation",
+      "status": "source-backed",
+      "rule": "WeaponMount constructor initializes rotation from weapon.baseRotation."
     }
   },
   "version": 1

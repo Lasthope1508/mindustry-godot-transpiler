@@ -19188,6 +19188,32 @@
         "test_port_game_exposes_source_weapons_set_rotation_state",
         "test_weapons_set_rotation_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_setup_mounts_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "weapon_states",
+          "schema": "source_weapons_setup_mounts_input.weapon_states",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "array",
+        "loop",
+        "mounts"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.setupWeapons(UnitType def) state.",
+      "runtime_proof": "/root/Main.source_weapons_setup_mounts_state",
+      "source_method": "WeaponsComp.setupWeapons(UnitType def)",
+      "source_slice": "N884",
+      "status": "active",
+      "tests": [
+        "test_weapons_setup_mounts_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_setup_mounts_state",
+        "test_weapons_setup_mounts_matches_upstream_source"
+      ]
     }
   },
   "policy": {
