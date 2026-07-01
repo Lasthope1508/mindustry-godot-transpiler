@@ -18118,6 +18118,68 @@
         "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
         "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_bullet_origin_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_bullet_origin_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_bullet_origin_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_bullet_origin_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_bullet_origin_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_bullet_origin_input.mount_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "rotate",
+        "weaponRotation",
+        "bulletX",
+        "bulletY",
+        "shootAngle",
+        "mountX",
+        "mountY",
+        "shootX",
+        "shootY",
+        "baseRotation",
+        "weaponRotationSource",
+        "bulletXSource",
+        "bulletYSource",
+        "shootAngleSource",
+        "bulletRotationMethodSource",
+        "bulletRotationSource",
+        "anglesTrnsxSource",
+        "anglesTrnsySource",
+        "anglesAngleSource",
+        "positionAngleToSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update bullet origin state.",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "source_slice": "N862",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ]
     }
   },
   "policy": {

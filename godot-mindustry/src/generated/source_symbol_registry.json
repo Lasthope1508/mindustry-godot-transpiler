@@ -56298,6 +56298,231 @@
       "godot_symbol": "source_weapon_update_auto_target_shoot_aim_input.bullet_state.range",
       "status": "source-backed",
       "rule": "Bullet range field used by target within check."
+    },
+    "weapon_update_bullet_origin.weapon_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.weaponRotationSource",
+      "status": "source-backed",
+      "rule": "Computes weaponRotation for bullet origin."
+    },
+    "weapon_update_bullet_origin.bullet_x": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.bulletX",
+      "status": "source-backed",
+      "rule": "Computes bulletX from mount origin and shoot offset."
+    },
+    "weapon_update_bullet_origin.bullet_y": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.bulletY",
+      "status": "source-backed",
+      "rule": "Computes bulletY from mount origin and shoot offset."
+    },
+    "weapon_update_bullet_origin.shoot_angle": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.shootAngle",
+      "status": "source-backed",
+      "rule": "Computes shootAngle from bulletRotation."
+    },
+    "weapon_update_bullet_origin.bullet_rotation_method": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon.bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY)",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.bulletRotationMethodSource",
+      "status": "source-backed",
+      "rule": "Weapon bulletRotation helper method."
+    },
+    "weapon_update_bullet_origin.bullet_rotation_return": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon.bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY)",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.bulletRotationSource",
+      "status": "source-backed",
+      "rule": "Exact bulletRotation return expression."
+    },
+    "weapon_update_bullet_origin.weapon_rotate": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean rotate = false;",
+      "godot_symbol": "source_weapon_update_bullet_origin_input.weapon_state.rotate",
+      "status": "source-backed",
+      "rule": "Weapon rotate field."
+    },
+    "weapon_update_bullet_origin.weapon_base_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float baseRotation = 0f;",
+      "godot_symbol": "source_weapon_update_bullet_origin_input.weapon_state.baseRotation",
+      "status": "source-backed",
+      "rule": "Weapon baseRotation field."
+    },
+    "weapon_update_bullet_origin.weapon_shoot_offsets": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float shootX = 0f, shootY = 3f;",
+      "godot_symbol": "source_weapon_update_bullet_origin_input.weapon_state.shootX",
+      "status": "source-backed",
+      "rule": "Weapon shoot offset fields."
+    },
+    "weapon_update_bullet_origin.weapon_mount_rotation": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float rotation;",
+      "godot_symbol": "source_weapon_update_bullet_origin_input.mount_state.rotation",
+      "status": "source-backed",
+      "rule": "WeaponMount rotation field."
+    },
+    "weapon_update_bullet_origin.weapon_mount_aim": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float aimX, aimY;",
+      "godot_symbol": "source_weapon_update_bullet_origin_input.mount_state.aimX",
+      "status": "source-backed",
+      "rule": "WeaponMount aim fields."
+    },
+    "weapon_update_bullet_origin.angles_trnsx_vec": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Angles.trnsx(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float trnsx(float angle, float x, float y){",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.anglesTrnsxSource",
+      "status": "source-backed",
+      "rule": "Arc Angles trnsx helper."
+    },
+    "weapon_update_bullet_origin.angles_trnsy_vec": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Angles.trnsy(float angle, float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float trnsy(float angle, float x, float y){",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.anglesTrnsySource",
+      "status": "source-backed",
+      "rule": "Arc Angles trnsy helper."
+    },
+    "weapon_update_bullet_origin.angles_angle": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Angles.angle(float x, float y, float x2, float y2)",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_expr": "public static float angle(float x, float y, float x2, float y2){",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.anglesAngleSource",
+      "status": "source-backed",
+      "rule": "Arc Angles angle helper."
+    },
+    "weapon_update_bullet_origin.position_angle_to_float": {
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_method": "Position.angleTo(float x, float y)",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "java_expr": "default float angleTo(float x, float y){",
+      "godot_symbol": "source_weapon_update_bullet_origin_result.positionAngleToSource",
+      "status": "source-backed",
+      "rule": "Arc Position angleTo helper."
     }
   },
   "version": 1

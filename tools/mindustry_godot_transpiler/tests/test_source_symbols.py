@@ -5227,6 +5227,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_speed["java_expr"], "public float speed = 1f;")
         self.assertEqual(bullet_speed["godot_symbol"], "source_weapon_update_auto_target_shoot_aim_input.bullet_state.speed")
 
+    def test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        weapon_rotation = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.weapon_rotation")
+        self.assertEqual(weapon_rotation["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_rotation["java_expr"], "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),")
+        self.assertEqual(weapon_rotation["godot_owner"], "PortGame.source_weapon_update_bullet_origin_state")
+        self.assertEqual(weapon_rotation["runtime_proof"], "/root/Main.source_weapon_update_bullet_origin_state")
+        self.assertEqual(weapon_rotation["godot_symbol"], "source_weapon_update_bullet_origin_result.weaponRotationSource")
+
+        bullet_x = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.bullet_x")
+        self.assertEqual(bullet_x["java_expr"], "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),")
+        self.assertEqual(bullet_x["godot_symbol"], "source_weapon_update_bullet_origin_result.bulletX")
+
+        bullet_y = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.bullet_y")
+        self.assertEqual(bullet_y["java_expr"], "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),")
+        self.assertEqual(bullet_y["godot_symbol"], "source_weapon_update_bullet_origin_result.bulletY")
+
+        shoot_angle = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.shoot_angle")
+        self.assertEqual(shoot_angle["java_expr"], "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);")
+        self.assertEqual(shoot_angle["godot_symbol"], "source_weapon_update_bullet_origin_result.shootAngle")
+
+        bullet_rotation_return = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.bullet_rotation_return")
+        self.assertEqual(bullet_rotation_return["java_expr"], "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;")
+        self.assertEqual(bullet_rotation_return["godot_symbol"], "source_weapon_update_bullet_origin_result.bulletRotationSource")
+
+        shoot_offsets = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.weapon_shoot_offsets")
+        self.assertEqual(shoot_offsets["java_expr"], "public float shootX = 0f, shootY = 3f;")
+        self.assertEqual(shoot_offsets["godot_symbol"], "source_weapon_update_bullet_origin_input.weapon_state.shootX")
+
+        angles_trnsx = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.angles_trnsx_vec")
+        self.assertEqual(angles_trnsx["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(angles_trnsx["java_expr"], "public static float trnsx(float angle, float x, float y){")
+        self.assertEqual(angles_trnsx["godot_symbol"], "source_weapon_update_bullet_origin_result.anglesTrnsxSource")
+
+        position_angle_to = source_symbols.source_symbol(registry, "weapon_update_bullet_origin.position_angle_to_float")
+        self.assertEqual(position_angle_to["java_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(position_angle_to["java_expr"], "default float angleTo(float x, float y){")
+        self.assertEqual(position_angle_to["godot_symbol"], "source_weapon_update_bullet_origin_result.positionAngleToSource")
+
     def test_status_apply_result_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15885,9 +15928,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 459)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 460)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 464)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 465)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15958,6 +16001,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_auto_target_invalidation_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_auto_target_retarget_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_auto_target_shoot_aim_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_bullet_origin_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18893,6 +18937,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean predictTarget = true;", weapon_update_auto_target_shoot_aim["bridge_exprs"])
         self.assertIn("public float aimX, aimY;", weapon_update_auto_target_shoot_aim["bridge_exprs"])
         self.assertIn("Following rotate toward block remains owned by source_weapon_update_rotate_toward_state.", weapon_update_auto_target_shoot_aim["deferred_exprs"])
+
+        weapon_update_bullet_origin = source_symbols.source_slice(ledger, "N862")
+        self.assertEqual(weapon_update_bullet_origin["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_bullet_origin["java_method"], "Weapon.update(Unit unit, WeaponMount mount) bullet origin")
+        self.assertEqual(weapon_update_bullet_origin["godot_owner"], "PortGame.source_weapon_update_bullet_origin_state")
+        self.assertIn("weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),", weapon_update_bullet_origin["exact_exprs"])
+        self.assertIn("bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),", weapon_update_bullet_origin["exact_exprs"])
+        self.assertIn("bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),", weapon_update_bullet_origin["exact_exprs"])
+        self.assertIn("shootAngle = bulletRotation(unit, mount, bulletX, bulletY);", weapon_update_bullet_origin["exact_exprs"])
+        self.assertIn("protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){", weapon_update_bullet_origin["exact_exprs"])
+        self.assertIn("return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;", weapon_update_bullet_origin["exact_exprs"])
+        self.assertIn("public float shootX = 0f, shootY = 3f;", weapon_update_bullet_origin["bridge_exprs"])
+        self.assertIn("protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){", weapon_update_bullet_origin["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -22236,6 +22293,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("predictSource", weapon_update_auto_target_shoot_aim["return_keys"])
         self.assertIn("shootRotateSource", weapon_update_auto_target_shoot_aim["return_keys"])
         self.assertEqual(weapon_update_auto_target_shoot_aim["source_method"], "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim")
+
+        weapon_update_bullet_origin = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_bullet_origin_state")
+        self.assertEqual([param["name"] for param in weapon_update_bullet_origin["params"]], ["mount_state", "weapon_state", "unit_state", "mount_x", "mount_y"])
+        self.assertEqual(weapon_update_bullet_origin["params"][0]["schema"], "source_weapon_update_bullet_origin_input.mount_state")
+        self.assertEqual(weapon_update_bullet_origin["params"][1]["schema"], "source_weapon_update_bullet_origin_input.weapon_state")
+        self.assertEqual(weapon_update_bullet_origin["params"][2]["schema"], "source_weapon_update_bullet_origin_input.unit_state")
+        self.assertIn("weaponRotation", weapon_update_bullet_origin["return_keys"])
+        self.assertIn("bulletX", weapon_update_bullet_origin["return_keys"])
+        self.assertIn("bulletY", weapon_update_bullet_origin["return_keys"])
+        self.assertIn("shootAngle", weapon_update_bullet_origin["return_keys"])
+        self.assertIn("bulletRotationSource", weapon_update_bullet_origin["return_keys"])
+        self.assertEqual(weapon_update_bullet_origin["source_method"], "Weapon.update(Unit unit, WeaponMount mount) bullet origin")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -28949,6 +29018,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_auto_target_shoot_aim_result["keys"]["aimX"]["java_expr"], "mount.aimX = to.x;")
         self.assertEqual(source_weapon_update_auto_target_shoot_aim_result["keys"]["directAimXSource"]["java_expr"], "mount.aimX = mount.target.x();")
         self.assertEqual(source_weapon_update_auto_target_shoot_aim_result["keys"]["shootRotateSource"]["java_expr"], "mount.shoot = mount.rotate = shoot;")
+
+        source_weapon_update_bullet_origin_input = source_symbols.state_schema(schema, "source_weapon_update_bullet_origin_input")
+        self.assertEqual(source_weapon_update_bullet_origin_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_bullet_origin_input["keys"]["weapon_state"]["java_expr"], "Weapon bullet origin fields")
+        self.assertEqual(source_weapon_update_bullet_origin_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_bullet_origin_input["keys"]["shootX"]["java_expr"], "public float shootX = 0f, shootY = 3f;")
+        self.assertEqual(source_weapon_update_bullet_origin_input["keys"]["mountRotation"]["java_expr"], "public float rotation;")
+
+        source_weapon_update_bullet_origin_result = source_symbols.state_schema(schema, "source_weapon_update_bullet_origin_result")
+        self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["weaponRotation"]["java_expr"], "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),")
+        self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["bulletX"]["java_expr"], "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),")
+        self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["bulletY"]["java_expr"], "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),")
+        self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["shootAngle"]["java_expr"], "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);")
+        self.assertEqual(source_weapon_update_bullet_origin_result["keys"]["bulletRotationSource"]["java_expr"], "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")

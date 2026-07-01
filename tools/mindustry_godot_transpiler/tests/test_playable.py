@@ -4604,11 +4604,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var bullet_y := mount_y + float(bullet_vec[\"y\"])", source)
         self.assertIn("var shoot_angle := unit_rotation + mount_rotation", source)
         self.assertIn("shoot_angle = source_arc_angles_angle(bullet_x, bullet_y, aim_x, aim_y) + (unit_rotation - source_arc_angles_angle(unit_x, unit_y, aim_x, aim_y)) + base_rotation", source)
-        self.assertIn('"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)"', source)
-        self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)"', source)
-        self.assertIn('"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY)"', source)
-        self.assertIn('"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY)"', source)
-        self.assertIn('"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation"', source)
+        self.assertIn('"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),"', source)
+        self.assertIn('"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),"', source)
+        self.assertIn('"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),"', source)
+        self.assertIn('"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);"', source)
+        self.assertIn('"bulletRotationMethodSource": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){"', source)
+        self.assertIn('"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;"', source)
+        self.assertIn('"anglesTrnsxSource": "public static float trnsx(float angle, float x, float y){"', source)
+        self.assertIn('"anglesTrnsySource": "public static float trnsy(float angle, float x, float y){"', source)
+        self.assertIn('"positionAngleToSource": "default float angleTo(float x, float y){"', source)
 
     def test_port_game_exposes_source_weapon_update_always_shooting_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

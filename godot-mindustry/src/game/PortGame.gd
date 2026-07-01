@@ -4756,11 +4756,16 @@ func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_st
 		"shootX": shoot_x,
 		"shootY": shoot_y,
 		"baseRotation": base_rotation,
-		"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation)",
-		"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY)",
-		"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY)",
-		"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY)",
-		"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation",
+		"weaponRotationSource": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+		"bulletXSource": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+		"bulletYSource": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),",
+		"shootAngleSource": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);",
+		"bulletRotationMethodSource": "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+		"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+		"anglesTrnsxSource": "public static float trnsx(float angle, float x, float y){",
+		"anglesTrnsySource": "public static float trnsy(float angle, float x, float y){",
+		"anglesAngleSource": "public static float angle(float x, float y, float x2, float y2){",
+		"positionAngleToSource": "default float angleTo(float x, float y){",
 	}
 
 func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:

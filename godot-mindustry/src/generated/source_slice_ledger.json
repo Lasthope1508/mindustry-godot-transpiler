@@ -16341,6 +16341,59 @@
         "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update auto-target shoot/aim wrapper against exact upstream source."
+    },
+    "N862": {
+      "exact_exprs": [
+        "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+        "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+        "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),",
+        "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);",
+        "protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){",
+        "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;"
+      ],
+      "bridge_exprs": [
+        "public boolean rotate = false;",
+        "public float baseRotation = 0f;",
+        "public float shootX = 0f, shootY = 3f;",
+        "public float rotation;",
+        "public float aimX, aimY;",
+        "public static float trnsx(float angle, float x, float y){",
+        "public static float trnsy(float angle, float x, float y){",
+        "public static float angle(float x, float y, float x2, float y2){",
+        "default float angleTo(float x, float y){"
+      ],
+      "deferred_exprs": [
+        "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){"
+      ],
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "source_symbols": [
+        "weapon_update_bullet_origin.weapon_rotation",
+        "weapon_update_bullet_origin.bullet_x",
+        "weapon_update_bullet_origin.bullet_y",
+        "weapon_update_bullet_origin.shoot_angle",
+        "weapon_update_bullet_origin.bullet_rotation_method",
+        "weapon_update_bullet_origin.bullet_rotation_return",
+        "weapon_update_bullet_origin.weapon_rotate",
+        "weapon_update_bullet_origin.weapon_base_rotation",
+        "weapon_update_bullet_origin.weapon_shoot_offsets",
+        "weapon_update_bullet_origin.weapon_mount_rotation",
+        "weapon_update_bullet_origin.weapon_mount_aim",
+        "weapon_update_bullet_origin.angles_trnsx_vec",
+        "weapon_update_bullet_origin.angles_trnsy_vec",
+        "weapon_update_bullet_origin.angles_angle",
+        "weapon_update_bullet_origin.position_angle_to_float"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update bullet origin wrapper against exact upstream source."
     }
   },
   "version": 1
