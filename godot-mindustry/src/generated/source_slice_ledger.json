@@ -18785,6 +18785,31 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N922": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator",
+      "java_method": "getDisplayedPowerProduction()",
+      "godot_owner": "PortGame.source_power_generator_displayed_power_production_state",
+      "runtime_proof": "/root/Main.source_power_generator_displayed_power_production_state",
+      "exact_exprs": [
+        "public float powerProduction;",
+        "public float getDisplayedPowerProduction(){",
+        "return powerProduction;",
+        "public float powerProduction(){",
+        "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);"
+      ],
+      "source_symbols": [
+        "power_generator_displayed_power_production.power_production",
+        "power_generator_displayed_power_production.return_power_production",
+        "power_generator_displayed_power_production.schematic_sum"
+      ],
+      "tests": [
+        "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_displayed_power_production_matches_upstream_source"
+      ]
     }
   },
   "version": 1

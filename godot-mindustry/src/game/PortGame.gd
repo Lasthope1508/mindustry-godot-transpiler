@@ -511,6 +511,18 @@ func source_power_generator_get_power_production_state(enabled: bool, power_prod
 		"computed_power_production": computed_power_production,
 	}
 
+func source_power_generator_displayed_power_production_state(power_production: float) -> Dictionary:
+	var displayed_power_production := power_production
+	return {
+		"field": "public float powerProduction;",
+		"method": "public float getDisplayedPowerProduction(){",
+		"return_power_production": "return powerProduction;",
+		"schematic_method": "public float powerProduction(){",
+		"schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);",
+		"power_production": power_production,
+		"displayed_power_production": displayed_power_production,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

@@ -182,6 +182,29 @@ def verify_power_generator_get_power_production_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    schematic_source = schematic_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "public float powerProduction;",
+        "method": "public float getDisplayedPowerProduction(){",
+        "return_power_production": "return powerProduction;",
+        "schematic_method": "public float powerProduction(){",
+        "schematic_sum": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);",
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in (schematic_source if key.startswith("schematic") else power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": ["core/src/mindustry/game/Schematic.java"],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

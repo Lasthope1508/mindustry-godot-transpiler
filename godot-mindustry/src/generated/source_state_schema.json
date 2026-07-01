@@ -78457,6 +78457,156 @@
           "java_expr": "super.onDestroyed() base building destruction body"
         }
       }
+    },
+    "source_power_generator_displayed_power_production_input": {
+      "owner": "PortGame.source_power_generator_displayed_power_production_state",
+      "status": "active",
+      "keys": {
+        "power_production": {
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "java_expr": "powerProduction",
+          "godot_symbol": "source_power_generator_displayed_power_production_input.power_production",
+          "rule": "source_power_generator_displayed_power_production_input key power_production.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "float",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        }
+      }
+    },
+    "source_power_generator_displayed_power_production_result": {
+      "owner": "PortGame.source_power_generator_displayed_power_production_state",
+      "status": "active",
+      "keys": {
+        "field": {
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "java_expr": "public float powerProduction;",
+          "godot_symbol": "source_power_generator_displayed_power_production_result.field",
+          "rule": "source_power_generator_displayed_power_production_result key field.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        },
+        "method": {
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "java_expr": "public float getDisplayedPowerProduction(){",
+          "godot_symbol": "source_power_generator_displayed_power_production_result.method",
+          "rule": "source_power_generator_displayed_power_production_result key method.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        },
+        "return_power_production": {
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "java_expr": "return powerProduction;",
+          "godot_symbol": "source_power_generator_displayed_power_production_result.return_power_production",
+          "rule": "source_power_generator_displayed_power_production_result key return_power_production.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        },
+        "power_production": {
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "java_expr": "powerProduction",
+          "godot_symbol": "source_power_generator_displayed_power_production_result.power_production",
+          "alias_of": "source_power_generator_displayed_power_production_input.power_production",
+          "rule": "source_power_generator_displayed_power_production_result key power_production.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "float",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        },
+        "displayed_power_production": {
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_method": "getDisplayedPowerProduction()",
+          "java_expr": "return powerProduction;",
+          "godot_symbol": "source_power_generator_displayed_power_production_result.displayed_power_production",
+          "alias_of": "source_power_generator_displayed_power_production_input.power_production",
+          "rule": "source_power_generator_displayed_power_production_result key displayed_power_production.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "float",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        },
+        "schematic_method": {
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematic.java",
+          "java_method": "powerProduction()",
+          "java_expr": "public float powerProduction(){",
+          "godot_symbol": "source_power_generator_displayed_power_production_result.schematic_method",
+          "rule": "source_power_generator_displayed_power_production_result key schematic_method.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        },
+        "schematic_sum_source": {
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Schematic.java",
+          "java_method": "powerProduction()",
+          "java_expr": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);",
+          "godot_symbol": "source_power_generator_displayed_power_production_result.schematic_sum_source",
+          "rule": "source_power_generator_displayed_power_production_result key schematic_sum_source.",
+          "tests": [
+            "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+            "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+            "test_power_generator_displayed_power_production_matches_upstream_source"
+          ],
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_generator_displayed_power_production_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

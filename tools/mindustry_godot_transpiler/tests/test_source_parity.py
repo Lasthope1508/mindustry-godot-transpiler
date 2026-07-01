@@ -170,6 +170,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_displayed_power_production_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_displayed_power_production_source"))
+        report = source_parity.verify_power_generator_displayed_power_production_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertIn("core/src/mindustry/game/Schematic.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "field": "public float powerProduction;",
+            "method": "public float getDisplayedPowerProduction(){",
+            "return_power_production": "return powerProduction;",
+            "schematic_method": "public float powerProduction(){",
+            "schematic_sum": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

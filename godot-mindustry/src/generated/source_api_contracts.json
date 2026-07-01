@@ -20926,6 +20926,35 @@
       "tests": [
         "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_displayed_power_production_state": {
+      "status": "active",
+      "source_slice": "N922",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "getDisplayedPowerProduction()",
+      "params": [
+        {
+          "name": "power_production",
+          "type": "float",
+          "schema": "source_power_generator_displayed_power_production_input.power_production"
+        }
+      ],
+      "return_keys": [
+        "field",
+        "method",
+        "return_power_production",
+        "power_production",
+        "displayed_power_production",
+        "schematic_method",
+        "schematic_sum_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_displayed_power_production_state",
+      "tests": [
+        "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_displayed_power_production_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for PowerGenerator.getDisplayedPowerProduction()."
     }
   },
   "policy": {
