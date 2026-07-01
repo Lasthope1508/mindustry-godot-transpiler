@@ -19040,6 +19040,36 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_after_picked_up_matches_upstream_source"
       ]
+    },
+    "N930": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator.ThermalGeneratorBuild",
+      "java_method": "onProximityAdded()",
+      "godot_owner": "PortGame.source_thermal_generator_on_proximity_added_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_on_proximity_added_state",
+      "exact_exprs": [
+        "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "public float sum;",
+        "@Override",
+        "public void onProximityAdded(){",
+        "super.onProximityAdded();",
+        "sum = sumAttribute(attribute, tile.x, tile.y);",
+        "Called after this building is created in the world. May be called multiple times, or when adjacent buildings change.",
+        "if(power != null){",
+        "updatePowerGraph();",
+        "public float sumAttribute(@Nullable Attribute attr, int x, int y){"
+      ],
+      "source_symbols": [
+        "thermal_generator_on_proximity_added.sum_attribute",
+        "thermal_generator_on_proximity_added.super_on_proximity_added_state",
+        "thermal_generator_on_proximity_added.sum"
+      ],
+      "tests": [
+        "test_thermal_generator_on_proximity_added_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_on_proximity_added_matches_upstream_source"
+      ]
     }
   },
   "version": 1

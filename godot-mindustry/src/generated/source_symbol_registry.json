@@ -66279,6 +66279,51 @@
         "test_thermal_generator_after_picked_up_matches_upstream_source"
       ],
       "rule": "Source-backed ThermalGeneratorBuild sum reset after pickup."
+    },
+    "thermal_generator_on_proximity_added.sum_attribute": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "onProximityAdded()",
+      "java_expr": "sumAttribute(attribute, tile.x, tile.y)",
+      "godot_owner": "PortGame.source_thermal_generator_on_proximity_added_state",
+      "godot_symbol": "source_thermal_generator_on_proximity_added_input.sum_attribute",
+      "runtime_proof": "/root/Main.source_thermal_generator_on_proximity_added_state",
+      "tests": [
+        "test_thermal_generator_on_proximity_added_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_on_proximity_added_matches_upstream_source"
+      ],
+      "rule": "Explicit scalar input for ThermalGeneratorBuild cached sumAttribute(attribute, tile.x, tile.y) value."
+    },
+    "thermal_generator_on_proximity_added.super_on_proximity_added_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "onProximityAdded()",
+      "java_expr": "super.onProximityAdded();",
+      "godot_owner": "PortGame.source_thermal_generator_on_proximity_added_state",
+      "godot_symbol": "source_thermal_generator_on_proximity_added_input.super_on_proximity_added_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_on_proximity_added_state",
+      "tests": [
+        "test_thermal_generator_on_proximity_added_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_on_proximity_added_matches_upstream_source"
+      ],
+      "rule": "Explicit parent state preserving BuildingComp.onProximityAdded before ThermalGeneratorBuild caches sum."
+    },
+    "thermal_generator_on_proximity_added.sum": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "onProximityAdded()",
+      "java_expr": "sum = sumAttribute(attribute, tile.x, tile.y);",
+      "godot_owner": "PortGame.source_thermal_generator_on_proximity_added_state",
+      "godot_symbol": "source_thermal_generator_on_proximity_added_result.sum",
+      "runtime_proof": "/root/Main.source_thermal_generator_on_proximity_added_state",
+      "tests": [
+        "test_thermal_generator_on_proximity_added_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_on_proximity_added_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGeneratorBuild sum cache assignment on proximity add."
     }
   },
   "version": 1

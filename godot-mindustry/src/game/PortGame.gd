@@ -672,6 +672,27 @@ func source_thermal_generator_after_picked_up_state(sum: float, super_after_pick
 		"sum": 0.0,
 	}
 
+func source_thermal_generator_on_proximity_added_state(sum_attribute: float, super_on_proximity_added_state: Dictionary) -> Dictionary:
+	var parent_state := super_on_proximity_added_state.duplicate(true)
+	return {
+		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+		"sum_field": "public float sum;",
+		"override": "@Override",
+		"method": "public void onProximityAdded(){",
+		"super_call": "super.onProximityAdded();",
+		"sum_assignment": "sum = sumAttribute(attribute, tile.x, tile.y);",
+		"parent_comment": "Called after this building is created in the world. May be called multiple times, or when adjacent buildings change.",
+		"parent_method": "public void onProximityAdded(){",
+		"parent_power_guard": "if(power != null){",
+		"parent_update_power_graph": "updatePowerGraph();",
+		"sum_attribute_method": "public float sumAttribute(@Nullable Attribute attr, int x, int y){",
+		"sum_attribute_null_attr": "if(attr == null) return 0;",
+		"sum_attribute_null_tile": "if(tile == null) return 0;",
+		"sum_attribute": sum_attribute,
+		"super_on_proximity_added_state": parent_state,
+		"sum": sum_attribute,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

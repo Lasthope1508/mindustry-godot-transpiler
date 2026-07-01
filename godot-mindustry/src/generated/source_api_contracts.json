@@ -21279,6 +21279,49 @@
         "test_thermal_generator_after_picked_up_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGeneratorBuild.afterPickedUp super call plus sum reset."
+    },
+    "PortGame.source_thermal_generator_on_proximity_added_state": {
+      "status": "active",
+      "source_slice": "N930",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "onProximityAdded()",
+      "params": [
+        {
+          "name": "sum_attribute",
+          "type": "float",
+          "schema": "source_thermal_generator_on_proximity_added_input.sum_attribute"
+        },
+        {
+          "name": "super_on_proximity_added_state",
+          "type": "Dictionary",
+          "schema": "source_thermal_generator_on_proximity_added_input.super_on_proximity_added_state"
+        }
+      ],
+      "return_keys": [
+        "build_class",
+        "sum_field",
+        "override",
+        "method",
+        "super_call",
+        "sum_assignment",
+        "parent_comment",
+        "parent_method",
+        "parent_power_guard",
+        "parent_update_power_graph",
+        "sum_attribute_method",
+        "sum_attribute_null_attr",
+        "sum_attribute_null_tile",
+        "sum_attribute",
+        "super_on_proximity_added_state",
+        "sum"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_on_proximity_added_state",
+      "tests": [
+        "test_thermal_generator_on_proximity_added_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_on_proximity_added_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGeneratorBuild.onProximityAdded parent call plus sumAttribute cache."
     }
   },
   "policy": {

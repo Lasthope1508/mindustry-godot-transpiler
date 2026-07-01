@@ -436,6 +436,48 @@ def verify_thermal_generator_after_picked_up_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_thermal_generator_on_proximity_added_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    block_source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "sum_field": "public float sum;",
+        "override": "@Override",
+        "method": "public void onProximityAdded(){",
+        "super_call": "super.onProximityAdded();",
+        "sum_assignment": "sum = sumAttribute(attribute, tile.x, tile.y);",
+        "parent_comment": "Called after this building is created in the world. May be called multiple times, or when adjacent buildings change.",
+        "parent_method": "public void onProximityAdded(){",
+        "parent_power_guard": "if(power != null){",
+        "parent_update_power_graph": "updatePowerGraph();",
+        "sum_attribute_method": "public float sumAttribute(@Nullable Attribute attr, int x, int y){",
+        "sum_attribute_null_attr": "if(attr == null) return 0;",
+        "sum_attribute_null_tile": "if(tile == null) return 0;",
+    }
+    sources_by_key = {
+        "parent_comment": building_comp_source,
+        "parent_method": building_comp_source,
+        "parent_power_guard": building_comp_source,
+        "parent_update_power_graph": building_comp_source,
+        "sum_attribute_method": block_source,
+        "sum_attribute_null_attr": block_source,
+        "sum_attribute_null_tile": block_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [BUILDING_COMP_SOURCE, BLOCK_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

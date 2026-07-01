@@ -332,6 +332,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_on_proximity_added_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_on_proximity_added_source"))
+        report = source_parity.verify_thermal_generator_on_proximity_added_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+            "sum_field": "public float sum;",
+            "override": "@Override",
+            "method": "public void onProximityAdded(){",
+            "super_call": "super.onProximityAdded();",
+            "sum_assignment": "sum = sumAttribute(attribute, tile.x, tile.y);",
+            "parent_comment": "Called after this building is created in the world. May be called multiple times, or when adjacent buildings change.",
+            "parent_method": "public void onProximityAdded(){",
+            "parent_power_guard": "if(power != null){",
+            "parent_update_power_graph": "updatePowerGraph();",
+            "sum_attribute_method": "public float sumAttribute(@Nullable Attribute attr, int x, int y){",
+            "sum_attribute_null_attr": "if(attr == null) return 0;",
+            "sum_attribute_null_tile": "if(tile == null) return 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

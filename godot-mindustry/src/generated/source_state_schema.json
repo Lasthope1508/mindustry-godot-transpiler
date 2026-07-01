@@ -80114,6 +80114,80 @@
           "java_expr": "sum = 0f;"
         }
       }
+    },
+    "source_thermal_generator_on_proximity_added_input": {
+      "owner": "PortGame.source_thermal_generator_on_proximity_added_state",
+      "status": "active",
+      "keys": {
+        "sum_attribute": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_on_proximity_added_input key sum_attribute.",
+          "used_by": [
+            "PortGame.source_thermal_generator_on_proximity_added_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "onProximityAdded()",
+          "godot_symbol": "source_thermal_generator_on_proximity_added_input.sum_attribute",
+          "java_expr": "sumAttribute(attribute, tile.x, tile.y)"
+        },
+        "super_on_proximity_added_state": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_on_proximity_added_input key super_on_proximity_added_state.",
+          "used_by": [
+            "PortGame.source_thermal_generator_on_proximity_added_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "onProximityAdded()",
+          "godot_symbol": "source_thermal_generator_on_proximity_added_input.super_on_proximity_added_state",
+          "java_expr": "super.onProximityAdded();",
+          "alias_of": "source_building_on_proximity_added_result"
+        }
+      }
+    },
+    "source_thermal_generator_on_proximity_added_result": {
+      "owner": "PortGame.source_thermal_generator_on_proximity_added_state",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_on_proximity_added_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_on_proximity_added_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "onProximityAdded()",
+          "godot_symbol": "source_thermal_generator_on_proximity_added_result.method",
+          "java_expr": "public void onProximityAdded(){"
+        },
+        "super_call": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_on_proximity_added_result key super_call.",
+          "used_by": [
+            "PortGame.source_thermal_generator_on_proximity_added_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "onProximityAdded()",
+          "godot_symbol": "source_thermal_generator_on_proximity_added_result.super_call",
+          "java_expr": "super.onProximityAdded();"
+        },
+        "sum": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_on_proximity_added_result key sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_on_proximity_added_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "onProximityAdded()",
+          "godot_symbol": "source_thermal_generator_on_proximity_added_result.sum",
+          "java_expr": "sum = sumAttribute(attribute, tile.x, tile.y);",
+          "alias_of": "source_thermal_generator_on_proximity_added_input.sum_attribute"
+        }
+      }
     }
   },
   "version": 1
