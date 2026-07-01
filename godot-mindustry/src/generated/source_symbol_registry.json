@@ -63800,6 +63800,126 @@
         "test_power_graph_get_id_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.getId() graphID return."
+    },
+    "power_graph_to_string.override": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_result.override",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.toString() override annotation."
+    },
+    "power_graph_to_string.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "public String toString(){",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_result.method",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.toString() method declaration."
+    },
+    "power_graph_to_string.producers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "producers",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_input.producers",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Explicit Java Seq string for PowerGraph.producers."
+    },
+    "power_graph_to_string.consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "consumers",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_input.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Explicit Java Seq string for PowerGraph.consumers."
+    },
+    "power_graph_to_string.batteries": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "batteries",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_input.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Explicit Java Seq string for PowerGraph.batteries."
+    },
+    "power_graph_to_string.all": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "all",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_input.all",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Explicit Java Seq string for PowerGraph.all."
+    },
+    "power_graph_to_string.graph_id": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "graphID",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_input.graph_id",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Explicit runtime graphID field for PowerGraph.toString()."
+    },
+    "power_graph_to_string.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "java_expr": "return \"PowerGraph{\" +",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "godot_symbol": "source_power_graph_to_string_result.to_string",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.toString() return expression prefix and composition."
     }
   },
   "version": 1

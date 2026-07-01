@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 504,
+  "registeredSourceOwnerCount": 505,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -363,6 +363,7 @@
     "PortGame.source_power_graph_remove_branch_update_state",
     "PortGame.source_power_graph_remove_empty_entity_state",
     "PortGame.source_power_graph_remove_list_state",
+    "PortGame.source_power_graph_to_string_state",
     "PortGame.source_power_graph_update_balance_state",
     "PortGame.source_power_graph_update_battery_distribute_state",
     "PortGame.source_power_graph_update_cheat_state",
@@ -710,6 +711,11 @@
       "function": "source_power_graph_get_id_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_power_graph_get_id_state"
+    },
+    {
+      "function": "source_power_graph_to_string_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_power_graph_to_string_state"
     },
     {
       "function": "source_consume_power_requested_power_state",
@@ -3067,6 +3073,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 509,
+  "totalSourceFunctions": 510,
   "version": 1
 }

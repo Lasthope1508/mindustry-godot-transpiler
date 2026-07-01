@@ -18243,6 +18243,41 @@
         "test_power_graph_get_id_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.getId() graphID return."
+    },
+    "N908": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "toString()",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "exact_exprs": [
+        "@Override",
+        "public String toString(){",
+        "return \"PowerGraph{\" +",
+        "\"producers=\" + producers +",
+        "\", consumers=\" + consumers +",
+        "\", batteries=\" + batteries +",
+        "\", all=\" + all +",
+        "\", graphID=\" + graphID +",
+        "'}';"
+      ],
+      "source_symbols": [
+        "power_graph_to_string.override",
+        "power_graph_to_string.method",
+        "power_graph_to_string.producers",
+        "power_graph_to_string.consumers",
+        "power_graph_to_string.batteries",
+        "power_graph_to_string.all",
+        "power_graph_to_string.graph_id",
+        "power_graph_to_string.return"
+      ],
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.toString() string composition with Java Seq-formatted inputs."
     }
   },
   "version": 1

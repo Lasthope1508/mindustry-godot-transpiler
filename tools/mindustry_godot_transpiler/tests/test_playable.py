@@ -355,6 +355,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_graph_id": "return graphID;"', source)
         self.assertIn('"graph_id": graph_id', source)
 
+    def test_port_game_exposes_source_power_graph_to_string_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_to_string_state(producers: String, consumers: String, batteries: String, all: String, graph_id: int) -> String:", source)
+        self.assertIn('"PowerGraph{producers=" + producers', source)
+        self.assertIn('", consumers=" + consumers', source)
+        self.assertIn('", batteries=" + batteries', source)
+        self.assertIn('", all=" + all', source)
+        self.assertIn('", graphID=" + str(graph_id)', source)
+        self.assertIn('+ "}"', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

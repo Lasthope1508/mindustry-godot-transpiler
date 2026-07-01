@@ -76594,6 +76594,170 @@
           "godot_symbol": "source_power_graph_get_id_result.graph_id"
         }
       }
+    },
+    "source_power_graph_to_string_input": {
+      "keys": {
+        "producers": {
+          "type": "String",
+          "status": "explicit-input",
+          "rule": "source_power_graph_to_string_input key producers.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_input.producers",
+          "java_expr": "producers"
+        },
+        "consumers": {
+          "type": "String",
+          "status": "explicit-input",
+          "rule": "source_power_graph_to_string_input key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_input.consumers",
+          "java_expr": "consumers"
+        },
+        "batteries": {
+          "type": "String",
+          "status": "explicit-input",
+          "rule": "source_power_graph_to_string_input key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_input.batteries",
+          "java_expr": "batteries"
+        },
+        "all": {
+          "type": "String",
+          "status": "explicit-input",
+          "rule": "source_power_graph_to_string_input key all.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_input.all",
+          "java_expr": "all"
+        },
+        "graph_id": {
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "source_power_graph_to_string_input key graph_id.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_input.graph_id",
+          "java_expr": "graphID"
+        }
+      }
+    },
+    "source_power_graph_to_string_result": {
+      "keys": {
+        "override": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key override.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.override",
+          "java_expr": "@Override"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.method",
+          "java_expr": "public String toString(){"
+        },
+        "to_string": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key to_string.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.to_string",
+          "java_expr": "return \"PowerGraph{\" +"
+        },
+        "producers": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key producers.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.producers",
+          "alias_of": "source_power_graph_to_string_input.producers"
+        },
+        "consumers": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.consumers",
+          "alias_of": "source_power_graph_to_string_input.consumers"
+        },
+        "batteries": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.batteries",
+          "alias_of": "source_power_graph_to_string_input.batteries"
+        },
+        "all": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key all.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.all",
+          "alias_of": "source_power_graph_to_string_input.all"
+        },
+        "graph_id": {
+          "type": "int",
+          "status": "source-backed",
+          "rule": "source_power_graph_to_string_result key graph_id.",
+          "used_by": [
+            "PortGame.source_power_graph_to_string_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "toString()",
+          "godot_symbol": "source_power_graph_to_string_result.graph_id",
+          "alias_of": "source_power_graph_to_string_input.graph_id"
+        }
+      }
     }
   },
   "version": 1

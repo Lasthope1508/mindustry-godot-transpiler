@@ -20242,6 +20242,49 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_get_id_state",
       "rule": "Public runtime contract for PowerGraph.getId() returning graphID."
+    },
+    "PortGame.source_power_graph_to_string_state": {
+      "status": "active",
+      "source_slice": "N908",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "toString()",
+      "params": [
+        {
+          "name": "producers",
+          "type": "String",
+          "schema": "source_power_graph_to_string_input.producers"
+        },
+        {
+          "name": "consumers",
+          "type": "String",
+          "schema": "source_power_graph_to_string_input.consumers"
+        },
+        {
+          "name": "batteries",
+          "type": "String",
+          "schema": "source_power_graph_to_string_input.batteries"
+        },
+        {
+          "name": "all",
+          "type": "String",
+          "schema": "source_power_graph_to_string_input.all"
+        },
+        {
+          "name": "graph_id",
+          "type": "int",
+          "schema": "source_power_graph_to_string_input.graph_id"
+        }
+      ],
+      "return_keys": [
+        "to_string"
+      ],
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state",
+      "rule": "Public runtime contract for PowerGraph.toString() with Java Seq-formatted string inputs."
     }
   },
   "policy": {
