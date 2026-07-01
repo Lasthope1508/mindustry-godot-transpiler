@@ -17569,6 +17569,54 @@
         "test_power_graph_add_roles_match_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.add role classification helper and placed-block role counts without simulating balance/distribution yet."
+    },
+    "N889": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "getPowerNeeded()",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "exact_exprs": [
+        "public float getPowerNeeded(){",
+        "float powerNeeded = 0f;",
+        "var items = consumers.items;",
+        "for(int i = 0; i < consumers.size; i++){",
+        "var consumer = items[i];",
+        "var consumePower = consumer.block.consPower;",
+        "if(consumer.shouldConsumePower){",
+        "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+        "return powerNeeded;",
+        "public float requestedPower(Building entity){",
+        "(1f - entity.power.status) * capacity",
+        "usage * (entity.shouldConsume() ? 1f : 0f)",
+        "return enabled;",
+        "return Time.delta * timeScale;"
+      ],
+      "source_symbols": [
+        "consume_power_requested_power.buffered",
+        "consume_power_requested_power.unbuffered",
+        "consume_power_requested_power.buffered_input",
+        "consume_power_requested_power.usage_input",
+        "consume_power_requested_power.capacity_input",
+        "consume_power_requested_power.power_status_input",
+        "consume_power_requested_power.should_consume_input",
+        "power_graph_power_needed.consumers",
+        "power_graph_power_needed.initial",
+        "power_graph_power_needed.loop",
+        "power_graph_power_needed.consume_power",
+        "power_graph_power_needed.should_consume_power",
+        "power_graph_power_needed.requested_power",
+        "power_graph_power_needed.delta",
+        "power_graph_power_needed.add",
+        "power_graph_power_needed.return"
+      ],
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed ConsumePower.requestedPower and PowerGraph.getPowerNeeded aggregate state without distribution/battery simulation yet."
     }
   },
   "version": 1

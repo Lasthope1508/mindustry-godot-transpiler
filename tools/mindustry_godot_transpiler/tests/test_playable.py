@@ -113,6 +113,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func placed_power_graph_role_counts() -> Dictionary:", source)
         self.assertIn('"placed_power_graph_roles": placed_power_graph_role_counts()', source)
 
+    def test_port_game_exposes_source_power_graph_power_needed_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:", source)
+        self.assertIn('"buffered_expr": "(1f - entity.power.status) * capacity"', source)
+        self.assertIn('"unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"', source)
+        self.assertIn("func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public float getPowerNeeded(){"', source)
+        self.assertIn('"add_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();"', source)
+        self.assertIn('if bool(consumer.get("shouldConsumePower", false)):', source)
+        self.assertIn('"placed_power_needed": placed_power_needed_state()', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

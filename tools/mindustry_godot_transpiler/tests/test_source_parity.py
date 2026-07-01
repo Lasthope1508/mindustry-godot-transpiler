@@ -176,6 +176,31 @@ class SourceParityTests(unittest.TestCase):
             "consumer_branch": "}else if(build.block.consumesPower && build.block.consPower != null){",
         })
 
+    def test_power_graph_power_needed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_power_needed_source"))
+        report = source_parity.verify_power_graph_power_needed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertIn("core/src/mindustry/world/consumers/ConsumePower.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "power_needed_method": "public float getPowerNeeded(){",
+            "power_needed_initial": "float powerNeeded = 0f;",
+            "power_needed_items": "var items = consumers.items;",
+            "power_needed_loop": "for(int i = 0; i < consumers.size; i++){",
+            "power_needed_consumer": "var consumer = items[i];",
+            "power_needed_consume_power": "var consumePower = consumer.block.consPower;",
+            "power_needed_guard": "if(consumer.shouldConsumePower){",
+            "power_needed_add": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+            "power_needed_return": "return powerNeeded;",
+            "requested_power_method": "public float requestedPower(Building entity){",
+            "requested_power_buffered": "(1f - entity.power.status) * capacity",
+            "requested_power_unbuffered": "usage * (entity.shouldConsume() ? 1f : 0f)",
+            "should_consume_default": "return enabled;",
+            "delta_return": "return Time.delta * timeScale;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

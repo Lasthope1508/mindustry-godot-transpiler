@@ -61280,6 +61280,246 @@
         "test_port_game_exposes_source_power_graph_add_role_state_for_mcp",
         "test_power_graph_add_roles_match_upstream_source"
       ]
+    },
+    "consume_power_requested_power.buffered": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "requestedPower(Building entity)",
+      "java_expr": "(1f - entity.power.status) * capacity",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "godot_symbol": "source_consume_power_requested_power_result.requested_power",
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "consume_power_requested_power.unbuffered": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "requestedPower(Building entity)",
+      "java_expr": "usage * (entity.shouldConsume() ? 1f : 0f)",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "godot_symbol": "source_consume_power_requested_power_result.requested_power",
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "consume_power_requested_power.buffered_input": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "requestedPower(Building entity)",
+      "java_expr": "buffered",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "godot_symbol": "source_consume_power_requested_power_input.buffered",
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "consume_power_requested_power.usage_input": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "requestedPower(Building entity)",
+      "java_expr": "usage",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "godot_symbol": "source_consume_power_requested_power_input.usage",
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "consume_power_requested_power.capacity_input": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "requestedPower(Building entity)",
+      "java_expr": "capacity",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "godot_symbol": "source_consume_power_requested_power_input.capacity",
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "consume_power_requested_power.power_status_input": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "requestedPower(Building entity)",
+      "java_expr": "entity.power.status",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "godot_symbol": "source_consume_power_requested_power_input.power_status",
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "consume_power_requested_power.should_consume_input": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "shouldConsume()",
+      "java_expr": "entity.shouldConsume()",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "godot_symbol": "source_consume_power_requested_power_input.should_consume",
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "consumers.items",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_input.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.initial": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "float powerNeeded = 0f;",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_result.initial",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "for(int i = 0; i < consumers.size; i++){",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_result.loop",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.consume_power": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "var consumePower = consumer.block.consPower;",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_consumer.consumePower",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.should_consume_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "consumer.shouldConsumePower",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_consumer.shouldConsumePower",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.requested_power": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "consumePower.requestedPower(consumer)",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_consumer.requestedPower",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.delta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "consumer.delta()",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_consumer.delta",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_result.power_needed",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_needed.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "java_expr": "return powerNeeded;",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "godot_symbol": "source_power_graph_power_needed_result.power_needed",
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
     }
   },
   "version": 1

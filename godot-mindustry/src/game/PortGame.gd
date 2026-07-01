@@ -932,6 +932,56 @@ func source_power_graph_add_role_state(build_present: bool, power_present: bool,
 			result["add_consumer"] = true
 	return result
 
+func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
+	var requested_power := 0.0
+	if buffered:
+		requested_power = (1.0 - power_status) * capacity
+	else:
+		requested_power = usage * (1.0 if should_consume else 0.0)
+	return {
+		"method": "public float requestedPower(Building entity){",
+		"buffered": buffered,
+		"usage": usage,
+		"capacity": capacity,
+		"power_status": power_status,
+		"should_consume": should_consume,
+		"requested_power": requested_power,
+		"buffered_expr": "(1f - entity.power.status) * capacity",
+		"unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)",
+	}
+
+func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:
+	var power_needed := 0.0
+	var counted_consumers := 0
+	var active_consumers := 0
+	for consumer in consumers:
+		if typeof(consumer) != TYPE_DICTIONARY:
+			continue
+		counted_consumers += 1
+		if bool(consumer.get("shouldConsumePower", false)):
+			var requested_state := source_consume_power_requested_power_state(
+				bool(consumer.get("buffered", false)),
+				float(consumer.get("usage", 0.0)),
+				float(consumer.get("capacity", 0.0)),
+				float(consumer.get("power_status", 0.0)),
+				bool(consumer.get("should_consume", false))
+			)
+			power_needed += float(requested_state.get("requested_power", 0.0)) * float(consumer.get("delta", 0.0))
+			active_consumers += 1
+	return {
+		"method": "public float getPowerNeeded(){",
+		"initial": "float powerNeeded = 0f;",
+		"items": "var items = consumers.items;",
+		"loop": "for(int i = 0; i < consumers.size; i++){",
+		"consume_power": "var consumePower = consumer.block.consPower;",
+		"guard": "if(consumer.shouldConsumePower){",
+		"add_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+		"return_expr": "return powerNeeded;",
+		"power_needed": power_needed,
+		"consumer_count": counted_consumers,
+		"active_consumer_count": active_consumers,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)
@@ -964,6 +1014,26 @@ func placed_power_graph_role_counts() -> Dictionary:
 		if bool(role_state.get("add_battery", false)):
 			counts["batteries"] += 1
 	return counts
+
+func placed_power_needed_state() -> Dictionary:
+	var consumers: Array = []
+	for key in placed_block_origins.keys():
+		var block = block_from_sprite(placed_block_origins.get(key))
+		if block == null:
+			continue
+		var role_state := power_graph_role_for_block(block)
+		if not bool(role_state.get("add_consumer", false)):
+			continue
+		consumers.append({
+			"shouldConsumePower": true,
+			"buffered": bool(block.properties.get("powerBuffered", false)),
+			"usage": float(block.properties.get("powerUsage", 0.0)),
+			"capacity": float(block.properties.get("powerCapacity", 0.0)),
+			"power_status": 0.0,
+			"should_consume": true,
+			"delta": SOURCE_TICK_RATE,
+		})
+	return source_power_graph_power_needed_state(consumers)
 
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
@@ -11497,6 +11567,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_block_count": placed_block_origins.size(),
 		"occupied_cell_count": placed_blocks.size(),
 		"placed_power_graph_roles": placed_power_graph_role_counts(),
+		"placed_power_needed": placed_power_needed_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y},

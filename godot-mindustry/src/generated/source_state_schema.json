@@ -73017,6 +73017,407 @@
           "type": "bool"
         }
       }
+    },
+    "source_consume_power_requested_power_input": {
+      "keys": {
+        "buffered": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_input key buffered.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "buffered",
+          "godot_symbol": "source_consume_power_requested_power_input.buffered"
+        },
+        "usage": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_input key usage.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "usage",
+          "godot_symbol": "source_consume_power_requested_power_input.usage"
+        },
+        "capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_input key capacity.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "capacity",
+          "godot_symbol": "source_consume_power_requested_power_input.capacity"
+        },
+        "power_status": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_input key power_status.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "entity.power.status",
+          "godot_symbol": "source_consume_power_requested_power_input.power_status"
+        },
+        "should_consume": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_input key should_consume.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "entity.shouldConsume()",
+          "godot_symbol": "source_consume_power_requested_power_input.should_consume"
+        }
+      }
+    },
+    "source_consume_power_requested_power_result": {
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_consume_power_requested_power_result key method.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "public float requestedPower(Building entity){",
+          "godot_symbol": "source_consume_power_requested_power_result.method"
+        },
+        "buffered": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_result key buffered.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "alias_of": "source_consume_power_requested_power_input.buffered"
+        },
+        "usage": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_result key usage.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "alias_of": "source_consume_power_requested_power_input.usage"
+        },
+        "capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_result key capacity.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "alias_of": "source_consume_power_requested_power_input.capacity"
+        },
+        "power_status": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_result key power_status.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "alias_of": "source_consume_power_requested_power_input.power_status"
+        },
+        "should_consume": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_consume_power_requested_power_result key should_consume.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "alias_of": "source_consume_power_requested_power_input.should_consume"
+        },
+        "requested_power": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_consume_power_requested_power_result key requested_power.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "return buffered ? (1f - entity.power.status) * capacity : usage * (entity.shouldConsume() ? 1f : 0f);",
+          "godot_symbol": "source_consume_power_requested_power_result.requested_power"
+        },
+        "buffered_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_consume_power_requested_power_result key buffered_expr.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "(1f - entity.power.status) * capacity",
+          "godot_symbol": "source_consume_power_requested_power_result.buffered_expr"
+        },
+        "unbuffered_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_consume_power_requested_power_result key unbuffered_expr.",
+          "used_by": [
+            "PortGame.source_consume_power_requested_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "java_method": "requestedPower(Building entity)",
+          "java_expr": "usage * (entity.shouldConsume() ? 1f : 0f)",
+          "godot_symbol": "source_consume_power_requested_power_result.unbuffered_expr"
+        }
+      }
+    },
+    "source_power_graph_power_needed_input": {
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_input key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumers.items",
+          "godot_symbol": "source_power_graph_power_needed_input.consumers"
+        }
+      }
+    },
+    "source_power_graph_power_needed_consumer": {
+      "keys": {
+        "shouldConsumePower": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_consumer key shouldConsumePower.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumer.shouldConsumePower",
+          "godot_symbol": "source_power_graph_power_needed_consumer.shouldConsumePower"
+        },
+        "buffered": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_consumer key buffered.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumePower.buffered",
+          "godot_symbol": "source_power_graph_power_needed_consumer.buffered"
+        },
+        "usage": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_consumer key usage.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumePower.usage",
+          "godot_symbol": "source_power_graph_power_needed_consumer.usage"
+        },
+        "capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_consumer key capacity.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumePower.capacity",
+          "godot_symbol": "source_power_graph_power_needed_consumer.capacity"
+        },
+        "power_status": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_consumer key power_status.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumer.power.status",
+          "godot_symbol": "source_power_graph_power_needed_consumer.power_status"
+        },
+        "should_consume": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_consumer key should_consume.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumer.shouldConsume()",
+          "godot_symbol": "source_power_graph_power_needed_consumer.should_consume"
+        },
+        "delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_needed_consumer key delta.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumer.delta()",
+          "godot_symbol": "source_power_graph_power_needed_consumer.delta"
+        }
+      }
+    },
+    "source_power_graph_power_needed_result": {
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "public float getPowerNeeded(){",
+          "godot_symbol": "source_power_graph_power_needed_result.method"
+        },
+        "initial": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key initial.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "float powerNeeded = 0f;",
+          "godot_symbol": "source_power_graph_power_needed_result.initial"
+        },
+        "items": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key items.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "var items = consumers.items;",
+          "godot_symbol": "source_power_graph_power_needed_result.items"
+        },
+        "loop": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key loop.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "for(int i = 0; i < consumers.size; i++){",
+          "godot_symbol": "source_power_graph_power_needed_result.loop"
+        },
+        "consume_power": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key consume_power.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "var consumePower = consumer.block.consPower;",
+          "godot_symbol": "source_power_graph_power_needed_result.consume_power"
+        },
+        "guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key guard.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "if(consumer.shouldConsumePower){",
+          "godot_symbol": "source_power_graph_power_needed_result.guard"
+        },
+        "add_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key add_expr.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+          "godot_symbol": "source_power_graph_power_needed_result.add_expr"
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key return_expr.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "return powerNeeded;",
+          "godot_symbol": "source_power_graph_power_needed_result.return_expr"
+        },
+        "power_needed": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key power_needed.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+          "godot_symbol": "source_power_graph_power_needed_result.power_needed"
+        },
+        "consumer_count": {
+          "type": "int",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key consumer_count.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "consumers.size",
+          "godot_symbol": "source_power_graph_power_needed_result.consumer_count"
+        },
+        "active_consumer_count": {
+          "type": "int",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_needed_result key active_consumer_count.",
+          "used_by": [
+            "PortGame.source_power_graph_power_needed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerNeeded()",
+          "java_expr": "if(consumer.shouldConsumePower){",
+          "godot_symbol": "source_power_graph_power_needed_result.active_consumer_count"
+        }
+      }
     }
   },
   "version": 1

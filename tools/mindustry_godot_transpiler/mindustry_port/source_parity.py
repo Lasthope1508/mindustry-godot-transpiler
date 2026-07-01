@@ -188,6 +188,53 @@ def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_power_graph_power_needed_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    consume_power_path = Path(upstream_root) / CONSUME_POWER_SOURCE
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    consume_power_source = consume_power_path.read_text(encoding="utf-8", errors="replace")
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "power_needed_method": "public float getPowerNeeded(){",
+        "power_needed_initial": "float powerNeeded = 0f;",
+        "power_needed_items": "var items = consumers.items;",
+        "power_needed_loop": "for(int i = 0; i < consumers.size; i++){",
+        "power_needed_consumer": "var consumer = items[i];",
+        "power_needed_consume_power": "var consumePower = consumer.block.consPower;",
+        "power_needed_guard": "if(consumer.shouldConsumePower){",
+        "power_needed_add": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
+        "power_needed_return": "return powerNeeded;",
+        "requested_power_method": "public float requestedPower(Building entity){",
+        "requested_power_buffered": "(1f - entity.power.status) * capacity",
+        "requested_power_unbuffered": "usage * (entity.shouldConsume() ? 1f : 0f)",
+        "should_consume_default": "return enabled;",
+        "delta_return": "return Time.delta * timeScale;",
+    }
+    source_by_key = {
+        "power_needed_method": power_graph_source,
+        "power_needed_initial": power_graph_source,
+        "power_needed_items": power_graph_source,
+        "power_needed_loop": power_graph_source,
+        "power_needed_consumer": power_graph_source,
+        "power_needed_consume_power": power_graph_source,
+        "power_needed_guard": power_graph_source,
+        "power_needed_add": power_graph_source,
+        "power_needed_return": power_graph_source,
+        "requested_power_method": consume_power_source,
+        "requested_power_buffered": consume_power_source,
+        "requested_power_unbuffered": consume_power_source,
+        "should_consume_default": building_source,
+        "delta_return": building_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "sources": [CONSUME_POWER_SOURCE, BUILDING_COMP_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

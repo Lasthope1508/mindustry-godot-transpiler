@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 484,
+  "registeredSourceOwnerCount": 486,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -296,6 +296,7 @@
     "PortGame.source_bullet_velocity",
     "PortGame.source_bullet_velocity_vector_state",
     "PortGame.source_bullet_world_speed",
+    "PortGame.source_consume_power_requested_power_state",
     "PortGame.source_conveyor_path_progress_delta",
     "PortGame.source_conveyor_path_progress_delta_for_cell",
     "PortGame.source_conveyor_path_progress_rate",
@@ -347,6 +348,7 @@
     "PortGame.source_overdrive_projector_target_filter_state",
     "PortGame.source_payload_forward_offset",
     "PortGame.source_power_graph_add_role_state",
+    "PortGame.source_power_graph_power_needed_state",
     "PortGame.source_shoot_pattern_default_events",
     "PortGame.source_status_apply_result",
     "PortGame.source_turret_ammo_data",
@@ -640,6 +642,16 @@
       "function": "source_power_graph_add_role_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_power_graph_add_role_state"
+    },
+    {
+      "function": "source_consume_power_requested_power_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_consume_power_requested_power_state"
+    },
+    {
+      "function": "source_power_graph_power_needed_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_power_graph_power_needed_state"
     },
     {
       "function": "source_block_health_at_cell",
@@ -2947,6 +2959,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 489,
+  "totalSourceFunctions": 491,
   "version": 1
 }

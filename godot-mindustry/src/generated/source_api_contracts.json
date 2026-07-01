@@ -19337,6 +19337,90 @@
         "test_port_game_exposes_source_power_graph_add_role_state_for_mcp",
         "test_power_graph_add_roles_match_upstream_source"
       ]
+    },
+    "PortGame.source_consume_power_requested_power_state": {
+      "status": "active",
+      "source_slice": "N889",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "source_method": "requestedPower(Building entity)",
+      "params": [
+        {
+          "name": "buffered",
+          "type": "bool",
+          "schema": "source_consume_power_requested_power_input.buffered"
+        },
+        {
+          "name": "usage",
+          "type": "float",
+          "schema": "source_consume_power_requested_power_input.usage"
+        },
+        {
+          "name": "capacity",
+          "type": "float",
+          "schema": "source_consume_power_requested_power_input.capacity"
+        },
+        {
+          "name": "power_status",
+          "type": "float",
+          "schema": "source_consume_power_requested_power_input.power_status"
+        },
+        {
+          "name": "should_consume",
+          "type": "bool",
+          "schema": "source_consume_power_requested_power_input.should_consume"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "buffered",
+        "usage",
+        "capacity",
+        "power_status",
+        "should_consume",
+        "requested_power",
+        "buffered_expr",
+        "unbuffered_expr"
+      ],
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "rule": "Public runtime contract for ConsumePower.requestedPower(Building) and PowerGraph.getPowerNeeded() aggregate state with explicit consumer inputs."
+    },
+    "PortGame.source_power_graph_power_needed_state": {
+      "status": "active",
+      "source_slice": "N889",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "getPowerNeeded()",
+      "params": [
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_power_graph_power_needed_input.consumers"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "initial",
+        "items",
+        "loop",
+        "consume_power",
+        "guard",
+        "add_expr",
+        "return_expr",
+        "power_needed",
+        "consumer_count",
+        "active_consumer_count"
+      ],
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
+      "rule": "Public runtime contract for ConsumePower.requestedPower(Building) and PowerGraph.getPowerNeeded() aggregate state with explicit consumer inputs."
     }
   },
   "policy": {
