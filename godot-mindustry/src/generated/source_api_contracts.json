@@ -17513,6 +17513,64 @@
         "test_port_game_exposes_source_weapon_bullet_sound_state",
         "test_weapon_bullet_sound_branch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_handle_bullet_aim_update_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "continuous",
+        "continuousGate",
+        "bulletAimUpdated",
+        "bulletAimX",
+        "bulletAimY",
+        "aimUpdateSkippedSource",
+        "weaponRotation",
+        "mountX",
+        "mountY",
+        "bulletX",
+        "bulletY",
+        "bulletRotation",
+        "aimLength",
+        "previousBulletAimX",
+        "previousBulletAimY",
+        "aimUpdateSource",
+        "bulletAimXSource",
+        "bulletAimYSource",
+        "bulletRotationSource",
+        "vec2TrnsSource",
+        "vec2AddSource"
+      ],
+      "rule": "Public runtime contract for Weapon.handleBullet continuous aim update.",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "source_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "source_slice": "N851",
+      "status": "active",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ]
     }
   },
   "policy": {

@@ -54798,6 +54798,96 @@
       "godot_symbol": "source_weapon_bullet_sound_result.effectsReservedSource",
       "status": "deferred",
       "rule": "Following effects branch remains owned by source_weapon_bullet_effects_state."
+    },
+    "weapon_handle_bullet_aim_update.trns_add": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+      "godot_symbol": "source_weapon_handle_bullet_aim_update_result.aimUpdateSource",
+      "status": "source-backed",
+      "rule": "Source handleBullet continuous aim vector transform and add dispatch."
+    },
+    "weapon_handle_bullet_aim_update.aim_x_assignment": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "bullet.aimX = Tmp.v1.x;",
+      "godot_symbol": "source_weapon_handle_bullet_aim_update_result.bulletAimX",
+      "status": "source-backed",
+      "rule": "Writes computed Tmp.v1 x coordinate to bullet aimX."
+    },
+    "weapon_handle_bullet_aim_update.aim_y_assignment": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "bullet.aimY = Tmp.v1.y;",
+      "godot_symbol": "source_weapon_handle_bullet_aim_update_result.bulletAimY",
+      "status": "source-backed",
+      "rule": "Writes computed Tmp.v1 y coordinate to bullet aimY."
+    },
+    "weapon_handle_bullet_aim_update.bullet_rotation": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+      "godot_symbol": "source_weapon_handle_bullet_aim_update_result.bulletRotation",
+      "status": "source-backed",
+      "rule": "Uses exact Weapon.bulletRotation(...) source branch for aim vector angle."
+    },
+    "weapon_handle_bullet_aim_update.vec2_trns": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "return set(amount, 0).rotate(angle);",
+      "godot_symbol": "source_weapon_handle_bullet_aim_update_result.vec2TrnsSource",
+      "status": "source-backed",
+      "rule": "Arc Vec2.trns bridge used by Tmp.v1.trns(...)."
+    },
+    "weapon_handle_bullet_aim_update.vec2_add": {
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_expr": "this.x += x; this.y += y;",
+      "godot_symbol": "source_weapon_handle_bullet_aim_update_result.vec2AddSource",
+      "status": "source-backed",
+      "rule": "Arc Vec2.add(float,float) bridge used after Tmp.v1.trns(...)."
     }
   },
   "version": 1

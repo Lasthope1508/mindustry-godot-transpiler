@@ -5647,12 +5647,12 @@ func source_weapon_handle_bullet_aim_update_state(unit_state: Dictionary, mount_
 		"bulletAimY": bullet_aim_y,
 		"previousBulletAimX": float(bullet_state.get("aimX", 0.0)),
 		"previousBulletAimY": float(bullet_state.get("aimY", 0.0)),
-		"aimUpdateSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)",
-		"bulletAimXSource": "bullet.aimX = Tmp.v1.x",
-		"bulletAimYSource": "bullet.aimY = Tmp.v1.y",
+		"aimUpdateSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+		"bulletAimXSource": "bullet.aimX = Tmp.v1.x;",
+		"bulletAimYSource": "bullet.aimY = Tmp.v1.y;",
 		"bulletRotationSource": "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation",
-		"vec2TrnsSource": "return set(amount, 0).rotate(angle)",
-		"vec2AddSource": "this.x += x; this.y += y",
+		"vec2TrnsSource": "return set(amount, 0).rotate(angle);",
+		"vec2AddSource": "this.x += x; this.y += y;",
 	}
 
 func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_state: Dictionary, sound_pitch: float) -> Dictionary:

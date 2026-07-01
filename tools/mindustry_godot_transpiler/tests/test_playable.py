@@ -4992,9 +4992,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var bullet_rotation_state := source_weapon_update_bullet_origin_state(mount_state, weapon_state, unit_state, float(geometry_state[\"mountX\"]), float(geometry_state[\"mountY\"]))", source)
         self.assertIn("var aim_length := float(geometry_state[\"shootY\"]) + float(geometry_state[\"lastLength\"])", source)
         self.assertIn("var aim_vec := source_arc_angles_trns_vec(bullet_rotation, aim_length, 0.0)", source)
-        self.assertIn('"aimUpdateSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY)"', source)
-        self.assertIn('"bulletAimXSource": "bullet.aimX = Tmp.v1.x"', source)
-        self.assertIn('"bulletAimYSource": "bullet.aimY = Tmp.v1.y"', source)
+        self.assertIn('"aimUpdateSource": "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);"', source)
+        self.assertIn('"bulletAimXSource": "bullet.aimX = Tmp.v1.x;"', source)
+        self.assertIn('"bulletAimYSource": "bullet.aimY = Tmp.v1.y;"', source)
+        self.assertIn('"vec2TrnsSource": "return set(amount, 0).rotate(angle);"', source)
+        self.assertIn('"vec2AddSource": "this.x += x; this.y += y;"', source)
 
     def test_port_game_exposes_source_weapon_bullet_sound_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

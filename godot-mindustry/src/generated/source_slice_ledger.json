@@ -15839,6 +15839,44 @@
         "test_weapon_bullet_sound_branch_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.bullet sound branch wrapper against exact upstream source."
+    },
+    "N851": {
+      "exact_exprs": [
+        "Tmp.v1.trns(bulletRotation(unit, mount, bulletX, bulletY), shootY + mount.lastLength).add(bulletX, bulletY);",
+        "bullet.aimX = Tmp.v1.x;",
+        "bullet.aimY = Tmp.v1.y;"
+      ],
+      "bridge_exprs": [
+        "return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;",
+        "public float lastLength;",
+        "transient float aimX, aimY;",
+        "return set(amount, 0).rotate(angle);",
+        "this.x += x;",
+        "this.y += y;"
+      ],
+      "deferred_exprs": [
+        "Following Weapon.bullet sound/effects/recoil/heat remain owned by registered Weapon.bullet slices."
+      ],
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "source_symbols": [
+        "weapon_handle_bullet_aim_update.trns_add",
+        "weapon_handle_bullet_aim_update.aim_x_assignment",
+        "weapon_handle_bullet_aim_update.aim_y_assignment",
+        "weapon_handle_bullet_aim_update.bullet_rotation",
+        "weapon_handle_bullet_aim_update.vec2_trns",
+        "weapon_handle_bullet_aim_update.vec2_add"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.handleBullet continuous bullet aim update wrapper against exact upstream source."
     }
   },
   "version": 1
