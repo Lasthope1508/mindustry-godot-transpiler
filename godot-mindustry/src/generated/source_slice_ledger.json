@@ -19012,6 +19012,34 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_thermal_generator_total_progress_matches_upstream_source"
       ]
+    },
+    "N929": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator.ThermalGeneratorBuild",
+      "java_method": "afterPickedUp()",
+      "godot_owner": "PortGame.source_thermal_generator_after_picked_up_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_after_picked_up_state",
+      "exact_exprs": [
+        "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "public float sum;",
+        "@Override",
+        "public void afterPickedUp(){",
+        "super.afterPickedUp();",
+        "sum = 0f;",
+        "Called right after this building is picked up.",
+        "if(power != null){"
+      ],
+      "source_symbols": [
+        "thermal_generator_after_picked_up.sum",
+        "thermal_generator_after_picked_up.super_after_picked_up_state",
+        "thermal_generator_after_picked_up.sum_reset"
+      ],
+      "tests": [
+        "test_thermal_generator_after_picked_up_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_after_picked_up_matches_upstream_source"
+      ]
     }
   },
   "version": 1

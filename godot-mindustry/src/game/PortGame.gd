@@ -655,6 +655,23 @@ func source_thermal_generator_total_progress_state(enabled: bool, sum: float, su
 		"total_progress": total_progress,
 	}
 
+func source_thermal_generator_after_picked_up_state(sum: float, super_after_picked_up_state: Dictionary) -> Dictionary:
+	var parent_state := super_after_picked_up_state.duplicate(true)
+	return {
+		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+		"sum_field": "public float sum;",
+		"override": "@Override",
+		"method": "public void afterPickedUp(){",
+		"super_call": "super.afterPickedUp();",
+		"sum_reset": "sum = 0f;",
+		"parent_comment": "Called right after this building is picked up.",
+		"parent_method": "public void afterPickedUp(){",
+		"parent_power_guard": "if(power != null){",
+		"input_sum": sum,
+		"super_after_picked_up_state": parent_state,
+		"sum": 0.0,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

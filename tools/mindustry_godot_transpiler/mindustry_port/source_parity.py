@@ -404,6 +404,38 @@ def verify_thermal_generator_total_progress_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_thermal_generator_after_picked_up_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "sum_field": "public float sum;",
+        "override": "@Override",
+        "method": "public void afterPickedUp(){",
+        "super_call": "super.afterPickedUp();",
+        "sum_reset": "sum = 0f;",
+        "parent_comment": "Called right after this building is picked up.",
+        "parent_method": "public void afterPickedUp(){",
+        "parent_power_guard": "if(power != null){",
+    }
+    sources_by_key = {
+        "parent_comment": building_comp_source,
+        "parent_method": building_comp_source,
+        "parent_power_guard": building_comp_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": [BUILDING_COMP_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_warmup_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE

@@ -13845,6 +13845,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(total_progress["java_expr"], "return enabled && sum > 0 ? super.totalProgress() : 0f;")
         self.assertEqual(total_progress["godot_symbol"], "source_thermal_generator_total_progress_result.total_progress")
 
+    def test_thermal_generator_after_picked_up_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        sum_input = source_symbols.source_symbol(registry, "thermal_generator_after_picked_up.sum")
+        self.assertEqual(sum_input["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(sum_input["java_method"], "afterPickedUp()")
+        self.assertEqual(sum_input["status"], "explicit-input")
+        self.assertEqual(sum_input["java_expr"], "sum")
+        self.assertEqual(sum_input["godot_owner"], "PortGame.source_thermal_generator_after_picked_up_state")
+        self.assertEqual(sum_input["runtime_proof"], "/root/Main.source_thermal_generator_after_picked_up_state")
+        self.assertEqual(sum_input["godot_symbol"], "source_thermal_generator_after_picked_up_input.sum")
+
+        super_state = source_symbols.source_symbol(registry, "thermal_generator_after_picked_up.super_after_picked_up_state")
+        self.assertEqual(super_state["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(super_state["java_expr"], "super.afterPickedUp();")
+        self.assertEqual(super_state["godot_symbol"], "source_thermal_generator_after_picked_up_input.super_after_picked_up_state")
+
+        sum_reset = source_symbols.source_symbol(registry, "thermal_generator_after_picked_up.sum_reset")
+        self.assertEqual(sum_reset["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(sum_reset["status"], "source-backed")
+        self.assertEqual(sum_reset["java_expr"], "sum = 0f;")
+        self.assertEqual(sum_reset["godot_symbol"], "source_thermal_generator_after_picked_up_result.sum")
+
     def test_power_generator_warmup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18202,9 +18228,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 525)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 526)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 530)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 531)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -18705,6 +18731,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_thermal_generator_displayed_power_production_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_init_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_thermal_generator_total_progress_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_thermal_generator_after_picked_up_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -22953,6 +22980,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float totalProgress(){", thermal_generator_total_progress["exact_exprs"])
         self.assertIn("return enabled && sum > 0 ? super.totalProgress() : 0f;", thermal_generator_total_progress["exact_exprs"])
         self.assertIn("return Time.time;", thermal_generator_total_progress["exact_exprs"])
+
+        thermal_generator_after_picked_up = source_symbols.source_slice(ledger, "N929")
+        self.assertEqual(thermal_generator_after_picked_up["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(thermal_generator_after_picked_up["java_method"], "afterPickedUp()")
+        self.assertEqual(thermal_generator_after_picked_up["godot_owner"], "PortGame.source_thermal_generator_after_picked_up_state")
+        self.assertIn("public class ThermalGeneratorBuild extends GeneratorBuild{", thermal_generator_after_picked_up["exact_exprs"])
+        self.assertIn("public float sum;", thermal_generator_after_picked_up["exact_exprs"])
+        self.assertIn("public void afterPickedUp(){", thermal_generator_after_picked_up["exact_exprs"])
+        self.assertIn("super.afterPickedUp();", thermal_generator_after_picked_up["exact_exprs"])
+        self.assertIn("sum = 0f;", thermal_generator_after_picked_up["exact_exprs"])
+        self.assertIn("if(power != null){", thermal_generator_after_picked_up["exact_exprs"])
 
         power_generator_warmup = source_symbols.source_slice(ledger, "N910")
         self.assertEqual(power_generator_warmup["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
@@ -28023,6 +28061,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(thermal_generator_total_progress["params"][2]["schema"], "source_thermal_generator_total_progress_input.super_total_progress")
         self.assertIn("total_progress", thermal_generator_total_progress["return_keys"])
         self.assertEqual(thermal_generator_total_progress["source_method"], "totalProgress()")
+
+        thermal_generator_after_picked_up = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_after_picked_up_state")
+        self.assertEqual([param["name"] for param in thermal_generator_after_picked_up["params"]], ["sum", "super_after_picked_up_state"])
+        self.assertEqual(thermal_generator_after_picked_up["params"][0]["schema"], "source_thermal_generator_after_picked_up_input.sum")
+        self.assertEqual(thermal_generator_after_picked_up["params"][1]["schema"], "source_thermal_generator_after_picked_up_input.super_after_picked_up_state")
+        self.assertIn("sum", thermal_generator_after_picked_up["return_keys"])
+        self.assertIn("super_after_picked_up_state", thermal_generator_after_picked_up["return_keys"])
+        self.assertEqual(thermal_generator_after_picked_up["source_method"], "afterPickedUp()")
 
         power_generator_warmup = source_symbols.api_contract(contracts, "PortGame.source_power_generator_warmup_state")
         self.assertEqual([param["name"] for param in power_generator_warmup["params"]], ["enabled", "production_efficiency"])
@@ -34123,6 +34169,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_thermal_generator_total_progress_result = source_symbols.state_schema(schema, "source_thermal_generator_total_progress_result")
         self.assertEqual(source_thermal_generator_total_progress_result["keys"]["method"]["java_expr"], "public float totalProgress(){")
         self.assertEqual(source_thermal_generator_total_progress_result["keys"]["total_progress"]["java_expr"], "return enabled && sum > 0 ? super.totalProgress() : 0f;")
+
+        source_thermal_generator_after_picked_up_input = source_symbols.state_schema(schema, "source_thermal_generator_after_picked_up_input")
+        self.assertEqual(source_thermal_generator_after_picked_up_input["keys"]["sum"]["java_expr"], "sum")
+        self.assertEqual(source_thermal_generator_after_picked_up_input["keys"]["super_after_picked_up_state"]["java_expr"], "super.afterPickedUp();")
+
+        source_thermal_generator_after_picked_up_result = source_symbols.state_schema(schema, "source_thermal_generator_after_picked_up_result")
+        self.assertEqual(source_thermal_generator_after_picked_up_result["keys"]["method"]["java_expr"], "public void afterPickedUp(){")
+        self.assertEqual(source_thermal_generator_after_picked_up_result["keys"]["super_call"]["java_expr"], "super.afterPickedUp();")
+        self.assertEqual(source_thermal_generator_after_picked_up_result["keys"]["sum"]["java_expr"], "sum = 0f;")
 
         source_power_generator_build_serialization_input = source_symbols.state_schema(schema, "source_power_generator_build_serialization_input")
         self.assertEqual(source_power_generator_build_serialization_input["keys"]["production_efficiency"]["java_expr"], "productionEfficiency")

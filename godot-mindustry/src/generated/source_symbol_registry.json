@@ -66234,6 +66234,51 @@
         "test_thermal_generator_total_progress_matches_upstream_source"
       ],
       "rule": "Source-backed ThermalGeneratorBuild totalProgress gate."
+    },
+    "thermal_generator_after_picked_up.sum": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "afterPickedUp()",
+      "java_expr": "sum",
+      "godot_owner": "PortGame.source_thermal_generator_after_picked_up_state",
+      "godot_symbol": "source_thermal_generator_after_picked_up_input.sum",
+      "runtime_proof": "/root/Main.source_thermal_generator_after_picked_up_state",
+      "tests": [
+        "test_thermal_generator_after_picked_up_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_after_picked_up_matches_upstream_source"
+      ],
+      "rule": "Explicit ThermalGeneratorBuild sum input before afterPickedUp reset."
+    },
+    "thermal_generator_after_picked_up.super_after_picked_up_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "afterPickedUp()",
+      "java_expr": "super.afterPickedUp();",
+      "godot_owner": "PortGame.source_thermal_generator_after_picked_up_state",
+      "godot_symbol": "source_thermal_generator_after_picked_up_input.super_after_picked_up_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_after_picked_up_state",
+      "tests": [
+        "test_thermal_generator_after_picked_up_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_after_picked_up_matches_upstream_source"
+      ],
+      "rule": "Explicit parent BuildingComp.afterPickedUp state called before ThermalGenerator sum reset."
+    },
+    "thermal_generator_after_picked_up.sum_reset": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "afterPickedUp()",
+      "java_expr": "sum = 0f;",
+      "godot_owner": "PortGame.source_thermal_generator_after_picked_up_state",
+      "godot_symbol": "source_thermal_generator_after_picked_up_result.sum",
+      "runtime_proof": "/root/Main.source_thermal_generator_after_picked_up_state",
+      "tests": [
+        "test_thermal_generator_after_picked_up_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_after_picked_up_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGeneratorBuild sum reset after pickup."
     }
   },
   "version": 1

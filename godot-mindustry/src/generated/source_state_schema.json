@@ -79931,6 +79931,189 @@
           "java_expr": "return enabled && sum > 0 ? super.totalProgress() : 0f;"
         }
       }
+    },
+    "source_thermal_generator_after_picked_up_input": {
+      "owner": "PortGame.source_thermal_generator_after_picked_up_state",
+      "status": "active",
+      "keys": {
+        "sum": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_after_picked_up_input key sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_input.sum",
+          "java_expr": "sum"
+        },
+        "super_after_picked_up_state": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_after_picked_up_input key super_after_picked_up_state.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_input.super_after_picked_up_state",
+          "java_expr": "super.afterPickedUp();",
+          "alias_of": "source_building_after_picked_up_result"
+        }
+      }
+    },
+    "source_thermal_generator_after_picked_up_result": {
+      "owner": "PortGame.source_thermal_generator_after_picked_up_state",
+      "status": "active",
+      "keys": {
+        "build_class": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key build_class.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.build_class",
+          "java_expr": "public class ThermalGeneratorBuild extends GeneratorBuild{"
+        },
+        "sum_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key sum_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.sum_field",
+          "java_expr": "public float sum;"
+        },
+        "override": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key override.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.override",
+          "java_expr": "@Override"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.method",
+          "java_expr": "public void afterPickedUp(){"
+        },
+        "super_call": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key super_call.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.super_call",
+          "java_expr": "super.afterPickedUp();"
+        },
+        "sum_reset": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key sum_reset.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.sum_reset",
+          "java_expr": "sum = 0f;"
+        },
+        "parent_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key parent_comment.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.parent_comment",
+          "java_expr": "Called right after this building is picked up."
+        },
+        "parent_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key parent_method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.parent_method",
+          "java_expr": "public void afterPickedUp(){"
+        },
+        "parent_power_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key parent_power_guard.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.parent_power_guard",
+          "java_expr": "if(power != null){"
+        },
+        "input_sum": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_after_picked_up_result key input_sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.input_sum",
+          "java_expr": "sum",
+          "alias_of": "source_thermal_generator_after_picked_up_input.sum"
+        },
+        "super_after_picked_up_state": {
+          "type": "Dictionary",
+          "status": "generated",
+          "rule": "source_thermal_generator_after_picked_up_result key super_after_picked_up_state.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.super_after_picked_up_state",
+          "java_expr": "super.afterPickedUp();",
+          "alias_of": "source_thermal_generator_after_picked_up_input.super_after_picked_up_state"
+        },
+        "sum": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_after_picked_up_result key sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_after_picked_up_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "afterPickedUp()",
+          "godot_symbol": "source_thermal_generator_after_picked_up_result.sum",
+          "java_expr": "sum = 0f;"
+        }
+      }
     }
   },
   "version": 1

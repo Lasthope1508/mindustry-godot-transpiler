@@ -21240,6 +21240,45 @@
         "test_thermal_generator_total_progress_matches_upstream_source"
       ],
       "rule": "Public runtime contract for ThermalGeneratorBuild.totalProgress enabled/sum gate."
+    },
+    "PortGame.source_thermal_generator_after_picked_up_state": {
+      "status": "active",
+      "source_slice": "N929",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "afterPickedUp()",
+      "params": [
+        {
+          "name": "sum",
+          "type": "float",
+          "schema": "source_thermal_generator_after_picked_up_input.sum"
+        },
+        {
+          "name": "super_after_picked_up_state",
+          "type": "Dictionary",
+          "schema": "source_thermal_generator_after_picked_up_input.super_after_picked_up_state"
+        }
+      ],
+      "return_keys": [
+        "build_class",
+        "sum_field",
+        "override",
+        "method",
+        "super_call",
+        "sum_reset",
+        "parent_comment",
+        "parent_method",
+        "parent_power_guard",
+        "input_sum",
+        "super_after_picked_up_state",
+        "sum"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_after_picked_up_state",
+      "tests": [
+        "test_thermal_generator_after_picked_up_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_after_picked_up_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGeneratorBuild.afterPickedUp super call plus sum reset."
     }
   },
   "policy": {
