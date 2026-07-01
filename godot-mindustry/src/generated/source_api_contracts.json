@@ -22093,6 +22093,38 @@
       ],
       "runtime_proof": "/root/Main.source_building_transfer_liquid_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.transferLiquid body helper."
+    },
+    "PortGame.source_building_can_dump_liquid_default_state": {
+      "status": "active",
+      "source_slice": "N943",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "canDumpLiquid(Building to, Liquid liquid)",
+      "params": [
+        {
+          "name": "to_state",
+          "type": "Variant",
+          "schema": "source_building_can_dump_liquid_default_input.to_state"
+        },
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_building_can_dump_liquid_default_input.liquid"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_true",
+        "to_state",
+        "liquid",
+        "can_dump_liquid"
+      ],
+      "tests": [
+        "test_building_can_dump_liquid_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
+        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.canDumpLiquid default predicate helper."
     }
   },
   "policy": {

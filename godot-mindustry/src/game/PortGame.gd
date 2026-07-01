@@ -5384,6 +5384,15 @@ func source_building_transfer_liquid_state(liquid: Variant, amount: float, next_
 		"current_liquid_amount_after": current_liquid_amount_after,
 	}
 
+func source_building_can_dump_liquid_default_state(to_state: Variant, liquid: Variant) -> Dictionary:
+	return {
+		"method": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+		"return_true": "return true;",
+		"to_state": to_state,
+		"liquid": liquid,
+		"can_dump_liquid": true,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

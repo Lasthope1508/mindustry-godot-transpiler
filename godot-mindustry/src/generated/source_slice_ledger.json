@@ -19539,6 +19539,34 @@
       ],
       "runtime_proof": "/root/Main.source_building_transfer_liquid_state",
       "rule": "Adds source-backed transferLiquid flow calculation, accept guard, handleLiquid call, and own-liquid removal side effects."
+    },
+    "N943": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
+      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
+      "exact_exprs": [
+        "public boolean canDumpLiquid(Building to, Liquid liquid){",
+        "return true;"
+      ],
+      "deferred_exprs": [
+        "Override-specific canDumpLiquid behavior remains separate from this default BuildingComp predicate slice."
+      ],
+      "source_symbols": [
+        "building_can_dump_liquid_default.method",
+        "building_can_dump_liquid_default.return_true",
+        "building_can_dump_liquid_default.to_state",
+        "building_can_dump_liquid_default.liquid",
+        "building_can_dump_liquid_default.can_dump_liquid"
+      ],
+      "tests": [
+        "test_building_can_dump_liquid_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
+        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
+      "rule": "Adds source-backed default BuildingComp.canDumpLiquid predicate returning true."
     }
   },
   "version": 1
