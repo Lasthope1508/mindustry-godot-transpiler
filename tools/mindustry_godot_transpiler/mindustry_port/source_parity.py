@@ -235,6 +235,43 @@ def verify_power_graph_power_needed_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "power_produced_method": "public float getPowerProduced(){",
+        "power_produced_initial": "float powerProduced = 0f;",
+        "power_produced_items": "var items = producers.items;",
+        "power_produced_loop": "for(int i = 0; i < producers.size; i++){",
+        "power_produced_producer": "var producer = items[i];",
+        "power_produced_add": "powerProduced += producer.getPowerProduction() * producer.delta();",
+        "power_produced_return": "return powerProduced;",
+        "building_power_production_method": "public float getPowerProduction(){",
+        "building_power_production_default": "return 0f;",
+        "delta_return": "return Time.delta * timeScale;",
+    }
+    source_by_key = {
+        "power_produced_method": power_graph_source,
+        "power_produced_initial": power_graph_source,
+        "power_produced_items": power_graph_source,
+        "power_produced_loop": power_graph_source,
+        "power_produced_producer": power_graph_source,
+        "power_produced_add": power_graph_source,
+        "power_produced_return": power_graph_source,
+        "building_power_production_method": building_source,
+        "building_power_production_default": building_source,
+        "delta_return": building_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "sources": [BUILDING_COMP_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

@@ -73418,6 +73418,162 @@
           "godot_symbol": "source_power_graph_power_needed_result.active_consumer_count"
         }
       }
+    },
+    "source_power_graph_power_produced_input": {
+      "keys": {
+        "producers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_produced_input key producers.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "producers.items",
+          "godot_symbol": "source_power_graph_power_produced_input.producers"
+        }
+      }
+    },
+    "source_power_graph_power_produced_producer": {
+      "keys": {
+        "power_production": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_produced_producer key power_production.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "producer.getPowerProduction()",
+          "godot_symbol": "source_power_graph_power_produced_producer.power_production"
+        },
+        "delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_power_produced_producer key delta.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "producer.delta()",
+          "godot_symbol": "source_power_graph_power_produced_producer.delta"
+        }
+      }
+    },
+    "source_power_graph_power_produced_result": {
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "public float getPowerProduced(){",
+          "godot_symbol": "source_power_graph_power_produced_result.method"
+        },
+        "initial": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key initial.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "float powerProduced = 0f;",
+          "godot_symbol": "source_power_graph_power_produced_result.initial"
+        },
+        "items": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key items.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "var items = producers.items;",
+          "godot_symbol": "source_power_graph_power_produced_result.items"
+        },
+        "loop": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key loop.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "for(int i = 0; i < producers.size; i++){",
+          "godot_symbol": "source_power_graph_power_produced_result.loop"
+        },
+        "producer": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key producer.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "var producer = items[i];",
+          "godot_symbol": "source_power_graph_power_produced_result.producer"
+        },
+        "add_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key add_expr.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "powerProduced += producer.getPowerProduction() * producer.delta();",
+          "godot_symbol": "source_power_graph_power_produced_result.add_expr"
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key return_expr.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "return powerProduced;",
+          "godot_symbol": "source_power_graph_power_produced_result.return_expr"
+        },
+        "power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "powerProduced += producer.getPowerProduction() * producer.delta();",
+          "godot_symbol": "source_power_graph_power_produced_result.power_produced"
+        },
+        "producer_count": {
+          "type": "int",
+          "status": "source-backed",
+          "rule": "source_power_graph_power_produced_result key producer_count.",
+          "used_by": [
+            "PortGame.source_power_graph_power_produced_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getPowerProduced()",
+          "java_expr": "producers.size",
+          "godot_symbol": "source_power_graph_power_produced_result.producer_count"
+        }
+      }
     }
   },
   "version": 1

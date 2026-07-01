@@ -201,6 +201,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_power_produced_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_power_produced_source"))
+        report = source_parity.verify_power_graph_power_produced_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "power_produced_method": "public float getPowerProduced(){",
+            "power_produced_initial": "float powerProduced = 0f;",
+            "power_produced_items": "var items = producers.items;",
+            "power_produced_loop": "for(int i = 0; i < producers.size; i++){",
+            "power_produced_producer": "var producer = items[i];",
+            "power_produced_add": "powerProduced += producer.getPowerProduction() * producer.delta();",
+            "power_produced_return": "return powerProduced;",
+            "building_power_production_method": "public float getPowerProduction(){",
+            "building_power_production_default": "return 0f;",
+            "delta_return": "return Time.delta * timeScale;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

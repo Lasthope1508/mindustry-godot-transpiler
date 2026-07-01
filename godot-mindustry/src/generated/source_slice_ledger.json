@@ -17617,6 +17617,42 @@
         "test_power_graph_power_needed_matches_upstream_source"
       ],
       "rule": "Adds source-backed ConsumePower.requestedPower and PowerGraph.getPowerNeeded aggregate state without distribution/battery simulation yet."
+    },
+    "N890": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "getPowerProduced()",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "exact_exprs": [
+        "public float getPowerProduced(){",
+        "float powerProduced = 0f;",
+        "var items = producers.items;",
+        "for(int i = 0; i < producers.size; i++){",
+        "var producer = items[i];",
+        "powerProduced += producer.getPowerProduction() * producer.delta();",
+        "return powerProduced;",
+        "public float getPowerProduction(){",
+        "return 0f;",
+        "return Time.delta * timeScale;"
+      ],
+      "source_symbols": [
+        "power_graph_power_produced.producers",
+        "power_graph_power_produced.initial",
+        "power_graph_power_produced.loop",
+        "power_graph_power_produced.producer",
+        "power_graph_power_produced.producer_power",
+        "power_graph_power_produced.delta",
+        "power_graph_power_produced.add",
+        "power_graph_power_produced.return"
+      ],
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.getPowerProduced aggregate state without generator efficiency overrides yet."
     }
   },
   "version": 1

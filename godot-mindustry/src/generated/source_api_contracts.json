@@ -19421,6 +19421,37 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_power_needed_state",
       "rule": "Public runtime contract for ConsumePower.requestedPower(Building) and PowerGraph.getPowerNeeded() aggregate state with explicit consumer inputs."
+    },
+    "PortGame.source_power_graph_power_produced_state": {
+      "status": "active",
+      "source_slice": "N890",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "getPowerProduced()",
+      "params": [
+        {
+          "name": "producers",
+          "type": "Array",
+          "schema": "source_power_graph_power_produced_input.producers"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "initial",
+        "items",
+        "loop",
+        "producer",
+        "add_expr",
+        "return_expr",
+        "power_produced",
+        "producer_count"
+      ],
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "rule": "Public runtime contract for PowerGraph.getPowerProduced() aggregate state with explicit producer inputs."
     }
   },
   "policy": {

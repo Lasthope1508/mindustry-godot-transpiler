@@ -126,6 +126,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('if bool(consumer.get("shouldConsumePower", false)):', source)
         self.assertIn('"placed_power_needed": placed_power_needed_state()', source)
 
+    def test_port_game_exposes_source_power_graph_power_produced_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_power_produced_state(producers: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public float getPowerProduced(){"', source)
+        self.assertIn('"add_expr": "powerProduced += producer.getPowerProduction() * producer.delta();"', source)
+        self.assertIn('power_produced += float(producer.get("power_production", 0.0)) * float(producer.get("delta", 0.0))', source)
+        self.assertIn("func placed_power_produced_state() -> Dictionary:", source)
+        self.assertIn('"placed_power_produced": placed_power_produced_state()', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -982,6 +982,26 @@ func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:
 		"active_consumer_count": active_consumers,
 	}
 
+func source_power_graph_power_produced_state(producers: Array) -> Dictionary:
+	var power_produced := 0.0
+	var counted_producers := 0
+	for producer in producers:
+		if typeof(producer) != TYPE_DICTIONARY:
+			continue
+		counted_producers += 1
+		power_produced += float(producer.get("power_production", 0.0)) * float(producer.get("delta", 0.0))
+	return {
+		"method": "public float getPowerProduced(){",
+		"initial": "float powerProduced = 0f;",
+		"items": "var items = producers.items;",
+		"loop": "for(int i = 0; i < producers.size; i++){",
+		"producer": "var producer = items[i];",
+		"add_expr": "powerProduced += producer.getPowerProduction() * producer.delta();",
+		"return_expr": "return powerProduced;",
+		"power_produced": power_produced,
+		"producer_count": counted_producers,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)
@@ -1034,6 +1054,21 @@ func placed_power_needed_state() -> Dictionary:
 			"delta": SOURCE_TICK_RATE,
 		})
 	return source_power_graph_power_needed_state(consumers)
+
+func placed_power_produced_state() -> Dictionary:
+	var producers: Array = []
+	for key in placed_block_origins.keys():
+		var block = block_from_sprite(placed_block_origins.get(key))
+		if block == null:
+			continue
+		var role_state := power_graph_role_for_block(block)
+		if not bool(role_state.get("add_producer", false)):
+			continue
+		producers.append({
+			"power_production": float(block.properties.get("powerProduction", 0.0)),
+			"delta": SOURCE_TICK_RATE,
+		})
+	return source_power_graph_power_produced_state(producers)
 
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
@@ -11568,6 +11603,7 @@ func get_runtime_summary() -> Dictionary:
 		"occupied_cell_count": placed_blocks.size(),
 		"placed_power_graph_roles": placed_power_graph_role_counts(),
 		"placed_power_needed": placed_power_needed_state(),
+		"placed_power_produced": placed_power_produced_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y},

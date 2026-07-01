@@ -61520,6 +61520,126 @@
         "test_power_graph_power_needed_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.getPowerNeeded()/ConsumePower.requestedPower state mapping."
+    },
+    "power_graph_power_produced.producers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "producers.items",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_input.producers",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_power_produced.initial": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "float powerProduced = 0f;",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_result.initial",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_power_produced.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "for(int i = 0; i < producers.size; i++){",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_result.loop",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_power_produced.producer": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "var producer = items[i];",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_result.producer",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_power_produced.producer_power": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "producer.getPowerProduction()",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_producer.power_production",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_power_produced.delta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "producer.delta()",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_producer.delta",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_power_produced.add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "powerProduced += producer.getPowerProduction() * producer.delta();",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_result.power_produced",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
+    },
+    "power_graph_power_produced.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "java_expr": "return powerProduced;",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "godot_symbol": "source_power_graph_power_produced_result.power_produced",
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state",
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.getPowerProduced aggregate state mapping."
     }
   },
   "version": 1
