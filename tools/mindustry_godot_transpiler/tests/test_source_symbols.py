@@ -13844,6 +13844,39 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(deferred_body["java_expr"], "createExplosion() puddle and shake side-effect body")
         self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_effect_sound_result.deferred_body")
 
+    def test_power_generator_create_explosion_puddle_loop_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        liquid = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_loop.explosion_puddle_liquid")
+        self.assertEqual(liquid["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(liquid["java_method"], "createExplosion()")
+        self.assertEqual(liquid["status"], "explicit-input")
+        self.assertEqual(liquid["java_expr"], "explosionPuddleLiquid")
+        self.assertEqual(liquid["godot_owner"], "PortGame.source_power_generator_create_explosion_puddle_loop_state")
+        self.assertEqual(liquid["runtime_proof"], "/root/Main.source_power_generator_create_explosion_puddle_loop_state")
+        self.assertEqual(liquid["godot_symbol"], "source_power_generator_create_explosion_puddle_loop_input.explosion_puddle_liquid_value")
+
+        puddles = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_loop.explosion_puddles")
+        self.assertEqual(puddles["status"], "explicit-input")
+        self.assertEqual(puddles["java_expr"], "explosionPuddles")
+        self.assertEqual(puddles["godot_symbol"], "source_power_generator_create_explosion_puddle_loop_input.explosion_puddles")
+
+        guard = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_loop.puddle_guard")
+        self.assertEqual(guard["java_expr"], "if(explosionPuddleLiquid != null){")
+        self.assertEqual(guard["godot_symbol"], "source_power_generator_create_explosion_puddle_loop_result.puddle_guard_entered")
+
+        loop = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_loop.puddle_loop")
+        self.assertEqual(loop["java_expr"], "for(int i = 0; i < explosionPuddles; i++){")
+        self.assertEqual(loop["godot_symbol"], "source_power_generator_create_explosion_puddle_loop_result.puddle_loop_count")
+
+        deferred_body = source_symbols.source_symbol(registry, "power_generator_create_explosion_puddle_loop.deferred_body")
+        self.assertEqual(deferred_body["status"], "deferred")
+        self.assertEqual(deferred_body["java_expr"], "createExplosion() puddle random tile deposit and shake body")
+        self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_puddle_loop_result.deferred_body")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17760,9 +17793,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 512)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 513)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 517)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 518)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22477,6 +22510,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("create(pos.getX(), pos.getY(), 0, Color.white, null);", power_generator_create_explosion_effect_sound["exact_exprs"])
         self.assertIn("return at(pos.getX(), pos.getY());", power_generator_create_explosion_effect_sound["exact_exprs"])
         self.assertIn("if(explosionPuddleLiquid != null){", power_generator_create_explosion_effect_sound["deferred_exprs"])
+
+        power_generator_create_explosion_puddle_loop = source_symbols.source_slice(ledger, "N916")
+        self.assertEqual(power_generator_create_explosion_puddle_loop["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_create_explosion_puddle_loop["java_method"], "createExplosion()")
+        self.assertEqual(power_generator_create_explosion_puddle_loop["godot_owner"], "PortGame.source_power_generator_create_explosion_puddle_loop_state")
+        self.assertIn("public int explosionPuddles = 10;", power_generator_create_explosion_puddle_loop["exact_exprs"])
+        self.assertIn("public @Nullable Liquid explosionPuddleLiquid;", power_generator_create_explosion_puddle_loop["exact_exprs"])
+        self.assertIn("if(explosionPuddleLiquid != null){", power_generator_create_explosion_puddle_loop["exact_exprs"])
+        self.assertIn("for(int i = 0; i < explosionPuddles; i++){", power_generator_create_explosion_puddle_loop["exact_exprs"])
+        self.assertIn("Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));", power_generator_create_explosion_puddle_loop["deferred_exprs"])
+        self.assertIn("Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);", power_generator_create_explosion_puddle_loop["deferred_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27405,6 +27449,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("effect_call", power_generator_create_explosion_effect_sound["return_keys"])
         self.assertIn("sound_call", power_generator_create_explosion_effect_sound["return_keys"])
         self.assertEqual(power_generator_create_explosion_effect_sound["source_method"], "createExplosion()")
+
+        power_generator_create_explosion_puddle_loop = source_symbols.api_contract(contracts, "PortGame.source_power_generator_create_explosion_puddle_loop_state")
+        self.assertEqual([param["name"] for param in power_generator_create_explosion_puddle_loop["params"]], ["should_explode_value", "explosion_puddle_liquid_value", "explosion_puddles"])
+        self.assertEqual(power_generator_create_explosion_puddle_loop["params"][0]["schema"], "source_power_generator_create_explosion_puddle_loop_input.should_explode_value")
+        self.assertEqual(power_generator_create_explosion_puddle_loop["params"][1]["schema"], "source_power_generator_create_explosion_puddle_loop_input.explosion_puddle_liquid_value")
+        self.assertEqual(power_generator_create_explosion_puddle_loop["params"][2]["schema"], "source_power_generator_create_explosion_puddle_loop_input.explosion_puddles")
+        self.assertIn("puddle_guard_entered", power_generator_create_explosion_puddle_loop["return_keys"])
+        self.assertIn("puddle_loop_count", power_generator_create_explosion_puddle_loop["return_keys"])
+        self.assertIn("puddle_loop_indices", power_generator_create_explosion_puddle_loop["return_keys"])
+        self.assertEqual(power_generator_create_explosion_puddle_loop["source_method"], "createExplosion()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33429,6 +33483,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["sound_position_dispatch"]["java_expr"], "return at(pos.getX(), pos.getY());")
         self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["effect_call"]["java_expr"], "explodeEffect.at(this);")
         self.assertEqual(source_power_generator_create_explosion_effect_sound_result["keys"]["sound_call"]["java_expr"], "explodeSound.at(this);")
+
+        source_power_generator_create_explosion_puddle_loop_input = source_symbols.state_schema(schema, "source_power_generator_create_explosion_puddle_loop_input")
+        self.assertEqual(source_power_generator_create_explosion_puddle_loop_input["keys"]["should_explode_value"]["alias_of"], "source_power_generator_should_explode_result.should_explode")
+        self.assertEqual(source_power_generator_create_explosion_puddle_loop_input["keys"]["explosion_puddle_liquid_value"]["java_expr"], "explosionPuddleLiquid")
+        self.assertEqual(source_power_generator_create_explosion_puddle_loop_input["keys"]["explosion_puddles"]["java_expr"], "explosionPuddles")
+
+        source_power_generator_create_explosion_puddle_loop_result = source_symbols.state_schema(schema, "source_power_generator_create_explosion_puddle_loop_result")
+        self.assertEqual(source_power_generator_create_explosion_puddle_loop_result["keys"]["puddle_guard"]["java_expr"], "if(explosionPuddleLiquid != null){")
+        self.assertEqual(source_power_generator_create_explosion_puddle_loop_result["keys"]["puddle_loop"]["java_expr"], "for(int i = 0; i < explosionPuddles; i++){")
+        self.assertEqual(source_power_generator_create_explosion_puddle_loop_result["keys"]["puddle_loop_count"]["java_expr"], "for(int i = 0; i < explosionPuddles; i++){")
+        self.assertEqual(source_power_generator_create_explosion_puddle_loop_result["keys"]["puddle_loop_indices"]["java_expr"], "for(int i = 0; i < explosionPuddles; i++){")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

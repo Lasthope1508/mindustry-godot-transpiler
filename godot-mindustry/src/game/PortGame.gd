@@ -660,6 +660,38 @@ func source_power_generator_create_explosion_effect_sound_state(should_explode_v
 		],
 	}
 
+func source_power_generator_create_explosion_puddle_loop_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int) -> Dictionary:
+	var branch_entered := should_explode_value
+	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
+	var puddle_loop_count := 0
+	if puddle_guard_entered:
+		puddle_loop_count = max(explosion_puddles, 0)
+	var puddle_loop_indices := []
+	for i in range(puddle_loop_count):
+		puddle_loop_indices.append(i)
+	return {
+		"puddles_field": "public int explosionPuddles = 10;",
+		"puddle_liquid_field": "public @Nullable Liquid explosionPuddleLiquid;",
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"puddle_guard": "if(explosionPuddleLiquid != null){",
+		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+		"input_should_explode_value": should_explode_value,
+		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
+		"input_explosion_puddles": explosion_puddles,
+		"branch_entered": branch_entered,
+		"puddle_guard_entered": puddle_guard_entered,
+		"puddle_loop_count": puddle_loop_count,
+		"puddle_loop_indices": puddle_loop_indices,
+		"deferred_body": [
+			"Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+			"Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+			"Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+			"if(explosionShake > 0){",
+			"Effect.shake(explosionShake, explosionShakeDuration, this);",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0

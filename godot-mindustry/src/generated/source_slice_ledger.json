@@ -18517,6 +18517,46 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N916": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_loop_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_loop_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_loop.should_explode_call",
+        "power_generator_create_explosion_puddle_loop.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_loop.explosion_puddles",
+        "power_generator_create_explosion_puddle_loop.puddles_field",
+        "power_generator_create_explosion_puddle_loop.puddle_liquid_field",
+        "power_generator_create_explosion_puddle_loop.method",
+        "power_generator_create_explosion_puddle_loop.gate",
+        "power_generator_create_explosion_puddle_loop.puddle_guard",
+        "power_generator_create_explosion_puddle_loop.puddle_loop",
+        "power_generator_create_explosion_puddle_loop.deferred_body"
+      ],
+      "exact_exprs": [
+        "public int explosionPuddles = 10;",
+        "public @Nullable Liquid explosionPuddleLiquid;",
+        "public void createExplosion(){",
+        "if(shouldExplode()){",
+        "if(explosionPuddleLiquid != null){",
+        "for(int i = 0; i < explosionPuddles; i++){"
+      ],
+      "deferred_exprs": [
+        "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+        "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+        "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_puddle_loop_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_loop_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

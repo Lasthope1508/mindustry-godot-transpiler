@@ -334,6 +334,27 @@ def verify_power_generator_create_explosion_effect_sound_source(upstream_root: P
         "missing": missing,
     }
 
+def verify_power_generator_create_explosion_puddle_loop_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "puddles_field": "public int explosionPuddles = 10;",
+        "puddle_liquid_field": "public @Nullable Liquid explosionPuddleLiquid;",
+        "method": "public void createExplosion(){",
+        "gate": "if(shouldExplode()){",
+        "puddle_guard": "if(explosionPuddleLiquid != null){",
+        "puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+        "random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+        "tile_world": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+        "deposit": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_add_roles_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

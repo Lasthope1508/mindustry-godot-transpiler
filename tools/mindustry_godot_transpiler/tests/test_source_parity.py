@@ -271,6 +271,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_create_explosion_puddle_loop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_create_explosion_puddle_loop_source"))
+        report = source_parity.verify_power_generator_create_explosion_puddle_loop_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(report["checked"], {
+            "puddles_field": "public int explosionPuddles = 10;",
+            "puddle_liquid_field": "public @Nullable Liquid explosionPuddleLiquid;",
+            "method": "public void createExplosion(){",
+            "gate": "if(shouldExplode()){",
+            "puddle_guard": "if(explosionPuddleLiquid != null){",
+            "puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
+            "random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
+            "tile_world": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
+            "deposit": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")
