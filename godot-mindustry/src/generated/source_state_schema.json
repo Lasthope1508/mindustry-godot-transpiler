@@ -74414,6 +74414,218 @@
           "godot_symbol": "source_power_graph_update_cheat_result.last_power_produced"
         }
       }
+    },
+    "source_power_graph_update_balance_input": {
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_balance_input key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "consumers.items",
+          "godot_symbol": "source_power_graph_update_balance_input.consumers"
+        },
+        "producers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_balance_input key producers.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "producers.items",
+          "godot_symbol": "source_power_graph_update_balance_input.producers"
+        },
+        "batteries": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_balance_input key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "batteries.items",
+          "godot_symbol": "source_power_graph_update_balance_input.batteries"
+        },
+        "energy_delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_balance_input key energy_delta.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "energyDelta",
+          "godot_symbol": "source_power_graph_update_balance_input.energy_delta"
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_balance_input key source_delta.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "Time.delta",
+          "godot_symbol": "source_power_graph_update_balance_input.source_delta"
+        },
+        "power_balance_samples": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_balance_input key power_balance_samples.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "powerBalance",
+          "godot_symbol": "source_power_graph_update_balance_input.power_balance_samples"
+        }
+      }
+    },
+    "source_power_graph_update_balance_result": {
+      "keys": {
+        "power_needed": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key power_needed.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "float powerNeeded = getPowerNeeded();",
+          "godot_symbol": "source_power_graph_update_balance_result.power_needed"
+        },
+        "power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "float powerProduced = getPowerProduced();",
+          "godot_symbol": "source_power_graph_update_balance_result.power_produced"
+        },
+        "last_power_needed": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key last_power_needed.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerNeeded = powerNeeded;",
+          "godot_symbol": "source_power_graph_update_balance_result.last_power_needed"
+        },
+        "last_power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key last_power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerProduced = powerProduced;",
+          "godot_symbol": "source_power_graph_update_balance_result.last_power_produced"
+        },
+        "last_scaled_power_in": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key last_scaled_power_in.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;",
+          "godot_symbol": "source_power_graph_update_balance_result.last_scaled_power_in"
+        },
+        "last_scaled_power_out": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key last_scaled_power_out.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastScaledPowerOut = powerNeeded / Time.delta;",
+          "godot_symbol": "source_power_graph_update_balance_result.last_scaled_power_out"
+        },
+        "last_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key last_capacity.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastCapacity = getTotalBatteryCapacity();",
+          "godot_symbol": "source_power_graph_update_balance_result.last_capacity"
+        },
+        "last_power_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key last_power_stored.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerStored = getBatteryStored();",
+          "godot_symbol": "source_power_graph_update_balance_result.last_power_stored"
+        },
+        "power_balance_value": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key power_balance_value.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
+          "godot_symbol": "source_power_graph_update_balance_result.power_balance_value"
+        },
+        "power_balance_samples": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key power_balance_samples.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
+          "godot_symbol": "source_power_graph_update_balance_result.power_balance_samples"
+        },
+        "energy_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_balance_result key energy_delta.",
+          "used_by": [
+            "PortGame.source_power_graph_update_balance_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "energyDelta = 0f;",
+          "godot_symbol": "source_power_graph_update_balance_result.energy_delta"
+        }
+      }
     }
   },
   "version": 1

@@ -62195,6 +62195,261 @@
         "test_power_graph_update_cheat_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
+    },
+    "power_graph_update_balance.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "public void update(){",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.method",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.power_needed": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "float powerNeeded = getPowerNeeded();",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.power_needed",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.power_produced": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "float powerProduced = getPowerProduced();",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.power_produced",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.last_power_needed": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "lastPowerNeeded = powerNeeded;",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.last_power_needed",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.last_power_produced": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "lastPowerProduced = powerProduced;",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.last_power_produced",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.last_scaled_power_in": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.last_scaled_power_in",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.last_scaled_power_out": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "lastScaledPowerOut = powerNeeded / Time.delta;",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.last_scaled_power_out",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.last_capacity": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "lastCapacity = getTotalBatteryCapacity();",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.last_capacity",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.last_power_stored": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "lastPowerStored = getBatteryStored();",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.last_power_stored",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.power_balance": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.power_balance_value",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.energy_delta_zero": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "energyDelta = 0f;",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_result.energy_delta",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "consumers.items",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_input.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.producers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "producers.items",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_input.producers",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.batteries": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "batteries.items",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_input.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.energy_delta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "energyDelta",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_input.energy_delta",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.source_delta": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "Time.delta",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_input.source_delta",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
+    },
+    "power_graph_update_balance.power_balance_samples": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "powerBalance",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "godot_symbol": "source_power_graph_update_balance_input.power_balance_samples",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch."
     }
   },
   "version": 1

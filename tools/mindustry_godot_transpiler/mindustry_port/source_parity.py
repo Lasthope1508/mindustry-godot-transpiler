@@ -440,6 +440,30 @@ def verify_power_graph_update_cheat_source(upstream_root: Path) -> dict[str, Any
     }
 
 
+def verify_power_graph_update_balance_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_method": "public void update(){",
+        "power_needed": "float powerNeeded = getPowerNeeded();",
+        "power_produced": "float powerProduced = getPowerProduced();",
+        "last_power_needed": "lastPowerNeeded = powerNeeded;",
+        "last_power_produced": "lastPowerProduced = powerProduced;",
+        "last_scaled_power_in": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;",
+        "last_scaled_power_out": "lastScaledPowerOut = powerNeeded / Time.delta;",
+        "last_capacity": "lastCapacity = getTotalBatteryCapacity();",
+        "last_power_stored": "lastPowerStored = getBatteryStored();",
+        "power_balance": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
+        "energy_delta_zero": "energyDelta = 0f;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

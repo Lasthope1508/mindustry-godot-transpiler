@@ -1238,6 +1238,48 @@ func source_power_graph_update_cheat_state(consumers: Array) -> Dictionary:
 		"last_power_produced": last_power_produced,
 	}
 
+func source_power_graph_update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:
+	var power_needed_state := source_power_graph_power_needed_state(consumers)
+	var power_produced_state := source_power_graph_power_produced_state(producers)
+	var battery_state := source_power_graph_battery_state(batteries)
+	var power_needed := float(power_needed_state.get("power_needed", 0.0))
+	var power_produced := float(power_produced_state.get("power_produced", 0.0))
+	var last_power_needed := power_needed
+	var last_power_produced := power_produced
+	var last_scaled_power_in := (power_produced + energy_delta) / source_delta
+	var last_scaled_power_out := power_needed / source_delta
+	var last_capacity := float(battery_state.get("total_capacity", 0.0))
+	var last_power_stored := float(battery_state.get("stored", 0.0))
+	var power_balance_value := (last_power_produced - last_power_needed + energy_delta) / source_delta
+	var source_power_balance_samples: Array = power_balance_samples.duplicate(true)
+	source_power_balance_samples.append(power_balance_value)
+	var next_energy_delta := 0.0
+	return {
+		"method": "public void update(){",
+		"power_needed_expr": "float powerNeeded = getPowerNeeded();",
+		"power_produced_expr": "float powerProduced = getPowerProduced();",
+		"last_power_needed_expr": "lastPowerNeeded = powerNeeded;",
+		"last_power_produced_expr": "lastPowerProduced = powerProduced;",
+		"last_scaled_power_in_expr": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;",
+		"last_scaled_power_out_expr": "lastScaledPowerOut = powerNeeded / Time.delta;",
+		"last_capacity_expr": "lastCapacity = getTotalBatteryCapacity();",
+		"last_power_stored_expr": "lastPowerStored = getBatteryStored();",
+		"power_balance_expr": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
+		"energy_delta_zero_expr": "energyDelta = 0f;",
+		"power_needed": power_needed,
+		"power_produced": power_produced,
+		"last_power_needed": last_power_needed,
+		"last_power_produced": last_power_produced,
+		"last_scaled_power_in": last_scaled_power_in,
+		"last_scaled_power_out": last_scaled_power_out,
+		"last_capacity": last_capacity,
+		"last_power_stored": last_power_stored,
+		"power_balance_value": power_balance_value,
+		"power_balance_samples": source_power_balance_samples,
+		"energy_delta": next_energy_delta,
+		"source_delta": source_delta,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)

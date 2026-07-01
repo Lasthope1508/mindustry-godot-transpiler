@@ -203,6 +203,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_expr": "return;"', source)
         self.assertIn('consumer_state["power_status"] = 1.0', source)
 
+    def test_port_game_exposes_source_power_graph_update_balance_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:", source)
+        self.assertIn('"power_needed_expr": "float powerNeeded = getPowerNeeded();"', source)
+        self.assertIn('"power_produced_expr": "float powerProduced = getPowerProduced();"', source)
+        self.assertIn('"last_scaled_power_in_expr": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;"', source)
+        self.assertIn('"last_scaled_power_out_expr": "lastScaledPowerOut = powerNeeded / Time.delta;"', source)
+        self.assertIn('"power_balance_expr": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);"', source)
+        self.assertIn('"energy_delta_zero_expr": "energyDelta = 0f;"', source)
+        self.assertIn('var power_needed_state := source_power_graph_power_needed_state(consumers)', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

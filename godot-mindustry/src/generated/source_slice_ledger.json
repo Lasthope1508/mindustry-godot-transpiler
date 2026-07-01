@@ -17836,6 +17836,46 @@
         "test_power_graph_update_cheat_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.update() cheat early-return branch only; non-cheat update orchestration remains deferred."
+    },
+    "N896": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state",
+      "exact_exprs": [
+        "public void update(){",
+        "float powerNeeded = getPowerNeeded();",
+        "float powerProduced = getPowerProduced();",
+        "lastPowerNeeded = powerNeeded;",
+        "lastPowerProduced = powerProduced;",
+        "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;",
+        "lastScaledPowerOut = powerNeeded / Time.delta;",
+        "lastCapacity = getTotalBatteryCapacity();",
+        "lastPowerStored = getBatteryStored();",
+        "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
+        "energyDelta = 0f;"
+      ],
+      "source_symbols": [
+        "power_graph_update_balance.power_needed",
+        "power_graph_update_balance.power_produced",
+        "power_graph_update_balance.last_power_needed",
+        "power_graph_update_balance.last_power_produced",
+        "power_graph_update_balance.last_scaled_power_in",
+        "power_graph_update_balance.last_scaled_power_out",
+        "power_graph_update_balance.last_capacity",
+        "power_graph_update_balance.last_power_stored",
+        "power_graph_update_balance.power_balance",
+        "power_graph_update_balance.energy_delta_zero",
+        "power_graph_update_balance.source_delta"
+      ],
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.update() balance metrics through energyDelta reset; battery use/charge/distribute branch remains deferred."
     }
   },
   "version": 1

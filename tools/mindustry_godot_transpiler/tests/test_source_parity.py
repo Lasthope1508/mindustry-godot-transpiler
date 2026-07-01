@@ -336,6 +336,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_update_balance_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_update_balance_source"))
+        report = source_parity.verify_power_graph_update_balance_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "update_method": "public void update(){",
+            "power_needed": "float powerNeeded = getPowerNeeded();",
+            "power_produced": "float powerProduced = getPowerProduced();",
+            "last_power_needed": "lastPowerNeeded = powerNeeded;",
+            "last_power_produced": "lastPowerProduced = powerProduced;",
+            "last_scaled_power_in": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;",
+            "last_scaled_power_out": "lastScaledPowerOut = powerNeeded / Time.delta;",
+            "last_capacity": "lastCapacity = getTotalBatteryCapacity();",
+            "last_power_stored": "lastPowerStored = getBatteryStored();",
+            "power_balance": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
+            "energy_delta_zero": "energyDelta = 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")
