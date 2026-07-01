@@ -2096,6 +2096,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"transfer_amount_by_index": transfer_amount_by_index', source)
         self.assertIn('"transfer_indices": transfer_indices', source)
 
+    def test_port_game_exposes_source_building_transfer_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_transfer_liquid_state(liquid: Variant, amount: float, next_block_liquid_capacity: float, next_liquid_amount: float, next_accepts_liquid: bool, current_liquid_amount: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void transferLiquid(Building next, float amount, Liquid liquid){"', source)
+        self.assertIn('"flow": "float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);"', source)
+        self.assertIn('"accept_guard": "if(next.acceptLiquid(self(), liquid)){"', source)
+        self.assertIn('"handle_liquid_call": "next.handleLiquid(self(), liquid, flow);"', source)
+        self.assertIn('"remove_liquid_call": "liquids.remove(liquid, flow);"', source)
+        self.assertIn('"next_liquid_amount_after": next_liquid_amount_after', source)
+        self.assertIn('"current_liquid_amount_after": current_liquid_amount_after', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

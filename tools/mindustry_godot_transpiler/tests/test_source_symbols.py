@@ -17623,6 +17623,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(transfer_indices["java_expr"], "ofract < fract")
         self.assertEqual(transfer_indices["godot_symbol"], "source_building_dump_liquid_fraction_transfer_result.transfer_indices")
 
+    def test_building_transfer_liquid_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_transfer_liquid.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "transferLiquid(Building next, float amount, Liquid liquid)")
+        self.assertEqual(method["java_expr"], "public void transferLiquid(Building next, float amount, Liquid liquid){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_transfer_liquid_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_transfer_liquid_state")
+        self.assertEqual(method["godot_symbol"], "source_building_transfer_liquid_result.method")
+
+        amount = source_symbols.source_symbol(registry, "building_transfer_liquid.amount")
+        self.assertEqual(amount["status"], "explicit-input")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_building_transfer_liquid_input.amount")
+
+        flow = source_symbols.source_symbol(registry, "building_transfer_liquid.flow")
+        self.assertEqual(flow["java_expr"], "Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount)")
+        self.assertEqual(flow["godot_symbol"], "source_building_transfer_liquid_result.flow")
+
+        accept_guard = source_symbols.source_symbol(registry, "building_transfer_liquid.accept_guard")
+        self.assertEqual(accept_guard["java_expr"], "next.acceptLiquid(self(), liquid)")
+        self.assertEqual(accept_guard["godot_symbol"], "source_building_transfer_liquid_result.accept_guard")
+
+        current_liquid_amount_after = source_symbols.source_symbol(registry, "building_transfer_liquid.current_liquid_amount_after")
+        self.assertEqual(current_liquid_amount_after["java_expr"], "liquids.remove(liquid, flow)")
+        self.assertEqual(current_liquid_amount_after["godot_symbol"], "source_building_transfer_liquid_result.current_liquid_amount_after")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18583,9 +18614,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 538)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 539)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 543)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 544)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23370,6 +23401,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;", building_dump_liquid_fraction_transfer["exact_exprs"])
         self.assertIn("float fract = liquids.get(liquid) / block.liquidCapacity;", building_dump_liquid_fraction_transfer["exact_exprs"])
         self.assertIn("if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);", building_dump_liquid_fraction_transfer["exact_exprs"])
+
+        building_transfer_liquid = source_symbols.source_slice(ledger, "N942")
+        self.assertEqual(building_transfer_liquid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_transfer_liquid["java_method"], "transferLiquid(Building next, float amount, Liquid liquid)")
+        self.assertEqual(building_transfer_liquid["godot_owner"], "PortGame.source_building_transfer_liquid_state")
+        self.assertIn("public void transferLiquid(Building next, float amount, Liquid liquid){", building_transfer_liquid["exact_exprs"])
+        self.assertIn("float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);", building_transfer_liquid["exact_exprs"])
+        self.assertIn("if(next.acceptLiquid(self(), liquid)){", building_transfer_liquid["exact_exprs"])
+        self.assertIn("next.handleLiquid(self(), liquid, flow);", building_transfer_liquid["exact_exprs"])
+        self.assertIn("liquids.remove(liquid, flow);", building_transfer_liquid["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28581,6 +28622,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("transfer_amount_by_index", building_dump_liquid_fraction_transfer["return_keys"])
         self.assertIn("transfer_indices", building_dump_liquid_fraction_transfer["return_keys"])
         self.assertEqual(building_dump_liquid_fraction_transfer["source_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) fraction transfer")
+
+        building_transfer_liquid = source_symbols.api_contract(contracts, "PortGame.source_building_transfer_liquid_state")
+        self.assertEqual([param["name"] for param in building_transfer_liquid["params"]], ["liquid", "amount", "next_block_liquid_capacity", "next_liquid_amount", "next_accepts_liquid", "current_liquid_amount"])
+        self.assertEqual(building_transfer_liquid["params"][1]["schema"], "source_building_transfer_liquid_input.amount")
+        self.assertEqual(building_transfer_liquid["params"][4]["schema"], "source_building_transfer_liquid_input.next_accepts_liquid")
+        self.assertIn("flow", building_transfer_liquid["return_keys"])
+        self.assertIn("accept_guard", building_transfer_liquid["return_keys"])
+        self.assertIn("next_liquid_amount_after", building_transfer_liquid["return_keys"])
+        self.assertIn("current_liquid_amount_after", building_transfer_liquid["return_keys"])
+        self.assertEqual(building_transfer_liquid["source_method"], "transferLiquid(Building next, float amount, Liquid liquid)")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36531,6 +36582,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["transfer_amount_by_index"]["java_expr"], "(fract - ofract) * block.liquidCapacity / scaling")
         self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["transfer_indices"]["java_expr"], "ofract < fract")
         self.assertEqual(source_building_dump_liquid_fraction_transfer_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_dump_liquid_fraction_transfer_input.current_liquid_amount")
+
+        source_building_transfer_liquid_input = source_symbols.state_schema(schema, "source_building_transfer_liquid_input")
+        self.assertEqual(source_building_transfer_liquid_input["keys"]["liquid"]["java_expr"], "liquid")
+        self.assertEqual(source_building_transfer_liquid_input["keys"]["amount"]["java_expr"], "amount")
+        self.assertEqual(source_building_transfer_liquid_input["keys"]["next_block_liquid_capacity"]["java_expr"], "next.block.liquidCapacity")
+        self.assertEqual(source_building_transfer_liquid_input["keys"]["next_liquid_amount"]["java_expr"], "next.liquids.get(liquid)")
+        self.assertEqual(source_building_transfer_liquid_input["keys"]["next_accepts_liquid"]["java_expr"], "next.acceptLiquid(self(), liquid)")
+        self.assertEqual(source_building_transfer_liquid_input["keys"]["current_liquid_amount"]["java_expr"], "liquids.get(liquid)")
+
+        source_building_transfer_liquid_result = source_symbols.state_schema(schema, "source_building_transfer_liquid_result")
+        self.assertEqual(source_building_transfer_liquid_result["keys"]["method"]["java_expr"], "public void transferLiquid(Building next, float amount, Liquid liquid){")
+        self.assertEqual(source_building_transfer_liquid_result["keys"]["flow"]["java_expr"], "float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);")
+        self.assertEqual(source_building_transfer_liquid_result["keys"]["accept_guard"]["java_expr"], "if(next.acceptLiquid(self(), liquid)){")
+        self.assertEqual(source_building_transfer_liquid_result["keys"]["handle_liquid_call"]["java_expr"], "next.handleLiquid(self(), liquid, flow);")
+        self.assertEqual(source_building_transfer_liquid_result["keys"]["remove_liquid_call"]["java_expr"], "liquids.remove(liquid, flow);")
+        self.assertEqual(source_building_transfer_liquid_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_transfer_liquid_input.current_liquid_amount")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")

@@ -19498,6 +19498,47 @@
       ],
       "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state",
       "rule": "Adds source-backed dumpLiquid fraction comparison and transfer amount math after N940 routing eligibility."
+    },
+    "N942": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "transferLiquid(Building next, float amount, Liquid liquid)",
+      "godot_owner": "PortGame.source_building_transfer_liquid_state",
+      "exact_exprs": [
+        "public void transferLiquid(Building next, float amount, Liquid liquid){",
+        "float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);",
+        "if(next.acceptLiquid(self(), liquid)){",
+        "next.handleLiquid(self(), liquid, flow);",
+        "liquids.remove(liquid, flow);"
+      ],
+      "deferred_exprs": [
+        "canDumpLiquid(Building to, Liquid liquid) default predicate remains a separate slice."
+      ],
+      "source_symbols": [
+        "building_transfer_liquid.method",
+        "building_transfer_liquid.liquid",
+        "building_transfer_liquid.amount",
+        "building_transfer_liquid.next_block_liquid_capacity",
+        "building_transfer_liquid.next_liquid_amount",
+        "building_transfer_liquid.next_accepts_liquid",
+        "building_transfer_liquid.current_liquid_amount",
+        "building_transfer_liquid.flow",
+        "building_transfer_liquid.accept_guard",
+        "building_transfer_liquid.handle_liquid_call",
+        "building_transfer_liquid.remove_liquid_call",
+        "building_transfer_liquid.next_liquid_amount_after",
+        "building_transfer_liquid.current_liquid_amount_after",
+        "building_transfer_liquid.handle_liquid_called",
+        "building_transfer_liquid.remove_liquid_called"
+      ],
+      "tests": [
+        "test_building_transfer_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_transfer_liquid_state",
+        "test_building_transfer_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_transfer_liquid_state",
+      "rule": "Adds source-backed transferLiquid flow calculation, accept guard, handleLiquid call, and own-liquid removal side effects."
     }
   },
   "version": 1

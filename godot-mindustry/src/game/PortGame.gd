@@ -5353,6 +5353,37 @@ func source_building_dump_liquid_fraction_transfer_state(liquid: Variant, scalin
 		"transfer_indices": transfer_indices,
 	}
 
+func source_building_transfer_liquid_state(liquid: Variant, amount: float, next_block_liquid_capacity: float, next_liquid_amount: float, next_accepts_liquid: bool, current_liquid_amount: float) -> Dictionary:
+	var flow = minf(next_block_liquid_capacity - next_liquid_amount, amount)
+	var next_liquid_amount_after := next_liquid_amount
+	var current_liquid_amount_after := current_liquid_amount
+	var handle_liquid_called := false
+	var remove_liquid_called := false
+	if next_accepts_liquid:
+		next_liquid_amount_after = next_liquid_amount + flow
+		current_liquid_amount_after = current_liquid_amount - flow
+		handle_liquid_called = true
+		remove_liquid_called = true
+	return {
+		"method": "public void transferLiquid(Building next, float amount, Liquid liquid){",
+		"flow": "float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);",
+		"accept_guard": "if(next.acceptLiquid(self(), liquid)){",
+		"handle_liquid_call": "next.handleLiquid(self(), liquid, flow);",
+		"remove_liquid_call": "liquids.remove(liquid, flow);",
+		"liquid": liquid,
+		"amount": amount,
+		"next_block_liquid_capacity": next_block_liquid_capacity,
+		"next_liquid_amount": next_liquid_amount,
+		"next_accepts_liquid": next_accepts_liquid,
+		"current_liquid_amount": current_liquid_amount,
+		"flow_value": flow,
+		"accept_guard_passed": next_accepts_liquid,
+		"handle_liquid_called": handle_liquid_called,
+		"remove_liquid_called": remove_liquid_called,
+		"next_liquid_amount_after": next_liquid_amount_after,
+		"current_liquid_amount_after": current_liquid_amount_after,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

@@ -463,6 +463,26 @@ def verify_building_dump_liquid_fraction_transfer_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_building_transfer_liquid_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void transferLiquid(Building next, float amount, Liquid liquid){",
+        "flow": "float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);",
+        "accept_guard": "if(next.acceptLiquid(self(), liquid)){",
+        "handle_liquid_call": "next.handleLiquid(self(), liquid, flow);",
+        "remove_liquid_call": "liquids.remove(liquid, flow);",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

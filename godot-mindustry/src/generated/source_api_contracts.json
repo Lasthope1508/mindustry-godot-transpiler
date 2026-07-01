@@ -22029,6 +22029,70 @@
       ],
       "runtime_proof": "/root/Main.source_building_dump_liquid_fraction_transfer_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.dumpLiquid fraction transfer math helper."
+    },
+    "PortGame.source_building_transfer_liquid_state": {
+      "status": "active",
+      "source_slice": "N942",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "transferLiquid(Building next, float amount, Liquid liquid)",
+      "params": [
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_building_transfer_liquid_input.liquid"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_building_transfer_liquid_input.amount"
+        },
+        {
+          "name": "next_block_liquid_capacity",
+          "type": "float",
+          "schema": "source_building_transfer_liquid_input.next_block_liquid_capacity"
+        },
+        {
+          "name": "next_liquid_amount",
+          "type": "float",
+          "schema": "source_building_transfer_liquid_input.next_liquid_amount"
+        },
+        {
+          "name": "next_accepts_liquid",
+          "type": "bool",
+          "schema": "source_building_transfer_liquid_input.next_accepts_liquid"
+        },
+        {
+          "name": "current_liquid_amount",
+          "type": "float",
+          "schema": "source_building_transfer_liquid_input.current_liquid_amount"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "flow",
+        "accept_guard",
+        "handle_liquid_call",
+        "remove_liquid_call",
+        "liquid",
+        "amount",
+        "next_block_liquid_capacity",
+        "next_liquid_amount",
+        "next_accepts_liquid",
+        "current_liquid_amount",
+        "flow_value",
+        "accept_guard_passed",
+        "handle_liquid_called",
+        "remove_liquid_called",
+        "next_liquid_amount_after",
+        "current_liquid_amount_after"
+      ],
+      "tests": [
+        "test_building_transfer_liquid_matches_upstream_source",
+        "test_port_game_exposes_source_building_transfer_liquid_state",
+        "test_building_transfer_liquid_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_transfer_liquid_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.transferLiquid body helper."
     }
   },
   "policy": {
