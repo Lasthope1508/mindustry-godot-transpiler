@@ -17804,6 +17804,38 @@
         "test_power_graph_distribute_power_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.distributePower consumer status distribution without full update() orchestration."
+    },
+    "N895": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "exact_exprs": [
+        "public void update(){",
+        "if(!consumers.isEmpty() && consumers.first().cheating()){",
+        "//when cheating, just set status to 1",
+        "for(Building tile : consumers){",
+        "tile.power.status = 1f;",
+        "lastPowerNeeded = lastPowerProduced = 1f;",
+        "return;"
+      ],
+      "source_symbols": [
+        "power_graph_update_cheat.method",
+        "power_graph_update_cheat.cheat_gate",
+        "power_graph_update_cheat.consumers_empty",
+        "power_graph_update_cheat.first_cheating",
+        "power_graph_update_cheat.status_one",
+        "power_graph_update_cheat.last_power_assign",
+        "power_graph_update_cheat.return"
+      ],
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.update() cheat early-return branch only; non-cheat update orchestration remains deferred."
     }
   },
   "version": 1

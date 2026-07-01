@@ -62090,6 +62090,111 @@
         "test_power_graph_distribute_power_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_update_cheat.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "public void update(){",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "godot_symbol": "source_power_graph_update_cheat_result.method",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
+    },
+    "power_graph_update_cheat.cheat_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "if(!consumers.isEmpty() && consumers.first().cheating()){",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "godot_symbol": "source_power_graph_update_cheat_result.cheat_gate",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
+    },
+    "power_graph_update_cheat.consumers_empty": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "consumers.isEmpty()",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "godot_symbol": "source_power_graph_update_cheat_input.consumers_empty",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
+    },
+    "power_graph_update_cheat.first_cheating": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "consumers.first().cheating()",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "godot_symbol": "source_power_graph_update_cheat_input.first_cheating",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
+    },
+    "power_graph_update_cheat.status_one": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "tile.power.status = 1f;",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "godot_symbol": "source_power_graph_update_cheat_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
+    },
+    "power_graph_update_cheat.last_power_assign": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "lastPowerNeeded = lastPowerProduced = 1f;",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "godot_symbol": "source_power_graph_update_cheat_result.last_power_needed",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
+    },
+    "power_graph_update_cheat.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "java_expr": "return;",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "godot_symbol": "source_power_graph_update_cheat_result.returned",
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.update cheat early-return branch mapping."
     }
   },
   "version": 1

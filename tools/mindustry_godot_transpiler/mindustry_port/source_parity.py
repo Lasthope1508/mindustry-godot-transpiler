@@ -420,6 +420,26 @@ def verify_power_graph_distribute_power_source(upstream_root: Path) -> dict[str,
     }
 
 
+def verify_power_graph_update_cheat_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "update_method": "public void update(){",
+        "cheat_gate": "if(!consumers.isEmpty() && consumers.first().cheating()){",
+        "cheat_comment": "//when cheating, just set status to 1",
+        "loop": "for(Building tile : consumers){",
+        "status_one": "tile.power.status = 1f;",
+        "last_power_assign": "lastPowerNeeded = lastPowerProduced = 1f;",
+        "return": "return;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

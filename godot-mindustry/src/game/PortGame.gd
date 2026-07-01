@@ -1203,6 +1203,41 @@ func source_power_graph_distribute_power_state(consumers: Array, needed: float, 
 		"nan_guard_count": nan_guard_count,
 	}
 
+func source_power_graph_update_cheat_state(consumers: Array) -> Dictionary:
+	var source_consumers: Array = []
+	for consumer in consumers:
+		if typeof(consumer) != TYPE_DICTIONARY:
+			continue
+		source_consumers.append(consumer.duplicate(true))
+	var consumers_empty := source_consumers.is_empty()
+	var first_cheating := false
+	if not consumers_empty:
+		first_cheating = bool(source_consumers[0].get("cheating", false))
+	var returned := false
+	var last_power_needed := 0.0
+	var last_power_produced := 0.0
+	if not consumers_empty and first_cheating:
+		for consumer_state in source_consumers:
+			consumer_state["power_status"] = 1.0
+		last_power_needed = 1.0
+		last_power_produced = 1.0
+		returned = true
+	return {
+		"method": "public void update(){",
+		"cheat_gate": "if(!consumers.isEmpty() && consumers.first().cheating()){",
+		"cheat_comment": "//when cheating, just set status to 1",
+		"loop": "for(Building tile : consumers){",
+		"status_assign": "tile.power.status = 1f;",
+		"last_power_assign": "lastPowerNeeded = lastPowerProduced = 1f;",
+		"return_expr": "return;",
+		"consumers_empty": consumers_empty,
+		"first_cheating": first_cheating,
+		"consumers": source_consumers,
+		"returned": returned,
+		"last_power_needed": last_power_needed,
+		"last_power_produced": last_power_produced,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)

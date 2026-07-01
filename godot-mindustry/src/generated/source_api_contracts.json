@@ -19652,6 +19652,41 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
       "rule": "Public runtime contract for PowerGraph.distributePower(float needed, float produced, boolean charged) with explicit consumer inputs."
+    },
+    "PortGame.source_power_graph_update_cheat_state": {
+      "status": "active",
+      "source_slice": "N895",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "update()",
+      "params": [
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_power_graph_update_cheat_input.consumers"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "cheat_gate",
+        "cheat_comment",
+        "loop",
+        "status_assign",
+        "last_power_assign",
+        "return_expr",
+        "consumers_empty",
+        "first_cheating",
+        "consumers",
+        "returned",
+        "last_power_needed",
+        "last_power_produced"
+      ],
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state",
+      "rule": "Public runtime contract for PowerGraph.update() cheat early-return branch with explicit consumer inputs."
     }
   },
   "policy": {

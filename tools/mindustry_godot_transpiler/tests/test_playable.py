@@ -191,6 +191,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"nan_guard": "if(Float.isNaN(consumer.power.status)){"', source)
         self.assertIn('consumer_state["power_status"] = clamp(power_status + maximum_rate / capacity, 0.0, 1.0)', source)
 
+    def test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_update_cheat_state(consumers: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"cheat_gate": "if(!consumers.isEmpty() && consumers.first().cheating()){"', source)
+        self.assertIn('"status_assign": "tile.power.status = 1f;"', source)
+        self.assertIn('"last_power_assign": "lastPowerNeeded = lastPowerProduced = 1f;"', source)
+        self.assertIn('"return_expr": "return;"', source)
+        self.assertIn('consumer_state["power_status"] = 1.0', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

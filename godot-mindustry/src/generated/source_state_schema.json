@@ -74282,6 +74282,138 @@
           "godot_symbol": "source_power_graph_distribute_power_result.consumers"
         }
       }
+    },
+    "source_power_graph_update_cheat_input": {
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_cheat_input key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "consumers.items",
+          "godot_symbol": "source_power_graph_update_cheat_input.consumers"
+        },
+        "consumers_empty": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_cheat_input key consumers_empty.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "consumers.isEmpty()",
+          "godot_symbol": "source_power_graph_update_cheat_input.consumers_empty"
+        },
+        "first_cheating": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_cheat_input key first_cheating.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "consumers.first().cheating()",
+          "godot_symbol": "source_power_graph_update_cheat_input.first_cheating"
+        }
+      }
+    },
+    "source_power_graph_update_cheat_consumer": {
+      "keys": {
+        "cheating": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_cheat_consumer key cheating.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "tile.cheating()",
+          "godot_symbol": "source_power_graph_update_cheat_consumer.cheating"
+        },
+        "power_status": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_update_cheat_consumer key power_status.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "tile.power.status",
+          "godot_symbol": "source_power_graph_update_cheat_consumer.power_status"
+        }
+      }
+    },
+    "source_power_graph_update_cheat_result": {
+      "keys": {
+        "cheat_gate": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_cheat_result key cheat_gate.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "if(!consumers.isEmpty() && consumers.first().cheating()){",
+          "godot_symbol": "source_power_graph_update_cheat_result.cheat_gate"
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_cheat_result key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "tile.power.status = 1f;",
+          "godot_symbol": "source_power_graph_update_cheat_result.consumers"
+        },
+        "returned": {
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_cheat_result key returned.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "return;",
+          "godot_symbol": "source_power_graph_update_cheat_result.returned"
+        },
+        "last_power_needed": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_cheat_result key last_power_needed.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerNeeded = lastPowerProduced = 1f;",
+          "godot_symbol": "source_power_graph_update_cheat_result.last_power_needed"
+        },
+        "last_power_produced": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_update_cheat_result key last_power_produced.",
+          "used_by": [
+            "PortGame.source_power_graph_update_cheat_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "update()",
+          "java_expr": "lastPowerNeeded = lastPowerProduced = 1f;",
+          "godot_symbol": "source_power_graph_update_cheat_result.last_power_produced"
+        }
+      }
     }
   },
   "version": 1
