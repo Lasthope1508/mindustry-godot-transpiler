@@ -65621,6 +65621,113 @@
           ]
         }
       }
+    },
+    "source_weapon_update_always_shooting_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_always_shooting_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source WeaponMount input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_always_shooting_input.weapon_state",
+          "java_expr": "Weapon always shooting fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Source Weapon input for alwaysShooting assignment.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ]
+        },
+        "shoot": {
+          "godot_symbol": "source_weapon_update_always_shooting_input.mount_state.shoot",
+          "java_expr": "public boolean shoot = false;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount shoot field before optional alwaysShooting assignment.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ]
+        },
+        "alwaysShooting": {
+          "godot_symbol": "source_weapon_update_always_shooting_input.weapon_state.alwaysShooting",
+          "java_expr": "public boolean alwaysShooting = false;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon alwaysShooting field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_always_shooting_result": {
+      "status": "active",
+      "keys": {
+        "shoot": {
+          "godot_symbol": "source_weapon_update_always_shooting_result.shoot",
+          "java_expr": "if(alwaysShooting) mount.shoot = true;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned mount shoot state after optional alwaysShooting assignment.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ]
+        },
+        "alwaysShooting": {
+          "godot_symbol": "source_weapon_update_always_shooting_result.alwaysShooting",
+          "java_expr": "public boolean alwaysShooting = false;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime alwaysShooting value.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ],
+          "alias_of": "source_weapon_update_always_shooting_input.alwaysShooting"
+        },
+        "alwaysShootingSource": {
+          "godot_symbol": "source_weapon_update_always_shooting_result.alwaysShootingSource",
+          "java_expr": "if(alwaysShooting) mount.shoot = true;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact alwaysShooting assignment metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ]
+        },
+        "continuousReservedSource": {
+          "godot_symbol": "source_weapon_update_always_shooting_result.continuousReservedSource",
+          "java_expr": "if(continuous && mount.bullet != null){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous state",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Following continuous guard reserved for continuous update slices.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_always_shooting_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

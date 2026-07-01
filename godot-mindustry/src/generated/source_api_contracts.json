@@ -17885,6 +17885,37 @@
         "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
         "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_always_shooting_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_always_shooting_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_always_shooting_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "shoot",
+        "alwaysShooting",
+        "alwaysShootingSource",
+        "continuousReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update alwaysShooting assignment state.",
+      "runtime_proof": "/root/Main.source_weapon_update_always_shooting_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+      "source_slice": "N858",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_always_shooting_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_shooting_state",
+        "test_weapon_update_always_shooting_matches_upstream_source"
+      ]
     }
   },
   "policy": {

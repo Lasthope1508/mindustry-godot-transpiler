@@ -4762,8 +4762,8 @@ func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_
 	return {
 		"shoot": shoot,
 		"alwaysShooting": always_shooting,
-		"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true",
-		"continuousReservedSource": "if(continuous && mount.bullet != null)",
+		"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true;",
+		"continuousReservedSource": "if(continuous && mount.bullet != null){",
 	}
 
 func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:

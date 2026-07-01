@@ -4612,8 +4612,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("shoot = true", source)
         self.assertIn('"shoot": shoot', source)
         self.assertIn('"alwaysShooting": always_shooting', source)
-        self.assertIn('"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true"', source)
-        self.assertIn('"continuousReservedSource": "if(continuous && mount.bullet != null)"', source)
+        self.assertIn('"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true;"', source)
+        self.assertIn('"continuousReservedSource": "if(continuous && mount.bullet != null){"', source)
 
     def test_port_game_exposes_source_weapon_update_continuous_invalidation_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

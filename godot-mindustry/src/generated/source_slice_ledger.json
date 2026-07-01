@@ -16157,6 +16157,37 @@
         "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update alwaysContinuous keepalive wrapper against exact upstream source."
+    },
+    "N858": {
+      "exact_exprs": [
+        "if(alwaysShooting) mount.shoot = true;"
+      ],
+      "bridge_exprs": [
+        "public boolean alwaysShooting = false;",
+        "public boolean shoot = false;"
+      ],
+      "deferred_exprs": [
+        "//update continuous state",
+        "if(continuous && mount.bullet != null){"
+      ],
+      "godot_owner": "PortGame.source_weapon_update_always_shooting_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_always_shooting_state",
+      "source_symbols": [
+        "weapon_update_always_shooting.assignment",
+        "weapon_update_always_shooting.always_shooting",
+        "weapon_update_always_shooting.mount_shoot",
+        "weapon_update_always_shooting.continuous_guard_reserved"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_always_shooting_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_shooting_state",
+        "test_weapon_update_always_shooting_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update alwaysShooting assignment wrapper against exact upstream source."
     }
   },
   "version": 1

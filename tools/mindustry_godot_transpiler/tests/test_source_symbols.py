@@ -5081,6 +5081,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(status_guard["java_expr"], "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;")
         self.assertEqual(status_guard["godot_symbol"], "source_weapon_update_always_continuous_keepalive_result.statusApplyGuardSource")
 
+    def test_weapon_update_always_shooting_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        assignment = source_symbols.source_symbol(registry, "weapon_update_always_shooting.assignment")
+        self.assertEqual(assignment["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(assignment["java_expr"], "if(alwaysShooting) mount.shoot = true;")
+        self.assertEqual(assignment["godot_owner"], "PortGame.source_weapon_update_always_shooting_state")
+        self.assertEqual(assignment["runtime_proof"], "/root/Main.source_weapon_update_always_shooting_state")
+        self.assertEqual(assignment["godot_symbol"], "source_weapon_update_always_shooting_result.alwaysShootingSource")
+
+        always_shooting = source_symbols.source_symbol(registry, "weapon_update_always_shooting.always_shooting")
+        self.assertEqual(always_shooting["java_expr"], "public boolean alwaysShooting = false;")
+        self.assertEqual(always_shooting["godot_symbol"], "source_weapon_update_always_shooting_input.weapon_state.alwaysShooting")
+
+        mount_shoot = source_symbols.source_symbol(registry, "weapon_update_always_shooting.mount_shoot")
+        self.assertEqual(mount_shoot["java_source"], "core/src/mindustry/entities/units/WeaponMount.java")
+        self.assertEqual(mount_shoot["java_expr"], "public boolean shoot = false;")
+        self.assertEqual(mount_shoot["godot_symbol"], "source_weapon_update_always_shooting_input.mount_state.shoot")
+
+        continuous_reserved = source_symbols.source_symbol(registry, "weapon_update_always_shooting.continuous_guard_reserved")
+        self.assertEqual(continuous_reserved["java_expr"], "if(continuous && mount.bullet != null){")
+        self.assertEqual(continuous_reserved["godot_symbol"], "source_weapon_update_always_shooting_result.continuousReservedSource")
+        self.assertEqual(continuous_reserved["status"], "deferred")
+
     def test_status_apply_result_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -15739,9 +15766,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 455)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 456)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 460)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 461)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -15808,6 +15835,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_active_sound_loop_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_alternating_side_flip_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_weapon_update_always_continuous_keepalive_state", audit["legacyUnregisteredOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_always_shooting_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_ability_death_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_crash_landing_damage_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_destroy_explosion_dispatch_state", audit["legacyUnregisteredOwners"])
@@ -18696,6 +18724,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float optimalLifeFract = 0f;", weapon_update_always_continuous_keepalive["bridge_exprs"])
         self.assertIn("if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;", weapon_update_always_continuous_keepalive["bridge_exprs"])
         self.assertIn("Continuous idle heat/sound else branch remains owned by source_weapon_update_continuous_idle_heat_sound_state.", weapon_update_always_continuous_keepalive["deferred_exprs"])
+
+        weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
+        self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_always_shooting["java_method"], "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment")
+        self.assertEqual(weapon_update_always_shooting["godot_owner"], "PortGame.source_weapon_update_always_shooting_state")
+        self.assertIn("if(alwaysShooting) mount.shoot = true;", weapon_update_always_shooting["exact_exprs"])
+        self.assertIn("public boolean alwaysShooting = false;", weapon_update_always_shooting["bridge_exprs"])
+        self.assertIn("public boolean shoot = false;", weapon_update_always_shooting["bridge_exprs"])
+        self.assertIn("//update continuous state", weapon_update_always_shooting["deferred_exprs"])
+        self.assertIn("if(continuous && mount.bullet != null){", weapon_update_always_shooting["deferred_exprs"])
 
         unit_destroy_explosion_dispatch = source_symbols.source_slice(ledger, "N768")
         self.assertEqual(unit_destroy_explosion_dispatch["java_source"], "core/src/mindustry/entities/comp/UnitComp.java")
@@ -21989,6 +22027,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("keepAliveSource", weapon_update_always_continuous_keepalive["return_keys"])
         self.assertIn("unitApplySource", weapon_update_always_continuous_keepalive["return_keys"])
         self.assertEqual(weapon_update_always_continuous_keepalive["source_method"], "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive")
+
+        weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
+        self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
+        self.assertEqual(weapon_update_always_shooting["params"][0]["schema"], "source_weapon_update_always_shooting_input.mount_state")
+        self.assertEqual(weapon_update_always_shooting["params"][1]["schema"], "source_weapon_update_always_shooting_input.weapon_state")
+        self.assertIn("shoot", weapon_update_always_shooting["return_keys"])
+        self.assertIn("alwaysShooting", weapon_update_always_shooting["return_keys"])
+        self.assertIn("alwaysShootingSource", weapon_update_always_shooting["return_keys"])
+        self.assertIn("continuousReservedSource", weapon_update_always_shooting["return_keys"])
+        self.assertEqual(weapon_update_always_shooting["source_method"], "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment")
 
         weapon_bullet_initial_guard = source_symbols.api_contract(contracts, "PortGame.source_weapon_bullet_initial_guard_state")
         self.assertEqual([param["name"] for param in weapon_bullet_initial_guard["params"]], ["unit_state", "mount_state"])
@@ -28639,6 +28687,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_always_continuous_keepalive_result["keys"]["timeSource"]["java_expr"], "mount.bullet.time = mount.bullet.lifetime * mount.bullet.type.optimalLifeFract * mount.warmup;")
         self.assertEqual(source_weapon_update_always_continuous_keepalive_result["keys"]["keepAliveSource"]["java_expr"], "mount.bullet.keepAlive = true;")
         self.assertEqual(source_weapon_update_always_continuous_keepalive_result["keys"]["unitApplySource"]["java_expr"], "unit.apply(shootStatus, shootStatusDuration);")
+
+        source_weapon_update_always_shooting_input = source_symbols.state_schema(schema, "source_weapon_update_always_shooting_input")
+        self.assertEqual(source_weapon_update_always_shooting_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")
+        self.assertEqual(source_weapon_update_always_shooting_input["keys"]["weapon_state"]["java_expr"], "Weapon always shooting fields")
+        self.assertEqual(source_weapon_update_always_shooting_input["keys"]["shoot"]["java_expr"], "public boolean shoot = false;")
+        self.assertEqual(source_weapon_update_always_shooting_input["keys"]["alwaysShooting"]["java_expr"], "public boolean alwaysShooting = false;")
+
+        source_weapon_update_always_shooting_result = source_symbols.state_schema(schema, "source_weapon_update_always_shooting_result")
+        self.assertEqual(source_weapon_update_always_shooting_result["keys"]["shoot"]["java_expr"], "if(alwaysShooting) mount.shoot = true;")
+        self.assertEqual(source_weapon_update_always_shooting_result["keys"]["alwaysShooting"]["java_expr"], "public boolean alwaysShooting = false;")
+        self.assertEqual(source_weapon_update_always_shooting_result["keys"]["alwaysShootingSource"]["java_expr"], "if(alwaysShooting) mount.shoot = true;")
+        self.assertEqual(source_weapon_update_always_shooting_result["keys"]["continuousReservedSource"]["java_expr"], "if(continuous && mount.bullet != null){")
 
         source_offload_to_inventory_input = source_symbols.state_schema(schema, "source_offload_to_inventory_input")
         self.assertEqual(source_offload_to_inventory_input["keys"]["item_id"]["java_expr"], "dominantItem / Item item")
