@@ -5857,6 +5857,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(weapon_controllable["java_expr"], "public boolean controllable = true;")
         self.assertEqual(weapon_controllable["godot_symbol"], "source_weapons_control_state_input.mount_states.controllable")
 
+    def test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "weapons_remove_continuous_bullet_cleanup.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(method["java_expr"], "public void remove(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_weapons_remove_continuous_bullet_cleanup_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state")
+        self.assertEqual(method["godot_symbol"], "source_weapons_remove_continuous_bullet_cleanup_result.removeMethod")
+
+        guard = source_symbols.source_symbol(registry, "weapons_remove_continuous_bullet_cleanup.guard")
+        self.assertEqual(guard["java_expr"], "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){")
+        self.assertEqual(guard["godot_symbol"], "source_weapons_remove_continuous_bullet_cleanup_result.mounts.guard")
+
+        time_assignment = source_symbols.source_symbol(registry, "weapons_remove_continuous_bullet_cleanup.time_assignment")
+        self.assertEqual(time_assignment["java_expr"], "mount.bullet.time = mount.bullet.lifetime - 10f;")
+        self.assertEqual(time_assignment["godot_symbol"], "source_weapons_remove_continuous_bullet_cleanup_result.mounts.timeAssignment")
+
+        clear_assignment = source_symbols.source_symbol(registry, "weapons_remove_continuous_bullet_cleanup.clear_assignment")
+        self.assertEqual(clear_assignment["java_expr"], "mount.bullet = null;")
+        self.assertEqual(clear_assignment["godot_symbol"], "source_weapons_remove_continuous_bullet_cleanup_result.mounts.clearAssignment")
+
+        weapon_continuous = source_symbols.source_symbol(registry, "weapons_remove_continuous_bullet_cleanup.weapon_continuous")
+        self.assertEqual(weapon_continuous["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_continuous["java_expr"], "public boolean continuous;")
+        self.assertEqual(weapon_continuous["godot_symbol"], "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.continuous")
+
+        bullet_fields = source_symbols.source_symbol(registry, "weapons_remove_continuous_bullet_cleanup.bullet_time_lifetime")
+        self.assertEqual(bullet_fields["java_source"], "core/src/mindustry/entities/comp/BulletComp.java")
+        self.assertEqual(bullet_fields["java_expr"], "@Import float x, y, damage, lastX, lastY, time, lifetime;")
+        self.assertEqual(bullet_fields["godot_symbol"], "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16725,9 +16760,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 478)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 479)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 483)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 484)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16767,6 +16802,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapons_control_rotate_shoot_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapons_control_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapons_control_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapons_remove_continuous_bullet_cleanup_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapons_remove_continuous_bullet_cleanup_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19944,6 +19981,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean controllable = true;", weapons_control["bridge_exprs"])
         self.assertIn("weapons_control.method", weapons_control["source_symbols"])
         self.assertIn("weapons_control.is_shooting_assignment", weapons_control["source_symbols"])
+
+        weapons_remove_continuous_bullet_cleanup = source_symbols.source_slice(ledger, "N881")
+        self.assertEqual(weapons_remove_continuous_bullet_cleanup["java_source"], "core/src/mindustry/entities/comp/WeaponsComp.java")
+        self.assertEqual(weapons_remove_continuous_bullet_cleanup["java_method"], "WeaponsComp.remove() continuous bullet cleanup")
+        self.assertEqual(weapons_remove_continuous_bullet_cleanup["godot_owner"], "PortGame.source_weapons_remove_continuous_bullet_cleanup_state")
+        self.assertIn("public void remove(){", weapons_remove_continuous_bullet_cleanup["exact_exprs"])
+        self.assertIn("if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){", weapons_remove_continuous_bullet_cleanup["exact_exprs"])
+        self.assertIn("mount.bullet.time = mount.bullet.lifetime - 10f;", weapons_remove_continuous_bullet_cleanup["exact_exprs"])
+        self.assertIn("mount.bullet = null;", weapons_remove_continuous_bullet_cleanup["exact_exprs"])
+        self.assertIn("public boolean continuous;", weapons_remove_continuous_bullet_cleanup["bridge_exprs"])
+        self.assertIn("public @Nullable Bullet bullet;", weapons_remove_continuous_bullet_cleanup["bridge_exprs"])
+        self.assertIn("@Import Entityc owner;", weapons_remove_continuous_bullet_cleanup["bridge_exprs"])
+        self.assertIn("@Import float x, y, damage, lastX, lastY, time, lifetime;", weapons_remove_continuous_bullet_cleanup["bridge_exprs"])
+        self.assertIn("if(mount.sound != null){", weapons_remove_continuous_bullet_cleanup["deferred_exprs"])
+        self.assertIn("weapons_remove_continuous_bullet_cleanup.guard", weapons_remove_continuous_bullet_cleanup["source_symbols"])
+        self.assertIn("weapons_remove_continuous_bullet_cleanup.clear_assignment", weapons_remove_continuous_bullet_cleanup["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23518,6 +23571,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("isShooting", weapons_control["return_keys"])
         self.assertIn("mounts", weapons_control["return_keys"])
         self.assertEqual(weapons_control["source_method"], "WeaponsComp.controlWeapons(boolean rotate, boolean shoot)")
+
+        weapons_remove_continuous_bullet_cleanup = source_symbols.api_contract(contracts, "PortGame.source_weapons_remove_continuous_bullet_cleanup_state")
+        self.assertEqual([param["name"] for param in weapons_remove_continuous_bullet_cleanup["params"]], ["mount_states", "unit_id"])
+        self.assertEqual(weapons_remove_continuous_bullet_cleanup["params"][0]["schema"], "source_weapons_remove_continuous_bullet_cleanup_input.mount_states")
+        self.assertEqual(weapons_remove_continuous_bullet_cleanup["params"][1]["schema"], "source_weapons_remove_continuous_bullet_cleanup_input.unit_id")
+        self.assertIn("removeMethod", weapons_remove_continuous_bullet_cleanup["return_keys"])
+        self.assertIn("loop", weapons_remove_continuous_bullet_cleanup["return_keys"])
+        self.assertIn("unit", weapons_remove_continuous_bullet_cleanup["return_keys"])
+        self.assertIn("mounts", weapons_remove_continuous_bullet_cleanup["return_keys"])
+        self.assertEqual(weapons_remove_continuous_bullet_cleanup["source_method"], "WeaponsComp.remove() continuous bullet cleanup")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -30466,6 +30529,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapons_control_state_result["keys"]["shootAssignment"]["java_expr"], "mount.shoot = shoot;")
         self.assertEqual(source_weapons_control_state_result["keys"]["isRotate"]["java_expr"], "isRotate = rotate;")
         self.assertEqual(source_weapons_control_state_result["keys"]["isShooting"]["java_expr"], "isShooting = shoot;")
+
+        source_weapons_remove_continuous_bullet_cleanup_input = source_symbols.state_schema(schema, "source_weapons_remove_continuous_bullet_cleanup_input")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_input["keys"]["mount_states"]["java_expr"], "@SyncLocal WeaponMount[] mounts = {};")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_input["keys"]["unit_id"]["java_expr"], "self()")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_input["keys"]["continuous"]["java_expr"], "public boolean continuous;")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_input["keys"]["bullet"]["java_expr"], "public @Nullable Bullet bullet;")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_input["keys"]["bulletOwner"]["java_expr"], "@Import Entityc owner;")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_input["keys"]["bulletTimeLifetime"]["java_expr"], "@Import float x, y, damage, lastX, lastY, time, lifetime;")
+
+        source_weapons_remove_continuous_bullet_cleanup_result = source_symbols.state_schema(schema, "source_weapons_remove_continuous_bullet_cleanup_result")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["removeMethod"]["java_expr"], "public void remove(){")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["loop"]["java_expr"], "for(WeaponMount mount : mounts){")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["guard"]["java_expr"], "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["timeAssignment"]["java_expr"], "mount.bullet.time = mount.bullet.lifetime - 10f;")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["clearAssignment"]["java_expr"], "mount.bullet = null;")
+        self.assertEqual(source_weapons_remove_continuous_bullet_cleanup_result["keys"]["mounts"]["java_expr"], "for(WeaponMount mount : mounts){")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

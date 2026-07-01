@@ -17301,6 +17301,52 @@
         "test_weapons_control_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp controlWeapons(boolean rotate, boolean shoot) wrapper against exact upstream source."
+    },
+    "N881": {
+      "exact_exprs": [
+        "public void remove(){",
+        "for(WeaponMount mount : mounts){",
+        "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
+        "mount.bullet.time = mount.bullet.lifetime - 10f;",
+        "mount.bullet = null;"
+      ],
+      "bridge_exprs": [
+        "@SyncLocal WeaponMount[] mounts = {};",
+        "public boolean continuous;",
+        "public @Nullable Bullet bullet;",
+        "@Import Entityc owner;",
+        "@Import float x, y, damage, lastX, lastY, time, lifetime;"
+      ],
+      "deferred_exprs": [
+        "if(mount.sound != null){",
+        "mount.sound.stop();",
+        "Sound stop cleanup remains owned by PortGame.source_weapons_remove_sound_stop_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "source_symbols": [
+        "weapons_remove_continuous_bullet_cleanup.method",
+        "weapons_remove_continuous_bullet_cleanup.loop",
+        "weapons_remove_continuous_bullet_cleanup.guard",
+        "weapons_remove_continuous_bullet_cleanup.time_assignment",
+        "weapons_remove_continuous_bullet_cleanup.clear_assignment",
+        "weapons_remove_continuous_bullet_cleanup.mounts_field",
+        "weapons_remove_continuous_bullet_cleanup.self_call",
+        "weapons_remove_continuous_bullet_cleanup.weapon_continuous",
+        "weapons_remove_continuous_bullet_cleanup.weapon_mount_bullet",
+        "weapons_remove_continuous_bullet_cleanup.bullet_owner",
+        "weapons_remove_continuous_bullet_cleanup.bullet_time_lifetime"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp.remove() continuous bullet cleanup wrapper against exact upstream source."
     }
   },
   "version": 1

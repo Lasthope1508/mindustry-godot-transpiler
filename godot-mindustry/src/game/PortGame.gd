@@ -4376,18 +4376,19 @@ func source_weapons_remove_continuous_bullet_cleanup_state(mount_states: Array, 
 		mounts.append({
 			"index": index,
 			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
-			"guard": "mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()",
+			"guard": "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
 			"continuous": continuous,
 			"hadBullet": has_bullet,
 			"ownsBullet": owns_bullet,
 			"cleanup": cleanup,
-			"timeAssignment": "mount.bullet.time = mount.bullet.lifetime - 10f",
-			"clearAssignment": "mount.bullet = null",
+			"timeAssignment": "mount.bullet.time = mount.bullet.lifetime - 10f;",
+			"clearAssignment": "mount.bullet = null;",
 			"bulletTime": bullet_time,
 			"bullet": result_bullet,
 		})
 	return {
-		"loop": "for(WeaponMount mount : mounts)",
+		"removeMethod": "public void remove(){",
+		"loop": "for(WeaponMount mount : mounts){",
 		"unit": unit_id,
 		"mounts": mounts,
 	}

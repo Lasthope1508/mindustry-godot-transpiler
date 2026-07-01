@@ -19103,6 +19103,37 @@
         "test_port_game_exposes_source_weapons_control_state",
         "test_weapons_control_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_remove_continuous_bullet_cleanup_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "mount_states",
+          "schema": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states",
+          "type": "Array"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_weapons_remove_continuous_bullet_cleanup_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "removeMethod",
+        "loop",
+        "unit",
+        "mounts"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.remove() continuous bullet cleanup state.",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "source_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "source_slice": "N881",
+      "status": "active",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ]
     }
   },
   "policy": {

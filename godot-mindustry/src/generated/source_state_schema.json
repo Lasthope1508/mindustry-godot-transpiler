@@ -71973,6 +71973,176 @@
           ]
         }
       }
+    },
+    "source_weapons_remove_continuous_bullet_cleanup_input": {
+      "owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "status": "active",
+      "keys": {
+        "mount_states": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states",
+          "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+          "java_method": "WeaponsComp fields",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Weapon mount array input for remove override.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Runtime unit id represents exact self() owner comparison.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "continuous": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.continuous",
+          "java_expr": "public boolean continuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon continuous bridge field read through mount state.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "bullet": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet",
+          "java_expr": "public @Nullable Bullet bullet;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount bullet bridge field read through mount state.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "bulletOwner": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet.owner",
+          "java_expr": "@Import Entityc owner;",
+          "java_method": "BulletComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Bullet owner bridge field compared against self().",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "bulletTimeLifetime": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet",
+          "java_expr": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+          "java_method": "BulletComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Bullet time and lifetime bridge fields used by cleanup assignment.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        }
+      }
+    },
+    "source_weapons_remove_continuous_bullet_cleanup_result": {
+      "owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "status": "active",
+      "keys": {
+        "removeMethod": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.removeMethod",
+          "java_expr": "public void remove(){",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact remove override header.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.loop",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact mount loop in remove override.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.mounts.guard",
+          "java_expr": "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact continuous bullet cleanup guard recorded per mount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "timeAssignment": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.mounts.timeAssignment",
+          "java_expr": "mount.bullet.time = mount.bullet.lifetime - 10f;",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact bullet time assignment recorded per mount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "clearAssignment": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.mounts.clearAssignment",
+          "java_expr": "mount.bullet = null;",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact mount bullet clear assignment recorded per mount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "mounts": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.mounts",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Per-mount cleanup results from exact loop.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.unit",
+          "java_expr": "self()",
+          "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Runtime proof records unit id used for self() comparison.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -60245,6 +60245,171 @@
       "godot_symbol": "source_weapons_control_state_result.mounts.rotate",
       "status": "source-backed",
       "rule": "WeaponMount rotate bridge field assigned by pair overload."
+    },
+    "weapons_remove_continuous_bullet_cleanup.method": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "public void remove(){",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.removeMethod",
+      "status": "source-backed",
+      "rule": "Exact WeaponsComp remove override method header."
+    },
+    "weapons_remove_continuous_bullet_cleanup.loop": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "for(WeaponMount mount : mounts){",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.loop",
+      "status": "source-backed",
+      "rule": "Exact mount loop in remove override."
+    },
+    "weapons_remove_continuous_bullet_cleanup.guard": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "if(mount.weapon.continuous && mount.bullet != null && mount.bullet.owner == self()){",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.mounts.guard",
+      "status": "source-backed",
+      "rule": "Exact continuous bullet cleanup guard."
+    },
+    "weapons_remove_continuous_bullet_cleanup.time_assignment": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "mount.bullet.time = mount.bullet.lifetime - 10f;",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.mounts.timeAssignment",
+      "status": "source-backed",
+      "rule": "Exact bullet time assignment before cleanup."
+    },
+    "weapons_remove_continuous_bullet_cleanup.clear_assignment": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "mount.bullet = null;",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_result.mounts.clearAssignment",
+      "status": "source-backed",
+      "rule": "Exact mount bullet clear assignment."
+    },
+    "weapons_remove_continuous_bullet_cleanup.mounts_field": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponsComp fields",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states",
+      "status": "source-backed",
+      "rule": "Weapon mount array iterated by remove override."
+    },
+    "weapons_remove_continuous_bullet_cleanup.self_call": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponsComp.remove() continuous bullet cleanup",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_expr": "self()",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.unit_id",
+      "status": "explicit-input",
+      "rule": "Godot unit id represents exact self() owner comparison."
+    },
+    "weapons_remove_continuous_bullet_cleanup.weapon_continuous": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean continuous;",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.continuous",
+      "status": "source-backed",
+      "rule": "Weapon continuous bridge field used by guard."
+    },
+    "weapons_remove_continuous_bullet_cleanup.weapon_mount_bullet": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable Bullet bullet;",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet",
+      "status": "source-backed",
+      "rule": "WeaponMount bullet bridge field used by guard and cleanup."
+    },
+    "weapons_remove_continuous_bullet_cleanup.bullet_owner": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "BulletComp fields",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_expr": "@Import Entityc owner;",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet.owner",
+      "status": "source-backed",
+      "rule": "Bullet owner bridge field used by self comparison."
+    },
+    "weapons_remove_continuous_bullet_cleanup.bullet_time_lifetime": {
+      "godot_owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
+      "java_method": "BulletComp fields",
+      "runtime_proof": "/root/Main.source_weapons_remove_continuous_bullet_cleanup_state",
+      "tests": [
+        "test_weapons_remove_continuous_bullet_cleanup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_remove_continuous_bullet_cleanup_state",
+        "test_weapons_remove_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_expr": "@Import float x, y, damage, lastX, lastY, time, lifetime;",
+      "godot_symbol": "source_weapons_remove_continuous_bullet_cleanup_input.mount_states.bullet",
+      "status": "source-backed",
+      "rule": "Bullet time/lifetime bridge fields used by cleanup assignment."
     }
   },
   "version": 1
