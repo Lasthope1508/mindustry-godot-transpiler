@@ -68580,6 +68580,352 @@
           ]
         }
       }
+    },
+    "source_weapon_update_continuous_sound_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.weapon_state",
+          "java_expr": "Weapon continuous sound fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.bullet_state",
+          "java_expr": "mount.bullet",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Mount bullet facts used by continuous sound branch.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "runtime_state": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.runtime_state",
+          "java_expr": "Vars runtime state",
+          "java_method": "Vars fields",
+          "java_source": "core/src/mindustry/Vars.java",
+          "rule": "Runtime globals used by continuous sound guard.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "bullet_x": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.bullet_x",
+          "java_expr": "bulletX",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Bullet X from prior origin slice.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "bullet_y": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.bullet_y",
+          "java_expr": "bulletY",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Bullet Y from prior origin slice.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "continuous": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.weapon_state.continuous",
+          "java_expr": "public boolean continuous;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuous gate reused from invalidation slice.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "bulletExists": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.mount_state.bulletExists",
+          "java_expr": "public @Nullable Bullet bullet;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount continuous bullet presence.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "isAdded": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.bullet_state.isAdded",
+          "java_expr": "boolean isAdded(){",
+          "java_method": "EntityComp.isAdded()",
+          "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+          "rule": "Bullet added status used by live branch gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "time": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.bullet_state.time",
+          "java_expr": "float time, lifetime;",
+          "java_method": "BulletComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Bullet time used by invalidation gate.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "typeMatches": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.bullet_state.typeMatches",
+          "java_expr": "BulletType type;",
+          "java_method": "BulletComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Bullet type match used by invalidation gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "shootSoundIsNone": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.weapon_state.shootSoundIsNone",
+          "java_expr": "public Sound shootSound = Sounds.shoot;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit boolean fact for `shootSound != Sounds.none`.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "headless": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.runtime_state.headless",
+          "java_expr": "public static boolean headless;",
+          "java_method": "Vars fields",
+          "java_source": "core/src/mindustry/Vars.java",
+          "rule": "Runtime headless flag.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "hasSound": {
+          "godot_symbol": "source_weapon_update_continuous_sound_input.mount_state.hasSound",
+          "java_expr": "public @Nullable SoundLoop sound;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Mount sound loop presence.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_continuous_sound_result": {
+      "status": "active",
+      "keys": {
+        "gate": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.gate",
+          "java_expr": "if(continuous && mount.bullet != null){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuous bullet gate reused from invalidation slice.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "invalid": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.invalid",
+          "java_expr": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Invalidation state reused from invalidation slice.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "live": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.live",
+          "java_expr": "}else{",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed live continuous branch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundGate": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundGate",
+          "java_expr": "if(shootSound != Sounds.none && !headless){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Continuous sound guard result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "hasSound": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.hasSound",
+          "java_expr": "public @Nullable SoundLoop sound;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Resulting mount sound loop presence.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "createdSound": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.createdSound",
+          "java_expr": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Whether this transition creates the SoundLoop.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundUpdateCall": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundUpdateCall",
+          "java_expr": "mount.sound.update(bulletX, bulletY, true);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Recorded sound update call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundGuardSource": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundGuardSource",
+          "java_expr": "if(shootSound != Sounds.none && !headless){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact sound guard metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundCreateSource": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundCreateSource",
+          "java_expr": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact sound creation metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundUpdateSource": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundUpdateSource",
+          "java_expr": "mount.sound.update(bulletX, bulletY, true);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact sound update metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundLoopConstructorSource": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundLoopConstructorSource",
+          "java_expr": "public SoundLoop(Sound sound, float baseVolume){",
+          "java_method": "SoundLoop constructor",
+          "java_source": "core/src/mindustry/audio/SoundLoop.java",
+          "rule": "Exact SoundLoop constructor metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundLoopUpdateSource": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundLoopUpdateSource",
+          "java_expr": "public void update(float x, float y, boolean play){",
+          "java_method": "SoundLoop.update(float x, float y, boolean play)",
+          "java_source": "core/src/mindustry/audio/SoundLoop.java",
+          "rule": "Exact SoundLoop public update metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "soundLoopUpdateDelegateSource": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.soundLoopUpdateDelegateSource",
+          "java_expr": "update(x, y, play, 1f);",
+          "java_method": "SoundLoop.update(float x, float y, boolean play)",
+          "java_source": "core/src/mindustry/audio/SoundLoop.java",
+          "rule": "Exact SoundLoop update delegate metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        },
+        "laserLengthReservedSource": {
+          "godot_symbol": "source_weapon_update_continuous_sound_result.laserLengthReservedSource",
+          "java_expr": "//target length of laser",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Reserved laser length boundary metadata.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_continuous_sound_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

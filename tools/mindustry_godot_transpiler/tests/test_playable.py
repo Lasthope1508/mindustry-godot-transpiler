@@ -4668,9 +4668,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if created_sound:", source)
         self.assertIn("has_sound = true", source)
         self.assertIn("if sound_gate:", source)
-        self.assertIn('"soundGuardSource": "if(shootSound != Sounds.none && !headless)"', source)
-        self.assertIn('"soundCreateSource": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f)"', source)
-        self.assertIn('"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true)"', source)
+        self.assertIn('"soundGuardSource": "if(shootSound != Sounds.none && !headless){"', source)
+        self.assertIn('"soundCreateSource": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f);"', source)
+        self.assertIn('"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true);"', source)
+        self.assertIn('"soundLoopConstructorSource": "public SoundLoop(Sound sound, float baseVolume){"', source)
         self.assertIn('"laserLengthReservedSource": "//target length of laser"', source)
 
     def test_port_game_exposes_source_weapon_update_continuous_laser_aim_state(self):

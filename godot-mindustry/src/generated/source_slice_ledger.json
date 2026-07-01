@@ -16659,6 +16659,51 @@
         "test_weapon_update_continuous_live_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update continuous live wrapper against exact upstream source."
+    },
+    "N868": {
+      "exact_exprs": [
+        "if(shootSound != Sounds.none && !headless){",
+        "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f);",
+        "mount.sound.update(bulletX, bulletY, true);"
+      ],
+      "bridge_exprs": [
+        "public Sound shootSound = Sounds.shoot;",
+        "/** sound loop for continuous weapons */",
+        "public @Nullable SoundLoop sound;",
+        "public SoundLoop(Sound sound, float baseVolume){",
+        "public void update(float x, float y, boolean play){",
+        "update(x, y, play, 1f);",
+        "public static boolean headless;"
+      ],
+      "deferred_exprs": [
+        "//target length of laser",
+        "Laser aim branch remains owned by source_weapon_update_continuous_laser_aim_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_continuous_sound_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_sound_state",
+      "source_symbols": [
+        "weapon_update_continuous_sound.sound_guard",
+        "weapon_update_continuous_sound.sound_create_guard",
+        "weapon_update_continuous_sound.sound_update_call",
+        "weapon_update_continuous_sound.laser_length_reserved",
+        "weapon_update_continuous_sound.weapon_shoot_sound",
+        "weapon_update_continuous_sound.weapon_mount_sound_comment",
+        "weapon_update_continuous_sound.weapon_mount_sound",
+        "weapon_update_continuous_sound.sound_loop_constructor",
+        "weapon_update_continuous_sound.sound_loop_update",
+        "weapon_update_continuous_sound.sound_loop_update_delegate",
+        "weapon_update_continuous_sound.vars_headless"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_continuous_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_sound_state",
+        "test_weapon_update_continuous_sound_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update continuous sound wrapper against exact upstream source."
     }
   },
   "version": 1

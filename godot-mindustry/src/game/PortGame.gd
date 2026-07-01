@@ -4890,10 +4890,12 @@ func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon
 		"soundUpdateCall": sound_update_call,
 		"shootSoundIsNone": shoot_sound_is_none,
 		"headless": headless,
-		"soundGuardSource": "if(shootSound != Sounds.none && !headless)",
-		"soundCreateSource": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f)",
-		"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true)",
-		"soundLoopUpdateSource": "update(x, y, play, 1f)",
+		"soundGuardSource": "if(shootSound != Sounds.none && !headless){",
+		"soundCreateSource": "if(mount.sound == null) mount.sound = new SoundLoop(shootSound, 1f);",
+		"soundUpdateSource": "mount.sound.update(bulletX, bulletY, true);",
+		"soundLoopConstructorSource": "public SoundLoop(Sound sound, float baseVolume){",
+		"soundLoopUpdateSource": "public void update(float x, float y, boolean play){",
+		"soundLoopUpdateDelegateSource": "update(x, y, play, 1f);",
 		"laserLengthReservedSource": "//target length of laser",
 	}
 
