@@ -63395,6 +63395,156 @@
         "test_power_graph_remove_list_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.removeList(Building build) list removal state."
+    },
+    "power_graph_remove_branch_seed.tile": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "tile",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_input.tile",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.remove(Building tile) start tile and first-level connections."
+    },
+    "power_graph_remove_branch_seed.other_power_graph_is_self": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "other.power.graph == this",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_other.power_graph_is_self",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.remove(Building tile) start tile and first-level connections."
+    },
+    "power_graph_remove_branch_seed.remove_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "Note that this does not actually remove the building from the graph;",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.remove_comment",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "power_graph_remove_branch_seed.connections_loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "for(Building other : tile.getPowerConnections(outArray1)){",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.branch_seeds",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "power_graph_remove_branch_seed.skip_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "if(other.power.graph != this) continue;",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.skipped_others",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "power_graph_remove_branch_seed.graph_create": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "PowerGraph graph = new PowerGraph();",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.branch_seeds",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "power_graph_remove_branch_seed.graph_check_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "graph.checkAdd();",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.branch_seeds",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "power_graph_remove_branch_seed.graph_add_other": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "graph.add(other);",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.branch_seeds",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "power_graph_remove_branch_seed.queue_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "queue.clear();",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.branch_seeds",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
+    },
+    "power_graph_remove_branch_seed.queue_add_other": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "java_expr": "queue.addLast(other);",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "godot_symbol": "source_power_graph_remove_branch_seed_result.queued_positions",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
     }
   },
   "version": 1

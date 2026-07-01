@@ -1105,6 +1105,61 @@ func source_power_graph_remove_list_state(all: Array, producers: Array, consumer
 		"batteries": source_batteries,
 	}
 
+func source_power_graph_remove_branch_seed_state(tile: Dictionary) -> Dictionary:
+	var branch_seeds: Array = []
+	var skipped_others: Array = []
+	var queued_positions: Array = []
+	var connections: Array = tile.get("connections", [])
+	for other_variant in connections:
+		if typeof(other_variant) != TYPE_DICTIONARY:
+			continue
+		var other: Dictionary = other_variant
+		var other_pos = other.get("pos", null)
+		if not bool(other.get("power_graph_is_self", false)):
+			skipped_others.append(other_pos)
+			continue
+		var add_state := source_power_graph_add_role_state(
+			bool(other.get("build_present", true)),
+			bool(other.get("power_present", true)),
+			bool(other.get("graph_matches", false)),
+			bool(other.get("power_init", false)),
+			bool(other.get("old_graph_present", false)),
+			bool(other.get("old_graph_is_self", false)),
+			bool(other.get("old_graph_has_entity", false)),
+			bool(other.get("outputs_power", false)),
+			bool(other.get("consumes_power", false)),
+			bool(other.get("has_cons_power", false)),
+			bool(other.get("cons_power_buffered", false))
+		)
+		queued_positions.append(other_pos)
+		branch_seeds.append({
+			"other": other.duplicate(true),
+			"other_pos": other_pos,
+			"graph_created": true,
+			"check_add_count": 1,
+			"add_state": add_state,
+			"queued_other": other_pos,
+		})
+	return {
+		"remove_comment": "Note that this does not actually remove the building from the graph;",
+		"method": "public void remove(Building tile){",
+		"connections_comment": "//go through all the connections of this tile",
+		"connections_loop": "for(Building other : tile.getPowerConnections(outArray1)){",
+		"skip_comment": "//a graph has already been assigned to this tile from a previous call, skip it",
+		"skip_guard": "if(other.power.graph != this) continue;",
+		"create_comment": "//create graph for this branch",
+		"graph_create": "PowerGraph graph = new PowerGraph();",
+		"graph_check_add": "graph.checkAdd();",
+		"graph_add_other": "graph.add(other);",
+		"queue_comment": "//add to queue for BFS",
+		"queue_clear": "queue.clear();",
+		"queue_add_other": "queue.addLast(other);",
+		"tile": tile.duplicate(true),
+		"branch_seeds": branch_seeds,
+		"skipped_others": skipped_others,
+		"queued_positions": queued_positions,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

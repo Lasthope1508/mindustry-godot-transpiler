@@ -18095,6 +18095,47 @@
         "test_power_graph_remove_list_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.removeList(Building build) list removal behavior."
+    },
+    "N903": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state",
+      "exact_exprs": [
+        "Note that this does not actually remove the building from the graph;",
+        "public void remove(Building tile){",
+        "//go through all the connections of this tile",
+        "for(Building other : tile.getPowerConnections(outArray1)){",
+        "//a graph has already been assigned to this tile from a previous call, skip it",
+        "if(other.power.graph != this) continue;",
+        "//create graph for this branch",
+        "PowerGraph graph = new PowerGraph();",
+        "graph.checkAdd();",
+        "graph.add(other);",
+        "//add to queue for BFS",
+        "queue.clear();",
+        "queue.addLast(other);"
+      ],
+      "source_symbols": [
+        "power_graph_remove_branch_seed.tile",
+        "power_graph_remove_branch_seed.other_power_graph_is_self",
+        "power_graph_remove_branch_seed.remove_comment",
+        "power_graph_remove_branch_seed.connections_loop",
+        "power_graph_remove_branch_seed.skip_guard",
+        "power_graph_remove_branch_seed.graph_create",
+        "power_graph_remove_branch_seed.graph_check_add",
+        "power_graph_remove_branch_seed.graph_add_other",
+        "power_graph_remove_branch_seed.queue_clear",
+        "power_graph_remove_branch_seed.queue_add_other"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.remove(Building tile) branch seed before BFS traversal."
     }
   },
   "version": 1

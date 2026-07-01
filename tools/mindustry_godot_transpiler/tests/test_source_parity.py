@@ -461,6 +461,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_remove_branch_seed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_remove_branch_seed_source"))
+        report = source_parity.verify_power_graph_remove_branch_seed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "comment": "Note that this does not actually remove the building from the graph;",
+            "method": "public void remove(Building tile){",
+            "connections_comment": "//go through all the connections of this tile",
+            "connections_loop": "for(Building other : tile.getPowerConnections(outArray1)){",
+            "skip_comment": "//a graph has already been assigned to this tile from a previous call, skip it",
+            "skip_guard": "if(other.power.graph != this) continue;",
+            "create_comment": "//create graph for this branch",
+            "graph_create": "PowerGraph graph = new PowerGraph();",
+            "graph_check_add": "graph.checkAdd();",
+            "graph_add_other": "graph.add(other);",
+            "queue_comment": "//add to queue for BFS",
+            "queue_clear": "queue.clear();",
+            "queue_add_other": "queue.addLast(other);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

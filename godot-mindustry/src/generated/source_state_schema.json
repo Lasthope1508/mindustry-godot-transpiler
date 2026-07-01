@@ -75766,6 +75766,246 @@
           "godot_symbol": "source_power_graph_remove_list_result.batteries"
         }
       }
+    },
+    "source_power_graph_remove_branch_seed_input": {
+      "keys": {
+        "tile": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "rule": "source_power_graph_remove_branch_seed_input key tile.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "tile",
+          "godot_symbol": "source_power_graph_remove_branch_seed_input.tile"
+        }
+      }
+    },
+    "source_power_graph_remove_branch_seed_other": {
+      "keys": {
+        "power_graph_is_self": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_remove_branch_seed_other key power_graph_is_self.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "other.power.graph == this",
+          "godot_symbol": "source_power_graph_remove_branch_seed_other.power_graph_is_self"
+        }
+      }
+    },
+    "source_power_graph_remove_branch_seed_result": {
+      "keys": {
+        "remove_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key remove_comment.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "Note that this does not actually remove the building from the graph;",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.remove_comment"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "public void remove(Building tile){",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.method"
+        },
+        "connections_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key connections_comment.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "//go through all the connections of this tile",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.connections_comment"
+        },
+        "connections_loop": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key connections_loop.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "for(Building other : tile.getPowerConnections(outArray1)){",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.connections_loop"
+        },
+        "skip_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key skip_comment.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "//a graph has already been assigned to this tile from a previous call, skip it",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.skip_comment"
+        },
+        "skip_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key skip_guard.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "if(other.power.graph != this) continue;",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.skip_guard"
+        },
+        "create_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key create_comment.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "//create graph for this branch",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.create_comment"
+        },
+        "graph_create": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key graph_create.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "PowerGraph graph = new PowerGraph();",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.graph_create"
+        },
+        "graph_check_add": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key graph_check_add.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "graph.checkAdd();",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.graph_check_add"
+        },
+        "graph_add_other": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key graph_add_other.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "graph.add(other);",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.graph_add_other"
+        },
+        "queue_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key queue_comment.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "//add to queue for BFS",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.queue_comment"
+        },
+        "queue_clear": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key queue_clear.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "queue.clear();",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.queue_clear"
+        },
+        "queue_add_other": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key queue_add_other.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "queue.addLast(other);",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.queue_add_other"
+        },
+        "tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key tile.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "tile",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.tile"
+        },
+        "branch_seeds": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key branch_seeds.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "PowerGraph graph = new PowerGraph();/graph.add(other);",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.branch_seeds"
+        },
+        "skipped_others": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key skipped_others.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "if(other.power.graph != this) continue;",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.skipped_others"
+        },
+        "queued_positions": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_remove_branch_seed_result key queued_positions.",
+          "used_by": [
+            "PortGame.source_power_graph_remove_branch_seed_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "remove(Building tile)",
+          "java_expr": "queue.addLast(other);",
+          "godot_symbol": "source_power_graph_remove_branch_seed_result.queued_positions"
+        }
+      }
     }
   },
   "version": 1

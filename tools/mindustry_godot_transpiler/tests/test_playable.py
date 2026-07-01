@@ -294,6 +294,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"consumers_remove": "consumers.remove(build);"', source)
         self.assertIn('"batteries_remove": "batteries.remove(build);"', source)
 
+    def test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_remove_branch_seed_state(tile: Dictionary) -> Dictionary:", source)
+        self.assertIn('"method": "public void remove(Building tile){"', source)
+        self.assertIn('"connections_loop": "for(Building other : tile.getPowerConnections(outArray1)){"', source)
+        self.assertIn('"skip_guard": "if(other.power.graph != this) continue;"', source)
+        self.assertIn('"graph_create": "PowerGraph graph = new PowerGraph();"', source)
+        self.assertIn('"graph_check_add": "graph.checkAdd();"', source)
+        self.assertIn('"graph_add_other": "graph.add(other);"', source)
+        self.assertIn('"queue_clear": "queue.clear();"', source)
+        self.assertIn('"queue_add_other": "queue.addLast(other);"', source)
+        self.assertIn("source_power_graph_add_role_state(", source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
