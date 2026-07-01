@@ -20436,6 +20436,70 @@
       "tests": [
         "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_generator_create_explosion_damage_state": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "source_method": "createExplosion()",
+      "source_slice": "N914",
+      "params": [
+        {
+          "name": "should_explode_value",
+          "type": "bool",
+          "schema": "source_power_generator_create_explosion_damage_input.should_explode_value"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_damage_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_power_generator_create_explosion_damage_input.source_y"
+        },
+        {
+          "name": "explosion_radius",
+          "type": "int",
+          "schema": "source_power_generator_create_explosion_damage_input.explosion_radius"
+        },
+        {
+          "name": "explosion_damage",
+          "type": "int",
+          "schema": "source_power_generator_create_explosion_damage_input.explosion_damage"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "int",
+          "schema": "source_power_generator_create_explosion_damage_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "gate",
+        "damage_guard",
+        "damage_dispatch",
+        "damage_overload_method",
+        "damage_overload_dispatch",
+        "tilesize_field",
+        "input_should_explode_value",
+        "input_source_x",
+        "input_source_y",
+        "input_explosion_radius",
+        "input_explosion_damage",
+        "input_source_tilesize",
+        "branch_entered",
+        "damage_guard_entered",
+        "damage_dispatched",
+        "damage_radius",
+        "damage_call",
+        "deferred_body"
+      ],
+      "rule": "Public runtime contract for createExplosion damage branch only; post-damage side effects remain deferred.",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "status": "active",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

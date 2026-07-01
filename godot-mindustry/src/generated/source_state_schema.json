@@ -77118,6 +77118,165 @@
           "java_expr": "createExplosion() side-effect body"
         }
       }
+    },
+    "source_power_generator_create_explosion_damage_input": {
+      "owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "source_slice": "N914",
+      "status": "active",
+      "keys": {
+        "should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "shouldExplode()",
+          "alias_of": "source_power_generator_should_explode_result.should_explode"
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "x"
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "y"
+        },
+        "explosion_radius": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionRadius"
+        },
+        "explosion_damage": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionDamage"
+        },
+        "source_tilesize": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "tilesize"
+        }
+      }
+    },
+    "source_power_generator_create_explosion_damage_result": {
+      "owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "source_slice": "N914",
+      "status": "active",
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "public void createExplosion(){"
+        },
+        "gate": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){"
+        },
+        "damage_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(explosionDamage > 0){"
+        },
+        "damage_dispatch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);"
+        },
+        "damage_overload_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Damage.java",
+          "java_expr": "public static void damage(float x, float y, float radius, float damage){"
+        },
+        "damage_overload_dispatch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Damage.java",
+          "java_expr": "damage(null, x, y, radius, damage, false);"
+        },
+        "tilesize_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;"
+        },
+        "input_should_explode_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_damage_input.should_explode_value"
+        },
+        "input_source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_damage_input.source_x"
+        },
+        "input_source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_damage_input.source_y"
+        },
+        "input_explosion_radius": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_damage_input.explosion_radius"
+        },
+        "input_explosion_damage": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_damage_input.explosion_damage"
+        },
+        "input_source_tilesize": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_power_generator_create_explosion_damage_input.source_tilesize"
+        },
+        "branch_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(shouldExplode()){",
+          "alias_of": "source_power_generator_create_explosion_damage_input.should_explode_value"
+        },
+        "damage_guard_entered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "if(explosionDamage > 0){"
+        },
+        "damage_dispatched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);"
+        },
+        "damage_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);"
+        },
+        "deferred_body": {
+          "type": "Array[String]",
+          "status": "deferred",
+          "java_expr": "createExplosion() post-damage side-effect body"
+        },
+        "damage_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "explosionRadius * tilesize"
+        }
+      }
     }
   },
   "version": 1

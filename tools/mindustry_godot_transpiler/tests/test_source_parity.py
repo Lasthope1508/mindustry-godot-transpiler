@@ -231,6 +231,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_generator_create_explosion_damage_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_generator_create_explosion_damage_source"))
+        report = source_parity.verify_power_generator_create_explosion_damage_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertIn("core/src/mindustry/entities/Damage.java", report["sources"])
+        self.assertIn("core/src/mindustry/Vars.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "method": "public void createExplosion(){",
+            "gate": "if(shouldExplode()){",
+            "damage_guard": "if(explosionDamage > 0){",
+            "damage_dispatch": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+            "damage_overload_method": "public static void damage(float x, float y, float radius, float damage){",
+            "damage_overload_dispatch": "damage(null, x, y, radius, damage, false);",
+            "tilesize_field": "public static final int tilesize = 8;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_add_roles_match_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_add_roles_source"))
         report = source_parity.verify_power_graph_add_roles_source(ROOT / "mindustry-upstream")

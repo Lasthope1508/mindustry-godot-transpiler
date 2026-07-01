@@ -64175,6 +64175,188 @@
       "godot_symbol": "source_power_generator_create_explosion_gate_result.deferred_body",
       "rule": "Damage, effect, sound, puddle, and shake body stays deferred to later slices.",
       "status": "deferred"
+    },
+    "power_generator_create_explosion_damage.should_explode_call": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "shouldExplode()",
+      "godot_symbol": "source_power_generator_create_explosion_damage_input.should_explode_value",
+      "rule": "Runtime should_explode_value parameter maps to createExplosion shouldExplode() gate call.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_damage.source_x": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "x",
+      "godot_symbol": "source_power_generator_create_explosion_damage_input.source_x",
+      "rule": "Runtime source_x parameter maps to GeneratorBuild.x for Damage.damage dispatch.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_damage.source_y": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "y",
+      "godot_symbol": "source_power_generator_create_explosion_damage_input.source_y",
+      "rule": "Runtime source_y parameter maps to GeneratorBuild.y for Damage.damage dispatch.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_damage.explosion_radius": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionRadius",
+      "godot_symbol": "source_power_generator_create_explosion_damage_input.explosion_radius",
+      "rule": "Runtime explosion_radius parameter maps to PowerGenerator.explosionRadius.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_damage.explosion_damage": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionDamage",
+      "godot_symbol": "source_power_generator_create_explosion_damage_input.explosion_damage",
+      "rule": "Runtime explosion_damage parameter maps to PowerGenerator.explosionDamage.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_damage.source_tilesize": {
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "tilesize",
+      "godot_symbol": "source_power_generator_create_explosion_damage_input.source_tilesize",
+      "rule": "Runtime source_tilesize parameter maps to Vars.tilesize.",
+      "status": "explicit-input"
+    },
+    "power_generator_create_explosion_damage.method": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public void createExplosion(){",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.method",
+      "rule": "Result method string pins createExplosion source method.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_damage.gate": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(shouldExplode()){",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.branch_entered",
+      "rule": "Result branch_entered maps to outer shouldExplode gate.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_damage.damage_guard": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "if(explosionDamage > 0){",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.damage_guard_entered",
+      "rule": "Result damage_guard_entered maps to explosionDamage positive guard.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_damage.damage_dispatch": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.damage_call",
+      "rule": "Result damage_call maps to Damage.damage dispatch arguments.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_damage.damage_overload_method": {
+      "java_source": "core/src/mindustry/entities/Damage.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "public static void damage(float x, float y, float radius, float damage){",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.damage_overload_method",
+      "rule": "Result damage_overload_method pins Damage.damage overload source.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_damage.damage_overload_dispatch": {
+      "java_source": "core/src/mindustry/entities/Damage.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "damage(null, x, y, radius, damage, false);",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.damage_overload_dispatch",
+      "rule": "Result damage_overload_dispatch pins Damage.damage overload forwarding call.",
+      "status": "source-backed"
+    },
+    "power_generator_create_explosion_damage.deferred_body": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "createExplosion() post-damage side-effect body",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.deferred_body",
+      "rule": "Post-damage effect, sound, puddle, and shake side effects remain deferred to later slices.",
+      "status": "deferred"
+    },
+    "power_generator_create_explosion_damage.damage_radius": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "tests": [
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "java_expr": "explosionRadius * tilesize",
+      "godot_symbol": "source_power_generator_create_explosion_damage_result.damage_radius",
+      "rule": "Runtime damage_radius maps to explosionRadius * tilesize argument inside Damage.damage dispatch.",
+      "status": "source-backed"
     }
   },
   "version": 1

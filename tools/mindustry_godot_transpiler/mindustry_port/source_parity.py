@@ -16,6 +16,7 @@ CONSUME_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/ConsumeGenerat
 POWER_GRAPH_SOURCE = "core/src/mindustry/world/blocks/power/PowerGraph.java"
 CONSUME_POWER_SOURCE = "core/src/mindustry/world/consumers/ConsumePower.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
+DAMAGE_SOURCE = "core/src/mindustry/entities/Damage.java"
 UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 WEAPONS_COMP_SOURCE = "core/src/mindustry/entities/comp/WeaponsComp.java"
 HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
@@ -258,6 +259,38 @@ def verify_power_generator_create_explosion_gate_source(upstream_root: Path) -> 
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": POWER_GENERATOR_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_generator_create_explosion_damage_source(upstream_root: Path) -> dict[str, Any]:
+    power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
+    damage_path = Path(upstream_root) / DAMAGE_SOURCE
+    vars_path = Path(upstream_root) / VARS_SOURCE
+    power_generator_source = power_generator_path.read_text(encoding="utf-8", errors="replace")
+    damage_source = damage_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void createExplosion(){",
+        "gate": "if(shouldExplode()){",
+        "damage_guard": "if(explosionDamage > 0){",
+        "damage_dispatch": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+        "damage_overload_method": "public static void damage(float x, float y, float radius, float damage){",
+        "damage_overload_dispatch": "damage(null, x, y, radius, damage, false);",
+        "tilesize_field": "public static final int tilesize = 8;",
+    }
+    sources_by_key = {
+        "damage_overload_method": damage_source,
+        "damage_overload_dispatch": damage_source,
+        "tilesize_field": vars_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, power_generator_source)
+    ]
+    return {
+        "source": POWER_GENERATOR_SOURCE,
+        "sources": [DAMAGE_SOURCE, VARS_SOURCE],
         "checked": checked,
         "missing": missing,
     }

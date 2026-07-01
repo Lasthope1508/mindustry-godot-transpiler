@@ -13732,6 +13732,64 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(deferred_body["java_expr"], "createExplosion() side-effect body")
         self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_gate_result.deferred_body")
 
+    def test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        explosion_damage = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.explosion_damage")
+        self.assertEqual(explosion_damage["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(explosion_damage["java_method"], "createExplosion()")
+        self.assertEqual(explosion_damage["status"], "explicit-input")
+        self.assertEqual(explosion_damage["java_expr"], "explosionDamage")
+        self.assertEqual(explosion_damage["godot_owner"], "PortGame.source_power_generator_create_explosion_damage_state")
+        self.assertEqual(explosion_damage["runtime_proof"], "/root/Main.source_power_generator_create_explosion_damage_state")
+        self.assertEqual(explosion_damage["godot_symbol"], "source_power_generator_create_explosion_damage_input.explosion_damage")
+
+        source_x = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.source_x")
+        self.assertEqual(source_x["status"], "explicit-input")
+        self.assertEqual(source_x["java_expr"], "x")
+        self.assertEqual(source_x["godot_symbol"], "source_power_generator_create_explosion_damage_input.source_x")
+
+        source_y = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.source_y")
+        self.assertEqual(source_y["status"], "explicit-input")
+        self.assertEqual(source_y["java_expr"], "y")
+        self.assertEqual(source_y["godot_symbol"], "source_power_generator_create_explosion_damage_input.source_y")
+
+        explosion_radius = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.explosion_radius")
+        self.assertEqual(explosion_radius["status"], "explicit-input")
+        self.assertEqual(explosion_radius["java_expr"], "explosionRadius")
+        self.assertEqual(explosion_radius["godot_symbol"], "source_power_generator_create_explosion_damage_input.explosion_radius")
+
+        source_tilesize = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.source_tilesize")
+        self.assertEqual(source_tilesize["java_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(source_tilesize["status"], "explicit-input")
+        self.assertEqual(source_tilesize["java_expr"], "tilesize")
+        self.assertEqual(source_tilesize["godot_symbol"], "source_power_generator_create_explosion_damage_input.source_tilesize")
+
+        damage_guard = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.damage_guard")
+        self.assertEqual(damage_guard["java_expr"], "if(explosionDamage > 0){")
+        self.assertEqual(damage_guard["godot_symbol"], "source_power_generator_create_explosion_damage_result.damage_guard_entered")
+
+        damage_dispatch = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.damage_dispatch")
+        self.assertEqual(damage_dispatch["java_expr"], "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);")
+        self.assertEqual(damage_dispatch["godot_symbol"], "source_power_generator_create_explosion_damage_result.damage_call")
+
+        damage_radius = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.damage_radius")
+        self.assertEqual(damage_radius["java_expr"], "explosionRadius * tilesize")
+        self.assertEqual(damage_radius["godot_symbol"], "source_power_generator_create_explosion_damage_result.damage_radius")
+
+        damage_overload = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.damage_overload_dispatch")
+        self.assertEqual(damage_overload["java_source"], "core/src/mindustry/entities/Damage.java")
+        self.assertEqual(damage_overload["java_expr"], "damage(null, x, y, radius, damage, false);")
+        self.assertEqual(damage_overload["godot_symbol"], "source_power_generator_create_explosion_damage_result.damage_overload_dispatch")
+
+        deferred_body = source_symbols.source_symbol(registry, "power_generator_create_explosion_damage.deferred_body")
+        self.assertEqual(deferred_body["status"], "deferred")
+        self.assertEqual(deferred_body["java_expr"], "createExplosion() post-damage side-effect body")
+        self.assertEqual(deferred_body["godot_symbol"], "source_power_generator_create_explosion_damage_result.deferred_body")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17648,9 +17706,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 510)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 511)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 515)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 516)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22342,6 +22400,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(shouldExplode()){", power_generator_create_explosion_gate["exact_exprs"])
         self.assertIn("Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);", power_generator_create_explosion_gate["deferred_exprs"])
         self.assertIn("explodeEffect.at(this);", power_generator_create_explosion_gate["deferred_exprs"])
+
+        power_generator_create_explosion_damage = source_symbols.source_slice(ledger, "N914")
+        self.assertEqual(power_generator_create_explosion_damage["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_generator_create_explosion_damage["java_method"], "createExplosion()")
+        self.assertEqual(power_generator_create_explosion_damage["godot_owner"], "PortGame.source_power_generator_create_explosion_damage_state")
+        self.assertIn("if(explosionDamage > 0){", power_generator_create_explosion_damage["exact_exprs"])
+        self.assertIn("Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);", power_generator_create_explosion_damage["exact_exprs"])
+        self.assertIn("explosionRadius * tilesize", power_generator_create_explosion_damage["exact_exprs"])
+        self.assertIn("public static final int tilesize = 8;", power_generator_create_explosion_damage["exact_exprs"])
+        self.assertIn("damage(null, x, y, radius, damage, false);", power_generator_create_explosion_damage["exact_exprs"])
+        self.assertIn("explodeEffect.at(this);", power_generator_create_explosion_damage["deferred_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -27249,6 +27318,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("branch_entered", power_generator_create_explosion_gate["return_keys"])
         self.assertIn("deferred_body", power_generator_create_explosion_gate["return_keys"])
         self.assertEqual(power_generator_create_explosion_gate["source_method"], "createExplosion()")
+
+        power_generator_create_explosion_damage = source_symbols.api_contract(contracts, "PortGame.source_power_generator_create_explosion_damage_state")
+        self.assertEqual([param["name"] for param in power_generator_create_explosion_damage["params"]], ["should_explode_value", "source_x", "source_y", "explosion_radius", "explosion_damage", "source_tilesize"])
+        self.assertEqual(power_generator_create_explosion_damage["params"][0]["schema"], "source_power_generator_create_explosion_damage_input.should_explode_value")
+        self.assertEqual(power_generator_create_explosion_damage["params"][3]["schema"], "source_power_generator_create_explosion_damage_input.explosion_radius")
+        self.assertEqual(power_generator_create_explosion_damage["params"][5]["schema"], "source_power_generator_create_explosion_damage_input.source_tilesize")
+        self.assertIn("damage_dispatched", power_generator_create_explosion_damage["return_keys"])
+        self.assertIn("damage_radius", power_generator_create_explosion_damage["return_keys"])
+        self.assertIn("damage_call", power_generator_create_explosion_damage["return_keys"])
+        self.assertEqual(power_generator_create_explosion_damage["source_method"], "createExplosion()")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -33243,6 +33322,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_generator_create_explosion_gate_result["keys"]["gate"]["java_expr"], "if(shouldExplode()){")
         self.assertEqual(source_power_generator_create_explosion_gate_result["keys"]["branch_entered"]["java_expr"], "if(shouldExplode()){")
         self.assertEqual(source_power_generator_create_explosion_gate_result["keys"]["deferred_body"]["java_expr"], "createExplosion() side-effect body")
+
+        source_power_generator_create_explosion_damage_input = source_symbols.state_schema(schema, "source_power_generator_create_explosion_damage_input")
+        self.assertEqual(source_power_generator_create_explosion_damage_input["keys"]["should_explode_value"]["alias_of"], "source_power_generator_should_explode_result.should_explode")
+        self.assertEqual(source_power_generator_create_explosion_damage_input["keys"]["source_x"]["java_expr"], "x")
+        self.assertEqual(source_power_generator_create_explosion_damage_input["keys"]["source_y"]["java_expr"], "y")
+        self.assertEqual(source_power_generator_create_explosion_damage_input["keys"]["explosion_radius"]["java_expr"], "explosionRadius")
+        self.assertEqual(source_power_generator_create_explosion_damage_input["keys"]["explosion_damage"]["java_expr"], "explosionDamage")
+        self.assertEqual(source_power_generator_create_explosion_damage_input["keys"]["source_tilesize"]["java_expr"], "tilesize")
+
+        source_power_generator_create_explosion_damage_result = source_symbols.state_schema(schema, "source_power_generator_create_explosion_damage_result")
+        self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_guard"]["java_expr"], "if(explosionDamage > 0){")
+        self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_dispatch"]["java_expr"], "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);")
+        self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_overload_dispatch"]["java_expr"], "damage(null, x, y, radius, damage, false);")
+        self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_radius"]["java_expr"], "explosionRadius * tilesize")
+        self.assertEqual(source_power_generator_create_explosion_damage_result["keys"]["damage_call"]["java_expr"], "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

@@ -18417,6 +18417,54 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N914": {
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_class": "mindustry.world.blocks.power.PowerGenerator.GeneratorBuild",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state",
+      "source_symbols": [
+        "power_generator_create_explosion_damage.should_explode_call",
+        "power_generator_create_explosion_damage.source_x",
+        "power_generator_create_explosion_damage.source_y",
+        "power_generator_create_explosion_damage.explosion_radius",
+        "power_generator_create_explosion_damage.explosion_damage",
+        "power_generator_create_explosion_damage.source_tilesize",
+        "power_generator_create_explosion_damage.method",
+        "power_generator_create_explosion_damage.gate",
+        "power_generator_create_explosion_damage.damage_guard",
+        "power_generator_create_explosion_damage.damage_dispatch",
+        "power_generator_create_explosion_damage.damage_radius",
+        "power_generator_create_explosion_damage.damage_overload_method",
+        "power_generator_create_explosion_damage.damage_overload_dispatch",
+        "power_generator_create_explosion_damage.deferred_body"
+      ],
+      "exact_exprs": [
+        "public void createExplosion(){",
+        "if(shouldExplode()){",
+        "if(explosionDamage > 0){",
+        "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+        "explosionRadius * tilesize",
+        "public static void damage(float x, float y, float radius, float damage){",
+        "damage(null, x, y, radius, damage, false);",
+        "public static final int tilesize = 8;"
+      ],
+      "deferred_exprs": [
+        "explodeEffect.at(this);",
+        "explodeSound.at(this);",
+        "if(explosionPuddleLiquid != null){",
+        "for(int i = 0; i < explosionPuddles; i++){",
+        "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
+        "if(explosionShake > 0){",
+        "Effect.shake(explosionShake, explosionShakeDuration, this);"
+      ],
+      "status": "done",
+      "tests": [
+        "test_power_generator_create_explosion_damage_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

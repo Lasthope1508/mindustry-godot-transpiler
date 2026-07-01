@@ -566,6 +566,48 @@ func source_power_generator_create_explosion_gate_state(should_explode_value: bo
 		],
 	}
 
+func source_power_generator_create_explosion_damage_state(should_explode_value: bool, source_x: float, source_y: float, explosion_radius: int, explosion_damage: int, source_tilesize: int) -> Dictionary:
+	var branch_entered := should_explode_value
+	var damage_guard_entered := branch_entered and explosion_damage > 0
+	var damage_dispatched := damage_guard_entered
+	var damage_radius := float(explosion_radius) * float(source_tilesize)
+	var damage_call := {}
+	if damage_dispatched:
+		damage_call = {
+			"team": null,
+			"x": source_x,
+			"y": source_y,
+			"radius": damage_radius,
+			"damage": float(explosion_damage),
+			"complete": false,
+		}
+	return {
+		"method": "public void createExplosion(){",
+		"gate": "if(shouldExplode()){",
+		"damage_guard": "if(explosionDamage > 0){",
+		"damage_dispatch": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
+		"damage_overload_method": "public static void damage(float x, float y, float radius, float damage){",
+		"damage_overload_dispatch": "damage(null, x, y, radius, damage, false);",
+		"tilesize_field": "public static final int tilesize = 8;",
+		"input_should_explode_value": should_explode_value,
+		"input_source_x": source_x,
+		"input_source_y": source_y,
+		"input_explosion_radius": explosion_radius,
+		"input_explosion_damage": explosion_damage,
+		"input_source_tilesize": source_tilesize,
+		"branch_entered": branch_entered,
+		"damage_guard_entered": damage_guard_entered,
+		"damage_dispatched": damage_dispatched,
+		"damage_radius": damage_radius,
+		"damage_call": damage_call,
+		"deferred_body": [
+			"explodeEffect.at(this);",
+			"explodeSound.at(this);",
+			"if(explosionPuddleLiquid != null){",
+			"if(explosionShake > 0){",
+		],
+	}
+
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0
