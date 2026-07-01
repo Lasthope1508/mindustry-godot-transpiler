@@ -17002,6 +17002,65 @@
         "test_weapon_update_shoot_call_reload_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update shoot call and reload reset wrapper against exact upstream source."
+    },
+    "N874": {
+      "exact_exprs": [
+        "//shoot if applicable",
+        "if(mount.shoot && //must be shooting",
+        "can && //must be able to shoot",
+        "!(bullet.killShooter && mount.totalShots > 0) && //if the bullet kills the shooter, you should only ever be able to shoot once",
+        "(!alternate || wasFlipped == flipSprite) &&",
+        "mount.warmup >= minWarmup && //must be warmed up",
+        "velLen >= minShootVelocity && //check velocity requirements"
+      ],
+      "bridge_exprs": [
+        "public boolean alternate = true;",
+        "public boolean flipSprite = false;",
+        "public float minWarmup = 0f;",
+        "public float minShootVelocity = -1f;",
+        "public boolean shoot = false;",
+        "public float warmup;",
+        "public int totalShots;",
+        "public boolean killShooter;"
+      ],
+      "deferred_exprs": [
+        "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
+        "Reload gate remains owned by source_weapon_update_reload_gate_state.",
+        "Cone gate remains owned by source_weapon_update_cone_gate_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "source_symbols": [
+        "weapon_update_shoot_gate_prefix.shoot_comment",
+        "weapon_update_shoot_gate_prefix.mount_shoot_gate",
+        "weapon_update_shoot_gate_prefix.can_gate",
+        "weapon_update_shoot_gate_prefix.kill_shooter_gate",
+        "weapon_update_shoot_gate_prefix.alternate_gate",
+        "weapon_update_shoot_gate_prefix.warmup_gate",
+        "weapon_update_shoot_gate_prefix.velocity_gate",
+        "weapon_update_shoot_gate_prefix.reload_gate_reserved",
+        "weapon_update_shoot_gate_prefix.weapon_alternate",
+        "weapon_update_shoot_gate_prefix.weapon_flip_sprite",
+        "weapon_update_shoot_gate_prefix.weapon_min_warmup",
+        "weapon_update_shoot_gate_prefix.weapon_min_shoot_velocity",
+        "weapon_update_shoot_gate_prefix.mount_shoot",
+        "weapon_update_shoot_gate_prefix.mount_warmup",
+        "weapon_update_shoot_gate_prefix.mount_total_shots",
+        "weapon_update_shoot_gate_prefix.bullet_kill_shooter",
+        "weapon_update_shoot_gate_prefix.can_shoot",
+        "weapon_update_shoot_gate_prefix.was_flipped",
+        "weapon_update_shoot_gate_prefix.vel_len"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update shoot gate prefix wrapper against exact upstream source."
     }
   },
   "version": 1

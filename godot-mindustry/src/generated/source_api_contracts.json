@@ -18794,6 +18794,71 @@
         "test_port_game_exposes_source_weapon_update_shoot_call_reload_state",
         "test_weapon_update_shoot_call_reload_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_shoot_gate_prefix_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "was_flipped",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.was_flipped",
+          "type": "bool"
+        },
+        {
+          "name": "vel_len",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.vel_len",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "shootGatePrefix",
+        "mountShoot",
+        "canShoot",
+        "killShooterOnceBlocked",
+        "alternateGate",
+        "warmupGate",
+        "velocityGate",
+        "totalShots",
+        "velLen",
+        "minShootVelocity",
+        "shootCommentSource",
+        "mountShootGateSource",
+        "canGateSource",
+        "killShooterGateSource",
+        "alternateGateSource",
+        "warmupGateSource",
+        "velocityGateSource",
+        "reloadGateReservedSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update shoot gate prefix state.",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "source_slice": "N874",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ]
     }
   },
   "policy": {

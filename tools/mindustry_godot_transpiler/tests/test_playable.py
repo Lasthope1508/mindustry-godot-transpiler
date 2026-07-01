@@ -4777,10 +4777,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var kill_shooter_once_blocked := bullet_kill_shooter and total_shots > 0", source)
         self.assertIn("var alternate_gate := (not alternate) or was_flipped == flip_sprite", source)
         self.assertIn("var shoot_gate_prefix := mount_shoot and can_shoot and not kill_shooter_once_blocked and alternate_gate and warmup_gate and velocity_gate", source)
-        self.assertIn('"killShooterGateSource": "!(bullet.killShooter && mount.totalShots > 0) &&"', source)
+        self.assertIn('"mountShootGateSource": "if(mount.shoot && //must be shooting"', source)
+        self.assertIn('"canGateSource": "can && //must be able to shoot"', source)
+        self.assertIn('"killShooterGateSource": "!(bullet.killShooter && mount.totalShots > 0) && //if the bullet kills the shooter, you should only ever be able to shoot once"', source)
         self.assertIn('"alternateGateSource": "(!alternate || wasFlipped == flipSprite) &&"', source)
-        self.assertIn('"velocityGateSource": "velLen >= minShootVelocity &&"', source)
-        self.assertIn('"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&"', source)
+        self.assertIn('"warmupGateSource": "mount.warmup >= minWarmup && //must be warmed up"', source)
+        self.assertIn('"velocityGateSource": "velLen >= minShootVelocity && //check velocity requirements"', source)
+        self.assertIn('"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon"', source)
 
     def test_port_game_exposes_source_weapon_update_reload_gate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

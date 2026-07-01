@@ -5164,13 +5164,13 @@ func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapo
 		"velLen": vel_len,
 		"minShootVelocity": min_shoot_velocity,
 		"shootCommentSource": "//shoot if applicable",
-		"mountShootGateSource": "if(mount.shoot &&",
-		"canGateSource": "can &&",
-		"killShooterGateSource": "!(bullet.killShooter && mount.totalShots > 0) &&",
+		"mountShootGateSource": "if(mount.shoot && //must be shooting",
+		"canGateSource": "can && //must be able to shoot",
+		"killShooterGateSource": "!(bullet.killShooter && mount.totalShots > 0) && //if the bullet kills the shooter, you should only ever be able to shoot once",
 		"alternateGateSource": "(!alternate || wasFlipped == flipSprite) &&",
-		"warmupGateSource": "mount.warmup >= minWarmup &&",
-		"velocityGateSource": "velLen >= minShootVelocity &&",
-		"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) &&",
+		"warmupGateSource": "mount.warmup >= minWarmup && //must be warmed up",
+		"velocityGateSource": "velLen >= minShootVelocity && //check velocity requirements",
+		"reloadGateReservedSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
 	}
 
 func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:

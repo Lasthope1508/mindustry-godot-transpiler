@@ -59195,6 +59195,291 @@
       "godot_symbol": "source_weapon_update_shoot_call_reload_input.shoot_gate",
       "status": "explicit-input",
       "rule": "Runtime shoot_gate carries the already-evaluated upstream shoot gate."
+    },
+    "weapon_update_shoot_gate_prefix.shoot_comment": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "//shoot if applicable",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.shootCommentSource",
+      "status": "source-backed",
+      "rule": "Shoot gate prefix comment."
+    },
+    "weapon_update_shoot_gate_prefix.mount_shoot_gate": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(mount.shoot && //must be shooting",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.mountShoot",
+      "status": "source-backed",
+      "rule": "Mount shoot gate term."
+    },
+    "weapon_update_shoot_gate_prefix.can_gate": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "can && //must be able to shoot",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.canShoot",
+      "status": "source-backed",
+      "rule": "Can shoot gate term."
+    },
+    "weapon_update_shoot_gate_prefix.kill_shooter_gate": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "!(bullet.killShooter && mount.totalShots > 0) && //if the bullet kills the shooter, you should only ever be able to shoot once",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.killShooterOnceBlocked",
+      "status": "source-backed",
+      "rule": "Kill-shooter one-shot block term."
+    },
+    "weapon_update_shoot_gate_prefix.alternate_gate": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "(!alternate || wasFlipped == flipSprite) &&",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.alternateGate",
+      "status": "source-backed",
+      "rule": "Alternate side gate term."
+    },
+    "weapon_update_shoot_gate_prefix.warmup_gate": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.warmup >= minWarmup && //must be warmed up",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.warmupGate",
+      "status": "source-backed",
+      "rule": "Warmup gate term."
+    },
+    "weapon_update_shoot_gate_prefix.velocity_gate": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "velLen >= minShootVelocity && //check velocity requirements",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.velocityGate",
+      "status": "source-backed",
+      "rule": "Velocity gate term."
+    },
+    "weapon_update_shoot_gate_prefix.reload_gate_reserved": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_result.reloadGateReservedSource",
+      "status": "deferred",
+      "rule": "Following reload gate remains owned by source_weapon_update_reload_gate_state."
+    },
+    "weapon_update_shoot_gate_prefix.weapon_alternate": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean alternate = true;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.weapon_state.alternate",
+      "status": "source-backed",
+      "rule": "Weapon alternate field."
+    },
+    "weapon_update_shoot_gate_prefix.weapon_flip_sprite": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean flipSprite = false;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.weapon_state.flipSprite",
+      "status": "source-backed",
+      "rule": "Weapon flipSprite field."
+    },
+    "weapon_update_shoot_gate_prefix.weapon_min_warmup": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float minWarmup = 0f;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.weapon_state.minWarmup",
+      "status": "source-backed",
+      "rule": "Weapon minWarmup field."
+    },
+    "weapon_update_shoot_gate_prefix.weapon_min_shoot_velocity": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float minShootVelocity = -1f;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.weapon_state.minShootVelocity",
+      "status": "source-backed",
+      "rule": "Weapon minShootVelocity field."
+    },
+    "weapon_update_shoot_gate_prefix.mount_shoot": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public boolean shoot = false;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.mount_state.shoot",
+      "status": "source-backed",
+      "rule": "WeaponMount shoot field."
+    },
+    "weapon_update_shoot_gate_prefix.mount_warmup": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float warmup;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.mount_state.warmup",
+      "status": "source-backed",
+      "rule": "WeaponMount warmup field."
+    },
+    "weapon_update_shoot_gate_prefix.mount_total_shots": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public int totalShots;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.mount_state.totalShots",
+      "status": "source-backed",
+      "rule": "WeaponMount totalShots field."
+    },
+    "weapon_update_shoot_gate_prefix.bullet_kill_shooter": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "BulletType fields",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_expr": "public boolean killShooter;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.bullet_state.killShooter",
+      "status": "source-backed",
+      "rule": "BulletType killShooter field."
+    },
+    "weapon_update_shoot_gate_prefix.can_shoot": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "boolean can = unit.canShoot();",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.can_shoot",
+      "status": "source-backed",
+      "rule": "Can-shoot input from passive timers slice."
+    },
+    "weapon_update_shoot_gate_prefix.was_flipped": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "boolean wasFlipped = mount.side",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.was_flipped",
+      "status": "explicit-input",
+      "rule": "Runtime was_flipped carries prior wasFlipped local."
+    },
+    "weapon_update_shoot_gate_prefix.vel_len": {
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+      "godot_symbol": "source_weapon_update_shoot_gate_prefix_input.vel_len",
+      "status": "source-backed",
+      "rule": "Velocity length input from velocity-length slice."
     }
   },
   "version": 1
