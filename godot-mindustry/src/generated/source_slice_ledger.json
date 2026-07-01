@@ -18221,6 +18221,28 @@
         "test_power_graph_remove_empty_entity_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.remove(Building tile) final implied empty graph entity removal after rebuilt branch update dispatch."
+    },
+    "N907": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "getId()",
+      "godot_owner": "PortGame.source_power_graph_get_id_state",
+      "runtime_proof": "/root/Main.source_power_graph_get_id_state",
+      "exact_exprs": [
+        "public int getId(){",
+        "return graphID;"
+      ],
+      "source_symbols": [
+        "power_graph_get_id.graph_id",
+        "power_graph_get_id.return_graph_id"
+      ],
+      "tests": [
+        "test_power_graph_get_id_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_get_id_state_for_mcp",
+        "test_power_graph_get_id_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.getId() graphID return."
     }
   },
   "version": 1

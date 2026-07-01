@@ -20217,6 +20217,31 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state",
       "rule": "Public runtime contract for PowerGraph.remove(Building tile) final implied empty graph entity removal. entity_present is the explicit entity != null guard input; no entity object is exposed."
+    },
+    "PortGame.source_power_graph_get_id_state": {
+      "status": "active",
+      "source_slice": "N907",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "getId()",
+      "params": [
+        {
+          "name": "graph_id",
+          "type": "int",
+          "schema": "source_power_graph_get_id_input.graph_id"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_graph_id",
+        "graph_id"
+      ],
+      "tests": [
+        "test_power_graph_get_id_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_get_id_state_for_mcp",
+        "test_power_graph_get_id_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_get_id_state",
+      "rule": "Public runtime contract for PowerGraph.getId() returning graphID."
     }
   },
   "policy": {

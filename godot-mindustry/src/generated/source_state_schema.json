@@ -76538,6 +76538,62 @@
           "godot_symbol": "source_power_graph_remove_empty_entity_result.entity_removed"
         }
       }
+    },
+    "source_power_graph_get_id_input": {
+      "keys": {
+        "graph_id": {
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "source_power_graph_get_id_input key graph_id.",
+          "used_by": [
+            "PortGame.source_power_graph_get_id_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getId()",
+          "java_expr": "graphID",
+          "godot_symbol": "source_power_graph_get_id_input.graph_id"
+        }
+      }
+    },
+    "source_power_graph_get_id_result": {
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_get_id_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_get_id_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getId()",
+          "java_expr": "public int getId(){",
+          "godot_symbol": "source_power_graph_get_id_result.method"
+        },
+        "return_graph_id": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_get_id_result key return_graph_id.",
+          "used_by": [
+            "PortGame.source_power_graph_get_id_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getId()",
+          "java_expr": "return graphID;",
+          "godot_symbol": "source_power_graph_get_id_result.return_graph_id"
+        },
+        "graph_id": {
+          "type": "int",
+          "status": "source-backed",
+          "rule": "source_power_graph_get_id_result key graph_id.",
+          "used_by": [
+            "PortGame.source_power_graph_get_id_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "getId()",
+          "java_expr": "return graphID;",
+          "godot_symbol": "source_power_graph_get_id_result.graph_id"
+        }
+      }
     }
   },
   "version": 1

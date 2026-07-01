@@ -526,6 +526,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_get_id_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_get_id_source"))
+        report = source_parity.verify_power_graph_get_id_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "method": "public int getId(){",
+            "return_graph_id": "return graphID;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

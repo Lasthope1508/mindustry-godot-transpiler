@@ -346,6 +346,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"entity_remove_guard": "if(entity != null) entity.remove();"', source)
         self.assertIn('"entity_removed": entity_present', source)
 
+    def test_port_game_exposes_source_power_graph_get_id_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_get_id_state(graph_id: int) -> Dictionary:", source)
+        self.assertIn('"method": "public int getId(){"', source)
+        self.assertIn('"return_graph_id": "return graphID;"', source)
+        self.assertIn('"graph_id": graph_id', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

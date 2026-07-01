@@ -1312,6 +1312,13 @@ func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_prese
 		"entity_removed": entity_present,
 	}
 
+func source_power_graph_get_id_state(graph_id: int) -> Dictionary:
+	return {
+		"method": "public int getId(){",
+		"return_graph_id": "return graphID;",
+		"graph_id": graph_id,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:
