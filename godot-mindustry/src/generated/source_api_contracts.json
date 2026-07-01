@@ -21874,6 +21874,93 @@
         "test_port_game_exposes_source_building_dump_liquid_campaign_unlock_state",
         "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_building_dump_liquid_routing_gate_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "liquid",
+          "schema": "source_building_dump_liquid_routing_gate_input.liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "proximity_size",
+          "schema": "source_building_dump_liquid_routing_gate_input.proximity_size",
+          "type": "int"
+        },
+        {
+          "name": "dump_cursor",
+          "schema": "source_building_dump_liquid_routing_gate_input.dump_cursor",
+          "type": "int"
+        },
+        {
+          "name": "output_dir",
+          "schema": "source_building_dump_liquid_routing_gate_input.output_dir",
+          "type": "int"
+        },
+        {
+          "name": "rotation_value",
+          "schema": "source_building_dump_liquid_routing_gate_input.rotation_value",
+          "type": "int"
+        },
+        {
+          "name": "relative_to_by_index",
+          "schema": "source_building_dump_liquid_routing_gate_input.relative_to_by_index",
+          "type": "Array"
+        },
+        {
+          "name": "destination_present_by_index",
+          "schema": "source_building_dump_liquid_routing_gate_input.destination_present_by_index",
+          "type": "Array"
+        },
+        {
+          "name": "other_has_liquids_by_index",
+          "schema": "source_building_dump_liquid_routing_gate_input.other_has_liquids_by_index",
+          "type": "Array"
+        },
+        {
+          "name": "can_dump_liquid_by_index",
+          "schema": "source_building_dump_liquid_routing_gate_input.can_dump_liquid_by_index",
+          "type": "Array"
+        },
+        {
+          "name": "other_liquids_present_by_index",
+          "schema": "source_building_dump_liquid_routing_gate_input.other_liquids_present_by_index",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "loop",
+        "increment_dump_call",
+        "proximity_get",
+        "output_dir_filter",
+        "destination_call",
+        "eligibility_guard",
+        "liquid",
+        "proximity_size",
+        "dump_cursor",
+        "output_dir",
+        "rotation_value",
+        "relative_to_by_index",
+        "destination_present_by_index",
+        "other_has_liquids_by_index",
+        "can_dump_liquid_by_index",
+        "other_liquids_present_by_index",
+        "attempted_indices",
+        "output_dir_passes",
+        "destination_indices",
+        "eligible_indices",
+        "final_cdump"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.dumpLiquid proximity routing gate helper.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_routing_gate_state",
+      "source_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+      "source_slice": "N940",
+      "status": "active",
+      "tests": [
+        "test_port_game_exposes_source_building_dump_liquid_routing_gate_state",
+        "test_building_dump_liquid_routing_gate_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -5275,6 +5275,49 @@ func source_building_dump_liquid_campaign_unlock_state(liquid: Variant, current_
 		"unlock_called": unlock_called,
 	}
 
+func source_building_dump_liquid_routing_gate_state(liquid: Variant, proximity_size: int, dump_cursor: int, output_dir: int, rotation_value: int, relative_to_by_index: Array, destination_present_by_index: Array, other_has_liquids_by_index: Array, can_dump_liquid_by_index: Array, other_liquids_present_by_index: Array) -> Dictionary:
+	var attempted_indices := []
+	var output_dir_passes := []
+	var destination_indices := []
+	var eligible_indices := []
+	var final_cdump := dump_cursor
+	if proximity_size > 0:
+		for i in range(proximity_size):
+			final_cdump = source_increment_dump_cursor(final_cdump, proximity_size)
+			var other_index := (i + dump_cursor) % proximity_size
+			attempted_indices.append(other_index)
+			var output_dir_passed := output_dir == -1 or (output_dir + rotation_value) % 4 == int(relative_to_by_index[other_index])
+			output_dir_passes.append(output_dir_passed)
+			if not output_dir_passed:
+				continue
+			if bool(destination_present_by_index[other_index]):
+				destination_indices.append(other_index)
+			if bool(destination_present_by_index[other_index]) and bool(other_has_liquids_by_index[other_index]) and bool(can_dump_liquid_by_index[other_index]) and bool(other_liquids_present_by_index[other_index]):
+				eligible_indices.append(other_index)
+	return {
+		"loop": "for(int i = 0; i < proximity.size; i++){",
+		"increment_dump_call": "incrementDump(proximity.size);",
+		"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+		"output_dir_filter": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+		"destination_call": "other = other.getLiquidDestination(self(), liquid);",
+		"eligibility_guard": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+		"liquid": liquid,
+		"proximity_size": proximity_size,
+		"dump_cursor": dump_cursor,
+		"output_dir": output_dir,
+		"rotation_value": rotation_value,
+		"relative_to_by_index": relative_to_by_index,
+		"destination_present_by_index": destination_present_by_index,
+		"other_has_liquids_by_index": other_has_liquids_by_index,
+		"can_dump_liquid_by_index": can_dump_liquid_by_index,
+		"other_liquids_present_by_index": other_liquids_present_by_index,
+		"attempted_indices": attempted_indices,
+		"output_dir_passes": output_dir_passes,
+		"destination_indices": destination_indices,
+		"eligible_indices": eligible_indices,
+		"final_cdump": final_cdump,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

@@ -2071,6 +2071,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"campaign_unlock_guard": "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();"', source)
         self.assertIn('"unlock_called": unlock_called', source)
 
+    def test_port_game_exposes_source_building_dump_liquid_routing_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_liquid_routing_gate_state(liquid: Variant, proximity_size: int, dump_cursor: int, output_dir: int, rotation_value: int, relative_to_by_index: Array, destination_present_by_index: Array, other_has_liquids_by_index: Array, can_dump_liquid_by_index: Array, other_liquids_present_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"loop": "for(int i = 0; i < proximity.size; i++){"', source)
+        self.assertIn('"increment_dump_call": "incrementDump(proximity.size);"', source)
+        self.assertIn('"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);"', source)
+        self.assertIn('"output_dir_filter": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;"', source)
+        self.assertIn('"destination_call": "other = other.getLiquidDestination(self(), liquid);"', source)
+        self.assertIn('"eligibility_guard": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){"', source)
+        self.assertIn('"eligible_indices": eligible_indices', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

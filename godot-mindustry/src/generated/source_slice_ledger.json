@@ -19410,6 +19410,54 @@
         "test_port_game_exposes_source_building_dump_liquid_campaign_unlock_state",
         "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N940": {
+      "deferred_exprs": [
+        "Liquid fraction math, transferLiquid call, canDumpLiquid override behavior, getLiquidDestination override behavior, and transfer side effects remain separate slices."
+      ],
+      "exact_exprs": [
+        "for(int i = 0; i < proximity.size; i++){",
+        "incrementDump(proximity.size);",
+        "Building other = proximity.get((i + dump) % proximity.size);",
+        "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+        "other = other.getLiquidDestination(self(), liquid);",
+        "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){"
+      ],
+      "godot_owner": "PortGame.source_building_dump_liquid_routing_gate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed BuildingComp.dumpLiquid proximity routing gates before liquid fraction transfer math.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_routing_gate_state",
+      "source_symbols": [
+        "building_dump_liquid_routing_gate.loop",
+        "building_dump_liquid_routing_gate.increment_dump_call",
+        "building_dump_liquid_routing_gate.proximity_get",
+        "building_dump_liquid_routing_gate.output_dir_filter",
+        "building_dump_liquid_routing_gate.destination_call",
+        "building_dump_liquid_routing_gate.eligibility_guard",
+        "building_dump_liquid_routing_gate.liquid",
+        "building_dump_liquid_routing_gate.proximity_size",
+        "building_dump_liquid_routing_gate.dump_cursor",
+        "building_dump_liquid_routing_gate.output_dir",
+        "building_dump_liquid_routing_gate.rotation_value",
+        "building_dump_liquid_routing_gate.relative_to_by_index",
+        "building_dump_liquid_routing_gate.destination_present_by_index",
+        "building_dump_liquid_routing_gate.other_has_liquids_by_index",
+        "building_dump_liquid_routing_gate.can_dump_liquid_by_index",
+        "building_dump_liquid_routing_gate.other_liquids_present_by_index",
+        "building_dump_liquid_routing_gate.attempted_indices",
+        "building_dump_liquid_routing_gate.output_dir_passes",
+        "building_dump_liquid_routing_gate.destination_indices",
+        "building_dump_liquid_routing_gate.eligible_indices",
+        "building_dump_liquid_routing_gate.final_cdump"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_liquid_routing_gate_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_routing_gate_state",
+        "test_building_dump_liquid_routing_gate_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -17560,6 +17560,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unlock_called["java_expr"], "!net.client() && state.isCampaign() && team == state.rules.defaultTeam")
         self.assertEqual(unlock_called["godot_symbol"], "source_building_dump_liquid_campaign_unlock_result.unlock_called")
 
+    def test_building_dump_liquid_routing_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        loop = source_symbols.source_symbol(registry, "building_dump_liquid_routing_gate.loop")
+        self.assertEqual(loop["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(loop["java_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate")
+        self.assertEqual(loop["java_expr"], "for(int i = 0; i < proximity.size; i++){")
+        self.assertEqual(loop["godot_owner"], "PortGame.source_building_dump_liquid_routing_gate_state")
+        self.assertEqual(loop["runtime_proof"], "/root/Main.source_building_dump_liquid_routing_gate_state")
+        self.assertEqual(loop["godot_symbol"], "source_building_dump_liquid_routing_gate_result.loop")
+
+        output_dir_filter = source_symbols.source_symbol(registry, "building_dump_liquid_routing_gate.output_dir_filter")
+        self.assertEqual(output_dir_filter["java_expr"], "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;")
+        self.assertEqual(output_dir_filter["godot_symbol"], "source_building_dump_liquid_routing_gate_result.output_dir_filter")
+
+        proximity_size = source_symbols.source_symbol(registry, "building_dump_liquid_routing_gate.proximity_size")
+        self.assertEqual(proximity_size["status"], "explicit-input")
+        self.assertEqual(proximity_size["java_expr"], "proximity.size")
+        self.assertEqual(proximity_size["godot_symbol"], "source_building_dump_liquid_routing_gate_input.proximity_size")
+
+        eligible_indices = source_symbols.source_symbol(registry, "building_dump_liquid_routing_gate.eligible_indices")
+        self.assertEqual(eligible_indices["java_expr"], "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null")
+        self.assertEqual(eligible_indices["godot_symbol"], "source_building_dump_liquid_routing_gate_result.eligible_indices")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18520,9 +18547,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 536)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 537)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 541)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 542)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23288,6 +23315,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void dumpLiquid(Liquid liquid, float scaling, int outputDir){", building_dump_liquid_campaign_unlock["exact_exprs"])
         self.assertIn("if(liquids.get(liquid) <= 0.0001f) return;", building_dump_liquid_campaign_unlock["exact_exprs"])
         self.assertIn("if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();", building_dump_liquid_campaign_unlock["exact_exprs"])
+
+        building_dump_liquid_routing_gate = source_symbols.source_slice(ledger, "N940")
+        self.assertEqual(building_dump_liquid_routing_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_liquid_routing_gate["java_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate")
+        self.assertEqual(building_dump_liquid_routing_gate["godot_owner"], "PortGame.source_building_dump_liquid_routing_gate_state")
+        self.assertIn("for(int i = 0; i < proximity.size; i++){", building_dump_liquid_routing_gate["exact_exprs"])
+        self.assertIn("incrementDump(proximity.size);", building_dump_liquid_routing_gate["exact_exprs"])
+        self.assertIn("Building other = proximity.get((i + dump) % proximity.size);", building_dump_liquid_routing_gate["exact_exprs"])
+        self.assertIn("if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;", building_dump_liquid_routing_gate["exact_exprs"])
+        self.assertIn("other = other.getLiquidDestination(self(), liquid);", building_dump_liquid_routing_gate["exact_exprs"])
+        self.assertIn("if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){", building_dump_liquid_routing_gate["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28479,6 +28517,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("campaign_unlock_guard", building_dump_liquid_campaign_unlock["return_keys"])
         self.assertIn("unlock_called", building_dump_liquid_campaign_unlock["return_keys"])
         self.assertEqual(building_dump_liquid_campaign_unlock["source_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch")
+
+        building_dump_liquid_routing_gate = source_symbols.api_contract(contracts, "PortGame.source_building_dump_liquid_routing_gate_state")
+        self.assertEqual([param["name"] for param in building_dump_liquid_routing_gate["params"]], ["liquid", "proximity_size", "dump_cursor", "output_dir", "rotation_value", "relative_to_by_index", "destination_present_by_index", "other_has_liquids_by_index", "can_dump_liquid_by_index", "other_liquids_present_by_index"])
+        self.assertEqual(building_dump_liquid_routing_gate["params"][1]["schema"], "source_building_dump_liquid_routing_gate_input.proximity_size")
+        self.assertEqual(building_dump_liquid_routing_gate["params"][3]["schema"], "source_building_dump_liquid_routing_gate_input.output_dir")
+        self.assertIn("attempted_indices", building_dump_liquid_routing_gate["return_keys"])
+        self.assertIn("eligible_indices", building_dump_liquid_routing_gate["return_keys"])
+        self.assertIn("final_cdump", building_dump_liquid_routing_gate["return_keys"])
+        self.assertEqual(building_dump_liquid_routing_gate["source_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36394,6 +36441,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["campaign_unlock_guard"]["java_expr"], "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();")
         self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["unlock_called"]["java_expr"], "!net.client() && state.isCampaign() && team == state.rules.defaultTeam")
         self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_dump_liquid_campaign_unlock_input.current_liquid_amount")
+
+        source_building_dump_liquid_routing_gate_input = source_symbols.state_schema(schema, "source_building_dump_liquid_routing_gate_input")
+        self.assertEqual(source_building_dump_liquid_routing_gate_input["keys"]["liquid"]["java_expr"], "liquid")
+        self.assertEqual(source_building_dump_liquid_routing_gate_input["keys"]["proximity_size"]["java_expr"], "proximity.size")
+        self.assertEqual(source_building_dump_liquid_routing_gate_input["keys"]["dump_cursor"]["java_expr"], "dump")
+        self.assertEqual(source_building_dump_liquid_routing_gate_input["keys"]["output_dir"]["java_expr"], "outputDir")
+        self.assertEqual(source_building_dump_liquid_routing_gate_input["keys"]["rotation_value"]["java_expr"], "rotation")
+
+        source_building_dump_liquid_routing_gate_result = source_symbols.state_schema(schema, "source_building_dump_liquid_routing_gate_result")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["loop"]["java_expr"], "for(int i = 0; i < proximity.size; i++){")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["increment_dump_call"]["java_expr"], "incrementDump(proximity.size);")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["proximity_get"]["java_expr"], "Building other = proximity.get((i + dump) % proximity.size);")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["output_dir_filter"]["java_expr"], "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["destination_call"]["java_expr"], "other = other.getLiquidDestination(self(), liquid);")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["eligibility_guard"]["java_expr"], "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["eligible_indices"]["java_expr"], "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null")
+        self.assertEqual(source_building_dump_liquid_routing_gate_result["keys"]["proximity_size"]["alias_of"], "source_building_dump_liquid_routing_gate_input.proximity_size")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")

@@ -424,6 +424,27 @@ def verify_building_dump_liquid_campaign_unlock_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_building_dump_liquid_routing_gate_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "loop": "for(int i = 0; i < proximity.size; i++){",
+        "increment_dump_call": "incrementDump(proximity.size);",
+        "proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+        "output_dir_filter": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+        "destination_call": "other = other.getLiquidDestination(self(), liquid);",
+        "eligibility_guard": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

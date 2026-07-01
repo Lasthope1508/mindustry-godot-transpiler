@@ -81638,6 +81638,328 @@
         }
       },
       "status": "active"
+    },
+    "source_building_dump_liquid_routing_gate_input": {
+      "keys": {
+        "can_dump_liquid_by_index": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.can_dump_liquid_by_index",
+          "java_expr": "canDumpLiquid(other, liquid)",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime can_dump_liquid_by_index supplies source canDumpLiquid(other, liquid).",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "destination_present_by_index": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.destination_present_by_index",
+          "java_expr": "other.getLiquidDestination(self(), liquid) != null",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime destination_present_by_index supplies destination nullness by selected index.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "dump_cursor": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.dump_cursor",
+          "java_expr": "dump",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime dump_cursor supplies source dump snapshot.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "liquid": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.liquid",
+          "java_expr": "liquid",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime liquid supplies dumpLiquid liquid input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "other_has_liquids_by_index": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.other_has_liquids_by_index",
+          "java_expr": "other.block.hasLiquids",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime other_has_liquids_by_index supplies source other.block.hasLiquids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "other_liquids_present_by_index": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.other_liquids_present_by_index",
+          "java_expr": "other.liquids != null",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime other_liquids_present_by_index supplies source other.liquids != null.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "output_dir": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.output_dir",
+          "java_expr": "outputDir",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime output_dir supplies source outputDir.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "proximity_size": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.proximity_size",
+          "java_expr": "proximity.size",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime proximity_size supplies source proximity.size.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "relative_to_by_index": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.relative_to_by_index",
+          "java_expr": "relativeTo(other)",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime relative_to_by_index supplies source relativeTo(other).",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "rotation_value": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_input.rotation_value",
+          "java_expr": "rotation",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime rotation_value supplies source rotation.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_dump_liquid_routing_gate_result": {
+      "keys": {
+        "attempted_indices": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.attempted_indices",
+          "java_expr": "proximity.get((i + dump) % proximity.size)",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated selected proximity indices from source dump cursor expression.",
+          "status": "generated",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "can_dump_liquid_by_index": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.can_dump_liquid_by_index",
+          "rule": "Carries can_dump_liquid_by_index input into result schema.",
+          "status": "generated",
+          "type": "Array"
+        },
+        "destination_call": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.destination_call",
+          "java_expr": "other = other.getLiquidDestination(self(), liquid);",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source dumpLiquid resolves liquid destination.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "destination_indices": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.destination_indices",
+          "java_expr": "other.getLiquidDestination(self(), liquid) != null",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated indices with non-null destination after source destination call.",
+          "status": "generated",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "destination_present_by_index": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.destination_present_by_index",
+          "rule": "Carries destination_present_by_index input into result schema.",
+          "status": "generated",
+          "type": "Array"
+        },
+        "dump_cursor": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.dump_cursor",
+          "rule": "Carries dump_cursor input into result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "eligibility_guard": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.eligibility_guard",
+          "java_expr": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source dumpLiquid liquid destination eligibility guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "eligible_indices": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.eligible_indices",
+          "java_expr": "other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated indices that pass source liquid destination eligibility guard.",
+          "status": "generated",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "final_cdump": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.final_cdump",
+          "java_expr": "incrementDump(proximity.size);",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated final cdump after source incrementDump call per proximity attempt.",
+          "status": "generated",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "increment_dump_call": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.increment_dump_call",
+          "java_expr": "incrementDump(proximity.size);",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source dumpLiquid increments cdump on each proximity attempt.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "liquid": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.liquid",
+          "rule": "Carries liquid input into result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "loop": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.loop",
+          "java_expr": "for(int i = 0; i < proximity.size; i++){",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source dumpLiquid proximity loop.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "other_has_liquids_by_index": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.other_has_liquids_by_index",
+          "rule": "Carries other_has_liquids_by_index input into result schema.",
+          "status": "generated",
+          "type": "Array"
+        },
+        "other_liquids_present_by_index": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.other_liquids_present_by_index",
+          "rule": "Carries other_liquids_present_by_index input into result schema.",
+          "status": "generated",
+          "type": "Array"
+        },
+        "output_dir": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.output_dir",
+          "rule": "Carries output_dir input into result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "output_dir_filter": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.output_dir_filter",
+          "java_expr": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source dumpLiquid outputDir relativeTo filter.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "output_dir_passes": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.output_dir_passes",
+          "java_expr": "outputDir == -1 || (outputDir + rotation) % 4 == relativeTo(other)",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated inverse of the source outputDir continue filter.",
+          "status": "generated",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "proximity_get": {
+          "godot_symbol": "source_building_dump_liquid_routing_gate_result.proximity_get",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) routing gate",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source dumpLiquid selects other building from dump cursor snapshot.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_routing_gate_state"
+          ]
+        },
+        "proximity_size": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.proximity_size",
+          "rule": "Carries proximity_size input into result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "relative_to_by_index": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.relative_to_by_index",
+          "rule": "Carries relative_to_by_index input into result schema.",
+          "status": "generated",
+          "type": "Array"
+        },
+        "rotation_value": {
+          "alias_of": "source_building_dump_liquid_routing_gate_input.rotation_value",
+          "rule": "Carries rotation_value input into result schema.",
+          "status": "generated",
+          "type": "int"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

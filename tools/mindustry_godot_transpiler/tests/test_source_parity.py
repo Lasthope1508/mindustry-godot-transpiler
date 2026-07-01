@@ -1478,6 +1478,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_dump_liquid_routing_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_liquid_routing_gate_source"))
+        report = source_parity.verify_building_dump_liquid_routing_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "loop": "for(int i = 0; i < proximity.size; i++){",
+            "increment_dump_call": "incrementDump(proximity.size);",
+            "proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+            "output_dir_filter": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+            "destination_call": "other = other.getLiquidDestination(self(), liquid);",
+            "eligibility_guard": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")
