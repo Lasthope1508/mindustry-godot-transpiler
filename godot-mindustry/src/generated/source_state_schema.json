@@ -70987,6 +70987,248 @@
       },
       "owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
       "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state"
+    },
+    "source_weapon_update_velocity_length_input": {
+      "status": "active",
+      "keys": {
+        "unit_state": {
+          "godot_symbol": "source_weapon_update_velocity_length_input.unit_state",
+          "java_expr": "Unit unit",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Unit state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_weapon_update_velocity_length_input.source_delta",
+          "java_expr": "public static float delta = 1f;",
+          "java_method": "Time fields",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Time.delta input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "isRemote": {
+          "godot_symbol": "source_weapon_update_velocity_length_input.unit_state.isRemote",
+          "java_expr": "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }",
+          "java_method": "EntityComp.isRemote()",
+          "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+          "rule": "Runtime isRemote branch selector.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "velX": {
+          "godot_symbol": "source_weapon_update_velocity_length_input.unit_state.velX",
+          "java_expr": "unit.vel.len()",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime unit velocity x for remote branch.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "velY": {
+          "godot_symbol": "source_weapon_update_velocity_length_input.unit_state.velY",
+          "java_expr": "unit.vel.len()",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Runtime unit velocity y for remote branch.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "deltaX": {
+          "godot_symbol": "source_weapon_update_velocity_length_input.unit_state.deltaX",
+          "java_expr": "deltaX",
+          "java_method": "HitboxComp.deltaLen()",
+          "java_source": "core/src/mindustry/entities/comp/HitboxComp.java",
+          "rule": "Runtime deltaX for local deltaLen branch.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "deltaY": {
+          "godot_symbol": "source_weapon_update_velocity_length_input.unit_state.deltaY",
+          "java_expr": "deltaY",
+          "java_method": "HitboxComp.deltaLen()",
+          "java_source": "core/src/mindustry/entities/comp/HitboxComp.java",
+          "rule": "Runtime deltaY for local deltaLen branch.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_weapon_update_velocity_length_state",
+      "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state"
+    },
+    "source_weapon_update_velocity_length_result": {
+      "status": "active",
+      "keys": {
+        "velLen": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.velLen",
+          "java_expr": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed velocity length used by shoot gate.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "isRemote": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.isRemote",
+          "java_expr": "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }",
+          "java_method": "EntityComp.isRemote()",
+          "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+          "rule": "Branch selector echo.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "remoteVelLen": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.remoteVelLen",
+          "java_expr": "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+          "java_method": "Vec2.len()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Remote unit.vel.len branch.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "localDeltaLen": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.localDeltaLen",
+          "java_expr": "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }",
+          "java_method": "HitboxComp.deltaLen()",
+          "java_source": "core/src/mindustry/entities/comp/HitboxComp.java",
+          "rule": "Local unit.deltaLen branch before Time.delta division.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "sourceDelta": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.sourceDelta",
+          "java_expr": "public static float delta = 1f;",
+          "java_method": "Time fields",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Time.delta echo.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "branch": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.branch",
+          "java_expr": "unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Selected source branch label.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "velLenSource": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.velLenSource",
+          "java_expr": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact velocity length source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "isRemoteSource": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.isRemoteSource",
+          "java_expr": "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }",
+          "java_method": "EntityComp.isRemote()",
+          "java_source": "core/src/mindustry/entities/comp/EntityComp.java",
+          "rule": "Exact isRemote source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "deltaLenSource": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.deltaLenSource",
+          "java_expr": "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }",
+          "java_method": "HitboxComp.deltaLen()",
+          "java_source": "core/src/mindustry/entities/comp/HitboxComp.java",
+          "rule": "Exact deltaLen source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "vec2LenSource": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.vec2LenSource",
+          "java_expr": "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+          "java_method": "Vec2.len()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Exact Vec2.len source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "timeDeltaSource": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.timeDeltaSource",
+          "java_expr": "public static float delta = 1f;",
+          "java_method": "Time fields",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "rule": "Exact Time.delta source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        },
+        "shootGateSource": {
+          "godot_symbol": "source_weapon_update_velocity_length_result.shootGateSource",
+          "java_expr": "velLen >= minShootVelocity && //check velocity requirements",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Reserved shoot gate velocity source.",
+          "status": "deferred",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_velocity_length_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_weapon_update_velocity_length_state",
+      "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state"
     }
   },
   "version": 1

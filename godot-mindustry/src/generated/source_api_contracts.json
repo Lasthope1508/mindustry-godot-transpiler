@@ -18859,6 +18859,45 @@
         "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
         "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_velocity_length_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_velocity_length_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_velocity_length_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "velLen",
+        "isRemote",
+        "remoteVelLen",
+        "localDeltaLen",
+        "sourceDelta",
+        "branch",
+        "velLenSource",
+        "isRemoteSource",
+        "deltaLenSource",
+        "vec2LenSource",
+        "timeDeltaSource",
+        "shootGateSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update velocity length state.",
+      "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+      "source_slice": "N875",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_velocity_length_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_velocity_length_state",
+        "test_weapon_update_velocity_length_matches_upstream_source"
+      ]
     }
   },
   "policy": {

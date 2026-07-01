@@ -5130,12 +5130,12 @@ func source_weapon_update_velocity_length_state(unit_state: Dictionary, source_d
 		"localDeltaLen": local_delta_len,
 		"sourceDelta": source_delta,
 		"branch": "unit.vel.len" if is_remote else "unit.deltaLen / Time.delta",
-		"velLenSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta",
-		"isRemoteSource": "boolean isRemote(){ return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal(); }",
-		"deltaLenSource": "float deltaLen(){ return Mathf.len(deltaX, deltaY); }",
-		"vec2LenSource": "public float len(){ return (float)Math.sqrt(x * x + y * y); }",
-		"timeDeltaSource": "public static float delta = 1f",
-		"shootGateSource": "velLen >= minShootVelocity &&",
+		"velLenSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;",
+		"isRemoteSource": "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }",
+		"deltaLenSource": "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }",
+		"vec2LenSource": "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+		"timeDeltaSource": "public static float delta = 1f;",
+		"shootGateSource": "velLen >= minShootVelocity && //check velocity requirements",
 	}
 
 func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:

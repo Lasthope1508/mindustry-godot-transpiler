@@ -17061,6 +17061,44 @@
         "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update shoot gate prefix wrapper against exact upstream source."
+    },
+    "N875": {
+      "exact_exprs": [
+        "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;"
+      ],
+      "bridge_exprs": [
+        "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }",
+        "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }",
+        "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }",
+        "public static float delta = 1f;"
+      ],
+      "deferred_exprs": [
+        "velLen >= minShootVelocity && //check velocity requirements",
+        "Shoot gate velocity term remains owned by source_weapon_update_shoot_gate_prefix_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_velocity_length_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state",
+      "source_symbols": [
+        "weapon_update_velocity_length.vel_len",
+        "weapon_update_velocity_length.shoot_gate_uses_vel_len",
+        "weapon_update_velocity_length.entity_is_remote",
+        "weapon_update_velocity_length.hitbox_delta_len",
+        "weapon_update_velocity_length.vec2_len",
+        "weapon_update_velocity_length.time_delta",
+        "weapon_update_velocity_length.unit_state",
+        "weapon_update_velocity_length.unit_vel",
+        "weapon_update_velocity_length.unit_delta"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_velocity_length_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_velocity_length_state",
+        "test_weapon_update_velocity_length_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update velocity length wrapper against exact upstream source."
     }
   },
   "version": 1

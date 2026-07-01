@@ -5674,6 +5674,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_kill_shooter["java_expr"], "public boolean killShooter;")
         self.assertEqual(bullet_kill_shooter["godot_symbol"], "source_weapon_update_shoot_gate_prefix_input.bullet_state.killShooter")
 
+    def test_weapon_update_velocity_length_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        vel_len = source_symbols.source_symbol(registry, "weapon_update_velocity_length.vel_len")
+        self.assertEqual(vel_len["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(vel_len["java_expr"], "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;")
+        self.assertEqual(vel_len["godot_owner"], "PortGame.source_weapon_update_velocity_length_state")
+        self.assertEqual(vel_len["runtime_proof"], "/root/Main.source_weapon_update_velocity_length_state")
+        self.assertEqual(vel_len["godot_symbol"], "source_weapon_update_velocity_length_result.velLen")
+
+        is_remote = source_symbols.source_symbol(registry, "weapon_update_velocity_length.entity_is_remote")
+        self.assertEqual(is_remote["java_source"], "core/src/mindustry/entities/comp/EntityComp.java")
+        self.assertEqual(is_remote["java_expr"], "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }")
+        self.assertEqual(is_remote["godot_symbol"], "source_weapon_update_velocity_length_result.isRemote")
+
+        delta_len = source_symbols.source_symbol(registry, "weapon_update_velocity_length.hitbox_delta_len")
+        self.assertEqual(delta_len["java_source"], "core/src/mindustry/entities/comp/HitboxComp.java")
+        self.assertEqual(delta_len["java_expr"], "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }")
+        self.assertEqual(delta_len["godot_symbol"], "source_weapon_update_velocity_length_result.localDeltaLen")
+
+        vec2_len = source_symbols.source_symbol(registry, "weapon_update_velocity_length.vec2_len")
+        self.assertEqual(vec2_len["java_source"], "arc-core/src/arc/math/geom/Vec2.java")
+        self.assertEqual(vec2_len["java_expr"], "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }")
+        self.assertEqual(vec2_len["godot_symbol"], "source_weapon_update_velocity_length_result.remoteVelLen")
+
+        time_delta = source_symbols.source_symbol(registry, "weapon_update_velocity_length.time_delta")
+        self.assertEqual(time_delta["java_source"], "arc-core/src/arc/util/Time.java")
+        self.assertEqual(time_delta["java_expr"], "public static float delta = 1f;")
+        self.assertEqual(time_delta["godot_symbol"], "source_weapon_update_velocity_length_input.source_delta")
+
+        shoot_gate = source_symbols.source_symbol(registry, "weapon_update_velocity_length.shoot_gate_uses_vel_len")
+        self.assertEqual(shoot_gate["java_expr"], "velLen >= minShootVelocity && //check velocity requirements")
+        self.assertEqual(shoot_gate["godot_symbol"], "source_weapon_update_velocity_length_result.shootGateSource")
+
     def test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -16542,9 +16579,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 472)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 473)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 477)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 478)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -16572,6 +16609,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("PortGame.source_weapon_update_shoot_call_reload_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapon_update_shoot_gate_prefix_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapon_update_shoot_gate_prefix_state", audit["legacyUnregisteredOwners"])
+        self.assertIn("PortGame.source_weapon_update_velocity_length_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_weapon_update_velocity_length_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_drown_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_can_target_state", audit["legacyUnregisteredOwners"])
         self.assertNotIn("PortGame.source_unit_cap_state", audit["legacyUnregisteredOwners"])
@@ -19675,6 +19714,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean killShooter;", weapon_update_shoot_gate_prefix["bridge_exprs"])
         self.assertIn("weapon_update_shoot_gate_prefix.shoot_comment", weapon_update_shoot_gate_prefix["source_symbols"])
         self.assertIn("weapon_update_shoot_gate_prefix.velocity_gate", weapon_update_shoot_gate_prefix["source_symbols"])
+
+        weapon_update_velocity_length = source_symbols.source_slice(ledger, "N875")
+        self.assertEqual(weapon_update_velocity_length["java_source"], "core/src/mindustry/type/Weapon.java")
+        self.assertEqual(weapon_update_velocity_length["java_method"], "Weapon.update(Unit unit, WeaponMount mount) velocity length")
+        self.assertEqual(weapon_update_velocity_length["godot_owner"], "PortGame.source_weapon_update_velocity_length_state")
+        self.assertIn("float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;", weapon_update_velocity_length["exact_exprs"])
+        self.assertIn("velLen >= minShootVelocity && //check velocity requirements", weapon_update_velocity_length["deferred_exprs"])
+        self.assertIn("boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }", weapon_update_velocity_length["bridge_exprs"])
+        self.assertIn("float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }", weapon_update_velocity_length["bridge_exprs"])
+        self.assertIn("public static float delta = 1f;", weapon_update_velocity_length["bridge_exprs"])
+        self.assertIn("weapon_update_velocity_length.vel_len", weapon_update_velocity_length["source_symbols"])
+        self.assertIn("weapon_update_velocity_length.shoot_gate_uses_vel_len", weapon_update_velocity_length["source_symbols"])
 
         weapon_update_always_shooting = source_symbols.source_slice(ledger, "N858")
         self.assertEqual(weapon_update_always_shooting["java_source"], "core/src/mindustry/type/Weapon.java")
@@ -23181,6 +23232,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("velocityGate", weapon_update_shoot_gate_prefix["return_keys"])
         self.assertIn("reloadGateReservedSource", weapon_update_shoot_gate_prefix["return_keys"])
         self.assertEqual(weapon_update_shoot_gate_prefix["source_method"], "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix")
+
+        weapon_update_velocity_length = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_velocity_length_state")
+        self.assertEqual([param["name"] for param in weapon_update_velocity_length["params"]], ["unit_state", "source_delta"])
+        self.assertEqual(weapon_update_velocity_length["params"][0]["schema"], "source_weapon_update_velocity_length_input.unit_state")
+        self.assertEqual(weapon_update_velocity_length["params"][1]["schema"], "source_weapon_update_velocity_length_input.source_delta")
+        self.assertIn("velLen", weapon_update_velocity_length["return_keys"])
+        self.assertIn("isRemote", weapon_update_velocity_length["return_keys"])
+        self.assertIn("remoteVelLen", weapon_update_velocity_length["return_keys"])
+        self.assertIn("localDeltaLen", weapon_update_velocity_length["return_keys"])
+        self.assertIn("branch", weapon_update_velocity_length["return_keys"])
+        self.assertIn("shootGateSource", weapon_update_velocity_length["return_keys"])
+        self.assertEqual(weapon_update_velocity_length["source_method"], "Weapon.update(Unit unit, WeaponMount mount) velocity length")
 
         weapon_update_always_shooting = source_symbols.api_contract(contracts, "PortGame.source_weapon_update_always_shooting_state")
         self.assertEqual([param["name"] for param in weapon_update_always_shooting["params"]], ["mount_state", "weapon_state"])
@@ -30054,6 +30117,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_weapon_update_shoot_gate_prefix_result["keys"]["warmupGate"]["java_expr"], "mount.warmup >= minWarmup && //must be warmed up")
         self.assertEqual(source_weapon_update_shoot_gate_prefix_result["keys"]["velocityGateSource"]["java_expr"], "velLen >= minShootVelocity && //check velocity requirements")
         self.assertEqual(source_weapon_update_shoot_gate_prefix_result["keys"]["reloadGateReservedSource"]["java_expr"], "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon")
+
+        source_weapon_update_velocity_length_input = source_symbols.state_schema(schema, "source_weapon_update_velocity_length_input")
+        self.assertEqual(source_weapon_update_velocity_length_input["keys"]["unit_state"]["java_expr"], "Unit unit")
+        self.assertEqual(source_weapon_update_velocity_length_input["keys"]["source_delta"]["java_expr"], "public static float delta = 1f;")
+        self.assertEqual(source_weapon_update_velocity_length_input["keys"]["isRemote"]["java_expr"], "boolean isRemote(){\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\n    }")
+        self.assertEqual(source_weapon_update_velocity_length_input["keys"]["deltaX"]["java_expr"], "deltaX")
+        self.assertEqual(source_weapon_update_velocity_length_input["keys"]["velX"]["java_expr"], "unit.vel.len()")
+
+        source_weapon_update_velocity_length_result = source_symbols.state_schema(schema, "source_weapon_update_velocity_length_result")
+        self.assertEqual(source_weapon_update_velocity_length_result["keys"]["velLen"]["java_expr"], "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;")
+        self.assertEqual(source_weapon_update_velocity_length_result["keys"]["remoteVelLen"]["java_expr"], "public float len(){\n        return (float)Math.sqrt(x * x + y * y);\n    }")
+        self.assertEqual(source_weapon_update_velocity_length_result["keys"]["localDeltaLen"]["java_expr"], "float deltaLen(){\n        return Mathf.len(deltaX, deltaY);\n    }")
+        self.assertEqual(source_weapon_update_velocity_length_result["keys"]["timeDeltaSource"]["java_expr"], "public static float delta = 1f;")
+        self.assertEqual(source_weapon_update_velocity_length_result["keys"]["shootGateSource"]["java_expr"], "velLen >= minShootVelocity && //check velocity requirements")
 
         source_weapon_update_alternating_side_flip_input = source_symbols.state_schema(schema, "source_weapon_update_alternating_side_flip_input")
         self.assertEqual(source_weapon_update_alternating_side_flip_input["keys"]["mount_state"]["java_expr"], "WeaponMount mount")

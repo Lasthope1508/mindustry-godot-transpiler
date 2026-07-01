@@ -4765,9 +4765,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var remote_vel_len := sqrt(vel_x * vel_x + vel_y * vel_y)", source)
         self.assertIn("var local_delta_len := sqrt(delta_x * delta_x + delta_y * delta_y)", source)
         self.assertIn("var vel_len := remote_vel_len if is_remote else local_delta_len / source_delta", source)
-        self.assertIn('"velLenSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta"', source)
-        self.assertIn('"isRemoteSource": "boolean isRemote(){ return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal(); }"', source)
-        self.assertIn('"deltaLenSource": "float deltaLen(){ return Mathf.len(deltaX, deltaY); }"', source)
+        self.assertIn('"velLenSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;"', source)
+        self.assertIn('"isRemoteSource": "boolean isRemote(){\\n        return ((Object)this) instanceof Unitc u && u.isPlayer() && !isLocal();\\n    }"', source)
+        self.assertIn('"deltaLenSource": "float deltaLen(){\\n        return Mathf.len(deltaX, deltaY);\\n    }"', source)
+        self.assertIn('"vec2LenSource": "public float len(){\\n        return (float)Math.sqrt(x * x + y * y);\\n    }"', source)
+        self.assertIn('"timeDeltaSource": "public static float delta = 1f;"', source)
+        self.assertIn('"shootGateSource": "velLen >= minShootVelocity && //check velocity requirements"', source)
 
     def test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
