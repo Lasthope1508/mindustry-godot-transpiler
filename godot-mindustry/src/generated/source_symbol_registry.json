@@ -55878,6 +55878,96 @@
       "godot_symbol": "source_weapon_update_auto_target_invalidation_input.mount_state.targetExists",
       "status": "source-backed",
       "rule": "WeaponMount target field."
+    },
+    "weapon_update_auto_target_retarget.gate": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(!controllable && autoTarget){",
+      "godot_symbol": "source_weapon_update_auto_target_retarget_result.gateSource",
+      "status": "source-backed",
+      "rule": "Auto-target retarget gate."
+    },
+    "weapon_update_auto_target_retarget.decrement_gate": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if((mount.retarget -= Time.delta) <= 0f){",
+      "godot_symbol": "source_weapon_update_auto_target_retarget_result.retargetSource",
+      "status": "source-backed",
+      "rule": "Retarget countdown threshold gate."
+    },
+    "weapon_update_auto_target_retarget.find_target_call": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+      "godot_symbol": "source_weapon_update_auto_target_retarget_result.findTargetCall",
+      "status": "source-backed",
+      "rule": "Finds a new target after retarget countdown expires."
+    },
+    "weapon_update_auto_target_retarget.interval_assignment": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval;",
+      "godot_symbol": "source_weapon_update_auto_target_retarget_result.retarget",
+      "status": "source-backed",
+      "rule": "Resets retarget interval based on whether findTarget returned a target."
+    },
+    "weapon_update_auto_target_retarget.target_intervals": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float targetInterval = 40f, targetSwitchInterval = 70f;",
+      "godot_symbol": "source_weapon_update_auto_target_retarget_input.weapon_state.targetInterval",
+      "status": "source-backed",
+      "rule": "Weapon retarget interval fields."
+    },
+    "weapon_update_auto_target_retarget.mount_retarget": {
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float retarget = 0f;",
+      "godot_symbol": "source_weapon_update_auto_target_retarget_input.mount_state.retarget",
+      "status": "source-backed",
+      "rule": "WeaponMount retarget counter."
     }
   },
   "version": 1

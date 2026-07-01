@@ -66003,6 +66003,245 @@
           ]
         }
       }
+    },
+    "source_weapon_update_auto_target_retarget_input": {
+      "status": "active",
+      "keys": {
+        "mount_state": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.mount_state",
+          "java_expr": "WeaponMount mount",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount state input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "weapon_state": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.weapon_state",
+          "java_expr": "Weapon auto-target retarget fields",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon state input for auto-target retarget.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "bullet_state": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.bullet_state",
+          "java_expr": "BulletType bullet",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Bullet state input for findTarget.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit boundary for Time.delta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "mount_x": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.mount_x",
+          "java_expr": "mountX",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount X used by findTarget.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "mount_y": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.mount_y",
+          "java_expr": "mountY",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon mount Y used by findTarget.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "find_target_result_exists": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.find_target_result_exists",
+          "java_expr": "findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround)",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Explicit boundary result for findTarget.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "retarget": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.mount_state.retarget",
+          "java_expr": "public float retarget = 0f;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "WeaponMount retarget counter.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "targetInterval": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.weapon_state.targetInterval",
+          "java_expr": "public float targetInterval = 40f, targetSwitchInterval = 70f;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "No-target retarget interval.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "targetSwitchInterval": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.weapon_state.targetSwitchInterval",
+          "java_expr": "public float targetInterval = 40f, targetSwitchInterval = 70f;",
+          "java_method": "Weapon fields",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Found-target retarget interval.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "range": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_input.bullet_state.range",
+          "java_expr": "public float range = 0f;",
+          "java_method": "BulletType fields",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "rule": "Bullet range field used by findTarget.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        }
+      }
+    },
+    "source_weapon_update_auto_target_retarget_result": {
+      "status": "active",
+      "keys": {
+        "gate": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.gate",
+          "java_expr": "if(!controllable && autoTarget){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Computed auto-target retarget gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "retarget": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.retarget",
+          "java_expr": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned retarget counter after optional reset.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "findTargetCalled": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.findTargetCalled",
+          "java_expr": "if((mount.retarget -= Time.delta) <= 0f){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Whether findTarget threshold fired.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "findTargetCall": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.findTargetCall",
+          "java_expr": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Recorded findTarget call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "targetExists": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.targetExists",
+          "java_expr": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Returned target presence from explicit findTarget boundary.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ],
+          "alias_of": "source_weapon_update_auto_target_retarget_input.find_target_result_exists"
+        },
+        "retargetSource": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.retargetSource",
+          "java_expr": "if((mount.retarget -= Time.delta) <= 0f){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact retarget threshold metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "findTargetSource": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.findTargetSource",
+          "java_expr": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact findTarget assignment metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        },
+        "intervalSource": {
+          "godot_symbol": "source_weapon_update_auto_target_retarget_result.intervalSource",
+          "java_expr": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval;",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Exact retarget interval assignment metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapon_update_auto_target_retarget_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

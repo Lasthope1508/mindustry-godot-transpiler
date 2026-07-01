@@ -16233,6 +16233,47 @@
         "test_weapon_update_auto_target_invalidation_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing Weapon.update auto-target invalidation wrapper against exact upstream source."
+    },
+    "N860": {
+      "exact_exprs": [
+        "if(!controllable && autoTarget){",
+        "if((mount.retarget -= Time.delta) <= 0f){",
+        "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+        "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval;"
+      ],
+      "bridge_exprs": [
+        "public float targetInterval = 40f, targetSwitchInterval = 70f;",
+        "public float retarget = 0f;",
+        "public @Nullable Teamc target;",
+        "public boolean autoTarget = false;",
+        "public boolean controllable = true;",
+        "public boolean collidesAir = true, collidesGround = true;",
+        "public float range = 0f;",
+        "public static float delta = 1f;"
+      ],
+      "deferred_exprs": [
+        "Following target invalidation block remains owned by source_weapon_update_auto_target_invalidation_state."
+      ],
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "java_class": "mindustry.type.Weapon",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "source_symbols": [
+        "weapon_update_auto_target_retarget.gate",
+        "weapon_update_auto_target_retarget.decrement_gate",
+        "weapon_update_auto_target_retarget.find_target_call",
+        "weapon_update_auto_target_retarget.interval_assignment",
+        "weapon_update_auto_target_retarget.target_intervals",
+        "weapon_update_auto_target_retarget.mount_retarget"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing Weapon.update auto-target retarget wrapper against exact upstream source."
     }
   },
   "version": 1

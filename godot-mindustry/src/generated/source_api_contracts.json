@@ -17974,6 +17974,68 @@
         "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
         "test_weapon_update_auto_target_invalidation_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_auto_target_retarget_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_auto_target_retarget_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_auto_target_retarget_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_auto_target_retarget_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_auto_target_retarget_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_auto_target_retarget_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_auto_target_retarget_input.mount_y",
+          "type": "float"
+        },
+        {
+          "name": "find_target_result_exists",
+          "schema": "source_weapon_update_auto_target_retarget_input.find_target_result_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "retarget",
+        "retargetAfterDecrement",
+        "findTargetCalled",
+        "findTargetCall",
+        "targetExists",
+        "gateSource",
+        "retargetSource",
+        "findTargetSource",
+        "intervalSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update auto-target retarget state.",
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "source_slice": "N860",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ]
     }
   },
   "policy": {

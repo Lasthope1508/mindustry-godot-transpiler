@@ -4580,10 +4580,10 @@ func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, we
 		"findTargetCalled": finder_call != null,
 		"findTargetCall": finder_call,
 		"targetExists": target_exists,
-		"gateSource": "if(!controllable && autoTarget)",
-		"retargetSource": "if((mount.retarget -= Time.delta) <= 0f)",
-		"findTargetSource": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround)",
-		"intervalSource": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval",
+		"gateSource": "if(!controllable && autoTarget){",
+		"retargetSource": "if((mount.retarget -= Time.delta) <= 0f){",
+		"findTargetSource": "mount.target = findTarget(unit, mountX, mountY, bullet.range, bullet.collidesAir, bullet.collidesGround);",
+		"intervalSource": "mount.retarget = mount.target == null ? targetInterval : targetSwitchInterval;",
 	}
 
 func source_weapon_update_auto_target_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, mount_x: float, mount_y: float, check_target_result: bool) -> Dictionary:
