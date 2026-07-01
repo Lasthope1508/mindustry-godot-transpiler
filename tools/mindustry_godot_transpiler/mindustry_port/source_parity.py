@@ -13,6 +13,7 @@ POWER_NODE_SOURCE = "core/src/mindustry/world/blocks/power/PowerNode.java"
 BATTERY_SOURCE = "core/src/mindustry/world/blocks/power/Battery.java"
 POWER_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/PowerGenerator.java"
 SOLAR_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/SolarGenerator.java"
+THERMAL_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/ThermalGenerator.java"
 CONSUME_GENERATOR_SOURCE = "core/src/mindustry/world/blocks/power/ConsumeGenerator.java"
 POWER_GRAPH_SOURCE = "core/src/mindustry/world/blocks/power/PowerGraph.java"
 CONSUME_POWER_SOURCE = "core/src/mindustry/world/consumers/ConsumePower.java"
@@ -280,6 +281,44 @@ def verify_solar_generator_update_tile_source(upstream_root: Path) -> dict[str, 
     return {
         "source": SOLAR_GENERATOR_SOURCE,
         "sources": [RULES_SOURCE, "core/src/mindustry/world/meta/Attribute.java", ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_thermal_generator_update_tile_source(upstream_root: Path) -> dict[str, Any]:
+    thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
+    attribute_path = Path(upstream_root) / "core/src/mindustry/world/meta/Attribute.java"
+    thermal_generator_source = thermal_generator_path.read_text(encoding="utf-8", errors="replace")
+    attribute_source = attribute_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public class ThermalGenerator extends PowerGenerator{",
+        "attribute_field": "public Attribute attribute = Attribute.heat;",
+        "no_update_disabled": "noUpdateDisabled = true;",
+        "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "sum_field": "public float sum;",
+        "override": "@Override",
+        "method": "public void updateTile(){",
+        "assignment": "productionEfficiency = sum + attribute.env();",
+        "attribute_heat_comment": "/** Heat content. Used for thermal generator yield. */",
+        "attribute_heat": "heat = add(\"heat\"),",
+        "attribute_env_method": "public float env(){",
+        "attribute_env_null_guard": "if(Vars.state == null) return 0;",
+        "attribute_env_return": "return Vars.state.envAttrs.get(this);",
+    }
+    sources_by_key = {
+        "attribute_heat_comment": attribute_source,
+        "attribute_heat": attribute_source,
+        "attribute_env_method": attribute_source,
+        "attribute_env_null_guard": attribute_source,
+        "attribute_env_return": attribute_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, thermal_generator_source)
+    ]
+    return {
+        "source": THERMAL_GENERATOR_SOURCE,
+        "sources": ["core/src/mindustry/world/meta/Attribute.java"],
         "checked": checked,
         "missing": missing,
     }

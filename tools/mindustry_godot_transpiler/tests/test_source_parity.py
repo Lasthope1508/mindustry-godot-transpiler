@@ -237,6 +237,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_thermal_generator_update_tile_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_thermal_generator_update_tile_source"))
+        report = source_parity.verify_thermal_generator_update_tile_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertIn("core/src/mindustry/world/meta/Attribute.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "class": "public class ThermalGenerator extends PowerGenerator{",
+            "attribute_field": "public Attribute attribute = Attribute.heat;",
+            "no_update_disabled": "noUpdateDisabled = true;",
+            "build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+            "sum_field": "public float sum;",
+            "override": "@Override",
+            "method": "public void updateTile(){",
+            "assignment": "productionEfficiency = sum + attribute.env();",
+            "attribute_heat_comment": "/** Heat content. Used for thermal generator yield. */",
+            "attribute_heat": "heat = add(\"heat\"),",
+            "attribute_env_method": "public float env(){",
+            "attribute_env_null_guard": "if(Vars.state == null) return 0;",
+            "attribute_env_return": "return Vars.state.envAttrs.get(this);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_generator_warmup_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_generator_warmup_source"))
         report = source_parity.verify_power_generator_warmup_source(ROOT / "mindustry-upstream")

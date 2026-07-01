@@ -577,6 +577,27 @@ func source_solar_generator_update_tile_state(enabled: bool, solar_multiplier: f
 		"production_efficiency": production_efficiency,
 	}
 
+func source_thermal_generator_update_tile_state(sum: float, attribute_env: float) -> Dictionary:
+	var production_efficiency: float = sum + attribute_env
+	return {
+		"class": "public class ThermalGenerator extends PowerGenerator{",
+		"attribute_field": "public Attribute attribute = Attribute.heat;",
+		"no_update_disabled": "noUpdateDisabled = true;",
+		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
+		"sum_field": "public float sum;",
+		"override": "@Override",
+		"method": "public void updateTile(){",
+		"assignment": "productionEfficiency = sum + attribute.env();",
+		"attribute_heat_comment": "/** Heat content. Used for thermal generator yield. */",
+		"attribute_heat": "heat = add(\"heat\"),",
+		"attribute_env_method": "public float env(){",
+		"attribute_env_null_guard": "if(Vars.state == null) return 0;",
+		"attribute_env_return": "return Vars.state.envAttrs.get(this);",
+		"sum": sum,
+		"attribute_env": attribute_env,
+		"production_efficiency": production_efficiency,
+	}
+
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
 	var warmup := production_efficiency if enabled else 0.0
 	return {

@@ -65979,6 +65979,51 @@
         "test_solar_generator_update_tile_matches_upstream_source"
       ],
       "rule": "Source-backed Mathf.maxZero clamp floor."
+    },
+    "thermal_generator_update_tile.sum": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile()",
+      "java_expr": "sum",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_state",
+      "godot_symbol": "source_thermal_generator_update_tile_input.sum",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_state",
+      "tests": [
+        "test_thermal_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_matches_upstream_source"
+      ],
+      "rule": "Explicit ThermalGeneratorBuild sum input."
+    },
+    "thermal_generator_update_tile.attribute_env": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/meta/Attribute.java",
+      "java_method": "updateTile()",
+      "java_expr": "attribute.env()",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_state",
+      "godot_symbol": "source_thermal_generator_update_tile_input.attribute_env",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_state",
+      "tests": [
+        "test_thermal_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_matches_upstream_source"
+      ],
+      "rule": "Explicit Attribute.env() input for ThermalGenerator.updateTile."
+    },
+    "thermal_generator_update_tile.production_efficiency": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile()",
+      "java_expr": "productionEfficiency = sum + attribute.env();",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_state",
+      "godot_symbol": "source_thermal_generator_update_tile_result.production_efficiency",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_state",
+      "tests": [
+        "test_thermal_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_matches_upstream_source"
+      ],
+      "rule": "Source-backed ThermalGeneratorBuild productionEfficiency assignment."
     }
   },
   "version": 1

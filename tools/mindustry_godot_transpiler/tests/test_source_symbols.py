@@ -13721,6 +13721,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(max_zero["java_expr"], "return Math.max(val, 0);")
         self.assertEqual(max_zero["godot_symbol"], "source_solar_generator_update_tile_result.max_zero_value")
 
+    def test_thermal_generator_update_tile_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        sum_symbol = source_symbols.source_symbol(registry, "thermal_generator_update_tile.sum")
+        self.assertEqual(sum_symbol["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(sum_symbol["java_method"], "updateTile()")
+        self.assertEqual(sum_symbol["status"], "explicit-input")
+        self.assertEqual(sum_symbol["java_expr"], "sum")
+        self.assertEqual(sum_symbol["godot_owner"], "PortGame.source_thermal_generator_update_tile_state")
+        self.assertEqual(sum_symbol["runtime_proof"], "/root/Main.source_thermal_generator_update_tile_state")
+        self.assertEqual(sum_symbol["godot_symbol"], "source_thermal_generator_update_tile_input.sum")
+
+        attribute_env = source_symbols.source_symbol(registry, "thermal_generator_update_tile.attribute_env")
+        self.assertEqual(attribute_env["java_source"], "core/src/mindustry/world/meta/Attribute.java")
+        self.assertEqual(attribute_env["java_expr"], "attribute.env()")
+        self.assertEqual(attribute_env["godot_symbol"], "source_thermal_generator_update_tile_input.attribute_env")
+
+        production_efficiency = source_symbols.source_symbol(registry, "thermal_generator_update_tile.production_efficiency")
+        self.assertEqual(production_efficiency["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(production_efficiency["java_method"], "updateTile()")
+        self.assertEqual(production_efficiency["java_expr"], "productionEfficiency = sum + attribute.env();")
+        self.assertEqual(production_efficiency["godot_symbol"], "source_thermal_generator_update_tile_result.production_efficiency")
+
     def test_power_generator_warmup_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18078,9 +18104,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 521)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 522)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 526)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 527)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -18577,6 +18603,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_power_generator_displayed_power_production_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_generator_build_serialization_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_solar_generator_update_tile_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_thermal_generator_update_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_arc_angles_angle_dist", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_distance", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_angle_to_target", audit["registeredSourceOwners"])
@@ -22781,6 +22808,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("(state.rules.lighting ?", solar_generator_update_tile["exact_exprs"])
         self.assertIn("1f - state.rules.ambientLight.a :", solar_generator_update_tile["exact_exprs"])
         self.assertIn("return Math.max(val, 0);", solar_generator_update_tile["exact_exprs"])
+
+        thermal_generator_update_tile = source_symbols.source_slice(ledger, "N925")
+        self.assertEqual(thermal_generator_update_tile["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
+        self.assertEqual(thermal_generator_update_tile["java_method"], "updateTile()")
+        self.assertEqual(thermal_generator_update_tile["godot_owner"], "PortGame.source_thermal_generator_update_tile_state")
+        self.assertIn("public class ThermalGeneratorBuild extends GeneratorBuild{", thermal_generator_update_tile["exact_exprs"])
+        self.assertIn("public float sum;", thermal_generator_update_tile["exact_exprs"])
+        self.assertIn("public void updateTile(){", thermal_generator_update_tile["exact_exprs"])
+        self.assertIn("productionEfficiency = sum + attribute.env();", thermal_generator_update_tile["exact_exprs"])
+        self.assertIn("public Attribute attribute = Attribute.heat;", thermal_generator_update_tile["exact_exprs"])
+        self.assertIn("heat = add(\"heat\"),", thermal_generator_update_tile["exact_exprs"])
+        self.assertIn("return Vars.state.envAttrs.get(this);", thermal_generator_update_tile["exact_exprs"])
 
         power_generator_warmup = source_symbols.source_slice(ledger, "N910")
         self.assertEqual(power_generator_warmup["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
@@ -27818,6 +27857,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("max_zero_value", solar_generator_update_tile["return_keys"])
         self.assertIn("production_efficiency", solar_generator_update_tile["return_keys"])
         self.assertEqual(solar_generator_update_tile["source_method"], "updateTile()")
+
+        thermal_generator_update_tile = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_update_tile_state")
+        self.assertEqual([param["name"] for param in thermal_generator_update_tile["params"]], ["sum", "attribute_env"])
+        self.assertEqual(thermal_generator_update_tile["params"][0]["schema"], "source_thermal_generator_update_tile_input.sum")
+        self.assertEqual(thermal_generator_update_tile["params"][1]["schema"], "source_thermal_generator_update_tile_input.attribute_env")
+        self.assertIn("production_efficiency", thermal_generator_update_tile["return_keys"])
+        self.assertEqual(thermal_generator_update_tile["source_method"], "updateTile()")
 
         power_generator_warmup = source_symbols.api_contract(contracts, "PortGame.source_power_generator_warmup_state")
         self.assertEqual([param["name"] for param in power_generator_warmup["params"]], ["enabled", "production_efficiency"])
@@ -33918,6 +33964,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_solar_generator_update_tile_result["keys"]["lighting_bonus"]["java_expr"], "(state.rules.lighting ? 1f - state.rules.ambientLight.a : 1f)")
         self.assertEqual(source_solar_generator_update_tile_result["keys"]["max_zero_value"]["java_expr"], "return Math.max(val, 0);")
         self.assertEqual(source_solar_generator_update_tile_result["keys"]["production_efficiency"]["java_expr"], "productionEfficiency = enabled ?")
+
+        source_thermal_generator_update_tile_input = source_symbols.state_schema(schema, "source_thermal_generator_update_tile_input")
+        self.assertEqual(source_thermal_generator_update_tile_input["keys"]["sum"]["java_expr"], "sum")
+        self.assertEqual(source_thermal_generator_update_tile_input["keys"]["attribute_env"]["java_expr"], "attribute.env()")
+
+        source_thermal_generator_update_tile_result = source_symbols.state_schema(schema, "source_thermal_generator_update_tile_result")
+        self.assertEqual(source_thermal_generator_update_tile_result["keys"]["method"]["java_expr"], "public void updateTile(){")
+        self.assertEqual(source_thermal_generator_update_tile_result["keys"]["assignment"]["java_expr"], "productionEfficiency = sum + attribute.env();")
+        self.assertEqual(source_thermal_generator_update_tile_result["keys"]["production_efficiency"]["java_expr"], "productionEfficiency = sum + attribute.env();")
 
         source_power_generator_warmup_input = source_symbols.state_schema(schema, "source_power_generator_warmup_input")
         self.assertEqual(source_power_generator_warmup_input["keys"]["enabled"]["java_expr"], "enabled")

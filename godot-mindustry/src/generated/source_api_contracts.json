@@ -21067,6 +21067,49 @@
         "test_solar_generator_update_tile_matches_upstream_source"
       ],
       "rule": "Public runtime contract for SolarGeneratorBuild.updateTile productionEfficiency formula."
+    },
+    "PortGame.source_thermal_generator_update_tile_state": {
+      "status": "active",
+      "source_slice": "N925",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "source_method": "updateTile()",
+      "params": [
+        {
+          "name": "sum",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_input.sum"
+        },
+        {
+          "name": "attribute_env",
+          "type": "float",
+          "schema": "source_thermal_generator_update_tile_input.attribute_env"
+        }
+      ],
+      "return_keys": [
+        "class",
+        "attribute_field",
+        "no_update_disabled",
+        "build_class",
+        "sum_field",
+        "override",
+        "method",
+        "assignment",
+        "attribute_heat_comment",
+        "attribute_heat",
+        "attribute_env_method",
+        "attribute_env_null_guard",
+        "attribute_env_return",
+        "sum",
+        "attribute_env",
+        "production_efficiency"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_state",
+      "tests": [
+        "test_thermal_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_matches_upstream_source"
+      ],
+      "rule": "Public runtime contract for ThermalGeneratorBuild.updateTile productionEfficiency assignment."
     }
   },
   "policy": {

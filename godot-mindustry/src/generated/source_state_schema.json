@@ -79093,6 +79093,236 @@
           "alias_of": "source_solar_generator_update_tile_input.ambient_light_alpha"
         }
       }
+    },
+    "source_thermal_generator_update_tile_input": {
+      "owner": "PortGame.source_thermal_generator_update_tile_state",
+      "status": "active",
+      "keys": {
+        "sum": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_input key sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_input.sum",
+          "java_expr": "sum"
+        },
+        "attribute_env": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_thermal_generator_update_tile_input key attribute_env.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_input.attribute_env",
+          "java_expr": "attribute.env()"
+        }
+      }
+    },
+    "source_thermal_generator_update_tile_result": {
+      "owner": "PortGame.source_thermal_generator_update_tile_state",
+      "status": "active",
+      "keys": {
+        "class": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key class.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.class",
+          "java_expr": "public class ThermalGenerator extends PowerGenerator{"
+        },
+        "attribute_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key attribute_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.attribute_field",
+          "java_expr": "public Attribute attribute = Attribute.heat;"
+        },
+        "no_update_disabled": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key no_update_disabled.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.no_update_disabled",
+          "java_expr": "noUpdateDisabled = true;"
+        },
+        "build_class": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key build_class.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.build_class",
+          "java_expr": "public class ThermalGeneratorBuild extends GeneratorBuild{"
+        },
+        "sum_field": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key sum_field.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.sum_field",
+          "java_expr": "public float sum;"
+        },
+        "override": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key override.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.override",
+          "java_expr": "@Override"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.method",
+          "java_expr": "public void updateTile(){"
+        },
+        "assignment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key assignment.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.assignment",
+          "java_expr": "productionEfficiency = sum + attribute.env();"
+        },
+        "attribute_heat_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key attribute_heat_comment.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.attribute_heat_comment",
+          "java_expr": "/** Heat content. Used for thermal generator yield. */"
+        },
+        "attribute_heat": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key attribute_heat.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.attribute_heat",
+          "java_expr": "heat = add(\"heat\"),"
+        },
+        "attribute_env_method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key attribute_env_method.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.attribute_env_method",
+          "java_expr": "public float env(){"
+        },
+        "attribute_env_null_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key attribute_env_null_guard.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.attribute_env_null_guard",
+          "java_expr": "if(Vars.state == null) return 0;"
+        },
+        "attribute_env_return": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key attribute_env_return.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.attribute_env_return",
+          "java_expr": "return Vars.state.envAttrs.get(this);"
+        },
+        "sum": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_update_tile_result key sum.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.sum",
+          "java_expr": "sum",
+          "alias_of": "source_thermal_generator_update_tile_input.sum"
+        },
+        "attribute_env": {
+          "type": "float",
+          "status": "generated",
+          "rule": "source_thermal_generator_update_tile_result key attribute_env.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.attribute_env",
+          "java_expr": "attribute.env()",
+          "alias_of": "source_thermal_generator_update_tile_input.attribute_env"
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_thermal_generator_update_tile_result key production_efficiency.",
+          "used_by": [
+            "PortGame.source_thermal_generator_update_tile_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+          "java_method": "updateTile()",
+          "godot_symbol": "source_thermal_generator_update_tile_result.production_efficiency",
+          "java_expr": "productionEfficiency = sum + attribute.env();"
+        }
+      }
     }
   },
   "version": 1

@@ -18890,6 +18890,39 @@
         "test_port_game_exposes_selected_build_power_metadata_for_mcp",
         "test_solar_generator_update_tile_matches_upstream_source"
       ]
+    },
+    "N925": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_class": "mindustry.world.blocks.power.ThermalGenerator.ThermalGeneratorBuild",
+      "java_method": "updateTile()",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_state",
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_state",
+      "exact_exprs": [
+        "public class ThermalGenerator extends PowerGenerator{",
+        "public Attribute attribute = Attribute.heat;",
+        "noUpdateDisabled = true;",
+        "public class ThermalGeneratorBuild extends GeneratorBuild{",
+        "public float sum;",
+        "@Override",
+        "public void updateTile(){",
+        "productionEfficiency = sum + attribute.env();",
+        "/** Heat content. Used for thermal generator yield. */",
+        "heat = add(\"heat\"),",
+        "public float env(){",
+        "if(Vars.state == null) return 0;",
+        "return Vars.state.envAttrs.get(this);"
+      ],
+      "source_symbols": [
+        "thermal_generator_update_tile.sum",
+        "thermal_generator_update_tile.attribute_env",
+        "thermal_generator_update_tile.production_efficiency"
+      ],
+      "tests": [
+        "test_thermal_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_matches_upstream_source"
+      ]
     }
   },
   "version": 1
