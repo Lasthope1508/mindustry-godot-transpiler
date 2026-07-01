@@ -19214,6 +19214,38 @@
         "test_port_game_exposes_source_weapons_setup_mounts_state",
         "test_weapons_setup_mounts_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_update_dispatch_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "mount_states",
+          "schema": "source_weapons_update_dispatch_input.mount_states",
+          "type": "Array"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_weapons_update_dispatch_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "updateComment",
+        "updateOverride",
+        "loop",
+        "mountsField",
+        "dispatches"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.update() dispatch state.",
+      "runtime_proof": "/root/Main.source_weapons_update_dispatch_state",
+      "source_method": "WeaponsComp.update()",
+      "source_slice": "N885",
+      "status": "active",
+      "tests": [
+        "test_weapons_update_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_update_dispatch_state",
+        "test_weapons_update_dispatch_matches_upstream_source"
+      ]
     }
   },
   "policy": {

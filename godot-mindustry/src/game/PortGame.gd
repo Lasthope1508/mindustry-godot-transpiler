@@ -4428,14 +4428,16 @@ func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> 
 			"index": index,
 			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
 			"unit": unit_id,
-			"call": "mount.weapon.update(self(), mount)",
+			"call": "mount.weapon.update(self(), mount);",
 			"unitArg": "self()",
 			"mountArg": "mount",
-			"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount)",
+			"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount){",
 		})
 	return {
-		"loop": "for(WeaponMount mount : mounts)",
-		"mountsField": "@SyncLocal WeaponMount[] mounts = {}",
+		"updateComment": "/** Update shooting and rotation for this unit. */",
+		"updateOverride": "@Override\n    public void update(){",
+		"loop": "for(WeaponMount mount : mounts){",
+		"mountsField": "@SyncLocal WeaponMount[] mounts = {};",
 		"dispatches": dispatches,
 	}
 

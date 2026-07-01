@@ -72497,6 +72497,164 @@
           ]
         }
       }
+    },
+    "source_weapons_update_dispatch_input": {
+      "owner": "PortGame.source_weapons_update_dispatch_state",
+      "runtime_proof": "/root/Main.source_weapons_update_dispatch_state",
+      "status": "active",
+      "keys": {
+        "mount_states": {
+          "godot_symbol": "source_weapons_update_dispatch_input.mount_states",
+          "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+          "java_method": "WeaponsComp fields",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Runtime mount_states supplies WeaponsComp mounts.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_weapons_update_dispatch_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Runtime unit_id supplies the self() argument identity.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "weapon": {
+          "godot_symbol": "source_weapons_update_dispatch_input.mount_states.weapon",
+          "java_expr": "public final Weapon weapon;",
+          "java_method": "WeaponMount fields",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "rule": "Runtime mount weapon id represents WeaponMount.weapon.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        }
+      }
+    },
+    "source_weapons_update_dispatch_result": {
+      "owner": "PortGame.source_weapons_update_dispatch_state",
+      "runtime_proof": "/root/Main.source_weapons_update_dispatch_state",
+      "status": "active",
+      "keys": {
+        "updateComment": {
+          "godot_symbol": "source_weapons_update_dispatch_result.updateComment",
+          "java_expr": "/** Update shooting and rotation for this unit. */",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact update method comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "updateOverride": {
+          "godot_symbol": "source_weapons_update_dispatch_result.updateOverride",
+          "java_expr": "@Override\n    public void update(){",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact update override method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "loop": {
+          "godot_symbol": "source_weapons_update_dispatch_result.loop",
+          "java_expr": "for(WeaponMount mount : mounts){",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact update dispatch mount loop.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "mountsField": {
+          "godot_symbol": "source_weapons_update_dispatch_result.mountsField",
+          "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+          "java_method": "WeaponsComp fields",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact mount field returned for dispatch metadata.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "call": {
+          "godot_symbol": "source_weapons_update_dispatch_result.dispatches.call",
+          "java_expr": "mount.weapon.update(self(), mount);",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact dispatch call recorded per mount.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "unitArg": {
+          "godot_symbol": "source_weapons_update_dispatch_result.dispatches.unitArg",
+          "java_expr": "self()",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact unit dispatch argument name.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "mountArg": {
+          "godot_symbol": "source_weapons_update_dispatch_result.dispatches.mountArg",
+          "java_expr": "mount",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Exact mount dispatch argument name.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "weaponUpdateMethod": {
+          "godot_symbol": "source_weapons_update_dispatch_result.dispatches.weaponUpdateMethod",
+          "java_expr": "public void update(Unit unit, WeaponMount mount){",
+          "java_method": "Weapon.update(Unit unit, WeaponMount mount)",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "rule": "Weapon.update method boundary for dispatch target.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        },
+        "dispatches": {
+          "godot_symbol": "source_weapons_update_dispatch_result.dispatches",
+          "java_expr": "mount.weapon.update(self(), mount);",
+          "java_method": "WeaponsComp.update()",
+          "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+          "rule": "Per-mount dispatch records from exact loop.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_weapons_update_dispatch_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

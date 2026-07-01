@@ -4423,11 +4423,14 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_weapons_update_dispatch_state(mount_states: Array, unit_id: int) -> Dictionary:", source)
-        self.assertIn('"loop": "for(WeaponMount mount : mounts)"', source)
-        self.assertIn('"call": "mount.weapon.update(self(), mount)"', source)
+        self.assertIn('"updateComment": "/** Update shooting and rotation for this unit. */"', source)
+        self.assertIn('"updateOverride": "@Override\\n    public void update(){"', source)
+        self.assertIn('"loop": "for(WeaponMount mount : mounts){"', source)
+        self.assertIn('"mountsField": "@SyncLocal WeaponMount[] mounts = {};"', source)
+        self.assertIn('"call": "mount.weapon.update(self(), mount);"', source)
         self.assertIn('"unitArg": "self()"', source)
         self.assertIn('"mountArg": "mount"', source)
-        self.assertIn('"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount)"', source)
+        self.assertIn('"weaponUpdateMethod": "public void update(Unit unit, WeaponMount mount){"', source)
         self.assertIn('"dispatches": dispatches', source)
 
     def test_port_game_exposes_source_mathf_approach_delta_constants(self):

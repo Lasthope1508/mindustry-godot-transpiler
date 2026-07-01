@@ -17471,6 +17471,48 @@
         "test_weapons_setup_mounts_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp.setupWeapons(UnitType def) wrapper against exact upstream source and WeaponMount constructor bridge."
+    },
+    "N885": {
+      "exact_exprs": [
+        "/** weapon mount array, never null */",
+        "@SyncLocal WeaponMount[] mounts = {};",
+        "/** Update shooting and rotation for this unit. */",
+        "@Override\n    public void update(){",
+        "for(WeaponMount mount : mounts){",
+        "mount.weapon.update(self(), mount);"
+      ],
+      "bridge_exprs": [
+        "/** weapon associated with this mount */",
+        "public final Weapon weapon;",
+        "public void update(Unit unit, WeaponMount mount){"
+      ],
+      "deferred_exprs": [
+        "Weapon.update(Unit unit, WeaponMount mount) internals remain owned by source_weapon_update_* slices."
+      ],
+      "godot_owner": "PortGame.source_weapons_update_dispatch_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.update()",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_update_dispatch_state",
+      "source_symbols": [
+        "weapons_update_dispatch.mounts_field_comment",
+        "weapons_update_dispatch.mounts_field",
+        "weapons_update_dispatch.update_comment",
+        "weapons_update_dispatch.update_override",
+        "weapons_update_dispatch.loop",
+        "weapons_update_dispatch.call",
+        "weapons_update_dispatch.weapon_mount_weapon_comment",
+        "weapons_update_dispatch.weapon_mount_weapon",
+        "weapons_update_dispatch.self",
+        "weapons_update_dispatch.weapon_update_method"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_update_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_update_dispatch_state",
+        "test_weapons_update_dispatch_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp.update() weapon dispatch wrapper against exact upstream source and Weapon.update bridge."
     }
   },
   "version": 1
