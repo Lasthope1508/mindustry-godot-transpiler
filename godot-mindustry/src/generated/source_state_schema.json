@@ -74102,6 +74102,186 @@
           "godot_symbol": "source_power_graph_charge_batteries_result.batteries"
         }
       }
+    },
+    "source_power_graph_distribute_power_input": {
+      "keys": {
+        "consumers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_input key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "consumers.items",
+          "godot_symbol": "source_power_graph_distribute_power_input.consumers"
+        },
+        "needed": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_input key needed.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "needed",
+          "godot_symbol": "source_power_graph_distribute_power_input.needed"
+        },
+        "produced": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_input key produced.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "produced",
+          "godot_symbol": "source_power_graph_distribute_power_input.produced"
+        },
+        "charged": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_input key charged.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "charged",
+          "godot_symbol": "source_power_graph_distribute_power_input.charged"
+        },
+        "last_power_stored": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_input key last_power_stored.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "lastPowerStored",
+          "godot_symbol": "source_power_graph_distribute_power_input.last_power_stored"
+        }
+      }
+    },
+    "source_power_graph_distribute_power_consumer": {
+      "keys": {
+        "buffered": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_consumer key buffered.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "cons.buffered",
+          "godot_symbol": "source_power_graph_distribute_power_consumer.buffered"
+        },
+        "capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_consumer key capacity.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "cons.capacity",
+          "godot_symbol": "source_power_graph_distribute_power_consumer.capacity"
+        },
+        "requested_power": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_consumer key requested_power.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "cons.requestedPower(consumer)",
+          "godot_symbol": "source_power_graph_distribute_power_consumer.requested_power"
+        },
+        "delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_consumer key delta.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "consumer.delta()",
+          "godot_symbol": "source_power_graph_distribute_power_consumer.delta"
+        },
+        "shouldConsumePower": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_consumer key shouldConsumePower.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "consumer.shouldConsumePower",
+          "godot_symbol": "source_power_graph_distribute_power_consumer.shouldConsumePower"
+        },
+        "usage": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_consumer key usage.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "cons.usage",
+          "godot_symbol": "source_power_graph_distribute_power_consumer.usage"
+        },
+        "power_status": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_distribute_power_consumer key power_status.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "consumer.power.status",
+          "godot_symbol": "source_power_graph_distribute_power_consumer.power_status"
+        }
+      }
+    },
+    "source_power_graph_distribute_power_result": {
+      "keys": {
+        "coverage": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_distribute_power_result key coverage.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+          "godot_symbol": "source_power_graph_distribute_power_result.coverage"
+        },
+        "consumers": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_distribute_power_result key consumers.",
+          "used_by": [
+            "PortGame.source_power_graph_distribute_power_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "distributePower(float needed, float produced, boolean charged)",
+          "java_expr": "PowerGraph.distributePower consumer.power.status mutations",
+          "godot_symbol": "source_power_graph_distribute_power_result.consumers"
+        }
+      }
     }
   },
   "version": 1

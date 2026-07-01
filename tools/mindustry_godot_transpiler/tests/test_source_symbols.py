@@ -13147,6 +13147,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(excess["java_expr"], "excess")
         self.assertEqual(excess["godot_symbol"], "source_power_graph_charge_batteries_input.excess")
 
+    def test_power_graph_distribute_power_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        coverage = source_symbols.source_symbol(registry, "power_graph_distribute_power.coverage")
+        self.assertEqual(coverage["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(coverage["java_method"], "distributePower(float needed, float produced, boolean charged)")
+        self.assertEqual(coverage["java_expr"], "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);")
+        self.assertEqual(coverage["godot_owner"], "PortGame.source_power_graph_distribute_power_state")
+        self.assertEqual(coverage["runtime_proof"], "/root/Main.source_power_graph_distribute_power_state")
+        self.assertEqual(coverage["godot_symbol"], "source_power_graph_distribute_power_result.coverage")
+
+        maximum_rate = source_symbols.source_symbol(registry, "power_graph_distribute_power.maximum_rate")
+        self.assertEqual(maximum_rate["java_expr"], "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();")
+        self.assertEqual(maximum_rate["godot_symbol"], "source_power_graph_distribute_power_result.consumers")
+
+        buffered_status = source_symbols.source_symbol(registry, "power_graph_distribute_power.buffered_status_clamp")
+        self.assertEqual(buffered_status["java_expr"], "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);")
+        self.assertEqual(buffered_status["godot_symbol"], "source_power_graph_distribute_power_result.consumers")
+
+        unbuffered_status = source_symbols.source_symbol(registry, "power_graph_distribute_power.unbuffered_coverage_status")
+        self.assertEqual(unbuffered_status["java_expr"], "consumer.power.status = coverage;")
+        self.assertEqual(unbuffered_status["godot_symbol"], "source_power_graph_distribute_power_result.consumers")
+
+        estimate_status = source_symbols.source_symbol(registry, "power_graph_distribute_power.unbuffered_estimate_status")
+        self.assertEqual(estimate_status["java_expr"], "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));")
+        self.assertEqual(estimate_status["godot_symbol"], "source_power_graph_distribute_power_result.consumers")
+
+        nan_status_zero = source_symbols.source_symbol(registry, "power_graph_distribute_power.nan_status_zero")
+        self.assertEqual(nan_status_zero["java_expr"], "consumer.power.status = 0f;")
+        self.assertEqual(nan_status_zero["godot_symbol"], "source_power_graph_distribute_power_result.consumers")
+
+        last_power_stored = source_symbols.source_symbol(registry, "power_graph_distribute_power.last_power_stored")
+        self.assertEqual(last_power_stored["status"], "explicit-input")
+        self.assertEqual(last_power_stored["java_expr"], "lastPowerStored")
+        self.assertEqual(last_power_stored["godot_symbol"], "source_power_graph_distribute_power_input.last_power_stored")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17063,9 +17102,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 490)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 491)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 495)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 496)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -17512,6 +17551,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_change_team_power_links_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_change_team_power_proximity_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_graph_add_role_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_power_graph_distribute_power_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_allow_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_solid_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_check_suppression_state", audit["registeredSourceOwners"])
@@ -21555,6 +21595,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float chargedPercent = Math.min(excess/capacity, 1f);", power_graph_charge_batteries["exact_exprs"])
         self.assertIn("if(battery.enabled && battery.block.consPower.capacity > 0f){", power_graph_charge_batteries["exact_exprs"])
         self.assertIn("battery.power.status += (1f - battery.power.status) * chargedPercent;", power_graph_charge_batteries["exact_exprs"])
+
+        power_graph_distribute_power = source_symbols.source_slice(ledger, "N894")
+        self.assertEqual(power_graph_distribute_power["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_distribute_power["java_method"], "distributePower(float needed, float produced, boolean charged)")
+        self.assertEqual(power_graph_distribute_power["godot_owner"], "PortGame.source_power_graph_distribute_power_state")
+        self.assertIn("public void distributePower(float needed, float produced, boolean charged){", power_graph_distribute_power["exact_exprs"])
+        self.assertIn("float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);", power_graph_distribute_power["exact_exprs"])
+        self.assertIn("consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);", power_graph_distribute_power["exact_exprs"])
+        self.assertIn("consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));", power_graph_distribute_power["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26295,6 +26344,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("charged_percent", power_graph_charge_batteries["return_keys"])
         self.assertIn("batteries", power_graph_charge_batteries["return_keys"])
         self.assertEqual(power_graph_charge_batteries["source_method"], "chargeBatteries(float excess)")
+
+        power_graph_distribute_power = source_symbols.api_contract(contracts, "PortGame.source_power_graph_distribute_power_state")
+        self.assertEqual([param["name"] for param in power_graph_distribute_power["params"]], ["consumers", "needed", "produced", "charged", "last_power_stored"])
+        self.assertEqual(power_graph_distribute_power["params"][0]["schema"], "source_power_graph_distribute_power_input.consumers")
+        self.assertEqual(power_graph_distribute_power["params"][1]["schema"], "source_power_graph_distribute_power_input.needed")
+        self.assertEqual(power_graph_distribute_power["params"][4]["schema"], "source_power_graph_distribute_power_input.last_power_stored")
+        self.assertIn("coverage", power_graph_distribute_power["return_keys"])
+        self.assertIn("consumers", power_graph_distribute_power["return_keys"])
+        self.assertEqual(power_graph_distribute_power["source_method"], "distributePower(float needed, float produced, boolean charged)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -32038,6 +32096,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_graph_charge_batteries_result["keys"]["charged_percent"]["java_expr"], "float chargedPercent = Math.min(excess/capacity, 1f);")
         self.assertEqual(source_power_graph_charge_batteries_result["keys"]["charged"]["java_expr"], "return Math.min(excess, capacity);")
         self.assertEqual(source_power_graph_charge_batteries_result["keys"]["batteries"]["java_expr"], "battery.power.status += (1f - battery.power.status) * chargedPercent;")
+
+        source_power_graph_distribute_power_input = source_symbols.state_schema(schema, "source_power_graph_distribute_power_input")
+        self.assertEqual(source_power_graph_distribute_power_input["keys"]["consumers"]["java_expr"], "consumers.items")
+        self.assertEqual(source_power_graph_distribute_power_input["keys"]["needed"]["java_expr"], "needed")
+        self.assertEqual(source_power_graph_distribute_power_input["keys"]["produced"]["java_expr"], "produced")
+        self.assertEqual(source_power_graph_distribute_power_input["keys"]["charged"]["java_expr"], "charged")
+        self.assertEqual(source_power_graph_distribute_power_input["keys"]["last_power_stored"]["java_expr"], "lastPowerStored")
+        self.assertEqual(source_power_graph_distribute_power_input["keys"]["last_power_stored"]["status"], "explicit-input")
+
+        source_power_graph_distribute_power_consumer = source_symbols.state_schema(schema, "source_power_graph_distribute_power_consumer")
+        self.assertEqual(source_power_graph_distribute_power_consumer["keys"]["buffered"]["java_expr"], "cons.buffered")
+        self.assertEqual(source_power_graph_distribute_power_consumer["keys"]["capacity"]["java_expr"], "cons.capacity")
+        self.assertEqual(source_power_graph_distribute_power_consumer["keys"]["requested_power"]["java_expr"], "cons.requestedPower(consumer)")
+        self.assertEqual(source_power_graph_distribute_power_consumer["keys"]["delta"]["java_expr"], "consumer.delta()")
+        self.assertEqual(source_power_graph_distribute_power_consumer["keys"]["shouldConsumePower"]["java_expr"], "consumer.shouldConsumePower")
+        self.assertEqual(source_power_graph_distribute_power_consumer["keys"]["usage"]["java_expr"], "cons.usage")
+        self.assertEqual(source_power_graph_distribute_power_consumer["keys"]["power_status"]["java_expr"], "consumer.power.status")
+
+        source_power_graph_distribute_power_result = source_symbols.state_schema(schema, "source_power_graph_distribute_power_result")
+        self.assertEqual(source_power_graph_distribute_power_result["keys"]["coverage"]["java_expr"], "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);")
+        self.assertEqual(source_power_graph_distribute_power_result["keys"]["consumers"]["java_expr"], "PowerGraph.distributePower consumer.power.status mutations")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

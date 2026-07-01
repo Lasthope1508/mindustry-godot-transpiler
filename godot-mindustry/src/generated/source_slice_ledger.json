@@ -17760,6 +17760,50 @@
         "test_power_graph_charge_batteries_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.chargeBatteries battery charge state without full update loop distribution yet."
+    },
+    "N894": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "exact_exprs": [
+        "public void distributePower(float needed, float produced, boolean charged){",
+        "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+        "var items = consumers.items;",
+        "for(int i = 0; i < consumers.size; i++){",
+        "var consumer = items[i];",
+        "var cons = consumer.block.consPower;",
+        "if(cons.buffered){",
+        "if(!Mathf.zero(cons.capacity)){",
+        "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();",
+        "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);",
+        "if(consumer.shouldConsumePower){",
+        "consumer.power.status = coverage;",
+        "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));",
+        "if(Float.isNaN(consumer.power.status)){",
+        "consumer.power.status = 0f;",
+        "public static boolean zero(float value){",
+        "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+        "public static float clamp(float value){",
+        "return Math.max(Math.min(value, 1f), 0f);"
+      ],
+      "source_symbols": [
+        "power_graph_distribute_power.coverage",
+        "power_graph_distribute_power.maximum_rate",
+        "power_graph_distribute_power.buffered_status_clamp",
+        "power_graph_distribute_power.unbuffered_coverage_status",
+        "power_graph_distribute_power.unbuffered_estimate_status",
+        "power_graph_distribute_power.nan_status_zero",
+        "power_graph_distribute_power.last_power_stored"
+      ],
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.distributePower consumer status distribution without full update() orchestration."
     }
   },
   "version": 1

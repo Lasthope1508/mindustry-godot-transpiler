@@ -291,6 +291,35 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_distribute_power_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_distribute_power_source"))
+        report = source_parity.verify_power_graph_distribute_power_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "distribute_power_method": "public void distributePower(float needed, float produced, boolean charged){",
+            "coverage": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+            "items": "var items = consumers.items;",
+            "loop": "for(int i = 0; i < consumers.size; i++){",
+            "consumer": "var consumer = items[i];",
+            "cons": "var cons = consumer.block.consPower;",
+            "buffered_gate": "if(cons.buffered){",
+            "capacity_zero_guard": "if(!Mathf.zero(cons.capacity)){",
+            "maximum_rate": "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();",
+            "buffered_status_clamp": "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);",
+            "unbuffered_gate": "if(consumer.shouldConsumePower){",
+            "unbuffered_coverage_status": "consumer.power.status = coverage;",
+            "unbuffered_estimate_status": "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));",
+            "nan_guard": "if(Float.isNaN(consumer.power.status)){",
+            "nan_status_zero": "consumer.power.status = 0f;",
+            "mathf_zero": "public static boolean zero(float value){",
+            "mathf_zero_body": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+            "mathf_clamp": "public static float clamp(float value){",
+            "mathf_clamp_body": "return Math.max(Math.min(value, 1f), 0f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

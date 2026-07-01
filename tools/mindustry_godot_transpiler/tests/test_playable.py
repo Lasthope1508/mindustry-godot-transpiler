@@ -178,6 +178,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"status_add": "battery.power.status += (1f - battery.power.status) * chargedPercent;"', source)
         self.assertIn('battery_state["power_status"] = power_status + (1.0 - power_status) * charged_percent', source)
 
+    def test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_distribute_power_state(consumers: Array, needed: float, produced: float, charged: bool, last_power_stored: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void distributePower(float needed, float produced, boolean charged){"', source)
+        self.assertIn('"coverage_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);"', source)
+        self.assertIn('"maximum_rate_expr": "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();"', source)
+        self.assertIn('"buffered_status_clamp": "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);"', source)
+        self.assertIn('"unbuffered_estimate_status": "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));"', source)
+        self.assertIn('"nan_guard": "if(Float.isNaN(consumer.power.status)){"', source)
+        self.assertIn('consumer_state["power_status"] = clamp(power_status + maximum_rate / capacity, 0.0, 1.0)', source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

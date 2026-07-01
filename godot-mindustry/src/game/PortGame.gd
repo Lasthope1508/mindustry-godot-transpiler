@@ -1121,6 +1121,88 @@ func source_power_graph_charge_batteries_state(batteries: Array, excess: float) 
 		"batteries": source_batteries,
 	}
 
+func source_power_graph_distribute_power_state(consumers: Array, needed: float, produced: float, charged: bool, last_power_stored: float) -> Dictionary:
+	var source_consumers: Array = []
+	for consumer in consumers:
+		if typeof(consumer) != TYPE_DICTIONARY:
+			continue
+		source_consumers.append(consumer.duplicate(true))
+	var needed_zero: bool = abs(needed) <= SOURCE_FLOAT_ROUNDING_ERROR
+	var produced_zero: bool = abs(produced) <= SOURCE_FLOAT_ROUNDING_ERROR
+	var last_power_stored_zero: bool = abs(last_power_stored) <= SOURCE_FLOAT_ROUNDING_ERROR
+	var coverage := 0.0
+	if needed_zero and produced_zero and not charged and last_power_stored_zero:
+		coverage = 0.0
+	elif needed_zero:
+		coverage = 1.0
+	else:
+		coverage = min(1.0, produced / needed)
+	var buffered_count := 0
+	var unbuffered_count := 0
+	var nan_guard_count := 0
+	for consumer_state in source_consumers:
+		var buffered := bool(consumer_state.get("buffered", false))
+		var capacity := float(consumer_state.get("capacity", 0.0))
+		var delta := float(consumer_state.get("delta", 0.0))
+		var power_status := float(consumer_state.get("power_status", 0.0))
+		if buffered:
+			buffered_count += 1
+			if abs(capacity) > SOURCE_FLOAT_ROUNDING_ERROR:
+				var requested_power := float(consumer_state.get("requested_power", 0.0))
+				var maximum_rate := requested_power * coverage * delta
+				consumer_state["maximum_rate"] = maximum_rate
+				consumer_state["power_status"] = clamp(power_status + maximum_rate / capacity, 0.0, 1.0)
+			continue
+		unbuffered_count += 1
+		if bool(consumer_state.get("shouldConsumePower", false)):
+			consumer_state["power_status"] = coverage
+		else:
+			var usage := float(consumer_state.get("usage", 0.0))
+			var denominator := needed + usage * delta
+			var estimated_status := 0.0
+			var estimate_nan := false
+			if abs(denominator) <= SOURCE_FLOAT_ROUNDING_ERROR:
+				if abs(produced) <= SOURCE_FLOAT_ROUNDING_ERROR:
+					estimate_nan = true
+				elif produced > 0.0:
+					estimated_status = 1.0
+				else:
+					estimated_status = -INF
+			else:
+				estimated_status = min(1.0, produced / denominator)
+			if estimate_nan or is_nan(estimated_status):
+				estimated_status = 0.0
+				nan_guard_count += 1
+			consumer_state["power_status"] = estimated_status
+	return {
+		"method": "public void distributePower(float needed, float produced, boolean charged){",
+		"coverage_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+		"items": "var items = consumers.items;",
+		"loop": "for(int i = 0; i < consumers.size; i++){",
+		"consumer": "var consumer = items[i];",
+		"cons": "var cons = consumer.block.consPower;",
+		"buffered_gate": "if(cons.buffered){",
+		"capacity_zero_guard": "if(!Mathf.zero(cons.capacity)){",
+		"maximum_rate_expr": "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();",
+		"buffered_status_clamp": "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);",
+		"unbuffered_gate": "if(consumer.shouldConsumePower){",
+		"unbuffered_coverage_status": "consumer.power.status = coverage;",
+		"unbuffered_estimate_status": "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));",
+		"nan_guard": "if(Float.isNaN(consumer.power.status)){",
+		"nan_status_zero": "consumer.power.status = 0f;",
+		"mathf_zero": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+		"mathf_clamp": "return Math.max(Math.min(value, 1f), 0f);",
+		"needed": needed,
+		"produced": produced,
+		"charged": charged,
+		"last_power_stored": last_power_stored,
+		"coverage": coverage,
+		"consumers": source_consumers,
+		"buffered_count": buffered_count,
+		"unbuffered_count": unbuffered_count,
+		"nan_guard_count": nan_guard_count,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)

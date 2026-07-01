@@ -19584,6 +19584,74 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state",
       "rule": "Public runtime contract for PowerGraph.chargeBatteries(float excess) with explicit battery inputs."
+    },
+    "PortGame.source_power_graph_distribute_power_state": {
+      "status": "active",
+      "source_slice": "N894",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "distributePower(float needed, float produced, boolean charged)",
+      "params": [
+        {
+          "name": "consumers",
+          "type": "Array",
+          "schema": "source_power_graph_distribute_power_input.consumers"
+        },
+        {
+          "name": "needed",
+          "type": "float",
+          "schema": "source_power_graph_distribute_power_input.needed"
+        },
+        {
+          "name": "produced",
+          "type": "float",
+          "schema": "source_power_graph_distribute_power_input.produced"
+        },
+        {
+          "name": "charged",
+          "type": "bool",
+          "schema": "source_power_graph_distribute_power_input.charged"
+        },
+        {
+          "name": "last_power_stored",
+          "type": "float",
+          "schema": "source_power_graph_distribute_power_input.last_power_stored"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "coverage_expr",
+        "items",
+        "loop",
+        "consumer",
+        "cons",
+        "buffered_gate",
+        "capacity_zero_guard",
+        "maximum_rate_expr",
+        "buffered_status_clamp",
+        "unbuffered_gate",
+        "unbuffered_coverage_status",
+        "unbuffered_estimate_status",
+        "nan_guard",
+        "nan_status_zero",
+        "mathf_zero",
+        "mathf_clamp",
+        "needed",
+        "produced",
+        "charged",
+        "last_power_stored",
+        "coverage",
+        "consumers",
+        "buffered_count",
+        "unbuffered_count",
+        "nan_guard_count"
+      ],
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "rule": "Public runtime contract for PowerGraph.distributePower(float needed, float produced, boolean charged) with explicit consumer inputs."
     }
   },
   "policy": {

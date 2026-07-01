@@ -61820,6 +61820,276 @@
         "test_power_graph_charge_batteries_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.chargeBatteries state transition mapping."
+    },
+    "power_graph_distribute_power.coverage": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.coverage",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.consumers": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "var items = consumers.items;",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_input.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.needed": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "needed",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_input.needed",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.produced": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "produced",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_input.produced",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.charged": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "charged",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_input.charged",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.last_power_stored": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "lastPowerStored",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_input.last_power_stored",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "for(int i = 0; i < consumers.size; i++){",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.consumer": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "var consumer = items[i];",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_consumer",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.cons": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "var cons = consumer.block.consPower;",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_consumer",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.buffered_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "if(cons.buffered){",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_consumer.buffered",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.capacity_zero_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "if(!Mathf.zero(cons.capacity)){",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_consumer.capacity",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.maximum_rate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.buffered_status_clamp": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.unbuffered_gate": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "if(consumer.shouldConsumePower){",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_consumer.shouldConsumePower",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.unbuffered_coverage_status": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "consumer.power.status = coverage;",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.unbuffered_estimate_status": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.nan_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "if(Float.isNaN(consumer.power.status)){",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
+    },
+    "power_graph_distribute_power.nan_status_zero": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "java_expr": "consumer.power.status = 0f;",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping."
     }
   },
   "version": 1

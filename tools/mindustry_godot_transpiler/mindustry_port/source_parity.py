@@ -375,6 +375,51 @@ def verify_power_graph_charge_batteries_source(upstream_root: Path) -> dict[str,
     }
 
 
+def verify_power_graph_distribute_power_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "distribute_power_method": "public void distributePower(float needed, float produced, boolean charged){",
+        "coverage": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
+        "items": "var items = consumers.items;",
+        "loop": "for(int i = 0; i < consumers.size; i++){",
+        "consumer": "var consumer = items[i];",
+        "cons": "var cons = consumer.block.consPower;",
+        "buffered_gate": "if(cons.buffered){",
+        "capacity_zero_guard": "if(!Mathf.zero(cons.capacity)){",
+        "maximum_rate": "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();",
+        "buffered_status_clamp": "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);",
+        "unbuffered_gate": "if(consumer.shouldConsumePower){",
+        "unbuffered_coverage_status": "consumer.power.status = coverage;",
+        "unbuffered_estimate_status": "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));",
+        "nan_guard": "if(Float.isNaN(consumer.power.status)){",
+        "nan_status_zero": "consumer.power.status = 0f;",
+        "mathf_zero": "public static boolean zero(float value){",
+        "mathf_zero_body": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
+        "mathf_clamp": "public static float clamp(float value){",
+        "mathf_clamp_body": "return Math.max(Math.min(value, 1f), 0f);",
+    }
+    source_by_key = {
+        "mathf_zero": mathf_source,
+        "mathf_zero_body": mathf_source,
+        "mathf_clamp": mathf_source,
+        "mathf_clamp_body": mathf_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, power_graph_source)
+    ]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "sources": [ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
