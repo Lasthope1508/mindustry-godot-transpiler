@@ -17391,6 +17391,41 @@
         "test_weapons_remove_matches_upstream_source"
       ],
       "rule": "Backfills SSOT for existing WeaponsComp.remove() sound stop wrapper against exact upstream source and SoundLoop.stop bridge."
+    },
+    "N883": {
+      "exact_exprs": [
+        "@SyncLocal WeaponMount[] mounts = {};",
+        "void setWeaponRotation(float rotation){",
+        "for(WeaponMount mount : mounts){",
+        "mount.rotation = rotation;"
+      ],
+      "bridge_exprs": [
+        "public float rotation;"
+      ],
+      "deferred_exprs": [
+        "Weapon mount construction remains owned by PortGame.source_weapons_setup_mounts_state.",
+        "Weapon update dispatch remains owned by PortGame.source_weapons_update_dispatch_state."
+      ],
+      "godot_owner": "PortGame.source_weapons_set_rotation_state",
+      "java_class": "mindustry.entities.comp.WeaponsComp",
+      "java_method": "WeaponsComp.setWeaponRotation(float rotation)",
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "source_symbols": [
+        "weapons_set_rotation.mounts_field",
+        "weapons_set_rotation.method",
+        "weapons_set_rotation.loop",
+        "weapons_set_rotation.assignment",
+        "weapons_set_rotation.rotation_input",
+        "weapons_set_rotation.weapon_mount_rotation"
+      ],
+      "status": "done",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ],
+      "rule": "Backfills SSOT for existing WeaponsComp.setWeaponRotation(float rotation) wrapper against exact upstream source and WeaponMount.rotation bridge."
     }
   },
   "version": 1

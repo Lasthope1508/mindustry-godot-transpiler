@@ -60530,6 +60530,96 @@
       "godot_symbol": "source_weapons_remove_sound_stop_result.mounts.stopCall.effects",
       "status": "source-backed",
       "rule": "Exact ordered SoundLoop.stop effects."
+    },
+    "weapons_set_rotation.mounts_field": {
+      "godot_owner": "PortGame.source_weapons_set_rotation_state",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp fields",
+      "java_expr": "@SyncLocal WeaponMount[] mounts = {};",
+      "godot_symbol": "source_weapons_set_rotation_input.mount_states",
+      "status": "source-backed",
+      "rule": "Weapon mount array iterated by setWeaponRotation."
+    },
+    "weapons_set_rotation.method": {
+      "godot_owner": "PortGame.source_weapons_set_rotation_state",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setWeaponRotation(float rotation)",
+      "java_expr": "void setWeaponRotation(float rotation){",
+      "godot_symbol": "source_weapons_set_rotation_result.method",
+      "status": "source-backed",
+      "rule": "Exact setWeaponRotation method boundary."
+    },
+    "weapons_set_rotation.loop": {
+      "godot_owner": "PortGame.source_weapons_set_rotation_state",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setWeaponRotation(float rotation)",
+      "java_expr": "for(WeaponMount mount : mounts){",
+      "godot_symbol": "source_weapons_set_rotation_result.loop",
+      "status": "source-backed",
+      "rule": "Exact mount loop in setWeaponRotation."
+    },
+    "weapons_set_rotation.assignment": {
+      "godot_owner": "PortGame.source_weapons_set_rotation_state",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setWeaponRotation(float rotation)",
+      "java_expr": "mount.rotation = rotation;",
+      "godot_symbol": "source_weapons_set_rotation_result.mounts.assignment",
+      "status": "source-backed",
+      "rule": "Exact mount rotation assignment in setWeaponRotation."
+    },
+    "weapons_set_rotation.rotation_input": {
+      "godot_owner": "PortGame.source_weapons_set_rotation_state",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "java_method": "WeaponsComp.setWeaponRotation(float rotation)",
+      "java_expr": "void setWeaponRotation(float rotation){",
+      "godot_symbol": "source_weapons_set_rotation_input.source_rotation",
+      "status": "explicit-input",
+      "rule": "Runtime source_rotation supplies the Java rotation parameter."
+    },
+    "weapons_set_rotation.weapon_mount_rotation": {
+      "godot_owner": "PortGame.source_weapons_set_rotation_state",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_method": "WeaponMount fields",
+      "java_expr": "public float rotation;",
+      "godot_symbol": "source_weapons_set_rotation_result.mounts.rotation",
+      "status": "source-backed",
+      "rule": "WeaponMount rotation bridge field assigned by setWeaponRotation."
     }
   },
   "version": 1

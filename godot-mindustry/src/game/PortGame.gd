@@ -4269,12 +4269,13 @@ func source_weapons_set_rotation_state(mount_states: Array, source_rotation: flo
 		mounts.append({
 			"index": index,
 			"weapon": str(mount_state.get("weapon", "weapon%d" % index)),
-			"assignment": "mount.rotation = rotation",
+			"assignment": "mount.rotation = rotation;",
 			"sourceParameter": "rotation",
 			"rotation": source_rotation,
 		})
 	return {
-		"loop": "for(WeaponMount mount : mounts)",
+		"method": "void setWeaponRotation(float rotation){",
+		"loop": "for(WeaponMount mount : mounts){",
 		"mounts": mounts,
 	}
 

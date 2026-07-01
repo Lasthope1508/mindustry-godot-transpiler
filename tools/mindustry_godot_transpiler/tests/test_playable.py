@@ -4325,8 +4325,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_weapons_set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:", source)
         self.assertIn("for index in mount_states.size():", source)
-        self.assertIn('"loop": "for(WeaponMount mount : mounts)"', source)
-        self.assertIn('"assignment": "mount.rotation = rotation"', source)
+        self.assertIn('"method": "void setWeaponRotation(float rotation){"', source)
+        self.assertIn('"loop": "for(WeaponMount mount : mounts){"', source)
+        self.assertIn('"assignment": "mount.rotation = rotation;"', source)
         self.assertIn('"sourceParameter": "rotation"', source)
         self.assertIn('"rotation": source_rotation', source)
 

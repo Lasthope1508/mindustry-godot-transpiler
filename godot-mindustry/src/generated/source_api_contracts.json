@@ -19158,6 +19158,36 @@
         "test_port_game_exposes_source_weapons_remove_sound_stop_state",
         "test_weapons_remove_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapons_set_rotation_state": {
+      "java_source": "core/src/mindustry/entities/comp/WeaponsComp.java",
+      "params": [
+        {
+          "name": "mount_states",
+          "schema": "source_weapons_set_rotation_input.mount_states",
+          "type": "Array"
+        },
+        {
+          "name": "source_rotation",
+          "schema": "source_weapons_set_rotation_input.source_rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "loop",
+        "mounts"
+      ],
+      "rule": "Public runtime contract for WeaponsComp.setWeaponRotation(float rotation) state.",
+      "runtime_proof": "/root/Main.source_weapons_set_rotation_state",
+      "source_method": "WeaponsComp.setWeaponRotation(float rotation)",
+      "source_slice": "N883",
+      "status": "active",
+      "tests": [
+        "test_weapons_set_rotation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapons_set_rotation_state",
+        "test_weapons_set_rotation_matches_upstream_source"
+      ]
     }
   },
   "policy": {
