@@ -5259,6 +5259,22 @@ func source_building_dump_liquid_default_scaling_state(liquid: Variant, current_
 		"routing_enabled": routing_enabled,
 	}
 
+func source_building_dump_liquid_campaign_unlock_state(liquid: Variant, current_liquid_amount: float, net_client: bool, state_is_campaign: bool, team_is_default_team: bool) -> Dictionary:
+	var routing_enabled := current_liquid_amount > 0.0001
+	var unlock_called := routing_enabled and not net_client and state_is_campaign and team_is_default_team
+	return {
+		"method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+		"empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;",
+		"campaign_unlock_guard": "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();",
+		"liquid": liquid,
+		"current_liquid_amount": current_liquid_amount,
+		"net_client": net_client,
+		"state_is_campaign": state_is_campaign,
+		"team_is_default_team": team_is_default_team,
+		"routing_enabled": routing_enabled,
+		"unlock_called": unlock_called,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

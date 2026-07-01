@@ -2061,6 +2061,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;"', source)
         self.assertIn('"routing_enabled": routing_enabled', source)
 
+    def test_port_game_exposes_source_building_dump_liquid_campaign_unlock_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_liquid_campaign_unlock_state(liquid: Variant, current_liquid_amount: float, net_client: bool, state_is_campaign: bool, team_is_default_team: bool) -> Dictionary:", source)
+        self.assertIn('"method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){"', source)
+        self.assertIn('"empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;"', source)
+        self.assertIn('"campaign_unlock_guard": "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();"', source)
+        self.assertIn('"unlock_called": unlock_called', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

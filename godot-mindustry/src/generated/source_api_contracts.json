@@ -21823,6 +21823,57 @@
         "test_port_game_exposes_source_building_dump_liquid_default_scaling_state",
         "test_building_dump_liquid_default_scaling_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_building_dump_liquid_campaign_unlock_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "liquid",
+          "schema": "source_building_dump_liquid_campaign_unlock_input.liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "current_liquid_amount",
+          "schema": "source_building_dump_liquid_campaign_unlock_input.current_liquid_amount",
+          "type": "float"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_building_dump_liquid_campaign_unlock_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "state_is_campaign",
+          "schema": "source_building_dump_liquid_campaign_unlock_input.state_is_campaign",
+          "type": "bool"
+        },
+        {
+          "name": "team_is_default_team",
+          "schema": "source_building_dump_liquid_campaign_unlock_input.team_is_default_team",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method_output_dir",
+        "empty_liquid_return",
+        "campaign_unlock_guard",
+        "liquid",
+        "current_liquid_amount",
+        "net_client",
+        "state_is_campaign",
+        "team_is_default_team",
+        "routing_enabled",
+        "unlock_called"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.dumpLiquid campaign unlock branch helper.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "source_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "source_slice": "N939",
+      "status": "active",
+      "tests": [
+        "test_port_game_exposes_source_building_dump_liquid_campaign_unlock_state",
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

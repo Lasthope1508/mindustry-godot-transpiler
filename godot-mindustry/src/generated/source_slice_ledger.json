@@ -19376,6 +19376,40 @@
         "test_port_game_exposes_source_building_dump_liquid_default_scaling_state",
         "test_building_dump_liquid_default_scaling_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N939": {
+      "deferred_exprs": [
+        "Full proximity routing, liquid destination overrides, canDumpLiquid overrides, transferLiquid, and cdump mutation remain separate slices."
+      ],
+      "exact_exprs": [
+        "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+        "if(liquids.get(liquid) <= 0.0001f) return;",
+        "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();"
+      ],
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed BuildingComp.dumpLiquid campaign unlock branch after the empty-liquid gate.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "source_symbols": [
+        "building_dump_liquid_campaign_unlock.method_output_dir",
+        "building_dump_liquid_campaign_unlock.empty_liquid_return",
+        "building_dump_liquid_campaign_unlock.campaign_unlock_guard",
+        "building_dump_liquid_campaign_unlock.liquid",
+        "building_dump_liquid_campaign_unlock.current_liquid_amount",
+        "building_dump_liquid_campaign_unlock.net_client",
+        "building_dump_liquid_campaign_unlock.state_is_campaign",
+        "building_dump_liquid_campaign_unlock.team_is_default_team",
+        "building_dump_liquid_campaign_unlock.routing_enabled",
+        "building_dump_liquid_campaign_unlock.unlock_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_liquid_campaign_unlock_state",
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

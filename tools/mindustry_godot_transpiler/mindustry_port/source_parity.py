@@ -406,6 +406,24 @@ def verify_building_dump_liquid_default_scaling_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_building_dump_liquid_campaign_unlock_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+        "empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;",
+        "campaign_unlock_guard": "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

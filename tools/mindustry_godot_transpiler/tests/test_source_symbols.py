@@ -17536,6 +17536,30 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(routing_enabled["java_expr"], "liquids.get(liquid) > 0.0001f")
         self.assertEqual(routing_enabled["godot_symbol"], "source_building_dump_liquid_default_scaling_result.routing_enabled")
 
+    def test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        unlock_guard = source_symbols.source_symbol(registry, "building_dump_liquid_campaign_unlock.campaign_unlock_guard")
+        self.assertEqual(unlock_guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(unlock_guard["java_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch")
+        self.assertEqual(unlock_guard["status"], "source-backed")
+        self.assertEqual(unlock_guard["java_expr"], "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();")
+        self.assertEqual(unlock_guard["godot_owner"], "PortGame.source_building_dump_liquid_campaign_unlock_state")
+        self.assertEqual(unlock_guard["runtime_proof"], "/root/Main.source_building_dump_liquid_campaign_unlock_state")
+        self.assertEqual(unlock_guard["godot_symbol"], "source_building_dump_liquid_campaign_unlock_result.campaign_unlock_guard")
+
+        net_client = source_symbols.source_symbol(registry, "building_dump_liquid_campaign_unlock.net_client")
+        self.assertEqual(net_client["status"], "explicit-input")
+        self.assertEqual(net_client["java_expr"], "net.client()")
+        self.assertEqual(net_client["godot_symbol"], "source_building_dump_liquid_campaign_unlock_input.net_client")
+
+        unlock_called = source_symbols.source_symbol(registry, "building_dump_liquid_campaign_unlock.unlock_called")
+        self.assertEqual(unlock_called["java_expr"], "!net.client() && state.isCampaign() && team == state.rules.defaultTeam")
+        self.assertEqual(unlock_called["godot_symbol"], "source_building_dump_liquid_campaign_unlock_result.unlock_called")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18496,9 +18520,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 535)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 536)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 540)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 541)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23256,6 +23280,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void dumpLiquid(Liquid liquid, float scaling, int outputDir){", building_dump_liquid_default_scaling["exact_exprs"])
         self.assertIn("int dump = this.cdump;", building_dump_liquid_default_scaling["exact_exprs"])
         self.assertIn("if(liquids.get(liquid) <= 0.0001f) return;", building_dump_liquid_default_scaling["exact_exprs"])
+
+        building_dump_liquid_campaign_unlock = source_symbols.source_slice(ledger, "N939")
+        self.assertEqual(building_dump_liquid_campaign_unlock["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_liquid_campaign_unlock["java_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch")
+        self.assertEqual(building_dump_liquid_campaign_unlock["godot_owner"], "PortGame.source_building_dump_liquid_campaign_unlock_state")
+        self.assertIn("public void dumpLiquid(Liquid liquid, float scaling, int outputDir){", building_dump_liquid_campaign_unlock["exact_exprs"])
+        self.assertIn("if(liquids.get(liquid) <= 0.0001f) return;", building_dump_liquid_campaign_unlock["exact_exprs"])
+        self.assertIn("if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();", building_dump_liquid_campaign_unlock["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28439,6 +28471,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("output_dir", building_dump_liquid_default_scaling["return_keys"])
         self.assertIn("routing_enabled", building_dump_liquid_default_scaling["return_keys"])
         self.assertEqual(building_dump_liquid_default_scaling["source_method"], "dumpLiquid(Liquid liquid) overload and empty-liquid gate")
+
+        building_dump_liquid_campaign_unlock = source_symbols.api_contract(contracts, "PortGame.source_building_dump_liquid_campaign_unlock_state")
+        self.assertEqual([param["name"] for param in building_dump_liquid_campaign_unlock["params"]], ["liquid", "current_liquid_amount", "net_client", "state_is_campaign", "team_is_default_team"])
+        self.assertEqual(building_dump_liquid_campaign_unlock["params"][1]["schema"], "source_building_dump_liquid_campaign_unlock_input.current_liquid_amount")
+        self.assertEqual(building_dump_liquid_campaign_unlock["params"][2]["schema"], "source_building_dump_liquid_campaign_unlock_input.net_client")
+        self.assertIn("campaign_unlock_guard", building_dump_liquid_campaign_unlock["return_keys"])
+        self.assertIn("unlock_called", building_dump_liquid_campaign_unlock["return_keys"])
+        self.assertEqual(building_dump_liquid_campaign_unlock["source_method"], "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36340,6 +36380,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["empty_liquid_return"]["java_expr"], "if(liquids.get(liquid) <= 0.0001f) return;")
         self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["liquid"]["alias_of"], "source_building_dump_liquid_default_scaling_input.liquid")
         self.assertEqual(source_building_dump_liquid_default_scaling_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_dump_liquid_default_scaling_input.current_liquid_amount")
+
+        source_building_dump_liquid_campaign_unlock_input = source_symbols.state_schema(schema, "source_building_dump_liquid_campaign_unlock_input")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_input["keys"]["liquid"]["java_expr"], "liquid")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_input["keys"]["current_liquid_amount"]["java_expr"], "liquids.get(liquid)")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_input["keys"]["net_client"]["java_expr"], "net.client()")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_input["keys"]["state_is_campaign"]["java_expr"], "state.isCampaign()")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_input["keys"]["team_is_default_team"]["java_expr"], "team == state.rules.defaultTeam")
+
+        source_building_dump_liquid_campaign_unlock_result = source_symbols.state_schema(schema, "source_building_dump_liquid_campaign_unlock_result")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["method_output_dir"]["java_expr"], "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["empty_liquid_return"]["java_expr"], "if(liquids.get(liquid) <= 0.0001f) return;")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["campaign_unlock_guard"]["java_expr"], "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["unlock_called"]["java_expr"], "!net.client() && state.isCampaign() && team == state.rules.defaultTeam")
+        self.assertEqual(source_building_dump_liquid_campaign_unlock_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_dump_liquid_campaign_unlock_input.current_liquid_amount")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")

@@ -67500,6 +67500,136 @@
       "tests": [
         "test_building_dump_liquid_default_scaling_symbols_are_registered_with_source_backing"
       ]
+    },
+    "building_dump_liquid_campaign_unlock.method_output_dir": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.method_output_dir",
+      "java_expr": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source outputDir dumpLiquid overload declaration for campaign unlock branch.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.empty_liquid_return": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.empty_liquid_return",
+      "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Campaign unlock is skipped by the empty-liquid early return.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.campaign_unlock_guard": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.campaign_unlock_guard",
+      "java_expr": "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source campaign unlock guard.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.liquid": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.liquid",
+      "java_expr": "liquid",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime liquid supplies dumpLiquid liquid input.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.current_liquid_amount": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.current_liquid_amount",
+      "java_expr": "liquids.get(liquid)",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime current_liquid_amount supplies source liquids.get(liquid).",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.net_client": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.net_client",
+      "java_expr": "net.client()",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime net_client supplies source net.client().",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.state_is_campaign": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.state_is_campaign",
+      "java_expr": "state.isCampaign()",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime state_is_campaign supplies source state.isCampaign().",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.team_is_default_team": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.team_is_default_team",
+      "java_expr": "team == state.rules.defaultTeam",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime team_is_default_team supplies source team == state.rules.defaultTeam.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.routing_enabled": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.routing_enabled",
+      "java_expr": "liquids.get(liquid) > 0.0001f",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Generated runtime gate mirrors inverse of source empty-liquid early return.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "generated",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_liquid_campaign_unlock.unlock_called": {
+      "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
+      "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.unlock_called",
+      "java_expr": "!net.client() && state.isCampaign() && team == state.rules.defaultTeam",
+      "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Generated runtime unlock flag mirrors source campaign unlock guard after routing gate.",
+      "runtime_proof": "/root/Main.source_building_dump_liquid_campaign_unlock_state",
+      "status": "generated",
+      "tests": [
+        "test_building_dump_liquid_campaign_unlock_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

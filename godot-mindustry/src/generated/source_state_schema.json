@@ -81478,6 +81478,166 @@
         }
       },
       "status": "active"
+    },
+    "source_building_dump_liquid_campaign_unlock_input": {
+      "keys": {
+        "current_liquid_amount": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.current_liquid_amount",
+          "java_expr": "liquids.get(liquid)",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime current_liquid_amount supplies source liquids.get(liquid).",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "liquid": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.liquid",
+          "java_expr": "liquid",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime liquid supplies dumpLiquid liquid input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "net_client": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.net_client",
+          "java_expr": "net.client()",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime net_client supplies source net.client().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "state_is_campaign": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.state_is_campaign",
+          "java_expr": "state.isCampaign()",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime state_is_campaign supplies source state.isCampaign().",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "team_is_default_team": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_input.team_is_default_team",
+          "java_expr": "team == state.rules.defaultTeam",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime team_is_default_team supplies source team == state.rules.defaultTeam.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_dump_liquid_campaign_unlock_result": {
+      "keys": {
+        "campaign_unlock_guard": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.campaign_unlock_guard",
+          "java_expr": "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source campaign unlock guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "current_liquid_amount": {
+          "alias_of": "source_building_dump_liquid_campaign_unlock_input.current_liquid_amount",
+          "rule": "Carries current_liquid_amount input into result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "empty_liquid_return": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.empty_liquid_return",
+          "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Campaign unlock is skipped by the empty-liquid early return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "liquid": {
+          "alias_of": "source_building_dump_liquid_campaign_unlock_input.liquid",
+          "rule": "Carries liquid input into result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "method_output_dir": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.method_output_dir",
+          "java_expr": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source outputDir dumpLiquid overload declaration for campaign unlock branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "net_client": {
+          "alias_of": "source_building_dump_liquid_campaign_unlock_input.net_client",
+          "rule": "Carries net_client input into result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "routing_enabled": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.routing_enabled",
+          "java_expr": "liquids.get(liquid) > 0.0001f",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated runtime gate mirrors inverse of source empty-liquid early return.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        },
+        "state_is_campaign": {
+          "alias_of": "source_building_dump_liquid_campaign_unlock_input.state_is_campaign",
+          "rule": "Carries state_is_campaign input into result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "team_is_default_team": {
+          "alias_of": "source_building_dump_liquid_campaign_unlock_input.team_is_default_team",
+          "rule": "Carries team_is_default_team input into result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "unlock_called": {
+          "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.unlock_called",
+          "java_expr": "!net.client() && state.isCampaign() && team == state.rules.defaultTeam",
+          "java_method": "dumpLiquid(Liquid liquid, float scaling, int outputDir) campaign unlock branch",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated runtime unlock flag mirrors source campaign unlock guard after routing gate.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_dump_liquid_campaign_unlock_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

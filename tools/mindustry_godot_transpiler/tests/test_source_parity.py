@@ -1466,6 +1466,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_dump_liquid_campaign_unlock_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_liquid_campaign_unlock_source"))
+        report = source_parity.verify_building_dump_liquid_campaign_unlock_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method_output_dir": "public void dumpLiquid(Liquid liquid, float scaling, int outputDir){",
+            "empty_liquid_return": "if(liquids.get(liquid) <= 0.0001f) return;",
+            "campaign_unlock_guard": "if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")
