@@ -63080,6 +63080,171 @@
         "test_power_graph_clear_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.clear list clear and entity remove state."
+    },
+    "power_graph_reflow.tile": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "tile",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_input.tile",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Explicit input for Source-backed PowerGraph.reflow(Building tile) start tile and connection graph state."
+    },
+    "power_graph_reflow.queue_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "queue.clear();",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.queue_clear",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.queue_add_tile": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "queue.addLast(tile);",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.queued_positions",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.closed_set_clear": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "closedSet.clear();",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.closed_positions",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.while_queue": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "while(queue.size > 0){",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.visited_positions",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.remove_first": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "Building child = queue.removeFirst();",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.visited_positions",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.add_child": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "add(child);",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.tile_add_states",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.check_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "checkAdd();",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.check_add_count",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.connections_loop": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "for(Building next : child.getPowerConnections(outArray2)){",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.queued_positions",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.closed_set_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "if(closedSet.add(next.pos())){",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.closed_positions",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
+    },
+    "power_graph_reflow.queue_add_next": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "java_expr": "queue.addLast(next);",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "godot_symbol": "source_power_graph_reflow_result.queued_positions",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.reflow(Building tile) queue traversal and per-child add/check behavior."
     }
   },
   "version": 1

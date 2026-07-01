@@ -426,6 +426,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_reflow_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_reflow_source"))
+        report = source_parity.verify_power_graph_reflow_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void reflow(Building tile){",
+            "queue_clear": "queue.clear();",
+            "queue_add_tile": "queue.addLast(tile);",
+            "closed_set_clear": "closedSet.clear();",
+            "while_queue": "while(queue.size > 0){",
+            "remove_first": "Building child = queue.removeFirst();",
+            "add_child": "add(child);",
+            "check_add": "checkAdd();",
+            "connections_loop": "for(Building next : child.getPowerConnections(outArray2)){",
+            "closed_set_add": "if(closedSet.add(next.pos())){",
+            "queue_add_next": "queue.addLast(next);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

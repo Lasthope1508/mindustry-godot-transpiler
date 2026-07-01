@@ -75342,6 +75342,230 @@
           "godot_symbol": "source_power_graph_clear_result.entity_removed"
         }
       }
+    },
+    "source_power_graph_reflow_input": {
+      "keys": {
+        "tile": {
+          "type": "Dictionary",
+          "status": "explicit-input",
+          "rule": "source_power_graph_reflow_input key tile.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "tile",
+          "godot_symbol": "source_power_graph_reflow_input.tile"
+        }
+      }
+    },
+    "source_power_graph_reflow_result": {
+      "keys": {
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key method.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "public void reflow(Building tile){",
+          "godot_symbol": "source_power_graph_reflow_result.method"
+        },
+        "queue_clear": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key queue_clear.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "queue.clear();",
+          "godot_symbol": "source_power_graph_reflow_result.queue_clear"
+        },
+        "queue_add_tile": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key queue_add_tile.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "queue.addLast(tile);",
+          "godot_symbol": "source_power_graph_reflow_result.queue_add_tile"
+        },
+        "closed_set_clear": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key closed_set_clear.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "closedSet.clear();",
+          "godot_symbol": "source_power_graph_reflow_result.closed_set_clear"
+        },
+        "while_queue": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key while_queue.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "while(queue.size > 0){",
+          "godot_symbol": "source_power_graph_reflow_result.while_queue"
+        },
+        "remove_first": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key remove_first.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "Building child = queue.removeFirst();",
+          "godot_symbol": "source_power_graph_reflow_result.remove_first"
+        },
+        "add_child": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key add_child.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "add(child);",
+          "godot_symbol": "source_power_graph_reflow_result.add_child"
+        },
+        "check_add": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key check_add.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "checkAdd();",
+          "godot_symbol": "source_power_graph_reflow_result.check_add"
+        },
+        "connections_loop": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key connections_loop.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "for(Building next : child.getPowerConnections(outArray2)){",
+          "godot_symbol": "source_power_graph_reflow_result.connections_loop"
+        },
+        "closed_set_add": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key closed_set_add.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "if(closedSet.add(next.pos())){",
+          "godot_symbol": "source_power_graph_reflow_result.closed_set_add"
+        },
+        "queue_add_next": {
+          "type": "String",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key queue_add_next.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "queue.addLast(next);",
+          "godot_symbol": "source_power_graph_reflow_result.queue_add_next"
+        },
+        "tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key tile.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "tile",
+          "godot_symbol": "source_power_graph_reflow_result.tile"
+        },
+        "visited_positions": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key visited_positions.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "Building child = queue.removeFirst();",
+          "godot_symbol": "source_power_graph_reflow_result.visited_positions"
+        },
+        "queued_positions": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key queued_positions.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "queue.addLast(next);",
+          "godot_symbol": "source_power_graph_reflow_result.queued_positions"
+        },
+        "closed_positions": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key closed_positions.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "if(closedSet.add(next.pos())){",
+          "godot_symbol": "source_power_graph_reflow_result.closed_positions"
+        },
+        "tile_add_states": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key tile_add_states.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "add(child);",
+          "godot_symbol": "source_power_graph_reflow_result.tile_add_states"
+        },
+        "check_add_count": {
+          "type": "int",
+          "status": "source-backed",
+          "rule": "source_power_graph_reflow_result key check_add_count.",
+          "used_by": [
+            "PortGame.source_power_graph_reflow_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "reflow(Building tile)",
+          "java_expr": "checkAdd();",
+          "godot_symbol": "source_power_graph_reflow_result.check_add_count"
+        }
+      }
     }
   },
   "version": 1

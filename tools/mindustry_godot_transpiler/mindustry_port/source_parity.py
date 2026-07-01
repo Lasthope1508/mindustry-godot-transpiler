@@ -552,6 +552,29 @@ def verify_power_graph_clear_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_power_graph_reflow_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void reflow(Building tile){",
+        "queue_clear": "queue.clear();",
+        "queue_add_tile": "queue.addLast(tile);",
+        "closed_set_clear": "closedSet.clear();",
+        "while_queue": "while(queue.size > 0){",
+        "remove_first": "Building child = queue.removeFirst();",
+        "add_child": "add(child);",
+        "check_add": "checkAdd();",
+        "connections_loop": "for(Building next : child.getPowerConnections(outArray2)){",
+        "closed_set_add": "if(closedSet.add(next.pos())){",
+        "queue_add_next": "queue.addLast(next);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in power_graph_source]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

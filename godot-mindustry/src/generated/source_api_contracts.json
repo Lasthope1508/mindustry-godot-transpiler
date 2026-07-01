@@ -19977,6 +19977,45 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_clear_state",
       "rule": "Public runtime contract for PowerGraph.clear()."
+    },
+    "PortGame.source_power_graph_reflow_state": {
+      "status": "active",
+      "source_slice": "N901",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "reflow(Building tile)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Dictionary",
+          "schema": "source_power_graph_reflow_input.tile"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "queue_clear",
+        "queue_add_tile",
+        "closed_set_clear",
+        "while_queue",
+        "remove_first",
+        "add_child",
+        "check_add",
+        "connections_loop",
+        "closed_set_add",
+        "queue_add_next",
+        "tile",
+        "visited_positions",
+        "queued_positions",
+        "closed_positions",
+        "tile_add_states",
+        "check_add_count"
+      ],
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "rule": "Public runtime contract for PowerGraph.reflow(Building tile)."
     }
   },
   "policy": {

@@ -18021,6 +18021,46 @@
         "test_power_graph_clear_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.clear() list clearing and entity remove guard."
+    },
+    "N901": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "reflow(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state",
+      "exact_exprs": [
+        "public void reflow(Building tile){",
+        "queue.clear();",
+        "queue.addLast(tile);",
+        "closedSet.clear();",
+        "while(queue.size > 0){",
+        "Building child = queue.removeFirst();",
+        "add(child);",
+        "checkAdd();",
+        "for(Building next : child.getPowerConnections(outArray2)){",
+        "if(closedSet.add(next.pos())){",
+        "queue.addLast(next);"
+      ],
+      "source_symbols": [
+        "power_graph_reflow.tile",
+        "power_graph_reflow.queue_clear",
+        "power_graph_reflow.queue_add_tile",
+        "power_graph_reflow.closed_set_clear",
+        "power_graph_reflow.while_queue",
+        "power_graph_reflow.remove_first",
+        "power_graph_reflow.add_child",
+        "power_graph_reflow.check_add",
+        "power_graph_reflow.connections_loop",
+        "power_graph_reflow.closed_set_add",
+        "power_graph_reflow.queue_add_next"
+      ],
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.reflow(Building tile) queue traversal, per-child add, checkAdd count, and closedSet enqueue behavior."
     }
   },
   "version": 1

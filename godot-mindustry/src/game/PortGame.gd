@@ -1019,6 +1019,69 @@ func source_power_graph_clear_state(all: Array, producers: Array, consumers: Arr
 		"entity_removed": entity_present,
 	}
 
+func source_power_graph_reflow_state(tile: Dictionary) -> Dictionary:
+	var queue: Array = []
+	var closed_lookup: Dictionary = {}
+	var closed_positions: Array = []
+	var queued_positions: Array = []
+	var visited_positions: Array = []
+	var tile_add_states: Array = []
+	var check_add_count := 0
+	queue.clear()
+	queue.append(tile.duplicate(true))
+	closed_lookup.clear()
+	while queue.size() > 0:
+		var child_variant = queue.pop_front()
+		if typeof(child_variant) != TYPE_DICTIONARY:
+			continue
+		var child: Dictionary = child_variant
+		visited_positions.append(child.get("pos", null))
+		var add_state := source_power_graph_add_role_state(
+			bool(child.get("build_present", true)),
+			bool(child.get("power_present", true)),
+			bool(child.get("graph_matches", false)),
+			bool(child.get("power_init", false)),
+			bool(child.get("old_graph_present", false)),
+			bool(child.get("old_graph_is_self", false)),
+			bool(child.get("old_graph_has_entity", false)),
+			bool(child.get("outputs_power", false)),
+			bool(child.get("consumes_power", false)),
+			bool(child.get("has_cons_power", false)),
+			bool(child.get("cons_power_buffered", false))
+		)
+		tile_add_states.append(add_state)
+		check_add_count += 1
+		var connections: Array = child.get("connections", [])
+		for next in connections:
+			if typeof(next) != TYPE_DICTIONARY:
+				continue
+			var next_pos = next.get("pos", null)
+			var next_pos_key := var_to_str(next_pos)
+			if not closed_lookup.has(next_pos_key):
+				closed_lookup[next_pos_key] = true
+				closed_positions.append(next_pos)
+				queued_positions.append(next_pos)
+				queue.append(next.duplicate(true))
+	return {
+		"method": "public void reflow(Building tile){",
+		"queue_clear": "queue.clear();",
+		"queue_add_tile": "queue.addLast(tile);",
+		"closed_set_clear": "closedSet.clear();",
+		"while_queue": "while(queue.size > 0){",
+		"remove_first": "Building child = queue.removeFirst();",
+		"add_child": "add(child);",
+		"check_add": "checkAdd();",
+		"connections_loop": "for(Building next : child.getPowerConnections(outArray2)){",
+		"closed_set_add": "if(closedSet.add(next.pos())){",
+		"queue_add_next": "queue.addLast(next);",
+		"tile": tile.duplicate(true),
+		"visited_positions": visited_positions,
+		"queued_positions": queued_positions,
+		"closed_positions": closed_positions,
+		"tile_add_states": tile_add_states,
+		"check_add_count": check_add_count,
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

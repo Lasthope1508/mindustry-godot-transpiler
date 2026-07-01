@@ -13352,6 +13352,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(entity_present["java_expr"], "entity != null")
         self.assertEqual(entity_present["godot_symbol"], "source_power_graph_clear_input.entity_present")
 
+    def test_power_graph_reflow_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        tile_input = source_symbols.source_symbol(registry, "power_graph_reflow.tile")
+        self.assertEqual(tile_input["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(tile_input["java_method"], "reflow(Building tile)")
+        self.assertEqual(tile_input["status"], "explicit-input")
+        self.assertEqual(tile_input["java_expr"], "tile")
+        self.assertEqual(tile_input["godot_owner"], "PortGame.source_power_graph_reflow_state")
+        self.assertEqual(tile_input["runtime_proof"], "/root/Main.source_power_graph_reflow_state")
+        self.assertEqual(tile_input["godot_symbol"], "source_power_graph_reflow_input.tile")
+
+        add_child = source_symbols.source_symbol(registry, "power_graph_reflow.add_child")
+        self.assertEqual(add_child["java_expr"], "add(child);")
+        self.assertEqual(add_child["godot_symbol"], "source_power_graph_reflow_result.tile_add_states")
+
+        check_add = source_symbols.source_symbol(registry, "power_graph_reflow.check_add")
+        self.assertEqual(check_add["java_expr"], "checkAdd();")
+        self.assertEqual(check_add["godot_symbol"], "source_power_graph_reflow_result.check_add_count")
+
+        closed_set_add = source_symbols.source_symbol(registry, "power_graph_reflow.closed_set_add")
+        self.assertEqual(closed_set_add["java_expr"], "if(closedSet.add(next.pos())){")
+        self.assertEqual(closed_set_add["godot_symbol"], "source_power_graph_reflow_result.closed_positions")
+
+        queue_add_next = source_symbols.source_symbol(registry, "power_graph_reflow.queue_add_next")
+        self.assertEqual(queue_add_next["java_expr"], "queue.addLast(next);")
+        self.assertEqual(queue_add_next["godot_symbol"], "source_power_graph_reflow_result.queued_positions")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17268,9 +17299,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 497)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 498)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 502)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 503)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -21832,6 +21863,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("consumers.clear();", power_graph_clear["exact_exprs"])
         self.assertIn("batteries.clear();", power_graph_clear["exact_exprs"])
         self.assertIn("if(entity != null) entity.remove();", power_graph_clear["exact_exprs"])
+
+        power_graph_reflow = source_symbols.source_slice(ledger, "N901")
+        self.assertEqual(power_graph_reflow["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_reflow["java_method"], "reflow(Building tile)")
+        self.assertEqual(power_graph_reflow["godot_owner"], "PortGame.source_power_graph_reflow_state")
+        self.assertIn("public void reflow(Building tile){", power_graph_reflow["exact_exprs"])
+        self.assertIn("queue.clear();", power_graph_reflow["exact_exprs"])
+        self.assertIn("queue.addLast(tile);", power_graph_reflow["exact_exprs"])
+        self.assertIn("closedSet.clear();", power_graph_reflow["exact_exprs"])
+        self.assertIn("while(queue.size > 0){", power_graph_reflow["exact_exprs"])
+        self.assertIn("Building child = queue.removeFirst();", power_graph_reflow["exact_exprs"])
+        self.assertIn("add(child);", power_graph_reflow["exact_exprs"])
+        self.assertIn("checkAdd();", power_graph_reflow["exact_exprs"])
+        self.assertIn("for(Building next : child.getPowerConnections(outArray2)){", power_graph_reflow["exact_exprs"])
+        self.assertIn("if(closedSet.add(next.pos())){", power_graph_reflow["exact_exprs"])
+        self.assertIn("queue.addLast(next);", power_graph_reflow["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26633,6 +26680,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("all", power_graph_clear["return_keys"])
         self.assertIn("producers", power_graph_clear["return_keys"])
         self.assertEqual(power_graph_clear["source_method"], "clear()")
+
+        power_graph_reflow = source_symbols.api_contract(contracts, "PortGame.source_power_graph_reflow_state")
+        self.assertEqual([param["name"] for param in power_graph_reflow["params"]], ["tile"])
+        self.assertEqual(power_graph_reflow["params"][0]["schema"], "source_power_graph_reflow_input.tile")
+        self.assertIn("visited_positions", power_graph_reflow["return_keys"])
+        self.assertIn("queued_positions", power_graph_reflow["return_keys"])
+        self.assertIn("closed_positions", power_graph_reflow["return_keys"])
+        self.assertIn("tile_add_states", power_graph_reflow["return_keys"])
+        self.assertIn("check_add_count", power_graph_reflow["return_keys"])
+        self.assertEqual(power_graph_reflow["source_method"], "reflow(Building tile)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -32484,6 +32541,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_graph_clear_result["keys"]["consumers"]["java_expr"], "consumers.clear();")
         self.assertEqual(source_power_graph_clear_result["keys"]["batteries"]["java_expr"], "batteries.clear();")
         self.assertEqual(source_power_graph_clear_result["keys"]["entity_removed"]["java_expr"], "if(entity != null) entity.remove();")
+
+        source_power_graph_reflow_input = source_symbols.state_schema(schema, "source_power_graph_reflow_input")
+        self.assertEqual(source_power_graph_reflow_input["keys"]["tile"]["java_expr"], "tile")
+        self.assertEqual(source_power_graph_reflow_input["keys"]["tile"]["status"], "explicit-input")
+
+        source_power_graph_reflow_result = source_symbols.state_schema(schema, "source_power_graph_reflow_result")
+        self.assertEqual(source_power_graph_reflow_result["keys"]["visited_positions"]["java_expr"], "Building child = queue.removeFirst();")
+        self.assertEqual(source_power_graph_reflow_result["keys"]["tile_add_states"]["java_expr"], "add(child);")
+        self.assertEqual(source_power_graph_reflow_result["keys"]["check_add_count"]["java_expr"], "checkAdd();")
+        self.assertEqual(source_power_graph_reflow_result["keys"]["closed_positions"]["java_expr"], "if(closedSet.add(next.pos())){")
+        self.assertEqual(source_power_graph_reflow_result["keys"]["queued_positions"]["java_expr"], "queue.addLast(next);")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

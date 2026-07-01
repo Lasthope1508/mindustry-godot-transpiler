@@ -264,6 +264,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"entity_remove_guard": "if(entity != null) entity.remove();"', source)
         self.assertIn('"entity_removed": entity_present', source)
 
+    def test_port_game_exposes_source_power_graph_reflow_state_for_mcp(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_graph_reflow_state(tile: Dictionary) -> Dictionary:", source)
+        self.assertIn('"method": "public void reflow(Building tile){"', source)
+        self.assertIn('"queue_clear": "queue.clear();"', source)
+        self.assertIn('"queue_add_tile": "queue.addLast(tile);"', source)
+        self.assertIn('"closed_set_clear": "closedSet.clear();"', source)
+        self.assertIn('"while_queue": "while(queue.size > 0){"', source)
+        self.assertIn('"remove_first": "Building child = queue.removeFirst();"', source)
+        self.assertIn('"add_child": "add(child);"', source)
+        self.assertIn('"check_add": "checkAdd();"', source)
+        self.assertIn('"connections_loop": "for(Building next : child.getPowerConnections(outArray2)){"', source)
+        self.assertIn('"closed_set_add": "if(closedSet.add(next.pos())){"', source)
+        self.assertIn('"queue_add_next": "queue.addLast(next);"', source)
+        self.assertIn("source_power_graph_add_role_state(", source)
+
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
