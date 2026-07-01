@@ -19538,6 +19538,52 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_use_batteries_state",
       "rule": "Public runtime contract for PowerGraph.useBatteries(float needed) with explicit battery inputs."
+    },
+    "PortGame.source_power_graph_charge_batteries_state": {
+      "status": "active",
+      "source_slice": "N893",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "chargeBatteries(float excess)",
+      "params": [
+        {
+          "name": "batteries",
+          "type": "Array",
+          "schema": "source_power_graph_charge_batteries_input.batteries"
+        },
+        {
+          "name": "excess",
+          "type": "float",
+          "schema": "source_power_graph_charge_batteries_input.excess"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "capacity_expr",
+        "charged_percent_comment",
+        "charged_percent_expr",
+        "zero_guard",
+        "items",
+        "loop",
+        "battery",
+        "todo",
+        "guard",
+        "status_add",
+        "return_expr",
+        "mathf_equal",
+        "excess",
+        "capacity",
+        "charged_percent",
+        "charged",
+        "zero_guard_returned",
+        "batteries"
+      ],
+      "tests": [
+        "test_power_graph_charge_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp",
+        "test_power_graph_charge_batteries_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state",
+      "rule": "Public runtime contract for PowerGraph.chargeBatteries(float excess) with explicit battery inputs."
     }
   },
   "policy": {

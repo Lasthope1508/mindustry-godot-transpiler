@@ -73982,6 +73982,126 @@
           "godot_symbol": "source_power_graph_use_batteries_result.batteries"
         }
       }
+    },
+    "source_power_graph_charge_batteries_input": {
+      "keys": {
+        "batteries": {
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "source_power_graph_charge_batteries_input key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "batteries.items",
+          "godot_symbol": "source_power_graph_charge_batteries_input.batteries"
+        },
+        "excess": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_charge_batteries_input key excess.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "excess",
+          "godot_symbol": "source_power_graph_charge_batteries_input.excess"
+        }
+      }
+    },
+    "source_power_graph_charge_batteries_battery": {
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "source_power_graph_charge_batteries_battery key enabled.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "battery.enabled",
+          "godot_symbol": "source_power_graph_charge_batteries_battery.enabled"
+        },
+        "power_status": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_charge_batteries_battery key power_status.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "battery.power.status",
+          "godot_symbol": "source_power_graph_charge_batteries_battery.power_status"
+        },
+        "capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "source_power_graph_charge_batteries_battery key capacity.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "battery.block.consPower.capacity",
+          "godot_symbol": "source_power_graph_charge_batteries_battery.capacity"
+        }
+      }
+    },
+    "source_power_graph_charge_batteries_result": {
+      "keys": {
+        "capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_charge_batteries_result key capacity.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "float capacity = getBatteryCapacity();",
+          "godot_symbol": "source_power_graph_charge_batteries_result.capacity"
+        },
+        "charged_percent": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_charge_batteries_result key charged_percent.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "float chargedPercent = Math.min(excess/capacity, 1f);",
+          "godot_symbol": "source_power_graph_charge_batteries_result.charged_percent"
+        },
+        "charged": {
+          "type": "float",
+          "status": "source-backed",
+          "rule": "source_power_graph_charge_batteries_result key charged.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "return Math.min(excess, capacity);",
+          "godot_symbol": "source_power_graph_charge_batteries_result.charged"
+        },
+        "batteries": {
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "source_power_graph_charge_batteries_result key batteries.",
+          "used_by": [
+            "PortGame.source_power_graph_charge_batteries_state"
+          ],
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_method": "chargeBatteries(float excess)",
+          "java_expr": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+          "godot_symbol": "source_power_graph_charge_batteries_result.batteries"
+        }
+      }
     }
   },
   "version": 1

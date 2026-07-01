@@ -337,6 +337,44 @@ def verify_power_graph_use_batteries_source(upstream_root: Path) -> dict[str, An
     }
 
 
+def verify_power_graph_charge_batteries_source(upstream_root: Path) -> dict[str, Any]:
+    power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    power_graph_source = power_graph_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "charge_batteries_method": "public float chargeBatteries(float excess){",
+        "capacity": "float capacity = getBatteryCapacity();",
+        "charged_percent_comment": "//how much of the missing in each battery % is charged",
+        "charged_percent": "float chargedPercent = Math.min(excess/capacity, 1f);",
+        "capacity_zero_guard": "if(Mathf.equal(capacity, 0f)) return 0f;",
+        "items": "var items = batteries.items;",
+        "loop": "for(int i = 0; i < batteries.size; i++){",
+        "battery": "var battery = items[i];",
+        "todo": "//TODO why would it be 0",
+        "enabled_capacity_guard": "if(battery.enabled && battery.block.consPower.capacity > 0f){",
+        "status_add": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+        "return_min": "return Math.min(excess, capacity);",
+        "mathf_equal": "public static boolean equal(float a, float b){",
+        "mathf_equal_body": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+    }
+    source_by_key = {
+        "mathf_equal": mathf_source,
+        "mathf_equal_body": mathf_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, power_graph_source)
+    ]
+    return {
+        "source": POWER_GRAPH_SOURCE,
+        "sources": [ARC_MATHF_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_building_time_scale_decay_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

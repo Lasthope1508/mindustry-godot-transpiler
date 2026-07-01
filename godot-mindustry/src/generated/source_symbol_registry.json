@@ -61760,6 +61760,66 @@
         "test_power_graph_use_batteries_matches_upstream_source"
       ],
       "rule": "Source-backed PowerGraph.useBatteries state transition mapping."
+    },
+    "power_graph_charge_batteries.return_min": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "chargeBatteries(float excess)",
+      "java_expr": "return Math.min(excess, capacity);",
+      "godot_owner": "PortGame.source_power_graph_charge_batteries_state",
+      "godot_symbol": "source_power_graph_charge_batteries_result.charged",
+      "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state",
+      "tests": [
+        "test_power_graph_charge_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp",
+        "test_power_graph_charge_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.chargeBatteries state transition mapping."
+    },
+    "power_graph_charge_batteries.charged_percent": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "chargeBatteries(float excess)",
+      "java_expr": "float chargedPercent = Math.min(excess/capacity, 1f);",
+      "godot_owner": "PortGame.source_power_graph_charge_batteries_state",
+      "godot_symbol": "source_power_graph_charge_batteries_result.charged_percent",
+      "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state",
+      "tests": [
+        "test_power_graph_charge_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp",
+        "test_power_graph_charge_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.chargeBatteries state transition mapping."
+    },
+    "power_graph_charge_batteries.status_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "chargeBatteries(float excess)",
+      "java_expr": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+      "godot_owner": "PortGame.source_power_graph_charge_batteries_state",
+      "godot_symbol": "source_power_graph_charge_batteries_result.batteries",
+      "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state",
+      "tests": [
+        "test_power_graph_charge_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp",
+        "test_power_graph_charge_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.chargeBatteries state transition mapping."
+    },
+    "power_graph_charge_batteries.excess": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "chargeBatteries(float excess)",
+      "java_expr": "excess",
+      "godot_owner": "PortGame.source_power_graph_charge_batteries_state",
+      "godot_symbol": "source_power_graph_charge_batteries_input.excess",
+      "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state",
+      "tests": [
+        "test_power_graph_charge_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp",
+        "test_power_graph_charge_batteries_matches_upstream_source"
+      ],
+      "rule": "Source-backed PowerGraph.chargeBatteries state transition mapping."
     }
   },
   "version": 1

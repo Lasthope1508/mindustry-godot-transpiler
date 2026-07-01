@@ -267,6 +267,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_graph_charge_batteries_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_graph_charge_batteries_source"))
+        report = source_parity.verify_power_graph_charge_batteries_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "charge_batteries_method": "public float chargeBatteries(float excess){",
+            "capacity": "float capacity = getBatteryCapacity();",
+            "charged_percent_comment": "//how much of the missing in each battery % is charged",
+            "charged_percent": "float chargedPercent = Math.min(excess/capacity, 1f);",
+            "capacity_zero_guard": "if(Mathf.equal(capacity, 0f)) return 0f;",
+            "items": "var items = batteries.items;",
+            "loop": "for(int i = 0; i < batteries.size; i++){",
+            "battery": "var battery = items[i];",
+            "todo": "//TODO why would it be 0",
+            "enabled_capacity_guard": "if(battery.enabled && battery.block.consPower.capacity > 0f){",
+            "status_add": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+            "return_min": "return Math.min(excess, capacity);",
+            "mathf_equal": "public static boolean equal(float a, float b){",
+            "mathf_equal_body": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_overdrive_projector_target_filter_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_overdrive_projector_target_filter_source"))
         report = source_parity.verify_overdrive_projector_target_filter_source(ROOT / "mindustry-upstream")

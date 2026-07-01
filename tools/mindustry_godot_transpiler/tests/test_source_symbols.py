@@ -13120,6 +13120,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(needed["java_expr"], "needed")
         self.assertEqual(needed["godot_symbol"], "source_power_graph_use_batteries_input.needed")
 
+    def test_power_graph_charge_batteries_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        return_min = source_symbols.source_symbol(registry, "power_graph_charge_batteries.return_min")
+        self.assertEqual(return_min["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(return_min["java_method"], "chargeBatteries(float excess)")
+        self.assertEqual(return_min["java_expr"], "return Math.min(excess, capacity);")
+        self.assertEqual(return_min["godot_owner"], "PortGame.source_power_graph_charge_batteries_state")
+        self.assertEqual(return_min["runtime_proof"], "/root/Main.source_power_graph_charge_batteries_state")
+        self.assertEqual(return_min["godot_symbol"], "source_power_graph_charge_batteries_result.charged")
+
+        charged_percent = source_symbols.source_symbol(registry, "power_graph_charge_batteries.charged_percent")
+        self.assertEqual(charged_percent["java_expr"], "float chargedPercent = Math.min(excess/capacity, 1f);")
+        self.assertEqual(charged_percent["godot_symbol"], "source_power_graph_charge_batteries_result.charged_percent")
+
+        status_add = source_symbols.source_symbol(registry, "power_graph_charge_batteries.status_add")
+        self.assertEqual(status_add["java_expr"], "battery.power.status += (1f - battery.power.status) * chargedPercent;")
+        self.assertEqual(status_add["godot_symbol"], "source_power_graph_charge_batteries_result.batteries")
+
+        excess = source_symbols.source_symbol(registry, "power_graph_charge_batteries.excess")
+        self.assertEqual(excess["status"], "explicit-input")
+        self.assertEqual(excess["java_expr"], "excess")
+        self.assertEqual(excess["godot_symbol"], "source_power_graph_charge_batteries_input.excess")
+
     def test_building_check_allow_update_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -17036,9 +17063,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 489)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 490)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 494)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 495)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -21519,6 +21546,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float used = Math.min(stored, needed);", power_graph_use_batteries["exact_exprs"])
         self.assertIn("float consumedPowerPercentage = Math.min(1.0f, needed / stored);", power_graph_use_batteries["exact_exprs"])
         self.assertIn("battery.power.status *= (1f-consumedPowerPercentage);", power_graph_use_batteries["exact_exprs"])
+
+        power_graph_charge_batteries = source_symbols.source_slice(ledger, "N893")
+        self.assertEqual(power_graph_charge_batteries["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(power_graph_charge_batteries["java_method"], "chargeBatteries(float excess)")
+        self.assertEqual(power_graph_charge_batteries["godot_owner"], "PortGame.source_power_graph_charge_batteries_state")
+        self.assertIn("public float chargeBatteries(float excess){", power_graph_charge_batteries["exact_exprs"])
+        self.assertIn("float chargedPercent = Math.min(excess/capacity, 1f);", power_graph_charge_batteries["exact_exprs"])
+        self.assertIn("if(battery.enabled && battery.block.consPower.capacity > 0f){", power_graph_charge_batteries["exact_exprs"])
+        self.assertIn("battery.power.status += (1f - battery.power.status) * chargedPercent;", power_graph_charge_batteries["exact_exprs"])
 
         building_check_allow_update = source_symbols.source_slice(ledger, "N539")
         self.assertEqual(building_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -26250,6 +26286,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("consumed_power_percentage", power_graph_use_batteries["return_keys"])
         self.assertIn("batteries", power_graph_use_batteries["return_keys"])
         self.assertEqual(power_graph_use_batteries["source_method"], "useBatteries(float needed)")
+
+        power_graph_charge_batteries = source_symbols.api_contract(contracts, "PortGame.source_power_graph_charge_batteries_state")
+        self.assertEqual([param["name"] for param in power_graph_charge_batteries["params"]], ["batteries", "excess"])
+        self.assertEqual(power_graph_charge_batteries["params"][0]["schema"], "source_power_graph_charge_batteries_input.batteries")
+        self.assertEqual(power_graph_charge_batteries["params"][1]["schema"], "source_power_graph_charge_batteries_input.excess")
+        self.assertIn("charged", power_graph_charge_batteries["return_keys"])
+        self.assertIn("charged_percent", power_graph_charge_batteries["return_keys"])
+        self.assertIn("batteries", power_graph_charge_batteries["return_keys"])
+        self.assertEqual(power_graph_charge_batteries["source_method"], "chargeBatteries(float excess)")
 
         building_check_allow_update = source_symbols.api_contract(contracts, "PortGame.source_building_check_allow_update_state")
         self.assertEqual([param["name"] for param in building_check_allow_update["params"]], ["current_enabled", "allow_update_result"])
@@ -31978,6 +32023,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_power_graph_use_batteries_result["keys"]["used"]["java_expr"], "float used = Math.min(stored, needed);")
         self.assertEqual(source_power_graph_use_batteries_result["keys"]["consumed_power_percentage"]["java_expr"], "float consumedPowerPercentage = Math.min(1.0f, needed / stored);")
         self.assertEqual(source_power_graph_use_batteries_result["keys"]["batteries"]["java_expr"], "battery.power.status *= (1f-consumedPowerPercentage);")
+
+        source_power_graph_charge_batteries_input = source_symbols.state_schema(schema, "source_power_graph_charge_batteries_input")
+        self.assertEqual(source_power_graph_charge_batteries_input["keys"]["batteries"]["java_expr"], "batteries.items")
+        self.assertEqual(source_power_graph_charge_batteries_input["keys"]["excess"]["java_expr"], "excess")
+
+        source_power_graph_charge_batteries_battery = source_symbols.state_schema(schema, "source_power_graph_charge_batteries_battery")
+        self.assertEqual(source_power_graph_charge_batteries_battery["keys"]["enabled"]["java_expr"], "battery.enabled")
+        self.assertEqual(source_power_graph_charge_batteries_battery["keys"]["power_status"]["java_expr"], "battery.power.status")
+        self.assertEqual(source_power_graph_charge_batteries_battery["keys"]["capacity"]["java_expr"], "battery.block.consPower.capacity")
+
+        source_power_graph_charge_batteries_result = source_symbols.state_schema(schema, "source_power_graph_charge_batteries_result")
+        self.assertEqual(source_power_graph_charge_batteries_result["keys"]["capacity"]["java_expr"], "float capacity = getBatteryCapacity();")
+        self.assertEqual(source_power_graph_charge_batteries_result["keys"]["charged_percent"]["java_expr"], "float chargedPercent = Math.min(excess/capacity, 1f);")
+        self.assertEqual(source_power_graph_charge_batteries_result["keys"]["charged"]["java_expr"], "return Math.min(excess, capacity);")
+        self.assertEqual(source_power_graph_charge_batteries_result["keys"]["batteries"]["java_expr"], "battery.power.status += (1f - battery.power.status) * chargedPercent;")
 
         source_building_check_allow_update_input = source_symbols.state_schema(schema, "source_building_check_allow_update_input")
         self.assertEqual(source_building_check_allow_update_input["keys"]["current_enabled"]["java_expr"], "enabled")

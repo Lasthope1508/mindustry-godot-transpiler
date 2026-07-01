@@ -17724,6 +17724,42 @@
         "test_power_graph_use_batteries_matches_upstream_source"
       ],
       "rule": "Adds source-backed PowerGraph.useBatteries battery discharge state without full update loop distribution yet."
+    },
+    "N893": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "mindustry.world.blocks.power.PowerGraph",
+      "java_method": "chargeBatteries(float excess)",
+      "godot_owner": "PortGame.source_power_graph_charge_batteries_state",
+      "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state",
+      "exact_exprs": [
+        "public float chargeBatteries(float excess){",
+        "float capacity = getBatteryCapacity();",
+        "//how much of the missing in each battery % is charged",
+        "float chargedPercent = Math.min(excess/capacity, 1f);",
+        "if(Mathf.equal(capacity, 0f)) return 0f;",
+        "var items = batteries.items;",
+        "for(int i = 0; i < batteries.size; i++){",
+        "var battery = items[i];",
+        "//TODO why would it be 0",
+        "if(battery.enabled && battery.block.consPower.capacity > 0f){",
+        "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+        "return Math.min(excess, capacity);",
+        "public static boolean equal(float a, float b){",
+        "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;"
+      ],
+      "source_symbols": [
+        "power_graph_charge_batteries.return_min",
+        "power_graph_charge_batteries.charged_percent",
+        "power_graph_charge_batteries.status_add",
+        "power_graph_charge_batteries.excess"
+      ],
+      "tests": [
+        "test_power_graph_charge_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp",
+        "test_power_graph_charge_batteries_matches_upstream_source"
+      ],
+      "rule": "Adds source-backed PowerGraph.chargeBatteries battery charge state without full update loop distribution yet."
     }
   },
   "version": 1

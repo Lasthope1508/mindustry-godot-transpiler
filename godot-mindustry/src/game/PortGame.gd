@@ -1080,6 +1080,47 @@ func source_power_graph_use_batteries_state(batteries: Array, needed: float) -> 
 		"batteries": source_batteries,
 	}
 
+func source_power_graph_charge_batteries_state(batteries: Array, excess: float) -> Dictionary:
+	var source_batteries: Array = []
+	for battery in batteries:
+		if typeof(battery) != TYPE_DICTIONARY:
+			continue
+		source_batteries.append(battery.duplicate(true))
+	var capacity_state := source_power_graph_battery_state(source_batteries)
+	var capacity := float(capacity_state.get("capacity", 0.0))
+	var charged_percent := 0.0
+	var charged := 0.0
+	var zero_guard_returned: bool = abs(capacity - 0.0) <= SOURCE_FLOAT_ROUNDING_ERROR
+	if not zero_guard_returned:
+		charged_percent = min(excess / capacity, 1.0)
+		charged = min(excess, capacity)
+		for battery_state in source_batteries:
+			var source_capacity := float(battery_state.get("capacity", 0.0))
+			if bool(battery_state.get("enabled", false)) and source_capacity > 0.0:
+				var power_status := float(battery_state.get("power_status", 0.0))
+				battery_state["power_status"] = power_status + (1.0 - power_status) * charged_percent
+	return {
+		"method": "public float chargeBatteries(float excess){",
+		"capacity_expr": "float capacity = getBatteryCapacity();",
+		"charged_percent_comment": "//how much of the missing in each battery % is charged",
+		"charged_percent_expr": "float chargedPercent = Math.min(excess/capacity, 1f);",
+		"zero_guard": "if(Mathf.equal(capacity, 0f)) return 0f;",
+		"items": "var items = batteries.items;",
+		"loop": "for(int i = 0; i < batteries.size; i++){",
+		"battery": "var battery = items[i];",
+		"todo": "//TODO why would it be 0",
+		"guard": "if(battery.enabled && battery.block.consPower.capacity > 0f){",
+		"status_add": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
+		"return_expr": "return Math.min(excess, capacity);",
+		"mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
+		"excess": excess,
+		"capacity": capacity,
+		"charged_percent": charged_percent,
+		"charged": charged,
+		"zero_guard_returned": zero_guard_returned,
+		"batteries": source_batteries,
+	}
+
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
 		return source_power_graph_add_role_state(false, false, false, false, false, false, false, false, false, false, false)
