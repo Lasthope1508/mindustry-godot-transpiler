@@ -4464,8 +4464,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("new_charge = source_mathf_approach_delta(current_charge, 1.0, 1.0 / first_shot_delay, source_delta)", source)
         self.assertIn("var warmup_target := 1.0 if ((can_shoot and mount_shoot) or (continuous and has_bullet) or charging) else 0.0", source)
         self.assertIn("if linear_warmup:", source)
-        self.assertIn('"reloadAssignment": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0)"', source)
-        self.assertIn('"warmupTargetSource": "(can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f"', source)
+        self.assertIn('"canShootCall": "boolean can = unit.canShoot();"', source)
+        self.assertIn('"reloadAssignment": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);"', source)
+        self.assertIn('"recoilAssignment": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);"', source)
+        self.assertIn('"smoothReloadAssignment": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);"', source)
+        self.assertIn('"chargeAssignment": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;"', source)
+        self.assertIn('"warmupTargetSource": "float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;"', source)
 
     def test_port_game_exposes_source_weapon_update_mount_origin_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

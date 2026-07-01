@@ -57963,6 +57963,471 @@
       "godot_symbol": "source_weapon_update_mount_origin_result.vec2RotateSource",
       "status": "source-backed",
       "rule": "Vec2 rotation Y formula."
+    },
+    "weapon_update_passive_timers.weapon_update_method": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount)",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public void update(Unit unit, WeaponMount mount){",
+      "godot_symbol": "source_weapon_update_passive_timers_result.canShootCall",
+      "status": "source-backed",
+      "rule": "Weapon update method containing passive timer block."
+    },
+    "weapon_update_passive_timers.can_shoot_call": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "boolean can = unit.canShoot();",
+      "godot_symbol": "source_weapon_update_passive_timers_result.canShoot",
+      "status": "source-backed",
+      "rule": "Exact can-shoot call."
+    },
+    "weapon_update_passive_timers.last_reload": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float lastReload = mount.reload;",
+      "godot_symbol": "source_weapon_update_passive_timers_result.lastReload",
+      "status": "source-backed",
+      "rule": "Exact last reload snapshot."
+    },
+    "weapon_update_passive_timers.reload_decay": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+      "godot_symbol": "source_weapon_update_passive_timers_result.reload",
+      "status": "source-backed",
+      "rule": "Exact reload decay assignment."
+    },
+    "weapon_update_passive_timers.recoil_approach": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);",
+      "godot_symbol": "source_weapon_update_passive_timers_result.recoil",
+      "status": "source-backed",
+      "rule": "Exact recoil approach assignment."
+    },
+    "weapon_update_passive_timers.recoils_guard": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(recoils > 0){",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.recoils",
+      "status": "source-backed",
+      "rule": "Exact recoils guard."
+    },
+    "weapon_update_passive_timers.recoils_init": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(mount.recoils == null) mount.recoils = new float[recoils];",
+      "godot_symbol": "source_weapon_update_passive_timers_result.recoils",
+      "status": "source-backed",
+      "rule": "Exact recoils array init."
+    },
+    "weapon_update_passive_timers.recoils_loop": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "for(int i = 0; i < recoils; i++){",
+      "godot_symbol": "source_weapon_update_passive_timers_result.recoils",
+      "status": "source-backed",
+      "rule": "Exact recoils loop."
+    },
+    "weapon_update_passive_timers.recoils_approach": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);",
+      "godot_symbol": "source_weapon_update_passive_timers_result.recoils",
+      "status": "source-backed",
+      "rule": "Exact recoils approach assignment."
+    },
+    "weapon_update_passive_timers.smooth_reload": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);",
+      "godot_symbol": "source_weapon_update_passive_timers_result.smoothReload",
+      "status": "source-backed",
+      "rule": "Exact smooth reload lerp assignment."
+    },
+    "weapon_update_passive_timers.charge_update": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;",
+      "godot_symbol": "source_weapon_update_passive_timers_result.charge",
+      "status": "source-backed",
+      "rule": "Exact charge update assignment."
+    },
+    "weapon_update_passive_timers.warmup_target": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;",
+      "godot_symbol": "source_weapon_update_passive_timers_result.warmupTarget",
+      "status": "source-backed",
+      "rule": "Exact warmup target formula."
+    },
+    "weapon_update_passive_timers.linear_warmup_guard": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "if(linearWarmup){",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.linearWarmup",
+      "status": "source-backed",
+      "rule": "Exact linear warmup branch guard."
+    },
+    "weapon_update_passive_timers.warmup_approach": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+      "godot_symbol": "source_weapon_update_passive_timers_result.warmup",
+      "status": "source-backed",
+      "rule": "Exact linear warmup approach assignment."
+    },
+    "weapon_update_passive_timers.warmup_lerp": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "mount.warmup = Mathf.lerpDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+      "godot_symbol": "source_weapon_update_passive_timers_result.warmup",
+      "status": "source-backed",
+      "rule": "Exact nonlinear warmup lerp assignment."
+    },
+    "weapon_update_passive_timers.weapon_reload_field": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float reload = 1;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.reload",
+      "status": "source-backed",
+      "rule": "Weapon reload field."
+    },
+    "weapon_update_passive_timers.weapon_recoils_field": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public int recoils = -1;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.recoils",
+      "status": "source-backed",
+      "rule": "Weapon recoils field."
+    },
+    "weapon_update_passive_timers.weapon_recoil_time_field": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float recoilTime = -1f;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.recoilTime",
+      "status": "source-backed",
+      "rule": "Weapon recoilTime field."
+    },
+    "weapon_update_passive_timers.weapon_warmup_fields": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public float shootWarmupSpeed = 0.1f, smoothReloadSpeed = 0.15f;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.shootWarmupSpeed",
+      "status": "source-backed",
+      "rule": "Weapon warmup speed fields."
+    },
+    "weapon_update_passive_timers.weapon_linear_warmup": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Weapon fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_expr": "public boolean linearWarmup = false;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.linearWarmup",
+      "status": "source-backed",
+      "rule": "Weapon linearWarmup field."
+    },
+    "weapon_update_passive_timers.weapon_mount_reload": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float reload;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.mount_state.reload",
+      "status": "source-backed",
+      "rule": "WeaponMount reload field."
+    },
+    "weapon_update_passive_timers.weapon_mount_recoils": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public @Nullable float[] recoils;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.mount_state.recoils",
+      "status": "source-backed",
+      "rule": "WeaponMount recoils field."
+    },
+    "weapon_update_passive_timers.weapon_mount_warmup": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "WeaponMount fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_expr": "public float warmup;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.mount_state.warmup",
+      "status": "source-backed",
+      "rule": "WeaponMount warmup field."
+    },
+    "weapon_update_passive_timers.unit_can_shoot": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "UnitComp.canShoot()",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+      "java_expr": "return !disarmed && !(type.canBoost && isFlying());",
+      "godot_symbol": "source_weapon_update_passive_timers_input.unit_state.canShoot",
+      "status": "source-backed",
+      "rule": "Unit canShoot return expression."
+    },
+    "weapon_update_passive_timers.status_reload_multiplier": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "StatusComp fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+      "java_expr": "reloadMultiplier = 1",
+      "godot_symbol": "source_weapon_update_passive_timers_input.unit_state.reloadMultiplier",
+      "status": "source-backed",
+      "rule": "Status reload multiplier default."
+    },
+    "weapon_update_passive_timers.shoot_first_delay": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "ShootPattern fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "java_expr": "public float firstShotDelay = 0;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.weapon_state.firstShotDelay",
+      "status": "source-backed",
+      "rule": "Shoot firstShotDelay field."
+    },
+    "weapon_update_passive_timers.time_delta": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Time fields",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/util/Time.java",
+      "java_expr": "public static float delta = 1f;",
+      "godot_symbol": "source_weapon_update_passive_timers_input.source_delta",
+      "status": "source-backed",
+      "rule": "Arc Time.delta field."
+    },
+    "weapon_update_passive_timers.mathf_approach_delta": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Mathf.approachDelta(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_expr": "public static float approachDelta(float from, float to, float speed){",
+      "godot_symbol": "source_weapon_update_passive_timers_result.recoil",
+      "status": "source-backed",
+      "rule": "Arc Mathf.approachDelta helper."
+    },
+    "weapon_update_passive_timers.mathf_approach_delta_return": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Mathf.approachDelta(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_expr": "return approach(from, to, Time.delta * speed);",
+      "godot_symbol": "source_weapon_update_passive_timers_result.recoil",
+      "status": "source-backed",
+      "rule": "Arc Mathf.approachDelta return."
+    },
+    "weapon_update_passive_timers.mathf_lerp_delta": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Mathf.lerpDelta(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){",
+      "godot_symbol": "source_weapon_update_passive_timers_result.smoothReload",
+      "status": "source-backed",
+      "rule": "Arc Mathf.lerpDelta helper."
+    },
+    "weapon_update_passive_timers.mathf_lerp_delta_return": {
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "java_method": "Mathf.lerpDelta(float, float, float)",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_expr": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+      "godot_symbol": "source_weapon_update_passive_timers_result.smoothReload",
+      "status": "source-backed",
+      "rule": "Arc Mathf.lerpDelta return."
     }
   },
   "version": 1

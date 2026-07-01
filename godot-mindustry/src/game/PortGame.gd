@@ -4493,7 +4493,7 @@ func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_s
 	else:
 		new_warmup = source_mathf_lerp_delta(current_warmup, warmup_target, shoot_warmup_speed, source_delta)
 	return {
-		"canShootCall": "boolean can = unit.canShoot()",
+		"canShootCall": "boolean can = unit.canShoot();",
 		"canShoot": can_shoot,
 		"lastReload": current_reload,
 		"reload": new_reload,
@@ -4503,11 +4503,11 @@ func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_s
 		"charge": new_charge,
 		"warmupTarget": warmup_target,
 		"warmup": new_warmup,
-		"reloadAssignment": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0)",
-		"recoilAssignment": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime)",
-		"smoothReloadAssignment": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed)",
-		"chargeAssignment": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0",
-		"warmupTargetSource": "(can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f",
+		"reloadAssignment": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+		"recoilAssignment": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);",
+		"smoothReloadAssignment": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);",
+		"chargeAssignment": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;",
+		"warmupTargetSource": "float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;",
 		"warmupMode": "Mathf.approachDelta" if linear_warmup else "Mathf.lerpDelta",
 		"deltaSource": "Time.delta",
 	}

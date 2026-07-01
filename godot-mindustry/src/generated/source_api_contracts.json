@@ -18573,6 +18573,60 @@
         "test_port_game_exposes_source_weapon_update_mount_origin_state",
         "test_weapon_update_mount_origin_matches_upstream_source"
       ]
+    },
+    "PortGame.source_weapon_update_passive_timers_state": {
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_passive_timers_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_passive_timers_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_passive_timers_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_passive_timers_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "canShootCall",
+        "canShoot",
+        "lastReload",
+        "reload",
+        "recoil",
+        "recoils",
+        "smoothReload",
+        "charge",
+        "warmupTarget",
+        "warmup",
+        "reloadAssignment",
+        "recoilAssignment",
+        "smoothReloadAssignment",
+        "chargeAssignment",
+        "warmupTargetSource",
+        "warmupMode",
+        "deltaSource"
+      ],
+      "rule": "Public runtime contract for Weapon.update passive timers state.",
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "source_slice": "N870",
+      "status": "active",
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ]
     }
   },
   "policy": {
