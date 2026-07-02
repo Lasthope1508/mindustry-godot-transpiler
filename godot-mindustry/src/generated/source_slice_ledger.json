@@ -21585,6 +21585,38 @@
         "test_port_game_exposes_generated_building_comp_on_nearby_build_added_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1053": {
+      "deferred_exprs": [
+        "Concrete Consume.trigger(self()) side effects remain owned by individual Consume implementation slices."
+      ],
+      "exact_exprs": [
+        "public void consume(){",
+        "for(Consume cons : block.consumers){",
+        "cons.trigger(self());",
+        "block.consumers",
+        "self()"
+      ],
+      "godot_owner": "PortGame.source_building_consume_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "consume()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_consume_188 and PortGame generated bridge to existing N550 canonical source_building_consume_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_consume_bridge_state",
+      "source_symbols": [
+        "building_consume.method",
+        "building_consume.loop",
+        "building_consume.trigger_call",
+        "building_consume.consumers",
+        "building_consume.self_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_consume_to_source_state",
+        "test_generated_building_comp_bridges_consume_to_source_state",
+        "test_port_game_exposes_generated_building_comp_consume_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

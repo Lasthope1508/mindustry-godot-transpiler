@@ -2771,5 +2771,39 @@ public class BuildingComp{
             self.assertIn('"no_op": true', source_text)
             self.assertIn('"other_state": other_state', source_text)
 
+    def test_emit_bridges_building_comp_consume_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void consume(){
+        for(Consume cons : block.consumers){
+            cons.trigger(self());
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_consume_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var triggered: Array = []", source_text)
+            self.assertIn("for consumer in consumers:", source_text)
+            self.assertIn('triggered.append({"consumer": consumer, "self": self_state})', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_consume_state"', source_text)
+            self.assertIn('"triggered": triggered', source_text)
+
 if __name__ == "__main__":
     unittest.main()

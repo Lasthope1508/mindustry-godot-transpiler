@@ -848,6 +848,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "consume"
+    ):
+        return [
+            "\tvar consumers: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar self_state: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar triggered: Array = []",
+            "\tfor consumer in consumers:",
+            "\t\ttriggered.append({\"consumer\": consumer, \"self\": self_state})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_consume_state\", \"triggered\": triggered}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

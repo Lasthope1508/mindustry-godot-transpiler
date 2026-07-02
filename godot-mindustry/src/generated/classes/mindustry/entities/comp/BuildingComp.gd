@@ -1117,7 +1117,12 @@ func java_method_onNearbyBuildAdded_187(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_on_nearby_build_added_state", "method": "public void onNearbyBuildAdded(Building other){}", "no_op": true, "other_state": other_state}
 
 func java_method_consume_188(_args: Array = []) -> Variant:
-	return null
+	var consumers: Array = _args[0] if _args.size() > 0 else []
+	var self_state: Variant = _args[1] if _args.size() > 1 else null
+	var triggered: Array = []
+	for consumer in consumers:
+		triggered.append({"consumer": consumer, "self": self_state})
+	return {"source_owner": "PortGame.source_building_consume_state", "triggered": triggered}
 
 func java_method_canConsume_189(_args: Array = []) -> Variant:
 	return null

@@ -4618,6 +4618,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_onNearbyBuildAdded_187"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_consume_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_consume_188(_args: Array = []) -> Variant:", source)
+        self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 else []", source)
+        self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else null", source)
+        self.assertIn("var triggered: Array = []", source)
+        self.assertIn("for consumer in consumers:", source)
+        self.assertIn('triggered.append({"consumer": consumer, "self": self_state})', source)
+        self.assertIn('"source_owner": "PortGame.source_building_consume_state"', source)
+        self.assertIn('"triggered": triggered', source)
+
+    def test_port_game_exposes_generated_building_comp_consume_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_consume_188([consumers, self_state])", source)
+        self.assertIn("var canonical = source_building_consume_state(consumers, self_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_consume_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_consume_188"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

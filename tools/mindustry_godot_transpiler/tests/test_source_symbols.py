@@ -25788,6 +25788,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void onNearbyBuildAdded(Building other){}", building_generated_on_nearby_build_added["exact_exprs"])
         self.assertIn("Building other", building_generated_on_nearby_build_added["exact_exprs"])
 
+        building_generated_consume = source_symbols.source_slice(ledger, "N1053")
+        self.assertEqual(building_generated_consume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_consume["java_method"], "consume()")
+        self.assertEqual(building_generated_consume["godot_owner"], "PortGame.source_building_consume_state")
+        self.assertEqual(building_generated_consume["runtime_proof"], "/root/Main.generated_building_comp_consume_bridge_state")
+        self.assertIn("public void consume(){", building_generated_consume["exact_exprs"])
+        self.assertIn("for(Consume cons : block.consumers){", building_generated_consume["exact_exprs"])
+        self.assertIn("cons.trigger(self());", building_generated_consume["exact_exprs"])
+        self.assertIn("block.consumers", building_generated_consume["exact_exprs"])
+        self.assertIn("self()", building_generated_consume["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
