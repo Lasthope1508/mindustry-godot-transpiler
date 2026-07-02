@@ -763,7 +763,8 @@ func java_method_unitOnAny_145(_args: Array = []) -> Variant:
 	return {"comment": "Called every frame a unit is on this. Applies to any unit.  ", "method": "public void unitOnAny(Unit unit){", "empty_body": "public void unitOnAny(Unit unit){\n    }", "unit_state": unit_state}
 
 func java_method_unitRemoved_146(_args: Array = []) -> Variant:
-	return null
+	var unit_state: Variant = _args[0] if _args.size() > 0 else null
+	return {"comment": "Called when a unit that spawned at this tile is removed.", "method": "public void unitRemoved(Unit unit){", "empty_body": "public void unitRemoved(Unit unit){\n    }", "unit_state": unit_state}
 
 func java_method_puddleOn_147(_args: Array = []) -> Variant:
 	return null

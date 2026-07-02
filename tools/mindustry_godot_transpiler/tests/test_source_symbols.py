@@ -36753,13 +36753,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_building_unit_removed_input = source_symbols.state_schema(schema, "source_building_unit_removed_input")
         self.assertEqual(source_building_unit_removed_input["keys"]["unit_state"]["java_expr"], "unit")
+        self.assertEqual(source_building_unit_removed_input["keys"]["unit_state"]["java_method"], "unitRemoved(Unit unit)")
         self.assertEqual(source_building_unit_removed_input["keys"]["unit_state"]["status"], "explicit-input")
+        self.assertIn("PortGame.source_building_unit_removed_state", source_building_unit_removed_input["keys"]["unit_state"]["used_by"])
 
         source_building_unit_removed_result = source_symbols.state_schema(schema, "source_building_unit_removed_result")
         self.assertEqual(source_building_unit_removed_result["keys"]["comment"]["java_expr"], "/** Called when a unit that spawned at this tile is removed. */")
+        self.assertEqual(source_building_unit_removed_result["keys"]["comment"]["java_method"], "unitRemoved(Unit unit)")
         self.assertEqual(source_building_unit_removed_result["keys"]["method"]["java_expr"], "public void unitRemoved(Unit unit){")
+        self.assertEqual(source_building_unit_removed_result["keys"]["method"]["java_method"], "unitRemoved(Unit unit)")
         self.assertEqual(source_building_unit_removed_result["keys"]["empty_body"]["java_expr"], "public void unitRemoved(Unit unit){\n    }")
+        self.assertEqual(source_building_unit_removed_result["keys"]["empty_body"]["java_method"], "unitRemoved(Unit unit)")
         self.assertEqual(source_building_unit_removed_result["keys"]["unit_state"]["alias_of"], "source_building_unit_removed_input.unit_state")
+        self.assertEqual(source_building_unit_removed_result["keys"]["unit_state"]["java_method"], "unitRemoved(Unit unit)")
+        self.assertIn("PortGame.source_building_unit_removed_state", source_building_unit_removed_result["keys"]["unit_state"]["used_by"])
 
         source_building_update_ambient_sound_gate_input = source_symbols.state_schema(schema, "source_building_update_ambient_sound_gate_input")
         self.assertEqual(source_building_update_ambient_sound_gate_input["keys"]["headless_mode"]["java_expr"], "headless")
