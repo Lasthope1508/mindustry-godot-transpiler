@@ -463,6 +463,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar last_accessed := str(builder_state.get(\"colored_name\", \"\"))",
             "\treturn {\"source_owner\": \"PortGame.source_building_configured_last_access_state\", \"method\": \"public void updateLastAccess(Player player){\", \"assignment\": \"lastAccessed = player.coloredName();\", \"last_accessed\": last_accessed, \"updated\": true, \"builder_state\": builder_state, \"current_last_accessed\": current_last_accessed}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "tapped"
+    ):
+        return [
+            "\tvar current_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_building_tapped_state\", \"comment\": \"Called when the block is tapped by the local player.\", \"method\": \"public void tapped(){\", \"empty_body\": \"public void tapped(){\\n\\n    }\", \"current_state\": current_state, \"no_op\": true}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

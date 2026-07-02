@@ -791,7 +791,8 @@ func java_method_updateLastAccess_149(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_configured_last_access_state", "method": "public void updateLastAccess(Player player){", "assignment": "lastAccessed = player.coloredName();", "last_accessed": last_accessed, "updated": true, "builder_state": builder_state, "current_last_accessed": current_last_accessed}
 
 func java_method_tapped_150(_args: Array = []) -> Variant:
-	return null
+	var current_state: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_tapped_state", "comment": "Called when the block is tapped by the local player.", "method": "public void tapped(){", "empty_body": "public void tapped(){\n\n    }", "current_state": current_state, "no_op": true}
 
 func java_method_afterDestroyed_151(_args: Array = []) -> Variant:
 	return null

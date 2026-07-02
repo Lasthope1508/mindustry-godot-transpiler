@@ -3352,6 +3352,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_configured_last_access_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_updateLastAccess_149"', source)
 
+    def test_generated_building_comp_bridges_tapped_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_tapped_150(_args: Array = []) -> Variant:", source)
+        self.assertIn("var current_state: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_tapped_state"', source)
+        self.assertIn('"comment": "Called when the block is tapped by the local player."', source)
+        self.assertIn('"method": "public void tapped(){"', source)
+        self.assertIn('"empty_body": "public void tapped(){\\n\\n    }"', source)
+        self.assertIn('"current_state": current_state', source)
+        self.assertIn('"no_op": true', source)
+
+    def test_port_game_exposes_generated_building_comp_tapped_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_tapped_bridge_state(current_state: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_tapped_150([current_state])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_tapped_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_tapped_150"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
