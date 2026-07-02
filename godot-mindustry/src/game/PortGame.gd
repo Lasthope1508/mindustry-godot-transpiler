@@ -4378,6 +4378,20 @@ func generated_building_comp_change_team_delegate_bridge_state(next_team: Varian
 		"canonical": canonical,
 	}
 
+func generated_building_comp_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid])
+	var canonical = source_building_change_team_initial_state(current_team, next_team, force_team, was_valid)
+	canonical["comment"] = "/** Changes this building's team in a safe manner. */"
+	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
+	return {
+		"source_owner": "PortGame.source_building_change_team_initial_state",
+		"generated_owner": "BuildingComp.java_method_changeTeam_181",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

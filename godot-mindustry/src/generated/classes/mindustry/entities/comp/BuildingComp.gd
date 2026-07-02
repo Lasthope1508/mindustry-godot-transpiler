@@ -1059,7 +1059,17 @@ func java_method_changeTeam_180(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_change_team_delegate_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next){", "next_team": next_team, "delegates_to_change_team": true, "update_power": true}
 
 func java_method_changeTeam_181(_args: Array = []) -> Variant:
-	return null
+	var current_team: Variant = _args[0] if _args.size() > 0 else null
+	var next_team: Variant = _args[1] if _args.size() > 1 else null
+	var force_team: Variant = _args[2] if _args.size() > 2 else null
+	var was_valid := bool(_args[3] if _args.size() > 3 else false)
+	if current_team == next_team:
+		return {"source_owner": "PortGame.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": current_team, "last_team": current_team, "returned": true, "remove_index": false, "assign_next": false}
+	var team_after_force = force_team if force_team != null else current_team
+	var last_team = team_after_force
+	if last_team == next_team:
+		return {"source_owner": "PortGame.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": team_after_force, "last_team": last_team, "returned": true, "remove_index": false, "assign_next": false}
+	return {"source_owner": "PortGame.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": next_team, "last_team": last_team, "returned": false, "remove_index": was_valid, "assign_next": true}
 
 func java_method_canPickup_182(_args: Array = []) -> Variant:
 	return null

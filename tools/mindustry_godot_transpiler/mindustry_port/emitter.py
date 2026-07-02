@@ -754,6 +754,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "changeTeam"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Team", "boolean"]
+    ):
+        return [
+            "\tvar current_team: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar next_team: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar force_team: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar was_valid := bool(_args[3] if _args.size() > 3 else false)",
+            "\tif current_team == next_team:",
+            "\t\treturn {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": current_team, \"last_team\": current_team, \"returned\": true, \"remove_index\": false, \"assign_next\": false}",
+            "\tvar team_after_force = force_team if force_team != null else current_team",
+            "\tvar last_team = team_after_force",
+            "\tif last_team == next_team:",
+            "\t\treturn {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": team_after_force, \"last_team\": last_team, \"returned\": true, \"remove_index\": false, \"assign_next\": false}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": next_team, \"last_team\": last_team, \"returned\": false, \"remove_index\": was_valid, \"assign_next\": true}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

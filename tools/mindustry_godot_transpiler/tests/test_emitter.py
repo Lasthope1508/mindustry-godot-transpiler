@@ -2342,5 +2342,47 @@ public class BuildingComp{
             self.assertIn('"delegates_to_change_team": true', source_text)
             self.assertIn('"update_power": true', source_text)
 
+    def test_emit_bridges_building_comp_change_team_initial_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Changes this building's team in a safe manner. */
+    public void changeTeam(Team next, boolean updatePower){
+        if(this.team == next) return;
+        if(block.forceTeam != null) team = block.forceTeam;
+        Team last = this.team;
+        if(last == next) return;
+        boolean was = isValid();
+        if(was) indexer.removeIndex(tile);
+        this.team = next;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_changeTeam_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_team: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var next_team: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var force_team: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var was_valid := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_change_team_initial_state"', source_text)
+            self.assertIn('"comment": "/** Changes this building\'s team in a safe manner. */"', source_text)
+            self.assertIn('"method": "public void changeTeam(Team next, boolean updatePower){"', source_text)
+            self.assertIn('"team": next_team', source_text)
+            self.assertIn('"remove_index": was_valid', source_text)
+            self.assertIn('"assign_next": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -4351,6 +4351,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_180"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_change_team_initial_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_changeTeam_181(_args: Array = []) -> Variant:", source)
+        self.assertIn("var current_team: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn("var next_team: Variant = _args[1] if _args.size() > 1 else null", source)
+        self.assertIn("var force_team: Variant = _args[2] if _args.size() > 2 else null", source)
+        self.assertIn("var was_valid := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_initial_state"', source)
+        self.assertIn('"comment": "/** Changes this building\'s team in a safe manner. */"', source)
+        self.assertIn('"method": "public void changeTeam(Team next, boolean updatePower){"', source)
+        self.assertIn('"team": next_team', source)
+        self.assertIn('"remove_index": was_valid', source)
+        self.assertIn('"assign_next": true', source)
+
+    def test_port_game_exposes_generated_building_comp_change_team_initial_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid])", source)
+        self.assertIn("var canonical = source_building_change_team_initial_state(current_team, next_team, force_team, was_valid)", source)
+        self.assertIn('canonical["comment"] = "/** Changes this building\'s team in a safe manner. */"', source)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_initial_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
