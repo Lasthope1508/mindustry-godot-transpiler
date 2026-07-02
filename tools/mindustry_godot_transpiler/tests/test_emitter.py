@@ -1007,5 +1007,36 @@ public class BuildingComp{
             self.assertIn('"empty_body": "public void unitRemoved(Unit unit){\\n    }"', source_text)
             self.assertIn('"unit_state": unit_state', source_text)
 
+    def test_emit_bridges_building_comp_puddle_on_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Called when a puddle is on this building. Only called at an interval (40 ticks). */
+    public void puddleOn(Puddle puddle){
+
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_puddleOn_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var puddle_state: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"comment": "Called when a puddle is on this building. Only called at an interval (40 ticks)."', source_text)
+            self.assertIn('"method": "public void puddleOn(Puddle puddle){"', source_text)
+            self.assertIn('"no_op": true', source_text)
+            self.assertIn('"puddle_state": puddle_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()

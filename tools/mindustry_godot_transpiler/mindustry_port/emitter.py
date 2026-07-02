@@ -424,6 +424,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar unit_state: Variant = _args[0] if _args.size() > 0 else null",
             "\treturn {\"comment\": \"Called when a unit that spawned at this tile is removed.\", \"method\": \"public void unitRemoved(Unit unit){\", \"empty_body\": \"public void unitRemoved(Unit unit){\\n    }\", \"unit_state\": unit_state}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "puddleOn"
+    ):
+        return [
+            "\tvar puddle_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"comment\": \"Called when a puddle is on this building. Only called at an interval (40 ticks).\", \"method\": \"public void puddleOn(Puddle puddle){\", \"no_op\": true, \"puddle_state\": puddle_state}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

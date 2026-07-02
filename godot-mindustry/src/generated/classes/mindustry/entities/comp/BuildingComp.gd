@@ -767,7 +767,8 @@ func java_method_unitRemoved_146(_args: Array = []) -> Variant:
 	return {"comment": "Called when a unit that spawned at this tile is removed.", "method": "public void unitRemoved(Unit unit){", "empty_body": "public void unitRemoved(Unit unit){\n    }", "unit_state": unit_state}
 
 func java_method_puddleOn_147(_args: Array = []) -> Variant:
-	return null
+	var puddle_state: Variant = _args[0] if _args.size() > 0 else null
+	return {"comment": "Called when a puddle is on this building. Only called at an interval (40 ticks).", "method": "public void puddleOn(Puddle puddle){", "no_op": true, "puddle_state": puddle_state}
 
 func java_method_configured_148(_args: Array = []) -> Variant:
 	return null
