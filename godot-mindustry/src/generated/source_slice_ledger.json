@@ -21342,6 +21342,36 @@
         "test_port_game_exposes_generated_building_comp_change_team_final_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1047": {
+      "deferred_exprs": [
+        "public void pickedUp(){",
+        "Called right before this building is picked up.",
+        "Subsequent BuildingComp pickedUp behavior stays owned by later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "public boolean canPickup(){",
+        "return block.canPickup;",
+        "block.canPickup"
+      ],
+      "godot_owner": "PortGame.source_building_can_pickup_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "canPickup()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_canPickup_182 and PortGame generated bridge to existing N533 canonical source_building_can_pickup_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_can_pickup_bridge_state",
+      "source_symbols": [
+        "building_can_pickup.method",
+        "building_can_pickup.result",
+        "building_can_pickup.block_can_pickup"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_can_pickup_to_source_state",
+        "test_generated_building_comp_bridges_can_pickup_to_source_state",
+        "test_port_game_exposes_generated_building_comp_can_pickup_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

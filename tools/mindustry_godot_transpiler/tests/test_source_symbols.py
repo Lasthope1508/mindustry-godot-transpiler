@@ -25714,6 +25714,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Events.fire(teamChangeEvent.set(last, self()));", building_generated_change_team_final["exact_exprs"])
         self.assertIn("checkAllowUpdate();", building_generated_change_team_final["exact_exprs"])
 
+        building_generated_can_pickup = source_symbols.source_slice(ledger, "N1047")
+        self.assertEqual(building_generated_can_pickup["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_can_pickup["java_method"], "canPickup()")
+        self.assertEqual(building_generated_can_pickup["godot_owner"], "PortGame.source_building_can_pickup_state")
+        self.assertEqual(building_generated_can_pickup["runtime_proof"], "/root/Main.generated_building_comp_can_pickup_bridge_state")
+        self.assertIn("public boolean canPickup(){", building_generated_can_pickup["exact_exprs"])
+        self.assertIn("return block.canPickup;", building_generated_can_pickup["exact_exprs"])
+        self.assertIn("block.canPickup", building_generated_can_pickup["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

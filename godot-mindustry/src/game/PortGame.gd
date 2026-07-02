@@ -4435,6 +4435,18 @@ func generated_building_comp_change_team_final_bridge_state(current_team: Varian
 		"canonical": canonical,
 	}
 
+func generated_building_comp_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_canPickup_182([block_can_pickup])
+	var canonical = source_building_can_pickup_state(block_can_pickup)
+	return {
+		"source_owner": "PortGame.source_building_can_pickup_state",
+		"generated_owner": "BuildingComp.java_method_canPickup_182",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

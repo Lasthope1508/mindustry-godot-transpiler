@@ -1083,7 +1083,8 @@ func java_method_changeTeam_181(_args: Array = []) -> Variant:
 	return result
 
 func java_method_canPickup_182(_args: Array = []) -> Variant:
-	return null
+	var block_can_pickup := bool(_args[0] if _args.size() > 0 else false)
+	return {"source_owner": "PortGame.source_building_can_pickup_state", "method": "public boolean canPickup(){", "blockCanPickup": block_can_pickup, "canPickup": block_can_pickup}
 
 func java_method_pickedUp_183(_args: Array = []) -> Variant:
 	return null

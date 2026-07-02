@@ -4464,6 +4464,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_can_pickup_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_canPickup_182(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_can_pickup := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_can_pickup_state"', source)
+        self.assertIn('"method": "public boolean canPickup(){"', source)
+        self.assertIn('"blockCanPickup": block_can_pickup', source)
+        self.assertIn('"canPickup": block_can_pickup', source)
+
+    def test_port_game_exposes_generated_building_comp_can_pickup_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_canPickup_182([block_can_pickup])", source)
+        self.assertIn("var canonical = source_building_can_pickup_state(block_can_pickup)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_can_pickup_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_canPickup_182"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
