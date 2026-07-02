@@ -1695,6 +1695,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_produced_item_amount_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_produced_item_amount_source"))
+        report = source_parity.verify_building_produced_item_amount_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void produced(Item item, int amount){",
+            "production_guard": "if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){",
+            "handle_production": "Vars.state.rules.sector.info.handleProduction(item, amount);",
+            "unlock_guard": "if(!net.client()) item.unlock();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

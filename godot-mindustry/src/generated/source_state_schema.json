@@ -29243,6 +29243,156 @@
       },
       "status": "active"
     },
+    "source_building_produced_item_amount_input": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_building_produced_item_amount_input.amount",
+          "java_expr": "amount",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount explicit input key.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_produced_item_amount_state"
+          ]
+        },
+        "item": {
+          "godot_symbol": "source_building_produced_item_amount_input.item",
+          "java_expr": "item",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount explicit input key.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_produced_item_amount_state"
+          ]
+        },
+        "net_client": {
+          "godot_symbol": "source_building_produced_item_amount_input.net_client",
+          "java_expr": "net.client()",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount explicit input key.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_produced_item_amount_state"
+          ]
+        },
+        "sector_present": {
+          "godot_symbol": "source_building_produced_item_amount_input.sector_present",
+          "java_expr": "Vars.state.rules.sector != null",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount explicit input key.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_produced_item_amount_state"
+          ]
+        },
+        "team_is_default_team": {
+          "godot_symbol": "source_building_produced_item_amount_input.team_is_default_team",
+          "java_expr": "team == state.rules.defaultTeam",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount explicit input key.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_produced_item_amount_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_produced_item_amount_result": {
+      "keys": {
+        "amount": {
+          "alias_of": "source_building_produced_item_amount_input.amount",
+          "rule": "Carries produced amount input into result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "handle_production": {
+          "java_expr": "Vars.state.rules.sector.info.handleProduction(item, amount);",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item": {
+          "alias_of": "source_building_produced_item_amount_input.item",
+          "rule": "Carries produced amount item input into result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "method": {
+          "java_expr": "public void produced(Item item, int amount){",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "net_client": {
+          "alias_of": "source_building_produced_item_amount_input.net_client",
+          "rule": "Carries net_client input into result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "production_guard": {
+          "java_expr": "if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "production_recorded": {
+          "java_expr": "Vars.state.rules.sector.info.handleProduction(item, amount);",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount result canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "sector_present": {
+          "alias_of": "source_building_produced_item_amount_input.sector_present",
+          "rule": "Carries sector_present input into result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "team_is_default_team": {
+          "alias_of": "source_building_produced_item_amount_input.team_is_default_team",
+          "rule": "Carries team_is_default_team input into result schema.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "unlock_called": {
+          "java_expr": "if(!net.client()) item.unlock();",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount result canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "unlock_guard": {
+          "java_expr": "if(!net.client()) item.unlock();",
+          "java_method": "produced(Item item, int amount)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N956 BuildingComp.produced amount result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_produced_item_amount_state",
+      "source_slice": "N956",
+      "status": "active"
+    },
     "source_building_produced_item_default_input": {
       "keys": {
         "item": {

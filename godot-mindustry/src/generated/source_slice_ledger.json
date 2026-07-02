@@ -20008,6 +20008,40 @@
         "test_port_game_exposes_source_building_produced_item_default_state",
         "test_building_produced_item_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N956": {
+      "exact_exprs": [
+        "public void produced(Item item, int amount){",
+        "if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){",
+        "Vars.state.rules.sector.info.handleProduction(item, amount);",
+        "if(!net.client()) item.unlock();"
+      ],
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records BuildingComp.produced(Item item, int amount) campaign sector production and unlock gates through explicit inputs. SectorInfo.handleProduction internals and UnlockableContent.unlock persistence remain separate slices.",
+      "rule": "Adds source-backed BuildingComp.produced amount campaign accounting helper.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "source_symbols": [
+        "building_produced_item_amount.method",
+        "building_produced_item_amount.item",
+        "building_produced_item_amount.amount",
+        "building_produced_item_amount.sector_present",
+        "building_produced_item_amount.team_is_default_team",
+        "building_produced_item_amount.net_client",
+        "building_produced_item_amount.production_guard",
+        "building_produced_item_amount.handle_production",
+        "building_produced_item_amount.unlock_guard",
+        "building_produced_item_amount.production_recorded",
+        "building_produced_item_amount.unlock_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

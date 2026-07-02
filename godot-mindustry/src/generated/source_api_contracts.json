@@ -5752,6 +5752,59 @@
         "test_building_power_production_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_produced_item_amount_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_building_produced_item_amount_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "amount",
+          "schema": "source_building_produced_item_amount_input.amount",
+          "type": "int"
+        },
+        {
+          "name": "sector_present",
+          "schema": "source_building_produced_item_amount_input.sector_present",
+          "type": "bool"
+        },
+        {
+          "name": "team_is_default_team",
+          "schema": "source_building_produced_item_amount_input.team_is_default_team",
+          "type": "bool"
+        },
+        {
+          "name": "net_client",
+          "schema": "source_building_produced_item_amount_input.net_client",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "production_guard",
+        "handle_production",
+        "unlock_guard",
+        "item",
+        "amount",
+        "sector_present",
+        "team_is_default_team",
+        "net_client",
+        "production_recorded",
+        "unlock_called"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.produced(Item item, int amount) campaign accounting helper.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "source_method": "produced(Item item, int amount)",
+      "source_slice": "N956",
+      "status": "active",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_produced_item_default_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

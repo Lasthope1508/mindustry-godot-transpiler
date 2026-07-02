@@ -16003,6 +16003,171 @@
         "test_building_power_production_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_produced_item_amount.amount": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_input.amount",
+      "java_expr": "amount",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime amount supplies source produced amount parameter.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.handle_production": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_result.production_recorded",
+      "java_expr": "Vars.state.rules.sector.info.handleProduction(item, amount);",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime production_recorded records source handleProduction call fact.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.item": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_input.item",
+      "java_expr": "item",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime item supplies source produced item parameter.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.method": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_result.method",
+      "java_expr": "public void produced(Item item, int amount){",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source produced(Item,int) overload signature.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.net_client": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_input.net_client",
+      "java_expr": "net.client()",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime net_client supplies source net.client() value.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.production_guard": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_result.production_guard",
+      "java_expr": "if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source production accounting guard.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.production_recorded": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_result.production_recorded",
+      "java_expr": "Vars.state.rules.sector.info.handleProduction(item, amount);",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime production_recorded records source production side effect gate.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.sector_present": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_input.sector_present",
+      "java_expr": "Vars.state.rules.sector != null",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime sector_present supplies source sector non-null condition.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.team_is_default_team": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_input.team_is_default_team",
+      "java_expr": "team == state.rules.defaultTeam",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime team_is_default_team supplies source team guard.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.unlock_called": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_result.unlock_called",
+      "java_expr": "if(!net.client()) item.unlock();",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unlock_called records source item.unlock side effect gate.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_amount.unlock_guard": {
+      "godot_owner": "PortGame.source_building_produced_item_amount_state",
+      "godot_symbol": "source_building_produced_item_amount_result.unlock_guard",
+      "java_expr": "if(!net.client()) item.unlock();",
+      "java_method": "produced(Item item, int amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source unlock guard inside production branch.",
+      "runtime_proof": "/root/Main.source_building_produced_item_amount_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_amount_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_amount_state",
+        "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_produced_item_default.amount": {
       "godot_owner": "PortGame.source_building_produced_item_default_state",
       "godot_symbol": "source_building_produced_item_default_result.amount",

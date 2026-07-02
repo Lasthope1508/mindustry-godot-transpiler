@@ -17821,6 +17821,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(delegate["java_expr"], "produced(item, 1);")
         self.assertEqual(delegate["godot_symbol"], "source_building_produced_item_default_result.delegate")
 
+    def test_building_produced_item_amount_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_produced_item_amount.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "produced(Item item, int amount)")
+        self.assertEqual(method["java_expr"], "public void produced(Item item, int amount){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_produced_item_amount_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_produced_item_amount_state")
+        self.assertEqual(method["godot_symbol"], "source_building_produced_item_amount_result.method")
+
+        sector_present = source_symbols.source_symbol(registry, "building_produced_item_amount.sector_present")
+        self.assertEqual(sector_present["status"], "explicit-input")
+        self.assertEqual(sector_present["java_expr"], "Vars.state.rules.sector != null")
+        self.assertEqual(sector_present["godot_symbol"], "source_building_produced_item_amount_input.sector_present")
+
+        handle_production = source_symbols.source_symbol(registry, "building_produced_item_amount.handle_production")
+        self.assertEqual(handle_production["java_expr"], "Vars.state.rules.sector.info.handleProduction(item, amount);")
+        self.assertEqual(handle_production["godot_symbol"], "source_building_produced_item_amount_result.production_recorded")
+
+        unlock_called = source_symbols.source_symbol(registry, "building_produced_item_amount.unlock_called")
+        self.assertEqual(unlock_called["java_expr"], "if(!net.client()) item.unlock();")
+        self.assertEqual(unlock_called["godot_symbol"], "source_building_produced_item_amount_result.unlock_called")
+
     def test_building_move_liquid_forward_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18927,9 +18954,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 552)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 553)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 557)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 558)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23834,6 +23861,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_produced_item_default["godot_owner"], "PortGame.source_building_produced_item_default_state")
         self.assertIn("public void produced(Item item){", building_produced_item_default["exact_exprs"])
         self.assertIn("produced(item, 1);", building_produced_item_default["exact_exprs"])
+
+        building_produced_item_amount = source_symbols.source_slice(ledger, "N956")
+        self.assertEqual(building_produced_item_amount["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_produced_item_amount["java_method"], "produced(Item item, int amount)")
+        self.assertEqual(building_produced_item_amount["godot_owner"], "PortGame.source_building_produced_item_amount_state")
+        self.assertIn("public void produced(Item item, int amount){", building_produced_item_amount["exact_exprs"])
+        self.assertIn("if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){", building_produced_item_amount["exact_exprs"])
+        self.assertIn("Vars.state.rules.sector.info.handleProduction(item, amount);", building_produced_item_amount["exact_exprs"])
+        self.assertIn("if(!net.client()) item.unlock();", building_produced_item_amount["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -29117,6 +29153,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("amount", building_produced_item_default["return_keys"])
         self.assertIn("delegates_to_amount_overload", building_produced_item_default["return_keys"])
         self.assertEqual(building_produced_item_default["source_method"], "produced(Item item)")
+
+        building_produced_item_amount = source_symbols.api_contract(contracts, "PortGame.source_building_produced_item_amount_state")
+        self.assertEqual([param["name"] for param in building_produced_item_amount["params"]], ["item", "amount", "sector_present", "team_is_default_team", "net_client"])
+        self.assertEqual(building_produced_item_amount["params"][0]["schema"], "source_building_produced_item_amount_input.item")
+        self.assertEqual(building_produced_item_amount["params"][4]["schema"], "source_building_produced_item_amount_input.net_client")
+        self.assertIn("production_recorded", building_produced_item_amount["return_keys"])
+        self.assertIn("unlock_called", building_produced_item_amount["return_keys"])
+        self.assertEqual(building_produced_item_amount["source_method"], "produced(Item item, int amount)")
 
         building_move_liquid_forward = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_forward_state")
         self.assertEqual([param["name"] for param in building_move_liquid_forward["params"]], ["leaks", "liquid", "next_tile_present", "next_build_present", "next_block_solid", "next_block_has_liquids", "current_liquid_amount", "move_liquid_return"])
@@ -37212,6 +37256,22 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_produced_item_default_result["keys"]["amount"]["java_expr"], "1")
         self.assertEqual(source_building_produced_item_default_result["keys"]["delegates_to_amount_overload"]["java_expr"], "produced(item, 1);")
         self.assertEqual(source_building_produced_item_default_result["keys"]["item"]["alias_of"], "source_building_produced_item_default_input.item")
+
+        source_building_produced_item_amount_input = source_symbols.state_schema(schema, "source_building_produced_item_amount_input")
+        self.assertEqual(source_building_produced_item_amount_input["keys"]["item"]["java_expr"], "item")
+        self.assertEqual(source_building_produced_item_amount_input["keys"]["amount"]["java_expr"], "amount")
+        self.assertEqual(source_building_produced_item_amount_input["keys"]["sector_present"]["java_expr"], "Vars.state.rules.sector != null")
+        self.assertEqual(source_building_produced_item_amount_input["keys"]["team_is_default_team"]["java_expr"], "team == state.rules.defaultTeam")
+        self.assertEqual(source_building_produced_item_amount_input["keys"]["net_client"]["java_expr"], "net.client()")
+
+        source_building_produced_item_amount_result = source_symbols.state_schema(schema, "source_building_produced_item_amount_result")
+        self.assertEqual(source_building_produced_item_amount_result["keys"]["method"]["java_expr"], "public void produced(Item item, int amount){")
+        self.assertEqual(source_building_produced_item_amount_result["keys"]["production_guard"]["java_expr"], "if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){")
+        self.assertEqual(source_building_produced_item_amount_result["keys"]["handle_production"]["java_expr"], "Vars.state.rules.sector.info.handleProduction(item, amount);")
+        self.assertEqual(source_building_produced_item_amount_result["keys"]["unlock_guard"]["java_expr"], "if(!net.client()) item.unlock();")
+        self.assertEqual(source_building_produced_item_amount_result["keys"]["production_recorded"]["java_expr"], "Vars.state.rules.sector.info.handleProduction(item, amount);")
+        self.assertEqual(source_building_produced_item_amount_result["keys"]["unlock_called"]["java_expr"], "if(!net.client()) item.unlock();")
+        self.assertEqual(source_building_produced_item_amount_result["keys"]["item"]["alias_of"], "source_building_produced_item_amount_input.item")
 
         source_building_move_liquid_forward_input = source_symbols.state_schema(schema, "source_building_move_liquid_forward_input")
         self.assertEqual(source_building_move_liquid_forward_input["keys"]["leaks"]["java_expr"], "leaks")

@@ -2194,6 +2194,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"amount": 1', source)
         self.assertIn('"delegates_to_amount_overload": true', source)
 
+    def test_port_game_exposes_source_building_produced_item_amount_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_produced_item_amount_state(item: Variant, amount: int, sector_present: bool, team_is_default_team: bool, net_client: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public void produced(Item item, int amount){"', source)
+        self.assertIn('"production_guard": "if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){"', source)
+        self.assertIn('"handle_production": "Vars.state.rules.sector.info.handleProduction(item, amount);"', source)
+        self.assertIn('"unlock_guard": "if(!net.client()) item.unlock();"', source)
+        self.assertIn('"production_recorded": production_recorded', source)
+        self.assertIn('"unlock_called": unlock_called', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

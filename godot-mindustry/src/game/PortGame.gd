@@ -5479,6 +5479,23 @@ func source_building_produced_item_default_state(item: Variant) -> Dictionary:
 		"delegates_to_amount_overload": true,
 	}
 
+func source_building_produced_item_amount_state(item: Variant, amount: int, sector_present: bool, team_is_default_team: bool, net_client: bool) -> Dictionary:
+	var production_recorded := sector_present and team_is_default_team
+	var unlock_called := production_recorded and not net_client
+	return {
+		"method": "public void produced(Item item, int amount){",
+		"production_guard": "if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){",
+		"handle_production": "Vars.state.rules.sector.info.handleProduction(item, amount);",
+		"unlock_guard": "if(!net.client()) item.unlock();",
+		"item": item,
+		"amount": amount,
+		"sector_present": sector_present,
+		"team_is_default_team": team_is_default_team,
+		"net_client": net_client,
+		"production_recorded": production_recorded,
+		"unlock_called": unlock_called,
+	}
+
 func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, next_tile_present: bool, next_build_present: bool, next_block_solid: bool, next_block_has_liquids: bool, current_liquid_amount: float, move_liquid_return: float) -> Dictionary:
 	var move_liquid_called := false
 	var leak_guard_passed := false
