@@ -1607,5 +1607,44 @@ public class BuildingComp{
             self.assertIn('"pitch_max": destroy_pitch_max', source_text)
             self.assertIn('"volume": destroy_sound_volume', source_text)
 
+    def test_emit_bridges_building_comp_get_display_name_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public String getDisplayName(){
+        //derelict team icon currently doesn't display
+        return team == Team.derelict ?
+            block.localizedName + "\\n" + Core.bundle.get("block.derelict") :
+            block.localizedName + (team == player.team() || team.emoji.isEmpty() ? "" : " " + team.emoji);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getDisplayName_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var localized_name := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var team_is_derelict := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var team_is_player := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn('var team_emoji := str(_args[3] if _args.size() > 3 else "")', source_text)
+            self.assertIn('var derelict_label := str(_args[4] if _args.size() > 4 else "")', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_display_name_state"', source_text)
+            self.assertIn('"method": "public String getDisplayName(){"', source_text)
+            self.assertIn("\"derelict_comment\": \"//derelict team icon currently doesn't display\"", source_text)
+            self.assertIn('"derelict_return": "block.localizedName + \\"\\\\n\\" + Core.bundle.get(\\"block.derelict\\")"', source_text)
+            self.assertIn('"regular_return": "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \\"\\" : \\" \\" + team.emoji)"', source_text)
+            self.assertIn('"display_name": display_name', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -4124,6 +4124,18 @@ func generated_building_comp_play_destroy_sound_bridge_state(destroy_sound: Stri
 		"canonical": canonical,
 	}
 
+func generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_getDisplayName_157([localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label])
+	var canonical = source_building_display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
+	return {
+		"source_owner": "PortGame.source_building_display_name_state",
+		"generated_owner": "BuildingComp.java_method_getDisplayName_157",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

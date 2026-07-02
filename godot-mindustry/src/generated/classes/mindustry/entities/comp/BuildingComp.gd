@@ -906,7 +906,17 @@ func java_method_playDestroySound_156(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_on_destroyed_base_sound_state", "method": "public void playDestroySound(){", "play_destroy_sound_call": "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);", "destroy_sound": destroy_sound, "destroy_pitch_min": destroy_pitch_min, "destroy_pitch_max": destroy_pitch_max, "destroy_sound_volume": destroy_sound_volume, "sound": destroy_sound, "pitch_min": destroy_pitch_min, "pitch_max": destroy_pitch_max, "volume": destroy_sound_volume}
 
 func java_method_getDisplayName_157(_args: Array = []) -> Variant:
-	return null
+	var localized_name := str(_args[0] if _args.size() > 0 else "")
+	var team_is_derelict := bool(_args[1] if _args.size() > 1 else false)
+	var team_is_player := bool(_args[2] if _args.size() > 2 else false)
+	var team_emoji := str(_args[3] if _args.size() > 3 else "")
+	var derelict_label := str(_args[4] if _args.size() > 4 else "")
+	var display_name := localized_name
+	if team_is_derelict:
+		display_name = localized_name + "\n" + derelict_label
+	elif not team_is_player and not team_emoji.is_empty():
+		display_name = localized_name + " " + team_emoji
+	return {"source_owner": "PortGame.source_building_display_name_state", "method": "public String getDisplayName(){", "derelict_comment": "//derelict team icon currently doesn't display", "derelict_return": "block.localizedName + \"\\n\" + Core.bundle.get(\"block.derelict\")", "regular_return": "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \"\" : \" \" + team.emoji)", "localized_name": localized_name, "team_is_derelict": team_is_derelict, "team_is_player": team_is_player, "team_emoji": team_emoji, "derelict_label": derelict_label, "display_name": display_name}
 
 func java_method_getDisplayIcon_158(_args: Array = []) -> Variant:
 	return null

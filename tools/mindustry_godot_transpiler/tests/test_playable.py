@@ -3856,6 +3856,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_playDestroySound_156"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_get_display_name_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_getDisplayName_157(_args: Array = []) -> Variant:", source)
+        self.assertIn('var localized_name := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var team_is_derelict := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var team_is_player := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn('var team_emoji := str(_args[3] if _args.size() > 3 else "")', source)
+        self.assertIn('var derelict_label := str(_args[4] if _args.size() > 4 else "")', source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_name_state"', source)
+        self.assertIn('"method": "public String getDisplayName(){"', source)
+        self.assertIn("\"derelict_comment\": \"//derelict team icon currently doesn't display\"", source)
+        self.assertIn('"derelict_return": "block.localizedName + \\"\\\\n\\" + Core.bundle.get(\\"block.derelict\\")"', source)
+        self.assertIn('"regular_return": "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \\"\\" : \\" \\" + team.emoji)"', source)
+        self.assertIn('"display_name": display_name', source)
+
+    def test_port_game_exposes_generated_building_comp_get_display_name_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_getDisplayName_157([localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label])", source)
+        self.assertIn("var canonical = source_building_display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_name_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_getDisplayName_157"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

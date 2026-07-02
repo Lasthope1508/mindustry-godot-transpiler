@@ -510,6 +510,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getDisplayName"
+    ):
+        return [
+            "\tvar localized_name := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar team_is_derelict := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar team_is_player := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar team_emoji := str(_args[3] if _args.size() > 3 else \"\")",
+            "\tvar derelict_label := str(_args[4] if _args.size() > 4 else \"\")",
+            "\tvar display_name := localized_name",
+            "\tif team_is_derelict:",
+            "\t\tdisplay_name = localized_name + \"\\n\" + derelict_label",
+            "\telif not team_is_player and not team_emoji.is_empty():",
+            "\t\tdisplay_name = localized_name + \" \" + team_emoji",
+            "\treturn {\"source_owner\": \"PortGame.source_building_display_name_state\", \"method\": \"public String getDisplayName(){\", \"derelict_comment\": \"//derelict team icon currently doesn't display\", \"derelict_return\": \"block.localizedName + \\\"\\\\n\\\" + Core.bundle.get(\\\"block.derelict\\\")\", \"regular_return\": \"block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \\\"\\\" : \\\" \\\" + team.emoji)\", \"localized_name\": localized_name, \"team_is_derelict\": team_is_derelict, \"team_is_player\": team_is_player, \"team_emoji\": team_emoji, \"derelict_label\": derelict_label, \"display_name\": display_name}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
