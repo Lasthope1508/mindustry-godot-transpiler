@@ -1679,5 +1679,71 @@ public class BuildingComp{
             self.assertIn('"items_module": items_module', source_text)
             self.assertIn('"flow_items": items_module', source_text)
 
+    def test_emit_bridges_building_comp_display_to_source_ui_gates_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void display(Table table){
+        //display the block stuff
+        //TODO duplicated code?
+        table.table(t -> {
+            t.left();
+            t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);
+            t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);
+        }).growX().left();
+        table.row();
+        //only display everything else if the team is the same
+        if(team == player.team()){
+            table.table(bars -> {
+                bars.defaults().growX().height(18f).pad(4);
+                displayBars(bars);
+            }).growX();
+            table.row();
+            table.table(this::displayConsumption).growX();
+            boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;
+            if(displayFlow){
+            }
+            if(net.active() && lastAccessed != null){
+                table.row();
+                table.add(Core.bundle.format("lastaccessed", lastAccessed)).growX().wrap().left();
+            }
+            table.marginBottom(-5);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var block_ui_icon: Variant = _args[0] if _args.size() > 0 else null', source_text)
+            self.assertIn('var localized_name := str(_args[1] if _args.size() > 1 else "")', source_text)
+            self.assertIn("var team_is_player := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn('var block_category := str(_args[6] if _args.size() > 6 else "")', source_text)
+            self.assertIn("var icon_state := {", source_text)
+            self.assertIn('"icon_source_owner": "PortGame.source_building_display_icon_state"', source_text)
+            self.assertIn('"name_source_owner": "PortGame.source_building_display_name_state"', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_display_ui_gates_state"', source_text)
+            self.assertIn('"method": "public void display(Table table){"', source_text)
+            self.assertIn('"header_icon_call": "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);"', source_text)
+            self.assertIn('"header_name_call": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);"', source_text)
+            self.assertIn('"same_team_gate": "if(team == player.team()){"', source_text)
+            self.assertIn('"display_flow_formula": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;"', source_text)
+            self.assertIn('"last_accessed_gate": "if(net.active() && lastAccessed != null){"', source_text)
+            self.assertIn('"icon": icon_state', source_text)
+            self.assertIn('"display_name": display_name', source_text)
+            self.assertIn('"ui_gates": ui_gates', source_text)
+
 if __name__ == "__main__":
     unittest.main()

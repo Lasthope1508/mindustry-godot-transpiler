@@ -537,6 +537,32 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar block_ui_icon: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar localized_name := str(_args[1] if _args.size() > 1 else \"\")",
+            "\tvar team_is_derelict := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar team_is_player := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar team_emoji := str(_args[4] if _args.size() > 4 else \"\")",
+            "\tvar derelict_label := str(_args[5] if _args.size() > 5 else \"\")",
+            "\tvar block_category := str(_args[6] if _args.size() > 6 else \"\")",
+            "\tvar block_display_flow := bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar net_active := bool(_args[8] if _args.size() > 8 else false)",
+            "\tvar has_last_accessed := bool(_args[9] if _args.size() > 9 else false)",
+            "\tvar icon_state := {\"source_owner\": \"PortGame.source_building_display_icon_state\", \"block_ui_icon\": block_ui_icon, \"icon\": block_ui_icon}",
+            "\tvar display_name := localized_name",
+            "\tif team_is_derelict:",
+            "\t\tdisplay_name = localized_name + \"\\n\" + derelict_label",
+            "\telif not team_is_player and not team_emoji.is_empty():",
+            "\t\tdisplay_name = localized_name + \" \" + team_emoji",
+            "\tvar display_flow := (block_category == \"distribution\" or block_category == \"liquid\") and block_display_flow",
+            "\tvar ui_gates := {\"display_header\": true, \"display_same_team_details\": team_is_player, \"display_bars\": team_is_player, \"display_consumption\": team_is_player, \"display_flow\": team_is_player and display_flow, \"display_last_accessed\": team_is_player and net_active and has_last_accessed}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_display_ui_gates_state\", \"icon_source_owner\": \"PortGame.source_building_display_icon_state\", \"name_source_owner\": \"PortGame.source_building_display_name_state\", \"method\": \"public void display(Table table){\", \"display_block_comment\": \"//display the block stuff\", \"todo_comment\": \"//TODO duplicated code?\", \"header_icon_call\": \"t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);\", \"header_name_call\": \"t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);\", \"same_team_comment\": \"//only display everything else if the team is the same\", \"same_team_gate\": \"if(team == player.team()){\", \"display_bars_call\": \"displayBars(bars);\", \"display_consumption_call\": \"table.table(this::displayConsumption).growX();\", \"display_flow_formula\": \"boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;\", \"display_flow_gate\": \"if(displayFlow){\", \"last_accessed_gate\": \"if(net.active() && lastAccessed != null){\", \"last_accessed_call\": \"table.add(Core.bundle.format(\\\"lastaccessed\\\", lastAccessed)).growX().wrap().left();\", \"icon\": icon_state, \"display_name\": display_name, \"ui_gates\": ui_gates, \"block_ui_icon\": block_ui_icon, \"localized_name\": localized_name, \"team_is_derelict\": team_is_derelict, \"team_is_player\": team_is_player, \"team_emoji\": team_emoji, \"derelict_label\": derelict_label, \"block_category\": block_category, \"block_display_flow\": block_display_flow, \"net_active\": net_active, \"has_last_accessed\": has_last_accessed}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

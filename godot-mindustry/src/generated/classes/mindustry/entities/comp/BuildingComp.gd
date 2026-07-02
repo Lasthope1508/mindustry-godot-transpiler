@@ -926,7 +926,25 @@ func java_method_flowItems_159(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_flow_items_state", "comment": "/** @return the item module to use for flow rate calculations */", "method": "public ItemModule flowItems(){", "return_expr": "return items;", "items_module": items_module, "flow_items": items_module}
 
 func java_method_display_160(_args: Array = []) -> Variant:
-	return null
+	var block_ui_icon: Variant = _args[0] if _args.size() > 0 else null
+	var localized_name := str(_args[1] if _args.size() > 1 else "")
+	var team_is_derelict := bool(_args[2] if _args.size() > 2 else false)
+	var team_is_player := bool(_args[3] if _args.size() > 3 else false)
+	var team_emoji := str(_args[4] if _args.size() > 4 else "")
+	var derelict_label := str(_args[5] if _args.size() > 5 else "")
+	var block_category := str(_args[6] if _args.size() > 6 else "")
+	var block_display_flow := bool(_args[7] if _args.size() > 7 else false)
+	var net_active := bool(_args[8] if _args.size() > 8 else false)
+	var has_last_accessed := bool(_args[9] if _args.size() > 9 else false)
+	var icon_state := {"source_owner": "PortGame.source_building_display_icon_state", "block_ui_icon": block_ui_icon, "icon": block_ui_icon}
+	var display_name := localized_name
+	if team_is_derelict:
+		display_name = localized_name + "\n" + derelict_label
+	elif not team_is_player and not team_emoji.is_empty():
+		display_name = localized_name + " " + team_emoji
+	var display_flow := (block_category == "distribution" or block_category == "liquid") and block_display_flow
+	var ui_gates := {"display_header": true, "display_same_team_details": team_is_player, "display_bars": team_is_player, "display_consumption": team_is_player, "display_flow": team_is_player and display_flow, "display_last_accessed": team_is_player and net_active and has_last_accessed}
+	return {"source_owner": "PortGame.source_building_display_ui_gates_state", "icon_source_owner": "PortGame.source_building_display_icon_state", "name_source_owner": "PortGame.source_building_display_name_state", "method": "public void display(Table table){", "display_block_comment": "//display the block stuff", "todo_comment": "//TODO duplicated code?", "header_icon_call": "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);", "header_name_call": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);", "same_team_comment": "//only display everything else if the team is the same", "same_team_gate": "if(team == player.team()){", "display_bars_call": "displayBars(bars);", "display_consumption_call": "table.table(this::displayConsumption).growX();", "display_flow_formula": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;", "display_flow_gate": "if(displayFlow){", "last_accessed_gate": "if(net.active() && lastAccessed != null){", "last_accessed_call": "table.add(Core.bundle.format(\"lastaccessed\", lastAccessed)).growX().wrap().left();", "icon": icon_state, "display_name": display_name, "ui_gates": ui_gates, "block_ui_icon": block_ui_icon, "localized_name": localized_name, "team_is_derelict": team_is_derelict, "team_is_player": team_is_player, "team_emoji": team_emoji, "derelict_label": derelict_label, "block_category": block_category, "block_display_flow": block_display_flow, "net_active": net_active, "has_last_accessed": has_last_accessed}
 
 func java_method_displayConsumption_161(_args: Array = []) -> Variant:
 	return null

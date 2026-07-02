@@ -3910,6 +3910,48 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_flowItems_159"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_display_160(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_ui_icon: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('var localized_name := str(_args[1] if _args.size() > 1 else "")', source)
+        self.assertIn("var team_is_derelict := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var team_is_player := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn('var team_emoji := str(_args[4] if _args.size() > 4 else "")', source)
+        self.assertIn('var derelict_label := str(_args[5] if _args.size() > 5 else "")', source)
+        self.assertIn('var block_category := str(_args[6] if _args.size() > 6 else "")', source)
+        self.assertIn("var block_display_flow := bool(_args[7] if _args.size() > 7 else false)", source)
+        self.assertIn("var net_active := bool(_args[8] if _args.size() > 8 else false)", source)
+        self.assertIn("var has_last_accessed := bool(_args[9] if _args.size() > 9 else false)", source)
+        self.assertIn('"icon_source_owner": "PortGame.source_building_display_icon_state"', source)
+        self.assertIn('"name_source_owner": "PortGame.source_building_display_name_state"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_ui_gates_state"', source)
+        self.assertIn('"header_icon_call": "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);"', source)
+        self.assertIn('"header_name_call": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);"', source)
+        self.assertIn('"same_team_gate": "if(team == player.team()){"', source)
+        self.assertIn('"display_flow_formula": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;"', source)
+        self.assertIn('"last_accessed_gate": "if(net.active() && lastAccessed != null){"', source)
+        self.assertIn('"icon": icon_state', source)
+        self.assertIn('"display_name": display_name', source)
+        self.assertIn('"ui_gates": ui_gates', source)
+
+    def test_port_game_exposes_generated_building_comp_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_display_160([block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed])", source)
+        self.assertIn("var icon_canonical = source_building_display_icon_state(block_ui_icon)", source)
+        self.assertIn("var name_canonical = source_building_display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)", source)
+        self.assertIn("var gates_canonical = source_building_display_ui_gates_state(team_is_player, block_category, block_display_flow, net_active, has_last_accessed)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_ui_gates_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_display_160"', source)
+        self.assertIn('"icon_canonical": icon_canonical', source)
+        self.assertIn('"name_canonical": name_canonical', source)
+        self.assertIn('"gates_canonical": gates_canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

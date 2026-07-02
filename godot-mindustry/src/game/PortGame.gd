@@ -4148,6 +4148,22 @@ func generated_building_comp_flow_items_bridge_state(items_module: Variant) -> D
 		"canonical": canonical,
 	}
 
+func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_160([block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed])
+	var icon_canonical = source_building_display_icon_state(block_ui_icon)
+	var name_canonical = source_building_display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
+	var gates_canonical = source_building_display_ui_gates_state(team_is_player, block_category, block_display_flow, net_active, has_last_accessed)
+	return {
+		"source_owner": "PortGame.source_building_display_ui_gates_state",
+		"generated_owner": "BuildingComp.java_method_display_160",
+		"result": result,
+		"icon_canonical": icon_canonical,
+		"name_canonical": name_canonical,
+		"gates_canonical": gates_canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",
