@@ -676,6 +676,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "absorbLasers"
+    ):
+        return [
+            "\tvar block_absorb_lasers := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_absorb_lasers_state\", \"blockAbsorbLasers\": block_absorb_lasers, \"defaultAbsorbLasers\": false, \"absorbLasers\": block_absorb_lasers}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

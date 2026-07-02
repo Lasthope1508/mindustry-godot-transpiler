@@ -25593,6 +25593,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public float handleDamage(float amount){", building_generated_handle_damage["exact_exprs"])
         self.assertIn("return amount;", building_generated_handle_damage["exact_exprs"])
 
+        building_generated_absorb_lasers = source_symbols.source_slice(ledger, "N1036")
+        self.assertEqual(building_generated_absorb_lasers["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_absorb_lasers["java_method"], "absorbLasers()")
+        self.assertEqual(building_generated_absorb_lasers["godot_owner"], "PortGame.source_building_absorb_lasers_state")
+        self.assertEqual(building_generated_absorb_lasers["runtime_proof"], "/root/Main.generated_building_comp_absorb_lasers_bridge_state")
+        self.assertIn("public boolean absorbLasers(){", building_generated_absorb_lasers["exact_exprs"])
+        self.assertIn("return block.absorbLasers;", building_generated_absorb_lasers["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

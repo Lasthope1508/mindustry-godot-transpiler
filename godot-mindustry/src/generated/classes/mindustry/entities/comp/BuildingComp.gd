@@ -1019,7 +1019,8 @@ func java_method_handleDamage_173(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_handle_damage_state", "method": "public float handleDamage(float amount){", "amount": amount, "handled_damage": amount}
 
 func java_method_absorbLasers_174(_args: Array = []) -> Variant:
-	return null
+	var block_absorb_lasers := bool(_args[0] if _args.size() > 0 else false)
+	return {"source_owner": "PortGame.source_building_absorb_lasers_state", "blockAbsorbLasers": block_absorb_lasers, "defaultAbsorbLasers": false, "absorbLasers": block_absorb_lasers}
 
 func java_method_isInsulated_175(_args: Array = []) -> Variant:
 	return null

@@ -20954,6 +20954,35 @@
         "test_port_game_exposes_generated_building_comp_handle_damage_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1036": {
+      "deferred_exprs": [
+        "Laser absorption interactions remain owned by later projectile/collision integration; this slice wires only the source-backed block.absorbLasers passthrough."
+      ],
+      "exact_exprs": [
+        "public boolean absorbLasers(){",
+        "return block.absorbLasers;",
+        "public boolean absorbLasers = false;",
+        "block.absorbLasers"
+      ],
+      "godot_owner": "PortGame.source_building_absorb_lasers_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "absorbLasers()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_absorbLasers_174 and PortGame generated bridge to existing N520 canonical source_building_absorb_lasers_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_absorb_lasers_bridge_state",
+      "source_symbols": [
+        "building_absorb_lasers.method",
+        "building_absorb_lasers.block_field",
+        "building_absorb_lasers.input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_absorb_lasers_to_source_state",
+        "test_generated_building_comp_bridges_absorb_lasers_to_source_state",
+        "test_port_game_exposes_generated_building_comp_absorb_lasers_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
