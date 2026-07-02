@@ -25679,6 +25679,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(was) indexer.removeIndex(tile);", building_generated_change_team_initial["exact_exprs"])
         self.assertIn("this.team = next;", building_generated_change_team_initial["exact_exprs"])
 
+        building_generated_change_team_power_proximity = source_symbols.source_slice(ledger, "N1044")
+        self.assertEqual(building_generated_change_team_power_proximity["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_change_team_power_proximity["java_method"], "changeTeam(Team next, boolean updatePower)")
+        self.assertEqual(building_generated_change_team_power_proximity["godot_owner"], "PortGame.source_building_change_team_power_proximity_state")
+        self.assertEqual(building_generated_change_team_power_proximity["runtime_proof"], "/root/Main.generated_building_comp_change_team_power_proximity_bridge_state")
+        self.assertIn("if(power != null && updatePower){", building_generated_change_team_power_proximity["exact_exprs"])
+        self.assertIn("var oldGraph = power.graph;", building_generated_change_team_power_proximity["exact_exprs"])
+        self.assertIn("for(var other : proximity){", building_generated_change_team_power_proximity["exact_exprs"])
+        self.assertIn("if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){", building_generated_change_team_power_proximity["exact_exprs"])
+        self.assertIn("new PowerGraph().reflow(other);", building_generated_change_team_power_proximity["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

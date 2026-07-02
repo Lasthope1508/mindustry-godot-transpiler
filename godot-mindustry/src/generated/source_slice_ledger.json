@@ -21225,6 +21225,43 @@
         "test_port_game_exposes_generated_building_comp_change_team_initial_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1044": {
+      "deferred_exprs": [
+        "for(int i = 0; i < power.links.size; i++){",
+        "Power link removal loop, self reflow, updatePowerGraph(), final event/index update, and checkAllowUpdate() stay owned by adjacent helpers."
+      ],
+      "exact_exprs": [
+        "if(power != null && updatePower){",
+        "var oldGraph = power.graph;",
+        "for(var other : proximity){",
+        "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+        "new PowerGraph().reflow(other);"
+      ],
+      "godot_owner": "PortGame.source_building_change_team_power_proximity_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_changeTeam_181 and PortGame generated bridge to existing N538 canonical source_building_change_team_power_proximity_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_change_team_power_proximity_bridge_state",
+      "source_symbols": [
+        "building_change_team_power_proximity.gate",
+        "building_change_team_power_proximity.old_graph",
+        "building_change_team_power_proximity.loop",
+        "building_change_team_power_proximity.predicate",
+        "building_change_team_power_proximity.reflow_other",
+        "building_change_team_power_proximity.power_present",
+        "building_change_team_power_proximity.update_power",
+        "building_change_team_power_proximity.old_graph_input",
+        "building_change_team_power_proximity.team"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_change_team_power_proximity_to_source_state",
+        "test_generated_building_comp_bridges_change_team_power_proximity_to_source_state",
+        "test_port_game_exposes_generated_building_comp_change_team_power_proximity_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

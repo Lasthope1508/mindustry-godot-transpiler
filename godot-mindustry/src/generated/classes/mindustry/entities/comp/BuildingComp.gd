@@ -1063,13 +1063,19 @@ func java_method_changeTeam_181(_args: Array = []) -> Variant:
 	var next_team: Variant = _args[1] if _args.size() > 1 else null
 	var force_team: Variant = _args[2] if _args.size() > 2 else null
 	var was_valid := bool(_args[3] if _args.size() > 3 else false)
+	var power_present := bool(_args[4] if _args.size() > 4 else false)
+	var update_power := bool(_args[5] if _args.size() > 5 else false)
+	var old_graph: Variant = _args[6] if _args.size() > 6 else null
 	if current_team == next_team:
 		return {"source_owner": "PortGame.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": current_team, "last_team": current_team, "returned": true, "remove_index": false, "assign_next": false}
 	var team_after_force = force_team if force_team != null else current_team
 	var last_team = team_after_force
 	if last_team == next_team:
 		return {"source_owner": "PortGame.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": team_after_force, "last_team": last_team, "returned": true, "remove_index": false, "assign_next": false}
-	return {"source_owner": "PortGame.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": next_team, "last_team": last_team, "returned": false, "remove_index": was_valid, "assign_next": true}
+	var result = {"source_owner": "PortGame.source_building_change_team_initial_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next, boolean updatePower){", "team": next_team, "last_team": last_team, "returned": false, "remove_index": was_valid, "assign_next": true}
+	var power_proximity = {"source_owner": "PortGame.source_building_change_team_power_proximity_state", "method": "public void changeTeam(Team next, boolean updatePower){", "gate": "if(power != null && updatePower){", "old_graph": old_graph, "team": next_team, "proximity_reflow": power_present and update_power}
+	result["power_proximity"] = power_proximity
+	return result
 
 func java_method_canPickup_182(_args: Array = []) -> Variant:
 	return null

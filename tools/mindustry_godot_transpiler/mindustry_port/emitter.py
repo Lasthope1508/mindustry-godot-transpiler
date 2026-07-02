@@ -762,13 +762,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar next_team: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar force_team: Variant = _args[2] if _args.size() > 2 else null",
             "\tvar was_valid := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar power_present := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar update_power := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar old_graph: Variant = _args[6] if _args.size() > 6 else null",
             "\tif current_team == next_team:",
             "\t\treturn {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": current_team, \"last_team\": current_team, \"returned\": true, \"remove_index\": false, \"assign_next\": false}",
             "\tvar team_after_force = force_team if force_team != null else current_team",
             "\tvar last_team = team_after_force",
             "\tif last_team == next_team:",
             "\t\treturn {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": team_after_force, \"last_team\": last_team, \"returned\": true, \"remove_index\": false, \"assign_next\": false}",
-            "\treturn {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": next_team, \"last_team\": last_team, \"returned\": false, \"remove_index\": was_valid, \"assign_next\": true}",
+            "\tvar result = {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": next_team, \"last_team\": last_team, \"returned\": false, \"remove_index\": was_valid, \"assign_next\": true}",
+            "\tvar power_proximity = {\"source_owner\": \"PortGame.source_building_change_team_power_proximity_state\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"gate\": \"if(power != null && updatePower){\", \"old_graph\": old_graph, \"team\": next_team, \"proximity_reflow\": power_present and update_power}",
+            "\tresult[\"power_proximity\"] = power_proximity",
+            "\treturn result",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

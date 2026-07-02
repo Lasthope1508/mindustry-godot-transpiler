@@ -4380,6 +4380,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_change_team_power_proximity_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_changeTeam_181(_args: Array = []) -> Variant:", source)
+        self.assertIn("var power_present := bool(_args[4] if _args.size() > 4 else false)", source)
+        self.assertIn("var update_power := bool(_args[5] if _args.size() > 5 else false)", source)
+        self.assertIn("var old_graph: Variant = _args[6] if _args.size() > 6 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_proximity_state"', source)
+        self.assertIn('"gate": "if(power != null && updatePower){"', source)
+        self.assertIn('"old_graph": old_graph', source)
+        self.assertIn('"team": next_team', source)
+        self.assertIn('"proximity_reflow": power_present and update_power', source)
+        self.assertIn('result["power_proximity"] = power_proximity', source)
+
+    def test_port_game_exposes_generated_building_comp_change_team_power_proximity_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph])", source)
+        self.assertIn("var canonical = source_building_change_team_power_proximity_state(power_present, update_power, old_graph, next_team)", source)
+        self.assertIn('canonical["gate"] = "if(power != null && updatePower){"', source)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_proximity_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
