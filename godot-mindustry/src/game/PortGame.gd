@@ -3864,6 +3864,16 @@ func generated_building_comp_configured_type_bridge_state(value_state: Dictionar
 		"result": result,
 	}
 
+func generated_building_comp_update_last_access_bridge_state(builder_state: Dictionary, current_last_accessed: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_updateLastAccess_149([builder_state, current_last_accessed])
+	return {
+		"source_owner": "PortGame.source_building_configured_last_access_state",
+		"generated_owner": "BuildingComp.java_method_updateLastAccess_149",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

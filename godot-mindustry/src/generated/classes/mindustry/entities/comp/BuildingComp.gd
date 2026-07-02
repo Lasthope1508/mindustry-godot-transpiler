@@ -785,7 +785,10 @@ func java_method_configured_148(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_configured_type_state", "comment": "//null is of type void.class; anonymous classes use their superclass.", "assignment": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();", "item_override": "if(value instanceof Item) type = Item.class;", "block_override": "if(value instanceof Block) type = Block.class;", "liquid_override": "if(value instanceof Liquid) type = Liquid.class;", "unit_type_override": "if(value instanceof UnitType) type = UnitType.class;", "type_name": type_name, "value_state": value_state}
 
 func java_method_updateLastAccess_149(_args: Array = []) -> Variant:
-	return null
+	var builder_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}
+	var current_last_accessed := str(_args[1] if _args.size() > 1 else "")
+	var last_accessed := str(builder_state.get("colored_name", ""))
+	return {"source_owner": "PortGame.source_building_configured_last_access_state", "method": "public void updateLastAccess(Player player){", "assignment": "lastAccessed = player.coloredName();", "last_accessed": last_accessed, "updated": true, "builder_state": builder_state, "current_last_accessed": current_last_accessed}
 
 func java_method_tapped_150(_args: Array = []) -> Variant:
 	return null

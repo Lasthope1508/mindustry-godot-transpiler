@@ -3324,6 +3324,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_configured_type_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_configured_148"', source)
 
+    def test_generated_building_comp_bridges_update_last_access_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_updateLastAccess_149(_args: Array = []) -> Variant:", source)
+        self.assertIn("var builder_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", source)
+        self.assertIn("var current_last_accessed := str(_args[1] if _args.size() > 1 else \"\")", source)
+        self.assertIn("var last_accessed := str(builder_state.get(\"colored_name\", \"\"))", source)
+        self.assertIn('"source_owner": "PortGame.source_building_configured_last_access_state"', source)
+        self.assertIn('"method": "public void updateLastAccess(Player player){"', source)
+        self.assertIn('"assignment": "lastAccessed = player.coloredName();"', source)
+        self.assertIn('"last_accessed": last_accessed', source)
+        self.assertIn('"updated": true', source)
+        self.assertIn('"builder_state": builder_state', source)
+        self.assertIn('"current_last_accessed": current_last_accessed', source)
+        self.assertNotIn("if(builder != null && builder.isPlayer()){", source)
+        self.assertNotIn("updateLastAccess(builder.getPlayer());", source)
+
+    def test_port_game_exposes_generated_building_comp_update_last_access_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_last_access_bridge_state(builder_state: Dictionary, current_last_accessed: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_updateLastAccess_149([builder_state, current_last_accessed])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_configured_last_access_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateLastAccess_149"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1083,5 +1083,42 @@ public class BuildingComp{
             self.assertIn('"type_name": type_name', source_text)
             self.assertIn('"value_state": value_state', source_text)
 
+    def test_emit_bridges_building_comp_update_last_access_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void updateLastAccess(Player player){
+        lastAccessed = player.coloredName();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateLastAccess_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var builder_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", source_text)
+            self.assertIn("var current_last_accessed := str(_args[1] if _args.size() > 1 else \"\")", source_text)
+            self.assertIn("var last_accessed := str(builder_state.get(\"colored_name\", \"\"))", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_configured_last_access_state"', source_text)
+            self.assertIn('"method": "public void updateLastAccess(Player player){"', source_text)
+            self.assertIn('"assignment": "lastAccessed = player.coloredName();"', source_text)
+            self.assertIn('"last_accessed": last_accessed', source_text)
+            self.assertIn('"updated": true', source_text)
+            self.assertIn('"builder_state": builder_state', source_text)
+            self.assertIn('"current_last_accessed": current_last_accessed', source_text)
+            self.assertNotIn("if(builder != null && builder.isPlayer()){", source_text)
+            self.assertNotIn("updateLastAccess(builder.getPlayer());", source_text)
+
 if __name__ == "__main__":
     unittest.main()
