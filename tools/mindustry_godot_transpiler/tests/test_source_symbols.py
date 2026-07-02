@@ -17764,6 +17764,27 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(called["java_expr"], "power != null")
         self.assertEqual(called["godot_symbol"], "source_building_on_proximity_added_result.update_power_graph_called")
 
+    def test_building_on_proximity_update_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_proximity_update.method")
+        self.assertEqual(method["java_expr"], "public void onProximityUpdate(){")
+        self.assertEqual(method["java_method"], "onProximityUpdate()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_proximity_update_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_proximity_update_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_proximity_update_result.method")
+
+        call = source_symbols.source_symbol(registry, "building_on_proximity_update.no_sleep_call")
+        self.assertEqual(call["java_expr"], "noSleep();")
+        self.assertEqual(call["godot_symbol"], "source_building_on_proximity_update_result.no_sleep_call")
+
+        called = source_symbols.source_symbol(registry, "building_on_proximity_update.no_sleep_called")
+        self.assertEqual(called["java_expr"], "noSleep();")
+        self.assertEqual(called["godot_symbol"], "source_building_on_proximity_update_result.no_sleep_called")
+
     def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19226,9 +19247,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 564)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 565)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 569)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 570)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -24061,6 +24082,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void onProximityAdded(){", building_on_proximity_added["exact_exprs"])
         self.assertIn("if(power != null){", building_on_proximity_added["exact_exprs"])
         self.assertIn("updatePowerGraph();", building_on_proximity_added["exact_exprs"])
+
+        building_on_proximity_update = source_symbols.source_slice(ledger, "N968")
+        self.assertEqual(building_on_proximity_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_proximity_update["java_method"], "onProximityUpdate()")
+        self.assertEqual(building_on_proximity_update["godot_owner"], "PortGame.source_building_on_proximity_update_state")
+        self.assertIn("public void onProximityUpdate(){", building_on_proximity_update["exact_exprs"])
+        self.assertIn("noSleep();", building_on_proximity_update["exact_exprs"])
 
         building_move_liquid_forward = source_symbols.source_slice(ledger, "N944")
         self.assertEqual(building_move_liquid_forward["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -29490,6 +29518,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("update_power_graph_call", building_on_proximity_added["return_keys"])
         self.assertIn("update_power_graph_called", building_on_proximity_added["return_keys"])
         self.assertEqual(building_on_proximity_added["source_method"], "onProximityAdded()")
+
+        building_on_proximity_update = source_symbols.api_contract(contracts, "PortGame.source_building_on_proximity_update_state")
+        self.assertEqual([param["name"] for param in building_on_proximity_update["params"]], [])
+        self.assertIn("no_sleep_call", building_on_proximity_update["return_keys"])
+        self.assertIn("no_sleep_called", building_on_proximity_update["return_keys"])
+        self.assertEqual(building_on_proximity_update["source_method"], "onProximityUpdate()")
 
         building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
         self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
@@ -37686,6 +37720,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_proximity_added_result["keys"]["update_power_graph_call"]["java_expr"], "updatePowerGraph();")
         self.assertEqual(source_building_on_proximity_added_result["keys"]["update_power_graph_called"]["java_expr"], "power != null")
         self.assertEqual(source_building_on_proximity_added_result["keys"]["power_present"]["alias_of"], "source_building_on_proximity_added_input.power_present")
+
+        source_building_on_proximity_update_result = source_symbols.state_schema(schema, "source_building_on_proximity_update_result")
+        self.assertEqual(source_building_on_proximity_update_result["keys"]["method"]["java_expr"], "public void onProximityUpdate(){")
+        self.assertEqual(source_building_on_proximity_update_result["keys"]["no_sleep_call"]["java_expr"], "noSleep();")
+        self.assertEqual(source_building_on_proximity_update_result["keys"]["no_sleep_called"]["java_expr"], "noSleep();")
 
         source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
         self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")

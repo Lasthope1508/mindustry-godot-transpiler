@@ -4139,81 +4139,6 @@
         "test_building_can_consume_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_can_dump_liquid_default.can_dump_liquid": {
-      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
-      "godot_symbol": "source_building_can_dump_liquid_default_result.can_dump_liquid",
-      "java_expr": "return true;",
-      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime result of source default canDumpLiquid predicate.",
-      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_can_dump_liquid_default_matches_upstream_source",
-        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
-        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_can_dump_liquid_default.liquid": {
-      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
-      "godot_symbol": "source_building_can_dump_liquid_default_input.liquid",
-      "java_expr": "liquid",
-      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime liquid supplies source liquid parameter.",
-      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_can_dump_liquid_default_matches_upstream_source",
-        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
-        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_can_dump_liquid_default.method": {
-      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
-      "godot_symbol": "source_building_can_dump_liquid_default_result.method",
-      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
-      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source canDumpLiquid default method signature.",
-      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_can_dump_liquid_default_matches_upstream_source",
-        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
-        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_can_dump_liquid_default.return_true": {
-      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
-      "godot_symbol": "source_building_can_dump_liquid_default_result.return_true",
-      "java_expr": "return true;",
-      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source default return true predicate.",
-      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_can_dump_liquid_default_matches_upstream_source",
-        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
-        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_can_dump_liquid_default.to_state": {
-      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
-      "godot_symbol": "source_building_can_dump_liquid_default_input.to_state",
-      "java_expr": "to",
-      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime to_state supplies source Building to parameter.",
-      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_can_dump_liquid_default_matches_upstream_source",
-        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
-        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
-      ]
-    },
     "building_can_dump_item_default.can_dump_item": {
       "godot_owner": "PortGame.source_building_can_dump_item_default_state",
       "godot_symbol": "source_building_can_dump_item_default_result.can_dump_item",
@@ -4289,199 +4214,79 @@
         "test_building_can_dump_item_default_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_on_proximity_removed.comment": {
-      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
-      "godot_symbol": "source_building_on_proximity_removed_result.comment",
-      "java_expr": "/** Called shortly before this building is removed. */",
-      "java_method": "onProximityRemoved()",
+    "building_can_dump_liquid_default.can_dump_liquid": {
+      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
+      "godot_symbol": "source_building_can_dump_liquid_default_result.can_dump_liquid",
+      "java_expr": "return true;",
+      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source comment for BuildingComp.onProximityRemoved.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "rule": "Runtime result of source default canDumpLiquid predicate.",
+      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
       "status": "source-backed",
       "tests": [
-        "test_building_on_proximity_removed_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_removed_state",
-        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+        "test_building_can_dump_liquid_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
+        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_on_proximity_removed.method": {
-      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
-      "godot_symbol": "source_building_on_proximity_removed_result.method",
-      "java_expr": "public void onProximityRemoved(){",
-      "java_method": "onProximityRemoved()",
+    "building_can_dump_liquid_default.liquid": {
+      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
+      "godot_symbol": "source_building_can_dump_liquid_default_input.liquid",
+      "java_expr": "liquid",
+      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source onProximityRemoved method signature.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_removed_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_removed_state",
-        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_removed.power_graph_removed_call": {
-      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
-      "godot_symbol": "source_building_on_proximity_removed_result.power_graph_removed_call",
-      "java_expr": "powerGraphRemoved();",
-      "java_method": "onProximityRemoved()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source powerGraphRemoved call inside power guard.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_removed_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_removed_state",
-        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_removed.power_graph_removed_called": {
-      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
-      "godot_symbol": "source_building_on_proximity_removed_result.power_graph_removed_called",
-      "java_expr": "power != null",
-      "java_method": "onProximityRemoved()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime result of source power presence guard controlling powerGraphRemoved call.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_removed_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_removed_state",
-        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_removed.power_guard": {
-      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
-      "godot_symbol": "source_building_on_proximity_removed_result.power_guard",
-      "java_expr": "if(power != null){",
-      "java_method": "onProximityRemoved()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source power presence guard.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_removed_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_removed_state",
-        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_removed.power_present": {
-      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
-      "godot_symbol": "source_building_on_proximity_removed_input.power_present",
-      "java_expr": "power != null",
-      "java_method": "onProximityRemoved()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime power_present supplies source power guard input.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "rule": "Runtime liquid supplies source liquid parameter.",
+      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_on_proximity_removed_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_removed_state",
-        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+        "test_building_can_dump_liquid_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
+        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_on_proximity_added.comment": {
-      "godot_owner": "PortGame.source_building_on_proximity_added_state",
-      "godot_symbol": "source_building_on_proximity_added_result.comment",
-      "java_expr": "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
-      "java_method": "onProximityAdded()",
+    "building_can_dump_liquid_default.method": {
+      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
+      "godot_symbol": "source_building_can_dump_liquid_default_result.method",
+      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source comment for BuildingComp.onProximityAdded.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "rule": "Preserves source canDumpLiquid default method signature.",
+      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
       "status": "source-backed",
       "tests": [
-        "test_building_on_proximity_added_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_added_state",
-        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+        "test_building_can_dump_liquid_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
+        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_on_proximity_added.method": {
-      "godot_owner": "PortGame.source_building_on_proximity_added_state",
-      "godot_symbol": "source_building_on_proximity_added_result.method",
-      "java_expr": "public void onProximityAdded(){",
-      "java_method": "onProximityAdded()",
+    "building_can_dump_liquid_default.return_true": {
+      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
+      "godot_symbol": "source_building_can_dump_liquid_default_result.return_true",
+      "java_expr": "return true;",
+      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source onProximityAdded method signature.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "rule": "Preserves source default return true predicate.",
+      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
       "status": "source-backed",
       "tests": [
-        "test_building_on_proximity_added_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_added_state",
-        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+        "test_building_can_dump_liquid_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
+        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_on_proximity_added.power_guard": {
-      "godot_owner": "PortGame.source_building_on_proximity_added_state",
-      "godot_symbol": "source_building_on_proximity_added_result.power_guard",
-      "java_expr": "if(power != null){",
-      "java_method": "onProximityAdded()",
+    "building_can_dump_liquid_default.to_state": {
+      "godot_owner": "PortGame.source_building_can_dump_liquid_default_state",
+      "godot_symbol": "source_building_can_dump_liquid_default_input.to_state",
+      "java_expr": "to",
+      "java_method": "canDumpLiquid(Building to, Liquid liquid)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source power presence guard.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_added_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_added_state",
-        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_added.power_present": {
-      "godot_owner": "PortGame.source_building_on_proximity_added_state",
-      "godot_symbol": "source_building_on_proximity_added_input.power_present",
-      "java_expr": "power != null",
-      "java_method": "onProximityAdded()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime power_present supplies source power guard input.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "rule": "Runtime to_state supplies source Building to parameter.",
+      "runtime_proof": "/root/Main.source_building_can_dump_liquid_default_state",
       "status": "explicit-input",
       "tests": [
-        "test_building_on_proximity_added_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_added_state",
-        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_added.todo": {
-      "godot_owner": "PortGame.source_building_on_proximity_added_state",
-      "godot_symbol": "source_building_on_proximity_added_result.todo",
-      "java_expr": "//TODO ??? this is just onProximityUpdate ?",
-      "java_method": "onProximityAdded()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source TODO before onProximityAdded.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_added_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_added_state",
-        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_added.update_power_graph_call": {
-      "godot_owner": "PortGame.source_building_on_proximity_added_state",
-      "godot_symbol": "source_building_on_proximity_added_result.update_power_graph_call",
-      "java_expr": "updatePowerGraph();",
-      "java_method": "onProximityAdded()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source updatePowerGraph call inside power guard.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_added_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_added_state",
-        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_on_proximity_added.update_power_graph_called": {
-      "godot_owner": "PortGame.source_building_on_proximity_added_state",
-      "godot_symbol": "source_building_on_proximity_added_result.update_power_graph_called",
-      "java_expr": "power != null",
-      "java_method": "onProximityAdded()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime result of source power presence guard controlling updatePowerGraph call.",
-      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_on_proximity_added_matches_upstream_source",
-        "test_port_game_exposes_source_building_on_proximity_added_state",
-        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+        "test_building_can_dump_liquid_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_liquid_default_state",
+        "test_building_can_dump_liquid_default_symbols_are_registered_with_source_backing"
       ]
     },
     "building_can_pickup.block_can_pickup": {
@@ -10743,13 +10548,13 @@
         "test_building_dump_null_item_scan_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_dump_null_proximity_scan.checked_indices": {
+    "building_dump_null_proximity_scan.cdump": {
       "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
-      "godot_symbol": "source_building_dump_null_proximity_scan_result.checked_indices",
-      "java_expr": "(i + dump) % proximity.size",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.cdump",
+      "java_expr": "incrementDump(proximity.size);",
       "java_method": "dump(Item todump) null proximity scan",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "N960 records null-branch proximity indices in source loop order.",
+      "rule": "N960 advances cursor once per null-branch proximity miss using source incrementDump call.",
       "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
       "status": "source-backed",
       "tests": [
@@ -10758,13 +10563,13 @@
         "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_dump_null_proximity_scan.cdump": {
+    "building_dump_null_proximity_scan.checked_indices": {
       "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
-      "godot_symbol": "source_building_dump_null_proximity_scan_result.cdump",
-      "java_expr": "incrementDump(proximity.size);",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.checked_indices",
+      "java_expr": "(i + dump) % proximity.size",
       "java_method": "dump(Item todump) null proximity scan",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "N960 advances cursor once per null-branch proximity miss using source incrementDump call.",
+      "rule": "N960 records null-branch proximity indices in source loop order.",
       "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
       "status": "source-backed",
       "tests": [
@@ -16512,6 +16317,261 @@
       "status": "explicit-input",
       "tests": [
         "test_building_on_nearby_build_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.comment": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.comment",
+      "java_expr": "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source comment for BuildingComp.onProximityAdded.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.method": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.method",
+      "java_expr": "public void onProximityAdded(){",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source onProximityAdded method signature.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.power_guard": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.power_guard",
+      "java_expr": "if(power != null){",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source power presence guard.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.power_present": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_input.power_present",
+      "java_expr": "power != null",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime power_present supplies source power guard input.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.todo": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.todo",
+      "java_expr": "//TODO ??? this is just onProximityUpdate ?",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source TODO before onProximityAdded.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.update_power_graph_call": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.update_power_graph_call",
+      "java_expr": "updatePowerGraph();",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source updatePowerGraph call inside power guard.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.update_power_graph_called": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.update_power_graph_called",
+      "java_expr": "power != null",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime result of source power presence guard controlling updatePowerGraph call.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_removed.comment": {
+      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
+      "godot_symbol": "source_building_on_proximity_removed_result.comment",
+      "java_expr": "/** Called shortly before this building is removed. */",
+      "java_method": "onProximityRemoved()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source comment for BuildingComp.onProximityRemoved.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_removed_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_removed_state",
+        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_removed.method": {
+      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
+      "godot_symbol": "source_building_on_proximity_removed_result.method",
+      "java_expr": "public void onProximityRemoved(){",
+      "java_method": "onProximityRemoved()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source onProximityRemoved method signature.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_removed_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_removed_state",
+        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_removed.power_graph_removed_call": {
+      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
+      "godot_symbol": "source_building_on_proximity_removed_result.power_graph_removed_call",
+      "java_expr": "powerGraphRemoved();",
+      "java_method": "onProximityRemoved()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source powerGraphRemoved call inside power guard.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_removed_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_removed_state",
+        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_removed.power_graph_removed_called": {
+      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
+      "godot_symbol": "source_building_on_proximity_removed_result.power_graph_removed_called",
+      "java_expr": "power != null",
+      "java_method": "onProximityRemoved()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime result of source power presence guard controlling powerGraphRemoved call.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_removed_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_removed_state",
+        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_removed.power_guard": {
+      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
+      "godot_symbol": "source_building_on_proximity_removed_result.power_guard",
+      "java_expr": "if(power != null){",
+      "java_method": "onProximityRemoved()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source power presence guard.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_removed_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_removed_state",
+        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_removed.power_present": {
+      "godot_owner": "PortGame.source_building_on_proximity_removed_state",
+      "godot_symbol": "source_building_on_proximity_removed_input.power_present",
+      "java_expr": "power != null",
+      "java_method": "onProximityRemoved()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime power_present supplies source power guard input.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_removed_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_on_proximity_removed_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_removed_state",
+        "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_update.comment": {
+      "godot_owner": "PortGame.source_building_on_proximity_update_state",
+      "godot_symbol": "source_building_on_proximity_update_result.comment",
+      "java_expr": "/** Called when anything adjacent to this building is placed/removed, including itself. */",
+      "java_method": "onProximityUpdate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source comment for BuildingComp.onProximityUpdate.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_update_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_update_state",
+        "test_building_on_proximity_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_update.method": {
+      "godot_owner": "PortGame.source_building_on_proximity_update_state",
+      "godot_symbol": "source_building_on_proximity_update_result.method",
+      "java_expr": "public void onProximityUpdate(){",
+      "java_method": "onProximityUpdate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source onProximityUpdate method signature.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_update_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_update_state",
+        "test_building_on_proximity_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_update.no_sleep_call": {
+      "godot_owner": "PortGame.source_building_on_proximity_update_state",
+      "godot_symbol": "source_building_on_proximity_update_result.no_sleep_call",
+      "java_expr": "noSleep();",
+      "java_method": "onProximityUpdate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source noSleep call in BuildingComp.onProximityUpdate.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_update_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_update_state",
+        "test_building_on_proximity_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_update.no_sleep_called": {
+      "godot_owner": "PortGame.source_building_on_proximity_update_state",
+      "godot_symbol": "source_building_on_proximity_update_result.no_sleep_called",
+      "java_expr": "noSleep();",
+      "java_method": "onProximityUpdate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime result records source noSleep call dispatch without migrating noSleep internals.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_update_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_update_state",
+        "test_building_on_proximity_update_symbols_are_registered_with_source_backing"
       ]
     },
     "building_on_removed.current_state": {

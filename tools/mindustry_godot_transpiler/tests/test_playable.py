@@ -2148,6 +2148,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"update_power_graph_call": "updatePowerGraph();"', source)
         self.assertIn('"update_power_graph_called": power_present', source)
 
+    def test_port_game_exposes_source_building_on_proximity_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_proximity_update_state() -> Dictionary:", source)
+        self.assertIn('"method": "public void onProximityUpdate(){"', source)
+        self.assertIn('"no_sleep_call": "noSleep();"', source)
+        self.assertIn('"no_sleep_called": true', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

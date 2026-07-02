@@ -5423,6 +5423,14 @@ func source_building_on_proximity_added_state(power_present: bool) -> Dictionary
 		"update_power_graph_called": power_present,
 	}
 
+func source_building_on_proximity_update_state() -> Dictionary:
+	return {
+		"comment": "/** Called when anything adjacent to this building is placed/removed, including itself. */",
+		"method": "public void onProximityUpdate(){",
+		"no_sleep_call": "noSleep();",
+		"no_sleep_called": true,
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",
