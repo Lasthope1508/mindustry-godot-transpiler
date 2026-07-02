@@ -25877,6 +25877,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("shouldConsumePower = false;", building_generated_update_consumption_disabled["exact_exprs"])
         self.assertIn("return;", building_generated_update_consumption_disabled["exact_exprs"])
 
+        building_generated_update_consumption_setup = source_symbols.source_slice(ledger, "N1061")
+        self.assertEqual(building_generated_update_consumption_setup["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_update_consumption_setup["java_method"], "updateConsumption()")
+        self.assertEqual(building_generated_update_consumption_setup["godot_owner"], "PortGame.source_building_update_consumption_setup_state")
+        self.assertEqual(building_generated_update_consumption_setup["runtime_proof"], "/root/Main.generated_building_comp_update_consumption_setup_bridge_state")
+        self.assertIn("public void updateConsumption(){", building_generated_update_consumption_setup["exact_exprs"])
+        self.assertIn("boolean update = shouldConsume() && productionValid();", building_generated_update_consumption_setup["exact_exprs"])
+        self.assertIn("float minEfficiency = 1f;", building_generated_update_consumption_setup["exact_exprs"])
+        self.assertIn("//assume efficiency is 1 for the calculations below", building_generated_update_consumption_setup["exact_exprs"])
+        self.assertIn("efficiency = optionalEfficiency = 1f;", building_generated_update_consumption_setup["exact_exprs"])
+        self.assertIn("shouldConsumePower = true;", building_generated_update_consumption_setup["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

@@ -3014,6 +3014,14 @@ public class BuildingComp{
             shouldConsumePower = false;
             return;
         }
+
+        boolean update = shouldConsume() && productionValid();
+
+        float minEfficiency = 1f;
+
+        //assume efficiency is 1 for the calculations below
+        efficiency = optionalEfficiency = 1f;
+        shouldConsumePower = true;
     }
 }
 """,
@@ -3033,7 +3041,7 @@ public class BuildingComp{
             self.assertIn("var should_consume_state := bool(_args[4] if _args.size() > 4 else false)", source_text)
             self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source_text)
             self.assertIn("if has_consumers and not cheating:", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_building_update_consumption_disabled_state", "returned": false}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_building_update_consumption_setup_state"', source_text)
             self.assertIn("var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0", source_text)
             self.assertIn("var efficiency := potential_efficiency if should_consume_state else 0.0", source_text)
             self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, efficiency, efficiency_scale])", source_text)
@@ -3080,6 +3088,14 @@ public class BuildingComp{
             shouldConsumePower = false;
             return;
         }
+
+        boolean update = shouldConsume() && productionValid();
+
+        float minEfficiency = 1f;
+
+        //assume efficiency is 1 for the calculations below
+        efficiency = optionalEfficiency = 1f;
+        shouldConsumePower = true;
     }
 }
 """,
@@ -3103,6 +3119,70 @@ public class BuildingComp{
             self.assertIn('"optional_efficiency": 0.0', source_text)
             self.assertIn('"should_consume_power": false', source_text)
             self.assertIn('"returned": true', source_text)
+
+    def test_emit_bridges_building_comp_update_consumption_setup_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void updateEfficiencyMultiplier(){
+        float scale = efficiencyScale();
+        efficiency *= scale;
+        optionalEfficiency *= scale;
+    }
+    public void updateConsumption(){
+        //everything is valid when cheating
+        if(!block.hasConsumers || cheating()){
+            potentialEfficiency = enabled && productionValid() ? 1f : 0f;
+            efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;
+            shouldConsumePower = true;
+            updateEfficiencyMultiplier();
+            return;
+        }
+
+        //disabled -> nothing works
+        if(!enabled){
+            potentialEfficiency = efficiency = optionalEfficiency = 0f;
+            shouldConsumePower = false;
+            return;
+        }
+
+        boolean update = shouldConsume() && productionValid();
+
+        float minEfficiency = 1f;
+
+        //assume efficiency is 1 for the calculations below
+        efficiency = optionalEfficiency = 1f;
+        shouldConsumePower = true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var update := should_consume_state and production_valid", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_consumption_setup_state"', source_text)
+            self.assertIn('"update_expr": "boolean update = shouldConsume() && productionValid();"', source_text)
+            self.assertIn('"min": "float minEfficiency = 1f;"', source_text)
+            self.assertIn('"comment": "//assume efficiency is 1 for the calculations below"', source_text)
+            self.assertIn('"efficiencies": "efficiency = optionalEfficiency = 1f;"', source_text)
+            self.assertIn('"power": "shouldConsumePower = true;"', source_text)
+            self.assertIn('"update": update', source_text)
+            self.assertIn('"min_efficiency": 1.0', source_text)
+            self.assertIn('"efficiency": 1.0', source_text)
+            self.assertIn('"optional_efficiency": 1.0', source_text)
+            self.assertIn('"should_consume_power": true', source_text)
 
 if __name__ == "__main__":
     unittest.main()

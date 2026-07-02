@@ -21878,6 +21878,50 @@
         "test_port_game_exposes_generated_building_comp_update_consumption_disabled_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1061": {
+      "deferred_exprs": [
+        "Non-optional and optional consumer passes stay owned by subsequent generated bridge slices.",
+        "Efficiency assignment, multiplier, second pass, and concrete Consume side effects stay deferred to later slices."
+      ],
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "boolean update = shouldConsume() && productionValid();",
+        "float minEfficiency = 1f;",
+        "//assume efficiency is 1 for the calculations below",
+        "efficiency = optionalEfficiency = 1f;",
+        "shouldConsumePower = true;",
+        "shouldConsume()",
+        "productionValid()"
+      ],
+      "godot_owner": "PortGame.source_building_update_consumption_setup_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateConsumption_194 setup/reset branch and PortGame generated bridge to existing N665 canonical source_building_update_consumption_setup_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_consumption_setup_bridge_state",
+      "source_symbols": [
+        "building_update_consumption_setup.method",
+        "building_update_consumption_setup.update_expr",
+        "building_update_consumption_setup.min",
+        "building_update_consumption_setup.comment",
+        "building_update_consumption_setup.efficiencies",
+        "building_update_consumption_setup.power",
+        "building_update_consumption_setup.should_consume_state",
+        "building_update_consumption_setup.production_valid",
+        "building_update_consumption_setup.update",
+        "building_update_consumption_setup.min_efficiency",
+        "building_update_consumption_setup.efficiency",
+        "building_update_consumption_setup.optional_efficiency",
+        "building_update_consumption_setup.should_consume_power"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_consumption_setup_to_source_state",
+        "test_generated_building_comp_bridges_update_consumption_setup_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_consumption_setup_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
