@@ -3126,6 +3126,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_on_repaired_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_onRepaired_139"', source)
 
+    def test_generated_building_comp_bridges_is_commandable_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_isCommandable_140(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_commandable := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn('"method": "public boolean isCommandable(){"', source)
+        self.assertIn('"return_expr": "return block.commandable;"', source)
+        self.assertIn('"block_commandable": block_commandable', source)
+        self.assertIn('"commandable": block_commandable', source)
+
+    def test_port_game_exposes_generated_building_comp_is_commandable_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_is_commandable_bridge_state(block_commandable: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_isCommandable_140([block_commandable])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_is_commandable_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_isCommandable_140"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

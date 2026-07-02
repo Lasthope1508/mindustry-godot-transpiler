@@ -361,6 +361,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar has_fog_radius := bool(_args[0] if _args.size() > 0 else false)",
             "\treturn {\"method\": \"public void onRepaired(){\", \"call_super\": \"@CallSuper\", \"placed_call\": \"placed();\", \"fog_gate\": \"if(block.flags.contains(BlockFlag.hasFogRadius)){\" if has_fog_radius else \"\", \"fog_call\": \"fogControl.forceUpdate(team, self());\" if has_fog_radius else \"\", \"has_fog_radius\": has_fog_radius, \"placed\": true, \"fog_force_update\": has_fog_radius}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "isCommandable"
+    ):
+        return [
+            "\tvar block_commandable := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn {\"method\": \"public boolean isCommandable(){\", \"return_expr\": \"return block.commandable;\", \"block_commandable\": block_commandable, \"commandable\": block_commandable}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

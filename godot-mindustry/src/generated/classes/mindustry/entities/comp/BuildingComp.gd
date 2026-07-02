@@ -739,7 +739,8 @@ func java_method_onRepaired_139(_args: Array = []) -> Variant:
 	return {"method": "public void onRepaired(){", "call_super": "@CallSuper", "placed_call": "placed();", "fog_gate": "if(block.flags.contains(BlockFlag.hasFogRadius)){" if has_fog_radius else "", "fog_call": "fogControl.forceUpdate(team, self());" if has_fog_radius else "", "has_fog_radius": has_fog_radius, "placed": true, "fog_force_update": has_fog_radius}
 
 func java_method_isCommandable_140(_args: Array = []) -> Variant:
-	return null
+	var block_commandable := bool(_args[0] if _args.size() > 0 else false)
+	return {"method": "public boolean isCommandable(){", "return_expr": "return block.commandable;", "block_commandable": block_commandable, "commandable": block_commandable}
 
 func java_method_isPayload_141(_args: Array = []) -> Variant:
 	return null

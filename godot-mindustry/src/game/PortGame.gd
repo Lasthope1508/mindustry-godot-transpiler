@@ -3774,6 +3774,16 @@ func generated_building_comp_on_repaired_bridge_state(has_fog_radius: bool) -> D
 		"result": result,
 	}
 
+func generated_building_comp_is_commandable_bridge_state(block_commandable: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_isCommandable_140([block_commandable])
+	return {
+		"source_owner": "PortGame.source_building_is_commandable_state",
+		"generated_owner": "BuildingComp.java_method_isCommandable_140",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",
