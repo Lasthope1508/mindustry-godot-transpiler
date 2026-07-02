@@ -73393,6 +73393,97 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "building_display_consumption.method": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.method",
+      "java_expr": "public void displayConsumption(Table table){",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source displayConsumption(Table table) method declaration.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.table_left": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.tableLeft",
+      "java_expr": "table.left();",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "displayConsumption left-aligns the table before consumer rows.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.consumers_loop": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.consumersLoop",
+      "java_expr": "for(Consume cons : block.consumers){",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "displayConsumption iterates block.consumers.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.optional_booster_skip": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.optionalBoosterSkip",
+      "java_expr": "if(cons.optional && cons.booster) continue;",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Optional booster consumers are skipped.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.build_call": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.buildCalls",
+      "java_expr": "cons.build(self(), table);",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Non-skipped consumers build into the display table with self().",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.consumers": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_input.consumers",
+      "java_expr": "block.consumers",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime consumers supplies block.consumers.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.self_state": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_input.self_state",
+      "java_expr": "self()",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime self_state supplies self().",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

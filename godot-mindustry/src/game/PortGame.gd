@@ -4148,6 +4148,18 @@ func generated_building_comp_flow_items_bridge_state(items_module: Variant) -> D
 		"canonical": canonical,
 	}
 
+func generated_building_comp_display_consumption_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_displayConsumption_161([consumers, self_state])
+	var canonical = source_building_display_consumption_state(consumers, self_state)
+	return {
+		"source_owner": "PortGame.source_building_display_consumption_state",
+		"generated_owner": "BuildingComp.java_method_displayConsumption_161",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
@@ -4854,6 +4866,29 @@ func source_building_display_icon_state(block_ui_icon: Variant) -> Variant:
 
 func source_building_flow_items_state(items_module: Variant) -> Variant:
 	return items_module
+
+func source_building_display_consumption_state(consumers: Array, self_state: Variant) -> Dictionary:
+	var built_consumers: Array = []
+	var skipped_consumers: Array = []
+	for cons in consumers:
+		var optional_value := bool(cons.get("optional", false))
+		var booster_value := bool(cons.get("booster", false))
+		if optional_value and booster_value:
+			skipped_consumers.append(cons)
+			continue
+		built_consumers.append({"consumer": cons, "self_state": self_state})
+	return {
+		"source_owner": "PortGame.source_building_display_consumption_state",
+		"method": "public void displayConsumption(Table table){",
+		"table_left_call": "table.left();",
+		"consumers_loop": "for(Consume cons : block.consumers){",
+		"optional_booster_skip": "if(cons.optional && cons.booster) continue;",
+		"build_call": "cons.build(self(), table);",
+		"consumers": consumers,
+		"self_state": self_state,
+		"built_consumers": built_consumers,
+		"skipped_consumers": skipped_consumers,
+	}
 
 func source_building_display_ui_gates_state(team_is_player: bool, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var display_flow := (block_category == "distribution" or block_category == "liquid") and block_display_flow

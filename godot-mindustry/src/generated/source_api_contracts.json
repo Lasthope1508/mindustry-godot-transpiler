@@ -23530,6 +23530,40 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_building_display_consumption_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "consumers",
+          "schema": "source_building_display_consumption_input.consumers",
+          "type": "Array"
+        },
+        {
+          "name": "self_state",
+          "schema": "source_building_display_consumption_input.self_state",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "tableLeft",
+        "consumersLoop",
+        "optionalBoosterSkip",
+        "buildCalls",
+        "built_consumers",
+        "skipped_consumers",
+        "consumers",
+        "self_state"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.displayConsumption(Table table) helper.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "source_method": "displayConsumption(Table table)",
+      "source_slice": "N1026",
+      "status": "active",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -2777,6 +2777,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_display_consumption_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_display_consumption_source"))
+        report = source_parity.verify_building_display_consumption_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "building_display_consumption_method": "public void displayConsumption(Table table){",
+            "building_display_consumption_table_left": "table.left();",
+            "building_display_consumption_consumers_loop": "for(Consume cons : block.consumers){",
+            "building_display_consumption_optional_booster_skip": "if(cons.optional && cons.booster) continue;",
+            "building_display_consumption_build_call": "cons.build(self(), table);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_display_flow_rate_label_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_display_flow_rate_label_source"))
         report = source_parity.verify_building_display_flow_rate_label_source(ROOT / "mindustry-upstream")

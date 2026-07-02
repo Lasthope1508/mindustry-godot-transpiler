@@ -1745,5 +1745,49 @@ public class BuildingComp{
             self.assertIn('"display_name": display_name', source_text)
             self.assertIn('"ui_gates": ui_gates', source_text)
 
+    def test_emit_bridges_building_comp_display_consumption_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void displayConsumption(Table table){
+        table.left();
+        for(Consume cons : block.consumers){
+            if(cons.optional && cons.booster) continue;
+            cons.build(self(), table);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_displayConsumption_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var built_consumers: Array = []", source_text)
+            self.assertIn("var skipped_consumers: Array = []", source_text)
+            self.assertIn("var optional_value := bool(cons.get(\"optional\", false))", source_text)
+            self.assertIn("var booster_value := bool(cons.get(\"booster\", false))", source_text)
+            self.assertIn("if optional_value and booster_value:", source_text)
+            self.assertIn("skipped_consumers.append(cons)", source_text)
+            self.assertIn("built_consumers.append({\"consumer\": cons, \"self_state\": self_state})", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_display_consumption_state"', source_text)
+            self.assertIn('"method": "public void displayConsumption(Table table){"', source_text)
+            self.assertIn('"table_left_call": "table.left();"', source_text)
+            self.assertIn('"consumers_loop": "for(Consume cons : block.consumers){"', source_text)
+            self.assertIn('"optional_booster_skip": "if(cons.optional && cons.booster) continue;"', source_text)
+            self.assertIn('"build_call": "cons.build(self(), table);"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -947,7 +947,18 @@ func java_method_display_160(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_display_ui_gates_state", "icon_source_owner": "PortGame.source_building_display_icon_state", "name_source_owner": "PortGame.source_building_display_name_state", "method": "public void display(Table table){", "display_block_comment": "//display the block stuff", "todo_comment": "//TODO duplicated code?", "header_icon_call": "t.add(new Image(block.getDisplayIcon(tile))).scaling(Scaling.fit).size(8 * 4);", "header_name_call": "t.labelWrap(block.getDisplayName(tile)).left().width(190f).padLeft(5);", "same_team_comment": "//only display everything else if the team is the same", "same_team_gate": "if(team == player.team()){", "display_bars_call": "displayBars(bars);", "display_consumption_call": "table.table(this::displayConsumption).growX();", "display_flow_formula": "boolean displayFlow = (block.category == Category.distribution || block.category == Category.liquid) && block.displayFlow;", "display_flow_gate": "if(displayFlow){", "last_accessed_gate": "if(net.active() && lastAccessed != null){", "last_accessed_call": "table.add(Core.bundle.format(\"lastaccessed\", lastAccessed)).growX().wrap().left();", "icon": icon_state, "display_name": display_name, "ui_gates": ui_gates, "block_ui_icon": block_ui_icon, "localized_name": localized_name, "team_is_derelict": team_is_derelict, "team_is_player": team_is_player, "team_emoji": team_emoji, "derelict_label": derelict_label, "block_category": block_category, "block_display_flow": block_display_flow, "net_active": net_active, "has_last_accessed": has_last_accessed}
 
 func java_method_displayConsumption_161(_args: Array = []) -> Variant:
-	return null
+	var consumers: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []
+	var self_state: Variant = _args[1] if _args.size() > 1 else null
+	var built_consumers: Array = []
+	var skipped_consumers: Array = []
+	for cons in consumers:
+		var optional_value := bool(cons.get("optional", false))
+		var booster_value := bool(cons.get("booster", false))
+		if optional_value and booster_value:
+			skipped_consumers.append(cons)
+			continue
+		built_consumers.append({"consumer": cons, "self_state": self_state})
+	return {"source_owner": "PortGame.source_building_display_consumption_state", "method": "public void displayConsumption(Table table){", "table_left_call": "table.left();", "consumers_loop": "for(Consume cons : block.consumers){", "optional_booster_skip": "if(cons.optional && cons.booster) continue;", "build_call": "cons.build(self(), table);", "consumers": consumers, "self_state": self_state, "built_consumers": built_consumers, "skipped_consumers": skipped_consumers}
 
 func java_method_displayBars_162(_args: Array = []) -> Variant:
 	return null

@@ -20650,6 +20650,37 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1026": {
+      "deferred_exprs": [
+        "Concrete Arc Table widget construction remains owned by Godot UI integration; this helper preserves the displayConsumption consumer skip/build contract."
+      ],
+      "exact_exprs": [
+        "public void displayConsumption(Table table){",
+        "table.left();",
+        "for(Consume cons : block.consumers){",
+        "if(cons.optional && cons.booster) continue;",
+        "cons.build(self(), table);"
+      ],
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Registers canonical source_building_display_consumption_state helper against BuildingComp.displayConsumption(Table table).",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "source_symbols": [
+        "building_display_consumption.method",
+        "building_display_consumption.table_left",
+        "building_display_consumption.consumers_loop",
+        "building_display_consumption.optional_booster_skip",
+        "building_display_consumption.build_call",
+        "building_display_consumption.consumers",
+        "building_display_consumption.self_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

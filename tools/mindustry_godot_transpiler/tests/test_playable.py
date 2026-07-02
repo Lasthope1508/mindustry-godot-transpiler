@@ -3910,6 +3910,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_flowItems_159"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_display_consumption_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_displayConsumption_161(_args: Array = []) -> Variant:", source)
+        self.assertIn("var consumers: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source)
+        self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else null", source)
+        self.assertIn("var built_consumers: Array = []", source)
+        self.assertIn("var skipped_consumers: Array = []", source)
+        self.assertIn("var optional_value := bool(cons.get(\"optional\", false))", source)
+        self.assertIn("var booster_value := bool(cons.get(\"booster\", false))", source)
+        self.assertIn("if optional_value and booster_value:", source)
+        self.assertIn("skipped_consumers.append(cons)", source)
+        self.assertIn("built_consumers.append({\"consumer\": cons, \"self_state\": self_state})", source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_consumption_state"', source)
+        self.assertIn('"method": "public void displayConsumption(Table table){"', source)
+        self.assertIn('"table_left_call": "table.left();"', source)
+        self.assertIn('"consumers_loop": "for(Consume cons : block.consumers){"', source)
+        self.assertIn('"optional_booster_skip": "if(cons.optional && cons.booster) continue;"', source)
+        self.assertIn('"build_call": "cons.build(self(), table);"', source)
+
+    def test_port_game_exposes_generated_building_comp_display_consumption_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_display_consumption_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_displayConsumption_161([consumers, self_state])", source)
+        self.assertIn("var canonical = source_building_display_consumption_state(consumers, self_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_consumption_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_displayConsumption_161"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
@@ -4541,6 +4573,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return block_ui_icon", source)
         self.assertIn("func source_building_flow_items_state(items_module: Variant) -> Variant:", source)
         self.assertIn("return items_module", source)
+        self.assertIn("func source_building_display_consumption_state(consumers: Array, self_state: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_consumption_state"', source)
+        self.assertIn('"built_consumers": built_consumers', source)
+        self.assertIn('"skipped_consumers": skipped_consumers', source)
 
     def test_port_game_exposes_source_building_display_ui_gates_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

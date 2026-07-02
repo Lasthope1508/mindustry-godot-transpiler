@@ -563,6 +563,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "displayConsumption"
+    ):
+        return [
+            "\tvar consumers: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar self_state: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar built_consumers: Array = []",
+            "\tvar skipped_consumers: Array = []",
+            "\tfor cons in consumers:",
+            "\t\tvar optional_value := bool(cons.get(\"optional\", false))",
+            "\t\tvar booster_value := bool(cons.get(\"booster\", false))",
+            "\t\tif optional_value and booster_value:",
+            "\t\t\tskipped_consumers.append(cons)",
+            "\t\t\tcontinue",
+            "\t\tbuilt_consumers.append({\"consumer\": cons, \"self_state\": self_state})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_display_consumption_state\", \"method\": \"public void displayConsumption(Table table){\", \"table_left_call\": \"table.left();\", \"consumers_loop\": \"for(Consume cons : block.consumers){\", \"optional_booster_skip\": \"if(cons.optional && cons.booster) continue;\", \"build_call\": \"cons.build(self(), table);\", \"consumers\": consumers, \"self_state\": self_state, \"built_consumers\": built_consumers, \"skipped_consumers\": skipped_consumers}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
