@@ -1221,7 +1221,8 @@ func java_method_updateTile_196(_args: Array = []) -> Variant:
 	return null
 
 func java_method_ambientVolume_197(_args: Array = []) -> Variant:
-	return null
+	var efficiency := float(_args[0] if _args.size() > 0 else 0.0)
+	return {"source_owner": "PortGame.source_building_ambient_volume", "method": "public float ambientVolume(){", "efficiency": efficiency, "ambientVolume": efficiency}
 
 func java_method_config_198(_args: Array = []) -> Variant:
 	return null

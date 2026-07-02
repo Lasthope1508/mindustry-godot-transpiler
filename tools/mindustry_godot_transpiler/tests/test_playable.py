@@ -5004,6 +5004,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_ambient_volume_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_ambientVolume_197(_args: Array = []) -> Variant:", source)
+        self.assertIn("var efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_ambient_volume"', source)
+        self.assertIn('"method": "public float ambientVolume(){"', source)
+        self.assertIn('"efficiency": efficiency', source)
+        self.assertIn('"ambientVolume": efficiency', source)
+
+    def test_port_game_exposes_generated_building_comp_ambient_volume_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_ambient_volume_bridge_state(efficiency: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_ambientVolume_197([efficiency])", source)
+        self.assertIn("var canonical = source_building_ambient_volume(efficiency)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_ambient_volume"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_ambientVolume_197"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

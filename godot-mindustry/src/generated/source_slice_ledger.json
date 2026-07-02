@@ -22085,6 +22085,35 @@
         "test_port_game_exposes_generated_building_comp_update_consumption_second_pass_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1066": {
+      "deferred_exprs": [
+        "Ambient sound loop volume multiplication stays owned by update ambient sound slices."
+      ],
+      "exact_exprs": [
+        "/** @return ambient sound volume scale. */",
+        "public float ambientVolume(){",
+        "return efficiency;",
+        "efficiency"
+      ],
+      "godot_owner": "PortGame.source_building_ambient_volume",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "ambientVolume()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_ambientVolume_197 and PortGame generated bridge to existing N527 canonical source_building_ambient_volume helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_ambient_volume_bridge_state",
+      "source_symbols": [
+        "building_ambient_volume.method",
+        "building_ambient_volume.return_efficiency",
+        "building_ambient_volume.efficiency"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_ambient_volume_to_source_state",
+        "test_generated_building_comp_bridges_ambient_volume_to_source_state",
+        "test_port_game_exposes_generated_building_comp_ambient_volume_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

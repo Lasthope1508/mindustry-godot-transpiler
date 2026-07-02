@@ -3523,5 +3523,37 @@ class BuildingComp{
             self.assertIn('"updated_consumers": updated_consumers', source_text)
             self.assertIn('"update_count": updated_consumers.size()', source_text)
 
+    def test_emit_bridges_building_comp_ambient_volume_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    /** @return ambient sound volume scale. */
+    public float ambientVolume(){
+        return efficiency;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_ambientVolume_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_ambient_volume"', source_text)
+            self.assertIn('"method": "public float ambientVolume(){"', source_text)
+            self.assertIn('"efficiency": efficiency', source_text)
+            self.assertIn('"ambientVolume": efficiency', source_text)
+
 if __name__ == "__main__":
     unittest.main()

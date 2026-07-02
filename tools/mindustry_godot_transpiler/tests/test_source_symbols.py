@@ -25947,6 +25947,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("cons.update(self());", building_generated_update_consumption_second_pass["exact_exprs"])
         self.assertIn("block.updateConsumers", building_generated_update_consumption_second_pass["exact_exprs"])
 
+        building_generated_ambient_volume = source_symbols.source_slice(ledger, "N1066")
+        self.assertEqual(building_generated_ambient_volume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_ambient_volume["java_method"], "ambientVolume()")
+        self.assertEqual(building_generated_ambient_volume["godot_owner"], "PortGame.source_building_ambient_volume")
+        self.assertEqual(building_generated_ambient_volume["runtime_proof"], "/root/Main.generated_building_comp_ambient_volume_bridge_state")
+        self.assertIn("/** @return ambient sound volume scale. */", building_generated_ambient_volume["exact_exprs"])
+        self.assertIn("public float ambientVolume(){", building_generated_ambient_volume["exact_exprs"])
+        self.assertIn("return efficiency;", building_generated_ambient_volume["exact_exprs"])
+        self.assertIn("efficiency", building_generated_ambient_volume["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

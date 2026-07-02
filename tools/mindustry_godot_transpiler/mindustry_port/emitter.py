@@ -997,6 +997,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "ambientVolume"
+    ):
+        return [
+            "\tvar efficiency := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_ambient_volume\", \"method\": \"public float ambientVolume(){\", \"efficiency\": efficiency, \"ambientVolume\": efficiency}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
