@@ -3824,6 +3824,16 @@ func generated_building_comp_unit_on_bridge_state(unit_state: Variant) -> Dictio
 		"result": result,
 	}
 
+func generated_building_comp_unit_on_any_bridge_state(unit_state: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_unitOnAny_145([unit_state])
+	return {
+		"source_owner": "PortGame.source_building_unit_on_any_state",
+		"generated_owner": "BuildingComp.java_method_unitOnAny_145",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

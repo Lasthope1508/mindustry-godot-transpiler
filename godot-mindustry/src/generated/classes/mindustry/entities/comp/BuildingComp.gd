@@ -759,7 +759,8 @@ func java_method_unitOn_144(_args: Array = []) -> Variant:
 	return {"comment": "Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  ", "method": "public void unitOn(Unit unit){", "empty_body": "public void unitOn(Unit unit){\n    }", "unit_state": unit_state}
 
 func java_method_unitOnAny_145(_args: Array = []) -> Variant:
-	return null
+	var unit_state: Variant = _args[0] if _args.size() > 0 else null
+	return {"comment": "Called every frame a unit is on this. Applies to any unit.  ", "method": "public void unitOnAny(Unit unit){", "empty_body": "public void unitOnAny(Unit unit){\n    }", "unit_state": unit_state}
 
 func java_method_unitRemoved_146(_args: Array = []) -> Variant:
 	return null
