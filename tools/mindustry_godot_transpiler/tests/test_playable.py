@@ -3051,6 +3051,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_check_suppression_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_checkSuppression_136"', source)
 
+    def test_generated_building_comp_bridges_player_placed_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_playerPlaced_137(_args: Array = []) -> Variant:", source)
+        self.assertIn("var config_state: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"method": "public void playerPlaced(Object config){"', source)
+        self.assertIn('"comment": "Called after the block is placed by this client."', source)
+        self.assertIn('"call_super": "@CallSuper"', source)
+        self.assertIn('"no_op": true', source)
+        self.assertIn('"config_state": config_state', source)
+
+    def test_port_game_exposes_generated_building_comp_player_placed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_player_placed_bridge_state(config_state: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_playerPlaced_137([config_state])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_player_placed_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_playerPlaced_137"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -715,7 +715,8 @@ func java_method_checkSuppression_136(_args: Array = []) -> Variant:
 	return {"suppressed": true, "particle_visible": "chanceDelta", "chance_threshold": chance_threshold, "effect": "regenSuppressParticle", "color": suppress_color, "particle_range": particle_range, "x_min": source_x - particle_range, "x_max": source_x + particle_range, "y_min": source_y - particle_range, "y_max": source_y + particle_range}
 
 func java_method_playerPlaced_137(_args: Array = []) -> Variant:
-	return null
+	var config_state: Variant = _args[0] if _args.size() > 0 else null
+	return {"method": "public void playerPlaced(Object config){", "comment": "Called after the block is placed by this client.", "call_super": "@CallSuper", "no_op": true, "config_state": config_state}
 
 func java_method_placed_138(_args: Array = []) -> Variant:
 	return null
