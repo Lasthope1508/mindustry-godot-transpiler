@@ -777,6 +777,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tresult[\"power_proximity\"] = power_proximity",
             "\tvar power_links = {\"source_owner\": \"PortGame.source_building_change_team_power_links_state\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"loop\": \"for(int i = 0; i < power.links.size; i++){\", \"old_graph\": old_graph, \"team\": next_team, \"link_count\": link_count if power_present and update_power else 0, \"remove_index\": power_present and update_power and link_count > 0, \"reflow_self\": power_present and update_power and link_count > 0, \"update_power_graph\": power_present and update_power and link_count > 0}",
             "\tresult[\"power_links\"] = power_links",
+            "\tvar final_state = {\"source_owner\": \"PortGame.source_building_change_team_final_state\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"was\": was_valid, \"add_index\": was_valid, \"team_change_event\": was_valid, \"event_last\": last_team, \"check_allow_update\": true}",
+            "\tresult[\"final\"] = final_state",
             "\treturn result",
         ]
     if (

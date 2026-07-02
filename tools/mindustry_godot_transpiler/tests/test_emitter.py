@@ -2481,5 +2481,47 @@ public class BuildingComp{
             self.assertIn('"update_power_graph": power_present and update_power and link_count > 0', source_text)
             self.assertIn('result["power_links"] = power_links', source_text)
 
+    def test_emit_bridges_building_comp_change_team_final_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void changeTeam(Team next, boolean updatePower){
+        if(this.team == next) return;
+        if(block.forceTeam != null) team = block.forceTeam;
+        Team last = this.team;
+        if(last == next) return;
+        boolean was = isValid();
+        this.team = next;
+        if(was){
+            indexer.addIndex(tile);
+            Events.fire(teamChangeEvent.set(last, self()));
+        }
+        checkAllowUpdate();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_changeTeam_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_change_team_final_state"', source_text)
+            self.assertIn('"was": was_valid', source_text)
+            self.assertIn('"add_index": was_valid', source_text)
+            self.assertIn('"team_change_event": was_valid', source_text)
+            self.assertIn('"event_last": last_team', source_text)
+            self.assertIn('"check_allow_update": true', source_text)
+            self.assertIn('result["final"] = final_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -25704,6 +25704,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("new PowerGraph().reflow(self());", building_generated_change_team_power_links["exact_exprs"])
         self.assertIn("updatePowerGraph();", building_generated_change_team_power_links["exact_exprs"])
 
+        building_generated_change_team_final = source_symbols.source_slice(ledger, "N1046")
+        self.assertEqual(building_generated_change_team_final["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_change_team_final["java_method"], "changeTeam(Team next, boolean updatePower)")
+        self.assertEqual(building_generated_change_team_final["godot_owner"], "PortGame.source_building_change_team_final_state")
+        self.assertEqual(building_generated_change_team_final["runtime_proof"], "/root/Main.generated_building_comp_change_team_final_bridge_state")
+        self.assertIn("if(was){", building_generated_change_team_final["exact_exprs"])
+        self.assertIn("indexer.addIndex(tile);", building_generated_change_team_final["exact_exprs"])
+        self.assertIn("Events.fire(teamChangeEvent.set(last, self()));", building_generated_change_team_final["exact_exprs"])
+        self.assertIn("checkAllowUpdate();", building_generated_change_team_final["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

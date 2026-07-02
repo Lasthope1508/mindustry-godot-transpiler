@@ -21309,6 +21309,39 @@
         "test_port_game_exposes_generated_building_comp_change_team_power_links_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1046": {
+      "deferred_exprs": [
+        "public boolean canPickup(){",
+        "return block.canPickup;",
+        "Subsequent BuildingComp methods stay owned by later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "if(was){",
+        "indexer.addIndex(tile);",
+        "Events.fire(teamChangeEvent.set(last, self()));",
+        "checkAllowUpdate();"
+      ],
+      "godot_owner": "PortGame.source_building_change_team_final_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_changeTeam_181 and PortGame generated bridge to existing N535 canonical source_building_change_team_final_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_change_team_final_bridge_state",
+      "source_symbols": [
+        "building_change_team_final.add_index",
+        "building_change_team_final.team_change_event",
+        "building_change_team_final.check_allow_update",
+        "building_change_team_final.was",
+        "building_change_team_final.last_team"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_change_team_final_to_source_state",
+        "test_generated_building_comp_bridges_change_team_final_to_source_state",
+        "test_port_game_exposes_generated_building_comp_change_team_final_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
