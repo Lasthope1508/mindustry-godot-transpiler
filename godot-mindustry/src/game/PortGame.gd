@@ -5803,6 +5803,18 @@ func source_building_dump_null_proximity_scan_state(proximity_size: int, dump_cu
 		"cdump": next_dump,
 	}
 
+func source_building_dump_null_remove_item_state(item: Variant, item_amount_before: int) -> Dictionary:
+	return {
+		"source_method": "dump(Item todump) null remove item",
+		"null_branch": "if(todump == null){",
+		"accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+		"remove_item_call": "items.remove(item, 1);",
+		"item": item,
+		"item_amount_before": item_amount_before,
+		"remove_amount": 1,
+		"item_amount_after": item_amount_before - 1,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

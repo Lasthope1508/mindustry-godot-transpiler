@@ -20162,6 +20162,33 @@
         "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
         "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N961": {
+      "exact_exprs": [
+        "if(todump == null){",
+        "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "items.remove(item, 1);"
+      ],
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "source_symbols": [
+        "building_dump_null_remove_item.null_branch",
+        "building_dump_null_remove_item.accept_can_dump_guard",
+        "building_dump_null_remove_item.remove_item_call",
+        "building_dump_null_remove_item.item",
+        "building_dump_null_remove_item.item_amount_before",
+        "building_dump_null_remove_item.remove_amount",
+        "building_dump_null_remove_item.item_amount_after"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -2607,6 +2607,26 @@ def verify_building_dump_null_proximity_scan_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_building_dump_null_remove_item_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    null_branch = "if(todump == null){"
+    accept_can_dump_guard = "if(other.acceptItem(self(), item) && canDump(other, item)){"
+    remove_item_call = "items.remove(item, 1);"
+    missing = []
+    for snippet in [null_branch, accept_can_dump_guard, remove_item_call]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "null_branch": null_branch,
+            "accept_can_dump_guard": accept_can_dump_guard,
+            "remove_item_call": remove_item_call,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

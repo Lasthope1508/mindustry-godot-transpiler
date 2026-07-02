@@ -2255,6 +2255,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"checked_indices": checked_indices', source)
         self.assertIn('"cdump": next_dump', source)
 
+    def test_port_game_exposes_source_building_dump_null_remove_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_null_remove_item_state(item: Variant, item_amount_before: int) -> Dictionary:", source)
+        self.assertIn('"source_method": "dump(Item todump) null remove item"', source)
+        self.assertIn('"null_branch": "if(todump == null){"', source)
+        self.assertIn('"accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){"', source)
+        self.assertIn('"remove_item_call": "items.remove(item, 1);"', source)
+        self.assertIn('"remove_amount": 1', source)
+        self.assertIn('"item_amount_after": item_amount_before - 1', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

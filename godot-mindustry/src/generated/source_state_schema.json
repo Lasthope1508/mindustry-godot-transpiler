@@ -23124,6 +23124,96 @@
       "source_slice": "N960",
       "status": "active"
     },
+    "source_building_dump_null_remove_item_input": {
+      "keys": {
+        "item": {
+          "godot_symbol": "source_building_dump_null_remove_item_input.item",
+          "java_expr": "item",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 explicit item supplies source local Item item.",
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "item_amount_before": {
+          "godot_symbol": "source_building_dump_null_remove_item_input.item_amount_before",
+          "java_expr": "items.get(item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 explicit item_amount_before supplies stack count before source removal.",
+          "status": "explicit-input",
+          "type": "int"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_remove_item_state",
+      "source_slice": "N961",
+      "status": "active"
+    },
+    "source_building_dump_null_remove_item_result": {
+      "keys": {
+        "accept_can_dump_guard": {
+          "godot_symbol": "source_building_dump_null_remove_item_result.accept_can_dump_guard",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 removal is inside source accept/canDump success block.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item": {
+          "alias_of": "source_building_dump_null_remove_item_input.item",
+          "rule": "N961 result aliases item input.",
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "item_amount_after": {
+          "godot_symbol": "source_building_dump_null_remove_item_result.item_amount_after",
+          "java_expr": "items.remove(item, 1);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 models item stack count after removing one.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "item_amount_before": {
+          "alias_of": "source_building_dump_null_remove_item_input.item_amount_before",
+          "rule": "N961 result aliases item_amount_before input.",
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "null_branch": {
+          "godot_symbol": "source_building_dump_null_remove_item_result.null_branch",
+          "java_expr": "if(todump == null){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 removal belongs to source null branch.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "remove_amount": {
+          "godot_symbol": "source_building_dump_null_remove_item_result.remove_amount",
+          "java_expr": "1",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 source removes one item.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "remove_item_call": {
+          "godot_symbol": "source_building_dump_null_remove_item_result.remove_item_call",
+          "java_expr": "items.remove(item, 1);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 source remove item call.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_method": {
+          "godot_symbol": "source_building_dump_null_remove_item_result.source_method",
+          "java_expr": "dump(Item todump) null remove item",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N961 source method label.",
+          "status": "generated",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_remove_item_state",
+      "source_slice": "N961",
+      "status": "active"
+    },
     "source_building_edelta_input": {
       "keys": {
         "efficiency": {

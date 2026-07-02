@@ -3744,6 +3744,41 @@
         "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_dump_null_remove_item_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_building_dump_null_remove_item_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "item_amount_before",
+          "schema": "source_building_dump_null_remove_item_input.item_amount_before",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_method",
+        "null_branch",
+        "accept_can_dump_guard",
+        "remove_item_call",
+        "item",
+        "item_amount_before",
+        "remove_amount",
+        "item_amount_after"
+      ],
+      "rule": "N961 exposes BuildingComp.dump(Item todump) todump-null item removal call only; guard, handleItem, cursor, and return remain separate owners.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "source_method": "dump(Item todump) null remove item",
+      "source_slice": "N961",
+      "status": "active",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_edelta": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

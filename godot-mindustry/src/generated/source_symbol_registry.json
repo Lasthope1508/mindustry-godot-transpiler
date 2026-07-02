@@ -10623,6 +10623,111 @@
         "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_dump_null_remove_item.accept_can_dump_guard": {
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "godot_symbol": "source_building_dump_null_remove_item_result.accept_can_dump_guard",
+      "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N961 removal is inside null-branch accept/canDump success block.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_remove_item.item": {
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "godot_symbol": "source_building_dump_null_remove_item_input.item",
+      "java_expr": "item",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N961 explicit item supplies source local Item item.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_remove_item.item_amount_after": {
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "godot_symbol": "source_building_dump_null_remove_item_result.item_amount_after",
+      "java_expr": "items.remove(item, 1);",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N961 result models source removal of one item from current stack.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_remove_item.item_amount_before": {
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "godot_symbol": "source_building_dump_null_remove_item_input.item_amount_before",
+      "java_expr": "items.get(item)",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N961 explicit item_amount_before supplies source item stack count before removal.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_remove_item.null_branch": {
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "godot_symbol": "source_building_dump_null_remove_item_result.null_branch",
+      "java_expr": "if(todump == null){",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N961 removal belongs to todump null branch.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_remove_item.remove_amount": {
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "godot_symbol": "source_building_dump_null_remove_item_result.remove_amount",
+      "java_expr": "1",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N961 source removes exactly one item.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_remove_item.remove_item_call": {
+      "godot_owner": "PortGame.source_building_dump_null_remove_item_state",
+      "godot_symbol": "source_building_dump_null_remove_item_result.remove_item_call",
+      "java_expr": "items.remove(item, 1);",
+      "java_method": "dump(Item todump) null remove item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N961 pins source null-branch item removal call.",
+      "runtime_proof": "/root/Main.source_building_dump_null_remove_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_remove_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_remove_item_state",
+        "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_edelta.efficiency": {
       "godot_owner": "PortGame.source_building_edelta",
       "godot_symbol": "source_building_edelta_input.efficiency",
