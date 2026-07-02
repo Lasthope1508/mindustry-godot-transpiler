@@ -21778,6 +21778,62 @@
         "test_port_game_exposes_generated_building_comp_efficiency_scale_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1059": {
+      "deferred_exprs": [
+        "Disabled updateConsumption branch stays owned by the next generated bridge slice.",
+        "Setup/reset and consumer-pass branches stay owned by subsequent generated bridge slices."
+      ],
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//everything is valid when cheating",
+        "if(!block.hasConsumers || cheating()){",
+        "potentialEfficiency = enabled && productionValid() ? 1f : 0f;",
+        "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;",
+        "shouldConsumePower = true;",
+        "updateEfficiencyMultiplier();",
+        "return;",
+        "block.hasConsumers",
+        "cheating()",
+        "enabled",
+        "productionValid()",
+        "shouldConsume()",
+        "efficiencyScale()"
+      ],
+      "godot_owner": "PortGame.source_building_update_consumption_initial_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateConsumption_194 initial branch and PortGame generated bridge to existing N661 canonical source_building_update_consumption_initial_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_consumption_initial_bridge_state",
+      "source_symbols": [
+        "building_update_consumption_initial.method",
+        "building_update_consumption_initial.comment",
+        "building_update_consumption_initial.guard",
+        "building_update_consumption_initial.potential",
+        "building_update_consumption_initial.efficiency",
+        "building_update_consumption_initial.power",
+        "building_update_consumption_initial.multiplier",
+        "building_update_consumption_initial.return",
+        "building_update_consumption_initial.has_consumers",
+        "building_update_consumption_initial.cheating",
+        "building_update_consumption_initial.enabled_state",
+        "building_update_consumption_initial.production_valid",
+        "building_update_consumption_initial.should_consume_state",
+        "building_update_consumption_initial.efficiency_scale",
+        "building_update_consumption_initial.potential_efficiency",
+        "building_update_consumption_initial.efficiency_value",
+        "building_update_consumption_initial.optional_efficiency",
+        "building_update_consumption_initial.should_consume_power",
+        "building_update_consumption_initial.returned"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_consumption_initial_to_source_state",
+        "test_generated_building_comp_bridges_update_consumption_initial_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_consumption_initial_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

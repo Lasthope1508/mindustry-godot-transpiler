@@ -4772,6 +4772,45 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_efficiencyScale_193"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_update_consumption_initial_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_consumers := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var cheating := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var enabled_state := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var production_valid := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var should_consume_state := bool(_args[4] if _args.size() > 4 else false)", source)
+        self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source)
+        self.assertIn("if has_consumers and not cheating:", source)
+        self.assertIn('return {"source_owner": "PortGame.source_building_update_consumption_initial_state", "returned": false}', source)
+        self.assertIn("var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0", source)
+        self.assertIn("var efficiency := potential_efficiency if should_consume_state else 0.0", source)
+        self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, efficiency, efficiency_scale])", source)
+        self.assertIn('var final_efficiency := float(multiplied.get("efficiency", efficiency))', source)
+        self.assertIn('var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))', source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_initial_state"', source)
+        self.assertIn('"method": "public void updateConsumption(){"', source)
+        self.assertIn('"comment": "//everything is valid when cheating"', source)
+        self.assertIn('"guard": "if(!block.hasConsumers || cheating()){"', source)
+        self.assertIn('"potential_efficiency": potential_efficiency', source)
+        self.assertIn('"efficiency": final_efficiency', source)
+        self.assertIn('"optional_efficiency": final_optional_efficiency', source)
+        self.assertIn('"should_consume_power": true', source)
+        self.assertIn('"returned": true', source)
+
+    def test_port_game_exposes_generated_building_comp_update_consumption_initial_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_consumption_initial_bridge_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_updateConsumption_194([has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale])", source)
+        self.assertIn("var canonical = source_building_update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_initial_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

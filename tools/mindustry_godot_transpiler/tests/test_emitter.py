@@ -2983,5 +2983,64 @@ public class BuildingComp{
             self.assertIn('"method": "public float efficiencyScale(){"', source_text)
             self.assertIn('"efficiency_scale": 1.0', source_text)
 
+    def test_emit_bridges_building_comp_update_consumption_initial_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void updateEfficiencyMultiplier(){
+        float scale = efficiencyScale();
+        efficiency *= scale;
+        optionalEfficiency *= scale;
+    }
+    public void updateConsumption(){
+        //everything is valid when cheating
+        if(!block.hasConsumers || cheating()){
+            potentialEfficiency = enabled && productionValid() ? 1f : 0f;
+            efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;
+            shouldConsumePower = true;
+            updateEfficiencyMultiplier();
+            return;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_consumers := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var cheating := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var enabled_state := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var production_valid := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var should_consume_state := bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source_text)
+            self.assertIn("if has_consumers and not cheating:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_building_update_consumption_initial_state", "returned": false}', source_text)
+            self.assertIn("var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0", source_text)
+            self.assertIn("var efficiency := potential_efficiency if should_consume_state else 0.0", source_text)
+            self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, efficiency, efficiency_scale])", source_text)
+            self.assertIn('var final_efficiency := float(multiplied.get("efficiency", efficiency))', source_text)
+            self.assertIn('var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_consumption_initial_state"', source_text)
+            self.assertIn('"method": "public void updateConsumption(){"', source_text)
+            self.assertIn('"comment": "//everything is valid when cheating"', source_text)
+            self.assertIn('"guard": "if(!block.hasConsumers || cheating()){"', source_text)
+            self.assertIn('"potential_efficiency": potential_efficiency', source_text)
+            self.assertIn('"efficiency": final_efficiency', source_text)
+            self.assertIn('"optional_efficiency": final_optional_efficiency', source_text)
+            self.assertIn('"should_consume_power": true', source_text)
+            self.assertIn('"returned": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

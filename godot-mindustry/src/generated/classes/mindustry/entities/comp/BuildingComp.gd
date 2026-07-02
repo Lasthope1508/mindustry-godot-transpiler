@@ -1157,7 +1157,20 @@ func java_method_efficiencyScale_193(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_efficiency_scale_state", "comment": "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */", "method": "public float efficiencyScale(){", "efficiency_scale": 1.0}
 
 func java_method_updateConsumption_194(_args: Array = []) -> Variant:
-	return null
+	var has_consumers := bool(_args[0] if _args.size() > 0 else false)
+	var cheating := bool(_args[1] if _args.size() > 1 else false)
+	var enabled_state := bool(_args[2] if _args.size() > 2 else false)
+	var production_valid := bool(_args[3] if _args.size() > 3 else false)
+	var should_consume_state := bool(_args[4] if _args.size() > 4 else false)
+	var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)
+	if has_consumers and not cheating:
+		return {"source_owner": "PortGame.source_building_update_consumption_initial_state", "returned": false}
+	var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0
+	var efficiency := potential_efficiency if should_consume_state else 0.0
+	var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, efficiency, efficiency_scale])
+	var final_efficiency := float(multiplied.get("efficiency", efficiency))
+	var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))
+	return {"source_owner": "PortGame.source_building_update_consumption_initial_state", "method": "public void updateConsumption(){", "comment": "//everything is valid when cheating", "guard": "if(!block.hasConsumers || cheating()){", "potential": "potentialEfficiency = enabled && productionValid() ? 1f : 0f;", "efficiency_assign": "efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;", "power": "shouldConsumePower = true;", "multiplier": "updateEfficiencyMultiplier();", "return": "return;", "has_consumers": has_consumers, "cheating": cheating, "enabled_state": enabled_state, "production_valid": production_valid, "should_consume_state": should_consume_state, "efficiency_scale": efficiency_scale, "potential_efficiency": potential_efficiency, "efficiency": final_efficiency, "optional_efficiency": final_optional_efficiency, "should_consume_power": true, "returned": true}
 
 func java_method_updatePayload_195(_args: Array = []) -> Variant:
 	return null

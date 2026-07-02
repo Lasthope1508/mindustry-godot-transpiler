@@ -926,6 +926,35 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updateConsumption"
+    ):
+        update_efficiency_multiplier_index = next(
+            (
+                index
+                for index, candidate in enumerate(type_entry.get("methods", []))
+                if candidate.get("name") == "updateEfficiencyMultiplier"
+            ),
+            0,
+        )
+        return [
+            "\tvar has_consumers := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar cheating := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar enabled_state := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar production_valid := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar should_consume_state := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)",
+            "\tif has_consumers and not cheating:",
+            "\t\treturn {\"source_owner\": \"PortGame.source_building_update_consumption_initial_state\", \"returned\": false}",
+            "\tvar potential_efficiency := 1.0 if enabled_state and production_valid else 0.0",
+            "\tvar efficiency := potential_efficiency if should_consume_state else 0.0",
+            f"\tvar multiplied = java_method_updateEfficiencyMultiplier_{update_efficiency_multiplier_index}([efficiency, efficiency, efficiency_scale])",
+            "\tvar final_efficiency := float(multiplied.get(\"efficiency\", efficiency))",
+            "\tvar final_optional_efficiency := float(multiplied.get(\"optional_efficiency\", efficiency))",
+            "\treturn {\"source_owner\": \"PortGame.source_building_update_consumption_initial_state\", \"method\": \"public void updateConsumption(){\", \"comment\": \"//everything is valid when cheating\", \"guard\": \"if(!block.hasConsumers || cheating()){\", \"potential\": \"potentialEfficiency = enabled && productionValid() ? 1f : 0f;\", \"efficiency_assign\": \"efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;\", \"power\": \"shouldConsumePower = true;\", \"multiplier\": \"updateEfficiencyMultiplier();\", \"return\": \"return;\", \"has_consumers\": has_consumers, \"cheating\": cheating, \"enabled_state\": enabled_state, \"production_valid\": production_valid, \"should_consume_state\": should_consume_state, \"efficiency_scale\": efficiency_scale, \"potential_efficiency\": potential_efficiency, \"efficiency\": final_efficiency, \"optional_efficiency\": final_optional_efficiency, \"should_consume_power\": true, \"returned\": true}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
