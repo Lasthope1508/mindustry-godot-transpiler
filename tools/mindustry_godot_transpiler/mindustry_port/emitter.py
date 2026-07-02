@@ -57,6 +57,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar should_consume_state := bool(_args[0] if _args.size() > 0 else false)",
             "\treturn should_consume_state",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawStatus"
+    ):
+        return [
+            "\tvar enable_draw_status := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar consumers_length := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar block_size_value := int(_args[2] if _args.size() > 2 else 1)",
+            "\tvar source_x := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar source_y := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar source_tilesize := float(_args[5] if _args.size() > 5 else 8.0)",
+            "\tif not (enable_draw_status and consumers_length > 0):",
+            "\t\treturn {\"visible\": false}",
+            "\tvar multiplier := 1.0 if block_size_value > 1 else 0.64",
+            "\tvar brcx := source_x + (float(block_size_value) * source_tilesize / 2.0) - (source_tilesize * multiplier / 2.0)",
+            "\tvar brcy := source_y - (float(block_size_value) * source_tilesize / 2.0) + (source_tilesize * multiplier / 2.0)",
+            "\treturn {\"visible\": true, \"multiplier\": multiplier, \"brcx\": brcx, \"brcy\": brcy, \"gray_square_size\": 2.5 * multiplier, \"status_square_size\": 1.5 * multiplier}",
+        ]
     return ["\treturn null"]
 
 def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:

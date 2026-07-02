@@ -3604,6 +3604,16 @@ func generated_building_comp_should_ambient_sound_bridge_state(should_consume_st
 		"result": result,
 	}
 
+func generated_building_comp_draw_status_bridge_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawStatus_123([enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize])
+	return {
+		"source_owner": "PortGame.source_building_draw_status_state",
+		"generated_owner": "BuildingComp.java_method_drawStatus_123",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

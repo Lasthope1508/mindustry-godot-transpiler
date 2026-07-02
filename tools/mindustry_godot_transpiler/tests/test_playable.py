@@ -2691,6 +2691,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('var result = instance.java_method_shouldAmbientSound_122([should_consume_state])', source)
         self.assertIn('"source_owner": "PortGame.source_building_should_ambient_sound"', source)
 
+    def test_generated_building_comp_bridges_draw_status_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawStatus_123(_args: Array = []) -> Variant:", source)
+        self.assertIn("var enable_draw_status := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var consumers_length := int(_args[1] if _args.size() > 1 else 0)", source)
+        self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 1)", source)
+        self.assertIn("var multiplier := 1.0 if block_size_value > 1 else 0.64", source)
+        self.assertIn('"gray_square_size": 2.5 * multiplier', source)
+        self.assertIn('"status_square_size": 1.5 * multiplier', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_status_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_status_bridge_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawStatus_123([enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_status_state"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

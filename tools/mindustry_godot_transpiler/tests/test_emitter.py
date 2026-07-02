@@ -147,5 +147,42 @@ public class BuildingComp{
             self.assertIn("var should_consume_state := bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("return should_consume_state", source_text)
 
+    def test_emit_bridges_building_comp_draw_status_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawStatus(){
+        if(block.enableDrawStatus && block.consumers.length > 0){
+            float multiplier = block.size > 1 ? 1 : 0.64f;
+            float brcx = x + (block.size * tilesize / 2f) - (tilesize * multiplier / 2f);
+            float brcy = y - (block.size * tilesize / 2f) + (tilesize * multiplier / 2f);
+            Fill.square(brcx, brcy, 2.5f * multiplier, 45);
+            Fill.square(brcx, brcy, 1.5f * multiplier, 45);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawStatus_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var enable_draw_status := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var consumers_length := int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 1)", source_text)
+            self.assertIn("var multiplier := 1.0 if block_size_value > 1 else 0.64", source_text)
+            self.assertIn('"gray_square_size": 2.5 * multiplier', source_text)
+            self.assertIn('"status_square_size": 1.5 * multiplier', source_text)
+
 if __name__ == "__main__":
     unittest.main()
