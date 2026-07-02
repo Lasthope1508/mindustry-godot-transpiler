@@ -1376,6 +1376,10 @@ public class BuildingComp{
         if(block.consPower != null && block.consPower.buffered){
             power += this.power.status * block.consPower.capacity;
         }
+
+        if(block.hasLiquids && state.rules.damageExplosions){
+            liquids.each(this::splashLiquid);
+        }
     }
 }
 """,
@@ -1409,9 +1413,15 @@ public class BuildingComp{
             self.assertIn("var apply_buffered_power := has_cons_power and cons_power_buffered", source_text)
             self.assertIn("var buffered_power_contribution := power_status * cons_power_capacity if apply_buffered_power else 0.0", source_text)
             self.assertIn("power = current_power + buffered_power_contribution", source_text)
+            self.assertIn("var damage_explosions := bool(_args[10] if _args.size() > 10 else false)", source_text)
+            self.assertIn("var splash_liquids := has_liquids and damage_explosions", source_text)
+            self.assertIn('var splash_call := "liquids.each(this::splashLiquid);" if splash_liquids else ""', source_text)
+            self.assertIn("var liquid_count := liquid_states.size() if splash_liquids else 0", source_text)
+            self.assertIn("var liquids: Array = liquid_states.duplicate() if splash_liquids else []", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
             self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
             self.assertIn('"buffered_power_source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"', source_text)
+            self.assertIn('"splash_liquid_source_owner": "PortGame.source_building_on_destroyed_splash_liquid_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
@@ -1428,10 +1438,17 @@ public class BuildingComp{
             self.assertIn('"liquid_explosiveness_add": "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);"', source_text)
             self.assertIn('"buffered_power_guard": "if(block.consPower != null && block.consPower.buffered){"', source_text)
             self.assertIn('"buffered_power_add": "power += this.power.status * block.consPower.capacity;"', source_text)
+            self.assertIn('"splash_liquid_gate": "if(block.hasLiquids && state.rules.damageExplosions){"', source_text)
+            self.assertIn('"splash_liquid_call": "liquids.each(this::splashLiquid);"', source_text)
             self.assertIn('"base_explosiveness": base_explosiveness', source_text)
             self.assertIn('"has_items": has_items', source_text)
             self.assertIn('"item_cap": item_cap', source_text)
             self.assertIn('"has_liquids": has_liquids', source_text)
+            self.assertIn('"damage_explosions": damage_explosions', source_text)
+            self.assertIn('"splash_liquids": splash_liquids', source_text)
+            self.assertIn('"call": splash_call', source_text)
+            self.assertIn('"liquid_count": liquid_count', source_text)
+            self.assertIn('"liquids": liquids', source_text)
             self.assertIn('"current_power": current_power', source_text)
             self.assertIn('"has_cons_power": has_cons_power', source_text)
             self.assertIn('"cons_power_buffered": cons_power_buffered', source_text)
