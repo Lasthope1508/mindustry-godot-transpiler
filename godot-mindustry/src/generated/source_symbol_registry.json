@@ -9344,6 +9344,81 @@
         "test_building_drawrot_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_dump_accumulate_default.comment": {
+      "godot_owner": "PortGame.source_building_dump_accumulate_default_state",
+      "godot_symbol": "source_building_dump_accumulate_default_result.comment",
+      "java_expr": "/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */",
+      "java_method": "dumpAccumulate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N957 preserves source comment for BuildingComp.dumpAccumulate default overload.",
+      "runtime_proof": "/root/Main.source_building_dump_accumulate_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_accumulate_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_accumulate_default_state",
+        "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_accumulate_default.delegate": {
+      "godot_owner": "PortGame.source_building_dump_accumulate_default_state",
+      "godot_symbol": "source_building_dump_accumulate_default_result.delegate",
+      "java_expr": "return dumpAccumulate(null);",
+      "java_method": "dumpAccumulate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N957 delegates no-arg dumpAccumulate to item overload with null.",
+      "runtime_proof": "/root/Main.source_building_dump_accumulate_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_accumulate_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_accumulate_default_state",
+        "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_accumulate_default.delegates_to_item_overload": {
+      "godot_owner": "PortGame.source_building_dump_accumulate_default_state",
+      "godot_symbol": "source_building_dump_accumulate_default_result.delegates_to_item_overload",
+      "java_expr": "return dumpAccumulate(null);",
+      "java_method": "dumpAccumulate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N957 records that default overload delegates to dumpAccumulate(Item item).",
+      "runtime_proof": "/root/Main.source_building_dump_accumulate_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_accumulate_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_accumulate_default_state",
+        "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_accumulate_default.item": {
+      "godot_owner": "PortGame.source_building_dump_accumulate_default_state",
+      "godot_symbol": "source_building_dump_accumulate_default_result.item",
+      "java_expr": "null",
+      "java_method": "dumpAccumulate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N957 uses source null item argument for default dumpAccumulate overload.",
+      "runtime_proof": "/root/Main.source_building_dump_accumulate_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_accumulate_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_accumulate_default_state",
+        "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_accumulate_default.method": {
+      "godot_owner": "PortGame.source_building_dump_accumulate_default_state",
+      "godot_symbol": "source_building_dump_accumulate_default_result.method",
+      "java_expr": "public boolean dumpAccumulate(){",
+      "java_method": "dumpAccumulate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N957 pins BuildingComp.dumpAccumulate no-arg overload method declaration.",
+      "runtime_proof": "/root/Main.source_building_dump_accumulate_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_accumulate_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_accumulate_default_state",
+        "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_dump_liquid_campaign_unlock.campaign_unlock_guard": {
       "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
       "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.campaign_unlock_guard",

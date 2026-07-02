@@ -2206,6 +2206,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"production_recorded": production_recorded', source)
         self.assertIn('"unlock_called": unlock_called', source)
 
+    def test_port_game_exposes_source_building_dump_accumulate_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_accumulate_default_state() -> Dictionary:", source)
+        self.assertIn('"comment": "/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */"', source)
+        self.assertIn('"method": "public boolean dumpAccumulate(){"', source)
+        self.assertIn('"delegate": "return dumpAccumulate(null);"', source)
+        self.assertIn('"item": null', source)
+        self.assertIn('"delegates_to_item_overload": true', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

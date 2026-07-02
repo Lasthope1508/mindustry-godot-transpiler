@@ -5742,6 +5742,15 @@ const SOURCE_DUMP_ACCUMULATE_ATTEMPT_WHILE_GATE := "while(dumpAccum >= 1f){"
 const SOURCE_DUMP_ACCUMULATE_ATTEMPT_DUMP_CALL := "res |= dump(item);"
 const SOURCE_DUMP_ACCUMULATE_ATTEMPT_SUBTRACT_ONE := "dumpAccum -=1f;"
 
+func source_building_dump_accumulate_default_state() -> Dictionary:
+	return {
+		"comment": "/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */",
+		"method": "public boolean dumpAccumulate(){",
+		"delegate": "return dumpAccumulate(null);",
+		"item": null,
+		"delegates_to_item_overload": true,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

@@ -21962,6 +21962,53 @@
       },
       "status": "active"
     },
+    "source_building_dump_accumulate_default_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_building_dump_accumulate_default_result.comment",
+          "java_expr": "/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N957 source comment key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegate": {
+          "godot_symbol": "source_building_dump_accumulate_default_result.delegate",
+          "java_expr": "return dumpAccumulate(null);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N957 delegate call key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegates_to_item_overload": {
+          "godot_symbol": "source_building_dump_accumulate_default_result.delegates_to_item_overload",
+          "java_expr": "return dumpAccumulate(null);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N957 item-overload delegation flag.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "item": {
+          "godot_symbol": "source_building_dump_accumulate_default_result.item",
+          "java_expr": "null",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N957 null item argument key.",
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "method": {
+          "godot_symbol": "source_building_dump_accumulate_default_result.method",
+          "java_expr": "public boolean dumpAccumulate(){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N957 method declaration key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_dump_accumulate_default_state",
+      "source_slice": "N957",
+      "status": "active"
+    },
     "source_building_dump_liquid_campaign_unlock_input": {
       "keys": {
         "current_liquid_amount": {

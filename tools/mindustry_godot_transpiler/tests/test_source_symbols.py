@@ -17848,6 +17848,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(unlock_called["java_expr"], "if(!net.client()) item.unlock();")
         self.assertEqual(unlock_called["godot_symbol"], "source_building_produced_item_amount_result.unlock_called")
 
+    def test_building_dump_accumulate_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_dump_accumulate_default.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "dumpAccumulate()")
+        self.assertEqual(method["java_expr"], "public boolean dumpAccumulate(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_dump_accumulate_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_dump_accumulate_default_state")
+        self.assertEqual(method["godot_symbol"], "source_building_dump_accumulate_default_result.method")
+
+        delegate = source_symbols.source_symbol(registry, "building_dump_accumulate_default.delegate")
+        self.assertEqual(delegate["java_expr"], "return dumpAccumulate(null);")
+        self.assertEqual(delegate["godot_symbol"], "source_building_dump_accumulate_default_result.delegate")
+
+        item = source_symbols.source_symbol(registry, "building_dump_accumulate_default.item")
+        self.assertEqual(item["java_expr"], "null")
+        self.assertEqual(item["godot_symbol"], "source_building_dump_accumulate_default_result.item")
+
     def test_building_move_liquid_forward_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18954,15 +18976,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 553)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 554)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 558)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 559)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_dump_accumulate_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_visibility_loop_state", audit["registeredSourceOwners"])
@@ -23870,6 +23893,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(Vars.state.rules.sector != null && team == state.rules.defaultTeam){", building_produced_item_amount["exact_exprs"])
         self.assertIn("Vars.state.rules.sector.info.handleProduction(item, amount);", building_produced_item_amount["exact_exprs"])
         self.assertIn("if(!net.client()) item.unlock();", building_produced_item_amount["exact_exprs"])
+
+        building_dump_accumulate_default = source_symbols.source_slice(ledger, "N957")
+        self.assertEqual(building_dump_accumulate_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_accumulate_default["java_method"], "dumpAccumulate()")
+        self.assertEqual(building_dump_accumulate_default["godot_owner"], "PortGame.source_building_dump_accumulate_default_state")
+        self.assertIn("/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */", building_dump_accumulate_default["exact_exprs"])
+        self.assertIn("public boolean dumpAccumulate(){", building_dump_accumulate_default["exact_exprs"])
+        self.assertIn("return dumpAccumulate(null);", building_dump_accumulate_default["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -29161,6 +29192,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("production_recorded", building_produced_item_amount["return_keys"])
         self.assertIn("unlock_called", building_produced_item_amount["return_keys"])
         self.assertEqual(building_produced_item_amount["source_method"], "produced(Item item, int amount)")
+
+        building_dump_accumulate_default = source_symbols.api_contract(contracts, "PortGame.source_building_dump_accumulate_default_state")
+        self.assertEqual(building_dump_accumulate_default["params"], [])
+        self.assertIn("delegate", building_dump_accumulate_default["return_keys"])
+        self.assertIn("item", building_dump_accumulate_default["return_keys"])
+        self.assertIn("delegates_to_item_overload", building_dump_accumulate_default["return_keys"])
+        self.assertEqual(building_dump_accumulate_default["source_method"], "dumpAccumulate()")
 
         building_move_liquid_forward = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_forward_state")
         self.assertEqual([param["name"] for param in building_move_liquid_forward["params"]], ["leaks", "liquid", "next_tile_present", "next_build_present", "next_block_solid", "next_block_has_liquids", "current_liquid_amount", "move_liquid_return"])
@@ -37272,6 +37310,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_produced_item_amount_result["keys"]["production_recorded"]["java_expr"], "Vars.state.rules.sector.info.handleProduction(item, amount);")
         self.assertEqual(source_building_produced_item_amount_result["keys"]["unlock_called"]["java_expr"], "if(!net.client()) item.unlock();")
         self.assertEqual(source_building_produced_item_amount_result["keys"]["item"]["alias_of"], "source_building_produced_item_amount_input.item")
+
+        source_building_dump_accumulate_default_result = source_symbols.state_schema(schema, "source_building_dump_accumulate_default_result")
+        self.assertEqual(source_building_dump_accumulate_default_result["keys"]["comment"]["java_expr"], "/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */")
+        self.assertEqual(source_building_dump_accumulate_default_result["keys"]["method"]["java_expr"], "public boolean dumpAccumulate(){")
+        self.assertEqual(source_building_dump_accumulate_default_result["keys"]["delegate"]["java_expr"], "return dumpAccumulate(null);")
+        self.assertEqual(source_building_dump_accumulate_default_result["keys"]["item"]["java_expr"], "null")
+        self.assertEqual(source_building_dump_accumulate_default_result["keys"]["delegates_to_item_overload"]["java_expr"], "return dumpAccumulate(null);")
 
         source_building_move_liquid_forward_input = source_symbols.state_schema(schema, "source_building_move_liquid_forward_input")
         self.assertEqual(source_building_move_liquid_forward_input["keys"]["leaks"]["java_expr"], "leaks")

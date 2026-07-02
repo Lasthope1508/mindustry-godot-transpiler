@@ -2511,6 +2511,26 @@ def verify_building_dump_accumulate_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_building_dump_accumulate_default_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    comment = "/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */"
+    method = "public boolean dumpAccumulate(){"
+    delegate = "return dumpAccumulate(null);"
+    missing = []
+    for snippet in [comment, method, delegate]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "comment": comment,
+            "method": method,
+            "delegate": delegate,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

@@ -20042,6 +20042,31 @@
         "test_port_game_exposes_source_building_produced_item_amount_state",
         "test_building_produced_item_amount_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N957": {
+      "exact_exprs": [
+        "/** Dumps any item with an accumulator. May dump multiple times per frame. Use with care. */",
+        "public boolean dumpAccumulate(){",
+        "return dumpAccumulate(null);"
+      ],
+      "godot_owner": "PortGame.source_building_dump_accumulate_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dumpAccumulate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_building_dump_accumulate_default_state",
+      "source_symbols": [
+        "building_dump_accumulate_default.comment",
+        "building_dump_accumulate_default.method",
+        "building_dump_accumulate_default.delegate",
+        "building_dump_accumulate_default.item",
+        "building_dump_accumulate_default.delegates_to_item_overload"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_accumulate_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_accumulate_default_state",
+        "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
