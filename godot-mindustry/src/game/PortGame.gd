@@ -4555,6 +4555,18 @@ func generated_building_comp_edelta_bridge_state(source_delta: float, time_scale
 		"canonical": canonical,
 	}
 
+func generated_building_comp_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])
+	var canonical = source_building_update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)
+	return {
+		"source_owner": "PortGame.source_building_update_efficiency_multiplier_state",
+		"generated_owner": "BuildingComp.java_method_updateEfficiencyMultiplier_192",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

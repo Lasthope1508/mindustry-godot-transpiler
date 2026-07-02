@@ -4721,6 +4721,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_edelta_191"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_update_efficiency_multiplier_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_updateEfficiencyMultiplier_192(_args: Array = []) -> Variant:", source)
+        self.assertIn("var efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var optional_efficiency := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var efficiency_scale := float(_args[2] if _args.size() > 2 else 1.0)", source)
+        self.assertIn("var scale := efficiency_scale", source)
+        self.assertIn("efficiency *= scale", source)
+        self.assertIn("optional_efficiency *= scale", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_efficiency_multiplier_state"', source)
+        self.assertIn('"comment": "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"', source)
+        self.assertIn('"method": "public void updateEfficiencyMultiplier(){"', source)
+        self.assertIn('"scale": scale', source)
+        self.assertIn('"efficiency": efficiency', source)
+        self.assertIn('"optional_efficiency": optional_efficiency', source)
+        self.assertIn('"efficiency_scale": efficiency_scale', source)
+
+    def test_port_game_exposes_generated_building_comp_update_efficiency_multiplier_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])", source)
+        self.assertIn("var canonical = source_building_update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_efficiency_multiplier_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateEfficiencyMultiplier_192"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

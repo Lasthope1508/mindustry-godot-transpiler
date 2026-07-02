@@ -2912,5 +2912,46 @@ public class BuildingComp{
             self.assertIn('"time_scale": time_scale', source_text)
             self.assertIn('"edelta": edelta', source_text)
 
+    def test_emit_bridges_building_comp_update_efficiency_multiplier_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */
+    public void updateEfficiencyMultiplier(){
+        float scale = efficiencyScale();
+        efficiency *= scale;
+        optionalEfficiency *= scale;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateEfficiencyMultiplier_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var optional_efficiency := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var efficiency_scale := float(_args[2] if _args.size() > 2 else 1.0)", source_text)
+            self.assertIn("var scale := efficiency_scale", source_text)
+            self.assertIn("efficiency *= scale", source_text)
+            self.assertIn("optional_efficiency *= scale", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_efficiency_multiplier_state"', source_text)
+            self.assertIn('"comment": "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"', source_text)
+            self.assertIn('"method": "public void updateEfficiencyMultiplier(){"', source_text)
+            self.assertIn('"scale": scale', source_text)
+            self.assertIn('"efficiency": efficiency', source_text)
+            self.assertIn('"optional_efficiency": optional_efficiency', source_text)
+            self.assertIn('"efficiency_scale": efficiency_scale', source_text)
+
 if __name__ == "__main__":
     unittest.main()

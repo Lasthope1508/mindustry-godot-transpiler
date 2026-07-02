@@ -1145,7 +1145,13 @@ func java_method_edelta_191(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_edelta", "method": "public float edelta(){", "delta_call": delta_call, "efficiency": efficiency, "source_delta": source_delta, "time_scale": time_scale, "edelta": edelta}
 
 func java_method_updateEfficiencyMultiplier_192(_args: Array = []) -> Variant:
-	return null
+	var efficiency := float(_args[0] if _args.size() > 0 else 0.0)
+	var optional_efficiency := float(_args[1] if _args.size() > 1 else 0.0)
+	var efficiency_scale := float(_args[2] if _args.size() > 2 else 1.0)
+	var scale := efficiency_scale
+	efficiency *= scale
+	optional_efficiency *= scale
+	return {"source_owner": "PortGame.source_building_update_efficiency_multiplier_state", "comment": "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */", "method": "public void updateEfficiencyMultiplier(){", "scale": scale, "efficiency": efficiency, "optional_efficiency": optional_efficiency, "efficiency_scale": efficiency_scale}
 
 func java_method_efficiencyScale_193(_args: Array = []) -> Variant:
 	return null

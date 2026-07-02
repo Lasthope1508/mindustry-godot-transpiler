@@ -25830,6 +25830,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("efficiency", building_generated_edelta["exact_exprs"])
         self.assertIn("delta()", building_generated_edelta["exact_exprs"])
 
+        building_generated_update_efficiency_multiplier = source_symbols.source_slice(ledger, "N1057")
+        self.assertEqual(building_generated_update_efficiency_multiplier["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_update_efficiency_multiplier["java_method"], "updateEfficiencyMultiplier()")
+        self.assertEqual(building_generated_update_efficiency_multiplier["godot_owner"], "PortGame.source_building_update_efficiency_multiplier_state")
+        self.assertEqual(building_generated_update_efficiency_multiplier["runtime_proof"], "/root/Main.generated_building_comp_update_efficiency_multiplier_bridge_state")
+        self.assertIn("/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */", building_generated_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("public void updateEfficiencyMultiplier(){", building_generated_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("float scale = efficiencyScale();", building_generated_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("efficiency *= scale;", building_generated_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("optionalEfficiency *= scale;", building_generated_update_efficiency_multiplier["exact_exprs"])
+        self.assertIn("efficiencyScale()", building_generated_update_efficiency_multiplier["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

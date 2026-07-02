@@ -904,6 +904,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updateEfficiencyMultiplier"
+    ):
+        return [
+            "\tvar efficiency := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar optional_efficiency := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar efficiency_scale := float(_args[2] if _args.size() > 2 else 1.0)",
+            "\tvar scale := efficiency_scale",
+            "\tefficiency *= scale",
+            "\toptional_efficiency *= scale",
+            "\treturn {\"source_owner\": \"PortGame.source_building_update_efficiency_multiplier_state\", \"comment\": \"/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */\", \"method\": \"public void updateEfficiencyMultiplier(){\", \"scale\": scale, \"efficiency\": efficiency, \"optional_efficiency\": optional_efficiency, \"efficiency_scale\": efficiency_scale}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
