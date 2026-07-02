@@ -3042,8 +3042,8 @@ public class BuildingComp{
             self.assertIn("var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)", source_text)
             self.assertIn("if has_consumers and not cheating:", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_building_update_consumption_setup_state"', source_text)
-            self.assertIn("var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0", source_text)
-            self.assertIn("var efficiency := potential_efficiency if should_consume_state else 0.0", source_text)
+            self.assertIn("potential_efficiency = 1.0 if enabled_state and production_valid else 0.0", source_text)
+            self.assertIn("efficiency = potential_efficiency if should_consume_state else 0.0", source_text)
             self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, efficiency, efficiency_scale])", source_text)
             self.assertIn('var final_efficiency := float(multiplied.get("efficiency", efficiency))', source_text)
             self.assertIn('var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))', source_text)
@@ -3319,6 +3319,18 @@ public class BuildingComp{
         for(var cons : block.optionalConsumers){
             optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));
         }
+
+        //efficiency is now this minimum value
+        efficiency = minEfficiency;
+        optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);
+
+        //assign "potential"
+        potentialEfficiency = efficiency;
+
+        //no updating means zero efficiency
+        if(!update){
+            efficiency = optionalEfficiency = 0f;
+        }
     }
 }
 """,
@@ -3343,6 +3355,83 @@ public class BuildingComp{
             self.assertIn('"optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));"', source_text)
             self.assertIn('"optional_consumer_results": optional_consumer_results', source_text)
             self.assertIn('"optional_efficiency": optional_efficiency', source_text)
+
+    def test_emit_bridges_building_comp_update_consumption_efficiency_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void updateConsumption(){
+        boolean update = shouldConsume() && productionValid();
+        float minEfficiency = 1f;
+
+        //assume efficiency is 1 for the calculations below
+        efficiency = optionalEfficiency = 1f;
+        shouldConsumePower = true;
+
+        //first pass: get the minimum efficiency of any consumer
+        for(var cons : block.nonOptionalConsumers){
+            float result = cons.efficiency(self());
+
+            if(cons != block.consPower && result <= 0.0000001f){
+                shouldConsumePower = false;
+            }
+
+            minEfficiency = Math.min(minEfficiency, result);
+        }
+
+        //same for optionals
+        for(var cons : block.optionalConsumers){
+            optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));
+        }
+
+        //efficiency is now this minimum value
+        efficiency = minEfficiency;
+        optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);
+
+        //assign "potential"
+        potentialEfficiency = efficiency;
+
+        //no updating means zero efficiency
+        if(!update){
+            efficiency = optionalEfficiency = 0f;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateConsumption_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("if _args.size() <= 8:", source_text)
+            self.assertIn("efficiency = min_efficiency", source_text)
+            self.assertIn("var optional_efficiency_input := optional_efficiency", source_text)
+            self.assertIn("optional_efficiency = min(optional_efficiency, min_efficiency)", source_text)
+            self.assertIn("potential_efficiency = efficiency", source_text)
+            self.assertIn("if not update:", source_text)
+            self.assertIn("efficiency = 0.0", source_text)
+            self.assertIn("optional_efficiency = 0.0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_consumption_efficiency_state"', source_text)
+            self.assertIn('"comment": "//efficiency is now this minimum value"', source_text)
+            self.assertIn('"assign": "efficiency = minEfficiency;"', source_text)
+            self.assertIn('"optional_min": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);"', source_text)
+            self.assertIn('"potential_assign": "potentialEfficiency = efficiency;"', source_text)
+            self.assertIn('"no_update_guard": "if(!update){"', source_text)
+            self.assertIn('"no_update_zero": "efficiency = optionalEfficiency = 0f;"', source_text)
+            self.assertIn('"min_efficiency": min_efficiency', source_text)
+            self.assertIn('"optional_efficiency_input": optional_efficiency_input', source_text)
+            self.assertIn('"potential_efficiency": potential_efficiency', source_text)
 
 if __name__ == "__main__":
     unittest.main()

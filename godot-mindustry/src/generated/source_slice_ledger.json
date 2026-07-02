@@ -21998,6 +21998,52 @@
         "test_port_game_exposes_generated_building_comp_update_consumption_optional_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1064": {
+      "deferred_exprs": [
+        "Efficiency multiplier, update-consumer second pass, and concrete Consume side effects stay deferred to later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//efficiency is now this minimum value",
+        "efficiency = minEfficiency;",
+        "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);",
+        "//assign \"potential\"",
+        "potentialEfficiency = efficiency;",
+        "//no updating means zero efficiency",
+        "if(!update){",
+        "efficiency = optionalEfficiency = 0f;"
+      ],
+      "godot_owner": "PortGame.source_building_update_consumption_efficiency_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateConsumption_194 efficiency assignment/no-update zero branch and PortGame generated bridge to existing N660 canonical source_building_update_consumption_efficiency_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_consumption_efficiency_bridge_state",
+      "source_symbols": [
+        "building_update_consumption_efficiency.method",
+        "building_update_consumption_efficiency.comment",
+        "building_update_consumption_efficiency.assign",
+        "building_update_consumption_efficiency.optional_min",
+        "building_update_consumption_efficiency.potential_comment",
+        "building_update_consumption_efficiency.potential_assign",
+        "building_update_consumption_efficiency.no_update_comment",
+        "building_update_consumption_efficiency.no_update_guard",
+        "building_update_consumption_efficiency.no_update_zero",
+        "building_update_consumption_efficiency.min_efficiency",
+        "building_update_consumption_efficiency.optional_efficiency_input",
+        "building_update_consumption_efficiency.update",
+        "building_update_consumption_efficiency.efficiency",
+        "building_update_consumption_efficiency.optional_efficiency",
+        "building_update_consumption_efficiency.potential_efficiency"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_consumption_efficiency_to_source_state",
+        "test_generated_building_comp_bridges_update_consumption_efficiency_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_consumption_efficiency_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

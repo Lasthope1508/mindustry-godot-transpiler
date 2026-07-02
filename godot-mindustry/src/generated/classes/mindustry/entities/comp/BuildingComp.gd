@@ -1165,6 +1165,8 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 	var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)
 	var non_optional_consumer_results: Array = _args[6] if _args.size() > 6 else []
 	var optional_consumer_results: Array = _args[7] if _args.size() > 7 else []
+	var efficiency := 0.0
+	var potential_efficiency := 0.0
 	if has_consumers and not cheating:
 		if not enabled_state:
 			return {"source_owner": "PortGame.source_building_update_consumption_disabled_state", "method": "public void updateConsumption(){", "comment": "//disabled -> nothing works", "guard": "if(!enabled){", "efficiencies": "potentialEfficiency = efficiency = optionalEfficiency = 0f;", "power": "shouldConsumePower = false;", "return": "return;", "enabled_state": enabled_state, "potential_efficiency": 0.0, "efficiency": 0.0, "optional_efficiency": 0.0, "should_consume_power": false, "returned": true}
@@ -1183,9 +1185,18 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 		var optional_efficiency := 1.0
 		for result in optional_consumer_results:
 			optional_efficiency = min(optional_efficiency, float(result))
-		return {"source_owner": "PortGame.source_building_update_consumption_optional_pass_state", "method": "public void updateConsumption(){", "comment": "//same for optionals", "loop": "for(var cons : block.optionalConsumers){", "optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));", "optional_consumer_results": optional_consumer_results, "optional_efficiency": optional_efficiency}
-	var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0
-	var efficiency := potential_efficiency if should_consume_state else 0.0
+		if _args.size() <= 8:
+			return {"source_owner": "PortGame.source_building_update_consumption_optional_pass_state", "method": "public void updateConsumption(){", "comment": "//same for optionals", "loop": "for(var cons : block.optionalConsumers){", "optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));", "optional_consumer_results": optional_consumer_results, "optional_efficiency": optional_efficiency}
+		efficiency = min_efficiency
+		var optional_efficiency_input := optional_efficiency
+		optional_efficiency = min(optional_efficiency, min_efficiency)
+		potential_efficiency = efficiency
+		if not update:
+			efficiency = 0.0
+			optional_efficiency = 0.0
+		return {"source_owner": "PortGame.source_building_update_consumption_efficiency_state", "method": "public void updateConsumption(){", "comment": "//efficiency is now this minimum value", "assign": "efficiency = minEfficiency;", "optional_min": "optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);", "potential_comment": "//assign \"potential\"", "potential_assign": "potentialEfficiency = efficiency;", "no_update_comment": "//no updating means zero efficiency", "no_update_guard": "if(!update){", "no_update_zero": "efficiency = optionalEfficiency = 0f;", "min_efficiency": min_efficiency, "optional_efficiency_input": optional_efficiency_input, "update": update, "efficiency": efficiency, "optional_efficiency": optional_efficiency, "potential_efficiency": potential_efficiency}
+	potential_efficiency = 1.0 if enabled_state and production_valid else 0.0
+	efficiency = potential_efficiency if should_consume_state else 0.0
 	var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, efficiency, efficiency_scale])
 	var final_efficiency := float(multiplied.get("efficiency", efficiency))
 	var final_optional_efficiency := float(multiplied.get("optional_efficiency", efficiency))
