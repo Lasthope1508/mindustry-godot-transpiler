@@ -4144,6 +4144,64 @@
         "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_get_power_connections_power_compatibility_guard_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "block_consumes_power",
+          "schema": "source_building_get_power_connections_power_compatibility_guard_input.block_consumes_power",
+          "type": "bool"
+        },
+        {
+          "name": "block_outputs_power",
+          "schema": "source_building_get_power_connections_power_compatibility_guard_input.block_outputs_power",
+          "type": "bool"
+        },
+        {
+          "name": "block_conductive_power",
+          "schema": "source_building_get_power_connections_power_compatibility_guard_input.block_conductive_power",
+          "type": "bool"
+        },
+        {
+          "name": "other_block_consumes_power_by_index",
+          "schema": "source_building_get_power_connections_power_compatibility_guard_input.other_block_consumes_power_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "other_block_outputs_power_by_index",
+          "schema": "source_building_get_power_connections_power_compatibility_guard_input.other_block_outputs_power_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "other_block_conductive_power_by_index",
+          "schema": "source_building_get_power_connections_power_compatibility_guard_input.other_block_conductive_power_by_index",
+          "type": "Array[bool]"
+        }
+      ],
+      "return_keys": [
+        "power_compatibility_guard",
+        "block_consumes_power",
+        "block_outputs_power",
+        "block_conductive_power",
+        "other_block_consumes_power_by_index",
+        "other_block_outputs_power_by_index",
+        "other_block_conductive_power_by_index",
+        "connection_count",
+        "power_compatibility_pass_indices",
+        "power_compatibility_pass_count",
+        "deferred_conducts_and_link_guard"
+      ],
+      "rule": "Public runtime contract for BuildingComp.getPowerConnections power compatibility guard slice.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_power_compatibility_guard_state",
+      "source_method": "getPowerConnections(Seq<Building> out)",
+      "source_slice": "N973",
+      "status": "active",
+      "tests": [
+        "test_building_get_power_connections_power_compatibility_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_power_compatibility_guard_state",
+        "test_building_get_power_connections_power_compatibility_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_get_power_connections_proximity_guard_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
@@ -4173,7 +4231,7 @@
         "connection_count",
         "proximity_guard_pass_indices",
         "proximity_guard_pass_count",
-        "deferred_power_compatibility_and_conducts"
+        "deferred_conducts_and_link_guard"
       ],
       "rule": "Public runtime contract for BuildingComp.getPowerConnections proximity guard slice.",
       "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",

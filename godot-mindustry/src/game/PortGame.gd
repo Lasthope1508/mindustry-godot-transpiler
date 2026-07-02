@@ -5483,7 +5483,28 @@ func source_building_get_power_connections_proximity_guard_state(other_present_b
 		"connection_count": connection_count,
 		"proximity_guard_pass_indices": proximity_guard_pass_indices,
 		"proximity_guard_pass_count": proximity_guard_pass_indices.size(),
-		"deferred_power_compatibility_and_conducts": true,
+		"deferred_conducts_and_link_guard": true,
+	}
+
+func source_building_get_power_connections_power_compatibility_guard_state(block_consumes_power: bool, block_outputs_power: bool, block_conductive_power: bool, other_block_consumes_power_by_index: Array, other_block_outputs_power_by_index: Array, other_block_conductive_power_by_index: Array) -> Dictionary:
+	var power_compatibility_pass_indices: Array = []
+	var connection_count = min(other_block_consumes_power_by_index.size(), min(other_block_outputs_power_by_index.size(), other_block_conductive_power_by_index.size()))
+	for index in connection_count:
+		var incompatible := block_consumes_power and bool(other_block_consumes_power_by_index[index]) and not block_outputs_power and not bool(other_block_outputs_power_by_index[index]) and not block_conductive_power and not bool(other_block_conductive_power_by_index[index])
+		if not incompatible:
+			power_compatibility_pass_indices.append(index)
+	return {
+		"power_compatibility_guard": "&& !(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)",
+		"block_consumes_power": block_consumes_power,
+		"block_outputs_power": block_outputs_power,
+		"block_conductive_power": block_conductive_power,
+		"other_block_consumes_power_by_index": other_block_consumes_power_by_index.duplicate(),
+		"other_block_outputs_power_by_index": other_block_outputs_power_by_index.duplicate(),
+		"other_block_conductive_power_by_index": other_block_conductive_power_by_index.duplicate(),
+		"connection_count": connection_count,
+		"power_compatibility_pass_indices": power_compatibility_pass_indices,
+		"power_compatibility_pass_count": power_compatibility_pass_indices.size(),
+		"deferred_conducts_and_link_guard": true,
 	}
 
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:

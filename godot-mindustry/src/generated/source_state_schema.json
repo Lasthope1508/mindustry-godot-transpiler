@@ -24098,6 +24098,144 @@
       "source_slice": "N971",
       "status": "active"
     },
+    "source_building_get_power_connections_power_compatibility_guard_input": {
+      "keys": {
+        "block_conductive_power": {
+          "java_expr": "block.conductivePower",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "block_consumes_power": {
+          "java_expr": "block.consumesPower",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "block_outputs_power": {
+          "java_expr": "block.outputsPower",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "other_block_conductive_power_by_index": {
+          "java_expr": "other.block.conductivePower",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "Array[bool]"
+        },
+        "other_block_consumes_power_by_index": {
+          "java_expr": "other.block.consumesPower",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "Array[bool]"
+        },
+        "other_block_outputs_power_by_index": {
+          "java_expr": "other.block.outputsPower",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "Array[bool]"
+        }
+      },
+      "owner": "PortGame.source_building_get_power_connections_power_compatibility_guard_state",
+      "source_slice": "N973",
+      "status": "active"
+    },
+    "source_building_get_power_connections_power_compatibility_guard_result": {
+      "keys": {
+        "block_conductive_power": {
+          "alias_of": "source_building_get_power_connections_power_compatibility_guard_input.block_conductive_power",
+          "rule": "Echoes canonical input key in N973 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "block_consumes_power": {
+          "alias_of": "source_building_get_power_connections_power_compatibility_guard_input.block_consumes_power",
+          "rule": "Echoes canonical input key in N973 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "block_outputs_power": {
+          "alias_of": "source_building_get_power_connections_power_compatibility_guard_input.block_outputs_power",
+          "rule": "Echoes canonical input key in N973 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "connection_count": {
+          "java_expr": "proximity",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical result key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "deferred_conducts_and_link_guard": {
+          "java_expr": "&& conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical result key.",
+          "status": "deferred",
+          "type": "bool"
+        },
+        "other_block_conductive_power_by_index": {
+          "alias_of": "source_building_get_power_connections_power_compatibility_guard_input.other_block_conductive_power_by_index",
+          "rule": "Echoes canonical input key in N973 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "other_block_consumes_power_by_index": {
+          "alias_of": "source_building_get_power_connections_power_compatibility_guard_input.other_block_consumes_power_by_index",
+          "rule": "Echoes canonical input key in N973 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "other_block_outputs_power_by_index": {
+          "alias_of": "source_building_get_power_connections_power_compatibility_guard_input.other_block_outputs_power_by_index",
+          "rule": "Echoes canonical input key in N973 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "power_compatibility_guard": {
+          "java_expr": "&& !(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical result key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_compatibility_pass_count": {
+          "java_expr": "!(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical result key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "power_compatibility_pass_indices": {
+          "java_expr": "!(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N973 canonical result key.",
+          "status": "source-backed",
+          "type": "Array[int]"
+        }
+      },
+      "owner": "PortGame.source_building_get_power_connections_power_compatibility_guard_state",
+      "source_slice": "N973",
+      "status": "active"
+    },
     "source_building_get_power_connections_proximity_guard_input": {
       "keys": {
         "other_power_present_by_index": {
@@ -24139,11 +24277,11 @@
           "status": "source-backed",
           "type": "int"
         },
-        "deferred_power_compatibility_and_conducts": {
-          "java_expr": "!(block.consumesPower && other.block.consumesPower",
+        "deferred_conducts_and_link_guard": {
+          "java_expr": "&& conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
           "java_method": "getPowerConnections(Seq<Building> out)",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "rule": "N972 canonical result key.",
+          "rule": "N972 deferred conducts and duplicate-link guards after N973 owns the power compatibility guard.",
           "status": "deferred",
           "type": "bool"
         },

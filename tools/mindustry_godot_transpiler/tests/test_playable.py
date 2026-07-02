@@ -2197,6 +2197,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"same_team_guard": "&& other.team == team"', source)
         self.assertIn('"proximity_guard_pass_count": proximity_guard_pass_indices.size()', source)
 
+    def test_port_game_exposes_source_building_get_power_connections_power_compatibility_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_get_power_connections_power_compatibility_guard_state(block_consumes_power: bool, block_outputs_power: bool, block_conductive_power: bool, other_block_consumes_power_by_index: Array, other_block_outputs_power_by_index: Array, other_block_conductive_power_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"power_compatibility_guard": "&& !(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)"', source)
+        self.assertIn('"power_compatibility_pass_count": power_compatibility_pass_indices.size()', source)
+        self.assertIn('"deferred_conducts_and_link_guard": true', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
