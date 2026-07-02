@@ -1290,5 +1290,58 @@ public class BuildingComp{
             self.assertIn('"random_range": float(source_block_size) * source_tilesize / 2.0', source_text)
             self.assertIn('"deposit_if_tile_exists": true', source_text)
 
+    def test_emit_bridges_building_comp_on_deconstructed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Called when a block begins (not finishes!) deconstruction. The building is still present at this point. */
+    public void onDeconstructed(@Nullable Unit builder){
+        //deposit non-incinerable liquid on ground
+        if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){
+            float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;
+            tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_onDeconstructed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_liquids_module := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var current_amount := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var current_incinerable := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var deconstruct_drop_all_liquid := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var source_block_size := int(_args[4] if _args.size() > 4 else 0)", source_text)
+            self.assertIn("var can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid", source_text)
+            self.assertIn("var deposit_linked_tiles := has_liquids_module and current_amount > 0.0 and can_drop_liquid", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_on_deconstructed_liquid_state"', source_text)
+            self.assertIn('"comment": "Called when a block begins (not finishes!) deconstruction. The building is still present at this point."', source_text)
+            self.assertIn('"method": "public void onDeconstructed(@Nullable Unit builder){"', source_text)
+            self.assertIn('"deposit_comment": "//deposit non-incinerable liquid on ground"', source_text)
+            self.assertIn('"gate": "if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){"', source_text)
+            self.assertIn('"per_cell_expr": "float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;"', source_text)
+            self.assertIn('"deposit_call_expr": "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));"', source_text)
+            self.assertIn('"has_liquids_module": has_liquids_module', source_text)
+            self.assertIn('"current_amount": current_amount', source_text)
+            self.assertIn('"current_incinerable": current_incinerable', source_text)
+            self.assertIn('"deconstruct_drop_all_liquid": deconstruct_drop_all_liquid', source_text)
+            self.assertIn('"source_block_size": source_block_size', source_text)
+            self.assertIn('"can_drop_liquid": can_drop_liquid', source_text)
+            self.assertIn('"deposit_linked_tiles": deposit_linked_tiles', source_text)
+            self.assertIn('"per_cell": per_cell', source_text)
+            self.assertIn('"deposit_call": deposit_linked_tiles', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -3478,6 +3478,47 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_splashLiquid_153"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_on_deconstructed_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_onDeconstructed_154(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_liquids_module := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var current_amount := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var current_incinerable := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var deconstruct_drop_all_liquid := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var source_block_size := int(_args[4] if _args.size() > 4 else 0)", source)
+        self.assertIn("var can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid", source)
+        self.assertIn("var deposit_linked_tiles := has_liquids_module and current_amount > 0.0 and can_drop_liquid", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_deconstructed_liquid_state"', source)
+        self.assertIn('"comment": "Called when a block begins (not finishes!) deconstruction. The building is still present at this point."', source)
+        self.assertIn('"method": "public void onDeconstructed(@Nullable Unit builder){"', source)
+        self.assertIn('"deposit_comment": "//deposit non-incinerable liquid on ground"', source)
+        self.assertIn('"gate": "if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){"', source)
+        self.assertIn('"per_cell_expr": "float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;"', source)
+        self.assertIn('"deposit_call_expr": "tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));"', source)
+        self.assertIn('"has_liquids_module": has_liquids_module', source)
+        self.assertIn('"current_amount": current_amount', source)
+        self.assertIn('"current_incinerable": current_incinerable', source)
+        self.assertIn('"deconstruct_drop_all_liquid": deconstruct_drop_all_liquid', source)
+        self.assertIn('"source_block_size": source_block_size', source)
+        self.assertIn('"can_drop_liquid": can_drop_liquid', source)
+        self.assertIn('"deposit_linked_tiles": deposit_linked_tiles', source)
+        self.assertIn('"per_cell": per_cell', source)
+        self.assertIn('"deposit_call": deposit_linked_tiles', source)
+
+    def test_port_game_exposes_generated_building_comp_on_deconstructed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_on_deconstructed_bridge_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_onDeconstructed_154([has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size])", source)
+        self.assertIn("var canonical = source_building_on_deconstructed_liquid_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_deconstructed_liquid_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onDeconstructed_154"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -512,6 +512,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\tdelays.append(float(i) / 2.0)",
             "\treturn {\"source_owner\": \"PortGame.source_building_splash_liquid_state\", \"method\": \"public void splashLiquid(Liquid liquid, float amount){\", \"splash_expr\": \"float splash = Mathf.clamp(amount / 4f, 0f, 10f);\", \"loop\": \"for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){\", \"delay_expr\": \"Time.run(i / 2f, () -> {\", \"tile_world\": \"Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));\", \"deposit_guard\": \"if(other != null){\", \"deposit\": \"Puddles.deposit(other, liquid, splash);\", \"liquid\": liquid, \"amount\": amount, \"source_block_size\": source_block_size, \"source_tilesize\": source_tilesize, \"splash\": splash, \"deposit_count\": deposit_count, \"delays\": delays, \"random_range\": float(source_block_size) * source_tilesize / 2.0, \"deposit_if_tile_exists\": true}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onDeconstructed"
+    ):
+        return [
+            "\tvar has_liquids_module := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar current_amount := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar current_incinerable := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar deconstruct_drop_all_liquid := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar source_block_size := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid",
+            "\tvar deposit_linked_tiles := has_liquids_module and current_amount > 0.0 and can_drop_liquid",
+            "\tvar per_cell := 0.0",
+            "\tif deposit_linked_tiles:",
+            "\t\tper_cell = current_amount / float(source_block_size * source_block_size) * 2.0",
+            "\treturn {\"source_owner\": \"PortGame.source_building_on_deconstructed_liquid_state\", \"comment\": \"Called when a block begins (not finishes!) deconstruction. The building is still present at this point.\", \"method\": \"public void onDeconstructed(@Nullable Unit builder){\", \"deposit_comment\": \"//deposit non-incinerable liquid on ground\", \"gate\": \"if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){\", \"per_cell_expr\": \"float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;\", \"deposit_call_expr\": \"tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));\", \"has_liquids_module\": has_liquids_module, \"current_amount\": current_amount, \"current_incinerable\": current_incinerable, \"deconstruct_drop_all_liquid\": deconstruct_drop_all_liquid, \"source_block_size\": source_block_size, \"can_drop_liquid\": can_drop_liquid, \"deposit_linked_tiles\": deposit_linked_tiles, \"per_cell\": per_cell, \"deposit_call\": deposit_linked_tiles}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
