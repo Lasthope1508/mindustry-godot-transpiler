@@ -114,6 +114,27 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)",
             "\treturn {\"overlay_visible\": true, \"overlay_x\": source_x, \"overlay_y\": source_y, \"overlay_rotation\": source_rotation, \"place_text_visible\": inactive_unit_factory, \"place_text_bundle_key\": \"rules.unitfactoryactivation.objective\", \"place_text_time\": remaining_activation_delay, \"place_text_tile_x\": tile_x, \"place_text_tile_y\": tile_y}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawItemSelection"
+    ):
+        return [
+            "\tvar has_selection := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar source_x := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_y := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar block_size_value := int(_args[3] if _args.size() > 3 else 1)",
+            "\tvar source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)",
+            "\tvar icon_small := float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar selection_icon_ratio := float(_args[6] if _args.size() > 6 else 1.0)",
+            "\tif not has_selection:",
+            "\t\treturn {\"visible\": false}",
+            "\tvar dx := source_x - float(block_size_value) * source_tilesize / 2.0",
+            "\tvar dy := source_y + float(block_size_value) * source_tilesize / 2.0",
+            "\tvar selection_width := icon_small / 4.0 * selection_icon_ratio",
+            "\tvar selection_height := icon_small / 4.0",
+            "\treturn {\"visible\": true, \"dx\": dx, \"dy\": dy, \"shadow_color\": \"darkGray\", \"shadow_alpha\": 1.0, \"shadow_y\": dy - 1.0, \"foreground_y\": dy, \"selection_width\": selection_width, \"selection_height\": selection_height}",
+        ]
     return ["\treturn null"]
 
 def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:

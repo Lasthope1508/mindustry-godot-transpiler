@@ -2759,6 +2759,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_select_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawSelect_125"', source)
 
+    def test_generated_building_comp_bridges_draw_item_selection_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawItemSelection_126(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_selection := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var source_x := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var block_size_value := int(_args[3] if _args.size() > 3 else 1)", source)
+        self.assertIn("if not has_selection:", source)
+        self.assertIn("var dx := source_x - float(block_size_value) * source_tilesize / 2.0", source)
+        self.assertIn("var dy := source_y + float(block_size_value) * source_tilesize / 2.0", source)
+        self.assertIn("var selection_width := icon_small / 4.0 * selection_icon_ratio", source)
+        self.assertIn('"shadow_y": dy - 1.0', source)
+        self.assertIn('"selection_height": selection_height', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_item_selection_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_item_selection_bridge_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawItemSelection_126([has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_item_selection_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawItemSelection_126"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -3634,6 +3634,16 @@ func generated_building_comp_draw_select_bridge_state(block_status: String, sour
 		"result": result,
 	}
 
+func generated_building_comp_draw_item_selection_bridge_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawItemSelection_126([has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio])
+	return {
+		"source_owner": "PortGame.source_building_draw_item_selection_state",
+		"generated_owner": "BuildingComp.java_method_drawItemSelection_126",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

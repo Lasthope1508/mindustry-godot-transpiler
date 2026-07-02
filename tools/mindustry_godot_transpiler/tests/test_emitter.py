@@ -254,5 +254,42 @@ public class BuildingComp{
             self.assertIn('"overlay_visible": true', source_text)
             self.assertIn('"place_text_bundle_key": "rules.unitfactoryactivation.objective"', source_text)
 
+    def test_emit_bridges_building_comp_draw_item_selection_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawItemSelection(@Nullable UnlockableContent selection){
+        if(selection != null){
+            float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;
+            Draw.mixcol(Color.darkGray, 1f);
+            Draw.rect(selection.fullIcon, dx, dy - 1, s, h);
+            Draw.reset();
+            Draw.rect(selection.fullIcon, dx, dy, s, h);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawItemSelection_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_selection := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("if not has_selection:", source_text)
+            self.assertIn("var dx := source_x - float(block_size_value) * source_tilesize / 2.0", source_text)
+            self.assertIn("var selection_width := icon_small / 4.0 * selection_icon_ratio", source_text)
+            self.assertIn('"shadow_color": "darkGray"', source_text)
+            self.assertIn('"foreground_y": dy', source_text)
+
 if __name__ == "__main__":
     unittest.main()
