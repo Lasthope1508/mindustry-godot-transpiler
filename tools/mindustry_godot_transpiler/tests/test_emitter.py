@@ -1646,5 +1646,38 @@ public class BuildingComp{
             self.assertIn('"regular_return": "block.localizedName + (team == player.team() || team.emoji.isEmpty() ? \\"\\" : \\" \\" + team.emoji)"', source_text)
             self.assertIn('"display_name": display_name', source_text)
 
+    def test_emit_bridges_building_comp_flow_items_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** @return the item module to use for flow rate calculations */
+    public ItemModule flowItems(){
+        return items;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_flowItems_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var items_module: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_flow_items_state"', source_text)
+            self.assertIn('"comment": "/** @return the item module to use for flow rate calculations */"', source_text)
+            self.assertIn('"method": "public ItemModule flowItems(){"', source_text)
+            self.assertIn('"return_expr": "return items;"', source_text)
+            self.assertIn('"items_module": items_module', source_text)
+            self.assertIn('"flow_items": items_module', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -3885,6 +3885,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_getDisplayName_157"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_flow_items_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_flowItems_159(_args: Array = []) -> Variant:", source)
+        self.assertIn("var items_module: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_flow_items_state"', source)
+        self.assertIn('"comment": "/** @return the item module to use for flow rate calculations */"', source)
+        self.assertIn('"method": "public ItemModule flowItems(){"', source)
+        self.assertIn('"return_expr": "return items;"', source)
+        self.assertIn('"items_module": items_module', source)
+        self.assertIn('"flow_items": items_module', source)
+
+    def test_port_game_exposes_generated_building_comp_flow_items_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_flow_items_bridge_state(items_module: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_flowItems_159([items_module])", source)
+        self.assertIn("var canonical = source_building_flow_items_state(items_module)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_flow_items_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_flowItems_159"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

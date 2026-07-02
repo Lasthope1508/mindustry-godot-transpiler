@@ -922,7 +922,8 @@ func java_method_getDisplayIcon_158(_args: Array = []) -> Variant:
 	return null
 
 func java_method_flowItems_159(_args: Array = []) -> Variant:
-	return null
+	var items_module: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_flow_items_state", "comment": "/** @return the item module to use for flow rate calculations */", "method": "public ItemModule flowItems(){", "return_expr": "return items;", "items_module": items_module, "flow_items": items_module}
 
 func java_method_display_160(_args: Array = []) -> Variant:
 	return null

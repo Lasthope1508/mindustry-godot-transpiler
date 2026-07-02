@@ -4136,6 +4136,18 @@ func generated_building_comp_get_display_name_bridge_state(localized_name: Strin
 		"canonical": canonical,
 	}
 
+func generated_building_comp_flow_items_bridge_state(items_module: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_flowItems_159([items_module])
+	var canonical = source_building_flow_items_state(items_module)
+	return {
+		"source_owner": "PortGame.source_building_flow_items_state",
+		"generated_owner": "BuildingComp.java_method_flowItems_159",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

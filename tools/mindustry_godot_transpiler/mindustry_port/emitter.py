@@ -528,6 +528,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "flowItems"
+    ):
+        return [
+            "\tvar items_module: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_building_flow_items_state\", \"comment\": \"/** @return the item module to use for flow rate calculations */\", \"method\": \"public ItemModule flowItems(){\", \"return_expr\": \"return items;\", \"items_module\": items_module, \"flow_items\": items_module}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
