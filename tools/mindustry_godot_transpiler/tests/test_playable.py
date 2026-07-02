@@ -3073,6 +3073,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_player_placed_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_playerPlaced_137"', source)
 
+    def test_generated_building_comp_bridges_placed_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_placed_138(_args: Array = []) -> Variant:", source)
+        self.assertIn("var net_client := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var consumes_power := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var outputs_power := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var has_power := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var connected_power := bool(_args[4] if _args.size() > 4 else false)", source)
+        self.assertIn("var linked_to_self := bool(_args[5] if _args.size() > 5 else false)", source)
+        self.assertIn("var source_pos := int(_args[6] if _args.size() > 6 else -1)", source)
+        self.assertIn("var should_link_power := (consumes_power or outputs_power) and has_power and connected_power", source)
+        self.assertIn('"client_guard": "if(net.client()) return;" if net_client else ""', source)
+        self.assertIn('"power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else ""', source)
+        self.assertIn('"configure_call": "other.configureAny(pos());" if configure else ""', source)
+        self.assertIn('"configure_pos": source_pos if configure else -1', source)
+
+    def test_port_game_exposes_generated_building_comp_placed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_placed_bridge_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_placed_138([net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_placed_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_placed_138"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -712,5 +712,51 @@ public class BuildingComp{
             self.assertIn('"no_op": true', source_text)
             self.assertIn('"config_state": config_state', source_text)
 
+    def test_emit_bridges_building_comp_placed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    @CallSuper
+    public void placed(){
+        if(net.client()) return;
+
+        if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){
+            PowerNode.getNodeLinks(tile, block, team, other -> {
+                if(!other.power.links.contains(pos())){
+                    other.configureAny(pos());
+                }
+            });
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_placed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var net_client := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var consumes_power := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var outputs_power := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var has_power := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var connected_power := bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var linked_to_self := bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn("var source_pos := int(_args[6] if _args.size() > 6 else -1)", source_text)
+            self.assertIn("var should_link_power := (consumes_power or outputs_power) and has_power and connected_power", source_text)
+            self.assertIn('"client_guard": "if(net.client()) return;" if net_client else ""', source_text)
+            self.assertIn('"power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else ""', source_text)
+            self.assertIn('"configure_call": "other.configureAny(pos());" if configure else ""', source_text)
+            self.assertIn('"configure_pos": source_pos if configure else -1', source_text)
+
 if __name__ == "__main__":
     unittest.main()

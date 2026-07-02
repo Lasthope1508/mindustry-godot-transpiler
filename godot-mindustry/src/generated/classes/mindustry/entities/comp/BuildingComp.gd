@@ -719,7 +719,20 @@ func java_method_playerPlaced_137(_args: Array = []) -> Variant:
 	return {"method": "public void playerPlaced(Object config){", "comment": "Called after the block is placed by this client.", "call_super": "@CallSuper", "no_op": true, "config_state": config_state}
 
 func java_method_placed_138(_args: Array = []) -> Variant:
-	return null
+	var net_client := bool(_args[0] if _args.size() > 0 else false)
+	var consumes_power := bool(_args[1] if _args.size() > 1 else false)
+	var outputs_power := bool(_args[2] if _args.size() > 2 else false)
+	var has_power := bool(_args[3] if _args.size() > 3 else false)
+	var connected_power := bool(_args[4] if _args.size() > 4 else false)
+	var linked_to_self := bool(_args[5] if _args.size() > 5 else false)
+	var source_pos := int(_args[6] if _args.size() > 6 else -1)
+	var should_link_power := (consumes_power or outputs_power) and has_power and connected_power
+	if net_client:
+		return {"method": "public void placed(){", "comment": "Called after the block is placed by anyone.", "call_super": "@CallSuper", "client_guard": "if(net.client()) return;" if net_client else "", "power_gate": "", "power_node_scan": "", "link_guard": "", "configure_call": "", "returned": true, "power_link_scan": false, "configure": false, "configure_pos": -1}
+	if not should_link_power:
+		return {"method": "public void placed(){", "comment": "Called after the block is placed by anyone.", "call_super": "@CallSuper", "client_guard": "if(net.client()) return;" if net_client else "", "power_gate": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){" if should_link_power else "", "power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else "", "link_guard": "if(!other.power.links.contains(pos())){" if should_link_power else "", "configure_call": "", "returned": false, "power_link_scan": false, "configure": false, "configure_pos": -1}
+	var configure := not linked_to_self
+	return {"method": "public void placed(){", "comment": "Called after the block is placed by anyone.", "call_super": "@CallSuper", "client_guard": "if(net.client()) return;" if net_client else "", "power_gate": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){" if should_link_power else "", "power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else "", "link_guard": "if(!other.power.links.contains(pos())){" if should_link_power else "", "configure_call": "other.configureAny(pos());" if configure else "", "returned": false, "power_link_scan": true, "configure": configure, "configure_pos": source_pos if configure else -1}
 
 func java_method_onRepaired_139(_args: Array = []) -> Variant:
 	return null
