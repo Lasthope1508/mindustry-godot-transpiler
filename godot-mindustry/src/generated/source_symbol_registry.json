@@ -23042,6 +23042,20 @@
         "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
       ]
     },
+    "building_update_consumption_non_optional.is_power": {
+      "godot_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
+      "godot_symbol": "source_building_update_consumption_non_optional_pass_input.is_power",
+      "java_expr": "cons == block.consPower",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit runtime input marking whether a supplied non_optional_consumer_results entry represents upstream block.consPower.",
+      "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_update_consumption_non_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
+      ]
+    },
     "building_update_consumption_non_optional.power_gate": {
       "godot_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
       "godot_symbol": "source_building_update_consumption_non_optional_pass_result.power_gate",

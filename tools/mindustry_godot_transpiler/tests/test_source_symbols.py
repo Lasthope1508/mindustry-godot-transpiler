@@ -15559,6 +15559,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consumers["java_expr"], "block.nonOptionalConsumers")
         self.assertEqual(consumers["godot_symbol"], "source_building_update_consumption_non_optional_pass_input.non_optional_consumer_results")
 
+        is_power = source_symbols.source_symbol(registry, "building_update_consumption_non_optional.is_power")
+        self.assertEqual(is_power["status"], "explicit-input")
+        self.assertEqual(is_power["java_expr"], "cons == block.consPower")
+        self.assertEqual(is_power["godot_symbol"], "source_building_update_consumption_non_optional_pass_input.is_power")
+
     def test_building_update_consumption_optional_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -25888,6 +25893,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("//assume efficiency is 1 for the calculations below", building_generated_update_consumption_setup["exact_exprs"])
         self.assertIn("efficiency = optionalEfficiency = 1f;", building_generated_update_consumption_setup["exact_exprs"])
         self.assertIn("shouldConsumePower = true;", building_generated_update_consumption_setup["exact_exprs"])
+
+        building_generated_update_consumption_non_optional = source_symbols.source_slice(ledger, "N1062")
+        self.assertEqual(building_generated_update_consumption_non_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_update_consumption_non_optional["java_method"], "updateConsumption()")
+        self.assertEqual(building_generated_update_consumption_non_optional["godot_owner"], "PortGame.source_building_update_consumption_non_optional_pass_state")
+        self.assertEqual(building_generated_update_consumption_non_optional["runtime_proof"], "/root/Main.generated_building_comp_update_consumption_non_optional_bridge_state")
+        self.assertIn("public void updateConsumption(){", building_generated_update_consumption_non_optional["exact_exprs"])
+        self.assertIn("//first pass: get the minimum efficiency of any consumer", building_generated_update_consumption_non_optional["exact_exprs"])
+        self.assertIn("for(var cons : block.nonOptionalConsumers){", building_generated_update_consumption_non_optional["exact_exprs"])
+        self.assertIn("float result = cons.efficiency(self());", building_generated_update_consumption_non_optional["exact_exprs"])
+        self.assertIn("if(cons != block.consPower && result <= 0.0000001f){", building_generated_update_consumption_non_optional["exact_exprs"])
+        self.assertIn("shouldConsumePower = false;", building_generated_update_consumption_non_optional["exact_exprs"])
+        self.assertIn("minEfficiency = Math.min(minEfficiency, result);", building_generated_update_consumption_non_optional["exact_exprs"])
+        self.assertIn("block.nonOptionalConsumers", building_generated_update_consumption_non_optional["exact_exprs"])
 
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -37332,6 +37351,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_building_update_consumption_non_optional_input = source_symbols.state_schema(schema, "source_building_update_consumption_non_optional_pass_input")
         self.assertEqual(source_building_update_consumption_non_optional_input["keys"]["non_optional_consumer_results"]["java_expr"], "block.nonOptionalConsumers")
+        self.assertEqual(source_building_update_consumption_non_optional_input["keys"]["is_power"]["java_expr"], "cons == block.consPower")
+        self.assertEqual(source_building_update_consumption_non_optional_input["keys"]["is_power"]["status"], "explicit-input")
 
         source_building_update_consumption_non_optional_result = source_symbols.state_schema(schema, "source_building_update_consumption_non_optional_pass_result")
         self.assertEqual(source_building_update_consumption_non_optional_result["keys"]["method"]["java_expr"], "public void updateConsumption(){")

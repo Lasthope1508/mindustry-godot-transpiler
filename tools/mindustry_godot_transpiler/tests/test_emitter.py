@@ -3184,5 +3184,85 @@ public class BuildingComp{
             self.assertIn('"optional_efficiency": 1.0', source_text)
             self.assertIn('"should_consume_power": true', source_text)
 
+    def test_emit_bridges_building_comp_update_consumption_non_optional_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void updateEfficiencyMultiplier(){
+        float scale = efficiencyScale();
+        efficiency *= scale;
+        optionalEfficiency *= scale;
+    }
+    public void updateConsumption(){
+        //everything is valid when cheating
+        if(!block.hasConsumers || cheating()){
+            potentialEfficiency = enabled && productionValid() ? 1f : 0f;
+            efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;
+            shouldConsumePower = true;
+            updateEfficiencyMultiplier();
+            return;
+        }
+
+        //disabled -> nothing works
+        if(!enabled){
+            potentialEfficiency = efficiency = optionalEfficiency = 0f;
+            shouldConsumePower = false;
+            return;
+        }
+
+        boolean update = shouldConsume() && productionValid();
+
+        float minEfficiency = 1f;
+
+        //assume efficiency is 1 for the calculations below
+        efficiency = optionalEfficiency = 1f;
+        shouldConsumePower = true;
+
+        //first pass: get the minimum efficiency of any consumer
+        for(var cons : block.nonOptionalConsumers){
+            float result = cons.efficiency(self());
+
+            if(cons != block.consPower && result <= 0.0000001f){
+                shouldConsumePower = false;
+            }
+
+            minEfficiency = Math.min(minEfficiency, result);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var non_optional_consumer_results: Array = _args[6] if _args.size() > 6 else []", source_text)
+            self.assertIn("for consumer in non_optional_consumer_results:", source_text)
+            self.assertIn('var result := float(consumer.get("result", 0.0))', source_text)
+            self.assertIn('if not bool(consumer.get("is_power", false)) and result <= 0.0000001:', source_text)
+            self.assertIn("should_consume_power = false", source_text)
+            self.assertIn("min_efficiency = min(min_efficiency, result)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_consumption_non_optional_pass_state"', source_text)
+            self.assertIn('"method": "public void updateConsumption(){"', source_text)
+            self.assertIn('"comment": "//first pass: get the minimum efficiency of any consumer"', source_text)
+            self.assertIn('"loop": "for(var cons : block.nonOptionalConsumers){"', source_text)
+            self.assertIn('"result": "float result = cons.efficiency(self());"', source_text)
+            self.assertIn('"power_gate": "if(cons != block.consPower && result <= 0.0000001f){"', source_text)
+            self.assertIn('"power_state": "shouldConsumePower = false;"', source_text)
+            self.assertIn('"min": "minEfficiency = Math.min(minEfficiency, result);"', source_text)
+            self.assertIn('"non_optional_consumer_results": non_optional_consumer_results', source_text)
+            self.assertIn('"min_efficiency": min_efficiency', source_text)
+            self.assertIn('"should_consume_power": should_consume_power', source_text)
+
 if __name__ == "__main__":
     unittest.main()
