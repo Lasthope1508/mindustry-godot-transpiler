@@ -1388,16 +1388,22 @@ public class BuildingComp{
             Effect.rubble(x, y, block.size);
         }
 
-        if(!headless){
-            playDestroySound();
+            if(!headless){
+                playDestroySound();
 
-            if(explosiveness > 40f){
-                (Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
-            }else if(flammability > 5f){
-                Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+                if(explosiveness > 40f){
+                    (Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+                }else if(flammability > 5f){
+                    Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+                }
+
+                if(power > 30000f){
+                    Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+                }else if(power > 2000f){
+                    Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+                }
             }
         }
-    }
 
     public void playDestroySound(){
         block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
@@ -1467,6 +1473,9 @@ public class BuildingComp{
             self.assertIn('var reactive_sound := "blockExplodeFlammable" if reactive_sound_kind == "flammable" else ""', source_text)
             self.assertIn('var reactive_sound_choices := ["blockExplodeExplosive", "blockExplodeExplosiveAlt"] if reactive_sound_kind == "explosive" else []', source_text)
             self.assertIn('var reactive_chance := 0.5 if reactive_sound_kind == "explosive" else 0.0', source_text)
+            self.assertIn("var play_power_sound := not headless and power > 2000.0", source_text)
+            self.assertIn('var power_sound_kind := "big" if not headless and power > 30000.0 else "normal" if not headless and power > 2000.0 else ""', source_text)
+            self.assertIn('var power_sound := "blockExplodeElectricBig" if power_sound_kind == "big" else "blockExplodeElectric" if power_sound_kind == "normal" else ""', source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
             self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
             self.assertIn('"buffered_power_source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"', source_text)
@@ -1475,6 +1484,7 @@ public class BuildingComp{
             self.assertIn('"rubble_source_owner": "PortGame.source_building_on_destroyed_rubble_state"', source_text)
             self.assertIn('"base_sound_source_owner": "PortGame.source_building_on_destroyed_base_sound_state"', source_text)
             self.assertIn('"reactive_sound_source_owner": "PortGame.source_building_on_destroyed_reactive_sound_state"', source_text)
+            self.assertIn('"power_sound_source_owner": "PortGame.source_building_on_destroyed_power_sound_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
             self.assertIn('"dynamic_explosion_comment": "//cap explosiveness so fluid tanks/vaults don', source_text)
@@ -1488,6 +1498,10 @@ public class BuildingComp{
             self.assertIn('"reactive_explosive_sound_call": "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
             self.assertIn('"reactive_flammable_gate": "}else if(flammability > 5f){"', source_text)
             self.assertIn('"reactive_flammable_sound_call": "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
+            self.assertIn('"power_sound_big_gate": "if(power > 30000f){"', source_text)
+            self.assertIn('"power_sound_big_call": "Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
+            self.assertIn('"power_sound_normal_gate": "}else if(power > 2000f){"', source_text)
+            self.assertIn('"power_sound_normal_call": "Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
             self.assertIn('"flammability_expr": "float flammability = 0f;"', source_text)
             self.assertIn('"power_expr": "float power = 0f;"', source_text)
@@ -1528,6 +1542,9 @@ public class BuildingComp{
             self.assertIn('"reactive_sound": reactive_sound', source_text)
             self.assertIn('"reactive_sound_choices": reactive_sound_choices', source_text)
             self.assertIn('"reactive_chance": reactive_chance', source_text)
+            self.assertIn('"play_power_sound": play_power_sound', source_text)
+            self.assertIn('"power_sound_kind": power_sound_kind', source_text)
+            self.assertIn('"power_sound": power_sound', source_text)
             self.assertIn('"dynamic_explosion_x": source_x', source_text)
             self.assertIn('"dynamic_explosion_y": source_y', source_text)
             self.assertIn('"dynamic_explosion_flammability": dynamic_explosion_flammability', source_text)
