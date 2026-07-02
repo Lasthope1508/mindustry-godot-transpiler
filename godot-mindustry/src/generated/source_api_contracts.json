@@ -2029,6 +2029,32 @@
         "test_building_collision_damage_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_conducts_to_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "block_insulated",
+          "schema": "source_building_conducts_to_input.block_insulated",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_not_insulated",
+        "block_insulated",
+        "conducts_to"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.conductsTo helper.",
+      "runtime_proof": "/root/Main.source_building_conducts_to_state",
+      "source_method": "conductsTo(Building other)",
+      "source_slice": "N970",
+      "status": "active",
+      "tests": [
+        "test_building_conducts_to_matches_upstream_source",
+        "test_port_game_exposes_source_building_conducts_to_state",
+        "test_building_conducts_to_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_config_default": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [],

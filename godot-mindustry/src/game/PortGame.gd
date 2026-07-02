@@ -5447,6 +5447,14 @@ func source_building_update_power_graph_state(other_power_present_by_index: Arra
 		"add_graph_call_count": add_graph_called_indices.size(),
 	}
 
+func source_building_conducts_to_state(block_insulated: bool) -> Dictionary:
+	return {
+		"method": "public boolean conductsTo(Building other){",
+		"return_not_insulated": "return !block.insulated;",
+		"block_insulated": block_insulated,
+		"conducts_to": not block_insulated,
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",

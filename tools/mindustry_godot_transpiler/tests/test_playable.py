@@ -2168,6 +2168,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"add_graph_call": "other.power.graph.addGraph(power.graph);"', source)
         self.assertIn('"add_graph_call_count": add_graph_called_indices.size()', source)
 
+    def test_port_game_exposes_source_building_conducts_to_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_conducts_to_state(block_insulated: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean conductsTo(Building other){"', source)
+        self.assertIn('"return_not_insulated": "return !block.insulated;"', source)
+        self.assertIn('"conducts_to": not block_insulated', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

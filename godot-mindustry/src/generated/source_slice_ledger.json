@@ -20423,6 +20423,33 @@
         "test_port_game_exposes_source_building_update_power_graph_state",
         "test_building_update_power_graph_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N970": {
+      "deferred_exprs": [
+        "The other Building parameter is unused by the source default implementation."
+      ],
+      "exact_exprs": [
+        "public boolean conductsTo(Building other){",
+        "return !block.insulated;"
+      ],
+      "godot_owner": "PortGame.source_building_conducts_to_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "conductsTo(Building other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed BuildingComp.conductsTo default insulation predicate.",
+      "runtime_proof": "/root/Main.source_building_conducts_to_state",
+      "source_symbols": [
+        "building_conducts_to.method",
+        "building_conducts_to.return_not_insulated",
+        "building_conducts_to.block_insulated",
+        "building_conducts_to.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_conducts_to_matches_upstream_source",
+        "test_port_game_exposes_source_building_conducts_to_state",
+        "test_building_conducts_to_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

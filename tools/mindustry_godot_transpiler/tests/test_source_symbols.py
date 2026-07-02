@@ -17811,6 +17811,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(called["java_expr"], "other.power != null")
         self.assertEqual(called["godot_symbol"], "source_building_update_power_graph_result.add_graph_call_count")
 
+    def test_building_conducts_to_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_conducts_to.method")
+        self.assertEqual(method["java_expr"], "public boolean conductsTo(Building other){")
+        self.assertEqual(method["java_method"], "conductsTo(Building other)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_conducts_to_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_conducts_to_state")
+        self.assertEqual(method["godot_symbol"], "source_building_conducts_to_result.method")
+
+        block_insulated = source_symbols.source_symbol(registry, "building_conducts_to.block_insulated")
+        self.assertEqual(block_insulated["java_expr"], "block.insulated")
+        self.assertEqual(block_insulated["status"], "explicit-input")
+        self.assertEqual(block_insulated["godot_symbol"], "source_building_conducts_to_input.block_insulated")
+
+        result = source_symbols.source_symbol(registry, "building_conducts_to.result")
+        self.assertEqual(result["java_expr"], "return !block.insulated;")
+        self.assertEqual(result["godot_symbol"], "source_building_conducts_to_result.conducts_to")
+
     def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19273,9 +19295,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 566)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 567)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 571)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 572)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -24124,6 +24146,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("for(Building other : getPowerConnections(tempBuilds)){", building_update_power_graph["exact_exprs"])
         self.assertIn("if(other.power != null){", building_update_power_graph["exact_exprs"])
         self.assertIn("other.power.graph.addGraph(power.graph);", building_update_power_graph["exact_exprs"])
+
+        building_conducts_to = source_symbols.source_slice(ledger, "N970")
+        self.assertEqual(building_conducts_to["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_conducts_to["java_method"], "conductsTo(Building other)")
+        self.assertEqual(building_conducts_to["godot_owner"], "PortGame.source_building_conducts_to_state")
+        self.assertIn("public boolean conductsTo(Building other){", building_conducts_to["exact_exprs"])
+        self.assertIn("return !block.insulated;", building_conducts_to["exact_exprs"])
 
         building_move_liquid_forward = source_symbols.source_slice(ledger, "N944")
         self.assertEqual(building_move_liquid_forward["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -29566,6 +29595,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("add_graph_call", building_update_power_graph["return_keys"])
         self.assertIn("add_graph_call_count", building_update_power_graph["return_keys"])
         self.assertEqual(building_update_power_graph["source_method"], "updatePowerGraph()")
+
+        building_conducts_to = source_symbols.api_contract(contracts, "PortGame.source_building_conducts_to_state")
+        self.assertEqual([param["name"] for param in building_conducts_to["params"]], ["block_insulated"])
+        self.assertEqual(building_conducts_to["params"][0]["schema"], "source_building_conducts_to_input.block_insulated")
+        self.assertIn("conducts_to", building_conducts_to["return_keys"])
+        self.assertEqual(building_conducts_to["source_method"], "conductsTo(Building other)")
 
         building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
         self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
@@ -37777,6 +37812,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_update_power_graph_result["keys"]["power_guard"]["java_expr"], "if(other.power != null){")
         self.assertEqual(source_building_update_power_graph_result["keys"]["add_graph_call"]["java_expr"], "other.power.graph.addGraph(power.graph);")
         self.assertEqual(source_building_update_power_graph_result["keys"]["other_power_present_by_index"]["alias_of"], "source_building_update_power_graph_input.other_power_present_by_index")
+
+        source_building_conducts_to_input = source_symbols.state_schema(schema, "source_building_conducts_to_input")
+        self.assertEqual(source_building_conducts_to_input["keys"]["block_insulated"]["java_expr"], "block.insulated")
+
+        source_building_conducts_to_result = source_symbols.state_schema(schema, "source_building_conducts_to_result")
+        self.assertEqual(source_building_conducts_to_result["keys"]["method"]["java_expr"], "public boolean conductsTo(Building other){")
+        self.assertEqual(source_building_conducts_to_result["keys"]["return_not_insulated"]["java_expr"], "return !block.insulated;")
+        self.assertEqual(source_building_conducts_to_result["keys"]["conducts_to"]["java_expr"], "return !block.insulated;")
+        self.assertEqual(source_building_conducts_to_result["keys"]["block_insulated"]["alias_of"], "source_building_conducts_to_input.block_insulated")
 
         source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
         self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")

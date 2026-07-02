@@ -723,6 +723,23 @@ def verify_building_update_power_graph_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_building_conducts_to_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean conductsTo(Building other){",
+        "return_not_insulated": "return !block.insulated;",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str, Any]:
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")

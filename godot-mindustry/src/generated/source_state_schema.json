@@ -16719,6 +16719,58 @@
       },
       "status": "active"
     },
+    "source_building_conducts_to_input": {
+      "keys": {
+        "block_insulated": {
+          "java_expr": "block.insulated",
+          "java_method": "conductsTo(Building other)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N970 BuildingComp.conductsTo canonical explicit input.",
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_conducts_to_state",
+      "source_slice": "N970",
+      "status": "active"
+    },
+    "source_building_conducts_to_result": {
+      "keys": {
+        "block_insulated": {
+          "alias_of": "source_building_conducts_to_input.block_insulated",
+          "rule": "Echoes canonical input key in N970 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "conducts_to": {
+          "java_expr": "return !block.insulated;",
+          "java_method": "conductsTo(Building other)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N970 negated block.insulated result.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "java_expr": "public boolean conductsTo(Building other){",
+          "java_method": "conductsTo(Building other)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N970 BuildingComp.conductsTo canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_not_insulated": {
+          "java_expr": "return !block.insulated;",
+          "java_method": "conductsTo(Building other)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N970 BuildingComp.conductsTo canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_conducts_to_state",
+      "source_slice": "N970",
+      "status": "active"
+    },
     "source_building_config_default_result": {
       "keys": {
         "comment": {

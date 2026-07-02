@@ -5316,6 +5316,66 @@
         "test_building_collision_damage_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_conducts_to.block_insulated": {
+      "godot_owner": "PortGame.source_building_conducts_to_state",
+      "godot_symbol": "source_building_conducts_to_input.block_insulated",
+      "java_expr": "block.insulated",
+      "java_method": "conductsTo(Building other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input supplies source block.insulated value for conductsTo.",
+      "runtime_proof": "/root/Main.source_building_conducts_to_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_conducts_to_matches_upstream_source",
+        "test_port_game_exposes_source_building_conducts_to_state",
+        "test_building_conducts_to_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_conducts_to.method": {
+      "godot_owner": "PortGame.source_building_conducts_to_state",
+      "godot_symbol": "source_building_conducts_to_result.method",
+      "java_expr": "public boolean conductsTo(Building other){",
+      "java_method": "conductsTo(Building other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source conductsTo method signature.",
+      "runtime_proof": "/root/Main.source_building_conducts_to_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_conducts_to_matches_upstream_source",
+        "test_port_game_exposes_source_building_conducts_to_state",
+        "test_building_conducts_to_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_conducts_to.result": {
+      "godot_owner": "PortGame.source_building_conducts_to_state",
+      "godot_symbol": "source_building_conducts_to_result.conducts_to",
+      "java_expr": "return !block.insulated;",
+      "java_method": "conductsTo(Building other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source negated block.insulated return.",
+      "runtime_proof": "/root/Main.source_building_conducts_to_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_conducts_to_matches_upstream_source",
+        "test_port_game_exposes_source_building_conducts_to_state",
+        "test_building_conducts_to_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_conducts_to.return_not_insulated": {
+      "godot_owner": "PortGame.source_building_conducts_to_state",
+      "godot_symbol": "source_building_conducts_to_result.return_not_insulated",
+      "java_expr": "return !block.insulated;",
+      "java_method": "conductsTo(Building other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source return expression text for conductsTo.",
+      "runtime_proof": "/root/Main.source_building_conducts_to_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_conducts_to_matches_upstream_source",
+        "test_port_game_exposes_source_building_conducts_to_state",
+        "test_building_conducts_to_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_config_default.comment": {
       "godot_owner": "PortGame.source_building_config_default",
       "godot_symbol": "source_building_config_default_result.comment",
