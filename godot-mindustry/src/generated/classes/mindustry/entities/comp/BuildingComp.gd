@@ -992,7 +992,7 @@ func java_method_onConfigureTapped_167(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_on_configure_tapped_state", "method": "public boolean onConfigureTapped(float x, float y){", "return_false": "return false;", "x": x, "y": y, "consumed": false}
 
 func java_method_onConfigureClosed_168(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_building_on_configure_closed_state", "method": "public void onConfigureClosed(){}", "no_op": true}
 
 func java_method_shouldShowConfigure_169(_args: Array = []) -> Variant:
 	return null

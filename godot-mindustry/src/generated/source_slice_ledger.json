@@ -20776,6 +20776,32 @@
         "test_port_game_exposes_generated_building_comp_on_configure_tapped_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1030": {
+      "deferred_exprs": [
+        "Concrete block-specific config menu close side effects remain owned by overriding block slices; this slice wires only the base BuildingComp empty method boundary."
+      ],
+      "exact_exprs": [
+        "/**\n     * Called when this block's config menu is closed.\n     */",
+        "public void onConfigureClosed(){}"
+      ],
+      "godot_owner": "PortGame.source_building_on_configure_closed_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onConfigureClosed()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_onConfigureClosed_168 and PortGame generated bridge to existing N605 canonical source_building_on_configure_closed_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_on_configure_closed_bridge_state",
+      "source_symbols": [
+        "building_on_configure_closed.method",
+        "building_on_configure_closed.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_on_configure_closed_to_source_state",
+        "test_generated_building_comp_bridges_on_configure_closed_to_source_state",
+        "test_port_game_exposes_generated_building_comp_on_configure_closed_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

@@ -25543,6 +25543,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean onConfigureTapped(float x, float y){", building_generated_configure_tapped["exact_exprs"])
         self.assertIn("return false;", building_generated_configure_tapped["exact_exprs"])
 
+        building_generated_configure_closed = source_symbols.source_slice(ledger, "N1030")
+        self.assertEqual(building_generated_configure_closed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_configure_closed["java_method"], "onConfigureClosed()")
+        self.assertEqual(building_generated_configure_closed["godot_owner"], "PortGame.source_building_on_configure_closed_state")
+        self.assertEqual(building_generated_configure_closed["runtime_proof"], "/root/Main.generated_building_comp_on_configure_closed_bridge_state")
+        self.assertIn("public void onConfigureClosed(){}", building_generated_configure_closed["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

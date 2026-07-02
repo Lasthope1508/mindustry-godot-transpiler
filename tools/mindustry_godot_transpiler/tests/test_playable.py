@@ -4025,6 +4025,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureTapped_167"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_on_configure_closed_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_onConfigureClosed_168(_args: Array = []) -> Variant:", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_configure_closed_state"', source)
+        self.assertIn('"method": "public void onConfigureClosed(){}"', source)
+        self.assertIn('"no_op": true', source)
+
+    def test_port_game_exposes_generated_building_comp_on_configure_closed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_on_configure_closed_bridge_state() -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_onConfigureClosed_168([])", source)
+        self.assertIn("var canonical = source_building_on_configure_closed_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_configure_closed_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureClosed_168"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
