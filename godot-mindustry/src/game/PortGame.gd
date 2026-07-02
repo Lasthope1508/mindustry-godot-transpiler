@@ -5483,7 +5483,7 @@ func source_building_get_power_connections_proximity_guard_state(other_present_b
 		"connection_count": connection_count,
 		"proximity_guard_pass_indices": proximity_guard_pass_indices,
 		"proximity_guard_pass_count": proximity_guard_pass_indices.size(),
-		"deferred_out_add_and_manual_links": true,
+		"deferred_manual_links_loop": true,
 	}
 
 func source_building_get_power_connections_power_compatibility_guard_state(block_consumes_power: bool, block_outputs_power: bool, block_conductive_power: bool, other_block_consumes_power_by_index: Array, other_block_outputs_power_by_index: Array, other_block_conductive_power_by_index: Array) -> Dictionary:
@@ -5504,7 +5504,7 @@ func source_building_get_power_connections_power_compatibility_guard_state(block
 		"connection_count": connection_count,
 		"power_compatibility_pass_indices": power_compatibility_pass_indices,
 		"power_compatibility_pass_count": power_compatibility_pass_indices.size(),
-		"deferred_out_add_and_manual_links": true,
+		"deferred_manual_links_loop": true,
 	}
 
 func source_building_get_power_connections_conducts_link_guard_state(conducts_to_other_by_index: Array, other_conducts_to_self_by_index: Array, power_link_contains_other_pos_by_index: Array) -> Dictionary:
@@ -5523,7 +5523,18 @@ func source_building_get_power_connections_conducts_link_guard_state(conducts_to
 		"connection_count": connection_count,
 		"conducts_link_guard_pass_indices": conducts_link_guard_pass_indices,
 		"conducts_link_guard_pass_count": conducts_link_guard_pass_indices.size(),
-		"deferred_out_add_and_manual_links": true,
+		"deferred_manual_links_loop": true,
+	}
+
+func source_building_get_power_connections_automatic_add_state(conducts_link_guard_pass_indices: Array, previous_out_count: int) -> Dictionary:
+	return {
+		"out_add_other": "out.add(other);",
+		"conducts_link_guard_pass_indices": conducts_link_guard_pass_indices.duplicate(),
+		"previous_out_count": previous_out_count,
+		"added_indices": conducts_link_guard_pass_indices.duplicate(),
+		"added_count": conducts_link_guard_pass_indices.size(),
+		"out_count_after_adds": previous_out_count + conducts_link_guard_pass_indices.size(),
+		"deferred_manual_links_loop": true,
 	}
 
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:

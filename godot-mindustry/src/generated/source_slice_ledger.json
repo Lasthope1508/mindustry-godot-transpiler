@@ -20486,7 +20486,7 @@
     },
     "N972": {
       "deferred_exprs": [
-        "Power compatibility guard, conducts/link guards, out.add(other), and manual power.links loop remain later slices."
+        "Manual power.links loop remains a later slice."
       ],
       "exact_exprs": [
         "for(Building other : proximity){",
@@ -20509,7 +20509,7 @@
         "building_get_power_connections_proximity_guard.connection_count",
         "building_get_power_connections_proximity_guard.proximity_guard_pass_indices",
         "building_get_power_connections_proximity_guard.proximity_guard_pass_count",
-        "building_get_power_connections_proximity_guard.deferred_out_add_and_manual_links"
+        "building_get_power_connections_proximity_guard.deferred_manual_links_loop"
       ],
       "status": "done",
       "tests": [
@@ -20520,7 +20520,7 @@
     },
     "N973": {
       "deferred_exprs": [
-        "out.add(other) and manual power.links loop remain later slices."
+        "Manual power.links loop remains a later slice."
       ],
       "exact_exprs": [
         "&& !(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)"
@@ -20542,7 +20542,7 @@
         "building_get_power_connections_power_compatibility_guard.connection_count",
         "building_get_power_connections_power_compatibility_guard.power_compatibility_pass_indices",
         "building_get_power_connections_power_compatibility_guard.power_compatibility_pass_count",
-        "building_get_power_connections_power_compatibility_guard.deferred_out_add_and_manual_links"
+        "building_get_power_connections_power_compatibility_guard.deferred_manual_links_loop"
       ],
       "status": "done",
       "tests": [
@@ -20553,7 +20553,7 @@
     },
     "N974": {
       "deferred_exprs": [
-        "out.add(other) and manual power.links loop remain later slices."
+        "Manual power.links loop remains a later slice."
       ],
       "exact_exprs": [
         "&& conductsTo(other)",
@@ -20576,13 +20576,42 @@
         "building_get_power_connections_conducts_link_guard.connection_count",
         "building_get_power_connections_conducts_link_guard.conducts_link_guard_pass_indices",
         "building_get_power_connections_conducts_link_guard.conducts_link_guard_pass_count",
-        "building_get_power_connections_conducts_link_guard.deferred_out_add_and_manual_links"
+        "building_get_power_connections_conducts_link_guard.deferred_manual_links_loop"
       ],
       "status": "done",
       "tests": [
         "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
         "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
         "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "N975": {
+      "deferred_exprs": [
+        "Manual power.links loop remains a later slice."
+      ],
+      "exact_exprs": [
+        "out.add(other);"
+      ],
+      "godot_owner": "PortGame.source_building_get_power_connections_automatic_add_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed getPowerConnections automatic out.add behavior.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_automatic_add_state",
+      "source_symbols": [
+        "building_get_power_connections_automatic_add.conducts_link_guard_pass_indices",
+        "building_get_power_connections_automatic_add.previous_out_count",
+        "building_get_power_connections_automatic_add.out_add_other",
+        "building_get_power_connections_automatic_add.added_indices",
+        "building_get_power_connections_automatic_add.added_count",
+        "building_get_power_connections_automatic_add.out_count_after_adds",
+        "building_get_power_connections_automatic_add.deferred_manual_links_loop"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_get_power_connections_automatic_add_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_automatic_add_state",
+        "test_building_get_power_connections_automatic_add_symbols_are_registered_with_source_backing"
       ]
     }
   },

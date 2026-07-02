@@ -2204,7 +2204,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_get_power_connections_power_compatibility_guard_state(block_consumes_power: bool, block_outputs_power: bool, block_conductive_power: bool, other_block_consumes_power_by_index: Array, other_block_outputs_power_by_index: Array, other_block_conductive_power_by_index: Array) -> Dictionary:", source)
         self.assertIn('"power_compatibility_guard": "&& !(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)"', source)
         self.assertIn('"power_compatibility_pass_count": power_compatibility_pass_indices.size()', source)
-        self.assertIn('"deferred_out_add_and_manual_links": true', source)
+        self.assertIn('"deferred_manual_links_loop": true', source)
 
     def test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -2215,7 +2215,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"other_conducts_to_self_guard": "&& other.conductsTo(self())"', source)
         self.assertIn('"duplicate_link_guard": "&& !power.links.contains(other.pos())){"', source)
         self.assertIn('"conducts_link_guard_pass_count": conducts_link_guard_pass_indices.size()', source)
-        self.assertIn('"deferred_out_add_and_manual_links": true', source)
+        self.assertIn('"deferred_manual_links_loop": true', source)
+
+    def test_port_game_exposes_source_building_get_power_connections_automatic_add_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_get_power_connections_automatic_add_state(conducts_link_guard_pass_indices: Array, previous_out_count: int) -> Dictionary:", source)
+        self.assertIn('"out_add_other": "out.add(other);"', source)
+        self.assertIn('"added_indices": conducts_link_guard_pass_indices.duplicate()', source)
+        self.assertIn('"added_count": conducts_link_guard_pass_indices.size()', source)
+        self.assertIn('"out_count_after_adds": previous_out_count + conducts_link_guard_pass_indices.size()', source)
+        self.assertIn('"deferred_manual_links_loop": true', source)
 
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

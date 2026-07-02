@@ -4109,6 +4109,40 @@
         "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_get_power_connections_automatic_add_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "conducts_link_guard_pass_indices",
+          "schema": "source_building_get_power_connections_automatic_add_input.conducts_link_guard_pass_indices",
+          "type": "Array[int]"
+        },
+        {
+          "name": "previous_out_count",
+          "schema": "source_building_get_power_connections_automatic_add_input.previous_out_count",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "out_add_other",
+        "conducts_link_guard_pass_indices",
+        "previous_out_count",
+        "added_indices",
+        "added_count",
+        "out_count_after_adds",
+        "deferred_manual_links_loop"
+      ],
+      "rule": "Public runtime contract for BuildingComp.getPowerConnections automatic out.add slice.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_automatic_add_state",
+      "source_method": "getPowerConnections(Seq<Building> out)",
+      "source_slice": "N975",
+      "status": "active",
+      "tests": [
+        "test_building_get_power_connections_automatic_add_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_automatic_add_state",
+        "test_building_get_power_connections_automatic_add_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_get_power_connections_conducts_link_guard_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
@@ -4135,7 +4169,7 @@
         "connection_count",
         "conducts_link_guard_pass_indices",
         "conducts_link_guard_pass_count",
-        "deferred_out_add_and_manual_links",
+        "deferred_manual_links_loop",
         "conducts_to_other_by_index",
         "other_conducts_to_self_by_index",
         "power_link_contains_other_pos_by_index"
@@ -4231,7 +4265,7 @@
         "connection_count",
         "power_compatibility_pass_indices",
         "power_compatibility_pass_count",
-        "deferred_out_add_and_manual_links"
+        "deferred_manual_links_loop"
       ],
       "rule": "Public runtime contract for BuildingComp.getPowerConnections power compatibility guard slice.",
       "runtime_proof": "/root/Main.source_building_get_power_connections_power_compatibility_guard_state",
@@ -4273,7 +4307,7 @@
         "connection_count",
         "proximity_guard_pass_indices",
         "proximity_guard_pass_count",
-        "deferred_out_add_and_manual_links"
+        "deferred_manual_links_loop"
       ],
       "rule": "Public runtime contract for BuildingComp.getPowerConnections proximity guard slice.",
       "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
