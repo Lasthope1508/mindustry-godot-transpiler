@@ -3593,6 +3593,17 @@ func generated_building_comp_get_display_efficiency_bridge_state(edelta_value: f
 		"result": result,
 	}
 
+func generated_building_comp_should_ambient_sound_bridge_state(should_consume_state: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_shouldAmbientSound_122([should_consume_state])
+	return {
+		"source_owner": "PortGame.source_building_should_ambient_sound",
+		"generated_owner": "BuildingComp.java_method_shouldAmbientSound_122",
+		"should_consume_state": should_consume_state,
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

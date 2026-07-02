@@ -383,7 +383,8 @@ func java_method_getDisplayEfficiency_121(_args: Array = []) -> Variant:
 	return (1.0 / 1.0 * edelta_value) / edelta_value
 
 func java_method_shouldAmbientSound_122(_args: Array = []) -> Variant:
-	return null
+	var should_consume_state := bool(_args[0] if _args.size() > 0 else false)
+	return should_consume_state
 
 func java_method_drawStatus_123(_args: Array = []) -> Variant:
 	return null

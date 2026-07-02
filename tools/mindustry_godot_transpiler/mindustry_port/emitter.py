@@ -47,6 +47,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar edelta_value := float(_args[0] if _args.size() > 0 else 1.0)",
             "\treturn (1.0 / 1.0 * edelta_value) / edelta_value",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "shouldAmbientSound"
+        and method.get("return_type") == "boolean"
+    ):
+        return [
+            "\tvar should_consume_state := bool(_args[0] if _args.size() > 0 else false)",
+            "\treturn should_consume_state",
+        ]
     return ["\treturn null"]
 
 def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
