@@ -2161,5 +2161,35 @@ public class BuildingComp{
             self.assertIn('"block_insulated": block_insulated', source_text)
             self.assertIn('"insulated": block_insulated', source_text)
 
+    def test_emit_bridges_building_comp_collide_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean collide(Bullet other){
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_collide_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var other: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_collide_state"', source_text)
+            self.assertIn('"method": "public boolean collide(Bullet other){"', source_text)
+            self.assertIn('"other": other', source_text)
+            self.assertIn('"collide": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -25610,6 +25610,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return block.insulated;", building_generated_is_insulated["exact_exprs"])
         self.assertIn("block.insulated", building_generated_is_insulated["exact_exprs"])
 
+        building_generated_collide = source_symbols.source_slice(ledger, "N1038")
+        self.assertEqual(building_generated_collide["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_collide["java_method"], "collide(Bullet other)")
+        self.assertEqual(building_generated_collide["godot_owner"], "PortGame.source_building_collide_state")
+        self.assertEqual(building_generated_collide["runtime_proof"], "/root/Main.generated_building_comp_collide_bridge_state")
+        self.assertIn("public boolean collide(Bullet other){", building_generated_collide["exact_exprs"])
+        self.assertIn("return true;", building_generated_collide["exact_exprs"])
+        self.assertIn("other", building_generated_collide["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

@@ -21011,6 +21011,34 @@
         "test_port_game_exposes_generated_building_comp_is_insulated_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1038": {
+      "deferred_exprs": [
+        "Bullet collision side effects remain owned by BuildingComp.collision(Bullet other) and later damage/removal slices; this slice wires only the default collide return."
+      ],
+      "exact_exprs": [
+        "public boolean collide(Bullet other){",
+        "return true;",
+        "other"
+      ],
+      "godot_owner": "PortGame.source_building_collide_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "collide(Bullet other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_collide_176 and PortGame generated bridge to existing N542 canonical source_building_collide_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_collide_bridge_state",
+      "source_symbols": [
+        "building_collide.method",
+        "building_collide.result",
+        "building_collide.other"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_collide_to_source_state",
+        "test_generated_building_comp_bridges_collide_to_source_state",
+        "test_port_game_exposes_generated_building_comp_collide_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

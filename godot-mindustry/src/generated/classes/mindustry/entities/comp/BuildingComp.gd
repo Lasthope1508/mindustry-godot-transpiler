@@ -1027,7 +1027,8 @@ func java_method_isInsulated_175(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_is_insulated_state", "method": "public boolean isInsulated(){", "block_insulated": block_insulated, "insulated": block_insulated}
 
 func java_method_collide_176(_args: Array = []) -> Variant:
-	return null
+	var other: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_collide_state", "method": "public boolean collide(Bullet other){", "other": other, "collide": true}
 
 func java_method_collision_177(_args: Array = []) -> Variant:
 	return null
