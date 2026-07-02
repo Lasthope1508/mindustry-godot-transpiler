@@ -1044,7 +1044,9 @@ func java_method_collision_177(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_collision_damage_state", "method": "public boolean collision(Bullet other){", "was_dead": current_health <= 0.0, "raw_damage": bullet_building_damage, "armor": armor, "damage": damage, "removed": true}
 
 func java_method_damage_178(_args: Array = []) -> Variant:
-	return null
+	var source_team: Variant = _args[0] if _args.size() > 0 else null
+	var damage_amount := float(_args[1] if _args.size() > 1 else 0.0)
+	return {"source_owner": "PortGame.source_building_damage_delegate_state", "comment": "/** Used to handle damage from splash damage for certain types of blocks. */", "method": "public void damage(@Nullable Team source, float damage){", "source_team": source_team, "damage": damage_amount, "delegates_to_damage": true}
 
 func java_method_damage_179(_args: Array = []) -> Variant:
 	return null

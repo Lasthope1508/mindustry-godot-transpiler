@@ -25630,6 +25630,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);", building_generated_collision["exact_exprs"])
         self.assertIn("return true;", building_generated_collision["exact_exprs"])
 
+        building_generated_damage_delegate = source_symbols.source_slice(ledger, "N1040")
+        self.assertEqual(building_generated_damage_delegate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_damage_delegate["java_method"], "damage(@Nullable Team source, float damage)")
+        self.assertEqual(building_generated_damage_delegate["godot_owner"], "PortGame.source_building_damage_delegate_state")
+        self.assertEqual(building_generated_damage_delegate["runtime_proof"], "/root/Main.generated_building_comp_damage_delegate_bridge_state")
+        self.assertIn("/** Used to handle damage from splash damage for certain types of blocks. */", building_generated_damage_delegate["exact_exprs"])
+        self.assertIn("public void damage(@Nullable Team source, float damage){", building_generated_damage_delegate["exact_exprs"])
+        self.assertIn("damage(damage);", building_generated_damage_delegate["exact_exprs"])
+        self.assertIn("source", building_generated_damage_delegate["exact_exprs"])
+        self.assertIn("damage", building_generated_damage_delegate["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

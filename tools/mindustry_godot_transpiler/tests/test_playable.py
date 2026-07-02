@@ -4268,6 +4268,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_collision_177"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_damage_delegate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_damage_178(_args: Array = []) -> Variant:", source)
+        self.assertIn("var source_team: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn("var damage_amount := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_delegate_state"', source)
+        self.assertIn('"comment": "/** Used to handle damage from splash damage for certain types of blocks. */"', source)
+        self.assertIn('"method": "public void damage(@Nullable Team source, float damage){"', source)
+        self.assertIn('"source_team": source_team', source)
+        self.assertIn('"damage": damage_amount', source)
+        self.assertIn('"delegates_to_damage": true', source)
+
+    def test_port_game_exposes_generated_building_comp_damage_delegate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, damage_amount: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_damage_178([source_team, damage_amount])", source)
+        self.assertIn("var canonical = source_building_damage_delegate_state(source_team, damage_amount)", source)
+        self.assertIn('canonical["comment"] = "/** Used to handle damage from splash damage for certain types of blocks. */"', source)
+        self.assertIn('canonical["method"] = "public void damage(@Nullable Team source, float damage){"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_delegate_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_178"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

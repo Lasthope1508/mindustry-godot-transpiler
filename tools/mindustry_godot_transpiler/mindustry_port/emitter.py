@@ -721,6 +721,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "damage"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Team", "float"]
+    ):
+        return [
+            "\tvar source_team: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar damage_amount := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_damage_delegate_state\", \"comment\": \"/** Used to handle damage from splash damage for certain types of blocks. */\", \"method\": \"public void damage(@Nullable Team source, float damage){\", \"source_team\": source_team, \"damage\": damage_amount, \"delegates_to_damage\": true}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

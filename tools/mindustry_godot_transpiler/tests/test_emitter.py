@@ -2237,5 +2237,39 @@ public class BuildingComp{
             self.assertIn('"raw_damage": bullet_building_damage', source_text)
             self.assertIn('"removed": true', source_text)
 
+    def test_emit_bridges_building_comp_damage_delegate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Used to handle damage from splash damage for certain types of blocks. */
+    public void damage(@Nullable Team source, float damage){
+        damage(damage);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_damage_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_team: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var damage_amount := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_damage_delegate_state"', source_text)
+            self.assertIn('"comment": "/** Used to handle damage from splash damage for certain types of blocks. */"', source_text)
+            self.assertIn('"method": "public void damage(@Nullable Team source, float damage){"', source_text)
+            self.assertIn('"source_team": source_team', source_text)
+            self.assertIn('"damage": damage_amount', source_text)
+            self.assertIn('"delegates_to_damage": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

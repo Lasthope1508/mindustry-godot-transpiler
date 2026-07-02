@@ -21085,6 +21085,39 @@
         "test_port_game_exposes_generated_building_comp_collision_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1040": {
+      "deferred_exprs": [
+        "damage(float damage)",
+        "Bullet damage event is owned by source_building_bullet_damage_state."
+      ],
+      "exact_exprs": [
+        "/** Used to handle damage from splash damage for certain types of blocks. */",
+        "public void damage(@Nullable Team source, float damage){",
+        "damage(damage);",
+        "source",
+        "damage"
+      ],
+      "godot_owner": "PortGame.source_building_damage_delegate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(@Nullable Team source, float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_damage_178 and PortGame generated bridge to existing N557 canonical source_building_damage_delegate_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_damage_delegate_bridge_state",
+      "source_symbols": [
+        "building_damage_delegate.comment",
+        "building_damage_delegate.method",
+        "building_damage_delegate.delegate_call",
+        "building_damage_delegate.source_team",
+        "building_damage_delegate.damage"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_damage_delegate_to_source_state",
+        "test_generated_building_comp_bridges_damage_delegate_to_source_state",
+        "test_port_game_exposes_generated_building_comp_damage_delegate_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
