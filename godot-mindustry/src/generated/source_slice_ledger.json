@@ -20328,6 +20328,39 @@
         "test_port_game_exposes_source_building_on_proximity_removed_state",
         "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N967": {
+      "deferred_exprs": [
+        "updatePowerGraph() internals remain a separate slice."
+      ],
+      "exact_exprs": [
+        "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
+        "//TODO ??? this is just onProximityUpdate ?",
+        "public void onProximityAdded(){",
+        "if(power != null){",
+        "updatePowerGraph();"
+      ],
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed default BuildingComp.onProximityAdded power dispatch.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "source_symbols": [
+        "building_on_proximity_added.comment",
+        "building_on_proximity_added.todo",
+        "building_on_proximity_added.method",
+        "building_on_proximity_added.power_guard",
+        "building_on_proximity_added.update_power_graph_call",
+        "building_on_proximity_added.power_present",
+        "building_on_proximity_added.update_power_graph_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

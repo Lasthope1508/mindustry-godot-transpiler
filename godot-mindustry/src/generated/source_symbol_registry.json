@@ -4379,6 +4379,111 @@
         "test_building_on_proximity_removed_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_on_proximity_added.comment": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.comment",
+      "java_expr": "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source comment for BuildingComp.onProximityAdded.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.method": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.method",
+      "java_expr": "public void onProximityAdded(){",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source onProximityAdded method signature.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.power_guard": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.power_guard",
+      "java_expr": "if(power != null){",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source power presence guard.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.power_present": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_input.power_present",
+      "java_expr": "power != null",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime power_present supplies source power guard input.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.todo": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.todo",
+      "java_expr": "//TODO ??? this is just onProximityUpdate ?",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source TODO before onProximityAdded.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.update_power_graph_call": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.update_power_graph_call",
+      "java_expr": "updatePowerGraph();",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source updatePowerGraph call inside power guard.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_on_proximity_added.update_power_graph_called": {
+      "godot_owner": "PortGame.source_building_on_proximity_added_state",
+      "godot_symbol": "source_building_on_proximity_added_result.update_power_graph_called",
+      "java_expr": "power != null",
+      "java_method": "onProximityAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime result of source power presence guard controlling updatePowerGraph call.",
+      "runtime_proof": "/root/Main.source_building_on_proximity_added_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_on_proximity_added_matches_upstream_source",
+        "test_port_game_exposes_source_building_on_proximity_added_state",
+        "test_building_on_proximity_added_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_can_pickup.block_can_pickup": {
       "godot_owner": "PortGame.source_building_can_pickup_state",
       "godot_symbol": "source_building_can_pickup_input.blockCanPickup",

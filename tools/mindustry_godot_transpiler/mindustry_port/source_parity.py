@@ -666,6 +666,26 @@ def verify_building_on_proximity_removed_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_building_on_proximity_added_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
+        "todo": "//TODO ??? this is just onProximityUpdate ?",
+        "method": "public void onProximityAdded(){",
+        "power_guard": "if(power != null){",
+        "update_power_graph_call": "updatePowerGraph();",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str, Any]:
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")

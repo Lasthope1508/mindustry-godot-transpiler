@@ -17734,6 +17734,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(called["java_expr"], "power != null")
         self.assertEqual(called["godot_symbol"], "source_building_on_proximity_removed_result.power_graph_removed_called")
 
+    def test_building_on_proximity_added_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_on_proximity_added.method")
+        self.assertEqual(method["java_expr"], "public void onProximityAdded(){")
+        self.assertEqual(method["java_method"], "onProximityAdded()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_on_proximity_added_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_on_proximity_added_state")
+        self.assertEqual(method["godot_symbol"], "source_building_on_proximity_added_result.method")
+
+        power_present = source_symbols.source_symbol(registry, "building_on_proximity_added.power_present")
+        self.assertEqual(power_present["java_expr"], "power != null")
+        self.assertEqual(power_present["status"], "explicit-input")
+        self.assertEqual(power_present["godot_symbol"], "source_building_on_proximity_added_input.power_present")
+
+        guard = source_symbols.source_symbol(registry, "building_on_proximity_added.power_guard")
+        self.assertEqual(guard["java_expr"], "if(power != null){")
+        self.assertEqual(guard["godot_symbol"], "source_building_on_proximity_added_result.power_guard")
+
+        call = source_symbols.source_symbol(registry, "building_on_proximity_added.update_power_graph_call")
+        self.assertEqual(call["java_expr"], "updatePowerGraph();")
+        self.assertEqual(call["godot_symbol"], "source_building_on_proximity_added_result.update_power_graph_call")
+
+        called = source_symbols.source_symbol(registry, "building_on_proximity_added.update_power_graph_called")
+        self.assertEqual(called["java_expr"], "power != null")
+        self.assertEqual(called["godot_symbol"], "source_building_on_proximity_added_result.update_power_graph_called")
+
     def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19196,9 +19226,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 563)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 564)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 568)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 569)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -24023,6 +24053,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void onProximityRemoved(){", building_on_proximity_removed["exact_exprs"])
         self.assertIn("if(power != null){", building_on_proximity_removed["exact_exprs"])
         self.assertIn("powerGraphRemoved();", building_on_proximity_removed["exact_exprs"])
+
+        building_on_proximity_added = source_symbols.source_slice(ledger, "N967")
+        self.assertEqual(building_on_proximity_added["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_on_proximity_added["java_method"], "onProximityAdded()")
+        self.assertEqual(building_on_proximity_added["godot_owner"], "PortGame.source_building_on_proximity_added_state")
+        self.assertIn("public void onProximityAdded(){", building_on_proximity_added["exact_exprs"])
+        self.assertIn("if(power != null){", building_on_proximity_added["exact_exprs"])
+        self.assertIn("updatePowerGraph();", building_on_proximity_added["exact_exprs"])
 
         building_move_liquid_forward = source_symbols.source_slice(ledger, "N944")
         self.assertEqual(building_move_liquid_forward["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -29445,6 +29483,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("power_graph_removed_call", building_on_proximity_removed["return_keys"])
         self.assertIn("power_graph_removed_called", building_on_proximity_removed["return_keys"])
         self.assertEqual(building_on_proximity_removed["source_method"], "onProximityRemoved()")
+
+        building_on_proximity_added = source_symbols.api_contract(contracts, "PortGame.source_building_on_proximity_added_state")
+        self.assertEqual([param["name"] for param in building_on_proximity_added["params"]], ["power_present"])
+        self.assertEqual(building_on_proximity_added["params"][0]["schema"], "source_building_on_proximity_added_input.power_present")
+        self.assertIn("update_power_graph_call", building_on_proximity_added["return_keys"])
+        self.assertIn("update_power_graph_called", building_on_proximity_added["return_keys"])
+        self.assertEqual(building_on_proximity_added["source_method"], "onProximityAdded()")
 
         building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
         self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
@@ -37630,6 +37675,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_proximity_removed_result["keys"]["power_graph_removed_call"]["java_expr"], "powerGraphRemoved();")
         self.assertEqual(source_building_on_proximity_removed_result["keys"]["power_graph_removed_called"]["java_expr"], "power != null")
         self.assertEqual(source_building_on_proximity_removed_result["keys"]["power_present"]["alias_of"], "source_building_on_proximity_removed_input.power_present")
+
+        source_building_on_proximity_added_input = source_symbols.state_schema(schema, "source_building_on_proximity_added_input")
+        self.assertEqual(source_building_on_proximity_added_input["keys"]["power_present"]["java_expr"], "power != null")
+
+        source_building_on_proximity_added_result = source_symbols.state_schema(schema, "source_building_on_proximity_added_result")
+        self.assertEqual(source_building_on_proximity_added_result["keys"]["method"]["java_expr"], "public void onProximityAdded(){")
+        self.assertEqual(source_building_on_proximity_added_result["keys"]["todo"]["java_expr"], "//TODO ??? this is just onProximityUpdate ?")
+        self.assertEqual(source_building_on_proximity_added_result["keys"]["power_guard"]["java_expr"], "if(power != null){")
+        self.assertEqual(source_building_on_proximity_added_result["keys"]["update_power_graph_call"]["java_expr"], "updatePowerGraph();")
+        self.assertEqual(source_building_on_proximity_added_result["keys"]["update_power_graph_called"]["java_expr"], "power != null")
+        self.assertEqual(source_building_on_proximity_added_result["keys"]["power_present"]["alias_of"], "source_building_on_proximity_added_input.power_present")
 
         source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
         self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")

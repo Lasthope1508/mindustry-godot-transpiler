@@ -2137,6 +2137,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"power_graph_removed_call": "powerGraphRemoved();"', source)
         self.assertIn('"power_graph_removed_called": power_present', source)
 
+    def test_port_game_exposes_source_building_on_proximity_added_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_on_proximity_added_state(power_present: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public void onProximityAdded(){"', source)
+        self.assertIn('"todo": "//TODO ??? this is just onProximityUpdate ?"', source)
+        self.assertIn('"power_guard": "if(power != null){"', source)
+        self.assertIn('"update_power_graph_call": "updatePowerGraph();"', source)
+        self.assertIn('"update_power_graph_called": power_present', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

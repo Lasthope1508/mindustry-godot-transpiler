@@ -1554,6 +1554,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_proximity_added_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_proximity_added_source"))
+        report = source_parity.verify_building_on_proximity_added_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
+            "todo": "//TODO ??? this is just onProximityUpdate ?",
+            "method": "public void onProximityAdded(){",
+            "power_guard": "if(power != null){",
+            "update_power_graph_call": "updatePowerGraph();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_move_liquid_forward_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_forward_source"))
         report = source_parity.verify_building_move_liquid_forward_source(ROOT / "mindustry-upstream")

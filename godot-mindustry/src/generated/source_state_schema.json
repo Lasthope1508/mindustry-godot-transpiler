@@ -15722,6 +15722,82 @@
       "source_slice": "N966",
       "status": "active"
     },
+    "source_building_on_proximity_added_input": {
+      "keys": {
+        "power_present": {
+          "java_expr": "power != null",
+          "java_method": "onProximityAdded()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N967 BuildingComp.onProximityAdded canonical key.",
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_on_proximity_added_state",
+      "source_slice": "N967",
+      "status": "active"
+    },
+    "source_building_on_proximity_added_result": {
+      "keys": {
+        "comment": {
+          "java_expr": "/** Called after this building is created in the world. May be called multiple times, or when adjacent buildings change. */",
+          "java_method": "onProximityAdded()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N967 BuildingComp.onProximityAdded canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "java_expr": "public void onProximityAdded(){",
+          "java_method": "onProximityAdded()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N967 BuildingComp.onProximityAdded canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_guard": {
+          "java_expr": "if(power != null){",
+          "java_method": "onProximityAdded()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N967 BuildingComp.onProximityAdded canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_present": {
+          "alias_of": "source_building_on_proximity_added_input.power_present",
+          "rule": "Echoes canonical input key in N967 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "todo": {
+          "java_expr": "//TODO ??? this is just onProximityUpdate ?",
+          "java_method": "onProximityAdded()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N967 BuildingComp.onProximityAdded canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "update_power_graph_call": {
+          "java_expr": "updatePowerGraph();",
+          "java_method": "onProximityAdded()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N967 BuildingComp.onProximityAdded canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "update_power_graph_called": {
+          "java_expr": "power != null",
+          "java_method": "onProximityAdded()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N967 BuildingComp.onProximityAdded canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_on_proximity_added_state",
+      "source_slice": "N967",
+      "status": "active"
+    },
     "source_building_can_pickup_input": {
       "keys": {
         "blockCanPickup": {
