@@ -698,7 +698,21 @@ func java_method_drawTeam_135(_args: Array = []) -> Variant:
 	return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}
 
 func java_method_checkSuppression_136(_args: Array = []) -> Variant:
-	return null
+	var block_suppressable := bool(_args[0] if _args.size() > 0 else false)
+	var source_time := float(_args[1] if _args.size() > 1 else 0.0)
+	var heal_suppression_time := float(_args[2] if _args.size() > 2 else 0.0)
+	var source_delta := float(_args[3] if _args.size() > 3 else 0.0)
+	var source_x := float(_args[4] if _args.size() > 4 else 0.0)
+	var source_y := float(_args[5] if _args.size() > 5 else 0.0)
+	var block_size_value := int(_args[6] if _args.size() > 6 else 0)
+	var source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)
+	var suppress_color := String(_args[8] if _args.size() > 8 else "")
+	var suppressed: bool = block_suppressable and source_time <= heal_suppression_time
+	if not suppressed:
+		return {"suppressed": false, "particle_visible": false}
+	var particle_range: float = block_size_value * source_tilesize / 2.0 - 1.0
+	var chance_threshold: float = 0.03 * source_delta
+	return {"suppressed": true, "particle_visible": "chanceDelta", "chance_threshold": chance_threshold, "effect": "regenSuppressParticle", "color": suppress_color, "particle_range": particle_range, "x_min": source_x - particle_range, "x_max": source_x + particle_range, "y_min": source_y - particle_range, "y_max": source_y + particle_range}
 
 func java_method_playerPlaced_137(_args: Array = []) -> Variant:
 	return null

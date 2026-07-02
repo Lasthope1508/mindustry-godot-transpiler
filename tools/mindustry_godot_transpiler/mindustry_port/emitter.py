@@ -300,6 +300,28 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)",
             "\treturn {\"visible\": true, \"region\": \"block-border\", \"color\": team_color, \"x\": source_x - block_size_value * source_tilesize / 2.0 + 4.0, \"y\": source_y - block_size_value * source_tilesize / 2.0 + 4.0, \"color_reset\": true}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "checkSuppression"
+    ):
+        return [
+            "\tvar block_suppressable := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar source_time := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar heal_suppression_time := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_delta := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar source_x := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar source_y := float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar block_size_value := int(_args[6] if _args.size() > 6 else 0)",
+            "\tvar source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)",
+            "\tvar suppress_color := String(_args[8] if _args.size() > 8 else \"\")",
+            "\tvar suppressed: bool = block_suppressable and source_time <= heal_suppression_time",
+            "\tif not suppressed:",
+            "\t\treturn {\"suppressed\": false, \"particle_visible\": false}",
+            "\tvar particle_range: float = block_size_value * source_tilesize / 2.0 - 1.0",
+            "\tvar chance_threshold: float = 0.03 * source_delta",
+            "\treturn {\"suppressed\": true, \"particle_visible\": \"chanceDelta\", \"chance_threshold\": chance_threshold, \"effect\": \"regenSuppressParticle\", \"color\": suppress_color, \"particle_range\": particle_range, \"x_min\": source_x - particle_range, \"x_max\": source_x + particle_range, \"y_min\": source_y - particle_range, \"y_max\": source_y + particle_range}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

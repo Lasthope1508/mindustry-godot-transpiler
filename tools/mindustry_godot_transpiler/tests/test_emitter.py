@@ -633,5 +633,52 @@ public class BuildingComp{
             self.assertIn("var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)", source_text)
             self.assertIn('return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}', source_text)
 
+    def test_emit_bridges_building_comp_check_suppression_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean checkSuppression(){
+        if(isHealSuppressed()){
+            if(Mathf.chanceDelta(0.03)){
+                Fx.regenSuppressParticle.at(x + Mathf.range(block.size * tilesize/2f - 1f), y + Mathf.range(block.size * tilesize/2f - 1f), suppressColor);
+            }
+            return true;
+        }
+        return false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_checkSuppression_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_suppressable := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var source_time := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var heal_suppression_time := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var source_delta := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var source_x := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var block_size_value := int(_args[6] if _args.size() > 6 else 0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)", source_text)
+            self.assertIn('var suppress_color := String(_args[8] if _args.size() > 8 else "")', source_text)
+            self.assertIn("var suppressed: bool = block_suppressable and source_time <= heal_suppression_time", source_text)
+            self.assertIn('return {"suppressed": false, "particle_visible": false}', source_text)
+            self.assertIn("var particle_range: float = block_size_value * source_tilesize / 2.0 - 1.0", source_text)
+            self.assertIn("var chance_threshold: float = 0.03 * source_delta", source_text)
+            self.assertIn('"particle_visible": "chanceDelta"', source_text)
+            self.assertIn('"effect": "regenSuppressParticle"', source_text)
+            self.assertIn('"x_min": source_x - particle_range', source_text)
+
 if __name__ == "__main__":
     unittest.main()

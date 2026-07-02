@@ -3019,6 +3019,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_team_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawTeam_135"', source)
 
+    def test_generated_building_comp_bridges_check_suppression_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_checkSuppression_136(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_suppressable := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var source_time := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var heal_suppression_time := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var source_delta := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var source_x := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[5] if _args.size() > 5 else 0.0)", source)
+        self.assertIn("var block_size_value := int(_args[6] if _args.size() > 6 else 0)", source)
+        self.assertIn("var source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)", source)
+        self.assertIn('var suppress_color := String(_args[8] if _args.size() > 8 else "")', source)
+        self.assertIn("var suppressed: bool = block_suppressable and source_time <= heal_suppression_time", source)
+        self.assertIn('return {"suppressed": false, "particle_visible": false}', source)
+        self.assertIn("var particle_range: float = block_size_value * source_tilesize / 2.0 - 1.0", source)
+        self.assertIn("var chance_threshold: float = 0.03 * source_delta", source)
+        self.assertIn('"particle_visible": "chanceDelta"', source)
+        self.assertIn('"effect": "regenSuppressParticle"', source)
+        self.assertIn('"x_min": source_x - particle_range', source)
+
+    def test_port_game_exposes_generated_building_comp_check_suppression_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_check_suppression_bridge_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_checkSuppression_136([block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_check_suppression_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_checkSuppression_136"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
