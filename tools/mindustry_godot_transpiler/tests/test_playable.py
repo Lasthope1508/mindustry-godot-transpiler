@@ -2841,6 +2841,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_draw_128"', source)
 
+    def test_generated_building_comp_bridges_draw_cached_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawCached_129(_args: Array = []) -> Variant:", source)
+        self.assertIn("return java_method_draw_128(_args)", source)
+
+    def test_port_game_exposes_generated_building_comp_draw_cached_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_cached_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawCached_129([variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_cached_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawCached_129"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

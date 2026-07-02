@@ -601,7 +601,7 @@ func java_method_draw_128(_args: Array = []) -> Variant:
 	return {"visible": true, "region_kind": "variant_region", "variant_index": variant_index, "x": source_x, "y": source_y, "rotation_degrees": draw_rotation, "draw_team_top": true}
 
 func java_method_drawCached_129(_args: Array = []) -> Variant:
-	return null
+	return java_method_draw_128(_args)
 
 func java_method_recache_130(_args: Array = []) -> Variant:
 	return null

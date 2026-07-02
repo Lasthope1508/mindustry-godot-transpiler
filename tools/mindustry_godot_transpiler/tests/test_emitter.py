@@ -372,5 +372,31 @@ public class BuildingComp{
             self.assertIn('"region_kind": "variant_region"', source_text)
             self.assertIn('"draw_team_top": true', source_text)
 
+    def test_emit_bridges_building_comp_draw_cached_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawCached(){
+        draw();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawCached_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("return java_method_draw_128(_args)", source_text)
+
 if __name__ == "__main__":
     unittest.main()

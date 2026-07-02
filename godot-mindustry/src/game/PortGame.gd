@@ -3664,6 +3664,16 @@ func generated_building_comp_draw_bridge_state(variants: int, has_variant_region
 		"result": result,
 	}
 
+func generated_building_comp_draw_cached_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawCached_129([variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])
+	return {
+		"source_owner": "PortGame.source_building_draw_cached_state",
+		"generated_owner": "BuildingComp.java_method_drawCached_129",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

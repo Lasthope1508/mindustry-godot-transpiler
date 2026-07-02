@@ -168,6 +168,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar variant_index: int = _source_arc_random_seed_int(tile_pos, 0, max_variant_index)",
             "\treturn {\"visible\": true, \"region_kind\": \"variant_region\", \"variant_index\": variant_index, \"x\": source_x, \"y\": source_y, \"rotation_degrees\": draw_rotation, \"draw_team_top\": true}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawCached"
+    ):
+        return [
+            "\treturn java_method_draw_128(_args)",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
