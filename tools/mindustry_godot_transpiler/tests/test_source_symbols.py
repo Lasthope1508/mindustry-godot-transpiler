@@ -36726,13 +36726,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_building_unit_on_input = source_symbols.state_schema(schema, "source_building_unit_on_input")
         self.assertEqual(source_building_unit_on_input["keys"]["unit_state"]["java_expr"], "unit")
+        self.assertEqual(source_building_unit_on_input["keys"]["unit_state"]["java_method"], "unitOn(Unit unit)")
         self.assertEqual(source_building_unit_on_input["keys"]["unit_state"]["status"], "explicit-input")
+        self.assertIn("PortGame.source_building_unit_on_state", source_building_unit_on_input["keys"]["unit_state"]["used_by"])
 
         source_building_unit_on_result = source_symbols.state_schema(schema, "source_building_unit_on_result")
         self.assertEqual(source_building_unit_on_result["keys"]["comment"]["java_expr"], "/** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */")
+        self.assertEqual(source_building_unit_on_result["keys"]["comment"]["java_method"], "unitOn(Unit unit)")
         self.assertEqual(source_building_unit_on_result["keys"]["method"]["java_expr"], "public void unitOn(Unit unit){")
+        self.assertEqual(source_building_unit_on_result["keys"]["method"]["java_method"], "unitOn(Unit unit)")
         self.assertEqual(source_building_unit_on_result["keys"]["empty_body"]["java_expr"], "public void unitOn(Unit unit){\n    }")
+        self.assertEqual(source_building_unit_on_result["keys"]["empty_body"]["java_method"], "unitOn(Unit unit)")
         self.assertEqual(source_building_unit_on_result["keys"]["unit_state"]["alias_of"], "source_building_unit_on_input.unit_state")
+        self.assertEqual(source_building_unit_on_result["keys"]["unit_state"]["java_method"], "unitOn(Unit unit)")
+        self.assertIn("PortGame.source_building_unit_on_state", source_building_unit_on_result["keys"]["unit_state"]["used_by"])
 
         source_building_unit_on_any_input = source_symbols.state_schema(schema, "source_building_unit_on_any_input")
         self.assertEqual(source_building_unit_on_any_input["keys"]["unit_state"]["java_expr"], "unit")

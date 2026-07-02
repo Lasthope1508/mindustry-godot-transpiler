@@ -917,5 +917,35 @@ public class BuildingComp{
             self.assertIn('"no_op": true', source_text)
             self.assertIn('"current_state": current_state', source_text)
 
+    def test_emit_bridges_building_comp_unit_on_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  */
+    public void unitOn(Unit unit){
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_unitOn_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_state: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"comment": "Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  "', source_text)
+            self.assertIn('"method": "public void unitOn(Unit unit){"', source_text)
+            self.assertIn('"empty_body": "public void unitOn(Unit unit){\\n    }"', source_text)
+            self.assertIn('"unit_state": unit_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()

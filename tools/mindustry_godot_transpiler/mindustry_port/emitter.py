@@ -397,6 +397,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar current_state: Variant = _args[0] if _args.size() > 0 else null",
             "\treturn {\"method\": \"public void onRemoved(){\", \"no_op\": true, \"current_state\": current_state}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "unitOn"
+    ):
+        return [
+            "\tvar unit_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"comment\": \"Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  \", \"method\": \"public void unitOn(Unit unit){\", \"empty_body\": \"public void unitOn(Unit unit){\\n    }\", \"unit_state\": unit_state}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

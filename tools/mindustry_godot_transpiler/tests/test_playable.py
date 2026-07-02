@@ -3209,6 +3209,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_on_removed_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_onRemoved_143"', source)
 
+    def test_generated_building_comp_bridges_unit_on_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_unitOn_144(_args: Array = []) -> Variant:", source)
+        self.assertIn("var unit_state: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"comment": "Called every frame a unit is on this. Hovering/flying/steppy units do not apply.  "', source)
+        self.assertIn('"method": "public void unitOn(Unit unit){"', source)
+        self.assertIn('"empty_body": "public void unitOn(Unit unit){\\n    }"', source)
+        self.assertIn('"unit_state": unit_state', source)
+
+    def test_port_game_exposes_generated_building_comp_unit_on_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_unit_on_bridge_state(unit_state: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_unitOn_144([unit_state])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_unit_on_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_unitOn_144"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
