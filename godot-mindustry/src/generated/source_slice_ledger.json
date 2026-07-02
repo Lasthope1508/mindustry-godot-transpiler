@@ -20247,6 +20247,28 @@
         "test_port_game_exposes_source_building_dump_specific_proximity_scan_state",
         "test_building_dump_specific_proximity_scan_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N964": {
+      "exact_exprs": [
+        "public boolean dump(Item todump){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_building_dump_terminal_failure_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump(Item todump) terminal failure",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_building_dump_terminal_failure_state",
+      "source_symbols": [
+        "building_dump_terminal_failure.terminal_return",
+        "building_dump_terminal_failure.dumped",
+        "building_dump_terminal_failure.return_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_terminal_failure_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_terminal_failure_state",
+        "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

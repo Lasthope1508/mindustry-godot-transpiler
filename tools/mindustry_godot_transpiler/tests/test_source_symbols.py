@@ -18015,6 +18015,24 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(proximity_size["java_expr"], "proximity.size")
         self.assertEqual(proximity_size["godot_symbol"], "source_building_dump_specific_proximity_scan_input.proximity_size")
 
+    def test_building_dump_terminal_failure_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        terminal_return = source_symbols.source_symbol(registry, "building_dump_terminal_failure.terminal_return")
+        self.assertEqual(terminal_return["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(terminal_return["java_method"], "dump(Item todump) terminal failure")
+        self.assertEqual(terminal_return["java_expr"], "return false;")
+        self.assertEqual(terminal_return["godot_owner"], "PortGame.source_building_dump_terminal_failure_state")
+        self.assertEqual(terminal_return["runtime_proof"], "/root/Main.source_building_dump_terminal_failure_state")
+        self.assertEqual(terminal_return["godot_symbol"], "source_building_dump_terminal_failure_result.terminal_return")
+
+        return_value = source_symbols.source_symbol(registry, "building_dump_terminal_failure.return_value")
+        self.assertEqual(return_value["java_expr"], "return false;")
+        self.assertEqual(return_value["godot_symbol"], "source_building_dump_terminal_failure_result.return_value")
+
     def test_building_move_liquid_forward_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19121,9 +19139,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 560)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 561)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 565)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 566)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19137,6 +19155,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_dump_null_remove_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_null_success_handoff_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_specific_proximity_scan_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_dump_terminal_failure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_visibility_loop_state", audit["registeredSourceOwners"])
@@ -24104,6 +24123,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_dump_specific_proximity_scan["godot_owner"], "PortGame.source_building_dump_specific_proximity_scan_state")
         self.assertIn("}else{", building_dump_specific_proximity_scan["exact_exprs"])
         self.assertIn("Building other = proximity.get((i + dump) % proximity.size);", building_dump_specific_proximity_scan["exact_exprs"])
+
+        building_dump_terminal_failure = source_symbols.source_slice(ledger, "N964")
+        self.assertEqual(building_dump_terminal_failure["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_terminal_failure["java_method"], "dump(Item todump) terminal failure")
+        self.assertEqual(building_dump_terminal_failure["godot_owner"], "PortGame.source_building_dump_terminal_failure_state")
+        self.assertIn("return false;", building_dump_terminal_failure["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -29456,6 +29481,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("proximity_get", building_dump_specific_proximity_scan["return_keys"])
         self.assertIn("checked_indices", building_dump_specific_proximity_scan["return_keys"])
         self.assertEqual(building_dump_specific_proximity_scan["source_method"], "dump(Item todump) specific proximity scan")
+
+        building_dump_terminal_failure = source_symbols.api_contract(contracts, "PortGame.source_building_dump_terminal_failure_state")
+        self.assertEqual(building_dump_terminal_failure["params"], [])
+        self.assertIn("terminal_return", building_dump_terminal_failure["return_keys"])
+        self.assertIn("dumped", building_dump_terminal_failure["return_keys"])
+        self.assertIn("return_value", building_dump_terminal_failure["return_keys"])
+        self.assertEqual(building_dump_terminal_failure["source_method"], "dump(Item todump) terminal failure")
 
         building_move_liquid_forward = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_forward_state")
         self.assertEqual([param["name"] for param in building_move_liquid_forward["params"]], ["leaks", "liquid", "next_tile_present", "next_build_present", "next_block_solid", "next_block_has_liquids", "current_liquid_amount", "move_liquid_return"])
@@ -37641,6 +37673,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_dump_specific_proximity_scan_result["keys"]["proximity_get"]["java_expr"], "Building other = proximity.get((i + dump) % proximity.size);")
         self.assertEqual(source_building_dump_specific_proximity_scan_result["keys"]["checked_indices"]["java_expr"], "(i + dump) % proximity.size")
         self.assertEqual(source_building_dump_specific_proximity_scan_result["keys"]["dump_cursor"]["alias_of"], "source_building_dump_specific_proximity_scan_input.dump_cursor")
+
+        source_building_dump_terminal_failure_result = source_symbols.state_schema(schema, "source_building_dump_terminal_failure_result")
+        self.assertEqual(source_building_dump_terminal_failure_result["keys"]["terminal_return"]["java_expr"], "return false;")
+        self.assertEqual(source_building_dump_terminal_failure_result["keys"]["dumped"]["java_expr"], "return false;")
+        self.assertEqual(source_building_dump_terminal_failure_result["keys"]["return_value"]["java_expr"], "return false;")
 
         source_building_move_liquid_forward_input = source_symbols.state_schema(schema, "source_building_move_liquid_forward_input")
         self.assertEqual(source_building_move_liquid_forward_input["keys"]["leaks"]["java_expr"], "leaks")

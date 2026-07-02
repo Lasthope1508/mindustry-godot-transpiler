@@ -11013,6 +11013,66 @@
         "test_building_dump_specific_proximity_scan_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_dump_terminal_failure.dumped": {
+      "godot_owner": "PortGame.source_building_dump_terminal_failure_state",
+      "godot_symbol": "source_building_dump_terminal_failure_result.dumped",
+      "java_expr": "return false;",
+      "java_method": "dump(Item todump) terminal failure",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N964 terminal dump failure means no item was dumped after both branches exhaust.",
+      "runtime_proof": "/root/Main.source_building_dump_terminal_failure_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_terminal_failure_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_terminal_failure_state",
+        "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_terminal_failure.return_value": {
+      "godot_owner": "PortGame.source_building_dump_terminal_failure_state",
+      "godot_symbol": "source_building_dump_terminal_failure_result.return_value",
+      "java_expr": "return false;",
+      "java_method": "dump(Item todump) terminal failure",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N964 return_value mirrors source terminal failure return.",
+      "runtime_proof": "/root/Main.source_building_dump_terminal_failure_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_terminal_failure_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_terminal_failure_state",
+        "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_terminal_failure.source_method": {
+      "godot_owner": "PortGame.source_building_dump_terminal_failure_state",
+      "godot_symbol": "source_building_dump_terminal_failure_result.source_method",
+      "java_expr": "dump(Item todump) terminal failure",
+      "java_method": "dump(Item todump) terminal failure",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N964 source method label.",
+      "runtime_proof": "/root/Main.source_building_dump_terminal_failure_state",
+      "status": "generated",
+      "tests": [
+        "test_building_dump_terminal_failure_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_terminal_failure_state",
+        "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_terminal_failure.terminal_return": {
+      "godot_owner": "PortGame.source_building_dump_terminal_failure_state",
+      "godot_symbol": "source_building_dump_terminal_failure_result.terminal_return",
+      "java_expr": "return false;",
+      "java_method": "dump(Item todump) terminal failure",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N964 pins source terminal failure return after dump branches exhaust.",
+      "runtime_proof": "/root/Main.source_building_dump_terminal_failure_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_terminal_failure_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_terminal_failure_state",
+        "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_edelta.efficiency": {
       "godot_owner": "PortGame.source_building_edelta",
       "godot_symbol": "source_building_edelta_input.efficiency",

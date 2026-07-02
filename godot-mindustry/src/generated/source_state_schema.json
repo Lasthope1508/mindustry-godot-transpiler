@@ -23430,6 +23430,45 @@
       "source_slice": "N963",
       "status": "active"
     },
+    "source_building_dump_terminal_failure_result": {
+      "keys": {
+        "dumped": {
+          "godot_symbol": "source_building_dump_terminal_failure_result.dumped",
+          "java_expr": "return false;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N964 terminal failure means no dump succeeded.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "return_value": {
+          "godot_symbol": "source_building_dump_terminal_failure_result.return_value",
+          "java_expr": "return false;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N964 runtime return value mirrors source terminal failure.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "source_method": {
+          "godot_symbol": "source_building_dump_terminal_failure_result.source_method",
+          "java_expr": "dump(Item todump) terminal failure",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N964 source method label.",
+          "status": "generated",
+          "type": "String"
+        },
+        "terminal_return": {
+          "godot_symbol": "source_building_dump_terminal_failure_result.terminal_return",
+          "java_expr": "return false;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N964 source terminal return after both branches exhaust.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_dump_terminal_failure_state",
+      "source_slice": "N964",
+      "status": "active"
+    },
     "source_building_edelta_input": {
       "keys": {
         "efficiency": {

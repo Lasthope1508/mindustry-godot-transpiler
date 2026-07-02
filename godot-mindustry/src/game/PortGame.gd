@@ -5845,6 +5845,14 @@ func source_building_dump_specific_proximity_scan_state(todump: Variant, proximi
 		"checked_indices": checked_indices,
 	}
 
+func source_building_dump_terminal_failure_state() -> Dictionary:
+	return {
+		"source_method": "dump(Item todump) terminal failure",
+		"terminal_return": "return false;",
+		"dumped": false,
+		"return_value": false,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

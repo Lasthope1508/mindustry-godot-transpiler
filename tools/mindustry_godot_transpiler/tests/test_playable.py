@@ -2290,6 +2290,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);"', source)
         self.assertIn('"checked_indices": checked_indices', source)
 
+    def test_port_game_exposes_source_building_dump_terminal_failure_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_terminal_failure_state() -> Dictionary:", source)
+        self.assertIn('"source_method": "dump(Item todump) terminal failure"', source)
+        self.assertIn('"terminal_return": "return false;"', source)
+        self.assertIn('"dumped": false', source)
+        self.assertIn('"return_value": false', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

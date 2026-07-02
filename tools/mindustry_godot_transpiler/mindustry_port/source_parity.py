@@ -2669,6 +2669,26 @@ def verify_building_dump_specific_proximity_scan_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_building_dump_terminal_failure_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    method = "public boolean dump(Item todump){"
+    terminal_segment = "}\n\n        return false;\n    }"
+    terminal_return = "return false;"
+    missing = []
+    for snippet in [method, terminal_segment, terminal_return]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "method": method,
+            "terminal_segment": terminal_segment,
+            "terminal_return": terminal_return,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

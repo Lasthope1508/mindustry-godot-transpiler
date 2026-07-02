@@ -3862,6 +3862,26 @@
         "test_building_dump_specific_proximity_scan_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_dump_terminal_failure_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [],
+      "return_keys": [
+        "source_method",
+        "terminal_return",
+        "dumped",
+        "return_value"
+      ],
+      "rule": "N964 exposes BuildingComp.dump(Item todump) terminal failure return after both branches exhaust.",
+      "runtime_proof": "/root/Main.source_building_dump_terminal_failure_state",
+      "source_method": "dump(Item todump) terminal failure",
+      "source_slice": "N964",
+      "status": "active",
+      "tests": [
+        "test_building_dump_terminal_failure_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_terminal_failure_state",
+        "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_edelta": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
