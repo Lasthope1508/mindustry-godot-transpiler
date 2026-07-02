@@ -19937,6 +19937,51 @@
         "test_port_game_exposes_source_building_get_payloads_default_state",
         "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N954": {
+      "exact_exprs": [
+        " * Tries to put this item into a nearby container. Returns success. Unlike #offload(), this method does not change the block inventory.",
+        "public boolean put(Item item){",
+        "int dump = this.cdump;",
+        "for(int i = 0; i < proximity.size; i++){",
+        "incrementDump(proximity.size);",
+        "Building other = proximity.get((i + dump) % proximity.size);",
+        "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "other.handleItem(self(), item);",
+        "return true;",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_building_put_item_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "put(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records BuildingComp.put(Item item) routing over proximity. Accept/canDump results are explicit inputs; offload, produced, and canDump internals remain separate slices.",
+      "rule": "Adds source-backed BuildingComp.put item routing helper.",
+      "runtime_proof": "/root/Main.source_building_put_item_state",
+      "source_symbols": [
+        "building_put_item.comment",
+        "building_put_item.method",
+        "building_put_item.item",
+        "building_put_item.proximity_size",
+        "building_put_item.dump_cursor",
+        "building_put_item.accepts_item_by_index",
+        "building_put_item.can_dump_by_index",
+        "building_put_item.dump_assign",
+        "building_put_item.loop",
+        "building_put_item.increment_dump",
+        "building_put_item.proximity_get",
+        "building_put_item.accept_can_dump_guard",
+        "building_put_item.handle_item",
+        "building_put_item.return_true",
+        "building_put_item.return_false",
+        "building_put_item.cdump"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_put_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_put_item_state",
+        "test_building_put_item_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -569,6 +569,31 @@ def verify_building_get_payloads_default_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_building_put_item_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": " * Tries to put this item into a nearby container. Returns success. Unlike #offload(), this method does not change the block inventory.",
+        "method": "public boolean put(Item item){",
+        "dump_assign": "int dump = this.cdump;",
+        "loop": "for(int i = 0; i < proximity.size; i++){",
+        "increment_dump": "incrementDump(proximity.size);",
+        "proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+        "accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "handle_item": "other.handleItem(self(), item);",
+        "return_true": "return true;",
+        "return_false": "return false;",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str, Any]:
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")

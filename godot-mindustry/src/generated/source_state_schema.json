@@ -29418,6 +29418,224 @@
       },
       "status": "active"
     },
+    "source_building_put_item_input": {
+      "keys": {
+        "accepts_item_by_index": {
+          "godot_symbol": "source_building_put_item_input.other.acceptItem(self(), item)",
+          "java_expr": "other.acceptItem(self(), item)",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put explicit input key.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_put_item_state"
+          ]
+        },
+        "can_dump_by_index": {
+          "godot_symbol": "source_building_put_item_input.canDump(other, item)",
+          "java_expr": "canDump(other, item)",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put explicit input key.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_put_item_state"
+          ]
+        },
+        "dump_cursor": {
+          "godot_symbol": "source_building_put_item_input.this.cdump",
+          "java_expr": "this.cdump",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put explicit input key.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_put_item_state"
+          ]
+        },
+        "item": {
+          "godot_symbol": "source_building_put_item_input.item",
+          "java_expr": "item",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put explicit input key.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_put_item_state"
+          ]
+        },
+        "proximity_size": {
+          "godot_symbol": "source_building_put_item_input.proximity.size",
+          "java_expr": "proximity.size",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put explicit input key.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_put_item_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_put_item_result": {
+      "keys": {
+        "accept_can_dump_guard": {
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "cdump": {
+          "java_expr": "incrementDump(proximity.size);",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "checked_indices": {
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "comment": {
+          "java_expr": " * Tries to put this item into a nearby container. Returns success. Unlike #offload(), this method does not change the block inventory.",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "dump_assign": {
+          "java_expr": "int dump = this.cdump;",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "dump_cursor": {
+          "alias_of": "source_building_put_item_input.dump_cursor",
+          "rule": "Carries dump_cursor input into result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "handle_item": {
+          "java_expr": "other.handleItem(self(), item);",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "handle_item_called": {
+          "java_expr": "other.handleItem(self(), item);",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "handled_index": {
+          "java_expr": "other.handleItem(self(), item);",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "increment_dump": {
+          "java_expr": "incrementDump(proximity.size);",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item": {
+          "alias_of": "source_building_put_item_input.item",
+          "rule": "Carries put item input into result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "loop": {
+          "java_expr": "for(int i = 0; i < proximity.size; i++){",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "java_expr": "public boolean put(Item item){",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_get": {
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_size": {
+          "alias_of": "source_building_put_item_input.proximity_size",
+          "rule": "Carries proximity_size input into result schema.",
+          "status": "generated",
+          "type": "int"
+        },
+        "put": {
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "return_false": {
+          "java_expr": "return false;",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_true": {
+          "java_expr": "return true;",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_value": {
+          "java_expr": "return true; / return false;",
+          "java_method": "put(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N954 BuildingComp.put result canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_put_item_state",
+      "source_slice": "N954",
+      "status": "active"
+    },
     "source_building_recache_input": {
       "keys": {
         "building_cache_layer": {

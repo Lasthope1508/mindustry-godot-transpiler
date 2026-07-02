@@ -2165,6 +2165,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"payloads": null', source)
         self.assertIn('"has_payloads": false', source)
 
+    def test_port_game_exposes_source_building_put_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_put_item_state(item: Variant, proximity_size: int, dump_cursor: int, accepts_item_by_index: Array, can_dump_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean put(Item item){"', source)
+        self.assertIn('"dump_assign": "int dump = this.cdump;"', source)
+        self.assertIn('"loop": "for(int i = 0; i < proximity.size; i++){"', source)
+        self.assertIn('"increment_dump": "incrementDump(proximity.size);"', source)
+        self.assertIn('"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);"', source)
+        self.assertIn('"accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){"', source)
+        self.assertIn('"handle_item": "other.handleItem(self(), item);"', source)
+        self.assertIn('"return_true": "return true;"', source)
+        self.assertIn('"return_false": "return false;"', source)
+        self.assertIn("next_dump = source_increment_dump_cursor(next_dump, proximity_size)", source)
+        self.assertIn('"handled_index": handled_index', source)
+        self.assertIn('"put": put_success', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

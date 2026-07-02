@@ -1665,6 +1665,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_put_item_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_put_item_source"))
+        report = source_parity.verify_building_put_item_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "comment": " * Tries to put this item into a nearby container. Returns success. Unlike #offload(), this method does not change the block inventory.",
+            "method": "public boolean put(Item item){",
+            "dump_assign": "int dump = this.cdump;",
+            "loop": "for(int i = 0; i < proximity.size; i++){",
+            "increment_dump": "incrementDump(proximity.size);",
+            "proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+            "accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+            "handle_item": "other.handleItem(self(), item);",
+            "return_true": "return true;",
+            "return_false": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

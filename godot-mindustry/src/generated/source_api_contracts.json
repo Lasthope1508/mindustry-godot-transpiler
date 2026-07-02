@@ -5822,6 +5822,67 @@
         "test_building_puddle_on_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_put_item_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_building_put_item_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "proximity_size",
+          "schema": "source_building_put_item_input.proximity_size",
+          "type": "int"
+        },
+        {
+          "name": "dump_cursor",
+          "schema": "source_building_put_item_input.dump_cursor",
+          "type": "int"
+        },
+        {
+          "name": "accepts_item_by_index",
+          "schema": "source_building_put_item_input.accepts_item_by_index",
+          "type": "Array"
+        },
+        {
+          "name": "can_dump_by_index",
+          "schema": "source_building_put_item_input.can_dump_by_index",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "comment",
+        "method",
+        "dump_assign",
+        "loop",
+        "increment_dump",
+        "proximity_get",
+        "accept_can_dump_guard",
+        "handle_item",
+        "return_true",
+        "return_false",
+        "item",
+        "proximity_size",
+        "dump_cursor",
+        "cdump",
+        "checked_indices",
+        "handled_index",
+        "handle_item_called",
+        "put",
+        "return_value"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.put(Item item) routing helper.",
+      "runtime_proof": "/root/Main.source_building_put_item_state",
+      "source_method": "put(Item item)",
+      "source_slice": "N954",
+      "status": "active",
+      "tests": [
+        "test_building_put_item_matches_upstream_source",
+        "test_port_game_exposes_source_building_put_item_state",
+        "test_building_put_item_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_recache_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

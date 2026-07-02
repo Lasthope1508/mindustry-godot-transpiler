@@ -5433,6 +5433,43 @@ func source_building_get_payloads_default_state() -> Dictionary:
 		"has_payloads": false,
 	}
 
+func source_building_put_item_state(item: Variant, proximity_size: int, dump_cursor: int, accepts_item_by_index: Array, can_dump_by_index: Array) -> Dictionary:
+	var next_dump := dump_cursor
+	var handled_index := -1
+	var put_success := false
+	var checked_indices: Array = []
+	for i in range(proximity_size):
+		next_dump = source_increment_dump_cursor(next_dump, proximity_size)
+		var other_index := (i + dump_cursor) % proximity_size
+		checked_indices.append(other_index)
+		var accepts_item := other_index >= 0 and other_index < accepts_item_by_index.size() and bool(accepts_item_by_index[other_index])
+		var can_dump := other_index >= 0 and other_index < can_dump_by_index.size() and bool(can_dump_by_index[other_index])
+		if accepts_item and can_dump:
+			handled_index = other_index
+			put_success = true
+			break
+	return {
+		"comment": " * Tries to put this item into a nearby container. Returns success. Unlike #offload(), this method does not change the block inventory.",
+		"method": "public boolean put(Item item){",
+		"dump_assign": "int dump = this.cdump;",
+		"loop": "for(int i = 0; i < proximity.size; i++){",
+		"increment_dump": "incrementDump(proximity.size);",
+		"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+		"accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+		"handle_item": "other.handleItem(self(), item);",
+		"return_true": "return true;",
+		"return_false": "return false;",
+		"item": item,
+		"proximity_size": proximity_size,
+		"dump_cursor": dump_cursor,
+		"cdump": next_dump,
+		"checked_indices": checked_indices,
+		"handled_index": handled_index,
+		"handle_item_called": handled_index != -1,
+		"put": put_success,
+		"return_value": put_success,
+	}
+
 func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, next_tile_present: bool, next_build_present: bool, next_block_solid: bool, next_block_has_liquids: bool, current_liquid_amount: float, move_liquid_return: float) -> Dictionary:
 	var move_liquid_called := false
 	var leak_guard_passed := false
