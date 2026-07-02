@@ -3614,6 +3614,16 @@ func generated_building_comp_draw_status_bridge_state(enable_draw_status: bool, 
 		"result": result,
 	}
 
+func generated_building_comp_draw_cracks_bridge_state(draw_cracks: bool, damaged_state: bool, block_size_value: int, max_crack_size: int, health_fraction: float, crack_regions: int, position_id: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawCracks_124([draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id])
+	return {
+		"source_owner": "PortGame.source_building_draw_cracks_state",
+		"generated_owner": "BuildingComp.java_method_drawCracks_124",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

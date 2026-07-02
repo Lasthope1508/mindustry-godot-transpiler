@@ -401,7 +401,19 @@ func java_method_drawStatus_123(_args: Array = []) -> Variant:
 	return {"visible": true, "multiplier": multiplier, "brcx": brcx, "brcy": brcy, "gray_square_size": 2.5 * multiplier, "status_square_size": 1.5 * multiplier}
 
 func java_method_drawCracks_124(_args: Array = []) -> Variant:
-	return null
+	var draw_cracks := bool(_args[0] if _args.size() > 0 else false)
+	var damaged_state := bool(_args[1] if _args.size() > 1 else false)
+	var block_size_value := int(_args[2] if _args.size() > 2 else 1)
+	var max_crack_size := int(_args[3] if _args.size() > 3 else 0)
+	var health_fraction := float(_args[4] if _args.size() > 4 else 1.0)
+	var crack_regions := int(_args[5] if _args.size() > 5 else 1)
+	var position_id := int(_args[6] if _args.size() > 6 else 0)
+	if not draw_cracks or not damaged_state or block_size_value > max_crack_size:
+		return {"visible": false}
+	var crack_index := clampi(int((1.0 - health_fraction) * float(crack_regions)), 0, crack_regions - 1)
+	var lightness := 0.1 + (1.0 - health_fraction) * 0.6
+	var crack_rotation_degrees := (position_id % 4) * 90
+	return {"visible": true, "region_size_index": block_size_value - 1, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees}
 
 func java_method_drawSelect_125(_args: Array = []) -> Variant:
 	return null

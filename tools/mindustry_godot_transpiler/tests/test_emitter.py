@@ -184,5 +184,40 @@ public class BuildingComp{
             self.assertIn('"gray_square_size": 2.5 * multiplier', source_text)
             self.assertIn('"status_square_size": 1.5 * multiplier', source_text)
 
+    def test_emit_bridges_building_comp_draw_cracks_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawCracks(){
+        if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;
+        int id = pos();
+        TextureRegion region = renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)];
+        Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);
+        Draw.rect(region, x, y, (id%4)*90);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawCracks_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var draw_cracks := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var damaged_state := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var crack_index := clampi(int((1.0 - health_fraction) * float(crack_regions)), 0, crack_regions - 1)", source_text)
+            self.assertIn("var lightness := 0.1 + (1.0 - health_fraction) * 0.6", source_text)
+            self.assertIn("var crack_rotation_degrees := (position_id % 4) * 90", source_text)
+            self.assertIn('"region_size_index": block_size_value - 1', source_text)
+
 if __name__ == "__main__":
     unittest.main()

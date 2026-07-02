@@ -2712,6 +2712,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('var result = instance.java_method_drawStatus_123([enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize])', source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_status_state"', source)
 
+    def test_generated_building_comp_bridges_draw_cracks_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawCracks_124(_args: Array = []) -> Variant:", source)
+        self.assertIn("var draw_cracks := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var damaged_state := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var crack_index := clampi(int((1.0 - health_fraction) * float(crack_regions)), 0, crack_regions - 1)", source)
+        self.assertIn("var lightness := 0.1 + (1.0 - health_fraction) * 0.6", source)
+        self.assertIn("var crack_rotation_degrees := (position_id % 4) * 90", source)
+        self.assertIn('"region_size_index": block_size_value - 1', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_cracks_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_cracks_bridge_state(draw_cracks: bool, damaged_state: bool, block_size_value: int, max_crack_size: int, health_fraction: float, crack_regions: int, position_id: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawCracks_124([draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_cracks_state"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
