@@ -2154,6 +2154,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"has_payload": false', source)
         self.assertIn('"payload_taken": false', source)
 
+    def test_port_game_exposes_source_building_get_payloads_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_get_payloads_default_state() -> Dictionary:", source)
+        self.assertIn('"method": "public @Nullable PayloadSeq getPayloads(){"', source)
+        self.assertIn('"nullable": "@Nullable"', source)
+        self.assertIn('"return_null": "return null;"', source)
+        self.assertIn('"payloads": null', source)
+        self.assertIn('"has_payloads": false', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

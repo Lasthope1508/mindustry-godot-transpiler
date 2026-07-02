@@ -3773,6 +3773,27 @@
         "test_building_get_payload_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_get_payloads_default_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "nullable",
+        "return_null",
+        "payloads",
+        "has_payloads"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.getPayloads default null helper.",
+      "runtime_proof": "/root/Main.source_building_get_payloads_default_state",
+      "source_method": "getPayloads()",
+      "source_slice": "N953",
+      "status": "active",
+      "tests": [
+        "test_building_get_payloads_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payloads_default_state",
+        "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_handle_damage_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

@@ -19911,6 +19911,32 @@
         "test_port_game_exposes_source_building_take_payload_default_state",
         "test_building_take_payload_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N953": {
+      "exact_exprs": [
+        "public @Nullable PayloadSeq getPayloads(){",
+        "return null;"
+      ],
+      "godot_owner": "PortGame.source_building_get_payloads_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getPayloads()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records default BuildingComp.getPayloads behavior returning null. Concrete PayloadSeq container semantics remain separate slices.",
+      "rule": "Adds source-backed default BuildingComp.getPayloads helper returning null.",
+      "runtime_proof": "/root/Main.source_building_get_payloads_default_state",
+      "source_symbols": [
+        "building_get_payloads_default.method",
+        "building_get_payloads_default.nullable",
+        "building_get_payloads_default.return_null",
+        "building_get_payloads_default.payloads",
+        "building_get_payloads_default.has_payloads"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_get_payloads_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payloads_default_state",
+        "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

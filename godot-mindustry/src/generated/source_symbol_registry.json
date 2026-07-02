@@ -10505,6 +10505,81 @@
         "test_building_get_payload_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_get_payloads_default.has_payloads": {
+      "godot_owner": "PortGame.source_building_get_payloads_default_state",
+      "godot_symbol": "source_building_get_payloads_default_result.has_payloads",
+      "java_expr": "return null;",
+      "java_method": "getPayloads()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime boolean records that source default has no payload sequence.",
+      "runtime_proof": "/root/Main.source_building_get_payloads_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_payloads_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payloads_default_state",
+        "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_payloads_default.method": {
+      "godot_owner": "PortGame.source_building_get_payloads_default_state",
+      "godot_symbol": "source_building_get_payloads_default_result.method",
+      "java_expr": "public @Nullable PayloadSeq getPayloads(){",
+      "java_method": "getPayloads()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source getPayloads default method signature.",
+      "runtime_proof": "/root/Main.source_building_get_payloads_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_payloads_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payloads_default_state",
+        "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_payloads_default.nullable": {
+      "godot_owner": "PortGame.source_building_get_payloads_default_state",
+      "godot_symbol": "source_building_get_payloads_default_result.nullable",
+      "java_expr": "@Nullable",
+      "java_method": "getPayloads()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source nullable annotation on default payload sequence accessor.",
+      "runtime_proof": "/root/Main.source_building_get_payloads_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_payloads_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payloads_default_state",
+        "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_payloads_default.payloads": {
+      "godot_owner": "PortGame.source_building_get_payloads_default_state",
+      "godot_symbol": "source_building_get_payloads_default_result.payloads",
+      "java_expr": "return null;",
+      "java_method": "getPayloads()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime payload sequence result from source default null return.",
+      "runtime_proof": "/root/Main.source_building_get_payloads_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_payloads_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payloads_default_state",
+        "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_payloads_default.return_null": {
+      "godot_owner": "PortGame.source_building_get_payloads_default_state",
+      "godot_symbol": "source_building_get_payloads_default_result.return_null",
+      "java_expr": "return null;",
+      "java_method": "getPayloads()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source default null return statement.",
+      "runtime_proof": "/root/Main.source_building_get_payloads_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_payloads_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payloads_default_state",
+        "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_handle_damage.amount": {
       "godot_owner": "PortGame.source_building_handle_damage_state",
       "godot_symbol": "source_building_handle_damage_input.amount",

@@ -23168,6 +23168,53 @@
       "source_slice": "N951",
       "status": "active"
     },
+    "source_building_get_payloads_default_result": {
+      "keys": {
+        "has_payloads": {
+          "java_expr": "return null;",
+          "java_method": "getPayloads()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N953 BuildingComp.getPayloads default canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "java_expr": "public @Nullable PayloadSeq getPayloads(){",
+          "java_method": "getPayloads()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N953 BuildingComp.getPayloads default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "nullable": {
+          "java_expr": "@Nullable",
+          "java_method": "getPayloads()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N953 BuildingComp.getPayloads default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payloads": {
+          "java_expr": "return null;",
+          "java_method": "getPayloads()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N953 BuildingComp.getPayloads default canonical key.",
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "return_null": {
+          "java_expr": "return null;",
+          "java_method": "getPayloads()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N953 BuildingComp.getPayloads default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_get_payloads_default_state",
+      "source_slice": "N953",
+      "status": "active"
+    },
     "source_building_handle_damage_input": {
       "keys": {
         "amount": {

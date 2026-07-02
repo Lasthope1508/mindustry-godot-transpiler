@@ -17748,6 +17748,28 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(payload["java_expr"], "return null;")
         self.assertEqual(payload["godot_symbol"], "source_building_take_payload_default_result.payload")
 
+    def test_building_get_payloads_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_get_payloads_default.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "getPayloads()")
+        self.assertEqual(method["java_expr"], "public @Nullable PayloadSeq getPayloads(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_get_payloads_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_get_payloads_default_state")
+        self.assertEqual(method["godot_symbol"], "source_building_get_payloads_default_result.method")
+
+        nullable = source_symbols.source_symbol(registry, "building_get_payloads_default.nullable")
+        self.assertEqual(nullable["java_expr"], "@Nullable")
+        self.assertEqual(nullable["godot_symbol"], "source_building_get_payloads_default_result.nullable")
+
+        payloads = source_symbols.source_symbol(registry, "building_get_payloads_default.payloads")
+        self.assertEqual(payloads["java_expr"], "return null;")
+        self.assertEqual(payloads["godot_symbol"], "source_building_get_payloads_default_result.payloads")
+
     def test_building_move_liquid_forward_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18854,9 +18876,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 549)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 550)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 554)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 555)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23737,6 +23759,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("/** Tries to take the payload. Returns null if no payload is present. */", building_take_payload_default["exact_exprs"])
         self.assertIn("public @Nullable Payload takePayload(){", building_take_payload_default["exact_exprs"])
         self.assertIn("return null;", building_take_payload_default["exact_exprs"])
+
+        building_get_payloads_default = source_symbols.source_slice(ledger, "N953")
+        self.assertEqual(building_get_payloads_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_get_payloads_default["java_method"], "getPayloads()")
+        self.assertEqual(building_get_payloads_default["godot_owner"], "PortGame.source_building_get_payloads_default_state")
+        self.assertIn("public @Nullable PayloadSeq getPayloads(){", building_get_payloads_default["exact_exprs"])
+        self.assertIn("return null;", building_get_payloads_default["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28993,6 +29022,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("has_payload", building_take_payload_default["return_keys"])
         self.assertIn("payload_taken", building_take_payload_default["return_keys"])
         self.assertEqual(building_take_payload_default["source_method"], "takePayload()")
+
+        building_get_payloads_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_payloads_default_state")
+        self.assertEqual(building_get_payloads_default["params"], [])
+        self.assertIn("nullable", building_get_payloads_default["return_keys"])
+        self.assertIn("return_null", building_get_payloads_default["return_keys"])
+        self.assertIn("payloads", building_get_payloads_default["return_keys"])
+        self.assertIn("has_payloads", building_get_payloads_default["return_keys"])
+        self.assertEqual(building_get_payloads_default["source_method"], "getPayloads()")
 
         building_move_liquid_forward = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_forward_state")
         self.assertEqual([param["name"] for param in building_move_liquid_forward["params"]], ["leaks", "liquid", "next_tile_present", "next_build_present", "next_block_solid", "next_block_has_liquids", "current_liquid_amount", "move_liquid_return"])
@@ -37055,6 +37092,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_take_payload_default_result["keys"]["payload"]["java_expr"], "return null;")
         self.assertEqual(source_building_take_payload_default_result["keys"]["has_payload"]["java_expr"], "return null;")
         self.assertEqual(source_building_take_payload_default_result["keys"]["payload_taken"]["java_expr"], "return null;")
+
+        source_building_get_payloads_default_result = source_symbols.state_schema(schema, "source_building_get_payloads_default_result")
+        self.assertEqual(source_building_get_payloads_default_result["keys"]["method"]["java_expr"], "public @Nullable PayloadSeq getPayloads(){")
+        self.assertEqual(source_building_get_payloads_default_result["keys"]["nullable"]["java_expr"], "@Nullable")
+        self.assertEqual(source_building_get_payloads_default_result["keys"]["return_null"]["java_expr"], "return null;")
+        self.assertEqual(source_building_get_payloads_default_result["keys"]["payloads"]["java_expr"], "return null;")
+        self.assertEqual(source_building_get_payloads_default_result["keys"]["has_payloads"]["java_expr"], "return null;")
 
         source_building_move_liquid_forward_input = source_symbols.state_schema(schema, "source_building_move_liquid_forward_input")
         self.assertEqual(source_building_move_liquid_forward_input["keys"]["leaks"]["java_expr"], "leaks")
