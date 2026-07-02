@@ -4567,6 +4567,18 @@ func generated_building_comp_update_efficiency_multiplier_bridge_state(efficienc
 		"canonical": canonical,
 	}
 
+func generated_building_comp_efficiency_scale_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiencyScale_193([])
+	var canonical = source_building_efficiency_scale_state()
+	return {
+		"source_owner": "PortGame.source_building_efficiency_scale_state",
+		"generated_owner": "BuildingComp.java_method_efficiencyScale_193",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

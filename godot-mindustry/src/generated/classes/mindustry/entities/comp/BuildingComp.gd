@@ -1154,7 +1154,7 @@ func java_method_updateEfficiencyMultiplier_192(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_update_efficiency_multiplier_state", "comment": "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */", "method": "public void updateEfficiencyMultiplier(){", "scale": scale, "efficiency": efficiency, "optional_efficiency": optional_efficiency, "efficiency_scale": efficiency_scale}
 
 func java_method_efficiencyScale_193(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_building_efficiency_scale_state", "comment": "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */", "method": "public float efficiencyScale(){", "efficiency_scale": 1.0}
 
 func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 	return null

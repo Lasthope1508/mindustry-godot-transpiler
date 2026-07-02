@@ -918,6 +918,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "efficiencyScale"
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_building_efficiency_scale_state\", \"comment\": \"/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */\", \"method\": \"public float efficiencyScale(){\", \"efficiency_scale\": 1.0}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

@@ -21749,6 +21749,35 @@
         "test_port_game_exposes_generated_building_comp_update_efficiency_multiplier_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1058": {
+      "deferred_exprs": [
+        "Concrete efficiencyScale() overrides stay owned by block subclass slices.",
+        "updateConsumption() remains owned by subsequent generated bridge slices."
+      ],
+      "exact_exprs": [
+        "/** Calculate your own efficiency multiplier. By default, this is applied in updateEfficiencyMultiplier. */",
+        "public float efficiencyScale(){",
+        "return 1f;"
+      ],
+      "godot_owner": "PortGame.source_building_efficiency_scale_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "efficiencyScale()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_efficiencyScale_193 and PortGame generated bridge to existing N580 canonical source_building_efficiency_scale_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_efficiency_scale_bridge_state",
+      "source_symbols": [
+        "building_efficiency_scale.comment",
+        "building_efficiency_scale.method",
+        "building_efficiency_scale.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_efficiency_scale_to_source_state",
+        "test_generated_building_comp_bridges_efficiency_scale_to_source_state",
+        "test_port_game_exposes_generated_building_comp_efficiency_scale_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
