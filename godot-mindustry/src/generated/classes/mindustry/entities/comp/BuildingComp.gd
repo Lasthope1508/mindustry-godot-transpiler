@@ -999,7 +999,8 @@ func java_method_shouldShowConfigure_169(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_should_show_configure_state", "comment": "/** Returns whether this config menu should show when the specified player taps it. */", "method": "public boolean shouldShowConfigure(Player player){", "return_true": "return true;", "player": player, "should_show": true}
 
 func java_method_shouldHideConfigure_170(_args: Array = []) -> Variant:
-	return null
+	var player: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_should_hide_configure_state", "comment": "/** Whether this configuration should be hidden now. Called every frame the config is open. */", "method": "public boolean shouldHideConfigure(Player player){", "return_false": "return false;", "player": player, "should_hide": false}
 
 func java_method_drawConfigure_171(_args: Array = []) -> Variant:
 	return null

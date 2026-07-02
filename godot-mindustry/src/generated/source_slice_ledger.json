@@ -20832,6 +20832,36 @@
         "test_port_game_exposes_generated_building_comp_should_show_configure_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1032": {
+      "deferred_exprs": [
+        "Concrete block-specific configure visibility overrides remain owned by overriding block slices; this slice wires only the base BuildingComp default false hide return."
+      ],
+      "exact_exprs": [
+        "/** Whether this configuration should be hidden now. Called every frame the config is open. */",
+        "public boolean shouldHideConfigure(Player player){",
+        "return false;",
+        "player"
+      ],
+      "godot_owner": "PortGame.source_building_should_hide_configure_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "shouldHideConfigure(Player player)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_shouldHideConfigure_170 and PortGame generated bridge to existing N648 canonical source_building_should_hide_configure_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_should_hide_configure_bridge_state",
+      "source_symbols": [
+        "building_should_hide_configure.comment",
+        "building_should_hide_configure.method",
+        "building_should_hide_configure.return_false",
+        "building_should_hide_configure.player"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_should_hide_configure_to_source_state",
+        "test_generated_building_comp_bridges_should_hide_configure_to_source_state",
+        "test_port_game_exposes_generated_building_comp_should_hide_configure_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

@@ -636,6 +636,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "shouldHideConfigure"
+    ):
+        return [
+            "\tvar player: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_building_should_hide_configure_state\", \"comment\": \"/** Whether this configuration should be hidden now. Called every frame the config is open. */\", \"method\": \"public boolean shouldHideConfigure(Player player){\", \"return_false\": \"return false;\", \"player\": player, \"should_hide\": false}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

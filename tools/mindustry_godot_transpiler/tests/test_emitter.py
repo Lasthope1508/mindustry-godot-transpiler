@@ -1964,5 +1964,38 @@ public class BuildingComp{
             self.assertIn('"player": player', source_text)
             self.assertIn('"should_show": true', source_text)
 
+    def test_emit_bridges_building_comp_should_hide_configure_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Whether this configuration should be hidden now. Called every frame the config is open. */
+    public boolean shouldHideConfigure(Player player){
+        return false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_shouldHideConfigure_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var player: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_should_hide_configure_state"', source_text)
+            self.assertIn('"comment": "/** Whether this configuration should be hidden now. Called every frame the config is open. */"', source_text)
+            self.assertIn('"method": "public boolean shouldHideConfigure(Player player){"', source_text)
+            self.assertIn('"return_false": "return false;"', source_text)
+            self.assertIn('"player": player', source_text)
+            self.assertIn('"should_hide": false', source_text)
+
 if __name__ == "__main__":
     unittest.main()
