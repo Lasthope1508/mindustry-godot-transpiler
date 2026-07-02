@@ -3784,6 +3784,16 @@ func generated_building_comp_is_commandable_bridge_state(block_commandable: bool
 		"result": result,
 	}
 
+func generated_building_comp_is_payload_bridge_state(tile_is_empty_tile: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_isPayload_141([tile_is_empty_tile])
+	return {
+		"source_owner": "PortGame.source_building_is_payload_state",
+		"generated_owner": "BuildingComp.java_method_isPayload_141",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

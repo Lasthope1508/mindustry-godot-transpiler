@@ -826,5 +826,35 @@ public class BuildingComp{
             self.assertIn('"block_commandable": block_commandable', source_text)
             self.assertIn('"commandable": block_commandable', source_text)
 
+    def test_emit_bridges_building_comp_is_payload_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean isPayload(){
+        return tile == emptyTile;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_isPayload_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_is_empty_tile := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('"method": "public boolean isPayload(){"', source_text)
+            self.assertIn('"return_expr": "return tile == emptyTile;"', source_text)
+            self.assertIn('"tile_is_empty_tile": tile_is_empty_tile', source_text)
+            self.assertIn('"is_payload": tile_is_empty_tile', source_text)
+
 if __name__ == "__main__":
     unittest.main()

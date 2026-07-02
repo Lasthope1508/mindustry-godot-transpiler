@@ -743,7 +743,8 @@ func java_method_isCommandable_140(_args: Array = []) -> Variant:
 	return {"method": "public boolean isCommandable(){", "return_expr": "return block.commandable;", "block_commandable": block_commandable, "commandable": block_commandable}
 
 func java_method_isPayload_141(_args: Array = []) -> Variant:
-	return null
+	var tile_is_empty_tile := bool(_args[0] if _args.size() > 0 else false)
+	return {"method": "public boolean isPayload(){", "return_expr": "return tile == emptyTile;", "tile_is_empty_tile": tile_is_empty_tile, "is_payload": tile_is_empty_tile}
 
 func java_method_overwrote_142(_args: Array = []) -> Variant:
 	return null
