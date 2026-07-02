@@ -4034,6 +4034,30 @@ func generated_building_comp_on_destroyed_rubble_bridge_state(base_explosiveness
 		"canonical": canonical,
 	}
 
+func generated_building_comp_on_destroyed_base_sound_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
+	var item_canonical = source_building_on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
+	var liquid_canonical = source_building_on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
+	var buffered_power_canonical = source_building_on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
+	var splash_canonical = source_building_on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
+	var dynamic_explosion_canonical = source_building_on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, source_tilesize, source_block_size, damage_explosions, destroy_effect, base_shake)
+	var rubble_canonical = source_building_on_destroyed_rubble_state(source_x, source_y, create_rubble, floor_solid, floor_is_liquid, source_block_size)
+	var canonical = source_building_on_destroyed_base_sound_state(headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
+	return {
+		"source_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"result": result,
+		"item_canonical": item_canonical,
+		"liquid_canonical": liquid_canonical,
+		"buffered_power_canonical": buffered_power_canonical,
+		"splash_canonical": splash_canonical,
+		"dynamic_explosion_canonical": dynamic_explosion_canonical,
+		"rubble_canonical": rubble_canonical,
+		"canonical": canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

@@ -1387,6 +1387,14 @@ public class BuildingComp{
         if(block.createRubble && !floor().solid && !floor().isLiquid){
             Effect.rubble(x, y, block.size);
         }
+
+        if(!headless){
+            playDestroySound();
+        }
+    }
+
+    public void playDestroySound(){
+        block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
     }
 }
 """,
@@ -1441,18 +1449,29 @@ public class BuildingComp{
             self.assertIn("var floor_is_liquid := bool(_args[21] if _args.size() > 21 else false)", source_text)
             self.assertIn("var should_create_rubble := create_rubble and not floor_solid and not floor_is_liquid", source_text)
             self.assertIn('var rubble_call := "Effect.rubble(x, y, block.size);" if should_create_rubble else ""', source_text)
+            self.assertIn("var headless := bool(_args[22] if _args.size() > 22 else false)", source_text)
+            self.assertIn('var destroy_sound := str(_args[23] if _args.size() > 23 else "")', source_text)
+            self.assertIn("var destroy_pitch_min := float(_args[24] if _args.size() > 24 else 0.0)", source_text)
+            self.assertIn("var destroy_pitch_max := float(_args[25] if _args.size() > 25 else 0.0)", source_text)
+            self.assertIn("var destroy_sound_volume := float(_args[26] if _args.size() > 26 else 0.0)", source_text)
+            self.assertIn("var play_destroy_sound := not headless", source_text)
+            self.assertIn('var base_destroy_sound := destroy_sound if play_destroy_sound else ""', source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
             self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
             self.assertIn('"buffered_power_source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"', source_text)
             self.assertIn('"splash_liquid_source_owner": "PortGame.source_building_on_destroyed_splash_liquid_state"', source_text)
             self.assertIn('"dynamic_explosion_source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"', source_text)
             self.assertIn('"rubble_source_owner": "PortGame.source_building_on_destroyed_rubble_state"', source_text)
+            self.assertIn('"base_sound_source_owner": "PortGame.source_building_on_destroyed_base_sound_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
             self.assertIn('"dynamic_explosion_comment": "//cap explosiveness so fluid tanks/vaults don', source_text)
             self.assertIn('"dynamic_explosion_call": "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);"', source_text)
             self.assertIn('"rubble_gate": "if(block.createRubble && !floor().solid && !floor().isLiquid){"', source_text)
             self.assertIn('"rubble_effect_call": "Effect.rubble(x, y, block.size);"', source_text)
+            self.assertIn('"base_sound_gate": "if(!headless){"', source_text)
+            self.assertIn('"base_sound_call": "playDestroySound();"', source_text)
+            self.assertIn('"play_destroy_sound_call": "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
             self.assertIn('"flammability_expr": "float flammability = 0f;"', source_text)
             self.assertIn('"power_expr": "float power = 0f;"', source_text)
@@ -1478,6 +1497,16 @@ public class BuildingComp{
             self.assertIn('"call": splash_call', source_text)
             self.assertIn('"liquid_count": liquid_count', source_text)
             self.assertIn('"liquids": liquids', source_text)
+            self.assertIn('"headless": headless', source_text)
+            self.assertIn('"destroy_sound": destroy_sound', source_text)
+            self.assertIn('"destroy_pitch_min": destroy_pitch_min', source_text)
+            self.assertIn('"destroy_pitch_max": destroy_pitch_max', source_text)
+            self.assertIn('"destroy_sound_volume": destroy_sound_volume', source_text)
+            self.assertIn('"play_destroy_sound": play_destroy_sound', source_text)
+            self.assertIn('"sound": base_destroy_sound', source_text)
+            self.assertIn('"pitch_min": destroy_pitch_min', source_text)
+            self.assertIn('"pitch_max": destroy_pitch_max', source_text)
+            self.assertIn('"volume": destroy_sound_volume', source_text)
             self.assertIn('"dynamic_explosion_x": source_x', source_text)
             self.assertIn('"dynamic_explosion_y": source_y', source_text)
             self.assertIn('"dynamic_explosion_flammability": dynamic_explosion_flammability', source_text)
