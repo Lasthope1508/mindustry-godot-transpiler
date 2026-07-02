@@ -5784,6 +5784,25 @@ func source_building_dump_null_item_scan_state(item_ids: Array, item_present_by_
 		"present_items": present_items,
 	}
 
+func source_building_dump_null_proximity_scan_state(proximity_size: int, dump_cursor: int) -> Dictionary:
+	var checked_indices := []
+	var next_dump := dump_cursor
+	for i in range(proximity_size):
+		checked_indices.append((i + dump_cursor) % proximity_size)
+		next_dump = source_increment_dump_cursor(next_dump, proximity_size)
+	return {
+		"method": "public boolean dump(Item todump){",
+		"dump_assign": "int dump = this.cdump;",
+		"null_branch": "if(todump == null){",
+		"proximity_loop": "for(int i = 0; i < proximity.size; i++){",
+		"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+		"increment_dump_call": "incrementDump(proximity.size);",
+		"proximity_size": proximity_size,
+		"dump_cursor": dump_cursor,
+		"checked_indices": checked_indices,
+		"cdump": next_dump,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

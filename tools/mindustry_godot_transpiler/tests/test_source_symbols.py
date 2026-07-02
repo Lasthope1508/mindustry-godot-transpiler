@@ -17919,6 +17919,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(present_items["java_expr"], "Item item = (Item)itemArray[ii];")
         self.assertEqual(present_items["godot_symbol"], "source_building_dump_null_item_scan_result.present_items")
 
+    def test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_dump_null_proximity_scan.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "dump(Item todump) null proximity scan")
+        self.assertEqual(method["java_expr"], "public boolean dump(Item todump){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_dump_null_proximity_scan_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_dump_null_proximity_scan_state")
+        self.assertEqual(method["godot_symbol"], "source_building_dump_null_proximity_scan_result.method")
+
+        dump_cursor = source_symbols.source_symbol(registry, "building_dump_null_proximity_scan.dump_cursor")
+        self.assertEqual(dump_cursor["status"], "explicit-input")
+        self.assertEqual(dump_cursor["java_expr"], "dump")
+        self.assertEqual(dump_cursor["godot_symbol"], "source_building_dump_null_proximity_scan_input.dump_cursor")
+
+        proximity_get = source_symbols.source_symbol(registry, "building_dump_null_proximity_scan.proximity_get")
+        self.assertEqual(proximity_get["java_expr"], "Building other = proximity.get((i + dump) % proximity.size);")
+        self.assertEqual(proximity_get["godot_symbol"], "source_building_dump_null_proximity_scan_result.checked_indices")
+
+        increment = source_symbols.source_symbol(registry, "building_dump_null_proximity_scan.increment_dump_call")
+        self.assertEqual(increment["java_expr"], "incrementDump(proximity.size);")
+        self.assertEqual(increment["godot_symbol"], "source_building_dump_null_proximity_scan_result.cdump")
+
     def test_building_move_liquid_forward_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19025,9 +19052,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 556)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 557)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 561)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 562)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19037,6 +19064,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_dump_accumulate_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_null_item_scan_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_dump_null_proximity_scan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_visibility_loop_state", audit["registeredSourceOwners"])
@@ -23972,6 +24000,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("for(int ii = 0; ii < itemSize; ii++){", building_dump_null_item_scan["exact_exprs"])
         self.assertIn("if(!items.has(ii)) continue;", building_dump_null_item_scan["exact_exprs"])
         self.assertIn("Item item = (Item)itemArray[ii];", building_dump_null_item_scan["exact_exprs"])
+
+        building_dump_null_proximity_scan = source_symbols.source_slice(ledger, "N960")
+        self.assertEqual(building_dump_null_proximity_scan["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_null_proximity_scan["java_method"], "dump(Item todump) null proximity scan")
+        self.assertEqual(building_dump_null_proximity_scan["godot_owner"], "PortGame.source_building_dump_null_proximity_scan_state")
+        self.assertIn("int dump = this.cdump;", building_dump_null_proximity_scan["exact_exprs"])
+        self.assertIn("if(todump == null){", building_dump_null_proximity_scan["exact_exprs"])
+        self.assertIn("for(int i = 0; i < proximity.size; i++){", building_dump_null_proximity_scan["exact_exprs"])
+        self.assertIn("Building other = proximity.get((i + dump) % proximity.size);", building_dump_null_proximity_scan["exact_exprs"])
+        self.assertIn("incrementDump(proximity.size);", building_dump_null_proximity_scan["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -29285,6 +29323,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("present_item_indices", building_dump_null_item_scan["return_keys"])
         self.assertIn("present_items", building_dump_null_item_scan["return_keys"])
         self.assertEqual(building_dump_null_item_scan["source_method"], "dump(Item todump) null item scan")
+
+        building_dump_null_proximity_scan = source_symbols.api_contract(contracts, "PortGame.source_building_dump_null_proximity_scan_state")
+        self.assertEqual([param["name"] for param in building_dump_null_proximity_scan["params"]], ["proximity_size", "dump_cursor"])
+        self.assertEqual(building_dump_null_proximity_scan["params"][0]["schema"], "source_building_dump_null_proximity_scan_input.proximity_size")
+        self.assertEqual(building_dump_null_proximity_scan["params"][1]["schema"], "source_building_dump_null_proximity_scan_input.dump_cursor")
+        self.assertIn("checked_indices", building_dump_null_proximity_scan["return_keys"])
+        self.assertIn("cdump", building_dump_null_proximity_scan["return_keys"])
+        self.assertIn("increment_dump_call", building_dump_null_proximity_scan["return_keys"])
+        self.assertEqual(building_dump_null_proximity_scan["source_method"], "dump(Item todump) null proximity scan")
 
         building_move_liquid_forward = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_forward_state")
         self.assertEqual([param["name"] for param in building_move_liquid_forward["params"]], ["leaks", "liquid", "next_tile_present", "next_build_present", "next_block_solid", "next_block_has_liquids", "current_liquid_amount", "move_liquid_return"])
@@ -37424,6 +37471,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_dump_null_item_scan_result["keys"]["has_item_skip"]["java_expr"], "if(!items.has(ii)) continue;")
         self.assertEqual(source_building_dump_null_item_scan_result["keys"]["present_items"]["java_expr"], "Item item = (Item)itemArray[ii];")
         self.assertEqual(source_building_dump_null_item_scan_result["keys"]["item_ids"]["alias_of"], "source_building_dump_null_item_scan_input.item_ids")
+
+        source_building_dump_null_proximity_scan_input = source_symbols.state_schema(schema, "source_building_dump_null_proximity_scan_input")
+        self.assertEqual(source_building_dump_null_proximity_scan_input["keys"]["proximity_size"]["java_expr"], "proximity.size")
+        self.assertEqual(source_building_dump_null_proximity_scan_input["keys"]["dump_cursor"]["java_expr"], "dump")
+
+        source_building_dump_null_proximity_scan_result = source_symbols.state_schema(schema, "source_building_dump_null_proximity_scan_result")
+        self.assertEqual(source_building_dump_null_proximity_scan_result["keys"]["dump_assign"]["java_expr"], "int dump = this.cdump;")
+        self.assertEqual(source_building_dump_null_proximity_scan_result["keys"]["null_branch"]["java_expr"], "if(todump == null){")
+        self.assertEqual(source_building_dump_null_proximity_scan_result["keys"]["proximity_loop"]["java_expr"], "for(int i = 0; i < proximity.size; i++){")
+        self.assertEqual(source_building_dump_null_proximity_scan_result["keys"]["proximity_get"]["java_expr"], "Building other = proximity.get((i + dump) % proximity.size);")
+        self.assertEqual(source_building_dump_null_proximity_scan_result["keys"]["increment_dump_call"]["java_expr"], "incrementDump(proximity.size);")
+        self.assertEqual(source_building_dump_null_proximity_scan_result["keys"]["checked_indices"]["java_expr"], "(i + dump) % proximity.size")
+        self.assertEqual(source_building_dump_null_proximity_scan_result["keys"]["proximity_size"]["alias_of"], "source_building_dump_null_proximity_scan_input.proximity_size")
 
         source_building_move_liquid_forward_input = source_symbols.state_schema(schema, "source_building_move_liquid_forward_input")
         self.assertEqual(source_building_move_liquid_forward_input["keys"]["leaks"]["java_expr"], "leaks")

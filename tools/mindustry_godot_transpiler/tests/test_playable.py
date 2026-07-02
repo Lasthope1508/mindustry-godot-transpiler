@@ -2241,6 +2241,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"present_items": present_items', source)
         self.assertIn('"item_size": item_ids.size()', source)
 
+    def test_port_game_exposes_source_building_dump_null_proximity_scan_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_null_proximity_scan_state(proximity_size: int, dump_cursor: int) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean dump(Item todump){"', source)
+        self.assertIn('"dump_assign": "int dump = this.cdump;"', source)
+        self.assertIn('"null_branch": "if(todump == null){"', source)
+        self.assertIn('"proximity_loop": "for(int i = 0; i < proximity.size; i++){"', source)
+        self.assertIn('"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);"', source)
+        self.assertIn('"increment_dump_call": "incrementDump(proximity.size);"', source)
+        self.assertIn('"checked_indices": checked_indices', source)
+        self.assertIn('"cdump": next_dump', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

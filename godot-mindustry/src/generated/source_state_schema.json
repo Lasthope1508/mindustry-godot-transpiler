@@ -23018,6 +23018,112 @@
       "source_slice": "N959",
       "status": "active"
     },
+    "source_building_dump_null_proximity_scan_input": {
+      "keys": {
+        "dump_cursor": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_input.dump_cursor",
+          "java_expr": "dump",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 explicit dump local value.",
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "proximity_size": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_input.proximity_size",
+          "java_expr": "proximity.size",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 explicit proximity size.",
+          "status": "explicit-input",
+          "type": "int"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "source_slice": "N960",
+      "status": "active"
+    },
+    "source_building_dump_null_proximity_scan_result": {
+      "keys": {
+        "cdump": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.cdump",
+          "java_expr": "incrementDump(proximity.size);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 cursor after source incrementDump calls.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "checked_indices": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.checked_indices",
+          "java_expr": "(i + dump) % proximity.size",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 source proximity lookup indices.",
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "dump_assign": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.dump_assign",
+          "java_expr": "int dump = this.cdump;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 source dump assignment.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "dump_cursor": {
+          "alias_of": "source_building_dump_null_proximity_scan_input.dump_cursor",
+          "rule": "N960 result aliases dump_cursor.",
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "increment_dump_call": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.increment_dump_call",
+          "java_expr": "incrementDump(proximity.size);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 source increment call.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.method",
+          "java_expr": "public boolean dump(Item todump){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 method key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "null_branch": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.null_branch",
+          "java_expr": "if(todump == null){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 null branch key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_get": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.proximity_get",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 source proximity lookup.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_loop": {
+          "godot_symbol": "source_building_dump_null_proximity_scan_result.proximity_loop",
+          "java_expr": "for(int i = 0; i < proximity.size; i++){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N960 source proximity loop.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_size": {
+          "alias_of": "source_building_dump_null_proximity_scan_input.proximity_size",
+          "rule": "N960 result aliases proximity_size.",
+          "status": "explicit-input",
+          "type": "int"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "source_slice": "N960",
+      "status": "active"
+    },
     "source_building_edelta_input": {
       "keys": {
         "efficiency": {

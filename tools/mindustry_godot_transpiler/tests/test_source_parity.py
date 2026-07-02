@@ -1749,6 +1749,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_dump_null_proximity_scan_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_dump_null_proximity_scan_source"))
+        report = source_parity.verify_building_dump_null_proximity_scan_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public boolean dump(Item todump){",
+            "dump_assign": "int dump = this.cdump;",
+            "null_branch": "if(todump == null){",
+            "proximity_loop": "for(int i = 0; i < proximity.size; i++){",
+            "proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+            "increment_dump_call": "incrementDump(proximity.size);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

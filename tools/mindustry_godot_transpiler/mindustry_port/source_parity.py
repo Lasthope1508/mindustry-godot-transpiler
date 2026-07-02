@@ -2581,6 +2581,32 @@ def verify_building_dump_null_item_scan_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_building_dump_null_proximity_scan_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    method = "public boolean dump(Item todump){"
+    dump_assign = "int dump = this.cdump;"
+    null_branch = "if(todump == null){"
+    proximity_loop = "for(int i = 0; i < proximity.size; i++){"
+    proximity_get = "Building other = proximity.get((i + dump) % proximity.size);"
+    increment_dump_call = "incrementDump(proximity.size);"
+    missing = []
+    for snippet in [method, dump_assign, null_branch, proximity_loop, proximity_get, increment_dump_call]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "method": method,
+            "dump_assign": dump_assign,
+            "null_branch": null_branch,
+            "proximity_loop": proximity_loop,
+            "proximity_get": proximity_get,
+            "increment_dump_call": increment_dump_call,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

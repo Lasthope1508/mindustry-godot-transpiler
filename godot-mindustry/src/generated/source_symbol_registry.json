@@ -10473,6 +10473,156 @@
         "test_building_dump_null_item_scan_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_dump_null_proximity_scan.checked_indices": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.checked_indices",
+      "java_expr": "(i + dump) % proximity.size",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 records null-branch proximity indices in source loop order.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.cdump": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.cdump",
+      "java_expr": "incrementDump(proximity.size);",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 advances cursor once per null-branch proximity miss using source incrementDump call.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.dump_assign": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.dump_assign",
+      "java_expr": "int dump = this.cdump;",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 pins initial dump cursor assignment.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.dump_cursor": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_input.dump_cursor",
+      "java_expr": "dump",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 explicit dump_cursor supplies source dump local value.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.increment_dump_call": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.cdump",
+      "java_expr": "incrementDump(proximity.size);",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 records source cursor increment after each null-branch proximity attempt.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.method": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.method",
+      "java_expr": "public boolean dump(Item todump){",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 pins BuildingComp.dump(Item todump) method for null-branch proximity scan.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.null_branch": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.null_branch",
+      "java_expr": "if(todump == null){",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 covers only todump null branch proximity loop.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.proximity_get": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.checked_indices",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 maps source proximity lookup to checked index order.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.proximity_loop": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_result.checked_indices",
+      "java_expr": "for(int i = 0; i < proximity.size; i++){",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 iterates source proximity loop.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_proximity_scan.proximity_size": {
+      "godot_owner": "PortGame.source_building_dump_null_proximity_scan_state",
+      "godot_symbol": "source_building_dump_null_proximity_scan_input.proximity_size",
+      "java_expr": "proximity.size",
+      "java_method": "dump(Item todump) null proximity scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N960 explicit proximity_size supplies source proximity.size.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_edelta.efficiency": {
       "godot_owner": "PortGame.source_building_edelta",
       "godot_symbol": "source_building_edelta_input.efficiency",

@@ -3707,6 +3707,43 @@
         "test_building_dump_null_item_scan_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_dump_null_proximity_scan_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "proximity_size",
+          "schema": "source_building_dump_null_proximity_scan_input.proximity_size",
+          "type": "int"
+        },
+        {
+          "name": "dump_cursor",
+          "schema": "source_building_dump_null_proximity_scan_input.dump_cursor",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "dump_assign",
+        "null_branch",
+        "proximity_loop",
+        "proximity_get",
+        "increment_dump_call",
+        "proximity_size",
+        "dump_cursor",
+        "checked_indices",
+        "cdump"
+      ],
+      "rule": "N960 exposes BuildingComp.dump(Item todump) todump-null proximity order and miss cursor advance only; item transfer side effects remain separate slices.",
+      "runtime_proof": "/root/Main.source_building_dump_null_proximity_scan_state",
+      "source_method": "dump(Item todump) null proximity scan",
+      "source_slice": "N960",
+      "status": "active",
+      "tests": [
+        "test_building_dump_null_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_proximity_scan_state",
+        "test_building_dump_null_proximity_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_edelta": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
