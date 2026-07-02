@@ -21154,6 +21154,35 @@
         "test_port_game_exposes_generated_building_comp_bullet_damage_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1042": {
+      "deferred_exprs": [
+        "The two-argument changeTeam(Team next, boolean updatePower) body remains owned by source_building_change_team_initial_state, source_building_change_team_power_links_state, source_building_change_team_power_proximity_state, and source_building_change_team_final_state."
+      ],
+      "exact_exprs": [
+        "/** Changes this building's team in a safe manner. */",
+        "public void changeTeam(Team next){",
+        "changeTeam(next, true);",
+        "next"
+      ],
+      "godot_owner": "PortGame.source_building_change_team_delegate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_changeTeam_180 and PortGame generated bridge to existing N534 canonical source_building_change_team_delegate_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_change_team_delegate_bridge_state",
+      "source_symbols": [
+        "building_change_team_delegate.call",
+        "building_change_team_delegate.update_power",
+        "building_change_team_delegate.next_team"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_change_team_delegate_to_source_state",
+        "test_generated_building_comp_bridges_change_team_delegate_to_source_state",
+        "test_port_game_exposes_generated_building_comp_change_team_delegate_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

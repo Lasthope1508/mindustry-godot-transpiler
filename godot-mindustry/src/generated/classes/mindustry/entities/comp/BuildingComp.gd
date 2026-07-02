@@ -1055,7 +1055,8 @@ func java_method_damage_179(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_bullet_damage_state", "comment": "/** Handles splash damage with a bullet source. */", "method": "public void damage(Bullet bullet, Team source, float damage){", "bullet": bullet, "source_team": source_team, "damage": damage_amount, "delegates_to_source_damage": true, "fires_bullet_damage_event": true}
 
 func java_method_changeTeam_180(_args: Array = []) -> Variant:
-	return null
+	var next_team: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_change_team_delegate_state", "comment": "/** Changes this building's team in a safe manner. */", "method": "public void changeTeam(Team next){", "next_team": next_team, "delegates_to_change_team": true, "update_power": true}
 
 func java_method_changeTeam_181(_args: Array = []) -> Variant:
 	return null

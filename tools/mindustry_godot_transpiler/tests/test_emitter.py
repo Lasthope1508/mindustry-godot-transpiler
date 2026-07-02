@@ -2309,5 +2309,38 @@ public class BuildingComp{
             self.assertIn('"delegates_to_source_damage": true', source_text)
             self.assertIn('"fires_bullet_damage_event": true', source_text)
 
+    def test_emit_bridges_building_comp_change_team_delegate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Changes this building's team in a safe manner. */
+    public void changeTeam(Team next){
+        changeTeam(next, true);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_changeTeam_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var next_team: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_change_team_delegate_state"', source_text)
+            self.assertIn('"comment": "/** Changes this building\'s team in a safe manner. */"', source_text)
+            self.assertIn('"method": "public void changeTeam(Team next){"', source_text)
+            self.assertIn('"next_team": next_team', source_text)
+            self.assertIn('"delegates_to_change_team": true', source_text)
+            self.assertIn('"update_power": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

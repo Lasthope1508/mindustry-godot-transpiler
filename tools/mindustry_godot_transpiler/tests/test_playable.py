@@ -4325,6 +4325,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_damage_179"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_change_team_delegate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_changeTeam_180(_args: Array = []) -> Variant:", source)
+        self.assertIn("var next_team: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_delegate_state"', source)
+        self.assertIn('"comment": "/** Changes this building\'s team in a safe manner. */"', source)
+        self.assertIn('"method": "public void changeTeam(Team next){"', source)
+        self.assertIn('"next_team": next_team', source)
+        self.assertIn('"delegates_to_change_team": true', source)
+        self.assertIn('"update_power": true', source)
+
+    def test_port_game_exposes_generated_building_comp_change_team_delegate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_changeTeam_180([next_team])", source)
+        self.assertIn("var canonical = source_building_change_team_delegate_state(next_team)", source)
+        self.assertIn('canonical["comment"] = "/** Changes this building\'s team in a safe manner. */"', source)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next){"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_delegate_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_180"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

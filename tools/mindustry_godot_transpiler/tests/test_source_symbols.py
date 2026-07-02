@@ -25654,6 +25654,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("source", building_generated_bullet_damage["exact_exprs"])
         self.assertIn("damage", building_generated_bullet_damage["exact_exprs"])
 
+        building_generated_change_team_delegate = source_symbols.source_slice(ledger, "N1042")
+        self.assertEqual(building_generated_change_team_delegate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_change_team_delegate["java_method"], "changeTeam(Team next)")
+        self.assertEqual(building_generated_change_team_delegate["godot_owner"], "PortGame.source_building_change_team_delegate_state")
+        self.assertEqual(building_generated_change_team_delegate["runtime_proof"], "/root/Main.generated_building_comp_change_team_delegate_bridge_state")
+        self.assertIn("/** Changes this building's team in a safe manner. */", building_generated_change_team_delegate["exact_exprs"])
+        self.assertIn("public void changeTeam(Team next){", building_generated_change_team_delegate["exact_exprs"])
+        self.assertIn("changeTeam(next, true);", building_generated_change_team_delegate["exact_exprs"])
+        self.assertIn("next", building_generated_change_team_delegate["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
