@@ -20450,6 +20450,39 @@
         "test_port_game_exposes_source_building_conducts_to_state",
         "test_building_conducts_to_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N971": {
+      "deferred_exprs": [
+        "Proximity connection filtering loop remains a later getPowerConnections slice.",
+        "Manual power.links loop remains a later getPowerConnections slice."
+      ],
+      "exact_exprs": [
+        "public Seq<Building> getPowerConnections(Seq<Building> out){",
+        "out.clear();",
+        "if(power == null) return out;"
+      ],
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed BuildingComp.getPowerConnections empty output and power-null guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "source_symbols": [
+        "building_get_power_connections_empty_guard.method",
+        "building_get_power_connections_empty_guard.clear_out",
+        "building_get_power_connections_empty_guard.power_null_guard",
+        "building_get_power_connections_empty_guard.power_present",
+        "building_get_power_connections_empty_guard.previous_out_count",
+        "building_get_power_connections_empty_guard.out_count_after_clear",
+        "building_get_power_connections_empty_guard.returned_out",
+        "building_get_power_connections_empty_guard.deferred_remaining_connection_scan"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -2177,6 +2177,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_not_insulated": "return !block.insulated;"', source)
         self.assertIn('"conducts_to": not block_insulated', source)
 
+    def test_port_game_exposes_source_building_get_power_connections_empty_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_get_power_connections_empty_guard_state(power_present: bool, previous_out_count: int) -> Dictionary:", source)
+        self.assertIn('"method": "public Seq<Building> getPowerConnections(Seq<Building> out){"', source)
+        self.assertIn('"clear_out": "out.clear();"', source)
+        self.assertIn('"power_null_guard": "if(power == null) return out;"', source)
+        self.assertIn('"returned_out": not power_present', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

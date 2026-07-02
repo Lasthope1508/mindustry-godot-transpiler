@@ -11645,6 +11645,126 @@
         "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_get_power_connections_empty_guard.clear_out": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_result.clear_out",
+      "java_expr": "out.clear();",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source clear of supplied output Seq.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_empty_guard.deferred_remaining_connection_scan": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_result.deferred_remaining_connection_scan",
+      "java_expr": "for(Building other : proximity)",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime flag that later connection scan remains deferred when power exists.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "deferred",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_empty_guard.method": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_result.method",
+      "java_expr": "public Seq<Building> getPowerConnections(Seq<Building> out){",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source getPowerConnections method signature.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_empty_guard.out_count_after_clear": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_result.out_count_after_clear",
+      "java_expr": "out.clear();",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime count after source out.clear().",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_empty_guard.power_null_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_result.power_null_guard",
+      "java_expr": "if(power == null) return out;",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source power-null early return guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_empty_guard.power_present": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_input.power_present",
+      "java_expr": "power != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input supplies negated source power-null guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_empty_guard.previous_out_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_input.previous_out_count",
+      "java_expr": "out",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input records supplied Seq size before source out.clear().",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_empty_guard.returned_out": {
+      "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "godot_symbol": "source_building_get_power_connections_empty_guard_result.returned_out",
+      "java_expr": "if(power == null) return out;",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime result of source power-null early return.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_handle_damage.amount": {
       "godot_owner": "PortGame.source_building_handle_damage_state",
       "godot_symbol": "source_building_handle_damage_input.amount",

@@ -5455,6 +5455,18 @@ func source_building_conducts_to_state(block_insulated: bool) -> Dictionary:
 		"conducts_to": not block_insulated,
 	}
 
+func source_building_get_power_connections_empty_guard_state(power_present: bool, previous_out_count: int) -> Dictionary:
+	return {
+		"method": "public Seq<Building> getPowerConnections(Seq<Building> out){",
+		"clear_out": "out.clear();",
+		"power_null_guard": "if(power == null) return out;",
+		"power_present": power_present,
+		"previous_out_count": previous_out_count,
+		"out_count_after_clear": 0,
+		"returned_out": not power_present,
+		"deferred_remaining_connection_scan": power_present,
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",

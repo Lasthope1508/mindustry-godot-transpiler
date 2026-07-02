@@ -24008,6 +24008,96 @@
       "source_slice": "N953",
       "status": "active"
     },
+    "source_building_get_power_connections_empty_guard_input": {
+      "keys": {
+        "power_present": {
+          "java_expr": "power != null",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 canonical explicit input for source power-null guard.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "previous_out_count": {
+          "java_expr": "out",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 supplied output Seq size before out.clear().",
+          "status": "explicit-input",
+          "type": "int"
+        }
+      },
+      "owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "source_slice": "N971",
+      "status": "active"
+    },
+    "source_building_get_power_connections_empty_guard_result": {
+      "keys": {
+        "clear_out": {
+          "java_expr": "out.clear();",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "deferred_remaining_connection_scan": {
+          "java_expr": "for(Building other : proximity)",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 marks deferred remaining connection scan.",
+          "status": "deferred",
+          "type": "bool"
+        },
+        "method": {
+          "java_expr": "public Seq<Building> getPowerConnections(Seq<Building> out){",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "out_count_after_clear": {
+          "java_expr": "out.clear();",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 count after source out.clear().",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "power_null_guard": {
+          "java_expr": "if(power == null) return out;",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_present": {
+          "alias_of": "source_building_get_power_connections_empty_guard_input.power_present",
+          "rule": "Echoes canonical input key in N971 result.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "previous_out_count": {
+          "alias_of": "source_building_get_power_connections_empty_guard_input.previous_out_count",
+          "rule": "Echoes canonical input key in N971 result.",
+          "status": "generated",
+          "type": "int"
+        },
+        "returned_out": {
+          "java_expr": "if(power == null) return out;",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N971 source early return result.",
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_get_power_connections_empty_guard_state",
+      "source_slice": "N971",
+      "status": "active"
+    },
     "source_building_handle_damage_input": {
       "keys": {
         "amount": {

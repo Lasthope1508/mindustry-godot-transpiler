@@ -4109,6 +4109,41 @@
         "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_get_power_connections_empty_guard_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "power_present",
+          "schema": "source_building_get_power_connections_empty_guard_input.power_present",
+          "type": "bool"
+        },
+        {
+          "name": "previous_out_count",
+          "schema": "source_building_get_power_connections_empty_guard_input.previous_out_count",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "clear_out",
+        "power_null_guard",
+        "power_present",
+        "previous_out_count",
+        "out_count_after_clear",
+        "returned_out",
+        "deferred_remaining_connection_scan"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.getPowerConnections empty/power-null guard helper.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_empty_guard_state",
+      "source_method": "getPowerConnections(Seq<Building> out)",
+      "source_slice": "N971",
+      "status": "active",
+      "tests": [
+        "test_building_get_power_connections_empty_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
+        "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_handle_damage_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
