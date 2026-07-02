@@ -23334,6 +23334,102 @@
       "source_slice": "N962",
       "status": "active"
     },
+    "source_building_dump_specific_proximity_scan_input": {
+      "keys": {
+        "dump_cursor": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_input.dump_cursor",
+          "java_expr": "dump",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 explicit input supplies source local dump cursor.",
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "proximity_size": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_input.proximity_size",
+          "java_expr": "proximity.size",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 explicit input supplies source proximity size.",
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "todump": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_input.todump",
+          "java_expr": "todump",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 explicit input supplies source non-null todump item.",
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_dump_specific_proximity_scan_state",
+      "source_slice": "N963",
+      "status": "active"
+    },
+    "source_building_dump_specific_proximity_scan_result": {
+      "keys": {
+        "checked_indices": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_result.checked_indices",
+          "java_expr": "(i + dump) % proximity.size",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 records source specific-branch neighbor order.",
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "dump_cursor": {
+          "alias_of": "source_building_dump_specific_proximity_scan_input.dump_cursor",
+          "rule": "N963 result aliases dump_cursor input.",
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "else_branch": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_result.else_branch",
+          "java_expr": "}else{",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 source specific-item branch entry.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_get": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_result.proximity_get",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 source specific-branch proximity lookup.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_loop": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_result.proximity_loop",
+          "java_expr": "for(int i = 0; i < proximity.size; i++){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 source specific-branch proximity loop.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "proximity_size": {
+          "alias_of": "source_building_dump_specific_proximity_scan_input.proximity_size",
+          "rule": "N963 result aliases proximity_size input.",
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "source_method": {
+          "godot_symbol": "source_building_dump_specific_proximity_scan_result.source_method",
+          "java_expr": "dump(Item todump) specific proximity scan",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N963 source method label.",
+          "status": "generated",
+          "type": "String"
+        },
+        "todump": {
+          "alias_of": "source_building_dump_specific_proximity_scan_input.todump",
+          "rule": "N963 result aliases todump input.",
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_dump_specific_proximity_scan_state",
+      "source_slice": "N963",
+      "status": "active"
+    },
     "source_building_edelta_input": {
       "keys": {
         "efficiency": {

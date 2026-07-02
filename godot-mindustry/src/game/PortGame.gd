@@ -5830,6 +5830,21 @@ func source_building_dump_null_success_handoff_state(item: Variant, accepts_item
 		"return_value": accepts_item and can_dump,
 	}
 
+func source_building_dump_specific_proximity_scan_state(todump: Variant, proximity_size: int, dump_cursor: int) -> Dictionary:
+	var checked_indices := []
+	for i in range(proximity_size):
+		checked_indices.append((i + dump_cursor) % proximity_size)
+	return {
+		"source_method": "dump(Item todump) specific proximity scan",
+		"else_branch": "}else{",
+		"proximity_loop": "for(int i = 0; i < proximity.size; i++){",
+		"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);",
+		"todump": todump,
+		"proximity_size": proximity_size,
+		"dump_cursor": dump_cursor,
+		"checked_indices": checked_indices,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

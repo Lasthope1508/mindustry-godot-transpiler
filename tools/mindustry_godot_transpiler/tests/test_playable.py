@@ -2279,6 +2279,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"dumped": accepts_item and can_dump', source)
         self.assertIn('"return_value": accepts_item and can_dump', source)
 
+    def test_port_game_exposes_source_building_dump_specific_proximity_scan_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_specific_proximity_scan_state(todump: Variant, proximity_size: int, dump_cursor: int) -> Dictionary:", source)
+        self.assertIn('"source_method": "dump(Item todump) specific proximity scan"', source)
+        self.assertIn('"else_branch": "}else{"', source)
+        self.assertIn('"proximity_loop": "for(int i = 0; i < proximity.size; i++){"', source)
+        self.assertIn('"proximity_get": "Building other = proximity.get((i + dump) % proximity.size);"', source)
+        self.assertIn('"checked_indices": checked_indices', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

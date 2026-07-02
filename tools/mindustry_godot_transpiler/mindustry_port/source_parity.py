@@ -2649,6 +2649,26 @@ def verify_building_dump_null_success_handoff_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_building_dump_specific_proximity_scan_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    else_branch = "}else{"
+    proximity_loop = "for(int i = 0; i < proximity.size; i++){"
+    proximity_get = "Building other = proximity.get((i + dump) % proximity.size);"
+    missing = []
+    for snippet in [else_branch, proximity_loop, proximity_get]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "else_branch": else_branch,
+            "proximity_loop": proximity_loop,
+            "proximity_get": proximity_get,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")
