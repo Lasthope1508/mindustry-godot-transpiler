@@ -1789,5 +1789,49 @@ public class BuildingComp{
             self.assertIn('"optional_booster_skip": "if(cons.optional && cons.booster) continue;"', source_text)
             self.assertIn('"build_call": "cons.build(self(), table);"', source_text)
 
+    def test_emit_bridges_building_comp_display_bars_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void displayBars(Table table){
+        for(Func<Building, Bar> bar : block.listBars()){
+            var result = bar.get(self());
+            if(result == null) continue;
+            table.add(result).growX();
+            table.row();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_displayBars_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var bar_results: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var added_bars: Array = []", source_text)
+            self.assertIn("var skipped_bars: Array = []", source_text)
+            self.assertIn("for result in bar_results:", source_text)
+            self.assertIn("if result == null:", source_text)
+            self.assertIn("skipped_bars.append(result)", source_text)
+            self.assertIn("added_bars.append(result)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_display_bars_state"', source_text)
+            self.assertIn('"method": "public void displayBars(Table table){"', source_text)
+            self.assertIn('"bars_loop": "for(Func<Building, Bar> bar : block.listBars()){"', source_text)
+            self.assertIn('"get_result": "var result = bar.get(self());"', source_text)
+            self.assertIn('"null_skip": "if(result == null) continue;"', source_text)
+            self.assertIn('"add_call": "table.add(result).growX();"', source_text)
+            self.assertIn('"row_call": "table.row();"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

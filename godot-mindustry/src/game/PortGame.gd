@@ -4160,6 +4160,18 @@ func generated_building_comp_display_consumption_bridge_state(consumers: Array, 
 		"canonical": canonical,
 	}
 
+func generated_building_comp_display_bars_bridge_state(bar_results: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_displayBars_162([bar_results])
+	var canonical = source_building_display_bars_state(bar_results)
+	return {
+		"source_owner": "PortGame.source_building_display_bars_state",
+		"generated_owner": "BuildingComp.java_method_displayBars_162",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
@@ -4888,6 +4900,28 @@ func source_building_display_consumption_state(consumers: Array, self_state: Var
 		"self_state": self_state,
 		"built_consumers": built_consumers,
 		"skipped_consumers": skipped_consumers,
+	}
+
+func source_building_display_bars_state(bar_results: Array) -> Dictionary:
+	var added_bars: Array = []
+	var skipped_bars: Array = []
+	for result in bar_results:
+		if result == null:
+			skipped_bars.append(result)
+			continue
+		added_bars.append(result)
+	return {
+		"source_owner": "PortGame.source_building_display_bars_state",
+		"method": "public void displayBars(Table table){",
+		"bars_loop": "for(Func<Building, Bar> bar : block.listBars()){",
+		"get_result": "var result = bar.get(self());",
+		"null_skip": "if(result == null) continue;",
+		"add_call": "table.add(result).growX();",
+		"row_call": "table.row();",
+		"bar_results": bar_results,
+		"added_bars": added_bars,
+		"skipped_bars": skipped_bars,
+		"row_calls": added_bars.size(),
 	}
 
 func source_building_display_ui_gates_state(team_is_player: bool, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:

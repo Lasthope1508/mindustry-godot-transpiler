@@ -86277,6 +86277,133 @@
         }
       },
       "status": "active"
+    },
+    "source_building_display_bars_input": {
+      "keys": {
+        "bar_results": {
+          "godot_symbol": "source_building_display_bars_input.bar_results",
+          "java_expr": "bar.get(self())",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime bar_results supplies results of bar.get(self()).",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_display_bars_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_display_bars_result": {
+      "keys": {
+        "addedBars": {
+          "godot_symbol": "source_building_display_bars_result.addedBars",
+          "java_expr": "table.add(result).growX();",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Non-null bars are added to the table with growX().",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_display_bars_state"
+          ]
+        },
+        "added_bars": {
+          "godot_symbol": "source_building_display_bars_result.added_bars",
+          "java_expr": "table.add(result).growX();",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated list of non-null bars added to the table.",
+          "status": "generated",
+          "type": "Array"
+        },
+        "bar_results": {
+          "alias_of": "source_building_display_bars_input.bar_results",
+          "rule": "Carries bar_results input into result schema.",
+          "status": "generated",
+          "type": "Array"
+        },
+        "barsLoop": {
+          "godot_symbol": "source_building_display_bars_result.barsLoop",
+          "java_expr": "for(Func<Building, Bar> bar : block.listBars()){",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "displayBars iterates block.listBars().",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_display_bars_state"
+          ]
+        },
+        "getResult": {
+          "godot_symbol": "source_building_display_bars_result.getResult",
+          "java_expr": "var result = bar.get(self());",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "displayBars obtains each Bar from bar.get(self()).",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_display_bars_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_building_display_bars_result.method",
+          "java_expr": "public void displayBars(Table table){",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source displayBars(Table table) method declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_display_bars_state"
+          ]
+        },
+        "nullSkip": {
+          "godot_symbol": "source_building_display_bars_result.nullSkip",
+          "java_expr": "if(result == null) continue;",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Null bar results are skipped.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_building_display_bars_state"
+          ]
+        },
+        "rowCalls": {
+          "godot_symbol": "source_building_display_bars_result.rowCalls",
+          "java_expr": "table.row();",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "displayBars advances a table row after each added bar.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_display_bars_state"
+          ]
+        },
+        "row_calls": {
+          "godot_symbol": "source_building_display_bars_result.row_calls",
+          "java_expr": "table.row();",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated count of table.row() calls after added bars.",
+          "status": "generated",
+          "type": "int"
+        },
+        "skipped_bars": {
+          "godot_symbol": "source_building_display_bars_result.skipped_bars",
+          "java_expr": "if(result == null) continue;",
+          "java_method": "displayBars(Table table)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Generated list of null bar results skipped by source guard.",
+          "status": "generated",
+          "type": "Array"
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

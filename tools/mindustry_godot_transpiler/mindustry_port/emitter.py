@@ -582,6 +582,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "displayBars"
+    ):
+        return [
+            "\tvar bar_results: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar added_bars: Array = []",
+            "\tvar skipped_bars: Array = []",
+            "\tfor result in bar_results:",
+            "\t\tif result == null:",
+            "\t\t\tskipped_bars.append(result)",
+            "\t\t\tcontinue",
+            "\t\tadded_bars.append(result)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_display_bars_state\", \"method\": \"public void displayBars(Table table){\", \"bars_loop\": \"for(Func<Building, Bar> bar : block.listBars()){\", \"get_result\": \"var result = bar.get(self());\", \"null_skip\": \"if(result == null) continue;\", \"add_call\": \"table.add(result).growX();\", \"row_call\": \"table.row();\", \"bar_results\": bar_results, \"added_bars\": added_bars, \"skipped_bars\": skipped_bars, \"row_calls\": added_bars.size()}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

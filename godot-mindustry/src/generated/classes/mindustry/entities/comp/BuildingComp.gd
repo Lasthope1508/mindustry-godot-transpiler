@@ -961,7 +961,15 @@ func java_method_displayConsumption_161(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_display_consumption_state", "method": "public void displayConsumption(Table table){", "table_left_call": "table.left();", "consumers_loop": "for(Consume cons : block.consumers){", "optional_booster_skip": "if(cons.optional && cons.booster) continue;", "build_call": "cons.build(self(), table);", "consumers": consumers, "self_state": self_state, "built_consumers": built_consumers, "skipped_consumers": skipped_consumers}
 
 func java_method_displayBars_162(_args: Array = []) -> Variant:
-	return null
+	var bar_results: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []
+	var added_bars: Array = []
+	var skipped_bars: Array = []
+	for result in bar_results:
+		if result == null:
+			skipped_bars.append(result)
+			continue
+		added_bars.append(result)
+	return {"source_owner": "PortGame.source_building_display_bars_state", "method": "public void displayBars(Table table){", "bars_loop": "for(Func<Building, Bar> bar : block.listBars()){", "get_result": "var result = bar.get(self());", "null_skip": "if(result == null) continue;", "add_call": "table.add(result).growX();", "row_call": "table.row();", "bar_results": bar_results, "added_bars": added_bars, "skipped_bars": skipped_bars, "row_calls": added_bars.size()}
 
 func java_method_buildConfiguration_163(_args: Array = []) -> Variant:
 	return null

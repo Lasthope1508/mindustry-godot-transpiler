@@ -20681,6 +20681,38 @@
       "tests": [
         "test_building_display_consumption_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1027": {
+      "deferred_exprs": [
+        "Concrete Arc Table widget instances remain owned by Godot UI integration; this helper preserves the bar null-skip/add/row contract."
+      ],
+      "exact_exprs": [
+        "public void displayBars(Table table){",
+        "for(Func<Building, Bar> bar : block.listBars()){",
+        "var result = bar.get(self());",
+        "if(result == null) continue;",
+        "table.add(result).growX();",
+        "table.row();"
+      ],
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Registers canonical source_building_display_bars_state helper against BuildingComp.displayBars(Table table).",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "source_symbols": [
+        "building_display_bars.method",
+        "building_display_bars.bars_loop",
+        "building_display_bars.get_result",
+        "building_display_bars.null_skip",
+        "building_display_bars.add_call",
+        "building_display_bars.row_call",
+        "building_display_bars.bar_results"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

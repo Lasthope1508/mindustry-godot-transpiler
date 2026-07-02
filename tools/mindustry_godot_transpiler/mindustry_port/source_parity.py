@@ -4355,6 +4355,27 @@ def verify_building_display_consumption_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_building_display_bars_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "building_display_bars_method": "public void displayBars(Table table){",
+        "building_display_bars_loop": "for(Func<Building, Bar> bar : block.listBars()){",
+        "building_display_bars_get_result": "var result = bar.get(self());",
+        "building_display_bars_null_skip": "if(result == null) continue;",
+        "building_display_bars_add": "table.add(result).growX();",
+        "building_display_bars_row": "table.row();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_display_flow_rate_label_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     strings_path = Path(upstream_root).parent / "arc-upstream" / ARC_STRINGS_SOURCE

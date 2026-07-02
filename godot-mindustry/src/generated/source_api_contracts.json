@@ -23564,6 +23564,36 @@
       "tests": [
         "test_building_display_consumption_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_building_display_bars_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "bar_results",
+          "schema": "source_building_display_bars_input.bar_results",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "barsLoop",
+        "getResult",
+        "nullSkip",
+        "addedBars",
+        "rowCalls",
+        "added_bars",
+        "skipped_bars",
+        "row_calls",
+        "bar_results"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.displayBars(Table table) helper.",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "source_method": "displayBars(Table table)",
+      "source_slice": "N1027",
+      "status": "active",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

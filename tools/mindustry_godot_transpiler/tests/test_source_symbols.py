@@ -17475,6 +17475,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(self_state["java_expr"], "self()")
         self.assertEqual(self_state["godot_symbol"], "source_building_display_consumption_input.self_state")
 
+    def test_building_display_bars_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_display_bars.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "displayBars(Table table)")
+        self.assertEqual(method["java_expr"], "public void displayBars(Table table){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_display_bars_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_display_bars_state")
+        self.assertEqual(method["godot_symbol"], "source_building_display_bars_result.method")
+
+        loop = source_symbols.source_symbol(registry, "building_display_bars.bars_loop")
+        self.assertEqual(loop["java_expr"], "for(Func<Building, Bar> bar : block.listBars()){")
+        self.assertEqual(loop["godot_symbol"], "source_building_display_bars_result.barsLoop")
+
+        get_result = source_symbols.source_symbol(registry, "building_display_bars.get_result")
+        self.assertEqual(get_result["java_expr"], "var result = bar.get(self());")
+        self.assertEqual(get_result["godot_symbol"], "source_building_display_bars_result.getResult")
+
+        null_skip = source_symbols.source_symbol(registry, "building_display_bars.null_skip")
+        self.assertEqual(null_skip["java_expr"], "if(result == null) continue;")
+        self.assertEqual(null_skip["godot_symbol"], "source_building_display_bars_result.nullSkip")
+
+        add = source_symbols.source_symbol(registry, "building_display_bars.add_call")
+        self.assertEqual(add["java_expr"], "table.add(result).growX();")
+        self.assertEqual(add["godot_symbol"], "source_building_display_bars_result.addedBars")
+
+        row = source_symbols.source_symbol(registry, "building_display_bars.row_call")
+        self.assertEqual(row["java_expr"], "table.row();")
+        self.assertEqual(row["godot_symbol"], "source_building_display_bars_result.rowCalls")
+
+        bar_results = source_symbols.source_symbol(registry, "building_display_bars.bar_results")
+        self.assertEqual(bar_results["status"], "explicit-input")
+        self.assertEqual(bar_results["java_expr"], "bar.get(self())")
+        self.assertEqual(bar_results["godot_symbol"], "source_building_display_bars_input.bar_results")
+
     def test_building_handle_damage_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19460,9 +19499,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 574)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 575)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 579)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 580)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -25477,6 +25516,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(cons.optional && cons.booster) continue;", building_display_consumption["exact_exprs"])
         self.assertIn("cons.build(self(), table);", building_display_consumption["exact_exprs"])
 
+        building_display_bars = source_symbols.source_slice(ledger, "N1027")
+        self.assertEqual(building_display_bars["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_display_bars["java_method"], "displayBars(Table table)")
+        self.assertEqual(building_display_bars["godot_owner"], "PortGame.source_building_display_bars_state")
+        self.assertIn("public void displayBars(Table table){", building_display_bars["exact_exprs"])
+        self.assertIn("for(Func<Building, Bar> bar : block.listBars()){", building_display_bars["exact_exprs"])
+        self.assertIn("var result = bar.get(self());", building_display_bars["exact_exprs"])
+        self.assertIn("if(result == null) continue;", building_display_bars["exact_exprs"])
+        self.assertIn("table.add(result).growX();", building_display_bars["exact_exprs"])
+        self.assertIn("table.row();", building_display_bars["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
@@ -31065,6 +31115,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("built_consumers", building_display_consumption["return_keys"])
         self.assertIn("skipped_consumers", building_display_consumption["return_keys"])
         self.assertEqual(building_display_consumption["source_method"], "displayConsumption(Table table)")
+
+        building_display_bars = source_symbols.api_contract(contracts, "PortGame.source_building_display_bars_state")
+        self.assertEqual([param["name"] for param in building_display_bars["params"]], ["bar_results"])
+        self.assertEqual(building_display_bars["params"][0]["schema"], "source_building_display_bars_input.bar_results")
+        self.assertIn("added_bars", building_display_bars["return_keys"])
+        self.assertIn("skipped_bars", building_display_bars["return_keys"])
+        self.assertIn("row_calls", building_display_bars["return_keys"])
+        self.assertEqual(building_display_bars["source_method"], "displayBars(Table table)")
 
         building_handle_damage = source_symbols.api_contract(contracts, "PortGame.source_building_handle_damage_state")
         self.assertEqual([param["name"] for param in building_handle_damage["params"]], ["amount"])
@@ -37932,6 +37990,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_display_consumption_result["keys"]["optionalBoosterSkip"]["java_expr"], "if(cons.optional && cons.booster) continue;")
         self.assertEqual(source_building_display_consumption_result["keys"]["buildCalls"]["java_expr"], "cons.build(self(), table);")
         self.assertEqual(source_building_display_consumption_result["keys"]["consumers"]["alias_of"], "source_building_display_consumption_input.consumers")
+
+        source_building_display_bars_input = source_symbols.state_schema(schema, "source_building_display_bars_input")
+        self.assertEqual(source_building_display_bars_input["keys"]["bar_results"]["java_expr"], "bar.get(self())")
+        self.assertEqual(source_building_display_bars_input["keys"]["bar_results"]["status"], "explicit-input")
+
+        source_building_display_bars_result = source_symbols.state_schema(schema, "source_building_display_bars_result")
+        self.assertEqual(source_building_display_bars_result["keys"]["method"]["java_expr"], "public void displayBars(Table table){")
+        self.assertEqual(source_building_display_bars_result["keys"]["barsLoop"]["java_expr"], "for(Func<Building, Bar> bar : block.listBars()){")
+        self.assertEqual(source_building_display_bars_result["keys"]["getResult"]["java_expr"], "var result = bar.get(self());")
+        self.assertEqual(source_building_display_bars_result["keys"]["nullSkip"]["java_expr"], "if(result == null) continue;")
+        self.assertEqual(source_building_display_bars_result["keys"]["addedBars"]["java_expr"], "table.add(result).growX();")
+        self.assertEqual(source_building_display_bars_result["keys"]["rowCalls"]["java_expr"], "table.row();")
+        self.assertEqual(source_building_display_bars_result["keys"]["bar_results"]["alias_of"], "source_building_display_bars_input.bar_results")
 
         source_building_handle_damage_input = source_symbols.state_schema(schema, "source_building_handle_damage_input")
         self.assertEqual(source_building_handle_damage_input["keys"]["amount"]["java_expr"], "amount")
