@@ -2183,6 +2183,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"handled_index": handled_index', source)
         self.assertIn('"put": put_success', source)
 
+    def test_port_game_exposes_source_building_produced_item_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_produced_item_default_state(item: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void produced(Item item){"', source)
+        self.assertIn('"delegate": "produced(item, 1);"', source)
+        self.assertIn('"item": item', source)
+        self.assertIn('"amount": 1', source)
+        self.assertIn('"delegates_to_amount_overload": true', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

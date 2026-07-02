@@ -5470,6 +5470,15 @@ func source_building_put_item_state(item: Variant, proximity_size: int, dump_cur
 		"return_value": put_success,
 	}
 
+func source_building_produced_item_default_state(item: Variant) -> Dictionary:
+	return {
+		"method": "public void produced(Item item){",
+		"delegate": "produced(item, 1);",
+		"item": item,
+		"amount": 1,
+		"delegates_to_amount_overload": true,
+	}
+
 func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, next_tile_present: bool, next_build_present: bool, next_block_solid: bool, next_block_has_liquids: bool, current_liquid_amount: float, move_liquid_return: float) -> Dictionary:
 	var move_liquid_called := false
 	var leak_guard_passed := false

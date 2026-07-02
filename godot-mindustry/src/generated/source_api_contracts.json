@@ -5752,6 +5752,33 @@
         "test_building_power_production_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_produced_item_default_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_building_produced_item_default_input.item",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "delegate",
+        "item",
+        "amount",
+        "delegates_to_amount_overload"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.produced(Item item) default amount delegate helper.",
+      "runtime_proof": "/root/Main.source_building_produced_item_default_state",
+      "source_method": "produced(Item item)",
+      "source_slice": "N955",
+      "status": "active",
+      "tests": [
+        "test_building_produced_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_default_state",
+        "test_building_produced_item_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_production_valid_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [],

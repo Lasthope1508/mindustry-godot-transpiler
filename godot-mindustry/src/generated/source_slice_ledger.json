@@ -19982,6 +19982,32 @@
         "test_port_game_exposes_source_building_put_item_state",
         "test_building_put_item_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N955": {
+      "exact_exprs": [
+        "public void produced(Item item){",
+        "produced(item, 1);"
+      ],
+      "godot_owner": "PortGame.source_building_produced_item_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "produced(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records BuildingComp.produced(Item item) delegating to produced(item, 1). Amount overload sector production and unlock side effects remain separate slices.",
+      "rule": "Adds source-backed BuildingComp.produced item default amount delegate helper.",
+      "runtime_proof": "/root/Main.source_building_produced_item_default_state",
+      "source_symbols": [
+        "building_produced_item_default.method",
+        "building_produced_item_default.delegate",
+        "building_produced_item_default.item",
+        "building_produced_item_default.amount",
+        "building_produced_item_default.delegates_to_amount_overload"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_produced_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_default_state",
+        "test_building_produced_item_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

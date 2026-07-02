@@ -29243,6 +29243,68 @@
       },
       "status": "active"
     },
+    "source_building_produced_item_default_input": {
+      "keys": {
+        "item": {
+          "godot_symbol": "source_building_produced_item_default_input.item",
+          "java_expr": "item",
+          "java_method": "produced(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N955 BuildingComp.produced item explicit input key.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_produced_item_default_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_produced_item_default_result": {
+      "keys": {
+        "amount": {
+          "java_expr": "1",
+          "java_method": "produced(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N955 BuildingComp.produced item default result canonical key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "delegate": {
+          "java_expr": "produced(item, 1);",
+          "java_method": "produced(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N955 BuildingComp.produced item default result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegates_to_amount_overload": {
+          "java_expr": "produced(item, 1);",
+          "java_method": "produced(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N955 BuildingComp.produced item default result canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "item": {
+          "alias_of": "source_building_produced_item_default_input.item",
+          "rule": "Carries produced item input into result schema.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "method": {
+          "java_expr": "public void produced(Item item){",
+          "java_method": "produced(Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N955 BuildingComp.produced item default result canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_produced_item_default_state",
+      "source_slice": "N955",
+      "status": "active"
+    },
     "source_building_production_valid_result": {
       "keys": {
         "default_return": {

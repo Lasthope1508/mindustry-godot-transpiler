@@ -16003,6 +16003,81 @@
         "test_building_power_production_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_produced_item_default.amount": {
+      "godot_owner": "PortGame.source_building_produced_item_default_state",
+      "godot_symbol": "source_building_produced_item_default_result.amount",
+      "java_expr": "1",
+      "java_method": "produced(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Records source default produced amount literal.",
+      "runtime_proof": "/root/Main.source_building_produced_item_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_default_state",
+        "test_building_produced_item_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_default.delegate": {
+      "godot_owner": "PortGame.source_building_produced_item_default_state",
+      "godot_symbol": "source_building_produced_item_default_result.delegate",
+      "java_expr": "produced(item, 1);",
+      "java_method": "produced(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source delegation to amount overload.",
+      "runtime_proof": "/root/Main.source_building_produced_item_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_default_state",
+        "test_building_produced_item_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_default.delegates_to_amount_overload": {
+      "godot_owner": "PortGame.source_building_produced_item_default_state",
+      "godot_symbol": "source_building_produced_item_default_result.delegates_to_amount_overload",
+      "java_expr": "produced(item, 1);",
+      "java_method": "produced(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime boolean records source delegation to amount overload.",
+      "runtime_proof": "/root/Main.source_building_produced_item_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_default_state",
+        "test_building_produced_item_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_default.item": {
+      "godot_owner": "PortGame.source_building_produced_item_default_state",
+      "godot_symbol": "source_building_produced_item_default_input.item",
+      "java_expr": "item",
+      "java_method": "produced(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime item supplies source produced item parameter.",
+      "runtime_proof": "/root/Main.source_building_produced_item_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_produced_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_default_state",
+        "test_building_produced_item_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_produced_item_default.method": {
+      "godot_owner": "PortGame.source_building_produced_item_default_state",
+      "godot_symbol": "source_building_produced_item_default_result.method",
+      "java_expr": "public void produced(Item item){",
+      "java_method": "produced(Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source produced(Item item) overload signature.",
+      "runtime_proof": "/root/Main.source_building_produced_item_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_produced_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_produced_item_default_state",
+        "test_building_produced_item_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_production_valid.default_return": {
       "godot_owner": "PortGame.source_building_production_valid_state",
       "godot_symbol": "source_building_production_valid_result.default_return",
