@@ -17855,6 +17855,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(returned_out["java_expr"], "if(power == null) return out;")
         self.assertEqual(returned_out["godot_symbol"], "source_building_get_power_connections_empty_guard_result.returned_out")
 
+    def test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        loop = source_symbols.source_symbol(registry, "building_get_power_connections_proximity_guard.proximity_loop")
+        self.assertEqual(loop["java_expr"], "for(Building other : proximity){")
+        self.assertEqual(loop["java_method"], "getPowerConnections(Seq<Building> out)")
+        self.assertEqual(loop["godot_owner"], "PortGame.source_building_get_power_connections_proximity_guard_state")
+
+        other_present = source_symbols.source_symbol(registry, "building_get_power_connections_proximity_guard.other_present_by_index")
+        self.assertEqual(other_present["java_expr"], "other != null")
+        self.assertEqual(other_present["status"], "explicit-input")
+
+        same_team = source_symbols.source_symbol(registry, "building_get_power_connections_proximity_guard.other_same_team_by_index")
+        self.assertEqual(same_team["java_expr"], "other.team == team")
+        self.assertEqual(same_team["status"], "explicit-input")
+
+        pass_count = source_symbols.source_symbol(registry, "building_get_power_connections_proximity_guard.proximity_guard_pass_count")
+        self.assertEqual(pass_count["java_expr"], "other != null && other.power != null && other.team == team")
+        self.assertEqual(pass_count["godot_symbol"], "source_building_get_power_connections_proximity_guard_result.proximity_guard_pass_count")
+
     def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19317,9 +19340,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 568)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 569)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 573)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 574)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -24183,6 +24206,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Seq<Building> getPowerConnections(Seq<Building> out){", building_get_power_connections_empty_guard["exact_exprs"])
         self.assertIn("out.clear();", building_get_power_connections_empty_guard["exact_exprs"])
         self.assertIn("if(power == null) return out;", building_get_power_connections_empty_guard["exact_exprs"])
+
+        building_get_power_connections_proximity_guard = source_symbols.source_slice(ledger, "N972")
+        self.assertEqual(building_get_power_connections_proximity_guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_get_power_connections_proximity_guard["java_method"], "getPowerConnections(Seq<Building> out)")
+        self.assertEqual(building_get_power_connections_proximity_guard["godot_owner"], "PortGame.source_building_get_power_connections_proximity_guard_state")
+        self.assertIn("for(Building other : proximity){", building_get_power_connections_proximity_guard["exact_exprs"])
+        self.assertIn("if(other != null && other.power != null", building_get_power_connections_proximity_guard["exact_exprs"])
+        self.assertIn("&& other.team == team", building_get_power_connections_proximity_guard["exact_exprs"])
 
         building_move_liquid_forward = source_symbols.source_slice(ledger, "N944")
         self.assertEqual(building_move_liquid_forward["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -29637,6 +29668,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_get_power_connections_empty_guard["params"][0]["schema"], "source_building_get_power_connections_empty_guard_input.power_present")
         self.assertIn("returned_out", building_get_power_connections_empty_guard["return_keys"])
         self.assertEqual(building_get_power_connections_empty_guard["source_method"], "getPowerConnections(Seq<Building> out)")
+
+        building_get_power_connections_proximity_guard = source_symbols.api_contract(contracts, "PortGame.source_building_get_power_connections_proximity_guard_state")
+        self.assertEqual([param["name"] for param in building_get_power_connections_proximity_guard["params"]], ["other_present_by_index", "other_power_present_by_index", "other_same_team_by_index"])
+        self.assertIn("proximity_guard_pass_count", building_get_power_connections_proximity_guard["return_keys"])
+        self.assertEqual(building_get_power_connections_proximity_guard["source_method"], "getPowerConnections(Seq<Building> out)")
 
         building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
         self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
@@ -37866,6 +37902,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_get_power_connections_empty_guard_result["keys"]["clear_out"]["java_expr"], "out.clear();")
         self.assertEqual(source_building_get_power_connections_empty_guard_result["keys"]["power_null_guard"]["java_expr"], "if(power == null) return out;")
         self.assertEqual(source_building_get_power_connections_empty_guard_result["keys"]["power_present"]["alias_of"], "source_building_get_power_connections_empty_guard_input.power_present")
+
+        source_building_get_power_connections_proximity_guard_input = source_symbols.state_schema(schema, "source_building_get_power_connections_proximity_guard_input")
+        self.assertEqual(source_building_get_power_connections_proximity_guard_input["keys"]["other_present_by_index"]["java_expr"], "other != null")
+
+        source_building_get_power_connections_proximity_guard_result = source_symbols.state_schema(schema, "source_building_get_power_connections_proximity_guard_result")
+        self.assertEqual(source_building_get_power_connections_proximity_guard_result["keys"]["proximity_loop"]["java_expr"], "for(Building other : proximity){")
+        self.assertEqual(source_building_get_power_connections_proximity_guard_result["keys"]["other_power_guard"]["java_expr"], "if(other != null && other.power != null")
+        self.assertEqual(source_building_get_power_connections_proximity_guard_result["keys"]["same_team_guard"]["java_expr"], "&& other.team == team")
+        self.assertEqual(source_building_get_power_connections_proximity_guard_result["keys"]["proximity_guard_pass_count"]["java_expr"], "other != null && other.power != null && other.team == team")
 
         source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
         self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")

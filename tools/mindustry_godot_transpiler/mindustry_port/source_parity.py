@@ -758,6 +758,24 @@ def verify_building_get_power_connections_empty_guard_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_building_get_power_connections_proximity_guard_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "proximity_loop": "for(Building other : proximity){",
+        "other_power_guard": "if(other != null && other.power != null",
+        "same_team_guard": "&& other.team == team",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str, Any]:
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")

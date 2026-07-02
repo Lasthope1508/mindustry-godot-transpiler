@@ -2187,6 +2187,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"power_null_guard": "if(power == null) return out;"', source)
         self.assertIn('"returned_out": not power_present', source)
 
+    def test_port_game_exposes_source_building_get_power_connections_proximity_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_get_power_connections_proximity_guard_state(other_present_by_index: Array, other_power_present_by_index: Array, other_same_team_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"proximity_loop": "for(Building other : proximity){"', source)
+        self.assertIn('"other_power_guard": "if(other != null && other.power != null"', source)
+        self.assertIn('"same_team_guard": "&& other.team == team"', source)
+        self.assertIn('"proximity_guard_pass_count": proximity_guard_pass_indices.size()', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

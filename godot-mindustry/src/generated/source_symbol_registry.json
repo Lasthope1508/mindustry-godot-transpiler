@@ -11765,6 +11765,156 @@
         "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_get_power_connections_proximity_guard.connection_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.connection_count",
+      "java_expr": "proximity",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime count of supplied proximity entries.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.deferred_power_compatibility_and_conducts": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.deferred_power_compatibility_and_conducts",
+      "java_expr": "!(block.consumesPower && other.block.consumesPower",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Marks deferred power compatibility/conducts guards.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "deferred",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.other_power_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.other_power_guard",
+      "java_expr": "if(other != null && other.power != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source null and power guard start.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.other_power_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_input.other_power_present_by_index",
+      "java_expr": "other.power != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input for source other power guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.other_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_input.other_present_by_index",
+      "java_expr": "other != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input for source other null guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.other_same_team_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_input.other_same_team_by_index",
+      "java_expr": "other.team == team",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit input for source same-team guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.proximity_guard_pass_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.proximity_guard_pass_count",
+      "java_expr": "other != null && other.power != null && other.team == team",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Count passing source proximity guards.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.proximity_guard_pass_indices": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.proximity_guard_pass_indices",
+      "java_expr": "other != null && other.power != null && other.team == team",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Indices passing source proximity guards.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.proximity_loop": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.proximity_loop",
+      "java_expr": "for(Building other : proximity){",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source proximity loop.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_proximity_guard.same_team_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.same_team_guard",
+      "java_expr": "&& other.team == team",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source same-team guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_handle_damage.amount": {
       "godot_owner": "PortGame.source_building_handle_damage_state",
       "godot_symbol": "source_building_handle_damage_input.amount",

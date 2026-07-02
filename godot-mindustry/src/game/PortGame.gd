@@ -5467,6 +5467,25 @@ func source_building_get_power_connections_empty_guard_state(power_present: bool
 		"deferred_remaining_connection_scan": power_present,
 	}
 
+func source_building_get_power_connections_proximity_guard_state(other_present_by_index: Array, other_power_present_by_index: Array, other_same_team_by_index: Array) -> Dictionary:
+	var proximity_guard_pass_indices: Array = []
+	var connection_count = min(other_present_by_index.size(), min(other_power_present_by_index.size(), other_same_team_by_index.size()))
+	for index in connection_count:
+		if bool(other_present_by_index[index]) and bool(other_power_present_by_index[index]) and bool(other_same_team_by_index[index]):
+			proximity_guard_pass_indices.append(index)
+	return {
+		"proximity_loop": "for(Building other : proximity){",
+		"other_power_guard": "if(other != null && other.power != null",
+		"same_team_guard": "&& other.team == team",
+		"other_present_by_index": other_present_by_index.duplicate(),
+		"other_power_present_by_index": other_power_present_by_index.duplicate(),
+		"other_same_team_by_index": other_same_team_by_index.duplicate(),
+		"connection_count": connection_count,
+		"proximity_guard_pass_indices": proximity_guard_pass_indices,
+		"proximity_guard_pass_count": proximity_guard_pass_indices.size(),
+		"deferred_power_compatibility_and_conducts": true,
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",

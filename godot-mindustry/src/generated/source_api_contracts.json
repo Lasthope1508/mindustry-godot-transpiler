@@ -4144,6 +4144,48 @@
         "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_get_power_connections_proximity_guard_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "other_present_by_index",
+          "schema": "source_building_get_power_connections_proximity_guard_input.other_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "other_power_present_by_index",
+          "schema": "source_building_get_power_connections_proximity_guard_input.other_power_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "other_same_team_by_index",
+          "schema": "source_building_get_power_connections_proximity_guard_input.other_same_team_by_index",
+          "type": "Array[bool]"
+        }
+      ],
+      "return_keys": [
+        "proximity_loop",
+        "other_power_guard",
+        "same_team_guard",
+        "other_present_by_index",
+        "other_power_present_by_index",
+        "other_same_team_by_index",
+        "connection_count",
+        "proximity_guard_pass_indices",
+        "proximity_guard_pass_count",
+        "deferred_power_compatibility_and_conducts"
+      ],
+      "rule": "Public runtime contract for BuildingComp.getPowerConnections proximity guard slice.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "source_method": "getPowerConnections(Seq<Building> out)",
+      "source_slice": "N972",
+      "status": "active",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_handle_damage_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

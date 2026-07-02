@@ -20483,6 +20483,40 @@
         "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
         "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N972": {
+      "deferred_exprs": [
+        "Power compatibility guard, conductsTo checks, duplicate-link guard, out.add(other), and manual power.links loop remain later slices."
+      ],
+      "exact_exprs": [
+        "for(Building other : proximity){",
+        "if(other != null && other.power != null",
+        "&& other.team == team"
+      ],
+      "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed getPowerConnections proximity null/power/team guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
+      "source_symbols": [
+        "building_get_power_connections_proximity_guard.proximity_loop",
+        "building_get_power_connections_proximity_guard.other_power_guard",
+        "building_get_power_connections_proximity_guard.same_team_guard",
+        "building_get_power_connections_proximity_guard.other_present_by_index",
+        "building_get_power_connections_proximity_guard.other_power_present_by_index",
+        "building_get_power_connections_proximity_guard.other_same_team_by_index",
+        "building_get_power_connections_proximity_guard.connection_count",
+        "building_get_power_connections_proximity_guard.proximity_guard_pass_indices",
+        "building_get_power_connections_proximity_guard.proximity_guard_pass_count",
+        "building_get_power_connections_proximity_guard.deferred_power_compatibility_and_conducts"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_get_power_connections_proximity_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_proximity_guard_state",
+        "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
