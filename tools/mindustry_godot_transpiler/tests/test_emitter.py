@@ -327,5 +327,50 @@ public class BuildingComp{
             self.assertIn('"alpha": 0.8', source_text)
             self.assertIn('"width": disabled_icon_size', source_text)
 
+    def test_emit_bridges_building_comp_draw_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void draw(){
+        if(block.variants == 0 || block.variantRegions == null){
+            Draw.rect(block.region, x, y, drawrot());
+        }else{
+            Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());
+        }
+        drawTeamTop();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_draw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var variants := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var has_variant_regions := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var variant_region_count := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var tile_pos := int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var source_x := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var block_rotate := bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn("var block_rotate_draw := bool(_args[7] if _args.size() > 7 else false)", source_text)
+            self.assertIn("var rotation_quadrants := int(_args[8] if _args.size() > 8 else 0)", source_text)
+            self.assertIn("var draw_rotation := float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0", source_text)
+            self.assertIn("if variants == 0 or not has_variant_regions:", source_text)
+            self.assertIn("var max_variant_index: int = max(0, variant_region_count - 1)", source_text)
+            self.assertIn("var variant_index: int = _source_arc_random_seed_int(tile_pos, 0, max_variant_index)", source_text)
+            self.assertIn('"region_kind": "variant_region"', source_text)
+            self.assertIn('"draw_team_top": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

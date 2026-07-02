@@ -2809,6 +2809,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_disabled_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawDisabled_127"', source)
 
+    def test_generated_building_comp_bridges_draw_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_draw_128(_args: Array = []) -> Variant:", source)
+        self.assertIn("var variants := int(_args[0] if _args.size() > 0 else 0)", source)
+        self.assertIn("var has_variant_regions := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var variant_region_count := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn("var tile_pos := int(_args[3] if _args.size() > 3 else 0)", source)
+        self.assertIn("var source_x := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[5] if _args.size() > 5 else 0.0)", source)
+        self.assertIn("var block_rotate := bool(_args[6] if _args.size() > 6 else false)", source)
+        self.assertIn("var block_rotate_draw := bool(_args[7] if _args.size() > 7 else false)", source)
+        self.assertIn("var rotation_quadrants := int(_args[8] if _args.size() > 8 else 0)", source)
+        self.assertIn("var draw_rotation := float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0", source)
+        self.assertIn("if variants == 0 or not has_variant_regions:", source)
+        self.assertIn('"region_kind": "region"', source)
+        self.assertIn("var max_variant_index: int = max(0, variant_region_count - 1)", source)
+        self.assertIn("var variant_index: int = _source_arc_random_seed_int(tile_pos, 0, max_variant_index)", source)
+        self.assertIn('"region_kind": "variant_region"', source)
+        self.assertIn('"draw_team_top": true', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_draw_128([variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_draw_128"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
