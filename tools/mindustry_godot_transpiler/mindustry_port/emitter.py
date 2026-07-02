@@ -861,6 +861,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "canConsume"
+    ):
+        return [
+            "\tvar potential_efficiency := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar can_consume := potential_efficiency > 0.0",
+            "\treturn {\"source_owner\": \"PortGame.source_building_can_consume_state\", \"method\": \"public boolean canConsume(){\", \"potentialEfficiency\": potential_efficiency, \"canConsume\": can_consume}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

@@ -4642,6 +4642,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_consume_188"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_can_consume_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_canConsume_189(_args: Array = []) -> Variant:", source)
+        self.assertIn("var potential_efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var can_consume := potential_efficiency > 0.0", source)
+        self.assertIn('"source_owner": "PortGame.source_building_can_consume_state"', source)
+        self.assertIn('"method": "public boolean canConsume(){"', source)
+        self.assertIn('"potentialEfficiency": potential_efficiency', source)
+        self.assertIn('"canConsume": can_consume', source)
+
+    def test_port_game_exposes_generated_building_comp_can_consume_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_can_consume_bridge_state(potential_efficiency: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_canConsume_189([potential_efficiency])", source)
+        self.assertIn("var canonical = source_building_can_consume_state(potential_efficiency)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_can_consume_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_canConsume_189"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

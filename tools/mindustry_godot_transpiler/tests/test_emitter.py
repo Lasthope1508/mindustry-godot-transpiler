@@ -2805,5 +2805,36 @@ public class BuildingComp{
             self.assertIn('"source_owner": "PortGame.source_building_consume_state"', source_text)
             self.assertIn('"triggered": triggered', source_text)
 
+    def test_emit_bridges_building_comp_can_consume_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean canConsume(){
+        return potentialEfficiency > 0;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_canConsume_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var potential_efficiency := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var can_consume := potential_efficiency > 0.0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_can_consume_state"', source_text)
+            self.assertIn('"method": "public boolean canConsume(){"', source_text)
+            self.assertIn('"potentialEfficiency": potential_efficiency', source_text)
+            self.assertIn('"canConsume": can_consume', source_text)
+
 if __name__ == "__main__":
     unittest.main()

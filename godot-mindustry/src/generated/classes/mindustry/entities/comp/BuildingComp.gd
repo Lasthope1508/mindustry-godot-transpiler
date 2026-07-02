@@ -1125,7 +1125,9 @@ func java_method_consume_188(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_consume_state", "triggered": triggered}
 
 func java_method_canConsume_189(_args: Array = []) -> Variant:
-	return null
+	var potential_efficiency := float(_args[0] if _args.size() > 0 else 0.0)
+	var can_consume := potential_efficiency > 0.0
+	return {"source_owner": "PortGame.source_building_can_consume_state", "method": "public boolean canConsume(){", "potentialEfficiency": potential_efficiency, "canConsume": can_consume}
 
 func java_method_delta_190(_args: Array = []) -> Variant:
 	return null

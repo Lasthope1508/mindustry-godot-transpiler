@@ -25799,6 +25799,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("block.consumers", building_generated_consume["exact_exprs"])
         self.assertIn("self()", building_generated_consume["exact_exprs"])
 
+        building_generated_can_consume = source_symbols.source_slice(ledger, "N1054")
+        self.assertEqual(building_generated_can_consume["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_can_consume["java_method"], "canConsume()")
+        self.assertEqual(building_generated_can_consume["godot_owner"], "PortGame.source_building_can_consume_state")
+        self.assertEqual(building_generated_can_consume["runtime_proof"], "/root/Main.generated_building_comp_can_consume_bridge_state")
+        self.assertIn("public boolean canConsume(){", building_generated_can_consume["exact_exprs"])
+        self.assertIn("return potentialEfficiency > 0;", building_generated_can_consume["exact_exprs"])
+        self.assertIn("potentialEfficiency > 0", building_generated_can_consume["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
