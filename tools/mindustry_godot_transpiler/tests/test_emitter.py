@@ -1343,5 +1343,68 @@ public class BuildingComp{
             self.assertIn('"per_cell": per_cell', source_text)
             self.assertIn('"deposit_call": deposit_linked_tiles', source_text)
 
+    def test_emit_bridges_building_comp_on_destroyed_item_explosion_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Called when the block is destroyed. The tile is still intact at this stage. */
+    public void onDestroyed(){
+        float explosiveness = block.baseExplosiveness;
+        float flammability = 0f;
+        float power = 0f;
+
+        if(block.hasItems){
+            for(Item item : content.items()){
+                int amount = Math.min(items.get(item), explosionItemCap());
+                explosiveness += item.explosiveness * amount;
+                flammability += item.flammability * amount;
+                power += item.charge * Mathf.pow(amount, 1.1f) * 150f;
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_onDestroyed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var base_explosiveness := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var has_items := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var item_states: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var item_cap := int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var explosiveness := base_explosiveness", source_text)
+            self.assertIn("var flammability := 0.0", source_text)
+            self.assertIn("var power := 0.0", source_text)
+            self.assertIn("var item_amount: int = min(int(item_state.get(\"amount\", 0)), item_cap)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
+            self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
+            self.assertIn('"method": "public void onDestroyed(){"', source_text)
+            self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
+            self.assertIn('"flammability_expr": "float flammability = 0f;"', source_text)
+            self.assertIn('"power_expr": "float power = 0f;"', source_text)
+            self.assertIn('"has_items_gate": "if(block.hasItems){"', source_text)
+            self.assertIn('"items_loop": "for(Item item : content.items()){"', source_text)
+            self.assertIn('"amount_expr": "int amount = Math.min(items.get(item), explosionItemCap());"', source_text)
+            self.assertIn('"explosiveness_add": "explosiveness += item.explosiveness * amount;"', source_text)
+            self.assertIn('"flammability_add": "flammability += item.flammability * amount;"', source_text)
+            self.assertIn('"power_add": "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;"', source_text)
+            self.assertIn('"base_explosiveness": base_explosiveness', source_text)
+            self.assertIn('"has_items": has_items', source_text)
+            self.assertIn('"item_cap": item_cap', source_text)
+            self.assertIn('"explosiveness": explosiveness', source_text)
+            self.assertIn('"flammability": flammability', source_text)
+            self.assertIn('"power": power', source_text)
+
 if __name__ == "__main__":
     unittest.main()

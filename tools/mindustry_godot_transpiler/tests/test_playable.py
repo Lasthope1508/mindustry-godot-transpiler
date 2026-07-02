@@ -3519,6 +3519,50 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_onDeconstructed_154"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_on_destroyed_item_explosion_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_onDestroyed_155(_args: Array = []) -> Variant:", source)
+        self.assertIn("var base_explosiveness := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var has_items := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var item_states: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []", source)
+        self.assertIn("var item_cap := int(_args[3] if _args.size() > 3 else 0)", source)
+        self.assertIn("var explosiveness := base_explosiveness", source)
+        self.assertIn("var flammability := 0.0", source)
+        self.assertIn("var power := 0.0", source)
+        self.assertIn("var item_amount: int = min(int(item_state.get(\"amount\", 0)), item_cap)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source)
+        self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source)
+        self.assertIn('"method": "public void onDestroyed(){"', source)
+        self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source)
+        self.assertIn('"flammability_expr": "float flammability = 0f;"', source)
+        self.assertIn('"power_expr": "float power = 0f;"', source)
+        self.assertIn('"has_items_gate": "if(block.hasItems){"', source)
+        self.assertIn('"items_loop": "for(Item item : content.items()){"', source)
+        self.assertIn('"amount_expr": "int amount = Math.min(items.get(item), explosionItemCap());"', source)
+        self.assertIn('"explosiveness_add": "explosiveness += item.explosiveness * amount;"', source)
+        self.assertIn('"flammability_add": "flammability += item.flammability * amount;"', source)
+        self.assertIn('"power_add": "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;"', source)
+        self.assertIn('"base_explosiveness": base_explosiveness', source)
+        self.assertIn('"has_items": has_items', source)
+        self.assertIn('"item_cap": item_cap', source)
+        self.assertIn('"explosiveness": explosiveness', source)
+        self.assertIn('"flammability": flammability', source)
+        self.assertIn('"power": power', source)
+
+    def test_port_game_exposes_generated_building_comp_on_destroyed_item_explosion_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_on_destroyed_item_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap])", source)
+        self.assertIn("var canonical = source_building_on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onDestroyed_155"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -530,6 +530,27 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\tper_cell = current_amount / float(source_block_size * source_block_size) * 2.0",
             "\treturn {\"source_owner\": \"PortGame.source_building_on_deconstructed_liquid_state\", \"comment\": \"Called when a block begins (not finishes!) deconstruction. The building is still present at this point.\", \"method\": \"public void onDeconstructed(@Nullable Unit builder){\", \"deposit_comment\": \"//deposit non-incinerable liquid on ground\", \"gate\": \"if(liquids != null && liquids.currentAmount() > 0 && (!liquids.current().incinerable || block.deconstructDropAllLiquid)){\", \"per_cell_expr\": \"float perCell = liquids.currentAmount() / (block.size * block.size) * 2f;\", \"deposit_call_expr\": \"tile.getLinkedTiles(other -> Puddles.deposit(other, liquids.current(), perCell));\", \"has_liquids_module\": has_liquids_module, \"current_amount\": current_amount, \"current_incinerable\": current_incinerable, \"deconstruct_drop_all_liquid\": deconstruct_drop_all_liquid, \"source_block_size\": source_block_size, \"can_drop_liquid\": can_drop_liquid, \"deposit_linked_tiles\": deposit_linked_tiles, \"per_cell\": per_cell, \"deposit_call\": deposit_linked_tiles}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "onDestroyed"
+    ):
+        return [
+            "\tvar base_explosiveness := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar has_items := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar item_states: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar item_cap := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar explosiveness := base_explosiveness",
+            "\tvar flammability := 0.0",
+            "\tvar power := 0.0",
+            "\tif has_items:",
+            "\t\tfor item_state in item_states:",
+            "\t\t\tvar item_amount: int = min(int(item_state.get(\"amount\", 0)), item_cap)",
+            "\t\t\texplosiveness += float(item_state.get(\"explosiveness\", 0.0)) * float(item_amount)",
+            "\t\t\tflammability += float(item_state.get(\"flammability\", 0.0)) * float(item_amount)",
+            "\t\t\tpower += float(item_state.get(\"charge\", 0.0)) * pow(float(item_amount), 1.1) * 150.0",
+            "\treturn {\"source_owner\": \"PortGame.source_building_on_destroyed_item_explosion_state\", \"comment\": \"Called when the block is destroyed. The tile is still intact at this stage.\", \"method\": \"public void onDestroyed(){\", \"base_explosiveness_expr\": \"float explosiveness = block.baseExplosiveness;\", \"flammability_expr\": \"float flammability = 0f;\", \"power_expr\": \"float power = 0f;\", \"has_items_gate\": \"if(block.hasItems){\", \"items_loop\": \"for(Item item : content.items()){\", \"amount_expr\": \"int amount = Math.min(items.get(item), explosionItemCap());\", \"explosiveness_add\": \"explosiveness += item.explosiveness * amount;\", \"flammability_add\": \"flammability += item.flammability * amount;\", \"power_add\": \"power += item.charge * Mathf.pow(amount, 1.1f) * 150f;\", \"base_explosiveness\": base_explosiveness, \"has_items\": has_items, \"item_cap\": item_cap, \"explosiveness\": explosiveness, \"flammability\": flammability, \"power\": power}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
