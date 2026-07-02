@@ -1228,7 +1228,10 @@ func java_method_config_198(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_config_default", "comment": "/** Tile configuration. Defaults to null. Used for block rebuilding. */", "nullable": "@Nullable", "method": "public Object config(){", "config": null}
 
 func java_method_isValid_199(_args: Array = []) -> Variant:
-	return null
+	var tile_build_matches_self := bool(_args[0] if _args.size() > 0 else false)
+	var dead_state := bool(_args[1] if _args.size() > 1 else false)
+	var valid := tile_build_matches_self and not dead_state
+	return {"source_owner": "PortGame.source_building_is_valid", "replace": "@Replace", "override": "@Override", "method": "public boolean isValid(){", "tile_build_matches_self": tile_build_matches_self, "dead_state": dead_state, "valid": valid}
 
 func java_method_heal_200(_args: Array = []) -> Variant:
 	return null

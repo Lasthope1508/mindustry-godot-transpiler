@@ -5048,6 +5048,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_config_198"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_is_valid_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_isValid_199(_args: Array = []) -> Variant:", source)
+        self.assertIn("var tile_build_matches_self := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var dead_state := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var valid := tile_build_matches_self and not dead_state", source)
+        self.assertIn('"source_owner": "PortGame.source_building_is_valid"', source)
+        self.assertIn('"replace": "@Replace"', source)
+        self.assertIn('"override": "@Override"', source)
+        self.assertIn('"method": "public boolean isValid(){"', source)
+        self.assertIn('"tile_build_matches_self": tile_build_matches_self', source)
+        self.assertIn('"dead_state": dead_state', source)
+        self.assertIn('"valid": valid', source)
+
+    def test_port_game_exposes_generated_building_comp_is_valid_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_isValid_199([tile_build_matches_self, dead_state])", source)
+        self.assertIn("var canonical = source_building_is_valid(tile_build_matches_self, dead_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_is_valid"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_isValid_199"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

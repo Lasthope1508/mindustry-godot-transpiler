@@ -22144,6 +22144,38 @@
         "test_port_game_exposes_generated_building_comp_config_default_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1068": {
+      "deferred_exprs": [
+        "Concrete tile.build and dead() state stay supplied by caller until generated instance state hydration is ported."
+      ],
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public boolean isValid(){",
+        "return tile.build == self() && !dead();",
+        "tile.build == self()",
+        "dead()"
+      ],
+      "godot_owner": "PortGame.source_building_is_valid",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "isValid()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_isValid_199 and PortGame generated bridge to existing N599 canonical source_building_is_valid helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_is_valid_bridge_state",
+      "source_symbols": [
+        "building_is_valid.method",
+        "building_is_valid.result",
+        "building_is_valid.tile_build_matches_self",
+        "building_is_valid.dead_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_is_valid_to_source_state",
+        "test_generated_building_comp_bridges_is_valid_to_source_state",
+        "test_port_game_exposes_generated_building_comp_is_valid_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

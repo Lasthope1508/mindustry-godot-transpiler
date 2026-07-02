@@ -1014,6 +1014,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "isValid"
+    ):
+        return [
+            "\tvar tile_build_matches_self := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar dead_state := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar valid := tile_build_matches_self and not dead_state",
+            "\treturn {\"source_owner\": \"PortGame.source_building_is_valid\", \"replace\": \"@Replace\", \"override\": \"@Override\", \"method\": \"public boolean isValid(){\", \"tile_build_matches_self\": tile_build_matches_self, \"dead_state\": dead_state, \"valid\": valid}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

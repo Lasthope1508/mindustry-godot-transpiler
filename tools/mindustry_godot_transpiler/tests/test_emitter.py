@@ -3588,5 +3588,43 @@ class BuildingComp{
             self.assertIn('"method": "public Object config(){"', source_text)
             self.assertIn('"config": null', source_text)
 
+    def test_emit_bridges_building_comp_is_valid_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public boolean isValid(){
+        return tile.build == self() && !dead();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_isValid_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_build_matches_self := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var dead_state := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var valid := tile_build_matches_self and not dead_state", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_is_valid"', source_text)
+            self.assertIn('"replace": "@Replace"', source_text)
+            self.assertIn('"override": "@Override"', source_text)
+            self.assertIn('"method": "public boolean isValid(){"', source_text)
+            self.assertIn('"tile_build_matches_self": tile_build_matches_self', source_text)
+            self.assertIn('"dead_state": dead_state', source_text)
+            self.assertIn('"valid": valid', source_text)
+
 if __name__ == "__main__":
     unittest.main()

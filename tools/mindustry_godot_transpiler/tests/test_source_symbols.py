@@ -25967,6 +25967,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Object config(){", building_generated_config_default["exact_exprs"])
         self.assertIn("return null;", building_generated_config_default["exact_exprs"])
 
+        building_generated_is_valid = source_symbols.source_slice(ledger, "N1068")
+        self.assertEqual(building_generated_is_valid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_is_valid["java_method"], "isValid()")
+        self.assertEqual(building_generated_is_valid["godot_owner"], "PortGame.source_building_is_valid")
+        self.assertEqual(building_generated_is_valid["runtime_proof"], "/root/Main.generated_building_comp_is_valid_bridge_state")
+        self.assertIn("@Replace", building_generated_is_valid["exact_exprs"])
+        self.assertIn("@Override", building_generated_is_valid["exact_exprs"])
+        self.assertIn("public boolean isValid(){", building_generated_is_valid["exact_exprs"])
+        self.assertIn("return tile.build == self() && !dead();", building_generated_is_valid["exact_exprs"])
+        self.assertIn("tile.build == self()", building_generated_is_valid["exact_exprs"])
+        self.assertIn("dead()", building_generated_is_valid["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
