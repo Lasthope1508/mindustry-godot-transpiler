@@ -398,5 +398,38 @@ public class BuildingComp{
             self.assertIn("func java_method_drawCached_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("return java_method_draw_128(_args)", source_text)
 
+    def test_emit_bridges_building_comp_recache_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void recache(){
+        if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_recache_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var headless := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('var building_cache_layer: Variant = _args[1] if _args.size() > 1 else null', source_text)
+            self.assertIn('var tile_state: Variant = _args[2] if _args.size() > 2 else null', source_text)
+            self.assertIn("if headless:", source_text)
+            self.assertIn('"recache_call": ""', source_text)
+            self.assertIn('"recache": false', source_text)
+            self.assertIn('"recache_call": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);"', source_text)
+            self.assertIn('"recache": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

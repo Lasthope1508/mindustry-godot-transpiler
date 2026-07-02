@@ -3674,6 +3674,16 @@ func generated_building_comp_draw_cached_bridge_state(variants: int, has_variant
 		"result": result,
 	}
 
+func generated_building_comp_recache_bridge_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_recache_130([headless, building_cache_layer, tile_state])
+	return {
+		"source_owner": "PortGame.source_building_recache_state",
+		"generated_owner": "BuildingComp.java_method_recache_130",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

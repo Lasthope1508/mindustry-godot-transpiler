@@ -2858,6 +2858,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_cached_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawCached_129"', source)
 
+    def test_generated_building_comp_bridges_recache_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_recache_130(_args: Array = []) -> Variant:", source)
+        self.assertIn("var headless := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn('var building_cache_layer: Variant = _args[1] if _args.size() > 1 else null', source)
+        self.assertIn('var tile_state: Variant = _args[2] if _args.size() > 2 else null', source)
+        self.assertIn("if headless:", source)
+        self.assertIn('"headless_gate": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);"', source)
+        self.assertIn('"recache_call": ""', source)
+        self.assertIn('"recache_call": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);"', source)
+        self.assertIn('"building_cache_layer": building_cache_layer', source)
+        self.assertIn('"tile": tile_state', source)
+
+    def test_port_game_exposes_generated_building_comp_recache_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_recache_bridge_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_recache_130([headless, building_cache_layer, tile_state])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_recache_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_recache_130"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

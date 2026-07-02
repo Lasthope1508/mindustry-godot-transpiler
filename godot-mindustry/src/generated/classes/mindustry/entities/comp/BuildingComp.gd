@@ -604,7 +604,12 @@ func java_method_drawCached_129(_args: Array = []) -> Variant:
 	return java_method_draw_128(_args)
 
 func java_method_recache_130(_args: Array = []) -> Variant:
-	return null
+	var headless := bool(_args[0] if _args.size() > 0 else false)
+	var building_cache_layer: Variant = _args[1] if _args.size() > 1 else null
+	var tile_state: Variant = _args[2] if _args.size() > 2 else null
+	if headless:
+		return {"method": "public void recache(){", "headless_gate": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);", "recache_call": "", "recache": false, "building_cache_layer": building_cache_layer, "tile": tile_state}
+	return {"method": "public void recache(){", "headless_gate": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);", "recache_call": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);", "recache": true, "building_cache_layer": building_cache_layer, "tile": tile_state}
 
 func java_method_payloadDraw_131(_args: Array = []) -> Variant:
 	return null
