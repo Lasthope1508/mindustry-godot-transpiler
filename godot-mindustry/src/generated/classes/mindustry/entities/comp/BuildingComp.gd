@@ -1031,7 +1031,17 @@ func java_method_collide_176(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_collide_state", "method": "public boolean collide(Bullet other){", "other": other, "collide": true}
 
 func java_method_collision_177(_args: Array = []) -> Variant:
-	return null
+	var current_health := float(_args[0] if _args.size() > 0 else 0.0)
+	var bullet_building_damage := float(_args[1] if _args.size() > 1 else 0.0)
+	var block_armor := float(_args[2] if _args.size() > 2 else 0.0)
+	var bullet_pierce_armor := bool(_args[3] if _args.size() > 3 else false)
+	var bullet_armor_multiplier := float(_args[4] if _args.size() > 4 else 0.0)
+	var bullet_block_armor_multiplier := float(_args[5] if _args.size() > 5 else 0.0)
+	var damage := bullet_building_damage
+	var armor := block_armor * bullet_armor_multiplier * bullet_block_armor_multiplier
+	if not bullet_pierce_armor:
+		damage = max(damage - armor, 0.1 * damage)
+	return {"source_owner": "PortGame.source_building_collision_damage_state", "method": "public boolean collision(Bullet other){", "was_dead": current_health <= 0.0, "raw_damage": bullet_building_damage, "armor": armor, "damage": damage, "removed": true}
 
 func java_method_damage_178(_args: Array = []) -> Variant:
 	return null

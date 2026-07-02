@@ -4240,6 +4240,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_collide_176"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_collision_to_source_damage_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_collision_177(_args: Array = []) -> Variant:", source)
+        self.assertIn("var current_health := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var bullet_building_damage := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var block_armor := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var bullet_pierce_armor := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var bullet_armor_multiplier := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var bullet_block_armor_multiplier := float(_args[5] if _args.size() > 5 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_collision_damage_state"', source)
+        self.assertIn('"method": "public boolean collision(Bullet other){"', source)
+        self.assertIn('"raw_damage": bullet_building_damage', source)
+        self.assertIn('"removed": true', source)
+
+    def test_port_game_exposes_generated_building_comp_collision_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_collision_bridge_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_collision_177([current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier])", source)
+        self.assertIn("var canonical = source_building_collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)", source)
+        self.assertIn('canonical["method"] = "public boolean collision(Bullet other){"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_collision_damage_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_collision_177"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

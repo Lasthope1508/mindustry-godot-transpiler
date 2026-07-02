@@ -2191,5 +2191,51 @@ public class BuildingComp{
             self.assertIn('"other": other', source_text)
             self.assertIn('"collide": true', source_text)
 
+    def test_emit_bridges_building_comp_collision_to_source_damage_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean collision(Bullet other){
+        boolean wasDead = health <= 0;
+        BulletType t = other.type;
+        float damage = other.type.buildingDamage(other);
+        if(!t.pierceArmor){
+            damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);
+        }
+        damage(other, other.team, damage);
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_collision_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_health := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var bullet_building_damage := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var block_armor := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var bullet_pierce_armor := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var bullet_armor_multiplier := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var bullet_block_armor_multiplier := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var armor := block_armor * bullet_armor_multiplier * bullet_block_armor_multiplier", source_text)
+            self.assertIn("if not bullet_pierce_armor:", source_text)
+            self.assertIn("damage = max(damage - armor, 0.1 * damage)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_collision_damage_state"', source_text)
+            self.assertIn('"method": "public boolean collision(Bullet other){"', source_text)
+            self.assertIn('"was_dead": current_health <= 0.0', source_text)
+            self.assertIn('"raw_damage": bullet_building_damage', source_text)
+            self.assertIn('"removed": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

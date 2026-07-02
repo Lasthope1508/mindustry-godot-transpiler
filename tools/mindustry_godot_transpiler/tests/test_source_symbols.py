@@ -25619,6 +25619,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return true;", building_generated_collide["exact_exprs"])
         self.assertIn("other", building_generated_collide["exact_exprs"])
 
+        building_generated_collision = source_symbols.source_slice(ledger, "N1039")
+        self.assertEqual(building_generated_collision["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_collision["java_method"], "collision(Bullet other)")
+        self.assertEqual(building_generated_collision["godot_owner"], "PortGame.source_building_collision_damage_state")
+        self.assertEqual(building_generated_collision["runtime_proof"], "/root/Main.generated_building_comp_collision_bridge_state")
+        self.assertIn("public boolean collision(Bullet other){", building_generated_collision["exact_exprs"])
+        self.assertIn("boolean wasDead = health <= 0;", building_generated_collision["exact_exprs"])
+        self.assertIn("float damage = other.type.buildingDamage(other);", building_generated_collision["exact_exprs"])
+        self.assertIn("damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);", building_generated_collision["exact_exprs"])
+        self.assertIn("return true;", building_generated_collision["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

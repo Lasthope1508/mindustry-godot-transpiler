@@ -21039,6 +21039,52 @@
         "test_port_game_exposes_generated_building_comp_collide_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1039": {
+      "deferred_exprs": [
+        "if(health <= 0 && !wasDead){",
+        "Events.fire(new BuildingBulletDestroyEvent(self(), other));",
+        "Destroy-event proof remains deferred until post-damage health input and event bus integration are modeled."
+      ],
+      "exact_exprs": [
+        "public boolean collision(Bullet other){",
+        "boolean wasDead = health <= 0;",
+        "BulletType t = other.type;",
+        "float damage = other.type.buildingDamage(other);",
+        "if(!t.pierceArmor){",
+        "damage = Damage.applyArmor(damage, block.armor * t.armorMultiplier * t.blockArmorMultiplier);",
+        "damage(other, other.team, damage);",
+        "return true;"
+      ],
+      "godot_owner": "PortGame.source_building_collision_damage_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "collision(Bullet other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_collision_177 and PortGame generated bridge to existing N543 canonical source_building_collision_damage_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_collision_bridge_state",
+      "source_symbols": [
+        "building_collision_damage.method",
+        "building_collision_damage.was_dead",
+        "building_collision_damage.raw_damage",
+        "building_collision_damage.pierce_gate",
+        "building_collision_damage.armor",
+        "building_collision_damage.apply_armor",
+        "building_collision_damage.damage_call",
+        "building_collision_damage.return_true",
+        "building_collision_damage.current_health",
+        "building_collision_damage.bullet_building_damage",
+        "building_collision_damage.block_armor",
+        "building_collision_damage.bullet_pierce_armor",
+        "building_collision_damage.bullet_armor_multiplier",
+        "building_collision_damage.bullet_block_armor_multiplier"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_collision_to_source_damage_state",
+        "test_generated_building_comp_bridges_collision_to_source_damage_state",
+        "test_port_game_exposes_generated_building_comp_collision_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
