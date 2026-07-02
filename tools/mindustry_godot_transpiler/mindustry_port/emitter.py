@@ -96,6 +96,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar crack_rotation_degrees := (position_id % 4) * 90",
             "\treturn {\"visible\": true, \"region_size_index\": block_size_value - 1, \"crack_index\": crack_index, \"lightness\": lightness, \"rotation_degrees\": crack_rotation_degrees}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawSelect"
+    ):
+        return [
+            "\tvar block_status := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar source_x := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_y := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_rotation := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar tile_x := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar tile_y := int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar unit_activation_delay := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar state_tick := float(_args[7] if _args.size() > 7 else 0.0)",
+            "\tvar inactive_unit_factory := block_status == \"inactiveUnitFactory\"",
+            "\tvar remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)",
+            "\treturn {\"overlay_visible\": true, \"overlay_x\": source_x, \"overlay_y\": source_y, \"overlay_rotation\": source_rotation, \"place_text_visible\": inactive_unit_factory, \"place_text_bundle_key\": \"rules.unitfactoryactivation.objective\", \"place_text_time\": remaining_activation_delay, \"place_text_tile_x\": tile_x, \"place_text_tile_y\": tile_y}",
+        ]
     return ["\treturn null"]
 
 def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:

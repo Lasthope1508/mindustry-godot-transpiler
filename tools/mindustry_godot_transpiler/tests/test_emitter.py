@@ -219,5 +219,40 @@ public class BuildingComp{
             self.assertIn("var crack_rotation_degrees := (position_id % 4) * 90", source_text)
             self.assertIn('"region_size_index": block_size_value - 1', source_text)
 
+    def test_emit_bridges_building_comp_draw_select_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawSelect(){
+        block.drawOverlay(x, y, rotation);
+        if(status() == BlockStatus.inactiveUnitFactory){
+            block.drawPlaceText(Core.bundle.format("rules.unitfactoryactivation.objective", UI.formatTime((float)Math.max(0f, state.rules.unitActivationDelay(team) - state.tick))), tile.x, tile.y, false);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawSelect_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var block_status := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var source_x := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var source_rotation := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn('var inactive_unit_factory := block_status == "inactiveUnitFactory"', source_text)
+            self.assertIn("var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)", source_text)
+            self.assertIn('"overlay_visible": true', source_text)
+            self.assertIn('"place_text_bundle_key": "rules.unitfactoryactivation.objective"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

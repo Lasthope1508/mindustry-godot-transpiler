@@ -416,7 +416,17 @@ func java_method_drawCracks_124(_args: Array = []) -> Variant:
 	return {"visible": true, "region_size_index": block_size_value - 1, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees}
 
 func java_method_drawSelect_125(_args: Array = []) -> Variant:
-	return null
+	var block_status := str(_args[0] if _args.size() > 0 else "")
+	var source_x := float(_args[1] if _args.size() > 1 else 0.0)
+	var source_y := float(_args[2] if _args.size() > 2 else 0.0)
+	var source_rotation := float(_args[3] if _args.size() > 3 else 0.0)
+	var tile_x := int(_args[4] if _args.size() > 4 else 0)
+	var tile_y := int(_args[5] if _args.size() > 5 else 0)
+	var unit_activation_delay := float(_args[6] if _args.size() > 6 else 0.0)
+	var state_tick := float(_args[7] if _args.size() > 7 else 0.0)
+	var inactive_unit_factory := block_status == "inactiveUnitFactory"
+	var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)
+	return {"overlay_visible": true, "overlay_x": source_x, "overlay_y": source_y, "overlay_rotation": source_rotation, "place_text_visible": inactive_unit_factory, "place_text_bundle_key": "rules.unitfactoryactivation.objective", "place_text_time": remaining_activation_delay, "place_text_tile_x": tile_x, "place_text_tile_y": tile_y}
 
 func java_method_drawItemSelection_126(_args: Array = []) -> Variant:
 	return null

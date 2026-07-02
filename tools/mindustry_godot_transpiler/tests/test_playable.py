@@ -2733,6 +2733,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('var result = instance.java_method_drawCracks_124([draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id])', source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_cracks_state"', source)
 
+    def test_generated_building_comp_bridges_draw_select_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawSelect_125(_args: Array = []) -> Variant:", source)
+        self.assertIn('var block_status := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var source_x := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var source_rotation := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var tile_x := int(_args[4] if _args.size() > 4 else 0)", source)
+        self.assertIn("var tile_y := int(_args[5] if _args.size() > 5 else 0)", source)
+        self.assertIn('var inactive_unit_factory := block_status == "inactiveUnitFactory"', source)
+        self.assertIn("var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)", source)
+        self.assertIn('"overlay_rotation": source_rotation', source)
+        self.assertIn('"place_text_time": remaining_activation_delay', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_select_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_select_bridge_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawSelect_125([block_status, source_x, source_y, source_rotation, tile_x, tile_y, unit_activation_delay, state_tick])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_select_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawSelect_125"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
