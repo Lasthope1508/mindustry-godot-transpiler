@@ -5404,6 +5404,15 @@ func source_building_get_liquid_destination_default_state(from_state: Variant, l
 		"returns_self": true,
 	}
 
+func source_building_get_payload_default_state() -> Dictionary:
+	return {
+		"method": "public @Nullable Payload getPayload(){",
+		"nullable": "@Nullable",
+		"return_null": "return null;",
+		"payload": null,
+		"has_payload": false,
+	}
+
 func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, next_tile_present: bool, next_build_present: bool, next_block_solid: bool, next_block_has_liquids: bool, current_liquid_amount: float, move_liquid_return: float) -> Dictionary:
 	var move_liquid_called := false
 	var leak_guard_passed := false

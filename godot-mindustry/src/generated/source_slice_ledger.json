@@ -19856,6 +19856,32 @@
         "test_port_game_exposes_source_building_get_liquid_destination_default_state",
         "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N951": {
+      "exact_exprs": [
+        "public @Nullable Payload getPayload(){",
+        "return null;"
+      ],
+      "godot_owner": "PortGame.source_building_get_payload_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getPayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records default BuildingComp.getPayload behavior returning null. Payload container accessors and takePayload remain separate slices.",
+      "rule": "Adds source-backed default BuildingComp.getPayload helper returning null.",
+      "runtime_proof": "/root/Main.source_building_get_payload_default_state",
+      "source_symbols": [
+        "building_get_payload_default.method",
+        "building_get_payload_default.nullable",
+        "building_get_payload_default.return_null",
+        "building_get_payload_default.payload",
+        "building_get_payload_default.has_payload"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_get_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_payload_default_state",
+        "test_building_get_payload_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -23121,6 +23121,53 @@
       "source_slice": "N950",
       "status": "active"
     },
+    "source_building_get_payload_default_result": {
+      "keys": {
+        "has_payload": {
+          "java_expr": "return null;",
+          "java_method": "getPayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N951 BuildingComp.getPayload default canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "java_expr": "public @Nullable Payload getPayload(){",
+          "java_method": "getPayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N951 BuildingComp.getPayload default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "nullable": {
+          "java_expr": "@Nullable",
+          "java_method": "getPayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N951 BuildingComp.getPayload default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload": {
+          "java_expr": "return null;",
+          "java_method": "getPayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N951 BuildingComp.getPayload default canonical key.",
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "return_null": {
+          "java_expr": "return null;",
+          "java_method": "getPayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N951 BuildingComp.getPayload default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_get_payload_default_state",
+      "source_slice": "N951",
+      "status": "active"
+    },
     "source_building_handle_damage_input": {
       "keys": {
         "amount": {
