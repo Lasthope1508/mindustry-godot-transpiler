@@ -765,6 +765,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar power_present := bool(_args[4] if _args.size() > 4 else false)",
             "\tvar update_power := bool(_args[5] if _args.size() > 5 else false)",
             "\tvar old_graph: Variant = _args[6] if _args.size() > 6 else null",
+            "\tvar link_count := int(_args[7] if _args.size() > 7 else 0)",
             "\tif current_team == next_team:",
             "\t\treturn {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": current_team, \"last_team\": current_team, \"returned\": true, \"remove_index\": false, \"assign_next\": false}",
             "\tvar team_after_force = force_team if force_team != null else current_team",
@@ -774,6 +775,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar result = {\"source_owner\": \"PortGame.source_building_change_team_initial_state\", \"comment\": \"/** Changes this building's team in a safe manner. */\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"team\": next_team, \"last_team\": last_team, \"returned\": false, \"remove_index\": was_valid, \"assign_next\": true}",
             "\tvar power_proximity = {\"source_owner\": \"PortGame.source_building_change_team_power_proximity_state\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"gate\": \"if(power != null && updatePower){\", \"old_graph\": old_graph, \"team\": next_team, \"proximity_reflow\": power_present and update_power}",
             "\tresult[\"power_proximity\"] = power_proximity",
+            "\tvar power_links = {\"source_owner\": \"PortGame.source_building_change_team_power_links_state\", \"method\": \"public void changeTeam(Team next, boolean updatePower){\", \"loop\": \"for(int i = 0; i < power.links.size; i++){\", \"old_graph\": old_graph, \"team\": next_team, \"link_count\": link_count if power_present and update_power else 0, \"remove_index\": power_present and update_power and link_count > 0, \"reflow_self\": power_present and update_power and link_count > 0, \"update_power_graph\": power_present and update_power and link_count > 0}",
+            "\tresult[\"power_links\"] = power_links",
             "\treturn result",
         ]
     if (

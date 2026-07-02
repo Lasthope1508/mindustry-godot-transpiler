@@ -4408,6 +4408,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_change_team_power_links_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_changeTeam_181(_args: Array = []) -> Variant:", source)
+        self.assertIn("var link_count := int(_args[7] if _args.size() > 7 else 0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_links_state"', source)
+        self.assertIn('"loop": "for(int i = 0; i < power.links.size; i++){"', source)
+        self.assertIn('"old_graph": old_graph', source)
+        self.assertIn('"team": next_team', source)
+        self.assertIn('"link_count": link_count if power_present and update_power else 0', source)
+        self.assertIn('"remove_index": power_present and update_power and link_count > 0', source)
+        self.assertIn('"reflow_self": power_present and update_power and link_count > 0', source)
+        self.assertIn('"update_power_graph": power_present and update_power and link_count > 0', source)
+        self.assertIn('result["power_links"] = power_links', source)
+
+    def test_port_game_exposes_generated_building_comp_change_team_power_links_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count])", source)
+        self.assertIn("var canonical = source_building_change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)", source)
+        self.assertIn('canonical["loop"] = "for(int i = 0; i < power.links.size; i++){"', source)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_links_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

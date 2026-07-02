@@ -2429,5 +2429,57 @@ public class BuildingComp{
             self.assertIn('"proximity_reflow": power_present and update_power', source_text)
             self.assertIn('result["power_proximity"] = power_proximity', source_text)
 
+    def test_emit_bridges_building_comp_change_team_power_links_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void changeTeam(Team next, boolean updatePower){
+        if(this.team == next) return;
+        Team last = this.team;
+        boolean was = isValid();
+        this.team = next;
+        if(power != null && updatePower){
+            var oldGraph = power.graph;
+            for(int i = 0; i < power.links.size; i++){
+                var other = world.build(power.links.items[i]);
+                if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){
+                    power.links.removeIndex(i);
+                    other.power.links.removeValue(pos());
+                    new PowerGraph().reflow(other);
+                    i --;
+                }
+            }
+            new PowerGraph().reflow(self());
+            updatePowerGraph();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_changeTeam_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var link_count := int(_args[7] if _args.size() > 7 else 0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_change_team_power_links_state"', source_text)
+            self.assertIn('"loop": "for(int i = 0; i < power.links.size; i++){"', source_text)
+            self.assertIn('"old_graph": old_graph', source_text)
+            self.assertIn('"team": next_team', source_text)
+            self.assertIn('"link_count": link_count if power_present and update_power else 0', source_text)
+            self.assertIn('"remove_index": power_present and update_power and link_count > 0', source_text)
+            self.assertIn('"reflow_self": power_present and update_power and link_count > 0', source_text)
+            self.assertIn('"update_power_graph": power_present and update_power and link_count > 0', source_text)
+            self.assertIn('result["power_links"] = power_links', source_text)
+
 if __name__ == "__main__":
     unittest.main()

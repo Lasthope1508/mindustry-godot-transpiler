@@ -21262,6 +21262,53 @@
         "test_port_game_exposes_generated_building_comp_change_team_power_proximity_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1045": {
+      "deferred_exprs": [
+        "if(was){",
+        "indexer.addIndex(tile);",
+        "Events.fire(teamChangeEvent.set(last, self()));",
+        "checkAllowUpdate();",
+        "Final event/index update and checkAllowUpdate() stay owned by adjacent helpers."
+      ],
+      "exact_exprs": [
+        "for(int i = 0; i < power.links.size; i++){",
+        "var other = world.build(power.links.items[i]);",
+        "//only reflow links that were connected to the old power graph; ones that have a new one were already covered.",
+        "if(other != null && other.team != team && other.power != null && other.power.graph == oldGraph){",
+        "power.links.removeIndex(i);",
+        "other.power.links.removeValue(pos());",
+        "new PowerGraph().reflow(other);",
+        "i --;",
+        "new PowerGraph().reflow(self());",
+        "updatePowerGraph();"
+      ],
+      "godot_owner": "PortGame.source_building_change_team_power_links_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "changeTeam(Team next, boolean updatePower)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_changeTeam_181 and PortGame generated bridge to existing N537 canonical source_building_change_team_power_links_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_change_team_power_links_bridge_state",
+      "source_symbols": [
+        "building_change_team_power_links.loop",
+        "building_change_team_power_links.build_other",
+        "building_change_team_power_links.remove_index",
+        "building_change_team_power_links.remove_value",
+        "building_change_team_power_links.reflow_other",
+        "building_change_team_power_links.decrement",
+        "building_change_team_power_links.reflow_self",
+        "building_change_team_power_links.update_power_graph",
+        "building_change_team_power_links.link_count",
+        "building_change_team_power_links.team",
+        "building_change_team_power_links.old_graph"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_change_team_power_links_to_source_state",
+        "test_generated_building_comp_bridges_change_team_power_links_to_source_state",
+        "test_port_game_exposes_generated_building_comp_change_team_power_links_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
