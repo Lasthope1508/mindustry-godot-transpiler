@@ -3826,6 +3826,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"reactive_sound_canonical": reactive_sound_canonical', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_play_destroy_sound_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_playDestroySound_156(_args: Array = []) -> Variant:", source)
+        self.assertIn('var destroy_sound := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var destroy_pitch_min := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var destroy_pitch_max := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var destroy_sound_volume := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_base_sound_state"', source)
+        self.assertIn('"method": "public void playDestroySound(){"', source)
+        self.assertIn('"play_destroy_sound_call": "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source)
+        self.assertIn('"destroy_sound": destroy_sound', source)
+        self.assertIn('"sound": destroy_sound', source)
+        self.assertIn('"pitch_min": destroy_pitch_min', source)
+        self.assertIn('"pitch_max": destroy_pitch_max', source)
+        self.assertIn('"volume": destroy_sound_volume', source)
+
+    def test_port_game_exposes_generated_building_comp_play_destroy_sound_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_play_destroy_sound_bridge_state(destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_playDestroySound_156([destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])", source)
+        self.assertIn("var canonical = source_building_on_destroyed_base_sound_state(false, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_base_sound_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_playDestroySound_156"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

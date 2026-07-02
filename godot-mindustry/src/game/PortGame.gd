@@ -4112,6 +4112,18 @@ func generated_building_comp_on_destroyed_power_sound_bridge_state(base_explosiv
 		"canonical": canonical,
 	}
 
+func generated_building_comp_play_destroy_sound_bridge_state(destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_playDestroySound_156([destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
+	var canonical = source_building_on_destroyed_base_sound_state(false, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
+	return {
+		"source_owner": "PortGame.source_building_on_destroyed_base_sound_state",
+		"generated_owner": "BuildingComp.java_method_playDestroySound_156",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

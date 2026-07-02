@@ -498,6 +498,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "playDestroySound"
+    ):
+        return [
+            "\tvar destroy_sound := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar destroy_pitch_min := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar destroy_pitch_max := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar destroy_sound_volume := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_on_destroyed_base_sound_state\", \"method\": \"public void playDestroySound(){\", \"play_destroy_sound_call\": \"block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);\", \"destroy_sound\": destroy_sound, \"destroy_pitch_min\": destroy_pitch_min, \"destroy_pitch_max\": destroy_pitch_max, \"destroy_sound_volume\": destroy_sound_volume, \"sound\": destroy_sound, \"pitch_min\": destroy_pitch_min, \"pitch_max\": destroy_pitch_max, \"volume\": destroy_sound_volume}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

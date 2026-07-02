@@ -1570,5 +1570,42 @@ public class BuildingComp{
             self.assertIn('"flammability": flammability', source_text)
             self.assertIn('"power": power', source_text)
 
+    def test_emit_bridges_building_comp_play_destroy_sound_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void playDestroySound(){
+        block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_playDestroySound_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var destroy_sound := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var destroy_pitch_min := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var destroy_pitch_max := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var destroy_sound_volume := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_base_sound_state"', source_text)
+            self.assertIn('"method": "public void playDestroySound(){"', source_text)
+            self.assertIn('"play_destroy_sound_call": "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
+            self.assertIn('"destroy_sound": destroy_sound', source_text)
+            self.assertIn('"sound": destroy_sound', source_text)
+            self.assertIn('"pitch_min": destroy_pitch_min', source_text)
+            self.assertIn('"pitch_max": destroy_pitch_max', source_text)
+            self.assertIn('"volume": destroy_sound_volume', source_text)
+
 if __name__ == "__main__":
     unittest.main()
