@@ -472,6 +472,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar current_state: Variant = _args[0] if _args.size() > 0 else null",
             "\treturn {\"source_owner\": \"PortGame.source_building_tapped_state\", \"comment\": \"Called when the block is tapped by the local player.\", \"method\": \"public void tapped(){\", \"empty_body\": \"public void tapped(){\\n\\n    }\", \"current_state\": current_state, \"no_op\": true}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "afterDestroyed"
+    ):
+        return [
+            "\tvar has_destroy_bullet := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar destroy_bullet_same_team := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar team_id := str(_args[2] if _args.size() > 2 else \"\")",
+            "\tvar source_x := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar source_y := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar building_id := int(_args[5] if _args.size() > 5 else 0)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_after_destroyed_state\", \"comment\": \"Called *after* the tile has been removed.\", \"method\": \"public void afterDestroyed(){\", \"guard\": \"if(block.destroyBullet != null){\", \"create_call\": \"block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));\", \"team_choice\": \"block.destroyBulletSameTeam ? team : Team.derelict\", \"rotation_expr\": \"Mathf.randomSeed(id(), 360f)\", \"has_destroy_bullet\": has_destroy_bullet, \"destroy_bullet_same_team\": destroy_bullet_same_team, \"team_id\": team_id, \"source_x\": source_x, \"source_y\": source_y, \"building_id\": building_id}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

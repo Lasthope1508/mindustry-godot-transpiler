@@ -3375,6 +3375,43 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_tapped_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_tapped_150"', source)
 
+    def test_generated_building_comp_bridges_after_destroyed_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_afterDestroyed_151(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_destroy_bullet := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var destroy_bullet_same_team := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn('var team_id := str(_args[2] if _args.size() > 2 else "")', source)
+        self.assertIn("var source_x := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var building_id := int(_args[5] if _args.size() > 5 else 0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_after_destroyed_state"', source)
+        self.assertIn('"comment": "Called *after* the tile has been removed."', source)
+        self.assertIn('"method": "public void afterDestroyed(){"', source)
+        self.assertIn('"guard": "if(block.destroyBullet != null){"', source)
+        self.assertIn('"create_call": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));"', source)
+        self.assertIn('"team_choice": "block.destroyBulletSameTeam ? team : Team.derelict"', source)
+        self.assertIn('"rotation_expr": "Mathf.randomSeed(id(), 360f)"', source)
+        self.assertIn('"has_destroy_bullet": has_destroy_bullet', source)
+        self.assertIn('"destroy_bullet_same_team": destroy_bullet_same_team', source)
+        self.assertIn('"team_id": team_id', source)
+        self.assertIn('"source_x": source_x', source)
+        self.assertIn('"source_y": source_y', source)
+        self.assertIn('"building_id": building_id', source)
+
+    def test_port_game_exposes_generated_building_comp_after_destroyed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_after_destroyed_bridge_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_afterDestroyed_151([has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id])", source)
+        self.assertIn("var canonical = source_building_after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_after_destroyed_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_afterDestroyed_151"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

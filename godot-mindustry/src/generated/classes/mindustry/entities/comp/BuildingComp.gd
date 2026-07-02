@@ -795,7 +795,13 @@ func java_method_tapped_150(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_tapped_state", "comment": "Called when the block is tapped by the local player.", "method": "public void tapped(){", "empty_body": "public void tapped(){\n\n    }", "current_state": current_state, "no_op": true}
 
 func java_method_afterDestroyed_151(_args: Array = []) -> Variant:
-	return null
+	var has_destroy_bullet := bool(_args[0] if _args.size() > 0 else false)
+	var destroy_bullet_same_team := bool(_args[1] if _args.size() > 1 else false)
+	var team_id := str(_args[2] if _args.size() > 2 else "")
+	var source_x := float(_args[3] if _args.size() > 3 else 0.0)
+	var source_y := float(_args[4] if _args.size() > 4 else 0.0)
+	var building_id := int(_args[5] if _args.size() > 5 else 0)
+	return {"source_owner": "PortGame.source_building_after_destroyed_state", "comment": "Called *after* the tile has been removed.", "method": "public void afterDestroyed(){", "guard": "if(block.destroyBullet != null){", "create_call": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));", "team_choice": "block.destroyBulletSameTeam ? team : Team.derelict", "rotation_expr": "Mathf.randomSeed(id(), 360f)", "has_destroy_bullet": has_destroy_bullet, "destroy_bullet_same_team": destroy_bullet_same_team, "team_id": team_id, "source_x": source_x, "source_y": source_y, "building_id": building_id}
 
 func java_method_explosionItemCap_152(_args: Array = []) -> Variant:
 	return null

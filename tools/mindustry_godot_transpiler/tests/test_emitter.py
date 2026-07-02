@@ -1153,5 +1153,52 @@ public class BuildingComp{
             self.assertIn('"current_state": current_state', source_text)
             self.assertIn('"no_op": true', source_text)
 
+    def test_emit_bridges_building_comp_after_destroyed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Called *after* the tile has been removed. */
+    public void afterDestroyed(){
+        if(block.destroyBullet != null){
+            block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_afterDestroyed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_destroy_bullet := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var destroy_bullet_same_team := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('var team_id := str(_args[2] if _args.size() > 2 else "")', source_text)
+            self.assertIn("var source_x := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var building_id := int(_args[5] if _args.size() > 5 else 0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_after_destroyed_state"', source_text)
+            self.assertIn('"comment": "Called *after* the tile has been removed."', source_text)
+            self.assertIn('"method": "public void afterDestroyed(){"', source_text)
+            self.assertIn('"guard": "if(block.destroyBullet != null){"', source_text)
+            self.assertIn('"create_call": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));"', source_text)
+            self.assertIn('"team_choice": "block.destroyBulletSameTeam ? team : Team.derelict"', source_text)
+            self.assertIn('"rotation_expr": "Mathf.randomSeed(id(), 360f)"', source_text)
+            self.assertIn('"has_destroy_bullet": has_destroy_bullet', source_text)
+            self.assertIn('"destroy_bullet_same_team": destroy_bullet_same_team', source_text)
+            self.assertIn('"team_id": team_id', source_text)
+            self.assertIn('"source_x": source_x', source_text)
+            self.assertIn('"source_y": source_y', source_text)
+            self.assertIn('"building_id": building_id', source_text)
+
 if __name__ == "__main__":
     unittest.main()

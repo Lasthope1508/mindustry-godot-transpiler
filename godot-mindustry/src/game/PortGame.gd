@@ -3884,6 +3884,18 @@ func generated_building_comp_tapped_bridge_state(current_state: Variant) -> Dict
 		"result": result,
 	}
 
+func generated_building_comp_after_destroyed_bridge_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_afterDestroyed_151([has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id])
+	var canonical = source_building_after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id)
+	return {
+		"source_owner": "PortGame.source_building_after_destroyed_state",
+		"generated_owner": "BuildingComp.java_method_afterDestroyed_151",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",
