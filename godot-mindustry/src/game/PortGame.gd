@@ -5402,6 +5402,16 @@ func source_building_can_dump_item_default_state(to_state: Variant, item: Varian
 		"can_dump_item": true,
 	}
 
+func source_building_on_proximity_removed_state(power_present: bool) -> Dictionary:
+	return {
+		"comment": "/** Called shortly before this building is removed. */",
+		"method": "public void onProximityRemoved(){",
+		"power_guard": "if(power != null){",
+		"power_graph_removed_call": "powerGraphRemoved();",
+		"power_present": power_present,
+		"power_graph_removed_called": power_present,
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",

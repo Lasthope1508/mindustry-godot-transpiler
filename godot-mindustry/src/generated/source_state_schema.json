@@ -15654,6 +15654,74 @@
       "source_slice": "N965",
       "status": "active"
     },
+    "source_building_on_proximity_removed_input": {
+      "keys": {
+        "power_present": {
+          "java_expr": "power != null",
+          "java_method": "onProximityRemoved()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N966 BuildingComp.onProximityRemoved canonical key.",
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_on_proximity_removed_state",
+      "source_slice": "N966",
+      "status": "active"
+    },
+    "source_building_on_proximity_removed_result": {
+      "keys": {
+        "comment": {
+          "java_expr": "/** Called shortly before this building is removed. */",
+          "java_method": "onProximityRemoved()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N966 BuildingComp.onProximityRemoved canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "java_expr": "public void onProximityRemoved(){",
+          "java_method": "onProximityRemoved()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N966 BuildingComp.onProximityRemoved canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_graph_removed_call": {
+          "java_expr": "powerGraphRemoved();",
+          "java_method": "onProximityRemoved()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N966 BuildingComp.onProximityRemoved canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_graph_removed_called": {
+          "java_expr": "power != null",
+          "java_method": "onProximityRemoved()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N966 BuildingComp.onProximityRemoved canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "power_guard": {
+          "java_expr": "if(power != null){",
+          "java_method": "onProximityRemoved()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N966 BuildingComp.onProximityRemoved canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_present": {
+          "alias_of": "source_building_on_proximity_removed_input.power_present",
+          "rule": "Echoes canonical input key in N966 result.",
+          "status": "generated",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_on_proximity_removed_state",
+      "source_slice": "N966",
+      "status": "active"
+    },
     "source_building_can_pickup_input": {
       "keys": {
         "blockCanPickup": {

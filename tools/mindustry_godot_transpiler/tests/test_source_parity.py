@@ -1541,6 +1541,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_on_proximity_removed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_on_proximity_removed_source"))
+        report = source_parity.verify_building_on_proximity_removed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** Called shortly before this building is removed. */",
+            "method": "public void onProximityRemoved(){",
+            "power_guard": "if(power != null){",
+            "power_graph_removed_call": "powerGraphRemoved();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_move_liquid_forward_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_forward_source"))
         report = source_parity.verify_building_move_liquid_forward_source(ROOT / "mindustry-upstream")
