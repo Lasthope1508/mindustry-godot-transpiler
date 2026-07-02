@@ -826,6 +826,25 @@ def verify_building_get_power_connections_automatic_add_source(upstream_root: Pa
         "missing": missing,
     }
 
+def verify_building_get_power_connections_manual_links_loop_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "manual_links_loop": "for(int i = 0; i < power.links.size; i++){",
+        "manual_link_tile_lookup": "Tile link = world.tile(power.links.get(i));",
+        "manual_link_add_guard": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+        "return_out": "return out;",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str, Any]:
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")

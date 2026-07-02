@@ -20613,6 +20613,43 @@
         "test_port_game_exposes_source_building_get_power_connections_automatic_add_state",
         "test_building_get_power_connections_automatic_add_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N976": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "for(int i = 0; i < power.links.size; i++){",
+        "Tile link = world.tile(power.links.get(i));",
+        "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+        "return out;"
+      ],
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed getPowerConnections manual power.links loop behavior.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "source_symbols": [
+        "building_get_power_connections_manual_links_loop.link_present_by_index",
+        "building_get_power_connections_manual_links_loop.link_build_present_by_index",
+        "building_get_power_connections_manual_links_loop.link_build_power_present_by_index",
+        "building_get_power_connections_manual_links_loop.link_build_same_team_by_index",
+        "building_get_power_connections_manual_links_loop.previous_out_count",
+        "building_get_power_connections_manual_links_loop.manual_links_loop",
+        "building_get_power_connections_manual_links_loop.manual_link_tile_lookup",
+        "building_get_power_connections_manual_links_loop.manual_link_add_guard",
+        "building_get_power_connections_manual_links_loop.manual_link_out_add",
+        "building_get_power_connections_manual_links_loop.return_out",
+        "building_get_power_connections_manual_links_loop.manual_link_count",
+        "building_get_power_connections_manual_links_loop.manual_link_added_indices",
+        "building_get_power_connections_manual_links_loop.manual_link_added_count",
+        "building_get_power_connections_manual_links_loop.out_count_after_manual_links"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

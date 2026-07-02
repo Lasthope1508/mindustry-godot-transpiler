@@ -17938,6 +17938,26 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(added_count["java_expr"], "out.add(other);")
         self.assertEqual(added_count["godot_symbol"], "source_building_get_power_connections_automatic_add_result.added_count")
 
+    def test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        loop = source_symbols.source_symbol(registry, "building_get_power_connections_manual_links_loop.manual_links_loop")
+        self.assertEqual(loop["java_expr"], "for(int i = 0; i < power.links.size; i++){")
+        self.assertEqual(loop["java_method"], "getPowerConnections(Seq<Building> out)")
+        self.assertEqual(loop["godot_owner"], "PortGame.source_building_get_power_connections_manual_links_loop_state")
+        self.assertEqual(loop["runtime_proof"], "/root/Main.source_building_get_power_connections_manual_links_loop_state")
+
+        link_present = source_symbols.source_symbol(registry, "building_get_power_connections_manual_links_loop.link_present_by_index")
+        self.assertEqual(link_present["java_expr"], "link != null")
+        self.assertEqual(link_present["status"], "explicit-input")
+
+        added_count = source_symbols.source_symbol(registry, "building_get_power_connections_manual_links_loop.manual_link_added_count")
+        self.assertEqual(added_count["java_expr"], "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);")
+        self.assertEqual(added_count["godot_symbol"], "source_building_get_power_connections_manual_links_loop_result.manual_link_added_count")
+
     def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19400,9 +19420,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 572)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 573)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 577)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 578)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -24294,6 +24314,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_get_power_connections_automatic_add["java_method"], "getPowerConnections(Seq<Building> out)")
         self.assertEqual(building_get_power_connections_automatic_add["godot_owner"], "PortGame.source_building_get_power_connections_automatic_add_state")
         self.assertIn("out.add(other);", building_get_power_connections_automatic_add["exact_exprs"])
+
+        building_get_power_connections_manual_links_loop = source_symbols.source_slice(ledger, "N976")
+        self.assertEqual(building_get_power_connections_manual_links_loop["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_get_power_connections_manual_links_loop["java_method"], "getPowerConnections(Seq<Building> out)")
+        self.assertEqual(building_get_power_connections_manual_links_loop["godot_owner"], "PortGame.source_building_get_power_connections_manual_links_loop_state")
+        self.assertIn("for(int i = 0; i < power.links.size; i++){", building_get_power_connections_manual_links_loop["exact_exprs"])
+        self.assertIn("Tile link = world.tile(power.links.get(i));", building_get_power_connections_manual_links_loop["exact_exprs"])
+        self.assertIn("return out;", building_get_power_connections_manual_links_loop["exact_exprs"])
 
         building_move_liquid_forward = source_symbols.source_slice(ledger, "N944")
         self.assertEqual(building_move_liquid_forward["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -29768,6 +29796,11 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_get_power_connections_automatic_add["params"]], ["conducts_link_guard_pass_indices", "previous_out_count"])
         self.assertIn("out_count_after_adds", building_get_power_connections_automatic_add["return_keys"])
         self.assertEqual(building_get_power_connections_automatic_add["source_method"], "getPowerConnections(Seq<Building> out)")
+
+        building_get_power_connections_manual_links_loop = source_symbols.api_contract(contracts, "PortGame.source_building_get_power_connections_manual_links_loop_state")
+        self.assertEqual([param["name"] for param in building_get_power_connections_manual_links_loop["params"]], ["link_present_by_index", "link_build_present_by_index", "link_build_power_present_by_index", "link_build_same_team_by_index", "previous_out_count"])
+        self.assertIn("out_count_after_manual_links", building_get_power_connections_manual_links_loop["return_keys"])
+        self.assertEqual(building_get_power_connections_manual_links_loop["source_method"], "getPowerConnections(Seq<Building> out)")
 
         building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
         self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
@@ -38032,6 +38065,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_get_power_connections_automatic_add_result["keys"]["out_add_other"]["java_expr"], "out.add(other);")
         self.assertEqual(source_building_get_power_connections_automatic_add_result["keys"]["out_count_after_adds"]["java_expr"], "out.add(other);")
         self.assertEqual(source_building_get_power_connections_automatic_add_result["keys"]["deferred_manual_links_loop"]["java_expr"], "for(int i = 0; i < power.links.size; i++){")
+
+        source_building_get_power_connections_manual_links_loop_input = source_symbols.state_schema(schema, "source_building_get_power_connections_manual_links_loop_input")
+        self.assertEqual(source_building_get_power_connections_manual_links_loop_input["keys"]["link_present_by_index"]["java_expr"], "link != null")
+        self.assertEqual(source_building_get_power_connections_manual_links_loop_input["keys"]["link_build_power_present_by_index"]["java_expr"], "link.build.power != null")
+        self.assertEqual(source_building_get_power_connections_manual_links_loop_input["keys"]["previous_out_count"]["java_expr"], "out")
+
+        source_building_get_power_connections_manual_links_loop_result = source_symbols.state_schema(schema, "source_building_get_power_connections_manual_links_loop_result")
+        self.assertEqual(source_building_get_power_connections_manual_links_loop_result["keys"]["manual_links_loop"]["java_expr"], "for(int i = 0; i < power.links.size; i++){")
+        self.assertEqual(source_building_get_power_connections_manual_links_loop_result["keys"]["manual_link_tile_lookup"]["java_expr"], "Tile link = world.tile(power.links.get(i));")
+        self.assertEqual(source_building_get_power_connections_manual_links_loop_result["keys"]["return_out"]["java_expr"], "return out;")
+        self.assertEqual(source_building_get_power_connections_manual_links_loop_result["keys"]["out_count_after_manual_links"]["java_expr"], "out.add(link.build)")
 
         source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
         self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")

@@ -2228,6 +2228,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"out_count_after_adds": previous_out_count + conducts_link_guard_pass_indices.size()', source)
         self.assertIn('"deferred_manual_links_loop": true', source)
 
+    def test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_get_power_connections_manual_links_loop_state(link_present_by_index: Array, link_build_present_by_index: Array, link_build_power_present_by_index: Array, link_build_same_team_by_index: Array, previous_out_count: int) -> Dictionary:", source)
+        self.assertIn('"manual_links_loop": "for(int i = 0; i < power.links.size; i++){"', source)
+        self.assertIn('"manual_link_tile_lookup": "Tile link = world.tile(power.links.get(i));"', source)
+        self.assertIn('"manual_link_add_guard": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);"', source)
+        self.assertIn('"return_out": "return out;"', source)
+        self.assertIn('"manual_link_added_count": manual_link_added_indices.size()', source)
+        self.assertIn('"out_count_after_manual_links": previous_out_count + manual_link_added_indices.size()', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -5537,6 +5537,32 @@ func source_building_get_power_connections_automatic_add_state(conducts_link_gua
 		"deferred_manual_links_loop": true,
 	}
 
+func source_building_get_power_connections_manual_links_loop_state(link_present_by_index: Array, link_build_present_by_index: Array, link_build_power_present_by_index: Array, link_build_same_team_by_index: Array, previous_out_count: int) -> Dictionary:
+	var manual_link_count = max(link_present_by_index.size(), link_build_present_by_index.size(), link_build_power_present_by_index.size(), link_build_same_team_by_index.size())
+	var manual_link_added_indices: Array = []
+	for index in manual_link_count:
+		if bool(link_present_by_index[index] if index < link_present_by_index.size() else false) \
+		and bool(link_build_present_by_index[index] if index < link_build_present_by_index.size() else false) \
+		and bool(link_build_power_present_by_index[index] if index < link_build_power_present_by_index.size() else false) \
+		and bool(link_build_same_team_by_index[index] if index < link_build_same_team_by_index.size() else false):
+			manual_link_added_indices.append(index)
+	return {
+		"manual_links_loop": "for(int i = 0; i < power.links.size; i++){",
+		"manual_link_tile_lookup": "Tile link = world.tile(power.links.get(i));",
+		"manual_link_add_guard": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+		"manual_link_out_add": "out.add(link.build)",
+		"return_out": "return out;",
+		"link_present_by_index": link_present_by_index.duplicate(),
+		"link_build_present_by_index": link_build_present_by_index.duplicate(),
+		"link_build_power_present_by_index": link_build_power_present_by_index.duplicate(),
+		"link_build_same_team_by_index": link_build_same_team_by_index.duplicate(),
+		"previous_out_count": previous_out_count,
+		"manual_link_count": manual_link_count,
+		"manual_link_added_indices": manual_link_added_indices,
+		"manual_link_added_count": manual_link_added_indices.size(),
+		"out_count_after_manual_links": previous_out_count + manual_link_added_indices.size(),
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",

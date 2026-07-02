@@ -23474,6 +23474,62 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_building_get_power_connections_manual_links_loop_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "link_present_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "link_build_present_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "link_build_power_present_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_power_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "link_build_same_team_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_same_team_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "previous_out_count",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.previous_out_count",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "manual_links_loop",
+        "manual_link_tile_lookup",
+        "manual_link_add_guard",
+        "manual_link_out_add",
+        "return_out",
+        "link_present_by_index",
+        "link_build_present_by_index",
+        "link_build_power_present_by_index",
+        "link_build_same_team_by_index",
+        "previous_out_count",
+        "manual_link_count",
+        "manual_link_added_indices",
+        "manual_link_added_count",
+        "out_count_after_manual_links"
+      ],
+      "rule": "Public runtime contract for BuildingComp.getPowerConnections manual power.links loop slice.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "source_method": "getPowerConnections(Seq<Building> out)",
+      "source_slice": "N976",
+      "status": "active",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

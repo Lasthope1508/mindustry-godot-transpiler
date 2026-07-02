@@ -1660,6 +1660,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_get_power_connections_manual_links_loop_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_get_power_connections_manual_links_loop_source"))
+        report = source_parity.verify_building_get_power_connections_manual_links_loop_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "manual_links_loop": "for(int i = 0; i < power.links.size; i++){",
+            "manual_link_tile_lookup": "Tile link = world.tile(power.links.get(i));",
+            "manual_link_add_guard": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+            "return_out": "return out;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_move_liquid_forward_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_forward_source"))
         report = source_parity.verify_building_move_liquid_forward_source(ROOT / "mindustry-upstream")

@@ -73183,6 +73183,216 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "building_get_power_connections_manual_links_loop.link_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_present_by_index",
+      "java_expr": "link != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link tile presence.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.link_build_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_present_by_index",
+      "java_expr": "link.build != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link build presence.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.link_build_power_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_power_present_by_index",
+      "java_expr": "link.build.power != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link build power presence.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.link_build_same_team_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_same_team_by_index",
+      "java_expr": "link.build.team == team",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link build team guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.previous_out_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.previous_out_count",
+      "java_expr": "out",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for output sequence size before manual links.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_links_loop": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_links_loop",
+      "java_expr": "for(int i = 0; i < power.links.size; i++){",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual power.links loop.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_tile_lookup": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_tile_lookup",
+      "java_expr": "Tile link = world.tile(power.links.get(i));",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual link tile lookup.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_add_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_add_guard",
+      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual link guard and add statement.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_out_add": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_out_add",
+      "java_expr": "out.add(link.build)",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual link out.add call target.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.return_out": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.return_out",
+      "java_expr": "return out;",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source final getPowerConnections return.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_count",
+      "java_expr": "power.links.size",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Models source manual power.links loop count.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_added_indices": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_added_indices",
+      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Records rows added by the source manual link guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_added_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_added_count",
+      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Counts rows added by the source manual link guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.out_count_after_manual_links": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.out_count_after_manual_links",
+      "java_expr": "out.add(link.build)",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Models output sequence size after source manual link adds.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
