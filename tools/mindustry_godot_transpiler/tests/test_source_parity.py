@@ -1581,6 +1581,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_move_liquid_fire_reaction_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_fire_reaction_source"))
+        report = source_parity.verify_building_move_liquid_fire_reaction_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "fire_reaction_guard": "if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)){",
+            "self_damage_call": "damageContinuous(1);",
+            "next_damage_call": "next.damageContinuous(1);",
+            "fire_chance_guard": "if(Mathf.chanceDelta(0.1)){",
+            "fire_effect_call": "Fx.fire.at(fx, fy);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

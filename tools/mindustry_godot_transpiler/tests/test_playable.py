@@ -2165,6 +2165,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"reaction_guard_passed": reaction_guard_passed', source)
         self.assertIn('"block_reactive_guard_passed": block_reactive_guard_passed', source)
 
+    def test_port_game_exposes_source_building_move_liquid_fire_reaction_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_move_liquid_fire_reaction_state(block_reactive_guard_passed: bool, other_flammability: float, liquid_temperature: float, liquid_flammability: float, other_temperature: float, fire_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:", source)
+        self.assertIn('"fire_reaction_guard": "if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)){"', source)
+        self.assertIn('"self_damage_call": "damageContinuous(1);"', source)
+        self.assertIn('"next_damage_call": "next.damageContinuous(1);"', source)
+        self.assertIn('"fire_chance_guard": "if(Mathf.chanceDelta(0.1)){"', source)
+        self.assertIn('"fire_effect_call": "Fx.fire.at(fx, fy);"', source)
+        self.assertIn('"fire_reaction_guard_passed": fire_reaction_guard_passed', source)
+        self.assertIn('"fire_effect_called": fire_effect_called', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

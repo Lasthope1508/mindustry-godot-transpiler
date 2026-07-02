@@ -17754,6 +17754,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_reactive_guard["java_expr"], "if(other.blockReactive && liquid.blockReactive){")
         self.assertEqual(block_reactive_guard["godot_symbol"], "source_building_move_liquid_reaction_setup_result.block_reactive_guard")
 
+    def test_building_move_liquid_fire_reaction_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        fire_reaction_guard = source_symbols.source_symbol(registry, "building_move_liquid_fire_reaction.fire_reaction_guard")
+        self.assertEqual(fire_reaction_guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(fire_reaction_guard["java_method"], "moveLiquid(Building next, Liquid liquid) fire reaction")
+        self.assertEqual(fire_reaction_guard["java_expr"], "if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)){")
+        self.assertEqual(fire_reaction_guard["godot_owner"], "PortGame.source_building_move_liquid_fire_reaction_state")
+        self.assertEqual(fire_reaction_guard["runtime_proof"], "/root/Main.source_building_move_liquid_fire_reaction_state")
+        self.assertEqual(fire_reaction_guard["godot_symbol"], "source_building_move_liquid_fire_reaction_result.fire_reaction_guard")
+
+        fire_chance_delta_passed = source_symbols.source_symbol(registry, "building_move_liquid_fire_reaction.fire_chance_delta_passed")
+        self.assertEqual(fire_chance_delta_passed["status"], "explicit-input")
+        self.assertEqual(fire_chance_delta_passed["java_expr"], "Mathf.chanceDelta(0.1)")
+        self.assertEqual(fire_chance_delta_passed["godot_symbol"], "source_building_move_liquid_fire_reaction_input.fire_chance_delta_passed")
+
+        fire_effect_call = source_symbols.source_symbol(registry, "building_move_liquid_fire_reaction.fire_effect_call")
+        self.assertEqual(fire_effect_call["java_expr"], "Fx.fire.at(fx, fy);")
+        self.assertEqual(fire_effect_call["godot_symbol"], "source_building_move_liquid_fire_reaction_result.fire_effect_call")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18714,9 +18737,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 543)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 544)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 548)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 549)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23549,6 +23572,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;", building_move_liquid_reaction_setup["exact_exprs"])
         self.assertIn("Liquid other = next.liquids.current();", building_move_liquid_reaction_setup["exact_exprs"])
         self.assertIn("if(other.blockReactive && liquid.blockReactive){", building_move_liquid_reaction_setup["exact_exprs"])
+
+        building_move_liquid_fire_reaction = source_symbols.source_slice(ledger, "N947")
+        self.assertEqual(building_move_liquid_fire_reaction["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_move_liquid_fire_reaction["java_method"], "moveLiquid(Building next, Liquid liquid) fire reaction")
+        self.assertEqual(building_move_liquid_fire_reaction["godot_owner"], "PortGame.source_building_move_liquid_fire_reaction_state")
+        self.assertIn("if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)){", building_move_liquid_fire_reaction["exact_exprs"])
+        self.assertIn("damageContinuous(1);", building_move_liquid_fire_reaction["exact_exprs"])
+        self.assertIn("next.damageContinuous(1);", building_move_liquid_fire_reaction["exact_exprs"])
+        self.assertIn("if(Mathf.chanceDelta(0.1)){", building_move_liquid_fire_reaction["exact_exprs"])
+        self.assertIn("Fx.fire.at(fx, fy);", building_move_liquid_fire_reaction["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28810,6 +28843,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("fx", building_move_liquid_reaction_setup["return_keys"])
         self.assertIn("block_reactive_guard_passed", building_move_liquid_reaction_setup["return_keys"])
         self.assertEqual(building_move_liquid_reaction_setup["source_method"], "moveLiquid(Building next, Liquid liquid) reaction setup")
+
+        building_move_liquid_fire_reaction = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_fire_reaction_state")
+        self.assertEqual([param["name"] for param in building_move_liquid_fire_reaction["params"]], ["block_reactive_guard_passed", "other_flammability", "liquid_temperature", "liquid_flammability", "other_temperature", "fire_chance_delta_passed", "fx", "fy"])
+        self.assertEqual(building_move_liquid_fire_reaction["params"][1]["schema"], "source_building_move_liquid_fire_reaction_input.other_flammability")
+        self.assertEqual(building_move_liquid_fire_reaction["params"][5]["schema"], "source_building_move_liquid_fire_reaction_input.fire_chance_delta_passed")
+        self.assertIn("fire_reaction_guard_passed", building_move_liquid_fire_reaction["return_keys"])
+        self.assertIn("self_damage_continuous_called", building_move_liquid_fire_reaction["return_keys"])
+        self.assertIn("fire_effect_called", building_move_liquid_fire_reaction["return_keys"])
+        self.assertEqual(building_move_liquid_fire_reaction["source_method"], "moveLiquid(Building next, Liquid liquid) fire reaction")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36847,6 +36889,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["other_expr"]["java_expr"], "Liquid other = next.liquids.current();")
         self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["block_reactive_guard"]["java_expr"], "if(other.blockReactive && liquid.blockReactive){")
         self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["destination_current_amount"]["alias_of"], "source_building_move_liquid_reaction_setup_input.destination_current_amount")
+
+        source_building_move_liquid_fire_reaction_input = source_symbols.state_schema(schema, "source_building_move_liquid_fire_reaction_input")
+        self.assertEqual(source_building_move_liquid_fire_reaction_input["keys"]["other_flammability"]["java_expr"], "other.flammability")
+        self.assertEqual(source_building_move_liquid_fire_reaction_input["keys"]["liquid_temperature"]["java_expr"], "liquid.temperature")
+        self.assertEqual(source_building_move_liquid_fire_reaction_input["keys"]["fire_chance_delta_passed"]["java_expr"], "Mathf.chanceDelta(0.1)")
+
+        source_building_move_liquid_fire_reaction_result = source_symbols.state_schema(schema, "source_building_move_liquid_fire_reaction_result")
+        self.assertEqual(source_building_move_liquid_fire_reaction_result["keys"]["fire_reaction_guard"]["java_expr"], "if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)){")
+        self.assertEqual(source_building_move_liquid_fire_reaction_result["keys"]["self_damage_call"]["java_expr"], "damageContinuous(1);")
+        self.assertEqual(source_building_move_liquid_fire_reaction_result["keys"]["next_damage_call"]["java_expr"], "next.damageContinuous(1);")
+        self.assertEqual(source_building_move_liquid_fire_reaction_result["keys"]["fire_chance_guard"]["java_expr"], "if(Mathf.chanceDelta(0.1)){")
+        self.assertEqual(source_building_move_liquid_fire_reaction_result["keys"]["fire_effect_call"]["java_expr"], "Fx.fire.at(fx, fy);")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")

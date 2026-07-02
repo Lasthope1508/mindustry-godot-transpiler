@@ -5535,6 +5535,31 @@ func source_building_move_liquid_reaction_setup_state(main_guard_passed: bool, t
 		"liquid_block_reactive": liquid_block_reactive,
 	}
 
+func source_building_move_liquid_fire_reaction_state(block_reactive_guard_passed: bool, other_flammability: float, liquid_temperature: float, liquid_flammability: float, other_temperature: float, fire_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:
+	var fire_reaction_guard_passed := block_reactive_guard_passed and ((other_flammability > 0.3 and liquid_temperature > 0.7) or (liquid_flammability > 0.3 and other_temperature > 0.7))
+	var self_damage_continuous_called := fire_reaction_guard_passed
+	var next_damage_continuous_called := fire_reaction_guard_passed
+	var fire_effect_called := fire_reaction_guard_passed and fire_chance_delta_passed
+	return {
+		"fire_reaction_guard": "if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)){",
+		"fire_reaction_guard_passed": fire_reaction_guard_passed,
+		"self_damage_call": "damageContinuous(1);",
+		"self_damage_continuous_called": self_damage_continuous_called,
+		"next_damage_call": "next.damageContinuous(1);",
+		"next_damage_continuous_called": next_damage_continuous_called,
+		"fire_chance_guard": "if(Mathf.chanceDelta(0.1)){",
+		"fire_chance_delta_passed": fire_chance_delta_passed,
+		"fire_effect_call": "Fx.fire.at(fx, fy);",
+		"fire_effect_called": fire_effect_called,
+		"block_reactive_guard_passed": block_reactive_guard_passed,
+		"other_flammability": other_flammability,
+		"liquid_temperature": liquid_temperature,
+		"liquid_flammability": liquid_flammability,
+		"other_temperature": other_temperature,
+		"fx": fx,
+		"fy": fy,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"
