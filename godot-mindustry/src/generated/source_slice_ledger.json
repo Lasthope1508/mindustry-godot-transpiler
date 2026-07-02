@@ -21447,6 +21447,57 @@
         "test_port_game_exposes_generated_building_comp_after_picked_up_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1050": {
+      "deferred_exprs": [
+        "public void updateProximity(){",
+        "tmpTiles.clear();",
+        "Subsequent BuildingComp updateProximity behavior stays owned by later generated bridge slices.",
+        "Concrete world.build lookup and mutable other.proximity side effects remain owned by world/proximity integration slices."
+      ],
+      "exact_exprs": [
+        "public void removeFromProximity(){",
+        "onProximityRemoved();",
+        "tmpTiles.clear();",
+        "Point2[] nearby = Edges.getEdges(block.size);",
+        "for(Point2 point : nearby){",
+        "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+        "//remove this tile from all nearby tile's proximities",
+        "if(other != null){",
+        "tmpTiles.add(other);",
+        "for(Building other : tmpTiles){",
+        "other.proximity.remove(self(), true);",
+        "other.onProximityUpdate();",
+        "proximity.clear();",
+        "nearby.length",
+        "other != null"
+      ],
+      "godot_owner": "PortGame.source_building_remove_from_proximity_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "removeFromProximity()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_removeFromProximity_185 and PortGame generated bridge to existing N630 canonical source_building_remove_from_proximity_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_remove_from_proximity_bridge_state",
+      "source_symbols": [
+        "building_remove_from_proximity.method",
+        "building_remove_from_proximity.on_proximity_removed",
+        "building_remove_from_proximity.tmp_tiles_clear",
+        "building_remove_from_proximity.edges_get",
+        "building_remove_from_proximity.world_build",
+        "building_remove_from_proximity.tmp_tiles_add",
+        "building_remove_from_proximity.remove_self",
+        "building_remove_from_proximity.other_update",
+        "building_remove_from_proximity.proximity_clear",
+        "building_remove_from_proximity.nearby_count",
+        "building_remove_from_proximity.removable_count"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_remove_from_proximity_to_source_state",
+        "test_generated_building_comp_bridges_remove_from_proximity_to_source_state",
+        "test_port_game_exposes_generated_building_comp_remove_from_proximity_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

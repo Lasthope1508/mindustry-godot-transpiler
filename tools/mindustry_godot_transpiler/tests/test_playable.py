@@ -4536,6 +4536,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_afterPickedUp_184"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_remove_from_proximity_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_removeFromProximity_185(_args: Array = []) -> Variant:", source)
+        self.assertIn("var nearby_count := int(_args[0] if _args.size() > 0 else 0)", source)
+        self.assertIn("var removable_count := int(_args[1] if _args.size() > 1 else 0)", source)
+        self.assertIn("var queued_removals := clampi(removable_count, 0, nearby_count)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_remove_from_proximity_state"', source)
+        self.assertIn('"method": "public void removeFromProximity(){"', source)
+        self.assertIn('"on_proximity_removed": true', source)
+        self.assertIn('"tmp_tiles_cleared": true', source)
+        self.assertIn('"nearby_count": nearby_count', source)
+        self.assertIn('"queued_removals": queued_removals', source)
+        self.assertIn('"proximity_updates": queued_removals', source)
+        self.assertIn('"proximity_cleared": true', source)
+
+    def test_port_game_exposes_generated_building_comp_remove_from_proximity_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_removeFromProximity_185([nearby_count, removable_count])", source)
+        self.assertIn("var canonical = source_building_remove_from_proximity_state(nearby_count, removable_count)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_remove_from_proximity_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_removeFromProximity_185"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

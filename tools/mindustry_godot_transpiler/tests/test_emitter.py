@@ -2627,5 +2627,56 @@ public class BuildingComp{
             self.assertIn('"clear_links": power_present', source_text)
             self.assertIn('"status": status', source_text)
 
+    def test_emit_bridges_building_comp_remove_from_proximity_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void removeFromProximity(){
+        onProximityRemoved();
+        tmpTiles.clear();
+
+        Point2[] nearby = Edges.getEdges(block.size);
+        for(Point2 point : nearby){
+            Building other = world.build(tile.x + point.x, tile.y + point.y);
+            if(other != null){
+                tmpTiles.add(other);
+            }
+        }
+
+        for(Building other : tmpTiles){
+            other.proximity.remove(self(), true);
+            other.onProximityUpdate();
+        }
+        proximity.clear();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_removeFromProximity_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var nearby_count := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var removable_count := int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var queued_removals := clampi(removable_count, 0, nearby_count)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_remove_from_proximity_state"', source_text)
+            self.assertIn('"method": "public void removeFromProximity(){"', source_text)
+            self.assertIn('"on_proximity_removed": true', source_text)
+            self.assertIn('"tmp_tiles_cleared": true', source_text)
+            self.assertIn('"nearby_count": nearby_count', source_text)
+            self.assertIn('"queued_removals": queued_removals', source_text)
+            self.assertIn('"proximity_updates": queued_removals', source_text)
+            self.assertIn('"proximity_cleared": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()
