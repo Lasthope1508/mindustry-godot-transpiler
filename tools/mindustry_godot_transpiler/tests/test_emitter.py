@@ -758,5 +758,43 @@ public class BuildingComp{
             self.assertIn('"configure_call": "other.configureAny(pos());" if configure else ""', source_text)
             self.assertIn('"configure_pos": source_pos if configure else -1', source_text)
 
+    def test_emit_bridges_building_comp_on_repaired_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    @CallSuper
+    public void onRepaired(){
+        placed();
+        if(block.flags.contains(BlockFlag.hasFogRadius)){
+            fogControl.forceUpdate(team, self());
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_onRepaired_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_fog_radius := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('"method": "public void onRepaired(){"', source_text)
+            self.assertIn('"call_super": "@CallSuper"', source_text)
+            self.assertIn('"placed_call": "placed();"', source_text)
+            self.assertIn('"fog_gate": "if(block.flags.contains(BlockFlag.hasFogRadius)){" if has_fog_radius else ""', source_text)
+            self.assertIn('"fog_call": "fogControl.forceUpdate(team, self());" if has_fog_radius else ""', source_text)
+            self.assertIn('"has_fog_radius": has_fog_radius', source_text)
+            self.assertIn('"placed": true', source_text)
+            self.assertIn('"fog_force_update": has_fog_radius', source_text)
+
 if __name__ == "__main__":
     unittest.main()

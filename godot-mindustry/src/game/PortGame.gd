@@ -3764,6 +3764,16 @@ func generated_building_comp_placed_bridge_state(net_client: bool, consumes_powe
 		"result": result,
 	}
 
+func generated_building_comp_on_repaired_bridge_state(has_fog_radius: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_onRepaired_139([has_fog_radius])
+	return {
+		"source_owner": "PortGame.source_building_on_repaired_state",
+		"generated_owner": "BuildingComp.java_method_onRepaired_139",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

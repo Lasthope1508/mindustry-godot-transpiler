@@ -3101,6 +3101,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_placed_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_placed_138"', source)
 
+    def test_generated_building_comp_bridges_on_repaired_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_onRepaired_139(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_fog_radius := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn('"method": "public void onRepaired(){"', source)
+        self.assertIn('"call_super": "@CallSuper"', source)
+        self.assertIn('"placed_call": "placed();"', source)
+        self.assertIn('"fog_gate": "if(block.flags.contains(BlockFlag.hasFogRadius)){" if has_fog_radius else ""', source)
+        self.assertIn('"fog_call": "fogControl.forceUpdate(team, self());" if has_fog_radius else ""', source)
+        self.assertIn('"has_fog_radius": has_fog_radius', source)
+        self.assertIn('"placed": true', source)
+        self.assertIn('"fog_force_update": has_fog_radius', source)
+
+    def test_port_game_exposes_generated_building_comp_on_repaired_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_on_repaired_bridge_state(has_fog_radius: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_onRepaired_139([has_fog_radius])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_repaired_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onRepaired_139"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

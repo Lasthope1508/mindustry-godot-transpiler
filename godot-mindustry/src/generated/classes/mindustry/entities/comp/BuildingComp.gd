@@ -735,7 +735,8 @@ func java_method_placed_138(_args: Array = []) -> Variant:
 	return {"method": "public void placed(){", "comment": "Called after the block is placed by anyone.", "call_super": "@CallSuper", "client_guard": "if(net.client()) return;" if net_client else "", "power_gate": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){" if should_link_power else "", "power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else "", "link_guard": "if(!other.power.links.contains(pos())){" if should_link_power else "", "configure_call": "other.configureAny(pos());" if configure else "", "returned": false, "power_link_scan": true, "configure": configure, "configure_pos": source_pos if configure else -1}
 
 func java_method_onRepaired_139(_args: Array = []) -> Variant:
-	return null
+	var has_fog_radius := bool(_args[0] if _args.size() > 0 else false)
+	return {"method": "public void onRepaired(){", "call_super": "@CallSuper", "placed_call": "placed();", "fog_gate": "if(block.flags.contains(BlockFlag.hasFogRadius)){" if has_fog_radius else "", "fog_call": "fogControl.forceUpdate(team, self());" if has_fog_radius else "", "has_fog_radius": has_fog_radius, "placed": true, "fog_force_update": has_fog_radius}
 
 func java_method_isCommandable_140(_args: Array = []) -> Variant:
 	return null
