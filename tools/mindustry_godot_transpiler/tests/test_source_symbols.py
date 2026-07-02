@@ -17800,6 +17800,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(steam_effect_call["java_expr"], "Fx.steam.at(fx, fy);")
         self.assertEqual(steam_effect_call["godot_symbol"], "source_building_move_liquid_steam_reaction_result.steam_effect_call")
 
+    def test_building_move_liquid_return_zero_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        final_return = source_symbols.source_symbol(registry, "building_move_liquid_return_zero.final_return")
+        self.assertEqual(final_return["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(final_return["java_method"], "moveLiquid(Building next, Liquid liquid) final return")
+        self.assertEqual(final_return["java_expr"], "return 0;")
+        self.assertEqual(final_return["godot_owner"], "PortGame.source_building_move_liquid_return_zero_state")
+        self.assertEqual(final_return["runtime_proof"], "/root/Main.source_building_move_liquid_return_zero_state")
+        self.assertEqual(final_return["godot_symbol"], "source_building_move_liquid_return_zero_result.final_return")
+
+        next_present = source_symbols.source_symbol(registry, "building_move_liquid_return_zero.next_present")
+        self.assertEqual(next_present["status"], "explicit-input")
+        self.assertEqual(next_present["java_expr"], "next != null")
+        self.assertEqual(next_present["godot_symbol"], "source_building_move_liquid_return_zero_input.next_present")
+
+        return_value = source_symbols.source_symbol(registry, "building_move_liquid_return_zero.return_value")
+        self.assertEqual(return_value["java_expr"], "return 0;")
+        self.assertEqual(return_value["godot_symbol"], "source_building_move_liquid_return_zero_result.return_value")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18760,9 +18783,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 545)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 546)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 550)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 551)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23614,6 +23637,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));", building_move_liquid_steam_reaction["exact_exprs"])
         self.assertIn("if(Mathf.chanceDelta(0.2f)){", building_move_liquid_steam_reaction["exact_exprs"])
         self.assertIn("Fx.steam.at(fx, fy);", building_move_liquid_steam_reaction["exact_exprs"])
+
+        building_move_liquid_return_zero = source_symbols.source_slice(ledger, "N949")
+        self.assertEqual(building_move_liquid_return_zero["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_move_liquid_return_zero["java_method"], "moveLiquid(Building next, Liquid liquid) final return")
+        self.assertEqual(building_move_liquid_return_zero["godot_owner"], "PortGame.source_building_move_liquid_return_zero_state")
+        self.assertIn("return 0;", building_move_liquid_return_zero["exact_exprs"])
+        self.assertIn("public Building getLiquidDestination(Building from, Liquid liquid){", building_move_liquid_return_zero["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28893,6 +28923,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("remove_amount", building_move_liquid_steam_reaction["return_keys"])
         self.assertIn("steam_effect_called", building_move_liquid_steam_reaction["return_keys"])
         self.assertEqual(building_move_liquid_steam_reaction["source_method"], "moveLiquid(Building next, Liquid liquid) steam reaction")
+
+        building_move_liquid_return_zero = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_return_zero_state")
+        self.assertEqual([param["name"] for param in building_move_liquid_return_zero["params"]], ["next_present", "transfer_guard_passed"])
+        self.assertEqual(building_move_liquid_return_zero["params"][0]["schema"], "source_building_move_liquid_return_zero_input.next_present")
+        self.assertEqual(building_move_liquid_return_zero["params"][1]["schema"], "source_building_move_liquid_return_zero_input.transfer_guard_passed")
+        self.assertIn("fallthrough_return_reached", building_move_liquid_return_zero["return_keys"])
+        self.assertIn("final_return", building_move_liquid_return_zero["return_keys"])
+        self.assertIn("return_value", building_move_liquid_return_zero["return_keys"])
+        self.assertEqual(building_move_liquid_return_zero["source_method"], "moveLiquid(Building next, Liquid liquid) final return")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36955,6 +36994,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_move_liquid_steam_reaction_result["keys"]["remove_amount"]["java_expr"], "Math.min(liquids.get(liquid), 0.7f * Time.delta)")
         self.assertEqual(source_building_move_liquid_steam_reaction_result["keys"]["steam_chance_guard"]["java_expr"], "if(Mathf.chanceDelta(0.2f)){")
         self.assertEqual(source_building_move_liquid_steam_reaction_result["keys"]["steam_effect_call"]["java_expr"], "Fx.steam.at(fx, fy);")
+
+        source_building_move_liquid_return_zero_input = source_symbols.state_schema(schema, "source_building_move_liquid_return_zero_input")
+        self.assertEqual(source_building_move_liquid_return_zero_input["keys"]["next_present"]["java_expr"], "next != null")
+        self.assertEqual(source_building_move_liquid_return_zero_input["keys"]["transfer_guard_passed"]["java_expr"], "flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)")
+
+        source_building_move_liquid_return_zero_result = source_symbols.state_schema(schema, "source_building_move_liquid_return_zero_result")
+        self.assertEqual(source_building_move_liquid_return_zero_result["keys"]["fallthrough_return_reached"]["java_expr"], "next != null && !(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid))")
+        self.assertEqual(source_building_move_liquid_return_zero_result["keys"]["final_return"]["java_expr"], "return 0;")
+        self.assertEqual(source_building_move_liquid_return_zero_result["keys"]["return_value"]["java_expr"], "return 0;")
+        self.assertEqual(source_building_move_liquid_return_zero_result["keys"]["next_present"]["alias_of"], "source_building_move_liquid_return_zero_input.next_present")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")

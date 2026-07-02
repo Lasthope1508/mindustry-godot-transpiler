@@ -5587,6 +5587,17 @@ func source_building_move_liquid_steam_reaction_state(block_reactive_guard_passe
 		"fy": fy,
 	}
 
+func source_building_move_liquid_return_zero_state(next_present: bool, transfer_guard_passed: bool) -> Dictionary:
+	var fallthrough_return_reached := next_present and not transfer_guard_passed
+	var return_value := 0.0
+	return {
+		"final_return": "return 0;",
+		"fallthrough_return_reached": fallthrough_return_reached,
+		"return_value": return_value,
+		"next_present": next_present,
+		"transfer_guard_passed": transfer_guard_passed,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

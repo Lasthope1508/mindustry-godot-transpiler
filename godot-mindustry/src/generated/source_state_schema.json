@@ -25821,6 +25821,72 @@
       "source_slice": "N945",
       "status": "active"
     },
+    "source_building_move_liquid_return_zero_input": {
+      "keys": {
+        "next_present": {
+          "java_expr": "next != null",
+          "java_method": "moveLiquid(Building next, Liquid liquid) final return",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit input that prior null guard did not return.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "transfer_guard_passed": {
+          "java_expr": "flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)",
+          "java_method": "moveLiquid(Building next, Liquid liquid) final return",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit input that prior transfer return branch did not return.",
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_move_liquid_return_zero_state",
+      "source_slice": "N949",
+      "status": "active"
+    },
+    "source_building_move_liquid_return_zero_result": {
+      "keys": {
+        "fallthrough_return_reached": {
+          "java_expr": "next != null && !(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid))",
+          "java_method": "moveLiquid(Building next, Liquid liquid) final return",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "True when moveLiquid reaches final return zero path.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "final_return": {
+          "java_expr": "return 0;",
+          "java_method": "moveLiquid(Building next, Liquid liquid) final return",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source final return statement for moveLiquid fallthrough.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "next_present": {
+          "alias_of": "source_building_move_liquid_return_zero_input.next_present",
+          "rule": "Echoes N949 input key next_present.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "return_value": {
+          "java_expr": "return 0;",
+          "java_method": "moveLiquid(Building next, Liquid liquid) final return",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime return value from source final return statement.",
+          "status": "source-backed",
+          "type": "float"
+        },
+        "transfer_guard_passed": {
+          "alias_of": "source_building_move_liquid_return_zero_input.transfer_guard_passed",
+          "rule": "Echoes N949 input key transfer_guard_passed.",
+          "status": "generated",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_move_liquid_return_zero_state",
+      "source_slice": "N949",
+      "status": "active"
+    },
     "source_building_move_liquid_steam_reaction_input": {
       "keys": {
         "block_reactive_guard_passed": {

@@ -2191,6 +2191,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"current_liquid_amount_after": current_liquid_amount_after', source)
         self.assertIn('"steam_effect_called": steam_effect_called', source)
 
+    def test_port_game_exposes_source_building_move_liquid_return_zero_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_move_liquid_return_zero_state(next_present: bool, transfer_guard_passed: bool) -> Dictionary:", source)
+        self.assertIn('"final_return": "return 0;"', source)
+        self.assertIn('"fallthrough_return_reached": fallthrough_return_reached', source)
+        self.assertIn('"return_value": return_value', source)
+        self.assertIn('"next_present": next_present', source)
+        self.assertIn('"transfer_guard_passed": transfer_guard_passed', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

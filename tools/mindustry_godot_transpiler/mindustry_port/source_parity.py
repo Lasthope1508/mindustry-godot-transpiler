@@ -608,6 +608,24 @@ def verify_building_move_liquid_steam_reaction_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_building_move_liquid_return_zero_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "final_return": "return 0;",
+        "next_method": "public Building getLiquidDestination(Building from, Liquid liquid){",
+        "anchored_block": "return 0;\n    }\n\n    public Building getLiquidDestination(Building from, Liquid liquid){",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

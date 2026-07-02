@@ -1608,6 +1608,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_move_liquid_return_zero_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_return_zero_source"))
+        report = source_parity.verify_building_move_liquid_return_zero_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "final_return": "return 0;",
+            "next_method": "public Building getLiquidDestination(Building from, Liquid liquid){",
+            "anchored_block": "return 0;\n    }\n\n    public Building getLiquidDestination(Building from, Liquid liquid){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

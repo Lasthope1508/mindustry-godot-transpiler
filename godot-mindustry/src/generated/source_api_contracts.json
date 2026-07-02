@@ -4542,6 +4542,38 @@
         "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_move_liquid_return_zero_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "next_present",
+          "schema": "source_building_move_liquid_return_zero_input.next_present",
+          "type": "bool"
+        },
+        {
+          "name": "transfer_guard_passed",
+          "schema": "source_building_move_liquid_return_zero_input.transfer_guard_passed",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "final_return",
+        "fallthrough_return_reached",
+        "return_value",
+        "next_present",
+        "transfer_guard_passed"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.moveLiquid final fallthrough return zero.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_return_zero_state",
+      "source_method": "moveLiquid(Building next, Liquid liquid) final return",
+      "source_slice": "N949",
+      "status": "active",
+      "tests": [
+        "test_building_move_liquid_return_zero_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_return_zero_state",
+        "test_building_move_liquid_return_zero_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_move_liquid_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

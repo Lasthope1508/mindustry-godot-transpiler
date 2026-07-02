@@ -19803,6 +19803,31 @@
         "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
         "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N949": {
+      "exact_exprs": [
+        "return 0;",
+        "public Building getLiquidDestination(Building from, Liquid liquid){"
+      ],
+      "godot_owner": "PortGame.source_building_move_liquid_return_zero_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "moveLiquid(Building next, Liquid liquid) final return",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records moveLiquid final fallthrough return after transfer/reaction branches. getLiquidDestination default remains deferred to N950.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_return_zero_state",
+      "source_symbols": [
+        "building_move_liquid_return_zero.next_present",
+        "building_move_liquid_return_zero.transfer_guard_passed",
+        "building_move_liquid_return_zero.fallthrough_return_reached",
+        "building_move_liquid_return_zero.final_return",
+        "building_move_liquid_return_zero.return_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_move_liquid_return_zero_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_return_zero_state",
+        "test_building_move_liquid_return_zero_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
