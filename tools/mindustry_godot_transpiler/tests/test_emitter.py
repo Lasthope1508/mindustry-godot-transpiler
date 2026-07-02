@@ -431,5 +431,49 @@ public class BuildingComp{
             self.assertIn('"recache_call": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);"', source_text)
             self.assertIn('"recache": true', source_text)
 
+    def test_emit_bridges_building_comp_payload_draw_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void payloadDraw(){
+        float z = Draw.z();
+        if(block.drawCached){
+            Draw.z(block.buildingCacheLayer.layer);
+            drawCached();
+        }
+        if(block.drawDynamic){
+            Draw.z(z);
+            draw();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_payloadDraw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var draw_cached := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var draw_dynamic := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var current_z := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var building_cache_layer_z := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var variants := int(_args[4] if _args.size() > 4 else 0)", source_text)
+            self.assertIn("var draw_args := [variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants]", source_text)
+            self.assertIn("var cached_draw: Dictionary = {}", source_text)
+            self.assertIn("cached_draw = java_method_drawCached_129(draw_args)", source_text)
+            self.assertIn("dynamic_draw = java_method_draw_128(draw_args)", source_text)
+            self.assertIn('"cached_gate": "if(block.drawCached){" if draw_cached else ""', source_text)
+            self.assertIn('"dynamic_draw_call": "draw();" if draw_dynamic else ""', source_text)
+
 if __name__ == "__main__":
     unittest.main()

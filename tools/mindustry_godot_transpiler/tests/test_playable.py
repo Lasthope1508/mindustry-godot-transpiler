@@ -2883,6 +2883,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_recache_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_recache_130"', source)
 
+    def test_generated_building_comp_bridges_payload_draw_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_payloadDraw_131(_args: Array = []) -> Variant:", source)
+        self.assertIn("var draw_cached := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var draw_dynamic := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var current_z := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var building_cache_layer_z := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var variants := int(_args[4] if _args.size() > 4 else 0)", source)
+        self.assertIn("var draw_args := [variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants]", source)
+        self.assertIn("var cached_draw: Dictionary = {}", source)
+        self.assertIn("var dynamic_draw: Dictionary = {}", source)
+        self.assertIn("if draw_cached:", source)
+        self.assertIn("cached_draw = java_method_drawCached_129(draw_args)", source)
+        self.assertIn("if draw_dynamic:", source)
+        self.assertIn("dynamic_draw = java_method_draw_128(draw_args)", source)
+        self.assertIn('"saved_z_call": "float z = Draw.z();"', source)
+        self.assertIn('"cached_z_call": "Draw.z(block.buildingCacheLayer.layer);" if draw_cached else ""', source)
+        self.assertIn('"dynamic_draw": dynamic_draw', source)
+
+    def test_port_game_exposes_generated_building_comp_payload_draw_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_payload_draw_bridge_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_payloadDraw_131([draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_payload_draw_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_payloadDraw_131"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

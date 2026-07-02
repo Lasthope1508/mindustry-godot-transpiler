@@ -612,7 +612,27 @@ func java_method_recache_130(_args: Array = []) -> Variant:
 	return {"method": "public void recache(){", "headless_gate": "if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);", "recache_call": "renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);", "recache": true, "building_cache_layer": building_cache_layer, "tile": tile_state}
 
 func java_method_payloadDraw_131(_args: Array = []) -> Variant:
-	return null
+	var draw_cached := bool(_args[0] if _args.size() > 0 else false)
+	var draw_dynamic := bool(_args[1] if _args.size() > 1 else false)
+	var current_z := float(_args[2] if _args.size() > 2 else 0.0)
+	var building_cache_layer_z := float(_args[3] if _args.size() > 3 else 0.0)
+	var variants := int(_args[4] if _args.size() > 4 else 0)
+	var has_variant_regions := bool(_args[5] if _args.size() > 5 else false)
+	var variant_region_count := int(_args[6] if _args.size() > 6 else 0)
+	var tile_pos := int(_args[7] if _args.size() > 7 else 0)
+	var source_x := float(_args[8] if _args.size() > 8 else 0.0)
+	var source_y := float(_args[9] if _args.size() > 9 else 0.0)
+	var block_rotate := bool(_args[10] if _args.size() > 10 else false)
+	var block_rotate_draw := bool(_args[11] if _args.size() > 11 else false)
+	var rotation_quadrants := int(_args[12] if _args.size() > 12 else 0)
+	var draw_args := [variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants]
+	var cached_draw: Dictionary = {}
+	var dynamic_draw: Dictionary = {}
+	if draw_cached:
+		cached_draw = java_method_drawCached_129(draw_args)
+	if draw_dynamic:
+		dynamic_draw = java_method_draw_128(draw_args)
+	return {"method": "public void payloadDraw(){", "saved_z_call": "float z = Draw.z();", "cached_gate": "if(block.drawCached){" if draw_cached else "", "cached_z_call": "Draw.z(block.buildingCacheLayer.layer);" if draw_cached else "", "cached_draw_call": "drawCached();" if draw_cached else "", "dynamic_gate": "if(block.drawDynamic){" if draw_dynamic else "", "restore_z_call": "Draw.z(z);" if draw_dynamic else "", "dynamic_draw_call": "draw();" if draw_dynamic else "", "saved_z": current_z, "cached_visible": draw_cached, "cached_z": building_cache_layer_z, "cached_draw": cached_draw, "dynamic_visible": draw_dynamic, "dynamic_z": current_z, "dynamic_draw": dynamic_draw}
 
 func java_method_drawTeamTop_132(_args: Array = []) -> Variant:
 	return null

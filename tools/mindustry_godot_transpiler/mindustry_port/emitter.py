@@ -189,6 +189,34 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\treturn {\"method\": \"public void recache(){\", \"headless_gate\": \"if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);\", \"recache_call\": \"\", \"recache\": false, \"building_cache_layer\": building_cache_layer, \"tile\": tile_state}",
             "\treturn {\"method\": \"public void recache(){\", \"headless_gate\": \"if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);\", \"recache_call\": \"renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);\", \"recache\": true, \"building_cache_layer\": building_cache_layer, \"tile\": tile_state}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "payloadDraw"
+    ):
+        return [
+            "\tvar draw_cached := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar draw_dynamic := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar current_z := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar building_cache_layer_z := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar variants := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar has_variant_regions := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar variant_region_count := int(_args[6] if _args.size() > 6 else 0)",
+            "\tvar tile_pos := int(_args[7] if _args.size() > 7 else 0)",
+            "\tvar source_x := float(_args[8] if _args.size() > 8 else 0.0)",
+            "\tvar source_y := float(_args[9] if _args.size() > 9 else 0.0)",
+            "\tvar block_rotate := bool(_args[10] if _args.size() > 10 else false)",
+            "\tvar block_rotate_draw := bool(_args[11] if _args.size() > 11 else false)",
+            "\tvar rotation_quadrants := int(_args[12] if _args.size() > 12 else 0)",
+            "\tvar draw_args := [variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants]",
+            "\tvar cached_draw: Dictionary = {}",
+            "\tvar dynamic_draw: Dictionary = {}",
+            "\tif draw_cached:",
+            "\t\tcached_draw = java_method_drawCached_129(draw_args)",
+            "\tif draw_dynamic:",
+            "\t\tdynamic_draw = java_method_draw_128(draw_args)",
+            "\treturn {\"method\": \"public void payloadDraw(){\", \"saved_z_call\": \"float z = Draw.z();\", \"cached_gate\": \"if(block.drawCached){\" if draw_cached else \"\", \"cached_z_call\": \"Draw.z(block.buildingCacheLayer.layer);\" if draw_cached else \"\", \"cached_draw_call\": \"drawCached();\" if draw_cached else \"\", \"dynamic_gate\": \"if(block.drawDynamic){\" if draw_dynamic else \"\", \"restore_z_call\": \"Draw.z(z);\" if draw_dynamic else \"\", \"dynamic_draw_call\": \"draw();\" if draw_dynamic else \"\", \"saved_z\": current_z, \"cached_visible\": draw_cached, \"cached_z\": building_cache_layer_z, \"cached_draw\": cached_draw, \"dynamic_visible\": draw_dynamic, \"dynamic_z\": current_z, \"dynamic_draw\": dynamic_draw}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
