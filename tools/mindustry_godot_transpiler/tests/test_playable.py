@@ -4146,6 +4146,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_checkSolid_172"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_handle_damage_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_handleDamage_173(_args: Array = []) -> Variant:", source)
+        self.assertIn("var amount := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_handle_damage_state"', source)
+        self.assertIn('"method": "public float handleDamage(float amount){"', source)
+        self.assertIn('"amount": amount', source)
+        self.assertIn('"handled_damage": amount', source)
+
+    def test_port_game_exposes_generated_building_comp_handle_damage_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_handle_damage_bridge_state(amount: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_handleDamage_173([amount])", source)
+        self.assertIn('"handled_damage": source_building_handle_damage_state(amount)', source)
+        self.assertIn('"source_owner": "PortGame.source_building_handle_damage_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_handleDamage_173"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

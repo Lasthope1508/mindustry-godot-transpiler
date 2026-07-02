@@ -1015,7 +1015,8 @@ func java_method_checkSolid_172(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_check_solid_state", "method": "public boolean checkSolid(){", "checkSolid": false}
 
 func java_method_handleDamage_173(_args: Array = []) -> Variant:
-	return null
+	var amount := float(_args[0] if _args.size() > 0 else 0.0)
+	return {"source_owner": "PortGame.source_building_handle_damage_state", "method": "public float handleDamage(float amount){", "amount": amount, "handled_damage": amount}
 
 func java_method_absorbLasers_174(_args: Array = []) -> Variant:
 	return null

@@ -20926,6 +20926,34 @@
         "test_port_game_exposes_generated_building_comp_check_solid_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1035": {
+      "deferred_exprs": [
+        "Armor scaling, health subtraction, and damage call-site side effects remain owned by collision/damage slices; this slice wires only the base BuildingComp amount passthrough."
+      ],
+      "exact_exprs": [
+        "public float handleDamage(float amount){",
+        "return amount;",
+        "amount"
+      ],
+      "godot_owner": "PortGame.source_building_handle_damage_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "handleDamage(float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_handleDamage_173 and PortGame generated bridge to existing N583 canonical source_building_handle_damage_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_handle_damage_bridge_state",
+      "source_symbols": [
+        "building_handle_damage.method",
+        "building_handle_damage.return",
+        "building_handle_damage.amount"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_handle_damage_to_source_state",
+        "test_generated_building_comp_bridges_handle_damage_to_source_state",
+        "test_port_game_exposes_generated_building_comp_handle_damage_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

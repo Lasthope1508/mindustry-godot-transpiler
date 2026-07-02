@@ -667,6 +667,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "handleDamage"
+    ):
+        return [
+            "\tvar amount := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_handle_damage_state\", \"method\": \"public float handleDamage(float amount){\", \"amount\": amount, \"handled_damage\": amount}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
