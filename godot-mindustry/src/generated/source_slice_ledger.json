@@ -21834,6 +21834,50 @@
         "test_port_game_exposes_generated_building_comp_update_consumption_initial_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1060": {
+      "deferred_exprs": [
+        "Setup/reset and consumer-pass branches stay owned by subsequent generated bridge slices.",
+        "Concrete Consume side effects stay deferred to later slices."
+      ],
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//disabled -> nothing works",
+        "if(!enabled){",
+        "potentialEfficiency = efficiency = optionalEfficiency = 0f;",
+        "shouldConsumePower = false;",
+        "return;",
+        "block.hasConsumers",
+        "cheating()",
+        "enabled"
+      ],
+      "godot_owner": "PortGame.source_building_update_consumption_disabled_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateConsumption_194 disabled branch and PortGame generated bridge to existing N659 canonical source_building_update_consumption_disabled_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_consumption_disabled_bridge_state",
+      "source_symbols": [
+        "building_update_consumption_disabled.method",
+        "building_update_consumption_disabled.comment",
+        "building_update_consumption_disabled.guard",
+        "building_update_consumption_disabled.efficiencies",
+        "building_update_consumption_disabled.power",
+        "building_update_consumption_disabled.return",
+        "building_update_consumption_disabled.enabled",
+        "building_update_consumption_disabled.potential_efficiency",
+        "building_update_consumption_disabled.efficiency",
+        "building_update_consumption_disabled.optional_efficiency",
+        "building_update_consumption_disabled.should_consume_power",
+        "building_update_consumption_disabled.returned"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_consumption_disabled_to_source_state",
+        "test_generated_building_comp_bridges_update_consumption_disabled_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_consumption_disabled_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

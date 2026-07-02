@@ -1164,7 +1164,9 @@ func java_method_updateConsumption_194(_args: Array = []) -> Variant:
 	var should_consume_state := bool(_args[4] if _args.size() > 4 else false)
 	var efficiency_scale := float(_args[5] if _args.size() > 5 else 1.0)
 	if has_consumers and not cheating:
-		return {"source_owner": "PortGame.source_building_update_consumption_initial_state", "returned": false}
+		if not enabled_state:
+			return {"source_owner": "PortGame.source_building_update_consumption_disabled_state", "method": "public void updateConsumption(){", "comment": "//disabled -> nothing works", "guard": "if(!enabled){", "efficiencies": "potentialEfficiency = efficiency = optionalEfficiency = 0f;", "power": "shouldConsumePower = false;", "return": "return;", "enabled_state": enabled_state, "potential_efficiency": 0.0, "efficiency": 0.0, "optional_efficiency": 0.0, "should_consume_power": false, "returned": true}
+		return {"source_owner": "PortGame.source_building_update_consumption_disabled_state", "returned": false}
 	var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0
 	var efficiency := potential_efficiency if should_consume_state else 0.0
 	var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, efficiency, efficiency_scale])
