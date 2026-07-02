@@ -379,6 +379,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar tile_is_empty_tile := bool(_args[0] if _args.size() > 0 else false)",
             "\treturn {\"method\": \"public boolean isPayload(){\", \"return_expr\": \"return tile == emptyTile;\", \"tile_is_empty_tile\": tile_is_empty_tile, \"is_payload\": tile_is_empty_tile}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "overwrote"
+    ):
+        return [
+            "\tvar previous_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"method\": \"public void overwrote(Seq<Building> previous){\", \"comment\": \"Called when a block is placed over some other blocks. This seq will always have at least one item.\", \"no_op\": true, \"previous_state\": previous_state}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

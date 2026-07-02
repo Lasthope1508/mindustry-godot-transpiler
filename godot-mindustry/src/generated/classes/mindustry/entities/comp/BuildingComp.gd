@@ -747,7 +747,8 @@ func java_method_isPayload_141(_args: Array = []) -> Variant:
 	return {"method": "public boolean isPayload(){", "return_expr": "return tile == emptyTile;", "tile_is_empty_tile": tile_is_empty_tile, "is_payload": tile_is_empty_tile}
 
 func java_method_overwrote_142(_args: Array = []) -> Variant:
-	return null
+	var previous_state: Variant = _args[0] if _args.size() > 0 else null
+	return {"method": "public void overwrote(Seq<Building> previous){", "comment": "Called when a block is placed over some other blocks. This seq will always have at least one item.", "no_op": true, "previous_state": previous_state}
 
 func java_method_onRemoved_143(_args: Array = []) -> Variant:
 	return null
