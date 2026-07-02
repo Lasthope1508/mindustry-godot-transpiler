@@ -4000,6 +4000,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_getCursor_165"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_on_configure_tapped_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_onConfigureTapped_167(_args: Array = []) -> Variant:", source)
+        self.assertIn("var x := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var y := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_configure_tapped_state"', source)
+        self.assertIn('"method": "public boolean onConfigureTapped(float x, float y){"', source)
+        self.assertIn('"return_false": "return false;"', source)
+        self.assertIn('"x": x', source)
+        self.assertIn('"y": y', source)
+        self.assertIn('"consumed": false', source)
+
+    def test_port_game_exposes_generated_building_comp_on_configure_tapped_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_on_configure_tapped_bridge_state(x: float, y: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_onConfigureTapped_167([x, y])", source)
+        self.assertIn("var canonical = source_building_on_configure_tapped_state(x, y)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_configure_tapped_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureTapped_167"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

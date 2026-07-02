@@ -987,7 +987,9 @@ func java_method_onConfigureBuildTapped_166(_args: Array = []) -> Variant:
 	return null
 
 func java_method_onConfigureTapped_167(_args: Array = []) -> Variant:
-	return null
+	var x := float(_args[0] if _args.size() > 0 else 0.0)
+	var y := float(_args[1] if _args.size() > 1 else 0.0)
+	return {"source_owner": "PortGame.source_building_on_configure_tapped_state", "method": "public boolean onConfigureTapped(float x, float y){", "return_false": "return false;", "x": x, "y": y, "consumed": false}
 
 func java_method_onConfigureClosed_168(_args: Array = []) -> Variant:
 	return null

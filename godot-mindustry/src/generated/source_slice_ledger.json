@@ -20745,6 +20745,37 @@
         "test_port_game_exposes_generated_building_comp_get_cursor_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1029": {
+      "deferred_exprs": [
+        "Concrete block override behavior for position taps remains owned by block-specific override slices; this slice wires only the base BuildingComp return false contract."
+      ],
+      "exact_exprs": [
+        "/**\n     * Called when a position is tapped while this building is selected.\n     *\n     * @return whether the tap event is consumed - if true, the player will not start shooting or interact with things under the cursor.\n     * */",
+        "public boolean onConfigureTapped(float x, float y){",
+        "return false;",
+        "x",
+        "y"
+      ],
+      "godot_owner": "PortGame.source_building_on_configure_tapped_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onConfigureTapped(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_onConfigureTapped_167 and PortGame generated bridge to existing N606 canonical source_building_on_configure_tapped_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_on_configure_tapped_bridge_state",
+      "source_symbols": [
+        "building_on_configure_tapped.method",
+        "building_on_configure_tapped.return_false",
+        "building_on_configure_tapped.x",
+        "building_on_configure_tapped.y"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_on_configure_tapped_to_source_state",
+        "test_generated_building_comp_bridges_on_configure_tapped_to_source_state",
+        "test_port_game_exposes_generated_building_comp_on_configure_tapped_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

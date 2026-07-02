@@ -25535,6 +25535,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public Cursor getCursor(){", building_generated_cursor["exact_exprs"])
         self.assertIn("return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;", building_generated_cursor["exact_exprs"])
 
+        building_generated_configure_tapped = source_symbols.source_slice(ledger, "N1029")
+        self.assertEqual(building_generated_configure_tapped["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_configure_tapped["java_method"], "onConfigureTapped(float x, float y)")
+        self.assertEqual(building_generated_configure_tapped["godot_owner"], "PortGame.source_building_on_configure_tapped_state")
+        self.assertEqual(building_generated_configure_tapped["runtime_proof"], "/root/Main.generated_building_comp_on_configure_tapped_bridge_state")
+        self.assertIn("public boolean onConfigureTapped(float x, float y){", building_generated_configure_tapped["exact_exprs"])
+        self.assertIn("return false;", building_generated_configure_tapped["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
