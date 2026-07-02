@@ -25908,6 +25908,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("minEfficiency = Math.min(minEfficiency, result);", building_generated_update_consumption_non_optional["exact_exprs"])
         self.assertIn("block.nonOptionalConsumers", building_generated_update_consumption_non_optional["exact_exprs"])
 
+        building_generated_update_consumption_optional = source_symbols.source_slice(ledger, "N1063")
+        self.assertEqual(building_generated_update_consumption_optional["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_update_consumption_optional["java_method"], "updateConsumption()")
+        self.assertEqual(building_generated_update_consumption_optional["godot_owner"], "PortGame.source_building_update_consumption_optional_pass_state")
+        self.assertEqual(building_generated_update_consumption_optional["runtime_proof"], "/root/Main.generated_building_comp_update_consumption_optional_bridge_state")
+        self.assertIn("public void updateConsumption(){", building_generated_update_consumption_optional["exact_exprs"])
+        self.assertIn("//same for optionals", building_generated_update_consumption_optional["exact_exprs"])
+        self.assertIn("for(var cons : block.optionalConsumers){", building_generated_update_consumption_optional["exact_exprs"])
+        self.assertIn("optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));", building_generated_update_consumption_optional["exact_exprs"])
+        self.assertIn("block.optionalConsumers", building_generated_update_consumption_optional["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

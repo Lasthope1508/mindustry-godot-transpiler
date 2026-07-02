@@ -4627,6 +4627,18 @@ func generated_building_comp_update_consumption_non_optional_bridge_state(non_op
 		"canonical": canonical,
 	}
 
+func generated_building_comp_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_updateConsumption_194([true, false, true, true, true, 1.0, [], optional_consumer_results])
+	var canonical = source_building_update_consumption_optional_pass_state(optional_consumer_results)
+	return {
+		"source_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

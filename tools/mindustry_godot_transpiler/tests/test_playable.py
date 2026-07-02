@@ -4863,6 +4863,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"min_efficiency": min_efficiency', source)
         self.assertIn('"should_consume_power": should_consume_power', source)
 
+    def test_generated_building_comp_bridges_update_consumption_optional_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
+        self.assertIn("var optional_consumer_results: Array = _args[7] if _args.size() > 7 else []", source)
+        self.assertIn("if _args.size() <= 7:", source)
+        self.assertIn("var optional_efficiency := 1.0", source)
+        self.assertIn("for result in optional_consumer_results:", source)
+        self.assertIn("optional_efficiency = min(optional_efficiency, float(result))", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_optional_pass_state"', source)
+        self.assertIn('"method": "public void updateConsumption(){"', source)
+        self.assertIn('"comment": "//same for optionals"', source)
+        self.assertIn('"loop": "for(var cons : block.optionalConsumers){"', source)
+        self.assertIn('"optional_min": "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));"', source)
+        self.assertIn('"optional_consumer_results": optional_consumer_results', source)
+        self.assertIn('"optional_efficiency": optional_efficiency', source)
+
     def test_port_game_exposes_generated_building_comp_update_consumption_initial_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4904,6 +4922,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var result = instance.java_method_updateConsumption_194([true, false, true, true, true, 1.0, non_optional_consumer_results])", source)
         self.assertIn("var canonical = source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results)", source)
         self.assertIn('"source_owner": "PortGame.source_building_update_consumption_non_optional_pass_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
+        self.assertIn('"canonical": canonical', source)
+
+    def test_port_game_exposes_generated_building_comp_update_consumption_optional_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_updateConsumption_194([true, false, true, true, true, 1.0, [], optional_consumer_results])", source)
+        self.assertIn("var canonical = source_building_update_consumption_optional_pass_state(optional_consumer_results)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_optional_pass_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
         self.assertIn('"canonical": canonical', source)
 

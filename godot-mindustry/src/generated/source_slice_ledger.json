@@ -21965,6 +21965,39 @@
         "test_port_game_exposes_generated_building_comp_update_consumption_non_optional_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1063": {
+      "deferred_exprs": [
+        "Efficiency assignment, multiplier, update-consumer second pass, and concrete Consume side effects stay deferred to later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "//same for optionals",
+        "for(var cons : block.optionalConsumers){",
+        "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));",
+        "block.optionalConsumers"
+      ],
+      "godot_owner": "PortGame.source_building_update_consumption_optional_pass_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateConsumption_194 optional consumer pass and PortGame generated bridge to existing N663 canonical source_building_update_consumption_optional_pass_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_consumption_optional_bridge_state",
+      "source_symbols": [
+        "building_update_consumption_optional.method",
+        "building_update_consumption_optional.comment",
+        "building_update_consumption_optional.loop",
+        "building_update_consumption_optional.optional_min",
+        "building_update_consumption_optional.optional_consumer_results",
+        "building_update_consumption_optional.optional_efficiency"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_consumption_optional_to_source_state",
+        "test_generated_building_comp_bridges_update_consumption_optional_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_consumption_optional_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
