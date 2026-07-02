@@ -1383,6 +1383,10 @@ public class BuildingComp{
 
         //cap explosiveness so fluid tanks/vaults don't instakill units
         Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);
+
+        if(block.createRubble && !floor().solid && !floor().isLiquid){
+            Effect.rubble(x, y, block.size);
+        }
     }
 }
 """,
@@ -1432,15 +1436,23 @@ public class BuildingComp{
             self.assertIn("var dynamic_explosion_flammability := flammability * flammability_scale", source_text)
             self.assertIn("var dynamic_explosion_explosiveness := explosiveness * 3.5 * explosiveness_scale", source_text)
             self.assertIn("var dynamic_explosion_radius := source_tilesize * float(source_block_size) / 2.0", source_text)
+            self.assertIn("var create_rubble := bool(_args[19] if _args.size() > 19 else false)", source_text)
+            self.assertIn("var floor_solid := bool(_args[20] if _args.size() > 20 else false)", source_text)
+            self.assertIn("var floor_is_liquid := bool(_args[21] if _args.size() > 21 else false)", source_text)
+            self.assertIn("var should_create_rubble := create_rubble and not floor_solid and not floor_is_liquid", source_text)
+            self.assertIn('var rubble_call := "Effect.rubble(x, y, block.size);" if should_create_rubble else ""', source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
             self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
             self.assertIn('"buffered_power_source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"', source_text)
             self.assertIn('"splash_liquid_source_owner": "PortGame.source_building_on_destroyed_splash_liquid_state"', source_text)
             self.assertIn('"dynamic_explosion_source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"', source_text)
+            self.assertIn('"rubble_source_owner": "PortGame.source_building_on_destroyed_rubble_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
             self.assertIn('"dynamic_explosion_comment": "//cap explosiveness so fluid tanks/vaults don', source_text)
             self.assertIn('"dynamic_explosion_call": "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);"', source_text)
+            self.assertIn('"rubble_gate": "if(block.createRubble && !floor().solid && !floor().isLiquid){"', source_text)
+            self.assertIn('"rubble_effect_call": "Effect.rubble(x, y, block.size);"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
             self.assertIn('"flammability_expr": "float flammability = 0f;"', source_text)
             self.assertIn('"power_expr": "float power = 0f;"', source_text)
@@ -1475,6 +1487,11 @@ public class BuildingComp{
             self.assertIn('"dynamic_explosion_damage_explosions": damage_explosions', source_text)
             self.assertIn('"dynamic_explosion_effect": destroy_effect', source_text)
             self.assertIn('"dynamic_explosion_shake": base_shake', source_text)
+            self.assertIn('"rubble_create_rubble": should_create_rubble', source_text)
+            self.assertIn('"rubble_call": rubble_call', source_text)
+            self.assertIn('"rubble_x": source_x', source_text)
+            self.assertIn('"rubble_y": source_y', source_text)
+            self.assertIn('"rubble_size": source_block_size if should_create_rubble else 0', source_text)
             self.assertIn('"current_power": current_power', source_text)
             self.assertIn('"has_cons_power": has_cons_power', source_text)
             self.assertIn('"cons_power_buffered": cons_power_buffered', source_text)
