@@ -25979,6 +25979,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("tile.build == self()", building_generated_is_valid["exact_exprs"])
         self.assertIn("dead()", building_generated_is_valid["exact_exprs"])
 
+        building_generated_heal = source_symbols.source_slice(ledger, "N1069")
+        self.assertEqual(building_generated_heal["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_heal["java_method"], "heal()/heal(float amount)")
+        self.assertEqual(building_generated_heal["godot_owner"], "PortGame.source_building_heal_state")
+        self.assertEqual(building_generated_heal["runtime_proof"], "/root/Main.generated_building_comp_heal_bridge_state")
+        self.assertIn("@MethodPriority(100)", building_generated_heal["exact_exprs"])
+        self.assertIn("@Override", building_generated_heal["exact_exprs"])
+        self.assertIn("public void heal(){", building_generated_heal["exact_exprs"])
+        self.assertIn("public void heal(float amount){", building_generated_heal["exact_exprs"])
+        self.assertIn("healthChanged();", building_generated_heal["exact_exprs"])
+        self.assertIn("float amount", building_generated_heal["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

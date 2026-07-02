@@ -1025,6 +1025,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "heal"
+        and not method.get("parameters")
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_building_heal_state\", \"priority\": \"@MethodPriority(100)\", \"override\": \"@Override\", \"method\": \"public void heal(){\", \"health_changed_call\": \"healthChanged();\", \"amount\": null, \"health_changed\": true}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "heal"
+        and [parameter.get("name") for parameter in method.get("parameters", [])] == ["amount"]
+    ):
+        return [
+            "\tvar amount: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_building_heal_state\", \"priority\": \"@MethodPriority(100)\", \"override\": \"@Override\", \"method\": \"public void heal(float amount){\", \"health_changed_call\": \"healthChanged();\", \"amount\": amount, \"health_changed\": true}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

@@ -5075,6 +5075,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_isValid_199"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_heal_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_heal_200(_args: Array = []) -> Variant:", source)
+        self.assertIn("func java_method_heal_201(_args: Array = []) -> Variant:", source)
+        self.assertIn("var amount: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_heal_state"', source)
+        self.assertIn('"priority": "@MethodPriority(100)"', source)
+        self.assertIn('"override": "@Override"', source)
+        self.assertIn('"method": "public void heal(){"', source)
+        self.assertIn('"method": "public void heal(float amount){"', source)
+        self.assertIn('"health_changed_call": "healthChanged();"', source)
+        self.assertIn('"health_changed": true', source)
+        self.assertIn('"amount": null', source)
+        self.assertIn('"amount": amount', source)
+
+    def test_port_game_exposes_generated_building_comp_heal_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_heal_bridge_state(amount: Variant = null) -> Dictionary:", source)
+        self.assertIn("var result_no_arg = instance.java_method_heal_200()", source)
+        self.assertIn("var result_amount = instance.java_method_heal_201([amount])", source)
+        self.assertIn("var canonical_no_arg = source_building_heal_state()", source)
+        self.assertIn("var canonical_amount = source_building_heal_state(amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_heal_state"', source)
+        self.assertIn('"generated_owner_no_arg": "BuildingComp.java_method_heal_200"', source)
+        self.assertIn('"generated_owner_amount": "BuildingComp.java_method_heal_201"', source)
+        self.assertIn('"canonical_no_arg": canonical_no_arg', source)
+        self.assertIn('"canonical_amount": canonical_amount', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

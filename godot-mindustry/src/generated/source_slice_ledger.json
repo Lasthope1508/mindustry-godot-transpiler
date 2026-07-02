@@ -22176,6 +22176,40 @@
         "test_port_game_exposes_generated_building_comp_is_valid_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1069": {
+      "deferred_exprs": [
+        "healthChanged() side effects stay owned by PortGame.source_building_health_changed_state; this generated bridge records only the delegated heal call."
+      ],
+      "exact_exprs": [
+        "@MethodPriority(100)",
+        "@Override",
+        "public void heal(){",
+        "public void heal(float amount){",
+        "float amount",
+        "healthChanged();"
+      ],
+      "godot_owner": "PortGame.source_building_heal_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "heal()/heal(float amount)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_heal_200 and java_method_heal_201 plus PortGame generated bridge to existing N588 canonical source_building_heal_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_heal_bridge_state",
+      "source_symbols": [
+        "building_heal.method_no_arg",
+        "building_heal.method_amount",
+        "building_heal.priority",
+        "building_heal.no_arg_health_changed",
+        "building_heal.amount_health_changed",
+        "building_heal.amount"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_heal_to_source_state",
+        "test_generated_building_comp_bridges_heal_to_source_state",
+        "test_port_game_exposes_generated_building_comp_heal_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

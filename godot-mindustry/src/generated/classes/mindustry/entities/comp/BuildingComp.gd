@@ -1234,10 +1234,11 @@ func java_method_isValid_199(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_is_valid", "replace": "@Replace", "override": "@Override", "method": "public boolean isValid(){", "tile_build_matches_self": tile_build_matches_self, "dead_state": dead_state, "valid": valid}
 
 func java_method_heal_200(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_building_heal_state", "priority": "@MethodPriority(100)", "override": "@Override", "method": "public void heal(){", "health_changed_call": "healthChanged();", "amount": null, "health_changed": true}
 
 func java_method_heal_201(_args: Array = []) -> Variant:
-	return null
+	var amount: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_heal_state", "priority": "@MethodPriority(100)", "override": "@Override", "method": "public void heal(float amount){", "health_changed_call": "healthChanged();", "amount": amount, "health_changed": true}
 
 func java_method_hitSize_202(_args: Array = []) -> Variant:
 	return null

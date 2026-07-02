@@ -3626,5 +3626,50 @@ class BuildingComp{
             self.assertIn('"dead_state": dead_state', source_text)
             self.assertIn('"valid": valid', source_text)
 
+    def test_emit_bridges_building_comp_heal_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @MethodPriority(100)
+    @Override
+    public void heal(){
+        healthChanged();
+    }
+
+    @MethodPriority(100)
+    @Override
+    public void heal(float amount){
+        healthChanged();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_heal_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("func java_method_heal_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var amount: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_heal_state"', source_text)
+            self.assertIn('"priority": "@MethodPriority(100)"', source_text)
+            self.assertIn('"override": "@Override"', source_text)
+            self.assertIn('"method": "public void heal(){"', source_text)
+            self.assertIn('"method": "public void heal(float amount){"', source_text)
+            self.assertIn('"health_changed_call": "healthChanged();"', source_text)
+            self.assertIn('"health_changed": true', source_text)
+            self.assertIn('"amount": null', source_text)
+            self.assertIn('"amount": amount', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -4700,6 +4700,23 @@ func generated_building_comp_is_valid_bridge_state(tile_build_matches_self: bool
 		"canonical": canonical,
 	}
 
+func generated_building_comp_heal_bridge_state(amount: Variant = null) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result_no_arg = instance.java_method_heal_200()
+	var result_amount = instance.java_method_heal_201([amount])
+	var canonical_no_arg = source_building_heal_state()
+	var canonical_amount = source_building_heal_state(amount)
+	return {
+		"source_owner": "PortGame.source_building_heal_state",
+		"generated_owner_no_arg": "BuildingComp.java_method_heal_200",
+		"generated_owner_amount": "BuildingComp.java_method_heal_201",
+		"result_no_arg": result_no_arg,
+		"result_amount": result_amount,
+		"canonical_no_arg": canonical_no_arg,
+		"canonical_amount": canonical_amount,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
