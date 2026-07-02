@@ -3293,6 +3293,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_puddle_on_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_puddleOn_147"', source)
 
+    def test_generated_building_comp_bridges_configured_type_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_configured_148(_args: Array = []) -> Variant:", source)
+        self.assertIn("var value_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}", source)
+        self.assertIn("var type_name := \"void\" if bool(value_state.get(\"is_null\", false)) else str(value_state.get(\"superclass\", \"\")) if bool(value_state.get(\"is_anonymous_class\", false)) else str(value_state.get(\"class\", \"\"))", source)
+        self.assertIn("var value_kind := str(value_state.get(\"kind\", \"\"))", source)
+        self.assertIn("if value_kind == \"Item\":", source)
+        self.assertIn("if value_kind == \"Block\":", source)
+        self.assertIn("if value_kind == \"Liquid\":", source)
+        self.assertIn("if value_kind == \"UnitType\":", source)
+        self.assertIn('"source_owner": "PortGame.source_building_configured_type_state"', source)
+        self.assertIn('"assignment": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();"', source)
+        self.assertIn('"item_override": "if(value instanceof Item) type = Item.class;"', source)
+        self.assertIn('"block_override": "if(value instanceof Block) type = Block.class;"', source)
+        self.assertIn('"liquid_override": "if(value instanceof Liquid) type = Liquid.class;"', source)
+        self.assertIn('"unit_type_override": "if(value instanceof UnitType) type = UnitType.class;"', source)
+        self.assertIn('"type_name": type_name', source)
+        self.assertIn('"value_state": value_state', source)
+
+    def test_port_game_exposes_generated_building_comp_configured_type_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_configured_type_bridge_state(value_state: Dictionary) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_configured_148([{}, value_state])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_configured_type_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_configured_148"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

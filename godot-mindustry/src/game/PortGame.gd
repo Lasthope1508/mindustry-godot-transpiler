@@ -3854,6 +3854,16 @@ func generated_building_comp_puddle_on_bridge_state(puddle_state: Variant) -> Di
 		"result": result,
 	}
 
+func generated_building_comp_configured_type_bridge_state(value_state: Dictionary) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_configured_148([{}, value_state])
+	return {
+		"source_owner": "PortGame.source_building_configured_type_state",
+		"generated_owner": "BuildingComp.java_method_configured_148",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

@@ -433,6 +433,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar puddle_state: Variant = _args[0] if _args.size() > 0 else null",
             "\treturn {\"comment\": \"Called when a puddle is on this building. Only called at an interval (40 ticks).\", \"method\": \"public void puddleOn(Puddle puddle){\", \"no_op\": true, \"puddle_state\": puddle_state}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "configured"
+    ):
+        return [
+            "\tvar value_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}",
+            "\tvar type_name := \"void\" if bool(value_state.get(\"is_null\", false)) else str(value_state.get(\"superclass\", \"\")) if bool(value_state.get(\"is_anonymous_class\", false)) else str(value_state.get(\"class\", \"\"))",
+            "\tvar value_kind := str(value_state.get(\"kind\", \"\"))",
+            "\tif value_kind == \"Item\":",
+            "\t\ttype_name = \"Item\"",
+            "\tif value_kind == \"Block\":",
+            "\t\ttype_name = \"Block\"",
+            "\tif value_kind == \"Liquid\":",
+            "\t\ttype_name = \"Liquid\"",
+            "\tif value_kind == \"UnitType\":",
+            "\t\ttype_name = \"UnitType\"",
+            "\treturn {\"source_owner\": \"PortGame.source_building_configured_type_state\", \"comment\": \"//null is of type void.class; anonymous classes use their superclass.\", \"assignment\": \"Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();\", \"item_override\": \"if(value instanceof Item) type = Item.class;\", \"block_override\": \"if(value instanceof Block) type = Block.class;\", \"liquid_override\": \"if(value instanceof Liquid) type = Liquid.class;\", \"unit_type_override\": \"if(value instanceof UnitType) type = UnitType.class;\", \"type_name\": type_name, \"value_state\": value_state}",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

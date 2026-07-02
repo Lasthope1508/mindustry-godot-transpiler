@@ -771,7 +771,18 @@ func java_method_puddleOn_147(_args: Array = []) -> Variant:
 	return {"comment": "Called when a puddle is on this building. Only called at an interval (40 ticks).", "method": "public void puddleOn(Puddle puddle){", "no_op": true, "puddle_state": puddle_state}
 
 func java_method_configured_148(_args: Array = []) -> Variant:
-	return null
+	var value_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}
+	var type_name := "void" if bool(value_state.get("is_null", false)) else str(value_state.get("superclass", "")) if bool(value_state.get("is_anonymous_class", false)) else str(value_state.get("class", ""))
+	var value_kind := str(value_state.get("kind", ""))
+	if value_kind == "Item":
+		type_name = "Item"
+	if value_kind == "Block":
+		type_name = "Block"
+	if value_kind == "Liquid":
+		type_name = "Liquid"
+	if value_kind == "UnitType":
+		type_name = "UnitType"
+	return {"source_owner": "PortGame.source_building_configured_type_state", "comment": "//null is of type void.class; anonymous classes use their superclass.", "assignment": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();", "item_override": "if(value instanceof Item) type = Item.class;", "block_override": "if(value instanceof Block) type = Block.class;", "liquid_override": "if(value instanceof Liquid) type = Liquid.class;", "unit_type_override": "if(value instanceof UnitType) type = UnitType.class;", "type_name": type_name, "value_state": value_state}
 
 func java_method_updateLastAccess_149(_args: Array = []) -> Variant:
 	return null

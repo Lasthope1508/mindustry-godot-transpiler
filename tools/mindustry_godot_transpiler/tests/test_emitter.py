@@ -1038,5 +1038,50 @@ public class BuildingComp{
             self.assertIn('"no_op": true', source_text)
             self.assertIn('"puddle_state": puddle_state', source_text)
 
+    def test_emit_bridges_building_comp_configured_type_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void configured(@Nullable Unit builder, @Nullable Object value){
+        //null is of type void.class; anonymous classes use their superclass.
+        Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();
+
+        if(value instanceof Item) type = Item.class;
+        if(value instanceof Block) type = Block.class;
+        if(value instanceof Liquid) type = Liquid.class;
+        if(value instanceof UnitType) type = UnitType.class;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_configured_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var value_state: Dictionary = _args[1] if _args.size() > 1 and _args[1] is Dictionary else {}", source_text)
+            self.assertIn("var type_name := \"void\" if bool(value_state.get(\"is_null\", false)) else str(value_state.get(\"superclass\", \"\")) if bool(value_state.get(\"is_anonymous_class\", false)) else str(value_state.get(\"class\", \"\"))", source_text)
+            self.assertIn("var value_kind := str(value_state.get(\"kind\", \"\"))", source_text)
+            self.assertIn("if value_kind == \"Item\":", source_text)
+            self.assertIn("if value_kind == \"Block\":", source_text)
+            self.assertIn("if value_kind == \"Liquid\":", source_text)
+            self.assertIn("if value_kind == \"UnitType\":", source_text)
+            self.assertIn('"assignment": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();"', source_text)
+            self.assertIn('"item_override": "if(value instanceof Item) type = Item.class;"', source_text)
+            self.assertIn('"block_override": "if(value instanceof Block) type = Block.class;"', source_text)
+            self.assertIn('"liquid_override": "if(value instanceof Liquid) type = Liquid.class;"', source_text)
+            self.assertIn('"unit_type_override": "if(value instanceof UnitType) type = UnitType.class;"', source_text)
+            self.assertIn('"type_name": type_name', source_text)
+            self.assertIn('"value_state": value_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()
