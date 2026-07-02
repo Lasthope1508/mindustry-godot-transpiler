@@ -2043,5 +2043,33 @@ public class BuildingComp{
             self.assertIn('"radius": half_extent + radius_offset', source_text)
             self.assertIn('"reset": true', source_text)
 
+    def test_emit_bridges_building_comp_check_solid_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean checkSolid(){
+        return false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_checkSolid_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_check_solid_state"', source_text)
+            self.assertIn('"method": "public boolean checkSolid(){"', source_text)
+            self.assertIn('"checkSolid": false', source_text)
+
 if __name__ == "__main__":
     unittest.main()

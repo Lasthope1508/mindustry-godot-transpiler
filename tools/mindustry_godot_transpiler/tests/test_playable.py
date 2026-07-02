@@ -4126,6 +4126,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawConfigure_171"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_check_solid_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_checkSolid_172(_args: Array = []) -> Variant:", source)
+        self.assertIn('"source_owner": "PortGame.source_building_check_solid_state"', source)
+        self.assertIn('"method": "public boolean checkSolid(){"', source)
+        self.assertIn('"checkSolid": false', source)
+
+    def test_port_game_exposes_generated_building_comp_check_solid_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_check_solid_bridge_state() -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_checkSolid_172([])", source)
+        self.assertIn('"checkSolid": source_building_check_solid_state()', source)
+        self.assertIn('"source_owner": "PortGame.source_building_check_solid_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_checkSolid_172"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

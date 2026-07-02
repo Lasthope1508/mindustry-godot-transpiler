@@ -25577,6 +25577,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Lines.square(x, y, block.size * tilesize / 2f + 1f);", building_generated_draw_configure["exact_exprs"])
         self.assertIn("Draw.reset();", building_generated_draw_configure["exact_exprs"])
 
+        building_generated_check_solid = source_symbols.source_slice(ledger, "N1034")
+        self.assertEqual(building_generated_check_solid["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_check_solid["java_method"], "checkSolid()")
+        self.assertEqual(building_generated_check_solid["godot_owner"], "PortGame.source_building_check_solid_state")
+        self.assertEqual(building_generated_check_solid["runtime_proof"], "/root/Main.generated_building_comp_check_solid_bridge_state")
+        self.assertIn("public boolean checkSolid(){", building_generated_check_solid["exact_exprs"])
+        self.assertIn("return false;", building_generated_check_solid["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

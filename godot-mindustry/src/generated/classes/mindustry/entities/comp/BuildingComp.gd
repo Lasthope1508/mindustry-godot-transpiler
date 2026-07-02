@@ -1012,7 +1012,7 @@ func java_method_drawConfigure_171(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_draw_configure_state", "method": "public void drawConfigure(){", "color": "Pal.accent", "stroke": 1.0, "shape": "square", "square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);", "x": source_x, "y": source_y, "halfExtent": half_extent, "radiusOffset": radius_offset, "radius": half_extent + radius_offset, "reset": true, "source_x": source_x, "source_y": source_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize}
 
 func java_method_checkSolid_172(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_building_check_solid_state", "method": "public boolean checkSolid(){", "checkSolid": false}
 
 func java_method_handleDamage_173(_args: Array = []) -> Variant:
 	return null

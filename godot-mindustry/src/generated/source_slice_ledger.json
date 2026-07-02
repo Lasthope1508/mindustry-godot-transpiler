@@ -20900,6 +20900,32 @@
         "test_port_game_exposes_generated_building_comp_draw_configure_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1034": {
+      "deferred_exprs": [
+        "sense(LAccess.solid) composition with block.solid remains owned by a separate source owner; this slice wires only the base BuildingComp default false return."
+      ],
+      "exact_exprs": [
+        "public boolean checkSolid(){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_building_check_solid_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "checkSolid()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_checkSolid_172 and PortGame generated bridge to existing N540 canonical source_building_check_solid_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_check_solid_bridge_state",
+      "source_symbols": [
+        "building_check_solid.method",
+        "building_check_solid.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_check_solid_to_source_state",
+        "test_generated_building_comp_bridges_check_solid_to_source_state",
+        "test_port_game_exposes_generated_building_comp_check_solid_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
