@@ -25808,6 +25808,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return potentialEfficiency > 0;", building_generated_can_consume["exact_exprs"])
         self.assertIn("potentialEfficiency > 0", building_generated_can_consume["exact_exprs"])
 
+        building_generated_delta = source_symbols.source_slice(ledger, "N1055")
+        self.assertEqual(building_generated_delta["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_delta["java_method"], "delta()")
+        self.assertEqual(building_generated_delta["godot_owner"], "PortGame.source_building_delta")
+        self.assertEqual(building_generated_delta["runtime_proof"], "/root/Main.generated_building_comp_delta_bridge_state")
+        self.assertIn("/** Scaled delta. */", building_generated_delta["exact_exprs"])
+        self.assertIn("public float delta(){", building_generated_delta["exact_exprs"])
+        self.assertIn("return Time.delta * timeScale;", building_generated_delta["exact_exprs"])
+        self.assertIn("Time.delta", building_generated_delta["exact_exprs"])
+        self.assertIn("timeScale", building_generated_delta["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

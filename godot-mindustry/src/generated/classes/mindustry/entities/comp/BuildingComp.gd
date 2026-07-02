@@ -1130,7 +1130,10 @@ func java_method_canConsume_189(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_can_consume_state", "method": "public boolean canConsume(){", "potentialEfficiency": potential_efficiency, "canConsume": can_consume}
 
 func java_method_delta_190(_args: Array = []) -> Variant:
-	return null
+	var source_delta := float(_args[0] if _args.size() > 0 else 0.0)
+	var time_scale := float(_args[1] if _args.size() > 1 else 0.0)
+	var delta := source_delta * time_scale
+	return {"source_owner": "PortGame.source_building_delta", "comment": "/** Scaled delta. */", "method": "public float delta(){", "source_delta": source_delta, "time_scale": time_scale, "delta": delta}
 
 func java_method_edelta_191(_args: Array = []) -> Variant:
 	return null

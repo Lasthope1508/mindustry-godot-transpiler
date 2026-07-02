@@ -4665,6 +4665,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_canConsume_189"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_delta_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_delta_190(_args: Array = []) -> Variant:", source)
+        self.assertIn("var source_delta := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var time_scale := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var delta := source_delta * time_scale", source)
+        self.assertIn('"source_owner": "PortGame.source_building_delta"', source)
+        self.assertIn('"comment": "/** Scaled delta. */"', source)
+        self.assertIn('"method": "public float delta(){"', source)
+        self.assertIn('"source_delta": source_delta', source)
+        self.assertIn('"time_scale": time_scale', source)
+        self.assertIn('"delta": delta', source)
+
+    def test_port_game_exposes_generated_building_comp_delta_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_delta_bridge_state(source_delta: float, time_scale: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_delta_190([source_delta, time_scale])", source)
+        self.assertIn("var canonical = source_building_delta(source_delta, time_scale)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_delta"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_delta_190"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

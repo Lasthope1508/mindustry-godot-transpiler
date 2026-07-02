@@ -871,6 +871,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "delta"
+    ):
+        return [
+            "\tvar source_delta := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar time_scale := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar delta := source_delta * time_scale",
+            "\treturn {\"source_owner\": \"PortGame.source_building_delta\", \"comment\": \"/** Scaled delta. */\", \"method\": \"public float delta(){\", \"source_delta\": source_delta, \"time_scale\": time_scale, \"delta\": delta}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

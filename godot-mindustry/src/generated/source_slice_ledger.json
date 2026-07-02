@@ -21646,6 +21646,39 @@
         "test_port_game_exposes_generated_building_comp_can_consume_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1055": {
+      "deferred_exprs": [
+        "Time.delta source clock injection stays explicit runtime input from existing N560 canonical source_building_delta contract.",
+        "Subsequent edelta() behavior remains owned by later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "/** Scaled delta. */",
+        "public float delta(){",
+        "return Time.delta * timeScale;",
+        "Time.delta",
+        "timeScale"
+      ],
+      "godot_owner": "PortGame.source_building_delta",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "delta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_delta_190 and PortGame generated bridge to existing N560 canonical source_building_delta helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_delta_bridge_state",
+      "source_symbols": [
+        "building_delta.comment",
+        "building_delta.method",
+        "building_delta.return",
+        "building_delta.source_delta",
+        "building_delta.time_scale"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_delta_to_source_state",
+        "test_generated_building_comp_bridges_delta_to_source_state",
+        "test_port_game_exposes_generated_building_comp_delta_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
