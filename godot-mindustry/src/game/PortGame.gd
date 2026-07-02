@@ -4350,6 +4350,20 @@ func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, 
 		"canonical": canonical,
 	}
 
+func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_damage_179([bullet, source_team, damage_amount])
+	var canonical = source_building_bullet_damage_state(bullet, source_team, damage_amount)
+	canonical["comment"] = "/** Handles splash damage with a bullet source. */"
+	canonical["method"] = "public void damage(Bullet bullet, Team source, float damage){"
+	return {
+		"source_owner": "PortGame.source_building_bullet_damage_state",
+		"generated_owner": "BuildingComp.java_method_damage_179",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

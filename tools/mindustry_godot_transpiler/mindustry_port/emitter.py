@@ -732,6 +732,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "damage"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Bullet", "Team", "float"]
+    ):
+        return [
+            "\tvar bullet: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar source_team: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar damage_amount := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_bullet_damage_state\", \"comment\": \"/** Handles splash damage with a bullet source. */\", \"method\": \"public void damage(Bullet bullet, Team source, float damage){\", \"bullet\": bullet, \"source_team\": source_team, \"damage\": damage_amount, \"delegates_to_source_damage\": true, \"fires_bullet_damage_event\": true}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

@@ -4295,6 +4295,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_damage_178"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_bullet_damage_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_damage_179(_args: Array = []) -> Variant:", source)
+        self.assertIn("var bullet: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn("var source_team: Variant = _args[1] if _args.size() > 1 else null", source)
+        self.assertIn("var damage_amount := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_bullet_damage_state"', source)
+        self.assertIn('"comment": "/** Handles splash damage with a bullet source. */"', source)
+        self.assertIn('"method": "public void damage(Bullet bullet, Team source, float damage){"', source)
+        self.assertIn('"bullet": bullet', source)
+        self.assertIn('"source_team": source_team', source)
+        self.assertIn('"damage": damage_amount', source)
+        self.assertIn('"delegates_to_source_damage": true', source)
+        self.assertIn('"fires_bullet_damage_event": true', source)
+
+    def test_port_game_exposes_generated_building_comp_bullet_damage_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_damage_179([bullet, source_team, damage_amount])", source)
+        self.assertIn("var canonical = source_building_bullet_damage_state(bullet, source_team, damage_amount)", source)
+        self.assertIn('canonical["comment"] = "/** Handles splash damage with a bullet source. */"', source)
+        self.assertIn('canonical["method"] = "public void damage(Bullet bullet, Team source, float damage){"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_bullet_damage_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_179"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

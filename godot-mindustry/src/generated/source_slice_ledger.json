@@ -21118,6 +21118,42 @@
         "test_port_game_exposes_generated_building_comp_damage_delegate_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1041": {
+      "deferred_exprs": [
+        "damage(Team source, float damage) delegates through source_building_damage_delegate_state; this slice wires only the generated bullet overload and event-fire state.",
+        "Actual Events bus dispatch remains represented as source-backed event state until runtime event bus parity exists."
+      ],
+      "exact_exprs": [
+        "/** Handles splash damage with a bullet source. */",
+        "public void damage(Bullet bullet, Team source, float damage){",
+        "damage(source, damage);",
+        "Events.fire(bulletDamageEvent.set(self(), bullet));",
+        "bullet",
+        "source",
+        "damage"
+      ],
+      "godot_owner": "PortGame.source_building_bullet_damage_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(Bullet bullet, Team source, float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_damage_179 and PortGame generated bridge to existing N530 canonical source_building_bullet_damage_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_bullet_damage_bridge_state",
+      "source_symbols": [
+        "building_bullet_damage.delegate",
+        "building_bullet_damage.event",
+        "building_bullet_damage.event_field",
+        "building_bullet_damage.bullet",
+        "building_bullet_damage.source_team",
+        "building_bullet_damage.damage"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_bullet_damage_to_source_state",
+        "test_generated_building_comp_bridges_bullet_damage_to_source_state",
+        "test_port_game_exposes_generated_building_comp_bullet_damage_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
