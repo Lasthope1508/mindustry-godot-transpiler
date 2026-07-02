@@ -3944,6 +3944,20 @@ func generated_building_comp_on_destroyed_item_explosion_bridge_state(base_explo
 		"canonical": canonical,
 	}
 
+func generated_building_comp_on_destroyed_liquid_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states])
+	var item_canonical = source_building_on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
+	var canonical = source_building_on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
+	return {
+		"source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
+		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"result": result,
+		"item_canonical": item_canonical,
+		"canonical": canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

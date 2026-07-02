@@ -1367,6 +1367,11 @@ public class BuildingComp{
                 power += item.charge * Mathf.pow(amount, 1.1f) * 150f;
             }
         }
+
+        if(block.hasLiquids){
+            flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);
+            explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);
+        }
     }
 }
 """,
@@ -1387,7 +1392,13 @@ public class BuildingComp{
             self.assertIn("var flammability := 0.0", source_text)
             self.assertIn("var power := 0.0", source_text)
             self.assertIn("var item_amount: int = min(int(item_state.get(\"amount\", 0)), item_cap)", source_text)
+            self.assertIn("var has_liquids := bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var liquid_states: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []", source_text)
+            self.assertIn("if has_liquids:", source_text)
+            self.assertIn("flammability += float(liquid_state.get(\"flammability\", 0.0)) * float(liquid_state.get(\"amount\", 0.0)) / 2.0", source_text)
+            self.assertIn("explosiveness += float(liquid_state.get(\"explosiveness\", 0.0)) * float(liquid_state.get(\"amount\", 0.0)) / 2.0", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
+            self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
@@ -1399,9 +1410,13 @@ public class BuildingComp{
             self.assertIn('"explosiveness_add": "explosiveness += item.explosiveness * amount;"', source_text)
             self.assertIn('"flammability_add": "flammability += item.flammability * amount;"', source_text)
             self.assertIn('"power_add": "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;"', source_text)
+            self.assertIn('"has_liquids_gate": "if(block.hasLiquids){"', source_text)
+            self.assertIn('"liquid_flammability_add": "flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);"', source_text)
+            self.assertIn('"liquid_explosiveness_add": "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);"', source_text)
             self.assertIn('"base_explosiveness": base_explosiveness', source_text)
             self.assertIn('"has_items": has_items', source_text)
             self.assertIn('"item_cap": item_cap', source_text)
+            self.assertIn('"has_liquids": has_liquids', source_text)
             self.assertIn('"explosiveness": explosiveness', source_text)
             self.assertIn('"flammability": flammability', source_text)
             self.assertIn('"power": power', source_text)

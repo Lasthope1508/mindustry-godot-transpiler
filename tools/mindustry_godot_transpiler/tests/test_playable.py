@@ -3532,7 +3532,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var flammability := 0.0", source)
         self.assertIn("var power := 0.0", source)
         self.assertIn("var item_amount: int = min(int(item_state.get(\"amount\", 0)), item_cap)", source)
+        self.assertIn("var has_liquids := bool(_args[4] if _args.size() > 4 else false)", source)
+        self.assertIn("var liquid_states: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []", source)
+        self.assertIn("if has_liquids:", source)
+        self.assertIn('flammability += float(liquid_state.get("flammability", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0', source)
+        self.assertIn('explosiveness += float(liquid_state.get("explosiveness", 0.0)) * float(liquid_state.get("amount", 0.0)) / 2.0', source)
         self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source)
+        self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source)
         self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source)
         self.assertIn('"method": "public void onDestroyed(){"', source)
         self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source)
@@ -3544,9 +3550,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"explosiveness_add": "explosiveness += item.explosiveness * amount;"', source)
         self.assertIn('"flammability_add": "flammability += item.flammability * amount;"', source)
         self.assertIn('"power_add": "power += item.charge * Mathf.pow(amount, 1.1f) * 150f;"', source)
+        self.assertIn('"has_liquids_gate": "if(block.hasLiquids){"', source)
+        self.assertIn('"liquid_flammability_add": "flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);"', source)
+        self.assertIn('"liquid_explosiveness_add": "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);"', source)
         self.assertIn('"base_explosiveness": base_explosiveness', source)
         self.assertIn('"has_items": has_items', source)
         self.assertIn('"item_cap": item_cap', source)
+        self.assertIn('"has_liquids": has_liquids', source)
         self.assertIn('"explosiveness": explosiveness', source)
         self.assertIn('"flammability": flammability', source)
         self.assertIn('"power": power', source)
@@ -3561,6 +3571,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var canonical = source_building_on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)", source)
         self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_onDestroyed_155"', source)
+        self.assertIn('"canonical": canonical', source)
+
+    def test_port_game_exposes_generated_building_comp_on_destroyed_liquid_explosion_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_on_destroyed_liquid_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states])", source)
+        self.assertIn("var item_canonical = source_building_on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)", source)
+        self.assertIn('var canonical = source_building_on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)', source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onDestroyed_155"', source)
+        self.assertIn('"item_canonical": item_canonical', source)
         self.assertIn('"canonical": canonical', source)
 
     def test_port_game_exposes_source_building_draw_status_state(self):
