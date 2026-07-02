@@ -5393,6 +5393,15 @@ func source_building_can_dump_liquid_default_state(to_state: Variant, liquid: Va
 		"can_dump_liquid": true,
 	}
 
+func source_building_can_dump_item_default_state(to_state: Variant, item: Variant) -> Dictionary:
+	return {
+		"method": "public boolean canDump(Building to, Item item){",
+		"return_true": "return true;",
+		"to_state": to_state,
+		"item": item,
+		"can_dump_item": true,
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",

@@ -2118,6 +2118,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_true": "return true;"', source)
         self.assertIn('"can_dump_liquid": true', source)
 
+    def test_port_game_exposes_source_building_can_dump_item_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_can_dump_item_default_state(to_state: Variant, item: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean canDump(Building to, Item item){"', source)
+        self.assertIn('"return_true": "return true;"', source)
+        self.assertIn('"can_dump_item": true', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

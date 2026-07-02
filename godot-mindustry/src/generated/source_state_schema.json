@@ -15588,6 +15588,72 @@
       "source_slice": "N943",
       "status": "active"
     },
+    "source_building_can_dump_item_default_input": {
+      "keys": {
+        "item": {
+          "java_expr": "item",
+          "java_method": "canDump(Building to, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N965 BuildingComp.canDump default canonical key.",
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "to_state": {
+          "java_expr": "to",
+          "java_method": "canDump(Building to, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N965 BuildingComp.canDump default canonical key.",
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_can_dump_item_default_state",
+      "source_slice": "N965",
+      "status": "active"
+    },
+    "source_building_can_dump_item_default_result": {
+      "keys": {
+        "can_dump_item": {
+          "java_expr": "return true;",
+          "java_method": "canDump(Building to, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N965 BuildingComp.canDump default canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "item": {
+          "alias_of": "source_building_can_dump_item_default_input.item",
+          "rule": "Echoes canonical input key in N965 result.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "method": {
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "java_method": "canDump(Building to, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N965 BuildingComp.canDump default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_true": {
+          "java_expr": "return true;",
+          "java_method": "canDump(Building to, Item item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N965 BuildingComp.canDump default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "to_state": {
+          "alias_of": "source_building_can_dump_item_default_input.to_state",
+          "rule": "Echoes canonical input key in N965 result.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_can_dump_item_default_state",
+      "source_slice": "N965",
+      "status": "active"
+    },
     "source_building_can_pickup_input": {
       "keys": {
         "blockCanPickup": {

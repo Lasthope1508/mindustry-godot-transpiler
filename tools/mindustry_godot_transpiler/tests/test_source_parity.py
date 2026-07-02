@@ -1530,6 +1530,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_can_dump_item_default_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_can_dump_item_default_source"))
+        report = source_parity.verify_building_can_dump_item_default_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public boolean canDump(Building to, Item item){",
+            "return_true": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_move_liquid_forward_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_forward_source"))
         report = source_parity.verify_building_move_liquid_forward_source(ROOT / "mindustry-upstream")

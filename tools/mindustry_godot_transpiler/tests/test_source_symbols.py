@@ -17677,6 +17677,33 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(can_dump_liquid["java_expr"], "return true;")
         self.assertEqual(can_dump_liquid["godot_symbol"], "source_building_can_dump_liquid_default_result.can_dump_liquid")
 
+    def test_building_can_dump_item_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_can_dump_item_default.method")
+        self.assertEqual(method["java_expr"], "public boolean canDump(Building to, Item item){")
+        self.assertEqual(method["java_method"], "canDump(Building to, Item item)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_can_dump_item_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_can_dump_item_default_state")
+        self.assertEqual(method["godot_symbol"], "source_building_can_dump_item_default_result.method")
+
+        to_state = source_symbols.source_symbol(registry, "building_can_dump_item_default.to_state")
+        self.assertEqual(to_state["java_expr"], "to")
+        self.assertEqual(to_state["status"], "explicit-input")
+        self.assertEqual(to_state["godot_symbol"], "source_building_can_dump_item_default_input.to_state")
+
+        item = source_symbols.source_symbol(registry, "building_can_dump_item_default.item")
+        self.assertEqual(item["java_expr"], "item")
+        self.assertEqual(item["status"], "explicit-input")
+        self.assertEqual(item["godot_symbol"], "source_building_can_dump_item_default_input.item")
+
+        can_dump_item = source_symbols.source_symbol(registry, "building_can_dump_item_default.can_dump_item")
+        self.assertEqual(can_dump_item["java_expr"], "return true;")
+        self.assertEqual(can_dump_item["godot_symbol"], "source_building_can_dump_item_default_result.can_dump_item")
+
     def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19139,9 +19166,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 561)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 562)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 566)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 567)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23951,6 +23978,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_can_dump_liquid_default["godot_owner"], "PortGame.source_building_can_dump_liquid_default_state")
         self.assertIn("public boolean canDumpLiquid(Building to, Liquid liquid){", building_can_dump_liquid_default["exact_exprs"])
         self.assertIn("return true;", building_can_dump_liquid_default["exact_exprs"])
+
+        building_can_dump_item_default = source_symbols.source_slice(ledger, "N965")
+        self.assertEqual(building_can_dump_item_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_can_dump_item_default["java_method"], "canDump(Building to, Item item)")
+        self.assertEqual(building_can_dump_item_default["godot_owner"], "PortGame.source_building_can_dump_item_default_state")
+        self.assertIn("public boolean canDump(Building to, Item item){", building_can_dump_item_default["exact_exprs"])
+        self.assertIn("return true;", building_can_dump_item_default["exact_exprs"])
 
         building_move_liquid_forward = source_symbols.source_slice(ledger, "N944")
         self.assertEqual(building_move_liquid_forward["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -29358,6 +29392,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return_true", building_can_dump_liquid_default["return_keys"])
         self.assertIn("can_dump_liquid", building_can_dump_liquid_default["return_keys"])
         self.assertEqual(building_can_dump_liquid_default["source_method"], "canDumpLiquid(Building to, Liquid liquid)")
+
+        building_can_dump_item_default = source_symbols.api_contract(contracts, "PortGame.source_building_can_dump_item_default_state")
+        self.assertEqual([param["name"] for param in building_can_dump_item_default["params"]], ["to_state", "item"])
+        self.assertEqual(building_can_dump_item_default["params"][0]["schema"], "source_building_can_dump_item_default_input.to_state")
+        self.assertEqual(building_can_dump_item_default["params"][1]["schema"], "source_building_can_dump_item_default_input.item")
+        self.assertIn("return_true", building_can_dump_item_default["return_keys"])
+        self.assertIn("can_dump_item", building_can_dump_item_default["return_keys"])
+        self.assertEqual(building_can_dump_item_default["source_method"], "canDump(Building to, Item item)")
 
         building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
         self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
@@ -37523,6 +37565,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_can_dump_liquid_default_result["keys"]["return_true"]["java_expr"], "return true;")
         self.assertEqual(source_building_can_dump_liquid_default_result["keys"]["can_dump_liquid"]["java_expr"], "return true;")
         self.assertEqual(source_building_can_dump_liquid_default_result["keys"]["to_state"]["alias_of"], "source_building_can_dump_liquid_default_input.to_state")
+
+        source_building_can_dump_item_default_input = source_symbols.state_schema(schema, "source_building_can_dump_item_default_input")
+        self.assertEqual(source_building_can_dump_item_default_input["keys"]["to_state"]["java_expr"], "to")
+        self.assertEqual(source_building_can_dump_item_default_input["keys"]["item"]["java_expr"], "item")
+
+        source_building_can_dump_item_default_result = source_symbols.state_schema(schema, "source_building_can_dump_item_default_result")
+        self.assertEqual(source_building_can_dump_item_default_result["keys"]["method"]["java_expr"], "public boolean canDump(Building to, Item item){")
+        self.assertEqual(source_building_can_dump_item_default_result["keys"]["return_true"]["java_expr"], "return true;")
+        self.assertEqual(source_building_can_dump_item_default_result["keys"]["can_dump_item"]["java_expr"], "return true;")
+        self.assertEqual(source_building_can_dump_item_default_result["keys"]["to_state"]["alias_of"], "source_building_can_dump_item_default_input.to_state")
 
         source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
         self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")

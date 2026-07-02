@@ -20269,6 +20269,34 @@
         "test_port_game_exposes_source_building_dump_terminal_failure_state",
         "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N965": {
+      "deferred_exprs": [
+        "Override-specific canDump behavior remains separate from this default BuildingComp predicate slice."
+      ],
+      "exact_exprs": [
+        "public boolean canDump(Building to, Item item){",
+        "return true;"
+      ],
+      "godot_owner": "PortGame.source_building_can_dump_item_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "canDump(Building to, Item item)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed default BuildingComp.canDump predicate returning true.",
+      "runtime_proof": "/root/Main.source_building_can_dump_item_default_state",
+      "source_symbols": [
+        "building_can_dump_item_default.method",
+        "building_can_dump_item_default.return_true",
+        "building_can_dump_item_default.to_state",
+        "building_can_dump_item_default.item",
+        "building_can_dump_item_default.can_dump_item"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_can_dump_item_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_can_dump_item_default_state",
+        "test_building_can_dump_item_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
