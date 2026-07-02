@@ -20862,6 +20862,44 @@
         "test_port_game_exposes_generated_building_comp_should_hide_configure_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1033": {
+      "deferred_exprs": [
+        "Concrete Draw/Lines rendering side effects remain owned by Godot rendering integration; this slice wires only the generated bridge to the existing N567 canonical drawConfigure square state."
+      ],
+      "exact_exprs": [
+        "public void drawConfigure(){",
+        "Draw.color(Pal.accent);",
+        "Lines.stroke(1f);",
+        "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
+        "Draw.reset();"
+      ],
+      "godot_owner": "PortGame.source_building_draw_configure_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "drawConfigure()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_drawConfigure_171 and PortGame generated bridge to existing N567 canonical source_building_draw_configure_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_draw_configure_bridge_state",
+      "source_symbols": [
+        "building_draw_configure.method",
+        "building_draw_configure.color",
+        "building_draw_configure.stroke",
+        "building_draw_configure.square",
+        "building_draw_configure.half_extent",
+        "building_draw_configure.radius_offset",
+        "building_draw_configure.reset",
+        "building_draw_configure.source_x",
+        "building_draw_configure.source_y",
+        "building_draw_configure.block_size",
+        "building_draw_configure.tilesize"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_draw_configure_to_source_state",
+        "test_generated_building_comp_bridges_draw_configure_to_source_state",
+        "test_port_game_exposes_generated_building_comp_draw_configure_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

@@ -4093,6 +4093,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_shouldHideConfigure_170"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_draw_configure_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawConfigure_171(_args: Array = []) -> Variant:", source)
+        self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var half_extent := float(block_size_value) * source_tilesize / 2.0", source)
+        self.assertIn("var radius_offset := 1.0", source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_configure_state"', source)
+        self.assertIn('"method": "public void drawConfigure(){"', source)
+        self.assertIn('"color": "Pal.accent"', source)
+        self.assertIn('"stroke": 1.0', source)
+        self.assertIn('"shape": "square"', source)
+        self.assertIn('"square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);"', source)
+        self.assertIn('"halfExtent": half_extent', source)
+        self.assertIn('"radiusOffset": radius_offset', source)
+        self.assertIn('"radius": half_extent + radius_offset', source)
+        self.assertIn('"reset": true', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_configure_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_configure_bridge_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_drawConfigure_171([source_x, source_y, block_size_value, source_tilesize])", source)
+        self.assertIn("var canonical = source_building_draw_configure_state(source_x, source_y, block_size_value, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_configure_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawConfigure_171"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
@@ -4823,9 +4856,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_block_half_extent(block_size_value: int, source_tilesize: float) -> float:", source)
         self.assertIn("return float(block_size_value) * source_tilesize / 2.0", source)
         self.assertIn("func source_building_draw_configure_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("source_building_block_half_extent(block_size_value, source_tilesize) + 1.0", source)
+        self.assertIn('var half_extent := source_building_block_half_extent(block_size_value, source_tilesize)', source)
+        self.assertIn('"radius": half_extent + 1.0', source)
+        self.assertIn('"method": "public void drawConfigure(){"', source)
         self.assertIn('"color": "Pal.accent"', source)
         self.assertIn('"stroke": 1.0', source)
+        self.assertIn('"square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);"', source)
+        self.assertIn('"halfExtent": half_extent', source)
+        self.assertIn('"radiusOffset": 1.0', source)
         self.assertIn('"reset": true', source)
     def test_port_game_exposes_source_building_check_solid_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

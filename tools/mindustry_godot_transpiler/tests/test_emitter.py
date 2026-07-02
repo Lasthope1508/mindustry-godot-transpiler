@@ -1997,5 +1997,51 @@ public class BuildingComp{
             self.assertIn('"player": player', source_text)
             self.assertIn('"should_hide": false', source_text)
 
+    def test_emit_bridges_building_comp_draw_configure_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawConfigure(){
+        Draw.color(Pal.accent);
+        Lines.stroke(1f);
+        Lines.square(x, y, block.size * tilesize / 2f + 1f);
+        Draw.reset();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawConfigure_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var half_extent := float(block_size_value) * source_tilesize / 2.0", source_text)
+            self.assertIn("var radius_offset := 1.0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_draw_configure_state"', source_text)
+            self.assertIn('"method": "public void drawConfigure(){"', source_text)
+            self.assertIn('"color": "Pal.accent"', source_text)
+            self.assertIn('"stroke": 1.0', source_text)
+            self.assertIn('"shape": "square"', source_text)
+            self.assertIn('"square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);"', source_text)
+            self.assertIn('"x": source_x', source_text)
+            self.assertIn('"y": source_y', source_text)
+            self.assertIn('"halfExtent": half_extent', source_text)
+            self.assertIn('"radiusOffset": radius_offset', source_text)
+            self.assertIn('"radius": half_extent + radius_offset', source_text)
+            self.assertIn('"reset": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

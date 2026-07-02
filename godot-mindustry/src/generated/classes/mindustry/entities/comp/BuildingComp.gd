@@ -1003,7 +1003,13 @@ func java_method_shouldHideConfigure_170(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_should_hide_configure_state", "comment": "/** Whether this configuration should be hidden now. Called every frame the config is open. */", "method": "public boolean shouldHideConfigure(Player player){", "return_false": "return false;", "player": player, "should_hide": false}
 
 func java_method_drawConfigure_171(_args: Array = []) -> Variant:
-	return null
+	var source_x := float(_args[0] if _args.size() > 0 else 0.0)
+	var source_y := float(_args[1] if _args.size() > 1 else 0.0)
+	var block_size_value := int(_args[2] if _args.size() > 2 else 0)
+	var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)
+	var half_extent := float(block_size_value) * source_tilesize / 2.0
+	var radius_offset := 1.0
+	return {"source_owner": "PortGame.source_building_draw_configure_state", "method": "public void drawConfigure(){", "color": "Pal.accent", "stroke": 1.0, "shape": "square", "square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);", "x": source_x, "y": source_y, "halfExtent": half_extent, "radiusOffset": radius_offset, "radius": half_extent + radius_offset, "reset": true, "source_x": source_x, "source_y": source_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize}
 
 func java_method_checkSolid_172(_args: Array = []) -> Variant:
 	return null

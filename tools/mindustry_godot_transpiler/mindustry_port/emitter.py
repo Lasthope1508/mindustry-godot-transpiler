@@ -645,6 +645,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawConfigure"
+    ):
+        return [
+            "\tvar source_x := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_y := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar block_size_value := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar half_extent := float(block_size_value) * source_tilesize / 2.0",
+            "\tvar radius_offset := 1.0",
+            "\treturn {\"source_owner\": \"PortGame.source_building_draw_configure_state\", \"method\": \"public void drawConfigure(){\", \"color\": \"Pal.accent\", \"stroke\": 1.0, \"shape\": \"square\", \"square\": \"Lines.square(x, y, block.size * tilesize / 2f + 1f);\", \"x\": source_x, \"y\": source_y, \"halfExtent\": half_extent, \"radiusOffset\": radius_offset, \"radius\": half_extent + radius_offset, \"reset\": true, \"source_x\": source_x, \"source_y\": source_y, \"block_size_value\": block_size_value, \"source_tilesize\": source_tilesize}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

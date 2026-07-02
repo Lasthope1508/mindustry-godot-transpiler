@@ -25566,6 +25566,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean shouldHideConfigure(Player player){", building_generated_should_hide_configure["exact_exprs"])
         self.assertIn("return false;", building_generated_should_hide_configure["exact_exprs"])
 
+        building_generated_draw_configure = source_symbols.source_slice(ledger, "N1033")
+        self.assertEqual(building_generated_draw_configure["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_draw_configure["java_method"], "drawConfigure()")
+        self.assertEqual(building_generated_draw_configure["godot_owner"], "PortGame.source_building_draw_configure_state")
+        self.assertEqual(building_generated_draw_configure["runtime_proof"], "/root/Main.generated_building_comp_draw_configure_bridge_state")
+        self.assertIn("public void drawConfigure(){", building_generated_draw_configure["exact_exprs"])
+        self.assertIn("Draw.color(Pal.accent);", building_generated_draw_configure["exact_exprs"])
+        self.assertIn("Lines.stroke(1f);", building_generated_draw_configure["exact_exprs"])
+        self.assertIn("Lines.square(x, y, block.size * tilesize / 2f + 1f);", building_generated_draw_configure["exact_exprs"])
+        self.assertIn("Draw.reset();", building_generated_draw_configure["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

@@ -4232,6 +4232,18 @@ func generated_building_comp_should_hide_configure_bridge_state(player: Variant)
 		"canonical": canonical,
 	}
 
+func generated_building_comp_draw_configure_bridge_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawConfigure_171([source_x, source_y, block_size_value, source_tilesize])
+	var canonical = source_building_draw_configure_state(source_x, source_y, block_size_value, source_tilesize)
+	return {
+		"source_owner": "PortGame.source_building_draw_configure_state",
+		"generated_owner": "BuildingComp.java_method_drawConfigure_171",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
@@ -5057,14 +5069,23 @@ func source_building_block_half_extent(block_size_value: int, source_tilesize: f
 	return float(block_size_value) * source_tilesize / 2.0
 
 func source_building_draw_configure_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	var half_extent := source_building_block_half_extent(block_size_value, source_tilesize)
 	return {
+		"method": "public void drawConfigure(){",
 		"color": "Pal.accent",
 		"stroke": 1.0,
 		"shape": "square",
+		"square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);",
 		"x": source_x,
 		"y": source_y,
-		"radius": source_building_block_half_extent(block_size_value, source_tilesize) + 1.0,
+		"halfExtent": half_extent,
+		"radiusOffset": 1.0,
+		"radius": half_extent + 1.0,
 		"reset": true,
+		"source_x": source_x,
+		"source_y": source_y,
+		"block_size_value": block_size_value,
+		"source_tilesize": source_tilesize,
 	}
 func source_building_check_solid_state() -> bool:
 	return false
