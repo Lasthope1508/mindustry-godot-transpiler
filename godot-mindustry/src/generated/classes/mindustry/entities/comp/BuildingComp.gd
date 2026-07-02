@@ -804,7 +804,8 @@ func java_method_afterDestroyed_151(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_after_destroyed_state", "comment": "Called *after* the tile has been removed.", "method": "public void afterDestroyed(){", "guard": "if(block.destroyBullet != null){", "create_call": "block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));", "team_choice": "block.destroyBulletSameTeam ? team : Team.derelict", "rotation_expr": "Mathf.randomSeed(id(), 360f)", "has_destroy_bullet": has_destroy_bullet, "destroy_bullet_same_team": destroy_bullet_same_team, "team_id": team_id, "source_x": source_x, "source_y": source_y, "building_id": building_id}
 
 func java_method_explosionItemCap_152(_args: Array = []) -> Variant:
-	return null
+	var item_capacity := int(_args[0] if _args.size() > 0 else 0)
+	return {"source_owner": "PortGame.source_building_explosion_item_cap_state", "comment": "@return the cap for item amount calculations, used when this block explodes.", "method": "public int explosionItemCap(){", "return_expr": "return block.itemCapacity;", "item_capacity": item_capacity, "explosion_item_cap": item_capacity}
 
 func java_method_splashLiquid_153(_args: Array = []) -> Variant:
 	return null

@@ -1200,5 +1200,38 @@ public class BuildingComp{
             self.assertIn('"source_y": source_y', source_text)
             self.assertIn('"building_id": building_id', source_text)
 
+    def test_emit_bridges_building_comp_explosion_item_cap_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** @return the cap for item amount calculations, used when this block explodes. */
+    public int explosionItemCap(){
+        return block.itemCapacity;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_explosionItemCap_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item_capacity := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_explosion_item_cap_state"', source_text)
+            self.assertIn('"comment": "@return the cap for item amount calculations, used when this block explodes."', source_text)
+            self.assertIn('"method": "public int explosionItemCap(){"', source_text)
+            self.assertIn('"return_expr": "return block.itemCapacity;"', source_text)
+            self.assertIn('"item_capacity": item_capacity', source_text)
+            self.assertIn('"explosion_item_cap": item_capacity', source_text)
+
 if __name__ == "__main__":
     unittest.main()

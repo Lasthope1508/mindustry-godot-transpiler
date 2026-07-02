@@ -3412,6 +3412,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_afterDestroyed_151"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_explosion_item_cap_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_explosionItemCap_152(_args: Array = []) -> Variant:", source)
+        self.assertIn("var item_capacity := int(_args[0] if _args.size() > 0 else 0)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_explosion_item_cap_state"', source)
+        self.assertIn('"comment": "@return the cap for item amount calculations, used when this block explodes."', source)
+        self.assertIn('"method": "public int explosionItemCap(){"', source)
+        self.assertIn('"return_expr": "return block.itemCapacity;"', source)
+        self.assertIn('"item_capacity": item_capacity', source)
+        self.assertIn('"explosion_item_cap": item_capacity', source)
+
+    def test_port_game_exposes_generated_building_comp_explosion_item_cap_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_explosion_item_cap_bridge_state(item_capacity: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_explosionItemCap_152([item_capacity])", source)
+        self.assertIn("var canonical = source_building_explosion_item_cap_state(item_capacity)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_explosion_item_cap_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_explosionItemCap_152"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
