@@ -5393,6 +5393,17 @@ func source_building_can_dump_liquid_default_state(to_state: Variant, liquid: Va
 		"can_dump_liquid": true,
 	}
 
+func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
+	return {
+		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",
+		"return_self": "return self();",
+		"from_state": from_state,
+		"liquid": liquid,
+		"self_state": self_state,
+		"destination": self_state,
+		"returns_self": true,
+	}
+
 func source_building_move_liquid_forward_state(leaks: bool, liquid: Variant, next_tile_present: bool, next_build_present: bool, next_block_solid: bool, next_block_has_liquids: bool, current_liquid_amount: float, move_liquid_return: float) -> Dictionary:
 	var move_liquid_called := false
 	var leak_guard_passed := false

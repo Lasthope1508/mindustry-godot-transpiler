@@ -17677,6 +17677,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(can_dump_liquid["java_expr"], "return true;")
         self.assertEqual(can_dump_liquid["godot_symbol"], "source_building_can_dump_liquid_default_result.can_dump_liquid")
 
+    def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_get_liquid_destination_default.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "getLiquidDestination(Building from, Liquid liquid)")
+        self.assertEqual(method["java_expr"], "public Building getLiquidDestination(Building from, Liquid liquid){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_get_liquid_destination_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_get_liquid_destination_default_state")
+        self.assertEqual(method["godot_symbol"], "source_building_get_liquid_destination_default_result.method")
+
+        from_state = source_symbols.source_symbol(registry, "building_get_liquid_destination_default.from_state")
+        self.assertEqual(from_state["status"], "explicit-input")
+        self.assertEqual(from_state["java_expr"], "from")
+        self.assertEqual(from_state["godot_symbol"], "source_building_get_liquid_destination_default_input.from_state")
+
+        destination = source_symbols.source_symbol(registry, "building_get_liquid_destination_default.destination")
+        self.assertEqual(destination["java_expr"], "self()")
+        self.assertEqual(destination["godot_symbol"], "source_building_get_liquid_destination_default_result.destination")
+
     def test_building_move_liquid_forward_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18783,9 +18806,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 546)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 547)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 551)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 552)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23644,6 +23667,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_move_liquid_return_zero["godot_owner"], "PortGame.source_building_move_liquid_return_zero_state")
         self.assertIn("return 0;", building_move_liquid_return_zero["exact_exprs"])
         self.assertIn("public Building getLiquidDestination(Building from, Liquid liquid){", building_move_liquid_return_zero["exact_exprs"])
+
+        building_get_liquid_destination_default = source_symbols.source_slice(ledger, "N950")
+        self.assertEqual(building_get_liquid_destination_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_get_liquid_destination_default["java_method"], "getLiquidDestination(Building from, Liquid liquid)")
+        self.assertEqual(building_get_liquid_destination_default["godot_owner"], "PortGame.source_building_get_liquid_destination_default_state")
+        self.assertIn("public Building getLiquidDestination(Building from, Liquid liquid){", building_get_liquid_destination_default["exact_exprs"])
+        self.assertIn("return self();", building_get_liquid_destination_default["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28873,6 +28903,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return_true", building_can_dump_liquid_default["return_keys"])
         self.assertIn("can_dump_liquid", building_can_dump_liquid_default["return_keys"])
         self.assertEqual(building_can_dump_liquid_default["source_method"], "canDumpLiquid(Building to, Liquid liquid)")
+
+        building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
+        self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
+        self.assertEqual(building_get_liquid_destination_default["params"][0]["schema"], "source_building_get_liquid_destination_default_input.from_state")
+        self.assertEqual(building_get_liquid_destination_default["params"][2]["schema"], "source_building_get_liquid_destination_default_input.self_state")
+        self.assertIn("return_self", building_get_liquid_destination_default["return_keys"])
+        self.assertIn("destination", building_get_liquid_destination_default["return_keys"])
+        self.assertIn("returns_self", building_get_liquid_destination_default["return_keys"])
+        self.assertEqual(building_get_liquid_destination_default["source_method"], "getLiquidDestination(Building from, Liquid liquid)")
 
         building_move_liquid_forward = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_forward_state")
         self.assertEqual([param["name"] for param in building_move_liquid_forward["params"]], ["leaks", "liquid", "next_tile_present", "next_build_present", "next_block_solid", "next_block_has_liquids", "current_liquid_amount", "move_liquid_return"])
@@ -36908,6 +36947,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_can_dump_liquid_default_result["keys"]["return_true"]["java_expr"], "return true;")
         self.assertEqual(source_building_can_dump_liquid_default_result["keys"]["can_dump_liquid"]["java_expr"], "return true;")
         self.assertEqual(source_building_can_dump_liquid_default_result["keys"]["to_state"]["alias_of"], "source_building_can_dump_liquid_default_input.to_state")
+
+        source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
+        self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")
+        self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["liquid"]["java_expr"], "liquid")
+        self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["self_state"]["java_expr"], "self()")
+
+        source_building_get_liquid_destination_default_result = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_result")
+        self.assertEqual(source_building_get_liquid_destination_default_result["keys"]["method"]["java_expr"], "public Building getLiquidDestination(Building from, Liquid liquid){")
+        self.assertEqual(source_building_get_liquid_destination_default_result["keys"]["return_self"]["java_expr"], "return self();")
+        self.assertEqual(source_building_get_liquid_destination_default_result["keys"]["destination"]["java_expr"], "self()")
+        self.assertEqual(source_building_get_liquid_destination_default_result["keys"]["from_state"]["alias_of"], "source_building_get_liquid_destination_default_input.from_state")
 
         source_building_move_liquid_forward_input = source_symbols.state_schema(schema, "source_building_move_liquid_forward_input")
         self.assertEqual(source_building_move_liquid_forward_input["keys"]["leaks"]["java_expr"], "leaks")

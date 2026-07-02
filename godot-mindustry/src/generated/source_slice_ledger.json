@@ -19828,6 +19828,34 @@
         "test_port_game_exposes_source_building_move_liquid_return_zero_state",
         "test_building_move_liquid_return_zero_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N950": {
+      "exact_exprs": [
+        "public Building getLiquidDestination(Building from, Liquid liquid){",
+        "return self();"
+      ],
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records default BuildingComp.getLiquidDestination behavior returning self(). Override-specific routing remains deferred.",
+      "rule": "Adds source-backed default BuildingComp.getLiquidDestination destination helper returning self().",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "source_symbols": [
+        "building_get_liquid_destination_default.method",
+        "building_get_liquid_destination_default.return_self",
+        "building_get_liquid_destination_default.from_state",
+        "building_get_liquid_destination_default.liquid",
+        "building_get_liquid_destination_default.self_state",
+        "building_get_liquid_destination_default.destination",
+        "building_get_liquid_destination_default.returns_self"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

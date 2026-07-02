@@ -3713,6 +3713,45 @@
         "test_building_flow_items_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_get_liquid_destination_default_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "from_state",
+          "schema": "source_building_get_liquid_destination_default_input.from_state",
+          "type": "Variant"
+        },
+        {
+          "name": "liquid",
+          "schema": "source_building_get_liquid_destination_default_input.liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "self_state",
+          "schema": "source_building_get_liquid_destination_default_input.self_state",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_self",
+        "from_state",
+        "liquid",
+        "self_state",
+        "destination",
+        "returns_self"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.getLiquidDestination default self destination helper.",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "source_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "source_slice": "N950",
+      "status": "active",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_handle_damage_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

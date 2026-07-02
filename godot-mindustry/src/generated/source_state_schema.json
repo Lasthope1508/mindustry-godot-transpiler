@@ -23033,6 +23033,94 @@
       },
       "status": "active"
     },
+    "source_building_get_liquid_destination_default_input": {
+      "keys": {
+        "from_state": {
+          "java_expr": "from",
+          "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N950 BuildingComp.getLiquidDestination default canonical key.",
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "liquid": {
+          "java_expr": "liquid",
+          "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N950 BuildingComp.getLiquidDestination default canonical key.",
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "self_state": {
+          "java_expr": "self()",
+          "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N950 BuildingComp.getLiquidDestination default canonical key.",
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "source_slice": "N950",
+      "status": "active"
+    },
+    "source_building_get_liquid_destination_default_result": {
+      "keys": {
+        "destination": {
+          "java_expr": "self()",
+          "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N950 BuildingComp.getLiquidDestination default canonical key.",
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "from_state": {
+          "alias_of": "source_building_get_liquid_destination_default_input.from_state",
+          "rule": "Echoes canonical input key in N950 result.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "liquid": {
+          "alias_of": "source_building_get_liquid_destination_default_input.liquid",
+          "rule": "Echoes canonical input key in N950 result.",
+          "status": "generated",
+          "type": "Variant"
+        },
+        "method": {
+          "java_expr": "public Building getLiquidDestination(Building from, Liquid liquid){",
+          "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N950 BuildingComp.getLiquidDestination default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_self": {
+          "java_expr": "return self();",
+          "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N950 BuildingComp.getLiquidDestination default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "returns_self": {
+          "java_expr": "return self();",
+          "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N950 BuildingComp.getLiquidDestination default canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "self_state": {
+          "alias_of": "source_building_get_liquid_destination_default_input.self_state",
+          "rule": "Echoes canonical input key in N950 result.",
+          "status": "generated",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "source_slice": "N950",
+      "status": "active"
+    },
     "source_building_handle_damage_input": {
       "keys": {
         "amount": {

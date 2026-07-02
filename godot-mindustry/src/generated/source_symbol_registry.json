@@ -10325,6 +10325,111 @@
         "test_building_flow_items_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_get_liquid_destination_default.destination": {
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "godot_symbol": "source_building_get_liquid_destination_default_result.destination",
+      "java_expr": "self()",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime destination is the source self() return value.",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_liquid_destination_default.from_state": {
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "godot_symbol": "source_building_get_liquid_destination_default_input.from_state",
+      "java_expr": "from",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime from_state supplies source Building from parameter.",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_liquid_destination_default.liquid": {
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "godot_symbol": "source_building_get_liquid_destination_default_input.liquid",
+      "java_expr": "liquid",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime liquid supplies source liquid parameter.",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_liquid_destination_default.method": {
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "godot_symbol": "source_building_get_liquid_destination_default_result.method",
+      "java_expr": "public Building getLiquidDestination(Building from, Liquid liquid){",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source getLiquidDestination default method signature.",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_liquid_destination_default.return_self": {
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "godot_symbol": "source_building_get_liquid_destination_default_result.return_self",
+      "java_expr": "return self();",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source default return self statement.",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_liquid_destination_default.returns_self": {
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "godot_symbol": "source_building_get_liquid_destination_default_result.returns_self",
+      "java_expr": "return self();",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime boolean records that source returns self().",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_liquid_destination_default.self_state": {
+      "godot_owner": "PortGame.source_building_get_liquid_destination_default_state",
+      "godot_symbol": "source_building_get_liquid_destination_default_input.self_state",
+      "java_expr": "self()",
+      "java_method": "getLiquidDestination(Building from, Liquid liquid)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime self_state supplies source self() result.",
+      "runtime_proof": "/root/Main.source_building_get_liquid_destination_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_liquid_destination_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_liquid_destination_default_state",
+        "test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_handle_damage.amount": {
       "godot_owner": "PortGame.source_building_handle_damage_state",
       "godot_symbol": "source_building_handle_damage_input.amount",
