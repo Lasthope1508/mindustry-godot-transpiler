@@ -25723,6 +25723,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return block.canPickup;", building_generated_can_pickup["exact_exprs"])
         self.assertIn("block.canPickup", building_generated_can_pickup["exact_exprs"])
 
+        building_generated_picked_up = source_symbols.source_slice(ledger, "N1048")
+        self.assertEqual(building_generated_picked_up["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_picked_up["java_method"], "pickedUp()")
+        self.assertEqual(building_generated_picked_up["godot_owner"], "PortGame.source_building_picked_up_state")
+        self.assertEqual(building_generated_picked_up["runtime_proof"], "/root/Main.generated_building_comp_picked_up_bridge_state")
+        self.assertIn("Called right before this building is picked up.", building_generated_picked_up["exact_exprs"])
+        self.assertIn("public void pickedUp(){", building_generated_picked_up["exact_exprs"])
+        self.assertIn("public void pickedUp(){\n\n    }", building_generated_picked_up["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

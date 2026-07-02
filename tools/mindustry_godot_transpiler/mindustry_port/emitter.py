@@ -793,6 +793,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "pickedUp"
+    ):
+        return [
+            "\tvar previous_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_building_picked_up_state\", \"method\": \"public void pickedUp(){\", \"comment\": \"Called right before this building is picked up.\", \"no_op\": true, \"previous_state\": previous_state}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

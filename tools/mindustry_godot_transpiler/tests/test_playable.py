@@ -4486,6 +4486,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_canPickup_182"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_picked_up_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_pickedUp_183(_args: Array = []) -> Variant:", source)
+        self.assertIn("var previous_state: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_picked_up_state"', source)
+        self.assertIn('"method": "public void pickedUp(){"', source)
+        self.assertIn('"comment": "Called right before this building is picked up."', source)
+        self.assertIn('"no_op": true', source)
+        self.assertIn('"previous_state": previous_state', source)
+
+    def test_port_game_exposes_generated_building_comp_picked_up_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_picked_up_bridge_state(previous_state: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_pickedUp_183([previous_state])", source)
+        self.assertIn("var canonical = source_building_picked_up_state(previous_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_picked_up_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_pickedUp_183"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

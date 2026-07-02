@@ -21372,6 +21372,37 @@
         "test_port_game_exposes_generated_building_comp_can_pickup_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1048": {
+      "deferred_exprs": [
+        "public void afterPickedUp(){",
+        "if(power != null){",
+        "Subsequent BuildingComp afterPickedUp behavior stays owned by later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "Called right before this building is picked up.",
+        "public void pickedUp(){",
+        "public void pickedUp(){\n\n    }"
+      ],
+      "godot_owner": "PortGame.source_building_picked_up_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "pickedUp()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_pickedUp_183 and PortGame generated bridge to existing N622 canonical source_building_picked_up_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_picked_up_bridge_state",
+      "source_symbols": [
+        "building_picked_up.method",
+        "building_picked_up.comment",
+        "building_picked_up.no_op",
+        "building_picked_up.previous_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_picked_up_to_source_state",
+        "test_generated_building_comp_bridges_picked_up_to_source_state",
+        "test_port_game_exposes_generated_building_comp_picked_up_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
