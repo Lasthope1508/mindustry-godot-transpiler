@@ -5815,6 +5815,21 @@ func source_building_dump_null_remove_item_state(item: Variant, item_amount_befo
 		"item_amount_after": item_amount_before - 1,
 	}
 
+func source_building_dump_null_success_handoff_state(item: Variant, accepts_item: bool, can_dump: bool) -> Dictionary:
+	return {
+		"source_method": "dump(Item todump) null success handoff",
+		"null_branch": "if(todump == null){",
+		"accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+		"handle_item_call": "other.handleItem(self(), item);",
+		"return_true": "return true;",
+		"item": item,
+		"accepts_item": accepts_item,
+		"can_dump": can_dump,
+		"handle_item_called": accepts_item and can_dump,
+		"dumped": accepts_item and can_dump,
+		"return_value": accepts_item and can_dump,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

@@ -10728,6 +10728,171 @@
         "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_dump_null_success_handoff.accept_can_dump_guard": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.accept_can_dump_guard",
+      "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 handoff is inside source accept/canDump success block.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.accepts_item": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_input.accepts_item",
+      "java_expr": "other.acceptItem(self(), item)",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 explicit accepts_item supplies source acceptItem guard result.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.can_dump": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_input.can_dump",
+      "java_expr": "canDump(other, item)",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 explicit can_dump supplies source canDump guard result.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.dumped": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.dumped",
+      "java_expr": "return true;",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 dumped result mirrors success return when both source guard inputs pass.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.handle_item_call": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.handle_item_call",
+      "java_expr": "other.handleItem(self(), item);",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 pins source null-branch success handoff call.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.handle_item_called": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.handle_item_called",
+      "java_expr": "other.handleItem(self(), item);",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 records whether source handleItem call is reached by the explicit guard inputs.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.item": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_input.item",
+      "java_expr": "item",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 explicit item supplies source local Item item.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.null_branch": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.null_branch",
+      "java_expr": "if(todump == null){",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 handoff belongs to source todump-null branch.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.return_true": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.return_true",
+      "java_expr": "return true;",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 pins source success return from null-branch handoff block.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.return_value": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.return_value",
+      "java_expr": "return true;",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 return_value mirrors source success return when both guard inputs pass.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_null_success_handoff.source_method": {
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.source_method",
+      "java_expr": "dump(Item todump) null success handoff",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N962 source method label.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "status": "generated",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_edelta.efficiency": {
       "godot_owner": "PortGame.source_building_edelta",
       "godot_symbol": "source_building_edelta_input.efficiency",

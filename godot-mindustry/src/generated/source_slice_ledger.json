@@ -20189,6 +20189,37 @@
         "test_port_game_exposes_source_building_dump_null_remove_item_state",
         "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N962": {
+      "exact_exprs": [
+        "if(todump == null){",
+        "if(other.acceptItem(self(), item) && canDump(other, item)){",
+        "other.handleItem(self(), item);",
+        "return true;"
+      ],
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump(Item todump) null success handoff",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "source_symbols": [
+        "building_dump_null_success_handoff.null_branch",
+        "building_dump_null_success_handoff.accept_can_dump_guard",
+        "building_dump_null_success_handoff.handle_item_call",
+        "building_dump_null_success_handoff.return_true",
+        "building_dump_null_success_handoff.item",
+        "building_dump_null_success_handoff.accepts_item",
+        "building_dump_null_success_handoff.can_dump",
+        "building_dump_null_success_handoff.handle_item_called",
+        "building_dump_null_success_handoff.dumped",
+        "building_dump_null_success_handoff.return_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

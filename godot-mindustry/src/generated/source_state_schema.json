@@ -23214,6 +23214,126 @@
       "source_slice": "N961",
       "status": "active"
     },
+    "source_building_dump_null_success_handoff_input": {
+      "keys": {
+        "accepts_item": {
+          "godot_symbol": "source_building_dump_null_success_handoff_input.accepts_item",
+          "java_expr": "other.acceptItem(self(), item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 explicit input supplies source acceptItem guard result.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "can_dump": {
+          "godot_symbol": "source_building_dump_null_success_handoff_input.can_dump",
+          "java_expr": "canDump(other, item)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 explicit input supplies source canDump guard result.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "item": {
+          "godot_symbol": "source_building_dump_null_success_handoff_input.item",
+          "java_expr": "item",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 explicit item supplies source local Item item.",
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "source_slice": "N962",
+      "status": "active"
+    },
+    "source_building_dump_null_success_handoff_result": {
+      "keys": {
+        "accept_can_dump_guard": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.accept_can_dump_guard",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 handoff is inside source accept/canDump success block.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "accepts_item": {
+          "alias_of": "source_building_dump_null_success_handoff_input.accepts_item",
+          "rule": "N962 result aliases accepts_item input.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "can_dump": {
+          "alias_of": "source_building_dump_null_success_handoff_input.can_dump",
+          "rule": "N962 result aliases can_dump input.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "dumped": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.dumped",
+          "java_expr": "return true;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 result marks successful dump when explicit guard inputs pass.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "handle_item_call": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.handle_item_call",
+          "java_expr": "other.handleItem(self(), item);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 source handleItem handoff call.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "handle_item_called": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.handle_item_called",
+          "java_expr": "other.handleItem(self(), item);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 records whether source handleItem call is reached by guard inputs.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "item": {
+          "alias_of": "source_building_dump_null_success_handoff_input.item",
+          "rule": "N962 result aliases item input.",
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "null_branch": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.null_branch",
+          "java_expr": "if(todump == null){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 handoff belongs to source todump-null branch.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_true": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.return_true",
+          "java_expr": "return true;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 source success return.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_value": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.return_value",
+          "java_expr": "return true;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 runtime return value mirrors source success return when guard inputs pass.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "source_method": {
+          "godot_symbol": "source_building_dump_null_success_handoff_result.source_method",
+          "java_expr": "dump(Item todump) null success handoff",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N962 source method label.",
+          "status": "generated",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "source_slice": "N962",
+      "status": "active"
+    },
     "source_building_edelta_input": {
       "keys": {
         "efficiency": {

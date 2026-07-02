@@ -17969,6 +17969,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(item_amount_after["java_expr"], "items.remove(item, 1);")
         self.assertEqual(item_amount_after["godot_symbol"], "source_building_dump_null_remove_item_result.item_amount_after")
 
+    def test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        handle_item = source_symbols.source_symbol(registry, "building_dump_null_success_handoff.handle_item_call")
+        self.assertEqual(handle_item["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(handle_item["java_method"], "dump(Item todump) null success handoff")
+        self.assertEqual(handle_item["java_expr"], "other.handleItem(self(), item);")
+        self.assertEqual(handle_item["godot_owner"], "PortGame.source_building_dump_null_success_handoff_state")
+        self.assertEqual(handle_item["runtime_proof"], "/root/Main.source_building_dump_null_success_handoff_state")
+        self.assertEqual(handle_item["godot_symbol"], "source_building_dump_null_success_handoff_result.handle_item_call")
+
+        return_true = source_symbols.source_symbol(registry, "building_dump_null_success_handoff.return_true")
+        self.assertEqual(return_true["java_expr"], "return true;")
+        self.assertEqual(return_true["godot_symbol"], "source_building_dump_null_success_handoff_result.return_true")
+
+        accepts_item = source_symbols.source_symbol(registry, "building_dump_null_success_handoff.accepts_item")
+        self.assertEqual(accepts_item["status"], "explicit-input")
+        self.assertEqual(accepts_item["java_expr"], "other.acceptItem(self(), item)")
+        self.assertEqual(accepts_item["godot_symbol"], "source_building_dump_null_success_handoff_input.accepts_item")
+
     def test_building_move_liquid_forward_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19075,9 +19098,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 558)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 559)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 563)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 564)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19089,6 +19112,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_dump_null_item_scan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_null_proximity_scan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_null_remove_item_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_dump_null_success_handoff_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_initial_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_visibility_loop_state", audit["registeredSourceOwners"])
@@ -24042,6 +24066,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(todump == null){", building_dump_null_remove_item["exact_exprs"])
         self.assertIn("if(other.acceptItem(self(), item) && canDump(other, item)){", building_dump_null_remove_item["exact_exprs"])
         self.assertIn("items.remove(item, 1);", building_dump_null_remove_item["exact_exprs"])
+
+        building_dump_null_success_handoff = source_symbols.source_slice(ledger, "N962")
+        self.assertEqual(building_dump_null_success_handoff["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_dump_null_success_handoff["java_method"], "dump(Item todump) null success handoff")
+        self.assertEqual(building_dump_null_success_handoff["godot_owner"], "PortGame.source_building_dump_null_success_handoff_state")
+        self.assertIn("other.handleItem(self(), item);", building_dump_null_success_handoff["exact_exprs"])
+        self.assertIn("return true;", building_dump_null_success_handoff["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -29373,6 +29404,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("remove_amount", building_dump_null_remove_item["return_keys"])
         self.assertIn("item_amount_after", building_dump_null_remove_item["return_keys"])
         self.assertEqual(building_dump_null_remove_item["source_method"], "dump(Item todump) null remove item")
+
+        building_dump_null_success_handoff = source_symbols.api_contract(contracts, "PortGame.source_building_dump_null_success_handoff_state")
+        self.assertEqual([param["name"] for param in building_dump_null_success_handoff["params"]], ["item", "accepts_item", "can_dump"])
+        self.assertEqual(building_dump_null_success_handoff["params"][0]["schema"], "source_building_dump_null_success_handoff_input.item")
+        self.assertEqual(building_dump_null_success_handoff["params"][1]["schema"], "source_building_dump_null_success_handoff_input.accepts_item")
+        self.assertEqual(building_dump_null_success_handoff["params"][2]["schema"], "source_building_dump_null_success_handoff_input.can_dump")
+        self.assertIn("handle_item_call", building_dump_null_success_handoff["return_keys"])
+        self.assertIn("return_true", building_dump_null_success_handoff["return_keys"])
+        self.assertIn("handle_item_called", building_dump_null_success_handoff["return_keys"])
+        self.assertIn("return_value", building_dump_null_success_handoff["return_keys"])
+        self.assertEqual(building_dump_null_success_handoff["source_method"], "dump(Item todump) null success handoff")
 
         building_move_liquid_forward = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_forward_state")
         self.assertEqual([param["name"] for param in building_move_liquid_forward["params"]], ["leaks", "liquid", "next_tile_present", "next_build_present", "next_block_solid", "next_block_has_liquids", "current_liquid_amount", "move_liquid_return"])
@@ -37535,6 +37577,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_dump_null_remove_item_result["keys"]["remove_amount"]["java_expr"], "1")
         self.assertEqual(source_building_dump_null_remove_item_result["keys"]["item_amount_after"]["java_expr"], "items.remove(item, 1);")
         self.assertEqual(source_building_dump_null_remove_item_result["keys"]["item"]["alias_of"], "source_building_dump_null_remove_item_input.item")
+
+        source_building_dump_null_success_handoff_input = source_symbols.state_schema(schema, "source_building_dump_null_success_handoff_input")
+        self.assertEqual(source_building_dump_null_success_handoff_input["keys"]["item"]["java_expr"], "item")
+        self.assertEqual(source_building_dump_null_success_handoff_input["keys"]["accepts_item"]["java_expr"], "other.acceptItem(self(), item)")
+        self.assertEqual(source_building_dump_null_success_handoff_input["keys"]["can_dump"]["java_expr"], "canDump(other, item)")
+
+        source_building_dump_null_success_handoff_result = source_symbols.state_schema(schema, "source_building_dump_null_success_handoff_result")
+        self.assertEqual(source_building_dump_null_success_handoff_result["keys"]["handle_item_call"]["java_expr"], "other.handleItem(self(), item);")
+        self.assertEqual(source_building_dump_null_success_handoff_result["keys"]["return_true"]["java_expr"], "return true;")
+        self.assertEqual(source_building_dump_null_success_handoff_result["keys"]["handle_item_called"]["java_expr"], "other.handleItem(self(), item);")
+        self.assertEqual(source_building_dump_null_success_handoff_result["keys"]["return_value"]["java_expr"], "return true;")
+        self.assertEqual(source_building_dump_null_success_handoff_result["keys"]["item"]["alias_of"], "source_building_dump_null_success_handoff_input.item")
 
         source_building_move_liquid_forward_input = source_symbols.state_schema(schema, "source_building_move_liquid_forward_input")
         self.assertEqual(source_building_move_liquid_forward_input["keys"]["leaks"]["java_expr"], "leaks")

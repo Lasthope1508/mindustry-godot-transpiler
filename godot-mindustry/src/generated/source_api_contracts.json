@@ -3779,6 +3779,49 @@
         "test_building_dump_null_remove_item_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_dump_null_success_handoff_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_building_dump_null_success_handoff_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "accepts_item",
+          "schema": "source_building_dump_null_success_handoff_input.accepts_item",
+          "type": "bool"
+        },
+        {
+          "name": "can_dump",
+          "schema": "source_building_dump_null_success_handoff_input.can_dump",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_method",
+        "null_branch",
+        "accept_can_dump_guard",
+        "handle_item_call",
+        "return_true",
+        "item",
+        "accepts_item",
+        "can_dump",
+        "handle_item_called",
+        "dumped",
+        "return_value"
+      ],
+      "rule": "N962 exposes BuildingComp.dump(Item todump) todump-null success handoff call and success return only; removal and cursor remain separate owners.",
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state",
+      "source_method": "dump(Item todump) null success handoff",
+      "source_slice": "N962",
+      "status": "active",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_edelta": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

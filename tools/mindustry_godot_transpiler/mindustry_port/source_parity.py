@@ -2627,6 +2627,28 @@ def verify_building_dump_null_remove_item_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_building_dump_null_success_handoff_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    null_branch = "if(todump == null){"
+    accept_can_dump_guard = "if(other.acceptItem(self(), item) && canDump(other, item)){"
+    handle_item_call = "other.handleItem(self(), item);"
+    return_true = "return true;"
+    missing = []
+    for snippet in [null_branch, accept_can_dump_guard, handle_item_call, return_true]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "null_branch": null_branch,
+            "accept_can_dump_guard": accept_can_dump_guard,
+            "handle_item_call": handle_item_call,
+            "return_true": return_true,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

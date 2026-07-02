@@ -2267,6 +2267,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"remove_amount": 1', source)
         self.assertIn('"item_amount_after": item_amount_before - 1', source)
 
+    def test_port_game_exposes_source_building_dump_null_success_handoff_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_null_success_handoff_state(item: Variant, accepts_item: bool, can_dump: bool) -> Dictionary:", source)
+        self.assertIn('"source_method": "dump(Item todump) null success handoff"', source)
+        self.assertIn('"handle_item_call": "other.handleItem(self(), item);"', source)
+        self.assertIn('"return_true": "return true;"', source)
+        self.assertIn('"handle_item_called": accepts_item and can_dump', source)
+        self.assertIn('"dumped": accepts_item and can_dump', source)
+        self.assertIn('"return_value": accepts_item and can_dump', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
