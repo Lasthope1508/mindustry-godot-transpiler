@@ -1233,5 +1233,62 @@ public class BuildingComp{
             self.assertIn('"item_capacity": item_capacity', source_text)
             self.assertIn('"explosion_item_cap": item_capacity', source_text)
 
+    def test_emit_bridges_building_comp_splash_liquid_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void splashLiquid(Liquid liquid, float amount){
+        float splash = Mathf.clamp(amount / 4f, 0f, 10f);
+
+        for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){
+            Time.run(i / 2f, () -> {
+                Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));
+                if(other != null){
+                    Puddles.deposit(other, liquid, splash);
+                }
+            });
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_splashLiquid_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquid: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var amount := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var source_block_size := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var splash := clampf(amount / 4.0, 0.0, 10.0)", source_text)
+            self.assertIn("var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_splash_liquid_state"', source_text)
+            self.assertIn('"method": "public void splashLiquid(Liquid liquid, float amount){"', source_text)
+            self.assertIn('"splash_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);"', source_text)
+            self.assertIn('"loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){"', source_text)
+            self.assertIn('"delay_expr": "Time.run(i / 2f, () -> {"', source_text)
+            self.assertIn('"tile_world": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));"', source_text)
+            self.assertIn('"deposit_guard": "if(other != null){"', source_text)
+            self.assertIn('"deposit": "Puddles.deposit(other, liquid, splash);"', source_text)
+            self.assertIn('"liquid": liquid', source_text)
+            self.assertIn('"amount": amount', source_text)
+            self.assertIn('"source_block_size": source_block_size', source_text)
+            self.assertIn('"source_tilesize": source_tilesize', source_text)
+            self.assertIn('"splash": splash', source_text)
+            self.assertIn('"deposit_count": deposit_count', source_text)
+            self.assertIn('"delays": delays', source_text)
+            self.assertIn('"random_range": float(source_block_size) * source_tilesize / 2.0', source_text)
+            self.assertIn('"deposit_if_tile_exists": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

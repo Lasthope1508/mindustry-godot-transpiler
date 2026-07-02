@@ -808,7 +808,16 @@ func java_method_explosionItemCap_152(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_explosion_item_cap_state", "comment": "@return the cap for item amount calculations, used when this block explodes.", "method": "public int explosionItemCap(){", "return_expr": "return block.itemCapacity;", "item_capacity": item_capacity, "explosion_item_cap": item_capacity}
 
 func java_method_splashLiquid_153(_args: Array = []) -> Variant:
-	return null
+	var liquid: Variant = _args[0] if _args.size() > 0 else null
+	var amount := float(_args[1] if _args.size() > 1 else 0.0)
+	var source_block_size := int(_args[2] if _args.size() > 2 else 0)
+	var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)
+	var splash := clampf(amount / 4.0, 0.0, 10.0)
+	var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))
+	var delays: Array[float] = []
+	for i in deposit_count:
+		delays.append(float(i) / 2.0)
+	return {"source_owner": "PortGame.source_building_splash_liquid_state", "method": "public void splashLiquid(Liquid liquid, float amount){", "splash_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);", "loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){", "delay_expr": "Time.run(i / 2f, () -> {", "tile_world": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));", "deposit_guard": "if(other != null){", "deposit": "Puddles.deposit(other, liquid, splash);", "liquid": liquid, "amount": amount, "source_block_size": source_block_size, "source_tilesize": source_tilesize, "splash": splash, "deposit_count": deposit_count, "delays": delays, "random_range": float(source_block_size) * source_tilesize / 2.0, "deposit_if_tile_exists": true}
 
 func java_method_onDeconstructed_154(_args: Array = []) -> Variant:
 	return null

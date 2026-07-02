@@ -3437,6 +3437,47 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_explosionItemCap_152"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_splash_liquid_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_splashLiquid_153(_args: Array = []) -> Variant:", source)
+        self.assertIn("var liquid: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn("var amount := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var source_block_size := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var splash := clampf(amount / 4.0, 0.0, 10.0)", source)
+        self.assertIn("var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))", source)
+        self.assertIn('"source_owner": "PortGame.source_building_splash_liquid_state"', source)
+        self.assertIn('"method": "public void splashLiquid(Liquid liquid, float amount){"', source)
+        self.assertIn('"splash_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);"', source)
+        self.assertIn('"loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){"', source)
+        self.assertIn('"delay_expr": "Time.run(i / 2f, () -> {"', source)
+        self.assertIn('"tile_world": "Tile other = world.tileWorld(x + Mathf.range(block.size * tilesize / 2), y + Mathf.range(block.size * tilesize / 2));"', source)
+        self.assertIn('"deposit_guard": "if(other != null){"', source)
+        self.assertIn('"deposit": "Puddles.deposit(other, liquid, splash);"', source)
+        self.assertIn('"liquid": liquid', source)
+        self.assertIn('"amount": amount', source)
+        self.assertIn('"source_block_size": source_block_size', source)
+        self.assertIn('"source_tilesize": source_tilesize', source)
+        self.assertIn('"splash": splash', source)
+        self.assertIn('"deposit_count": deposit_count', source)
+        self.assertIn('"delays": delays', source)
+        self.assertIn('"random_range": float(source_block_size) * source_tilesize / 2.0', source)
+        self.assertIn('"deposit_if_tile_exists": true', source)
+
+    def test_port_game_exposes_generated_building_comp_splash_liquid_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_splash_liquid_bridge_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_splashLiquid_153([liquid, amount, source_block_size, source_tilesize])", source)
+        self.assertIn("var canonical = source_building_splash_liquid_state(liquid, amount, source_block_size, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_splash_liquid_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_splashLiquid_153"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

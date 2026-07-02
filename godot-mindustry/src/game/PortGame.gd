@@ -3908,6 +3908,18 @@ func generated_building_comp_explosion_item_cap_bridge_state(item_capacity: int)
 		"canonical": canonical,
 	}
 
+func generated_building_comp_splash_liquid_bridge_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_splashLiquid_153([liquid, amount, source_block_size, source_tilesize])
+	var canonical = source_building_splash_liquid_state(liquid, amount, source_block_size, source_tilesize)
+	return {
+		"source_owner": "PortGame.source_building_splash_liquid_state",
+		"generated_owner": "BuildingComp.java_method_splashLiquid_153",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",
