@@ -5751,6 +5751,15 @@ func source_building_dump_accumulate_default_state() -> Dictionary:
 		"delegates_to_item_overload": true,
 	}
 
+func source_building_dump_default_state() -> Dictionary:
+	return {
+		"comment": "/** Try dumping any item near the building. */",
+		"method": "public boolean dump(){",
+		"delegate": "return dump(null);",
+		"todump": null,
+		"delegates_to_item_overload": true,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

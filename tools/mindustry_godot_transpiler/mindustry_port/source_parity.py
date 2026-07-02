@@ -2531,6 +2531,26 @@ def verify_building_dump_accumulate_default_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_building_dump_default_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    comment = "/** Try dumping any item near the building. */"
+    method = "public boolean dump(){"
+    delegate = "return dump(null);"
+    missing = []
+    for snippet in [comment, method, delegate]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "comment": comment,
+            "method": method,
+            "delegate": delegate,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

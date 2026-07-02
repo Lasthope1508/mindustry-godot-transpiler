@@ -22009,6 +22009,53 @@
       "source_slice": "N957",
       "status": "active"
     },
+    "source_building_dump_default_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_building_dump_default_result.comment",
+          "java_expr": "/** Try dumping any item near the building. */",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N958 source comment key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegate": {
+          "godot_symbol": "source_building_dump_default_result.delegate",
+          "java_expr": "return dump(null);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N958 delegate call key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegates_to_item_overload": {
+          "godot_symbol": "source_building_dump_default_result.delegates_to_item_overload",
+          "java_expr": "return dump(null);",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N958 item-overload delegation flag.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_building_dump_default_result.method",
+          "java_expr": "public boolean dump(){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N958 method declaration key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "todump": {
+          "godot_symbol": "source_building_dump_default_result.todump",
+          "java_expr": "null",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N958 null todump argument key.",
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_building_dump_default_state",
+      "source_slice": "N958",
+      "status": "active"
+    },
     "source_building_dump_liquid_campaign_unlock_input": {
       "keys": {
         "current_liquid_amount": {

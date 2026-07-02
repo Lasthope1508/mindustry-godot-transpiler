@@ -20067,6 +20067,31 @@
         "test_port_game_exposes_source_building_dump_accumulate_default_state",
         "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N958": {
+      "exact_exprs": [
+        "/** Try dumping any item near the building. */",
+        "public boolean dump(){",
+        "return dump(null);"
+      ],
+      "godot_owner": "PortGame.source_building_dump_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_building_dump_default_state",
+      "source_symbols": [
+        "building_dump_default.comment",
+        "building_dump_default.method",
+        "building_dump_default.delegate",
+        "building_dump_default.todump",
+        "building_dump_default.delegates_to_item_overload"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_default_state",
+        "test_building_dump_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

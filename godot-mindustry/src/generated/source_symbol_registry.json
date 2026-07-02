@@ -9419,6 +9419,81 @@
         "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_dump_default.comment": {
+      "godot_owner": "PortGame.source_building_dump_default_state",
+      "godot_symbol": "source_building_dump_default_result.comment",
+      "java_expr": "/** Try dumping any item near the building. */",
+      "java_method": "dump()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N958 preserves source comment for BuildingComp.dump default overload.",
+      "runtime_proof": "/root/Main.source_building_dump_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_default_state",
+        "test_building_dump_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_default.delegate": {
+      "godot_owner": "PortGame.source_building_dump_default_state",
+      "godot_symbol": "source_building_dump_default_result.delegate",
+      "java_expr": "return dump(null);",
+      "java_method": "dump()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N958 delegates no-arg dump to item overload with null.",
+      "runtime_proof": "/root/Main.source_building_dump_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_default_state",
+        "test_building_dump_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_default.delegates_to_item_overload": {
+      "godot_owner": "PortGame.source_building_dump_default_state",
+      "godot_symbol": "source_building_dump_default_result.delegates_to_item_overload",
+      "java_expr": "return dump(null);",
+      "java_method": "dump()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N958 records that default dump overload delegates to dump(Item todump).",
+      "runtime_proof": "/root/Main.source_building_dump_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_default_state",
+        "test_building_dump_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_default.method": {
+      "godot_owner": "PortGame.source_building_dump_default_state",
+      "godot_symbol": "source_building_dump_default_result.method",
+      "java_expr": "public boolean dump(){",
+      "java_method": "dump()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N958 pins BuildingComp.dump no-arg overload method declaration.",
+      "runtime_proof": "/root/Main.source_building_dump_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_default_state",
+        "test_building_dump_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_dump_default.todump": {
+      "godot_owner": "PortGame.source_building_dump_default_state",
+      "godot_symbol": "source_building_dump_default_result.todump",
+      "java_expr": "null",
+      "java_method": "dump()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N958 uses source null todump argument for default dump overload.",
+      "runtime_proof": "/root/Main.source_building_dump_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_dump_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_default_state",
+        "test_building_dump_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_dump_liquid_campaign_unlock.campaign_unlock_guard": {
       "godot_owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
       "godot_symbol": "source_building_dump_liquid_campaign_unlock_result.campaign_unlock_guard",

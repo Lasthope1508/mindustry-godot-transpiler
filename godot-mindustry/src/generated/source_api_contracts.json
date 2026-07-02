@@ -3402,6 +3402,27 @@
         "test_building_dump_accumulate_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_dump_default_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [],
+      "return_keys": [
+        "comment",
+        "method",
+        "delegate",
+        "todump",
+        "delegates_to_item_overload"
+      ],
+      "rule": "N958 exposes BuildingComp.dump() default null delegate state.",
+      "runtime_proof": "/root/Main.source_building_dump_default_state",
+      "source_method": "dump()",
+      "source_slice": "N958",
+      "status": "active",
+      "tests": [
+        "test_building_dump_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_default_state",
+        "test_building_dump_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_dump_liquid_campaign_unlock_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

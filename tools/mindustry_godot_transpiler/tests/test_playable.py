@@ -2217,6 +2217,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"item": null', source)
         self.assertIn('"delegates_to_item_overload": true', source)
 
+    def test_port_game_exposes_source_building_dump_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_default_state() -> Dictionary:", source)
+        self.assertIn('"comment": "/** Try dumping any item near the building. */"', source)
+        self.assertIn('"method": "public boolean dump(){"', source)
+        self.assertIn('"delegate": "return dump(null);"', source)
+        self.assertIn('"todump": null', source)
+        self.assertIn('"delegates_to_item_overload": true', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
