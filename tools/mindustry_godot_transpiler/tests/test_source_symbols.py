@@ -25527,6 +25527,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("table.add(result).growX();", building_display_bars["exact_exprs"])
         self.assertIn("table.row();", building_display_bars["exact_exprs"])
 
+        building_generated_cursor = source_symbols.source_slice(ledger, "N1028")
+        self.assertEqual(building_generated_cursor["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_cursor["java_method"], "getCursor()")
+        self.assertEqual(building_generated_cursor["godot_owner"], "PortGame.source_building_cursor_state")
+        self.assertEqual(building_generated_cursor["runtime_proof"], "/root/Main.generated_building_comp_get_cursor_bridge_state")
+        self.assertIn("public Cursor getCursor(){", building_generated_cursor["exact_exprs"])
+        self.assertIn("return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;", building_generated_cursor["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

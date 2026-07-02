@@ -20713,6 +20713,38 @@
       "tests": [
         "test_building_display_bars_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1028": {
+      "deferred_exprs": [
+        "Concrete player.team() lookup remains represented by explicit interactable_player_team input from N554; this slice wires the generated BuildingComp method and bridge without adding new source symbols."
+      ],
+      "exact_exprs": [
+        "/** Returns whether a hand cursor should be shown over this block. */",
+        "public Cursor getCursor(){",
+        "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;",
+        "block.configurable",
+        "interactable(player.team())"
+      ],
+      "godot_owner": "PortGame.source_building_cursor_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "getCursor()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_getCursor_165 and PortGame generated bridge to existing N554 canonical source_building_cursor_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_get_cursor_bridge_state",
+      "source_symbols": [
+        "building_cursor.comment",
+        "building_cursor.method",
+        "building_cursor.result",
+        "building_cursor.block_configurable",
+        "building_cursor.interactable_player_team"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_get_cursor_to_source_state",
+        "test_generated_building_comp_bridges_get_cursor_to_source_state",
+        "test_port_game_exposes_generated_building_comp_get_cursor_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

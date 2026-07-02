@@ -3973,6 +3973,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_displayBars_162"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_get_cursor_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_getCursor_165(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_configurable := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var interactable_player_team := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn('var cursor := "hand" if block_configurable and interactable_player_team else "arrow"', source)
+        self.assertIn('"source_owner": "PortGame.source_building_cursor_state"', source)
+        self.assertIn('"comment": "/** Returns whether a hand cursor should be shown over this block. */"', source)
+        self.assertIn('"method": "public Cursor getCursor(){"', source)
+        self.assertIn('"return_expr": "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;"', source)
+        self.assertIn('"block_configurable": block_configurable', source)
+        self.assertIn('"interactable_player_team": interactable_player_team', source)
+        self.assertIn('"cursor": cursor', source)
+
+    def test_port_game_exposes_generated_building_comp_get_cursor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_get_cursor_bridge_state(block_configurable: bool, interactable_player_team: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_getCursor_165([block_configurable, interactable_player_team])", source)
+        self.assertIn("var canonical = source_building_cursor_state(block_configurable, interactable_player_team)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_cursor_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_getCursor_165"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

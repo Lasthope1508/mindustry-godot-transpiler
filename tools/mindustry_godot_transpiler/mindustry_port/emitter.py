@@ -598,6 +598,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getCursor"
+    ):
+        return [
+            "\tvar block_configurable := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar interactable_player_team := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar cursor := \"hand\" if block_configurable and interactable_player_team else \"arrow\"",
+            "\treturn {\"source_owner\": \"PortGame.source_building_cursor_state\", \"comment\": \"/** Returns whether a hand cursor should be shown over this block. */\", \"method\": \"public Cursor getCursor(){\", \"return_expr\": \"return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;\", \"block_configurable\": block_configurable, \"interactable_player_team\": interactable_player_team, \"cursor\": cursor}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

@@ -4172,6 +4172,18 @@ func generated_building_comp_display_bars_bridge_state(bar_results: Array) -> Di
 		"canonical": canonical,
 	}
 
+func generated_building_comp_get_cursor_bridge_state(block_configurable: bool, interactable_player_team: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_getCursor_165([block_configurable, interactable_player_team])
+	var canonical = source_building_cursor_state(block_configurable, interactable_player_team)
+	return {
+		"source_owner": "PortGame.source_building_cursor_state",
+		"generated_owner": "BuildingComp.java_method_getCursor_165",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

@@ -1833,5 +1833,41 @@ public class BuildingComp{
             self.assertIn('"add_call": "table.add(result).growX();"', source_text)
             self.assertIn('"row_call": "table.row();"', source_text)
 
+    def test_emit_bridges_building_comp_get_cursor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Returns whether a hand cursor should be shown over this block. */
+    public Cursor getCursor(){
+        return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getCursor_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_configurable := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var interactable_player_team := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('var cursor := "hand" if block_configurable and interactable_player_team else "arrow"', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_cursor_state"', source_text)
+            self.assertIn('"comment": "/** Returns whether a hand cursor should be shown over this block. */"', source_text)
+            self.assertIn('"method": "public Cursor getCursor(){"', source_text)
+            self.assertIn('"return_expr": "return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;"', source_text)
+            self.assertIn('"block_configurable": block_configurable', source_text)
+            self.assertIn('"interactable_player_team": interactable_player_team', source_text)
+            self.assertIn('"cursor": cursor', source_text)
+
 if __name__ == "__main__":
     unittest.main()
