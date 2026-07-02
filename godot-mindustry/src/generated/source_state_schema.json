@@ -24008,6 +24008,118 @@
       "source_slice": "N953",
       "status": "active"
     },
+    "source_building_get_power_connections_conducts_link_guard_input": {
+      "keys": {
+        "conducts_to_other_by_index": {
+          "java_expr": "conductsTo(other)",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "Array[bool]"
+        },
+        "other_conducts_to_self_by_index": {
+          "java_expr": "other.conductsTo(self())",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "Array[bool]"
+        },
+        "power_link_contains_other_pos_by_index": {
+          "java_expr": "power.links.contains(other.pos())",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical explicit input.",
+          "status": "explicit-input",
+          "type": "Array[bool]"
+        }
+      },
+      "owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "source_slice": "N974",
+      "status": "active"
+    },
+    "source_building_get_power_connections_conducts_link_guard_result": {
+      "keys": {
+        "conducts_link_guard_pass_count": {
+          "java_expr": "conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical result key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "conducts_link_guard_pass_indices": {
+          "java_expr": "conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical result key.",
+          "status": "source-backed",
+          "type": "Array[int]"
+        },
+        "conducts_to_other_by_index": {
+          "alias_of": "source_building_get_power_connections_conducts_link_guard_input.conducts_to_other_by_index",
+          "rule": "Echoes canonical input key in N974 result.",
+          "status": "generated",
+          "type": "Array[bool]"
+        },
+        "conducts_to_other_guard": {
+          "java_expr": "&& conductsTo(other)",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical result key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "connection_count": {
+          "java_expr": "proximity",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical result key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "deferred_out_add_and_manual_links": {
+          "java_expr": "out.add(other);",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Defers adding automatic connection and manual power.links loop.",
+          "status": "deferred",
+          "type": "bool"
+        },
+        "duplicate_link_guard": {
+          "java_expr": "&& !power.links.contains(other.pos())){",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical result key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "other_conducts_to_self_by_index": {
+          "alias_of": "source_building_get_power_connections_conducts_link_guard_input.other_conducts_to_self_by_index",
+          "rule": "Echoes canonical input key in N974 result.",
+          "status": "generated",
+          "type": "Array[bool]"
+        },
+        "other_conducts_to_self_guard": {
+          "java_expr": "&& other.conductsTo(self())",
+          "java_method": "getPowerConnections(Seq<Building> out)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N974 canonical result key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_link_contains_other_pos_by_index": {
+          "alias_of": "source_building_get_power_connections_conducts_link_guard_input.power_link_contains_other_pos_by_index",
+          "rule": "Echoes canonical input key in N974 result.",
+          "status": "generated",
+          "type": "Array[bool]"
+        }
+      },
+      "owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "source_slice": "N974",
+      "status": "active"
+    },
     "source_building_get_power_connections_empty_guard_input": {
       "keys": {
         "power_present": {
@@ -24181,11 +24293,11 @@
           "status": "source-backed",
           "type": "int"
         },
-        "deferred_conducts_and_link_guard": {
-          "java_expr": "&& conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+        "deferred_out_add_and_manual_links": {
+          "java_expr": "out.add(other);",
           "java_method": "getPowerConnections(Seq<Building> out)",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "rule": "N973 canonical result key.",
+          "rule": "Deferred out.add(other) and manual power.links behavior after N974 owns conducts/link guards.",
           "status": "deferred",
           "type": "bool"
         },
@@ -24277,11 +24389,11 @@
           "status": "source-backed",
           "type": "int"
         },
-        "deferred_conducts_and_link_guard": {
-          "java_expr": "&& conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+        "deferred_out_add_and_manual_links": {
+          "java_expr": "out.add(other);",
           "java_method": "getPowerConnections(Seq<Building> out)",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "rule": "N972 deferred conducts and duplicate-link guards after N973 owns the power compatibility guard.",
+          "rule": "Deferred out.add(other) and manual power.links behavior after N974 owns conducts/link guards.",
           "status": "deferred",
           "type": "bool"
         },

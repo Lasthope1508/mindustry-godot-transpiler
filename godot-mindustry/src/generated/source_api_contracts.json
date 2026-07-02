@@ -4109,6 +4109,48 @@
         "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_get_power_connections_conducts_link_guard_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "conducts_to_other_by_index",
+          "schema": "source_building_get_power_connections_conducts_link_guard_input.conducts_to_other_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "other_conducts_to_self_by_index",
+          "schema": "source_building_get_power_connections_conducts_link_guard_input.other_conducts_to_self_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "power_link_contains_other_pos_by_index",
+          "schema": "source_building_get_power_connections_conducts_link_guard_input.power_link_contains_other_pos_by_index",
+          "type": "Array[bool]"
+        }
+      ],
+      "return_keys": [
+        "conducts_to_other_guard",
+        "other_conducts_to_self_guard",
+        "duplicate_link_guard",
+        "connection_count",
+        "conducts_link_guard_pass_indices",
+        "conducts_link_guard_pass_count",
+        "deferred_out_add_and_manual_links",
+        "conducts_to_other_by_index",
+        "other_conducts_to_self_by_index",
+        "power_link_contains_other_pos_by_index"
+      ],
+      "rule": "Public runtime contract for BuildingComp.getPowerConnections conducts/link guard slice.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "source_method": "getPowerConnections(Seq<Building> out)",
+      "source_slice": "N974",
+      "status": "active",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_get_power_connections_empty_guard_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
@@ -4189,7 +4231,7 @@
         "connection_count",
         "power_compatibility_pass_indices",
         "power_compatibility_pass_count",
-        "deferred_conducts_and_link_guard"
+        "deferred_out_add_and_manual_links"
       ],
       "rule": "Public runtime contract for BuildingComp.getPowerConnections power compatibility guard slice.",
       "runtime_proof": "/root/Main.source_building_get_power_connections_power_compatibility_guard_state",
@@ -4231,7 +4273,7 @@
         "connection_count",
         "proximity_guard_pass_indices",
         "proximity_guard_pass_count",
-        "deferred_conducts_and_link_guard"
+        "deferred_out_add_and_manual_links"
       ],
       "rule": "Public runtime contract for BuildingComp.getPowerConnections proximity guard slice.",
       "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",

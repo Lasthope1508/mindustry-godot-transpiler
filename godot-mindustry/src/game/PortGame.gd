@@ -5483,7 +5483,7 @@ func source_building_get_power_connections_proximity_guard_state(other_present_b
 		"connection_count": connection_count,
 		"proximity_guard_pass_indices": proximity_guard_pass_indices,
 		"proximity_guard_pass_count": proximity_guard_pass_indices.size(),
-		"deferred_conducts_and_link_guard": true,
+		"deferred_out_add_and_manual_links": true,
 	}
 
 func source_building_get_power_connections_power_compatibility_guard_state(block_consumes_power: bool, block_outputs_power: bool, block_conductive_power: bool, other_block_consumes_power_by_index: Array, other_block_outputs_power_by_index: Array, other_block_conductive_power_by_index: Array) -> Dictionary:
@@ -5504,7 +5504,26 @@ func source_building_get_power_connections_power_compatibility_guard_state(block
 		"connection_count": connection_count,
 		"power_compatibility_pass_indices": power_compatibility_pass_indices,
 		"power_compatibility_pass_count": power_compatibility_pass_indices.size(),
-		"deferred_conducts_and_link_guard": true,
+		"deferred_out_add_and_manual_links": true,
+	}
+
+func source_building_get_power_connections_conducts_link_guard_state(conducts_to_other_by_index: Array, other_conducts_to_self_by_index: Array, power_link_contains_other_pos_by_index: Array) -> Dictionary:
+	var conducts_link_guard_pass_indices: Array = []
+	var connection_count = min(conducts_to_other_by_index.size(), min(other_conducts_to_self_by_index.size(), power_link_contains_other_pos_by_index.size()))
+	for index in connection_count:
+		if bool(conducts_to_other_by_index[index]) and bool(other_conducts_to_self_by_index[index]) and not bool(power_link_contains_other_pos_by_index[index]):
+			conducts_link_guard_pass_indices.append(index)
+	return {
+		"conducts_to_other_guard": "&& conductsTo(other)",
+		"other_conducts_to_self_guard": "&& other.conductsTo(self())",
+		"duplicate_link_guard": "&& !power.links.contains(other.pos())){",
+		"conducts_to_other_by_index": conducts_to_other_by_index.duplicate(),
+		"other_conducts_to_self_by_index": other_conducts_to_self_by_index.duplicate(),
+		"power_link_contains_other_pos_by_index": power_link_contains_other_pos_by_index.duplicate(),
+		"connection_count": connection_count,
+		"conducts_link_guard_pass_indices": conducts_link_guard_pass_indices,
+		"conducts_link_guard_pass_count": conducts_link_guard_pass_indices.size(),
+		"deferred_out_add_and_manual_links": true,
 	}
 
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:

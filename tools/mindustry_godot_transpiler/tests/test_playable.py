@@ -2204,7 +2204,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_get_power_connections_power_compatibility_guard_state(block_consumes_power: bool, block_outputs_power: bool, block_conductive_power: bool, other_block_consumes_power_by_index: Array, other_block_outputs_power_by_index: Array, other_block_conductive_power_by_index: Array) -> Dictionary:", source)
         self.assertIn('"power_compatibility_guard": "&& !(block.consumesPower && other.block.consumesPower && !block.outputsPower && !other.block.outputsPower && !block.conductivePower && !other.block.conductivePower)"', source)
         self.assertIn('"power_compatibility_pass_count": power_compatibility_pass_indices.size()', source)
-        self.assertIn('"deferred_conducts_and_link_guard": true', source)
+        self.assertIn('"deferred_out_add_and_manual_links": true', source)
+
+    def test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_get_power_connections_conducts_link_guard_state(conducts_to_other_by_index: Array, other_conducts_to_self_by_index: Array, power_link_contains_other_pos_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"conducts_to_other_guard": "&& conductsTo(other)"', source)
+        self.assertIn('"other_conducts_to_self_guard": "&& other.conductsTo(self())"', source)
+        self.assertIn('"duplicate_link_guard": "&& !power.links.contains(other.pos())){"', source)
+        self.assertIn('"conducts_link_guard_pass_count": conducts_link_guard_pass_indices.size()', source)
+        self.assertIn('"deferred_out_add_and_manual_links": true', source)
 
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

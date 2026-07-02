@@ -11645,6 +11645,156 @@
         "test_building_get_payloads_default_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_get_power_connections_conducts_link_guard.conducts_link_guard_pass_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_result.conducts_link_guard_pass_count",
+      "java_expr": "conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Counts rows passing the source conducts/link guards.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.conducts_link_guard_pass_indices": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_result.conducts_link_guard_pass_indices",
+      "java_expr": "conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Records rows passing the source conducts/link guards.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.conducts_to_other_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_input.conducts_to_other_by_index",
+      "java_expr": "conductsTo(other)",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N974 canonical explicit input.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.conducts_to_other_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_result.conducts_to_other_guard",
+      "java_expr": "&& conductsTo(other)",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source conductsTo(other) guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.connection_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_result.connection_count",
+      "java_expr": "proximity",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Counts rows considered by N974 conducts/link guards.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.deferred_out_add_and_manual_links": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_result.deferred_out_add_and_manual_links",
+      "java_expr": "out.add(other);",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Defers adding automatic connection and manual power.links loop.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "deferred",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.duplicate_link_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_result.duplicate_link_guard",
+      "java_expr": "&& !power.links.contains(other.pos())){",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source duplicate-link guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.other_conducts_to_self_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_input.other_conducts_to_self_by_index",
+      "java_expr": "other.conductsTo(self())",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N974 canonical explicit input.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.other_conducts_to_self_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_result.other_conducts_to_self_guard",
+      "java_expr": "&& other.conductsTo(self())",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves reciprocal conductsTo(self()) guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_conducts_link_guard.power_link_contains_other_pos_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
+      "godot_symbol": "source_building_get_power_connections_conducts_link_guard_input.power_link_contains_other_pos_by_index",
+      "java_expr": "power.links.contains(other.pos())",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N974 canonical explicit input.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_conducts_link_guard_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_conducts_link_guard_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_conducts_link_guard_state",
+        "test_building_get_power_connections_conducts_link_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_get_power_connections_empty_guard.clear_out": {
       "godot_owner": "PortGame.source_building_get_power_connections_empty_guard_state",
       "godot_symbol": "source_building_get_power_connections_empty_guard_result.clear_out",
@@ -11825,13 +11975,13 @@
         "test_building_get_power_connections_power_compatibility_guard_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_get_power_connections_power_compatibility_guard.deferred_conducts_and_link_guard": {
+    "building_get_power_connections_power_compatibility_guard.deferred_out_add_and_manual_links": {
       "godot_owner": "PortGame.source_building_get_power_connections_power_compatibility_guard_state",
-      "godot_symbol": "source_building_get_power_connections_power_compatibility_guard_result.deferred_conducts_and_link_guard",
-      "java_expr": "&& conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+      "godot_symbol": "source_building_get_power_connections_power_compatibility_guard_result.deferred_out_add_and_manual_links",
+      "java_expr": "out.add(other);",
       "java_method": "getPowerConnections(Seq<Building> out)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Defers conducts and duplicate-link guards to later slices.",
+      "rule": "Marks deferred out.add(other) and manual power.links behavior after N974 owns conducts/link guards.",
       "runtime_proof": "/root/Main.source_building_get_power_connections_power_compatibility_guard_state",
       "status": "deferred",
       "tests": [
@@ -11945,13 +12095,13 @@
         "test_building_get_power_connections_proximity_guard_symbols_are_registered_with_source_backing"
       ]
     },
-    "building_get_power_connections_proximity_guard.deferred_conducts_and_link_guard": {
+    "building_get_power_connections_proximity_guard.deferred_out_add_and_manual_links": {
       "godot_owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
-      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.deferred_conducts_and_link_guard",
-      "java_expr": "&& conductsTo(other) && other.conductsTo(self()) && !power.links.contains(other.pos())",
+      "godot_symbol": "source_building_get_power_connections_proximity_guard_result.deferred_out_add_and_manual_links",
+      "java_expr": "out.add(other);",
       "java_method": "getPowerConnections(Seq<Building> out)",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Marks deferred conducts and duplicate-link guards after N973 owns the power compatibility guard.",
+      "rule": "Marks deferred out.add(other) and manual power.links behavior after N974 owns conducts/link guards.",
       "runtime_proof": "/root/Main.source_building_get_power_connections_proximity_guard_state",
       "status": "deferred",
       "tests": [
