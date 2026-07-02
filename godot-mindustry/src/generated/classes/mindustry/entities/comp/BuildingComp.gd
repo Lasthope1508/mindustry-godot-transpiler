@@ -1247,7 +1247,8 @@ func java_method_hitSize_202(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_hit_size", "override": "@Override", "method": "public float hitSize(){", "return_expr": "return tile.block().size * tilesize;", "block_size_value": block_size_value, "source_tilesize": source_tilesize, "hit_size": hit_size}
 
 func java_method_kill_203(_args: Array = []) -> Variant:
-	return null
+	var self_state: Variant = _args[0] if _args.size() > 0 else {}
+	return {"source_owner": "PortGame.source_building_kill_state", "replace": "@Replace", "override": "@Override", "method": "public void kill(){", "build_destroyed_call": "Call.buildDestroyed(self());", "self_state": self_state}
 
 func java_method_damage_204(_args: Array = []) -> Variant:
 	return null

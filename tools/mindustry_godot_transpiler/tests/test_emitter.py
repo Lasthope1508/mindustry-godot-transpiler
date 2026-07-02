@@ -3708,5 +3708,40 @@ class BuildingComp{
             self.assertIn('"source_tilesize": source_tilesize', source_text)
             self.assertIn('"hit_size": hit_size', source_text)
 
+    def test_emit_bridges_building_comp_kill_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public void kill(){
+        Call.buildDestroyed(self());
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_kill_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var self_state: Variant = _args[0] if _args.size() > 0 else {}", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_kill_state"', source_text)
+            self.assertIn('"replace": "@Replace"', source_text)
+            self.assertIn('"override": "@Override"', source_text)
+            self.assertIn('"method": "public void kill(){"', source_text)
+            self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());"', source_text)
+            self.assertIn('"self_state": self_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()

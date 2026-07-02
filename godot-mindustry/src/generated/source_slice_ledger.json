@@ -22241,6 +22241,36 @@
         "test_port_game_exposes_generated_building_comp_hit_size_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1071": {
+      "deferred_exprs": [
+        "Concrete Call networking and buildDestroyed side effects stay owned by destruction/runtime integration slices; this generated bridge records the delegated kill call."
+      ],
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public void kill(){",
+        "Call.buildDestroyed(self());",
+        "self()"
+      ],
+      "godot_owner": "PortGame.source_building_kill_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "kill()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_kill_203 and PortGame generated bridge to existing N600 canonical source_building_kill_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_kill_bridge_state",
+      "source_symbols": [
+        "building_kill.method",
+        "building_kill.build_destroyed_call",
+        "building_kill.self_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_kill_to_source_state",
+        "test_generated_building_comp_bridges_kill_to_source_state",
+        "test_port_game_exposes_generated_building_comp_kill_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

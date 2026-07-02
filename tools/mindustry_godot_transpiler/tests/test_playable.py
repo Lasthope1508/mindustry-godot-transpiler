@@ -5134,6 +5134,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_hitSize_202"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_kill_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_kill_203(_args: Array = []) -> Variant:", source)
+        self.assertIn("var self_state: Variant = _args[0] if _args.size() > 0 else {}", source)
+        self.assertIn('"source_owner": "PortGame.source_building_kill_state"', source)
+        self.assertIn('"replace": "@Replace"', source)
+        self.assertIn('"override": "@Override"', source)
+        self.assertIn('"method": "public void kill(){"', source)
+        self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());"', source)
+        self.assertIn('"self_state": self_state', source)
+
+    def test_port_game_exposes_generated_building_comp_kill_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_kill_bridge_state(self_state := {}) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_kill_203([self_state])", source)
+        self.assertIn("var canonical = source_building_kill_state(self_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_kill_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_kill_203"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
@@ -6232,6 +6256,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_building_kill_state(self_state := {}) -> Dictionary:", source)
+        self.assertIn('"method": "public void kill(){",', source)
+        self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());",', source)
+        self.assertIn('"self_state": self_state,', source)
         self.assertIn('"call": "buildDestroyed"', source)
         self.assertIn('"self": self_state', source)
 

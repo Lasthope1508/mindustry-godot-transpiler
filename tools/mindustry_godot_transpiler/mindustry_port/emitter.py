@@ -1055,6 +1055,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "kill"
+    ):
+        return [
+            "\tvar self_state: Variant = _args[0] if _args.size() > 0 else {}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_kill_state\", \"replace\": \"@Replace\", \"override\": \"@Override\", \"method\": \"public void kill(){\", \"build_destroyed_call\": \"Call.buildDestroyed(self());\", \"self_state\": self_state}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
