@@ -1380,6 +1380,9 @@ public class BuildingComp{
         if(block.hasLiquids && state.rules.damageExplosions){
             liquids.each(this::splashLiquid);
         }
+
+        //cap explosiveness so fluid tanks/vaults don't instakill units
+        Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);
     }
 }
 """,
@@ -1418,12 +1421,26 @@ public class BuildingComp{
             self.assertIn('var splash_call := "liquids.each(this::splashLiquid);" if splash_liquids else ""', source_text)
             self.assertIn("var liquid_count := liquid_states.size() if splash_liquids else 0", source_text)
             self.assertIn("var liquids: Array = liquid_states.duplicate() if splash_liquids else []", source_text)
+            self.assertIn("var source_x := float(_args[11] if _args.size() > 11 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[12] if _args.size() > 12 else 0.0)", source_text)
+            self.assertIn("var flammability_scale := float(_args[13] if _args.size() > 13 else 1.0)", source_text)
+            self.assertIn("var explosiveness_scale := float(_args[14] if _args.size() > 14 else 1.0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[15] if _args.size() > 15 else 0.0)", source_text)
+            self.assertIn("var source_block_size := int(_args[16] if _args.size() > 16 else 0)", source_text)
+            self.assertIn('var destroy_effect := str(_args[17] if _args.size() > 17 else "")', source_text)
+            self.assertIn("var base_shake := float(_args[18] if _args.size() > 18 else 0.0)", source_text)
+            self.assertIn("var dynamic_explosion_flammability := flammability * flammability_scale", source_text)
+            self.assertIn("var dynamic_explosion_explosiveness := explosiveness * 3.5 * explosiveness_scale", source_text)
+            self.assertIn("var dynamic_explosion_radius := source_tilesize * float(source_block_size) / 2.0", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
             self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
             self.assertIn('"buffered_power_source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"', source_text)
             self.assertIn('"splash_liquid_source_owner": "PortGame.source_building_on_destroyed_splash_liquid_state"', source_text)
+            self.assertIn('"dynamic_explosion_source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
+            self.assertIn('"dynamic_explosion_comment": "//cap explosiveness so fluid tanks/vaults don', source_text)
+            self.assertIn('"dynamic_explosion_call": "Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
             self.assertIn('"flammability_expr": "float flammability = 0f;"', source_text)
             self.assertIn('"power_expr": "float power = 0f;"', source_text)
@@ -1449,6 +1466,15 @@ public class BuildingComp{
             self.assertIn('"call": splash_call', source_text)
             self.assertIn('"liquid_count": liquid_count', source_text)
             self.assertIn('"liquids": liquids', source_text)
+            self.assertIn('"dynamic_explosion_x": source_x', source_text)
+            self.assertIn('"dynamic_explosion_y": source_y', source_text)
+            self.assertIn('"dynamic_explosion_flammability": dynamic_explosion_flammability', source_text)
+            self.assertIn('"dynamic_explosion_explosiveness": dynamic_explosion_explosiveness', source_text)
+            self.assertIn('"dynamic_explosion_power": power', source_text)
+            self.assertIn('"dynamic_explosion_radius": dynamic_explosion_radius', source_text)
+            self.assertIn('"dynamic_explosion_damage_explosions": damage_explosions', source_text)
+            self.assertIn('"dynamic_explosion_effect": destroy_effect', source_text)
+            self.assertIn('"dynamic_explosion_shake": base_shake', source_text)
             self.assertIn('"current_power": current_power', source_text)
             self.assertIn('"has_cons_power": has_cons_power', source_text)
             self.assertIn('"cons_power_buffered": cons_power_buffered', source_text)
