@@ -374,7 +374,9 @@ func java_method_getPowerConnections_119(_args: Array = []) -> Variant:
 	return null
 
 func java_method_getProgressIncrease_120(_args: Array = []) -> Variant:
-	return null
+	var base_time := float(_args[0] if _args.size() > 0 else 1.0)
+	var edelta_value := float(_args[1] if _args.size() > 1 else 1.0)
+	return 1.0 / base_time * edelta_value
 
 func java_method_getDisplayEfficiency_121(_args: Array = []) -> Variant:
 	return null

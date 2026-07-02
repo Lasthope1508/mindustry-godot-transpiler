@@ -3570,6 +3570,18 @@ func source_building_progress_increase(base_time: float, edelta_value: float) ->
 func source_building_display_efficiency(edelta_value: float) -> float:
 	return source_building_progress_increase(1.0, edelta_value) / edelta_value
 
+func generated_building_comp_get_progress_increase_bridge_state(base_time: float, edelta_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_getProgressIncrease_120([base_time, edelta_value])
+	return {
+		"source_owner": "PortGame.source_building_progress_increase",
+		"generated_owner": "BuildingComp.java_method_getProgressIncrease_120",
+		"base_time": base_time,
+		"edelta_value": edelta_value,
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

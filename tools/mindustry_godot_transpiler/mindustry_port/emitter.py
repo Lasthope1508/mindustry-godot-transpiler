@@ -25,15 +25,29 @@ def _gd_identifier(value: str) -> str:
     return identifier
 
 
-def _method_stub_lines(type_entry: dict) -> list[str]:
+def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[str]:
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "getProgressIncrease"
+        and method.get("return_type") == "float"
+    ):
+        return [
+            "\tvar base_time := float(_args[0] if _args.size() > 0 else 1.0)",
+            "\tvar edelta_value := float(_args[1] if _args.size() > 1 else 1.0)",
+            "\treturn 1.0 / base_time * edelta_value",
+        ]
+    return ["\treturn null"]
+
+def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
     lines = []
     for index, method in enumerate(type_entry.get("methods", [])):
         name = _gd_identifier(method.get("name", "method"))
         lines.extend([
             "",
             f"func java_method_{name}_{index}(_args: Array = []) -> Variant:",
-            "\treturn null",
         ])
+        lines.extend(_method_body_lines(java_file, type_entry, method))
     return lines
 
 
@@ -54,7 +68,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         f"const JAVA_METHODS := {gdscript_literal(type_entry.get('methods', []))}",
         f"const JAVA_ENUM_CONSTANTS := {gdscript_literal(type_entry.get('enum_constants', []))}",
     ]
-    lines.extend(_method_stub_lines(type_entry))
+    lines.extend(_method_stub_lines(java_file, type_entry))
     lines.append("")
     return "\n".join(lines)
 

@@ -85,5 +85,33 @@ static func find_by_java_name(java_name: String) -> Dictionary:
 """)
 
 
+    def test_emit_bridges_building_comp_get_progress_increase_to_source_formula(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public float getProgressIncrease(float baseTime){
+        return 1f / baseTime * edelta();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getProgressIncrease_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var base_time := float(_args[0] if _args.size() > 0 else 1.0)", source_text)
+            self.assertIn("var edelta_value := float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn("return 1.0 / base_time * edelta_value", source_text)
+
 if __name__ == "__main__":
     unittest.main()
