@@ -4045,6 +4045,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureClosed_168"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_should_show_configure_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_shouldShowConfigure_169(_args: Array = []) -> Variant:", source)
+        self.assertIn("var player: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_should_show_configure_state"', source)
+        self.assertIn('"comment": "/** Returns whether this config menu should show when the specified player taps it. */"', source)
+        self.assertIn('"method": "public boolean shouldShowConfigure(Player player){"', source)
+        self.assertIn('"return_true": "return true;"', source)
+        self.assertIn('"player": player', source)
+        self.assertIn('"should_show": true', source)
+
+    def test_port_game_exposes_generated_building_comp_should_show_configure_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_should_show_configure_bridge_state(player: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_shouldShowConfigure_169([player])", source)
+        self.assertIn("var canonical = source_building_should_show_configure_state(player)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_should_show_configure_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_shouldShowConfigure_169"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

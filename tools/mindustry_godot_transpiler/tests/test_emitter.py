@@ -1931,5 +1931,38 @@ public class BuildingComp{
             self.assertIn('"method": "public void onConfigureClosed(){}"', source_text)
             self.assertIn('"no_op": true', source_text)
 
+    def test_emit_bridges_building_comp_should_show_configure_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Returns whether this config menu should show when the specified player taps it. */
+    public boolean shouldShowConfigure(Player player){
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_shouldShowConfigure_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var player: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_should_show_configure_state"', source_text)
+            self.assertIn('"comment": "/** Returns whether this config menu should show when the specified player taps it. */"', source_text)
+            self.assertIn('"method": "public boolean shouldShowConfigure(Player player){"', source_text)
+            self.assertIn('"return_true": "return true;"', source_text)
+            self.assertIn('"player": player', source_text)
+            self.assertIn('"should_show": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

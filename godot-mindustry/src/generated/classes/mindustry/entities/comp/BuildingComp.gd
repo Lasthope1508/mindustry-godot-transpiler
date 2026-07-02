@@ -995,7 +995,8 @@ func java_method_onConfigureClosed_168(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_on_configure_closed_state", "method": "public void onConfigureClosed(){}", "no_op": true}
 
 func java_method_shouldShowConfigure_169(_args: Array = []) -> Variant:
-	return null
+	var player: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_should_show_configure_state", "comment": "/** Returns whether this config menu should show when the specified player taps it. */", "method": "public boolean shouldShowConfigure(Player player){", "return_true": "return true;", "player": player, "should_show": true}
 
 func java_method_shouldHideConfigure_170(_args: Array = []) -> Variant:
 	return null

@@ -20802,6 +20802,36 @@
         "test_port_game_exposes_generated_building_comp_on_configure_closed_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1031": {
+      "deferred_exprs": [
+        "Concrete block-specific configure visibility overrides remain owned by overriding block slices; this slice wires only the base BuildingComp default true return."
+      ],
+      "exact_exprs": [
+        "/** Returns whether this config menu should show when the specified player taps it. */",
+        "public boolean shouldShowConfigure(Player player){",
+        "return true;",
+        "player"
+      ],
+      "godot_owner": "PortGame.source_building_should_show_configure_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "shouldShowConfigure(Player player)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_shouldShowConfigure_169 and PortGame generated bridge to existing N649 canonical source_building_should_show_configure_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_should_show_configure_bridge_state",
+      "source_symbols": [
+        "building_should_show_configure.comment",
+        "building_should_show_configure.method",
+        "building_should_show_configure.return_true",
+        "building_should_show_configure.player"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_should_show_configure_to_source_state",
+        "test_generated_building_comp_bridges_should_show_configure_to_source_state",
+        "test_port_game_exposes_generated_building_comp_should_show_configure_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

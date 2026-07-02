@@ -4208,6 +4208,18 @@ func generated_building_comp_on_configure_closed_bridge_state() -> Dictionary:
 		"canonical": canonical,
 	}
 
+func generated_building_comp_should_show_configure_bridge_state(player: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_shouldShowConfigure_169([player])
+	var canonical = source_building_should_show_configure_state(player)
+	return {
+		"source_owner": "PortGame.source_building_should_show_configure_state",
+		"generated_owner": "BuildingComp.java_method_shouldShowConfigure_169",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

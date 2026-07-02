@@ -25550,6 +25550,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_generated_configure_closed["runtime_proof"], "/root/Main.generated_building_comp_on_configure_closed_bridge_state")
         self.assertIn("public void onConfigureClosed(){}", building_generated_configure_closed["exact_exprs"])
 
+        building_generated_should_show_configure = source_symbols.source_slice(ledger, "N1031")
+        self.assertEqual(building_generated_should_show_configure["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_should_show_configure["java_method"], "shouldShowConfigure(Player player)")
+        self.assertEqual(building_generated_should_show_configure["godot_owner"], "PortGame.source_building_should_show_configure_state")
+        self.assertEqual(building_generated_should_show_configure["runtime_proof"], "/root/Main.generated_building_comp_should_show_configure_bridge_state")
+        self.assertIn("public boolean shouldShowConfigure(Player player){", building_generated_should_show_configure["exact_exprs"])
+        self.assertIn("return true;", building_generated_should_show_configure["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
