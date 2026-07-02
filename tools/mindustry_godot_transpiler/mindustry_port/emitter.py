@@ -232,6 +232,41 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\treturn {\"visible\": false}",
             "\treturn {\"visible\": true, \"tint_color\": team_color if team_region_matches_team else \"\", \"x\": source_x, \"y\": source_y, \"color_reset\": true}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawLight"
+    ):
+        return [
+            "\tvar has_liquids := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar draw_liquid_light := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar light_liquid_is_null := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar current_liquid_color := String(_args[3] if _args.size() > 3 else \"\")",
+            "\tvar current_liquid_alpha := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar light_liquid_color := String(_args[5] if _args.size() > 5 else \"\")",
+            "\tvar light_liquid_alpha := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar selected_liquid_amount := float(_args[7] if _args.size() > 7 else 0.0)",
+            "\tvar visual_liquid := float(_args[8] if _args.size() > 8 else 0.0)",
+            "\tvar source_delta := float(_args[9] if _args.size() > 9 else 0.0)",
+            "\tvar source_x := float(_args[10] if _args.size() > 10 else 0.0)",
+            "\tvar source_y := float(_args[11] if _args.size() > 11 else 0.0)",
+            "\tvar block_size_value := int(_args[12] if _args.size() > 12 else 0)",
+            "\tvar selected_color: String = current_liquid_color if light_liquid_is_null else light_liquid_color",
+            "\tvar selected_alpha: float = current_liquid_alpha if light_liquid_is_null else light_liquid_alpha",
+            "\tif not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:",
+            "\t\treturn {\"visible\": false, \"visual_liquid\": visual_liquid}",
+            "\tvar target: float = 1.0 if selected_liquid_amount >= 0.01 else 0.0",
+            "\tvar next_visual_liquid: float = lerp(visual_liquid, target, clamp(0.06 * source_delta, 0.0, 1.0))",
+            "\tvar light_state: Dictionary = {\"visible\": false, \"drawLiquidLightCall\": \"drawLiquidLight(liq, visualLiquid);\"}",
+            "\tif next_visual_liquid > 0.01:",
+            "\t\tvar fract: float = 1.0",
+            "\t\tvar opacity: float = selected_alpha * fract",
+            "\t\tif opacity > 0.001:",
+            "\t\t\tlight_state = {\"visible\": true, \"x\": source_x, \"y\": source_y, \"radius\": block_size_value * 30.0 * fract, \"color\": selected_color, \"opacity\": opacity, \"alpha\": opacity * next_visual_liquid, \"fract\": fract}",
+            "\tlight_state[\"visual_liquid\"] = next_visual_liquid",
+            "\tlight_state[\"drawLiquidLightCall\"] = \"drawLiquidLight(liq, visualLiquid);\"",
+            "\treturn light_state",
+        ]
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:

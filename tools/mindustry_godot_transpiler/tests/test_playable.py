@@ -2939,6 +2939,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_team_top_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawTeamTop_132"', source)
 
+    def test_generated_building_comp_bridges_draw_light_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawLight_133(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_liquids := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var draw_liquid_light := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var light_liquid_is_null := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn('var current_liquid_color := String(_args[3] if _args.size() > 3 else "")', source)
+        self.assertIn("var selected_color: String = current_liquid_color if light_liquid_is_null else light_liquid_color", source)
+        self.assertIn("var selected_alpha: float = current_liquid_alpha if light_liquid_is_null else light_liquid_alpha", source)
+        self.assertIn("if not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:", source)
+        self.assertIn('return {"visible": false, "visual_liquid": visual_liquid}', source)
+        self.assertIn("var target: float = 1.0 if selected_liquid_amount >= 0.01 else 0.0", source)
+        self.assertIn("var next_visual_liquid: float = lerp(visual_liquid, target, clamp(0.06 * source_delta, 0.0, 1.0))", source)
+        self.assertIn('var light_state: Dictionary = {"visible": false, "drawLiquidLightCall": "drawLiquidLight(liq, visualLiquid);"}', source)
+        self.assertIn("var fract: float = 1.0", source)
+        self.assertIn("var opacity: float = selected_alpha * fract", source)
+        self.assertIn('"drawLiquidLightCall": "drawLiquidLight(liq, visualLiquid);"', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_light_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawLight_133([has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_light_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawLight_133"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -3146,6 +3176,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var target := 1.0 if selected_liquid_amount >= 0.01 else 0.0", source)
         self.assertIn("var next_visual_liquid := source_arc_lerp_delta(visual_liquid, target, 0.06, source_delta)", source)
         self.assertIn("var light_state := source_building_draw_liquid_light_state(source_x, source_y, block_size_value, selected_color, selected_alpha, next_visual_liquid)", source)
+        self.assertIn('light_state["drawLiquidLightCall"] = "drawLiquidLight(liq, visualLiquid);"', source)
 
     def test_port_game_exposes_source_building_draw_team_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

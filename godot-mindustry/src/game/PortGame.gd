@@ -3704,6 +3704,16 @@ func generated_building_comp_draw_team_top_bridge_state(team_region_found: bool,
 		"result": result,
 	}
 
+func generated_building_comp_draw_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawLight_133([has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value])
+	return {
+		"source_owner": "PortGame.source_building_draw_light_state",
+		"generated_owner": "BuildingComp.java_method_drawLight_133",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",
@@ -3985,6 +3995,7 @@ func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool
 	var next_visual_liquid := source_arc_lerp_delta(visual_liquid, target, 0.06, source_delta)
 	var light_state := source_building_draw_liquid_light_state(source_x, source_y, block_size_value, selected_color, selected_alpha, next_visual_liquid)
 	light_state["visual_liquid"] = next_visual_liquid
+	light_state["drawLiquidLightCall"] = "drawLiquidLight(liq, visualLiquid);"
 	return light_state
 
 func source_building_draw_team_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:

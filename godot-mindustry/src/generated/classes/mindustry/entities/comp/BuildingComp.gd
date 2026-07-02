@@ -645,7 +645,34 @@ func java_method_drawTeamTop_132(_args: Array = []) -> Variant:
 	return {"visible": true, "tint_color": team_color if team_region_matches_team else "", "x": source_x, "y": source_y, "color_reset": true}
 
 func java_method_drawLight_133(_args: Array = []) -> Variant:
-	return null
+	var has_liquids := bool(_args[0] if _args.size() > 0 else false)
+	var draw_liquid_light := bool(_args[1] if _args.size() > 1 else false)
+	var light_liquid_is_null := bool(_args[2] if _args.size() > 2 else false)
+	var current_liquid_color := String(_args[3] if _args.size() > 3 else "")
+	var current_liquid_alpha := float(_args[4] if _args.size() > 4 else 0.0)
+	var light_liquid_color := String(_args[5] if _args.size() > 5 else "")
+	var light_liquid_alpha := float(_args[6] if _args.size() > 6 else 0.0)
+	var selected_liquid_amount := float(_args[7] if _args.size() > 7 else 0.0)
+	var visual_liquid := float(_args[8] if _args.size() > 8 else 0.0)
+	var source_delta := float(_args[9] if _args.size() > 9 else 0.0)
+	var source_x := float(_args[10] if _args.size() > 10 else 0.0)
+	var source_y := float(_args[11] if _args.size() > 11 else 0.0)
+	var block_size_value := int(_args[12] if _args.size() > 12 else 0)
+	var selected_color: String = current_liquid_color if light_liquid_is_null else light_liquid_color
+	var selected_alpha: float = current_liquid_alpha if light_liquid_is_null else light_liquid_alpha
+	if not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:
+		return {"visible": false, "visual_liquid": visual_liquid}
+	var target: float = 1.0 if selected_liquid_amount >= 0.01 else 0.0
+	var next_visual_liquid: float = lerp(visual_liquid, target, clamp(0.06 * source_delta, 0.0, 1.0))
+	var light_state: Dictionary = {"visible": false, "drawLiquidLightCall": "drawLiquidLight(liq, visualLiquid);"}
+	if next_visual_liquid > 0.01:
+		var fract: float = 1.0
+		var opacity: float = selected_alpha * fract
+		if opacity > 0.001:
+			light_state = {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": selected_color, "opacity": opacity, "alpha": opacity * next_visual_liquid, "fract": fract}
+	light_state["visual_liquid"] = next_visual_liquid
+	light_state["drawLiquidLightCall"] = "drawLiquidLight(liq, visualLiquid);"
+	return light_state
 
 func java_method_drawLiquidLight_134(_args: Array = []) -> Variant:
 	return null

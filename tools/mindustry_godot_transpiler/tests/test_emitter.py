@@ -513,5 +513,48 @@ public class BuildingComp{
             self.assertIn('"tint_color": team_color if team_region_matches_team else ""', source_text)
             self.assertIn('"color_reset": true', source_text)
 
+    def test_emit_bridges_building_comp_draw_light_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawLight(){
+        Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;
+        if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){
+            visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);
+            drawLiquidLight(liq, visualLiquid);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawLight_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_liquids := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var draw_liquid_light := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var light_liquid_is_null := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn('var current_liquid_color := String(_args[3] if _args.size() > 3 else "")', source_text)
+            self.assertIn("var selected_color: String = current_liquid_color if light_liquid_is_null else light_liquid_color", source_text)
+            self.assertIn("var selected_alpha: float = current_liquid_alpha if light_liquid_is_null else light_liquid_alpha", source_text)
+            self.assertIn("if not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:", source_text)
+            self.assertIn('return {"visible": false, "visual_liquid": visual_liquid}', source_text)
+            self.assertIn("var target: float = 1.0 if selected_liquid_amount >= 0.01 else 0.0", source_text)
+            self.assertIn("var next_visual_liquid: float = lerp(visual_liquid, target, clamp(0.06 * source_delta, 0.0, 1.0))", source_text)
+            self.assertIn('var light_state: Dictionary = {"visible": false, "drawLiquidLightCall": "drawLiquidLight(liq, visualLiquid);"}', source_text)
+            self.assertIn("var fract: float = 1.0", source_text)
+            self.assertIn("var opacity: float = selected_alpha * fract", source_text)
+            self.assertIn('"drawLiquidLightCall": "drawLiquidLight(liq, visualLiquid);"', source_text)
+
 if __name__ == "__main__":
     unittest.main()
