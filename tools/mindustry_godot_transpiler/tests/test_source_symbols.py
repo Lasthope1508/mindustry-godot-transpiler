@@ -25957,6 +25957,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return efficiency;", building_generated_ambient_volume["exact_exprs"])
         self.assertIn("efficiency", building_generated_ambient_volume["exact_exprs"])
 
+        building_generated_config_default = source_symbols.source_slice(ledger, "N1067")
+        self.assertEqual(building_generated_config_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_config_default["java_method"], "config()")
+        self.assertEqual(building_generated_config_default["godot_owner"], "PortGame.source_building_config_default")
+        self.assertEqual(building_generated_config_default["runtime_proof"], "/root/Main.generated_building_comp_config_default_bridge_state")
+        self.assertIn("/** Tile configuration. Defaults to null. Used for block rebuilding. */", building_generated_config_default["exact_exprs"])
+        self.assertIn("@Nullable", building_generated_config_default["exact_exprs"])
+        self.assertIn("public Object config(){", building_generated_config_default["exact_exprs"])
+        self.assertIn("return null;", building_generated_config_default["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

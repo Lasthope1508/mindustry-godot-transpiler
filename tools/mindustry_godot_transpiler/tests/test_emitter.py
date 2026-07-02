@@ -3555,5 +3555,38 @@ class BuildingComp{
             self.assertIn('"efficiency": efficiency', source_text)
             self.assertIn('"ambientVolume": efficiency', source_text)
 
+    def test_emit_bridges_building_comp_config_default_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    /** Tile configuration. Defaults to null. Used for block rebuilding. */
+    @Nullable
+    public Object config(){
+        return null;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_config_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_config_default"', source_text)
+            self.assertIn('"comment": "/** Tile configuration. Defaults to null. Used for block rebuilding. */"', source_text)
+            self.assertIn('"nullable": "@Nullable"', source_text)
+            self.assertIn('"method": "public Object config(){"', source_text)
+            self.assertIn('"config": null', source_text)
+
 if __name__ == "__main__":
     unittest.main()

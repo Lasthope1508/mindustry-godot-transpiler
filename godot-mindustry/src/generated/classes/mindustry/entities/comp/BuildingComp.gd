@@ -1225,7 +1225,7 @@ func java_method_ambientVolume_197(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_ambient_volume", "method": "public float ambientVolume(){", "efficiency": efficiency, "ambientVolume": efficiency}
 
 func java_method_config_198(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_building_config_default", "comment": "/** Tile configuration. Defaults to null. Used for block rebuilding. */", "nullable": "@Nullable", "method": "public Object config(){", "config": null}
 
 func java_method_isValid_199(_args: Array = []) -> Variant:
 	return null

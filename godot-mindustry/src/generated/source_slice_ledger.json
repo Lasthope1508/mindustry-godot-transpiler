@@ -22114,6 +22114,36 @@
         "test_port_game_exposes_generated_building_comp_ambient_volume_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1067": {
+      "deferred_exprs": [
+        "Concrete block rebuild configuration stays owned by concrete block config slices."
+      ],
+      "exact_exprs": [
+        "/** Tile configuration. Defaults to null. Used for block rebuilding. */",
+        "@Nullable",
+        "public Object config(){",
+        "return null;"
+      ],
+      "godot_owner": "PortGame.source_building_config_default",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "config()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_config_198 and PortGame generated bridge to existing N544 canonical source_building_config_default helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_config_default_bridge_state",
+      "source_symbols": [
+        "building_config_default.comment",
+        "building_config_default.nullable",
+        "building_config_default.method",
+        "building_config_default.result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_config_default_to_source_state",
+        "test_generated_building_comp_bridges_config_default_to_source_state",
+        "test_port_game_exposes_generated_building_comp_config_default_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
