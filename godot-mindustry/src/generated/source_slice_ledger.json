@@ -19882,6 +19882,35 @@
         "test_port_game_exposes_source_building_get_payload_default_state",
         "test_building_get_payload_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N952": {
+      "exact_exprs": [
+        "/** Tries to take the payload. Returns null if no payload is present. */",
+        "public @Nullable Payload takePayload(){",
+        "return null;"
+      ],
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records default BuildingComp.takePayload behavior returning null. Concrete payload containers and getPayloads remain separate slices.",
+      "rule": "Adds source-backed default BuildingComp.takePayload helper returning null.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "source_symbols": [
+        "building_take_payload_default.comment",
+        "building_take_payload_default.method",
+        "building_take_payload_default.nullable",
+        "building_take_payload_default.return_null",
+        "building_take_payload_default.payload",
+        "building_take_payload_default.has_payload",
+        "building_take_payload_default.payload_taken"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

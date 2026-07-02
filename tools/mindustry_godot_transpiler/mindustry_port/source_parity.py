@@ -534,6 +534,24 @@ def verify_building_get_payload_default_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_building_take_payload_default_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** Tries to take the payload. Returns null if no payload is present. */",
+        "method": "public @Nullable Payload takePayload(){",
+        "return_null": "return null;",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_building_move_liquid_forward_source(upstream_root: Path) -> dict[str, Any]:
     building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")

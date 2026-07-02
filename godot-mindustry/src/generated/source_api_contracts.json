@@ -6861,6 +6861,29 @@
         "test_building_splash_liquid_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_take_payload_default_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [],
+      "return_keys": [
+        "comment",
+        "method",
+        "nullable",
+        "return_null",
+        "payload",
+        "has_payload",
+        "payload_taken"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.takePayload default null helper.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "source_method": "takePayload()",
+      "source_slice": "N952",
+      "status": "active",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_tapped_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

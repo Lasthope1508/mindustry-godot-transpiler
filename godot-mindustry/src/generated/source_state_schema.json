@@ -33295,6 +33295,69 @@
       },
       "status": "active"
     },
+    "source_building_take_payload_default_result": {
+      "keys": {
+        "comment": {
+          "java_expr": "/** Tries to take the payload. Returns null if no payload is present. */",
+          "java_method": "takePayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N952 BuildingComp.takePayload default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "has_payload": {
+          "java_expr": "return null;",
+          "java_method": "takePayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N952 BuildingComp.takePayload default canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "java_expr": "public @Nullable Payload takePayload(){",
+          "java_method": "takePayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N952 BuildingComp.takePayload default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "nullable": {
+          "java_expr": "@Nullable",
+          "java_method": "takePayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N952 BuildingComp.takePayload default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload": {
+          "java_expr": "return null;",
+          "java_method": "takePayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N952 BuildingComp.takePayload default canonical key.",
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "payload_taken": {
+          "java_expr": "return null;",
+          "java_method": "takePayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N952 BuildingComp.takePayload default canonical key.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "return_null": {
+          "java_expr": "return null;",
+          "java_method": "takePayload()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N952 BuildingComp.takePayload default canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_take_payload_default_state",
+      "source_slice": "N952",
+      "status": "active"
+    },
     "source_building_tapped_input": {
       "keys": {
         "current_state": {

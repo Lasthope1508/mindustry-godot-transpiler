@@ -18879,6 +18879,111 @@
         "test_building_splash_liquid_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_take_payload_default.comment": {
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "godot_symbol": "source_building_take_payload_default_result.comment",
+      "java_expr": "/** Tries to take the payload. Returns null if no payload is present. */",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source takePayload default comment.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_take_payload_default.has_payload": {
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "godot_symbol": "source_building_take_payload_default_result.has_payload",
+      "java_expr": "return null;",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime boolean records that source default has no payload.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_take_payload_default.method": {
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "godot_symbol": "source_building_take_payload_default_result.method",
+      "java_expr": "public @Nullable Payload takePayload(){",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source takePayload default method signature.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_take_payload_default.nullable": {
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "godot_symbol": "source_building_take_payload_default_result.nullable",
+      "java_expr": "@Nullable",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source nullable annotation on default takePayload accessor.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_take_payload_default.payload": {
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "godot_symbol": "source_building_take_payload_default_result.payload",
+      "java_expr": "return null;",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime payload result from source default null return.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_take_payload_default.payload_taken": {
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "godot_symbol": "source_building_take_payload_default_result.payload_taken",
+      "java_expr": "return null;",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime boolean records that default takePayload takes no payload.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_take_payload_default.return_null": {
+      "godot_owner": "PortGame.source_building_take_payload_default_state",
+      "godot_symbol": "source_building_take_payload_default_result.return_null",
+      "java_expr": "return null;",
+      "java_method": "takePayload()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source default null return statement.",
+      "runtime_proof": "/root/Main.source_building_take_payload_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_take_payload_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_take_payload_default_state",
+        "test_building_take_payload_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_tapped.comment": {
       "godot_owner": "PortGame.source_building_tapped_state",
       "godot_symbol": "source_building_tapped_result.comment",
