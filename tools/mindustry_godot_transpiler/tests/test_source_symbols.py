@@ -25601,6 +25601,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public boolean absorbLasers(){", building_generated_absorb_lasers["exact_exprs"])
         self.assertIn("return block.absorbLasers;", building_generated_absorb_lasers["exact_exprs"])
 
+        building_generated_is_insulated = source_symbols.source_slice(ledger, "N1037")
+        self.assertEqual(building_generated_is_insulated["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_is_insulated["java_method"], "isInsulated()")
+        self.assertEqual(building_generated_is_insulated["godot_owner"], "PortGame.source_building_is_insulated_state")
+        self.assertEqual(building_generated_is_insulated["runtime_proof"], "/root/Main.generated_building_comp_is_insulated_bridge_state")
+        self.assertIn("public boolean isInsulated(){", building_generated_is_insulated["exact_exprs"])
+        self.assertIn("return block.insulated;", building_generated_is_insulated["exact_exprs"])
+        self.assertIn("block.insulated", building_generated_is_insulated["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

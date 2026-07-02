@@ -20983,6 +20983,34 @@
         "test_port_game_exposes_generated_building_comp_absorb_lasers_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1037": {
+      "deferred_exprs": [
+        "Insulation interactions remain owned by later collision/power integration; this slice wires only the source-backed block.insulated passthrough."
+      ],
+      "exact_exprs": [
+        "public boolean isInsulated(){",
+        "return block.insulated;",
+        "block.insulated"
+      ],
+      "godot_owner": "PortGame.source_building_is_insulated_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "isInsulated()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_isInsulated_175 and PortGame generated bridge to existing N597 canonical source_building_is_insulated_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_is_insulated_bridge_state",
+      "source_symbols": [
+        "building_is_insulated.method",
+        "building_is_insulated.result",
+        "building_is_insulated.block_insulated"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_is_insulated_to_source_state",
+        "test_generated_building_comp_bridges_is_insulated_to_source_state",
+        "test_port_game_exposes_generated_building_comp_is_insulated_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

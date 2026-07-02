@@ -2131,5 +2131,35 @@ public class BuildingComp{
             self.assertIn('"defaultAbsorbLasers": false', source_text)
             self.assertIn('"absorbLasers": block_absorb_lasers', source_text)
 
+    def test_emit_bridges_building_comp_is_insulated_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public boolean isInsulated(){
+        return block.insulated;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_isInsulated_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_insulated := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_is_insulated_state"', source_text)
+            self.assertIn('"method": "public boolean isInsulated(){"', source_text)
+            self.assertIn('"block_insulated": block_insulated', source_text)
+            self.assertIn('"insulated": block_insulated', source_text)
+
 if __name__ == "__main__":
     unittest.main()

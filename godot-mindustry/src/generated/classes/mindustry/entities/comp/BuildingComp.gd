@@ -1023,7 +1023,8 @@ func java_method_absorbLasers_174(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_absorb_lasers_state", "blockAbsorbLasers": block_absorb_lasers, "defaultAbsorbLasers": false, "absorbLasers": block_absorb_lasers}
 
 func java_method_isInsulated_175(_args: Array = []) -> Variant:
-	return null
+	var block_insulated := bool(_args[0] if _args.size() > 0 else false)
+	return {"source_owner": "PortGame.source_building_is_insulated_state", "method": "public boolean isInsulated(){", "block_insulated": block_insulated, "insulated": block_insulated}
 
 func java_method_collide_176(_args: Array = []) -> Variant:
 	return null

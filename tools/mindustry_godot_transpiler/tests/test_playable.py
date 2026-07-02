@@ -4192,6 +4192,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_absorbLasers_174"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_is_insulated_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_isInsulated_175(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_insulated := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_is_insulated_state"', source)
+        self.assertIn('"method": "public boolean isInsulated(){"', source)
+        self.assertIn('"block_insulated": block_insulated', source)
+        self.assertIn('"insulated": block_insulated', source)
+
+    def test_port_game_exposes_generated_building_comp_is_insulated_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_is_insulated_bridge_state(block_insulated: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_isInsulated_175([block_insulated])", source)
+        self.assertIn('"method": "public boolean isInsulated(){"', source)
+        self.assertIn('"block_insulated": block_insulated', source)
+        self.assertIn('"insulated": source_building_is_insulated_state(block_insulated)', source)
+        self.assertIn('"source_owner": "PortGame.source_building_is_insulated_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_isInsulated_175"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
