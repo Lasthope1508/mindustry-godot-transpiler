@@ -675,7 +675,19 @@ func java_method_drawLight_133(_args: Array = []) -> Variant:
 	return light_state
 
 func java_method_drawLiquidLight_134(_args: Array = []) -> Variant:
-	return null
+	var source_x := float(_args[0] if _args.size() > 0 else 0.0)
+	var source_y := float(_args[1] if _args.size() > 1 else 0.0)
+	var block_size_value := int(_args[2] if _args.size() > 2 else 0)
+	var light_color := String(_args[3] if _args.size() > 3 else "")
+	var light_alpha := float(_args[4] if _args.size() > 4 else 0.0)
+	var amount := float(_args[5] if _args.size() > 5 else 0.0)
+	if amount <= 0.01:
+		return {"visible": false}
+	var fract: float = 1.0
+	var opacity: float = light_alpha * fract
+	if opacity <= 0.001:
+		return {"visible": false}
+	return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}
 
 func java_method_drawTeam_135(_args: Array = []) -> Variant:
 	return null

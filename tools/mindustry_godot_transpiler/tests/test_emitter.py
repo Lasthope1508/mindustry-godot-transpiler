@@ -556,5 +556,49 @@ public class BuildingComp{
             self.assertIn("var opacity: float = selected_alpha * fract", source_text)
             self.assertIn('"drawLiquidLightCall": "drawLiquidLight(liq, visualLiquid);"', source_text)
 
+    def test_emit_bridges_building_comp_draw_liquid_light_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawLiquidLight(Liquid liquid, float amount){
+        if(amount > 0.01f){
+            Color color = liquid.lightColor;
+            float fract = 1f;
+            float opacity = color.a * fract;
+            if(opacity > 0.001f){
+                Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawLiquidLight_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn('var light_color := String(_args[3] if _args.size() > 3 else "")', source_text)
+            self.assertIn("var light_alpha := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var amount := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("if amount <= 0.01:", source_text)
+            self.assertIn('return {"visible": false}', source_text)
+            self.assertIn("var fract: float = 1.0", source_text)
+            self.assertIn("var opacity: float = light_alpha * fract", source_text)
+            self.assertIn("if opacity <= 0.001:", source_text)
+            self.assertIn('return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -3714,6 +3714,16 @@ func generated_building_comp_draw_light_bridge_state(has_liquids: bool, draw_liq
 		"result": result,
 	}
 
+func generated_building_comp_draw_liquid_light_bridge_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawLiquidLight_134([source_x, source_y, block_size_value, light_color, light_alpha, amount])
+	return {
+		"source_owner": "PortGame.source_building_draw_liquid_light_state",
+		"generated_owner": "BuildingComp.java_method_drawLiquidLight_134",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

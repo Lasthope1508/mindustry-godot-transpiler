@@ -2969,6 +2969,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_light_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawLight_133"', source)
 
+    def test_generated_building_comp_bridges_draw_liquid_light_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawLiquidLight_134(_args: Array = []) -> Variant:", source)
+        self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn('var light_color := String(_args[3] if _args.size() > 3 else "")', source)
+        self.assertIn("var light_alpha := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var amount := float(_args[5] if _args.size() > 5 else 0.0)", source)
+        self.assertIn("if amount <= 0.01:", source)
+        self.assertIn('return {"visible": false}', source)
+        self.assertIn("var fract: float = 1.0", source)
+        self.assertIn("var opacity: float = light_alpha * fract", source)
+        self.assertIn("if opacity <= 0.001:", source)
+        self.assertIn('return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_liquid_light_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_liquid_light_bridge_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn("var result = instance.java_method_drawLiquidLight_134([source_x, source_y, block_size_value, light_color, light_alpha, amount])", source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_liquid_light_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawLiquidLight_134"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
