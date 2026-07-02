@@ -5760,6 +5760,30 @@ func source_building_dump_default_state() -> Dictionary:
 		"delegates_to_item_overload": true,
 	}
 
+func source_building_dump_null_item_scan_state(item_ids: Array, item_present_by_index: Array) -> Dictionary:
+	var present_item_indices := []
+	var present_items := []
+	for ii in range(item_ids.size()):
+		if not bool(item_present_by_index[ii]):
+			continue
+		present_item_indices.append(ii)
+		present_items.append(item_ids[ii])
+	return {
+		"method": "public boolean dump(Item todump){",
+		"all_items": "var allItems = content.items();",
+		"item_size_source": "int itemSize = allItems.size;",
+		"item_array": "Object[] itemArray = allItems.items;",
+		"null_branch": "if(todump == null){",
+		"item_loop": "for(int ii = 0; ii < itemSize; ii++){",
+		"has_item_skip": "if(!items.has(ii)) continue;",
+		"item_cast": "Item item = (Item)itemArray[ii];",
+		"item_ids": item_ids,
+		"item_present_by_index": item_present_by_index,
+		"item_size": item_ids.size(),
+		"present_item_indices": present_item_indices,
+		"present_items": present_items,
+	}
+
 func source_dump_accumulate_attempt_state(current_accum: float, source_delta: float) -> Dictionary:
 	var next_accum := current_accum + source_delta
 	var dump_attempts := 0

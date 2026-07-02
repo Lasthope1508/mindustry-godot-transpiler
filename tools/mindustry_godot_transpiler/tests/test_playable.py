@@ -2228,6 +2228,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"todump": null', source)
         self.assertIn('"delegates_to_item_overload": true', source)
 
+    def test_port_game_exposes_source_building_dump_null_item_scan_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_dump_null_item_scan_state(item_ids: Array, item_present_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean dump(Item todump){"', source)
+        self.assertIn('"null_branch": "if(todump == null){"', source)
+        self.assertIn('"item_loop": "for(int ii = 0; ii < itemSize; ii++){"', source)
+        self.assertIn('"has_item_skip": "if(!items.has(ii)) continue;"', source)
+        self.assertIn('"present_item_indices": present_item_indices', source)
+        self.assertIn('"present_items": present_items', source)
+        self.assertIn('"item_size": item_ids.size()', source)
+
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

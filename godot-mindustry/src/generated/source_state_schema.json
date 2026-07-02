@@ -22888,6 +22888,136 @@
       },
       "status": "active"
     },
+    "source_building_dump_null_item_scan_input": {
+      "keys": {
+        "item_ids": {
+          "godot_symbol": "source_building_dump_null_item_scan_input.item_ids",
+          "java_expr": "itemArray",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 explicit itemArray entries.",
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "item_present_by_index": {
+          "godot_symbol": "source_building_dump_null_item_scan_input.item_present_by_index",
+          "java_expr": "items.has(ii)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 explicit items.has(ii) flags.",
+          "status": "explicit-input",
+          "type": "Array"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_item_scan_state",
+      "source_slice": "N959",
+      "status": "active"
+    },
+    "source_building_dump_null_item_scan_result": {
+      "keys": {
+        "all_items": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.all_items",
+          "java_expr": "var allItems = content.items();",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 content.items key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "has_item_skip": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.has_item_skip",
+          "java_expr": "if(!items.has(ii)) continue;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 skip guard key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item_array": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.item_array",
+          "java_expr": "Object[] itemArray = allItems.items;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 itemArray source key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item_cast": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.item_cast",
+          "java_expr": "Item item = (Item)itemArray[ii];",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 item cast key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item_ids": {
+          "alias_of": "source_building_dump_null_item_scan_input.item_ids",
+          "rule": "N959 result aliases input item ids.",
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "item_loop": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.item_loop",
+          "java_expr": "for(int ii = 0; ii < itemSize; ii++){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 item loop key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item_present_by_index": {
+          "alias_of": "source_building_dump_null_item_scan_input.item_present_by_index",
+          "rule": "N959 result aliases present flags.",
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "item_size": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.item_size",
+          "java_expr": "int itemSize = allItems.size;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 item size key.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "item_size_source": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.item_size_source",
+          "java_expr": "int itemSize = allItems.size;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 itemSize source key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.method",
+          "java_expr": "public boolean dump(Item todump){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 method key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "null_branch": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.null_branch",
+          "java_expr": "if(todump == null){",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 null branch key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "present_item_indices": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.present_item_indices",
+          "java_expr": "if(!items.has(ii)) continue;",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 indices that pass items.has(ii).",
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "present_items": {
+          "godot_symbol": "source_building_dump_null_item_scan_result.present_items",
+          "java_expr": "Item item = (Item)itemArray[ii];",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N959 itemArray entries for present indices.",
+          "status": "source-backed",
+          "type": "Array"
+        }
+      },
+      "owner": "PortGame.source_building_dump_null_item_scan_state",
+      "source_slice": "N959",
+      "status": "active"
+    },
     "source_building_edelta_input": {
       "keys": {
         "efficiency": {

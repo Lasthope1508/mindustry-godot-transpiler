@@ -20092,6 +20092,43 @@
         "test_port_game_exposes_source_building_dump_default_state",
         "test_building_dump_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N959": {
+      "exact_exprs": [
+        "public boolean dump(Item todump){",
+        "var allItems = content.items();",
+        "int itemSize = allItems.size;",
+        "Object[] itemArray = allItems.items;",
+        "if(todump == null){",
+        "for(int ii = 0; ii < itemSize; ii++){",
+        "if(!items.has(ii)) continue;",
+        "Item item = (Item)itemArray[ii];"
+      ],
+      "godot_owner": "PortGame.source_building_dump_null_item_scan_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "dump(Item todump) null item scan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "runtime_proof": "/root/Main.source_building_dump_null_item_scan_state",
+      "source_symbols": [
+        "building_dump_null_item_scan.method",
+        "building_dump_null_item_scan.all_items",
+        "building_dump_null_item_scan.item_size",
+        "building_dump_null_item_scan.item_array",
+        "building_dump_null_item_scan.null_branch",
+        "building_dump_null_item_scan.item_loop",
+        "building_dump_null_item_scan.has_item_skip",
+        "building_dump_null_item_scan.item_cast",
+        "building_dump_null_item_scan.item_ids",
+        "building_dump_null_item_scan.item_present_by_index",
+        "building_dump_null_item_scan.present_item_indices",
+        "building_dump_null_item_scan.present_items"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_dump_null_item_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_item_scan_state",
+        "test_building_dump_null_item_scan_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

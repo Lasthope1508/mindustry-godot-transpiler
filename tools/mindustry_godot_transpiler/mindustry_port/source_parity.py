@@ -2551,6 +2551,36 @@ def verify_building_dump_default_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_dump_null_item_scan_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    method = "public boolean dump(Item todump){"
+    all_items = "var allItems = content.items();"
+    item_size = "int itemSize = allItems.size;"
+    item_array = "Object[] itemArray = allItems.items;"
+    null_branch = "if(todump == null){"
+    item_loop = "for(int ii = 0; ii < itemSize; ii++){"
+    has_item_skip = "if(!items.has(ii)) continue;"
+    item_cast = "Item item = (Item)itemArray[ii];"
+    missing = []
+    for snippet in [method, all_items, item_size, item_array, null_branch, item_loop, has_item_skip, item_cast]:
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": {
+            "method": method,
+            "all_items": all_items,
+            "item_size": item_size,
+            "item_array": item_array,
+            "null_branch": null_branch,
+            "item_loop": item_loop,
+            "has_item_skip": has_item_skip,
+            "item_cast": item_cast,
+        },
+        "missing": missing,
+    }
+
 def verify_building_move_forward_source(upstream_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / BUILDING_COMP_SOURCE
     source = source_path.read_text(encoding="utf-8", errors="replace")

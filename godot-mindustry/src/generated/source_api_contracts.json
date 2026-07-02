@@ -3667,6 +3667,46 @@
         "test_building_dump_liquid_routing_gate_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_dump_null_item_scan_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "item_ids",
+          "schema": "source_building_dump_null_item_scan_input.item_ids",
+          "type": "Array"
+        },
+        {
+          "name": "item_present_by_index",
+          "schema": "source_building_dump_null_item_scan_input.item_present_by_index",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "all_items",
+        "item_size_source",
+        "item_array",
+        "null_branch",
+        "item_loop",
+        "has_item_skip",
+        "item_cast",
+        "item_ids",
+        "item_present_by_index",
+        "item_size",
+        "present_item_indices",
+        "present_items"
+      ],
+      "rule": "N959 exposes BuildingComp.dump(Item todump) todump-null item scan only; transfer side effects remain separate slices.",
+      "runtime_proof": "/root/Main.source_building_dump_null_item_scan_state",
+      "source_method": "dump(Item todump) null item scan",
+      "source_slice": "N959",
+      "status": "active",
+      "tests": [
+        "test_building_dump_null_item_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_item_scan_state",
+        "test_building_dump_null_item_scan_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_edelta": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
