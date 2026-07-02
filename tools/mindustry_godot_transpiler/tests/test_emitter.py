@@ -600,5 +600,38 @@ public class BuildingComp{
             self.assertIn("if opacity <= 0.001:", source_text)
             self.assertIn('return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}', source_text)
 
+    def test_emit_bridges_building_comp_draw_team_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawTeam(){
+        Draw.color(team.color);
+        Draw.rect("block-border", x - block.size * tilesize / 2f + 4, y - block.size * tilesize / 2f + 4);
+        Draw.color();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawTeam_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var team_color := String(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var source_x := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var block_size_value := int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)", source_text)
+            self.assertIn('return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}', source_text)
+
 if __name__ == "__main__":
     unittest.main()

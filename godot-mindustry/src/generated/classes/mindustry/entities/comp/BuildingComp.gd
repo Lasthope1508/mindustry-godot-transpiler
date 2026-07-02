@@ -690,7 +690,12 @@ func java_method_drawLiquidLight_134(_args: Array = []) -> Variant:
 	return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}
 
 func java_method_drawTeam_135(_args: Array = []) -> Variant:
-	return null
+	var team_color := String(_args[0] if _args.size() > 0 else "")
+	var source_x := float(_args[1] if _args.size() > 1 else 0.0)
+	var source_y := float(_args[2] if _args.size() > 2 else 0.0)
+	var block_size_value := int(_args[3] if _args.size() > 3 else 0)
+	var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)
+	return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}
 
 func java_method_checkSuppression_136(_args: Array = []) -> Variant:
 	return null
