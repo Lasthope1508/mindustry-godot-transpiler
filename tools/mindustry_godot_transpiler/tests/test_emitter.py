@@ -3671,5 +3671,42 @@ class BuildingComp{
             self.assertIn('"amount": null', source_text)
             self.assertIn('"amount": amount', source_text)
 
+    def test_emit_bridges_building_comp_hit_size_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public float hitSize(){
+        return tile.block().size * tilesize;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_hitSize_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_size_value := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[1] if _args.size() > 1 else 8.0)", source_text)
+            self.assertIn("var hit_size := float(block_size_value) * source_tilesize", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_hit_size"', source_text)
+            self.assertIn('"override": "@Override"', source_text)
+            self.assertIn('"method": "public float hitSize(){"', source_text)
+            self.assertIn('"return_expr": "return tile.block().size * tilesize;"', source_text)
+            self.assertIn('"block_size_value": block_size_value', source_text)
+            self.assertIn('"source_tilesize": source_tilesize', source_text)
+            self.assertIn('"hit_size": hit_size', source_text)
+
 if __name__ == "__main__":
     unittest.main()

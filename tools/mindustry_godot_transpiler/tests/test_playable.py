@@ -5107,6 +5107,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"canonical_no_arg": canonical_no_arg', source)
         self.assertIn('"canonical_amount": canonical_amount', source)
 
+    def test_generated_building_comp_bridges_hit_size_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_hitSize_202(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_size_value := int(_args[0] if _args.size() > 0 else 0)", source)
+        self.assertIn("var source_tilesize := float(_args[1] if _args.size() > 1 else 8.0)", source)
+        self.assertIn("var hit_size := float(block_size_value) * source_tilesize", source)
+        self.assertIn('"source_owner": "PortGame.source_building_hit_size"', source)
+        self.assertIn('"override": "@Override"', source)
+        self.assertIn('"method": "public float hitSize(){"', source)
+        self.assertIn('"return_expr": "return tile.block().size * tilesize;"', source)
+        self.assertIn('"block_size_value": block_size_value', source)
+        self.assertIn('"source_tilesize": source_tilesize', source)
+        self.assertIn('"hit_size": hit_size', source)
+
+    def test_port_game_exposes_generated_building_comp_hit_size_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_hitSize_202([block_size_value, source_tilesize])", source)
+        self.assertIn("var canonical = source_building_hit_size(block_size_value, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_hit_size"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_hitSize_202"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

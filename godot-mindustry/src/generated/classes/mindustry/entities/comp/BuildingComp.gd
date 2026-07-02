@@ -1241,7 +1241,10 @@ func java_method_heal_201(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_heal_state", "priority": "@MethodPriority(100)", "override": "@Override", "method": "public void heal(float amount){", "health_changed_call": "healthChanged();", "amount": amount, "health_changed": true}
 
 func java_method_hitSize_202(_args: Array = []) -> Variant:
-	return null
+	var block_size_value := int(_args[0] if _args.size() > 0 else 0)
+	var source_tilesize := float(_args[1] if _args.size() > 1 else 8.0)
+	var hit_size := float(block_size_value) * source_tilesize
+	return {"source_owner": "PortGame.source_building_hit_size", "override": "@Override", "method": "public float hitSize(){", "return_expr": "return tile.block().size * tilesize;", "block_size_value": block_size_value, "source_tilesize": source_tilesize, "hit_size": hit_size}
 
 func java_method_kill_203(_args: Array = []) -> Variant:
 	return null

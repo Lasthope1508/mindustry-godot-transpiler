@@ -22210,6 +22210,37 @@
         "test_port_game_exposes_generated_building_comp_heal_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1070": {
+      "deferred_exprs": [
+        "Concrete tile.block() lookup and global tilesize ownership stay with canonical runtime inputs until generated instance state hydration is ported."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public float hitSize(){",
+        "return tile.block().size * tilesize;",
+        "tile.block().size",
+        "tilesize"
+      ],
+      "godot_owner": "PortGame.source_building_hit_size",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "hitSize()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_hitSize_202 and PortGame generated bridge to existing N590 canonical source_building_hit_size helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_hit_size_bridge_state",
+      "source_symbols": [
+        "building_hit_size.method",
+        "building_hit_size.return_expr",
+        "building_hit_size.block_size",
+        "building_hit_size.tilesize"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_hit_size_to_source_state",
+        "test_generated_building_comp_bridges_hit_size_to_source_state",
+        "test_port_game_exposes_generated_building_comp_hit_size_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
