@@ -5560,6 +5560,33 @@ func source_building_move_liquid_fire_reaction_state(block_reactive_guard_passed
 		"fy": fy,
 	}
 
+func source_building_move_liquid_steam_reaction_state(block_reactive_guard_passed: bool, fire_reaction_guard_passed: bool, liquid_temperature: float, other_temperature: float, current_liquid_amount: float, source_delta: float, steam_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:
+	var steam_reaction_guard_passed := block_reactive_guard_passed and not fire_reaction_guard_passed and ((liquid_temperature > 0.7 and other_temperature < 0.55) or (other_temperature > 0.7 and liquid_temperature < 0.55))
+	var remove_amount := 0.0
+	if steam_reaction_guard_passed:
+		remove_amount = min(current_liquid_amount, 0.7 * source_delta)
+	var current_liquid_amount_after := current_liquid_amount - remove_amount
+	var steam_effect_called := steam_reaction_guard_passed and steam_chance_delta_passed
+	return {
+		"steam_reaction_guard": "}else if((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)){",
+		"steam_reaction_guard_passed": steam_reaction_guard_passed,
+		"remove_liquid_call": "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));",
+		"remove_amount": remove_amount,
+		"current_liquid_amount_after": current_liquid_amount_after,
+		"steam_chance_guard": "if(Mathf.chanceDelta(0.2f)){",
+		"steam_chance_delta_passed": steam_chance_delta_passed,
+		"steam_effect_call": "Fx.steam.at(fx, fy);",
+		"steam_effect_called": steam_effect_called,
+		"block_reactive_guard_passed": block_reactive_guard_passed,
+		"fire_reaction_guard_passed": fire_reaction_guard_passed,
+		"liquid_temperature": liquid_temperature,
+		"other_temperature": other_temperature,
+		"current_liquid_amount": current_liquid_amount,
+		"source_delta": source_delta,
+		"fx": fx,
+		"fy": fy,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

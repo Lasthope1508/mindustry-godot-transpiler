@@ -13065,6 +13065,261 @@
         "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_move_liquid_steam_reaction.block_reactive_guard_passed": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.block_reactive_guard_passed",
+      "java_expr": "other.blockReactive && liquid.blockReactive",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N948 input from N946 block reactive guard.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.current_liquid_amount": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.current_liquid_amount",
+      "java_expr": "liquids.get(liquid)",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit source liquid amount input before remove.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.current_liquid_amount_after": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.current_liquid_amount_after",
+      "java_expr": "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta))",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source liquid amount after removal.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.fire_reaction_guard_passed": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.fire_reaction_guard_passed",
+      "java_expr": "(other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N948 input from N947 fire branch guard.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.fx": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.fx",
+      "java_expr": "fx",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Effect x coordinate from N946 midpoint setup.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.fy": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.fy",
+      "java_expr": "fy",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Effect y coordinate from N946 midpoint setup.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.liquid_temperature": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.liquid_temperature",
+      "java_expr": "liquid.temperature",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit liquid property input.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.other_temperature": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.other_temperature",
+      "java_expr": "other.temperature",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit other liquid property input.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.remove_amount": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.remove_amount",
+      "java_expr": "Math.min(liquids.get(liquid), 0.7f * Time.delta)",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Computed source remove amount.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.remove_liquid_call": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.remove_liquid_call",
+      "java_expr": "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source liquid removal call.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.source_delta": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.source_delta",
+      "java_expr": "Time.delta",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit Time.delta input; runtime does not read global time.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.steam_chance_delta_passed": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_input.steam_chance_delta_passed",
+      "java_expr": "Mathf.chanceDelta(0.2f)",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit RNG gate input; runtime does not roll RNG.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.steam_chance_guard": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.steam_chance_guard",
+      "java_expr": "if(Mathf.chanceDelta(0.2f)){",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source steam effect RNG guard.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.steam_effect_call": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.steam_effect_call",
+      "java_expr": "Fx.steam.at(fx, fy);",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source steam effect call.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.steam_effect_called": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.steam_effect_called",
+      "java_expr": "Fx.steam.at(fx, fy);",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "True when steam reaction guard and chance gate pass.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.steam_reaction_guard": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.steam_reaction_guard",
+      "java_expr": "}else if((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)){",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source steam reaction guard.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_move_liquid_steam_reaction.steam_reaction_guard_passed": {
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "godot_symbol": "source_building_move_liquid_steam_reaction_result.steam_reaction_guard_passed",
+      "java_expr": "(liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Computed steam reaction guard result after fire branch fails.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_on_configure_build_tapped.clear_gate": {
       "godot_owner": "PortGame.source_building_on_configure_build_tapped_state",
       "godot_symbol": "source_building_on_configure_build_tapped_result.clear_on_double_tap_gate",

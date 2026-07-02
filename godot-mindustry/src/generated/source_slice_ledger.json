@@ -19764,6 +19764,45 @@
         "test_port_game_exposes_source_building_move_liquid_fire_reaction_state",
         "test_building_move_liquid_fire_reaction_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N948": {
+      "exact_exprs": [
+        "}else if((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)){",
+        "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));",
+        "if(Mathf.chanceDelta(0.2f)){",
+        "Fx.steam.at(fx, fy);"
+      ],
+      "godot_owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "notes": "Records moveLiquid steam reaction guard, liquid removal amount, and steam effect call gate only. Actual liquid module internals, live Time.delta, live RNG, and effect rendering remain deferred.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "source_symbols": [
+        "building_move_liquid_steam_reaction.block_reactive_guard_passed",
+        "building_move_liquid_steam_reaction.fire_reaction_guard_passed",
+        "building_move_liquid_steam_reaction.liquid_temperature",
+        "building_move_liquid_steam_reaction.other_temperature",
+        "building_move_liquid_steam_reaction.current_liquid_amount",
+        "building_move_liquid_steam_reaction.source_delta",
+        "building_move_liquid_steam_reaction.steam_chance_delta_passed",
+        "building_move_liquid_steam_reaction.fx",
+        "building_move_liquid_steam_reaction.fy",
+        "building_move_liquid_steam_reaction.steam_reaction_guard",
+        "building_move_liquid_steam_reaction.steam_reaction_guard_passed",
+        "building_move_liquid_steam_reaction.remove_liquid_call",
+        "building_move_liquid_steam_reaction.remove_amount",
+        "building_move_liquid_steam_reaction.current_liquid_amount_after",
+        "building_move_liquid_steam_reaction.steam_chance_guard",
+        "building_move_liquid_steam_reaction.steam_effect_call",
+        "building_move_liquid_steam_reaction.steam_effect_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

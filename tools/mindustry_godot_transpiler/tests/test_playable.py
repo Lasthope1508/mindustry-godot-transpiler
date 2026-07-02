@@ -2178,6 +2178,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"fire_reaction_guard_passed": fire_reaction_guard_passed', source)
         self.assertIn('"fire_effect_called": fire_effect_called', source)
 
+    def test_port_game_exposes_source_building_move_liquid_steam_reaction_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_move_liquid_steam_reaction_state(block_reactive_guard_passed: bool, fire_reaction_guard_passed: bool, liquid_temperature: float, other_temperature: float, current_liquid_amount: float, source_delta: float, steam_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:", source)
+        self.assertIn('"steam_reaction_guard": "}else if((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)){"', source)
+        self.assertIn('"remove_liquid_call": "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));"', source)
+        self.assertIn('"steam_chance_guard": "if(Mathf.chanceDelta(0.2f)){"', source)
+        self.assertIn('"steam_effect_call": "Fx.steam.at(fx, fy);"', source)
+        self.assertIn('"steam_reaction_guard_passed": steam_reaction_guard_passed', source)
+        self.assertIn('"current_liquid_amount_after": current_liquid_amount_after', source)
+        self.assertIn('"steam_effect_called": steam_effect_called', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

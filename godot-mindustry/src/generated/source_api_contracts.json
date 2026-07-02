@@ -4642,6 +4642,85 @@
         "test_building_move_liquid_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_move_liquid_steam_reaction_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "block_reactive_guard_passed",
+          "schema": "source_building_move_liquid_steam_reaction_input.block_reactive_guard_passed",
+          "type": "bool"
+        },
+        {
+          "name": "fire_reaction_guard_passed",
+          "schema": "source_building_move_liquid_steam_reaction_input.fire_reaction_guard_passed",
+          "type": "bool"
+        },
+        {
+          "name": "liquid_temperature",
+          "schema": "source_building_move_liquid_steam_reaction_input.liquid_temperature",
+          "type": "float"
+        },
+        {
+          "name": "other_temperature",
+          "schema": "source_building_move_liquid_steam_reaction_input.other_temperature",
+          "type": "float"
+        },
+        {
+          "name": "current_liquid_amount",
+          "schema": "source_building_move_liquid_steam_reaction_input.current_liquid_amount",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_building_move_liquid_steam_reaction_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "steam_chance_delta_passed",
+          "schema": "source_building_move_liquid_steam_reaction_input.steam_chance_delta_passed",
+          "type": "bool"
+        },
+        {
+          "name": "fx",
+          "schema": "source_building_move_liquid_steam_reaction_input.fx",
+          "type": "float"
+        },
+        {
+          "name": "fy",
+          "schema": "source_building_move_liquid_steam_reaction_input.fy",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "steam_reaction_guard",
+        "steam_reaction_guard_passed",
+        "remove_liquid_call",
+        "remove_amount",
+        "current_liquid_amount_after",
+        "steam_chance_guard",
+        "steam_chance_delta_passed",
+        "steam_effect_call",
+        "steam_effect_called",
+        "block_reactive_guard_passed",
+        "fire_reaction_guard_passed",
+        "liquid_temperature",
+        "other_temperature",
+        "current_liquid_amount",
+        "source_delta",
+        "fx",
+        "fy"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.moveLiquid steam reaction branch after fire branch.",
+      "runtime_proof": "/root/Main.source_building_move_liquid_steam_reaction_state",
+      "source_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+      "source_slice": "N948",
+      "status": "active",
+      "tests": [
+        "test_building_move_liquid_steam_reaction_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_steam_reaction_state",
+        "test_building_move_liquid_steam_reaction_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_on_configure_build_tapped_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

@@ -25821,6 +25821,210 @@
       "source_slice": "N945",
       "status": "active"
     },
+    "source_building_move_liquid_steam_reaction_input": {
+      "keys": {
+        "block_reactive_guard_passed": {
+          "java_expr": "other.blockReactive && liquid.blockReactive",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N948 input from N946 block reactive guard.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "current_liquid_amount": {
+          "java_expr": "liquids.get(liquid)",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit source liquid amount input before remove.",
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "fire_reaction_guard_passed": {
+          "java_expr": "(other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N948 input from N947 fire branch guard.",
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "fx": {
+          "java_expr": "fx",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Effect x coordinate from N946 midpoint setup.",
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "fy": {
+          "java_expr": "fy",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Effect y coordinate from N946 midpoint setup.",
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "liquid_temperature": {
+          "java_expr": "liquid.temperature",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit liquid property input.",
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "other_temperature": {
+          "java_expr": "other.temperature",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit other liquid property input.",
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "source_delta": {
+          "java_expr": "Time.delta",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit Time.delta input; runtime does not read global time.",
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "steam_chance_delta_passed": {
+          "java_expr": "Mathf.chanceDelta(0.2f)",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Explicit RNG gate input; runtime does not roll RNG.",
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "source_slice": "N948",
+      "status": "active"
+    },
+    "source_building_move_liquid_steam_reaction_result": {
+      "keys": {
+        "block_reactive_guard_passed": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.block_reactive_guard_passed",
+          "rule": "Echoes N948 input key block_reactive_guard_passed.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "current_liquid_amount": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.current_liquid_amount",
+          "rule": "Echoes N948 input key current_liquid_amount.",
+          "status": "generated",
+          "type": "float"
+        },
+        "current_liquid_amount_after": {
+          "java_expr": "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta))",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source liquid amount after removal.",
+          "status": "source-backed",
+          "type": "float"
+        },
+        "fire_reaction_guard_passed": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.fire_reaction_guard_passed",
+          "rule": "Echoes N948 input key fire_reaction_guard_passed.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "fx": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.fx",
+          "rule": "Echoes N948 input key fx.",
+          "status": "generated",
+          "type": "float"
+        },
+        "fy": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.fy",
+          "rule": "Echoes N948 input key fy.",
+          "status": "generated",
+          "type": "float"
+        },
+        "liquid_temperature": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.liquid_temperature",
+          "rule": "Echoes N948 input key liquid_temperature.",
+          "status": "generated",
+          "type": "float"
+        },
+        "other_temperature": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.other_temperature",
+          "rule": "Echoes N948 input key other_temperature.",
+          "status": "generated",
+          "type": "float"
+        },
+        "remove_amount": {
+          "java_expr": "Math.min(liquids.get(liquid), 0.7f * Time.delta)",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Computed source remove amount.",
+          "status": "source-backed",
+          "type": "float"
+        },
+        "remove_liquid_call": {
+          "java_expr": "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source liquid removal call.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_delta": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.source_delta",
+          "rule": "Echoes N948 input key source_delta.",
+          "status": "generated",
+          "type": "float"
+        },
+        "steam_chance_delta_passed": {
+          "alias_of": "source_building_move_liquid_steam_reaction_input.steam_chance_delta_passed",
+          "rule": "Echoes N948 input key steam_chance_delta_passed.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "steam_chance_guard": {
+          "java_expr": "if(Mathf.chanceDelta(0.2f)){",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source steam effect RNG guard.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "steam_effect_call": {
+          "java_expr": "Fx.steam.at(fx, fy);",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source steam effect call.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "steam_effect_called": {
+          "java_expr": "Fx.steam.at(fx, fy);",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "True when steam reaction guard and chance gate pass.",
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "steam_reaction_guard": {
+          "java_expr": "}else if((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)){",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Source steam reaction guard.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "steam_reaction_guard_passed": {
+          "java_expr": "(liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)",
+          "java_method": "moveLiquid(Building next, Liquid liquid) steam reaction",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Computed steam reaction guard result after fire branch fails.",
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_building_move_liquid_steam_reaction_state",
+      "source_slice": "N948",
+      "status": "active"
+    },
     "source_building_on_configure_build_tapped_input": {
       "keys": {
         "clear_on_double_tap": {
