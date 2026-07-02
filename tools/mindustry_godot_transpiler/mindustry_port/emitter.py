@@ -802,6 +802,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "afterPickedUp"
+    ):
+        return [
+            "\tvar power_present := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar has_cons_power := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar cons_power_buffered := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar current_status := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar status := 0.0 if power_present and has_cons_power and not cons_power_buffered else current_status",
+            "\treturn {\"source_owner\": \"PortGame.source_building_after_picked_up_state\", \"power_present\": power_present, \"new_power_graph\": power_present, \"clear_links\": power_present, \"status\": status}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

@@ -1091,7 +1091,12 @@ func java_method_pickedUp_183(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_picked_up_state", "method": "public void pickedUp(){", "comment": "Called right before this building is picked up.", "no_op": true, "previous_state": previous_state}
 
 func java_method_afterPickedUp_184(_args: Array = []) -> Variant:
-	return null
+	var power_present := bool(_args[0] if _args.size() > 0 else false)
+	var has_cons_power := bool(_args[1] if _args.size() > 1 else false)
+	var cons_power_buffered := bool(_args[2] if _args.size() > 2 else false)
+	var current_status := float(_args[3] if _args.size() > 3 else 0.0)
+	var status := 0.0 if power_present and has_cons_power and not cons_power_buffered else current_status
+	return {"source_owner": "PortGame.source_building_after_picked_up_state", "power_present": power_present, "new_power_graph": power_present, "clear_links": power_present, "status": status}
 
 func java_method_removeFromProximity_185(_args: Array = []) -> Variant:
 	return null

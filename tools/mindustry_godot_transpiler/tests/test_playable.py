@@ -4509,6 +4509,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_pickedUp_183"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_after_picked_up_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_afterPickedUp_184(_args: Array = []) -> Variant:", source)
+        self.assertIn("var power_present := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var has_cons_power := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var cons_power_buffered := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var current_status := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var status := 0.0 if power_present and has_cons_power and not cons_power_buffered else current_status", source)
+        self.assertIn('"source_owner": "PortGame.source_building_after_picked_up_state"', source)
+        self.assertIn('"power_present": power_present', source)
+        self.assertIn('"new_power_graph": power_present', source)
+        self.assertIn('"clear_links": power_present', source)
+        self.assertIn('"status": status', source)
+
+    def test_port_game_exposes_generated_building_comp_after_picked_up_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_afterPickedUp_184([power_present, has_cons_power, cons_power_buffered, current_status])", source)
+        self.assertIn("var canonical = source_building_after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_after_picked_up_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_afterPickedUp_184"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

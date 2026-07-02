@@ -21403,6 +21403,50 @@
         "test_port_game_exposes_generated_building_comp_picked_up_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1049": {
+      "deferred_exprs": [
+        "public void removeFromProximity(){",
+        "onProximityRemoved();",
+        "Subsequent BuildingComp removeFromProximity behavior stays owned by later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "Called right after this building is picked up.",
+        "public void afterPickedUp(){",
+        "if(power != null){",
+        "power.graph = new PowerGraph();",
+        "power.links.clear();",
+        "if(block.consPower != null && !block.consPower.buffered){",
+        "power.status = 0f;",
+        "power != null",
+        "block.consPower != null",
+        "block.consPower.buffered",
+        "power.status"
+      ],
+      "godot_owner": "PortGame.source_building_after_picked_up_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "afterPickedUp()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_afterPickedUp_184 and PortGame generated bridge to existing N526 canonical source_building_after_picked_up_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_after_picked_up_bridge_state",
+      "source_symbols": [
+        "building_after_picked_up.power_guard",
+        "building_after_picked_up.new_power_graph",
+        "building_after_picked_up.clear_links",
+        "building_after_picked_up.status_reset_guard",
+        "building_after_picked_up.status_reset",
+        "building_after_picked_up.power_present",
+        "building_after_picked_up.has_cons_power",
+        "building_after_picked_up.cons_power_buffered",
+        "building_after_picked_up.current_status"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_after_picked_up_to_source_state",
+        "test_generated_building_comp_bridges_after_picked_up_to_source_state",
+        "test_port_game_exposes_generated_building_comp_after_picked_up_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

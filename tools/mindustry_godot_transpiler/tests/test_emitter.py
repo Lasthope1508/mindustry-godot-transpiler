@@ -2585,5 +2585,47 @@ public class BuildingComp{
             self.assertIn('"no_op": true', source_text)
             self.assertIn('"previous_state": previous_state', source_text)
 
+    def test_emit_bridges_building_comp_after_picked_up_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    /** Called right after this building is picked up. */
+    public void afterPickedUp(){
+        if(power != null){
+            power.graph = new PowerGraph();
+            power.links.clear();
+            if(block.consPower != null && !block.consPower.buffered){
+                power.status = 0f;
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_afterPickedUp_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var power_present := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var has_cons_power := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var cons_power_buffered := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var current_status := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var status := 0.0 if power_present and has_cons_power and not cons_power_buffered else current_status", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_after_picked_up_state"', source_text)
+            self.assertIn('"power_present": power_present', source_text)
+            self.assertIn('"new_power_graph": power_present', source_text)
+            self.assertIn('"clear_links": power_present', source_text)
+            self.assertIn('"status": status', source_text)
+
 if __name__ == "__main__":
     unittest.main()
