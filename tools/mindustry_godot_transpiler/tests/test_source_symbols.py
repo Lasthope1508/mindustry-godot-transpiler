@@ -17785,6 +17785,32 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(called["java_expr"], "noSleep();")
         self.assertEqual(called["godot_symbol"], "source_building_on_proximity_update_result.no_sleep_called")
 
+    def test_building_update_power_graph_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_update_power_graph.method")
+        self.assertEqual(method["java_expr"], "public void updatePowerGraph(){")
+        self.assertEqual(method["java_method"], "updatePowerGraph()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_update_power_graph_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_update_power_graph_state")
+        self.assertEqual(method["godot_symbol"], "source_building_update_power_graph_result.method")
+
+        input_state = source_symbols.source_symbol(registry, "building_update_power_graph.other_power_present_by_index")
+        self.assertEqual(input_state["java_expr"], "other.power != null")
+        self.assertEqual(input_state["status"], "explicit-input")
+        self.assertEqual(input_state["godot_symbol"], "source_building_update_power_graph_input.other_power_present_by_index")
+
+        call = source_symbols.source_symbol(registry, "building_update_power_graph.add_graph_call")
+        self.assertEqual(call["java_expr"], "other.power.graph.addGraph(power.graph);")
+        self.assertEqual(call["godot_symbol"], "source_building_update_power_graph_result.add_graph_call")
+
+        called = source_symbols.source_symbol(registry, "building_update_power_graph.add_graph_call_count")
+        self.assertEqual(called["java_expr"], "other.power != null")
+        self.assertEqual(called["godot_symbol"], "source_building_update_power_graph_result.add_graph_call_count")
+
     def test_building_get_liquid_destination_default_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19247,9 +19273,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 565)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 566)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 570)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 571)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -24089,6 +24115,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(building_on_proximity_update["godot_owner"], "PortGame.source_building_on_proximity_update_state")
         self.assertIn("public void onProximityUpdate(){", building_on_proximity_update["exact_exprs"])
         self.assertIn("noSleep();", building_on_proximity_update["exact_exprs"])
+
+        building_update_power_graph = source_symbols.source_slice(ledger, "N969")
+        self.assertEqual(building_update_power_graph["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_update_power_graph["java_method"], "updatePowerGraph()")
+        self.assertEqual(building_update_power_graph["godot_owner"], "PortGame.source_building_update_power_graph_state")
+        self.assertIn("public void updatePowerGraph(){", building_update_power_graph["exact_exprs"])
+        self.assertIn("for(Building other : getPowerConnections(tempBuilds)){", building_update_power_graph["exact_exprs"])
+        self.assertIn("if(other.power != null){", building_update_power_graph["exact_exprs"])
+        self.assertIn("other.power.graph.addGraph(power.graph);", building_update_power_graph["exact_exprs"])
 
         building_move_liquid_forward = source_symbols.source_slice(ledger, "N944")
         self.assertEqual(building_move_liquid_forward["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
@@ -29524,6 +29559,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("no_sleep_call", building_on_proximity_update["return_keys"])
         self.assertIn("no_sleep_called", building_on_proximity_update["return_keys"])
         self.assertEqual(building_on_proximity_update["source_method"], "onProximityUpdate()")
+
+        building_update_power_graph = source_symbols.api_contract(contracts, "PortGame.source_building_update_power_graph_state")
+        self.assertEqual([param["name"] for param in building_update_power_graph["params"]], ["other_power_present_by_index"])
+        self.assertEqual(building_update_power_graph["params"][0]["schema"], "source_building_update_power_graph_input.other_power_present_by_index")
+        self.assertIn("add_graph_call", building_update_power_graph["return_keys"])
+        self.assertIn("add_graph_call_count", building_update_power_graph["return_keys"])
+        self.assertEqual(building_update_power_graph["source_method"], "updatePowerGraph()")
 
         building_get_liquid_destination_default = source_symbols.api_contract(contracts, "PortGame.source_building_get_liquid_destination_default_state")
         self.assertEqual([param["name"] for param in building_get_liquid_destination_default["params"]], ["from_state", "liquid", "self_state"])
@@ -37725,6 +37767,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_on_proximity_update_result["keys"]["method"]["java_expr"], "public void onProximityUpdate(){")
         self.assertEqual(source_building_on_proximity_update_result["keys"]["no_sleep_call"]["java_expr"], "noSleep();")
         self.assertEqual(source_building_on_proximity_update_result["keys"]["no_sleep_called"]["java_expr"], "noSleep();")
+
+        source_building_update_power_graph_input = source_symbols.state_schema(schema, "source_building_update_power_graph_input")
+        self.assertEqual(source_building_update_power_graph_input["keys"]["other_power_present_by_index"]["java_expr"], "other.power != null")
+
+        source_building_update_power_graph_result = source_symbols.state_schema(schema, "source_building_update_power_graph_result")
+        self.assertEqual(source_building_update_power_graph_result["keys"]["method"]["java_expr"], "public void updatePowerGraph(){")
+        self.assertEqual(source_building_update_power_graph_result["keys"]["connection_loop"]["java_expr"], "for(Building other : getPowerConnections(tempBuilds)){")
+        self.assertEqual(source_building_update_power_graph_result["keys"]["power_guard"]["java_expr"], "if(other.power != null){")
+        self.assertEqual(source_building_update_power_graph_result["keys"]["add_graph_call"]["java_expr"], "other.power.graph.addGraph(power.graph);")
+        self.assertEqual(source_building_update_power_graph_result["keys"]["other_power_present_by_index"]["alias_of"], "source_building_update_power_graph_input.other_power_present_by_index")
 
         source_building_get_liquid_destination_default_input = source_symbols.state_schema(schema, "source_building_get_liquid_destination_default_input")
         self.assertEqual(source_building_get_liquid_destination_default_input["keys"]["from_state"]["java_expr"], "from")

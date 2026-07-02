@@ -1580,6 +1580,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_update_power_graph_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_update_power_graph_source"))
+        report = source_parity.verify_building_update_power_graph_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updatePowerGraph(){",
+            "connection_loop": "for(Building other : getPowerConnections(tempBuilds)){",
+            "power_guard": "if(other.power != null){",
+            "add_graph_call": "other.power.graph.addGraph(power.graph);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_move_liquid_forward_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_forward_source"))
         report = source_parity.verify_building_move_liquid_forward_source(ROOT / "mindustry-upstream")

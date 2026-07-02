@@ -8014,6 +8014,36 @@
         "test_port_game_exposes_source_building_update_fog_visibility_state"
       ]
     },
+    "PortGame.source_building_update_power_graph_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "other_power_present_by_index",
+          "schema": "source_building_update_power_graph_input.other_power_present_by_index",
+          "type": "Array[bool]"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "connection_loop",
+        "power_guard",
+        "add_graph_call",
+        "other_power_present_by_index",
+        "connection_count",
+        "add_graph_called_indices",
+        "add_graph_call_count"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.updatePowerGraph dispatch helper.",
+      "runtime_proof": "/root/Main.source_building_update_power_graph_state",
+      "source_method": "updatePowerGraph()",
+      "source_slice": "N969",
+      "status": "active",
+      "tests": [
+        "test_building_update_power_graph_matches_upstream_source",
+        "test_port_game_exposes_source_building_update_power_graph_state",
+        "test_building_update_power_graph_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_update_proximity_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [

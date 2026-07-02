@@ -2157,6 +2157,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"no_sleep_call": "noSleep();"', source)
         self.assertIn('"no_sleep_called": true', source)
 
+    def test_port_game_exposes_source_building_update_power_graph_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_update_power_graph_state(other_power_present_by_index: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void updatePowerGraph(){"', source)
+        self.assertIn('"connection_loop": "for(Building other : getPowerConnections(tempBuilds)){"', source)
+        self.assertIn('"power_guard": "if(other.power != null){"', source)
+        self.assertIn('"add_graph_call": "other.power.graph.addGraph(power.graph);"', source)
+        self.assertIn('"add_graph_call_count": add_graph_called_indices.size()', source)
+
     def test_port_game_exposes_source_building_get_liquid_destination_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

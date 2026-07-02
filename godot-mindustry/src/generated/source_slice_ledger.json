@@ -20389,6 +20389,40 @@
         "test_port_game_exposes_source_building_on_proximity_update_state",
         "test_building_on_proximity_update_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N969": {
+      "deferred_exprs": [
+        "getPowerConnections(tempBuilds) internals remain a separate BuildingComp.getPowerConnections slice.",
+        "PowerGraph.addGraph(PowerGraph graph) internals are owned by source_power_graph_add_graph_state."
+      ],
+      "exact_exprs": [
+        "public void updatePowerGraph(){",
+        "for(Building other : getPowerConnections(tempBuilds)){",
+        "if(other.power != null){",
+        "other.power.graph.addGraph(power.graph);"
+      ],
+      "godot_owner": "PortGame.source_building_update_power_graph_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updatePowerGraph()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Adds source-backed BuildingComp.updatePowerGraph connection dispatch.",
+      "runtime_proof": "/root/Main.source_building_update_power_graph_state",
+      "source_symbols": [
+        "building_update_power_graph.method",
+        "building_update_power_graph.connection_loop",
+        "building_update_power_graph.power_guard",
+        "building_update_power_graph.add_graph_call",
+        "building_update_power_graph.other_power_present_by_index",
+        "building_update_power_graph.connection_count",
+        "building_update_power_graph.add_graph_called_indices",
+        "building_update_power_graph.add_graph_call_count"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_update_power_graph_matches_upstream_source",
+        "test_port_game_exposes_source_building_update_power_graph_state",
+        "test_building_update_power_graph_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

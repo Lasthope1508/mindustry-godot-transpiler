@@ -5431,6 +5431,22 @@ func source_building_on_proximity_update_state() -> Dictionary:
 		"no_sleep_called": true,
 	}
 
+func source_building_update_power_graph_state(other_power_present_by_index: Array) -> Dictionary:
+	var add_graph_called_indices: Array = []
+	for index in other_power_present_by_index.size():
+		if bool(other_power_present_by_index[index]):
+			add_graph_called_indices.append(index)
+	return {
+		"method": "public void updatePowerGraph(){",
+		"connection_loop": "for(Building other : getPowerConnections(tempBuilds)){",
+		"power_guard": "if(other.power != null){",
+		"add_graph_call": "other.power.graph.addGraph(power.graph);",
+		"other_power_present_by_index": other_power_present_by_index.duplicate(),
+		"connection_count": other_power_present_by_index.size(),
+		"add_graph_called_indices": add_graph_called_indices,
+		"add_graph_call_count": add_graph_called_indices.size(),
+	}
+
 func source_building_get_liquid_destination_default_state(from_state: Variant, liquid: Variant, self_state: Variant) -> Dictionary:
 	return {
 		"method": "public Building getLiquidDestination(Building from, Liquid liquid){",

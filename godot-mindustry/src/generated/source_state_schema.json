@@ -37556,6 +37556,90 @@
       "runtime_proof": "/root/Main.source_building_update_fog_visibility_state",
       "status": "active"
     },
+    "source_building_update_power_graph_input": {
+      "keys": {
+        "other_power_present_by_index": {
+          "java_expr": "other.power != null",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 BuildingComp.updatePowerGraph canonical explicit guard input.",
+          "status": "explicit-input",
+          "type": "Array[bool]"
+        }
+      },
+      "owner": "PortGame.source_building_update_power_graph_state",
+      "source_slice": "N969",
+      "status": "active"
+    },
+    "source_building_update_power_graph_result": {
+      "keys": {
+        "add_graph_call": {
+          "java_expr": "other.power.graph.addGraph(power.graph);",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 BuildingComp.updatePowerGraph canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "add_graph_call_count": {
+          "java_expr": "other.power != null",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 count of source addGraph dispatches.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "add_graph_called_indices": {
+          "java_expr": "other.power != null",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 indices whose source other.power guard dispatches addGraph.",
+          "status": "source-backed",
+          "type": "Array[int]"
+        },
+        "connection_count": {
+          "java_expr": "getPowerConnections(tempBuilds)",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 count of supplied getPowerConnections results.",
+          "status": "source-backed",
+          "type": "int"
+        },
+        "connection_loop": {
+          "java_expr": "for(Building other : getPowerConnections(tempBuilds)){",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 BuildingComp.updatePowerGraph canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "java_expr": "public void updatePowerGraph(){",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 BuildingComp.updatePowerGraph canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        },
+        "other_power_present_by_index": {
+          "alias_of": "source_building_update_power_graph_input.other_power_present_by_index",
+          "rule": "Echoes canonical input key in N969 result.",
+          "status": "generated",
+          "type": "Array[bool]"
+        },
+        "power_guard": {
+          "java_expr": "if(other.power != null){",
+          "java_method": "updatePowerGraph()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "N969 BuildingComp.updatePowerGraph canonical key.",
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_building_update_power_graph_state",
+      "source_slice": "N969",
+      "status": "active"
+    },
     "source_building_update_proximity_input": {
       "keys": {
         "draw_cached": {
