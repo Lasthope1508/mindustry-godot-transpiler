@@ -4564,6 +4564,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_removeFromProximity_185"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_update_proximity_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_updateProximity_186(_args: Array = []) -> Variant:", source)
+        self.assertIn("var nearby_count := int(_args[0] if _args.size() > 0 else 0)", source)
+        self.assertIn("var same_team_count := int(_args[1] if _args.size() > 1 else 0)", source)
+        self.assertIn("var headless := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var draw_cached := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var same_team_clamped := clampi(same_team_count, 0, nearby_count)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_proximity_state"', source)
+        self.assertIn('"tmp_tiles_cleared": true', source)
+        self.assertIn('"proximity_cleared": true', source)
+        self.assertIn('"nearby_count": nearby_count', source)
+        self.assertIn('"same_team_count": same_team_clamped', source)
+        self.assertIn('"add_unique_calls": same_team_clamped', source)
+        self.assertIn('"on_proximity_added": true', source)
+        self.assertIn('"self_proximity_update": true', source)
+        self.assertIn('"other_proximity_updates": same_team_clamped', source)
+        self.assertIn('"recache": (not headless) and draw_cached', source)
+
+    def test_port_game_exposes_generated_building_comp_update_proximity_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_updateProximity_186([nearby_count, same_team_count, headless, draw_cached])", source)
+        self.assertIn("var canonical = source_building_update_proximity_state(nearby_count, same_team_count, headless, draw_cached)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_proximity_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateProximity_186"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

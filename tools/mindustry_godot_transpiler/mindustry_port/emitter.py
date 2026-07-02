@@ -826,6 +826,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updateProximity"
+    ):
+        return [
+            "\tvar nearby_count := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar same_team_count := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar headless := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar draw_cached := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar same_team_clamped := clampi(same_team_count, 0, nearby_count)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_update_proximity_state\", \"tmp_tiles_cleared\": true, \"proximity_cleared\": true, \"nearby_count\": nearby_count, \"same_team_count\": same_team_clamped, \"add_unique_calls\": same_team_clamped, \"on_proximity_added\": true, \"self_proximity_update\": true, \"other_proximity_updates\": same_team_clamped, \"recache\": (not headless) and draw_cached}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

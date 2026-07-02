@@ -2678,5 +2678,70 @@ public class BuildingComp{
             self.assertIn('"proximity_updates": queued_removals', source_text)
             self.assertIn('"proximity_cleared": true', source_text)
 
+    def test_emit_bridges_building_comp_update_proximity_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void updateProximity(){
+        tmpTiles.clear();
+        proximity.clear();
+
+        Point2[] nearby = Edges.getEdges(block.size);
+        for(Point2 point : nearby){
+            Building other = world.build(tile.x + point.x, tile.y + point.y);
+
+            if(other == null || other.team != team) continue;
+
+            other.proximity.addUnique(self());
+
+            tmpTiles.add(other);
+        }
+
+        for(Building tile : tmpTiles){
+            proximity.add(tile);
+        }
+
+        onProximityAdded();
+        onProximityUpdate();
+
+        for(Building other : tmpTiles){
+            other.onProximityUpdate();
+        }
+
+        if(!headless && block.drawCached) recache();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateProximity_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var nearby_count := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var same_team_count := int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var headless := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var draw_cached := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var same_team_clamped := clampi(same_team_count, 0, nearby_count)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_proximity_state"', source_text)
+            self.assertIn('"tmp_tiles_cleared": true', source_text)
+            self.assertIn('"proximity_cleared": true', source_text)
+            self.assertIn('"nearby_count": nearby_count', source_text)
+            self.assertIn('"same_team_count": same_team_clamped', source_text)
+            self.assertIn('"add_unique_calls": same_team_clamped', source_text)
+            self.assertIn('"on_proximity_added": true', source_text)
+            self.assertIn('"self_proximity_update": true', source_text)
+            self.assertIn('"other_proximity_updates": same_team_clamped', source_text)
+            self.assertIn('"recache": (not headless) and draw_cached', source_text)
+
 if __name__ == "__main__":
     unittest.main()

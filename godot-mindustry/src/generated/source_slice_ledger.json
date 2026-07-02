@@ -21498,6 +21498,66 @@
         "test_port_game_exposes_generated_building_comp_remove_from_proximity_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1051": {
+      "deferred_exprs": [
+        "public void onNearbyBuildAdded(Building other){}",
+        "Subsequent BuildingComp onNearbyBuildAdded behavior stays owned by later generated bridge slices.",
+        "Concrete world.build lookup, actual other.proximity.addUnique(self()), mutable tmpTiles set behavior, real proximity.add(tile) storage, callback side effects, and actual recache() rendering behavior remain owned by world/proximity/render integration slices."
+      ],
+      "exact_exprs": [
+        "public void updateProximity(){",
+        "tmpTiles.clear();",
+        "proximity.clear();",
+        "Point2[] nearby = Edges.getEdges(block.size);",
+        "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+        "if(other == null || other.team != team) continue;",
+        "other.proximity.addUnique(self());",
+        "tmpTiles.add(other);",
+        "//using a set to prevent duplicates",
+        "proximity.add(tile);",
+        "onProximityAdded();",
+        "onProximityUpdate();",
+        "other.onProximityUpdate();",
+        "if(!headless && block.drawCached) recache();",
+        "nearby.length",
+        "other != null && other.team == team",
+        "headless",
+        "block.drawCached"
+      ],
+      "godot_owner": "PortGame.source_building_update_proximity_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateProximity()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateProximity_186 and PortGame generated bridge to existing N668 canonical source_building_update_proximity_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_proximity_bridge_state",
+      "source_symbols": [
+        "building_update_proximity.method",
+        "building_update_proximity.tmp_tiles_clear",
+        "building_update_proximity.proximity_clear",
+        "building_update_proximity.edges_get",
+        "building_update_proximity.world_build",
+        "building_update_proximity.same_team_guard",
+        "building_update_proximity.add_unique",
+        "building_update_proximity.tmp_tiles_add",
+        "building_update_proximity.dedupe_comment",
+        "building_update_proximity.proximity_add",
+        "building_update_proximity.on_proximity_added",
+        "building_update_proximity.self_proximity_update",
+        "building_update_proximity.other_update",
+        "building_update_proximity.recache_gate",
+        "building_update_proximity.nearby_count",
+        "building_update_proximity.same_team_count",
+        "building_update_proximity.headless",
+        "building_update_proximity.draw_cached"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_proximity_to_source_state",
+        "test_generated_building_comp_bridges_update_proximity_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_proximity_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
