@@ -21558,6 +21558,33 @@
         "test_port_game_exposes_generated_building_comp_update_proximity_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1052": {
+      "deferred_exprs": [
+        "Concrete block-specific onNearbyBuildAdded overrides remain covered by their own block runtime integration slices."
+      ],
+      "exact_exprs": [
+        "public void onNearbyBuildAdded(Building other){}",
+        "Building other"
+      ],
+      "godot_owner": "PortGame.source_building_on_nearby_build_added_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "onNearbyBuildAdded(Building other)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_onNearbyBuildAdded_187 and PortGame generated bridge to existing N617 canonical source_building_on_nearby_build_added_state.",
+      "runtime_proof": "/root/Main.generated_building_comp_on_nearby_build_added_bridge_state",
+      "source_symbols": [
+        "building_on_nearby_build_added.method",
+        "building_on_nearby_build_added.no_op",
+        "building_on_nearby_build_added.other_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_on_nearby_build_added_to_source_state",
+        "test_generated_building_comp_bridges_on_nearby_build_added_to_source_state",
+        "test_port_game_exposes_generated_building_comp_on_nearby_build_added_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

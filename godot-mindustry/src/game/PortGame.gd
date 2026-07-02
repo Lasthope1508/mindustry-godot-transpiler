@@ -4495,6 +4495,18 @@ func generated_building_comp_update_proximity_bridge_state(nearby_count: int, sa
 		"canonical": canonical,
 	}
 
+func generated_building_comp_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_onNearbyBuildAdded_187([other_state])
+	var canonical = source_building_on_nearby_build_added_state(other_state)
+	return {
+		"source_owner": "PortGame.source_building_on_nearby_build_added_state",
+		"generated_owner": "BuildingComp.java_method_onNearbyBuildAdded_187",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

@@ -25780,6 +25780,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("other.onProximityUpdate();", building_generated_update_proximity["exact_exprs"])
         self.assertIn("if(!headless && block.drawCached) recache();", building_generated_update_proximity["exact_exprs"])
 
+        building_generated_on_nearby_build_added = source_symbols.source_slice(ledger, "N1052")
+        self.assertEqual(building_generated_on_nearby_build_added["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_on_nearby_build_added["java_method"], "onNearbyBuildAdded(Building other)")
+        self.assertEqual(building_generated_on_nearby_build_added["godot_owner"], "PortGame.source_building_on_nearby_build_added_state")
+        self.assertEqual(building_generated_on_nearby_build_added["runtime_proof"], "/root/Main.generated_building_comp_on_nearby_build_added_bridge_state")
+        self.assertIn("public void onNearbyBuildAdded(Building other){}", building_generated_on_nearby_build_added["exact_exprs"])
+        self.assertIn("Building other", building_generated_on_nearby_build_added["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

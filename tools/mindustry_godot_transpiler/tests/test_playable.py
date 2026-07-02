@@ -4596,6 +4596,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_updateProximity_186"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_on_nearby_build_added_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_onNearbyBuildAdded_187(_args: Array = []) -> Variant:", source)
+        self.assertIn("var other_state: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_nearby_build_added_state"', source)
+        self.assertIn('"method": "public void onNearbyBuildAdded(Building other){}"', source)
+        self.assertIn('"no_op": true', source)
+        self.assertIn('"other_state": other_state', source)
+
+    def test_port_game_exposes_generated_building_comp_on_nearby_build_added_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_onNearbyBuildAdded_187([other_state])", source)
+        self.assertIn("var canonical = source_building_on_nearby_build_added_state(other_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_nearby_build_added_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onNearbyBuildAdded_187"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

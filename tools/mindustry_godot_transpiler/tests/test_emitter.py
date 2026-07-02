@@ -2743,5 +2743,33 @@ public class BuildingComp{
             self.assertIn('"other_proximity_updates": same_team_clamped', source_text)
             self.assertIn('"recache": (not headless) and draw_cached', source_text)
 
+    def test_emit_bridges_building_comp_on_nearby_build_added_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void onNearbyBuildAdded(Building other){}
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_onNearbyBuildAdded_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var other_state: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_on_nearby_build_added_state"', source_text)
+            self.assertIn('"method": "public void onNearbyBuildAdded(Building other){}"', source_text)
+            self.assertIn('"no_op": true', source_text)
+            self.assertIn('"other_state": other_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()

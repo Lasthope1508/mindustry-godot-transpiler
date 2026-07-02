@@ -1113,7 +1113,8 @@ func java_method_updateProximity_186(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_update_proximity_state", "tmp_tiles_cleared": true, "proximity_cleared": true, "nearby_count": nearby_count, "same_team_count": same_team_clamped, "add_unique_calls": same_team_clamped, "on_proximity_added": true, "self_proximity_update": true, "other_proximity_updates": same_team_clamped, "recache": (not headless) and draw_cached}
 
 func java_method_onNearbyBuildAdded_187(_args: Array = []) -> Variant:
-	return null
+	var other_state: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_building_on_nearby_build_added_state", "method": "public void onNearbyBuildAdded(Building other){}", "no_op": true, "other_state": other_state}
 
 func java_method_consume_188(_args: Array = []) -> Variant:
 	return null
