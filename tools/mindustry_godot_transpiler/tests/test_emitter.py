@@ -1390,6 +1390,12 @@ public class BuildingComp{
 
         if(!headless){
             playDestroySound();
+
+            if(explosiveness > 40f){
+                (Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+            }else if(flammability > 5f){
+                Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+            }
         }
     }
 
@@ -1456,6 +1462,11 @@ public class BuildingComp{
             self.assertIn("var destroy_sound_volume := float(_args[26] if _args.size() > 26 else 0.0)", source_text)
             self.assertIn("var play_destroy_sound := not headless", source_text)
             self.assertIn('var base_destroy_sound := destroy_sound if play_destroy_sound else ""', source_text)
+            self.assertIn("var play_reactive_sound := not headless and (explosiveness > 40.0 or flammability > 5.0)", source_text)
+            self.assertIn('var reactive_sound_kind := "explosive" if not headless and explosiveness > 40.0 else "flammable" if not headless and flammability > 5.0 else ""', source_text)
+            self.assertIn('var reactive_sound := "blockExplodeFlammable" if reactive_sound_kind == "flammable" else ""', source_text)
+            self.assertIn('var reactive_sound_choices := ["blockExplodeExplosive", "blockExplodeExplosiveAlt"] if reactive_sound_kind == "explosive" else []', source_text)
+            self.assertIn('var reactive_chance := 0.5 if reactive_sound_kind == "explosive" else 0.0', source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
             self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
             self.assertIn('"buffered_power_source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"', source_text)
@@ -1463,6 +1474,7 @@ public class BuildingComp{
             self.assertIn('"dynamic_explosion_source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"', source_text)
             self.assertIn('"rubble_source_owner": "PortGame.source_building_on_destroyed_rubble_state"', source_text)
             self.assertIn('"base_sound_source_owner": "PortGame.source_building_on_destroyed_base_sound_state"', source_text)
+            self.assertIn('"reactive_sound_source_owner": "PortGame.source_building_on_destroyed_reactive_sound_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
             self.assertIn('"dynamic_explosion_comment": "//cap explosiveness so fluid tanks/vaults don', source_text)
@@ -1472,6 +1484,10 @@ public class BuildingComp{
             self.assertIn('"base_sound_gate": "if(!headless){"', source_text)
             self.assertIn('"base_sound_call": "playDestroySound();"', source_text)
             self.assertIn('"play_destroy_sound_call": "block.destroySound.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
+            self.assertIn('"reactive_explosive_gate": "if(explosiveness > 40f){"', source_text)
+            self.assertIn('"reactive_explosive_sound_call": "(Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
+            self.assertIn('"reactive_flammable_gate": "}else if(flammability > 5f){"', source_text)
+            self.assertIn('"reactive_flammable_sound_call": "Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
             self.assertIn('"flammability_expr": "float flammability = 0f;"', source_text)
             self.assertIn('"power_expr": "float power = 0f;"', source_text)
@@ -1507,6 +1523,11 @@ public class BuildingComp{
             self.assertIn('"pitch_min": destroy_pitch_min', source_text)
             self.assertIn('"pitch_max": destroy_pitch_max', source_text)
             self.assertIn('"volume": destroy_sound_volume', source_text)
+            self.assertIn('"play_reactive_sound": play_reactive_sound', source_text)
+            self.assertIn('"reactive_sound_kind": reactive_sound_kind', source_text)
+            self.assertIn('"reactive_sound": reactive_sound', source_text)
+            self.assertIn('"reactive_sound_choices": reactive_sound_choices', source_text)
+            self.assertIn('"reactive_chance": reactive_chance', source_text)
             self.assertIn('"dynamic_explosion_x": source_x', source_text)
             self.assertIn('"dynamic_explosion_y": source_y', source_text)
             self.assertIn('"dynamic_explosion_flammability": dynamic_explosion_flammability', source_text)
