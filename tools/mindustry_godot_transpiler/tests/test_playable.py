@@ -2914,6 +2914,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_payload_draw_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_payloadDraw_131"', source)
 
+    def test_generated_building_comp_bridges_draw_team_top_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawTeamTop_132(_args: Array = []) -> Variant:", source)
+        self.assertIn("var team_region_found := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var team_region_matches_team := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn('var team_color := String(_args[2] if _args.size() > 2 else "")', source)
+        self.assertIn("var source_x := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("if not team_region_found:", source)
+        self.assertIn('return {"visible": false}', source)
+        self.assertIn('"tint_color": team_color if team_region_matches_team else ""', source)
+        self.assertIn('"color_reset": true', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_team_top_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_team_top_bridge_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawTeamTop_132([team_region_found, team_region_matches_team, team_color, source_x, source_y])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_team_top_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawTeamTop_132"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

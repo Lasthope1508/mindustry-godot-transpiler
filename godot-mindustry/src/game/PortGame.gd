@@ -3694,6 +3694,16 @@ func generated_building_comp_payload_draw_bridge_state(draw_cached: bool, draw_d
 		"result": result,
 	}
 
+func generated_building_comp_draw_team_top_bridge_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawTeamTop_132([team_region_found, team_region_matches_team, team_color, source_x, source_y])
+	return {
+		"source_owner": "PortGame.source_building_draw_team_top_state",
+		"generated_owner": "BuildingComp.java_method_drawTeamTop_132",
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

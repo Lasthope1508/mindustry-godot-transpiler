@@ -475,5 +475,43 @@ public class BuildingComp{
             self.assertIn('"cached_gate": "if(block.drawCached){" if draw_cached else ""', source_text)
             self.assertIn('"dynamic_draw_call": "draw();" if draw_dynamic else ""', source_text)
 
+    def test_emit_bridges_building_comp_draw_team_top_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawTeamTop(){
+        if(block.teamRegion.found()){
+            if(block.teamRegions[team.id] == block.teamRegion) Draw.color(team.color);
+            Draw.rect(block.teamRegions[team.id], x, y);
+            Draw.color();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawTeamTop_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var team_region_found := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var team_region_matches_team := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('var team_color := String(_args[2] if _args.size() > 2 else "")', source_text)
+            self.assertIn("var source_x := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("if not team_region_found:", source_text)
+            self.assertIn('return {"visible": false}', source_text)
+            self.assertIn('"tint_color": team_color if team_region_matches_team else ""', source_text)
+            self.assertIn('"color_reset": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

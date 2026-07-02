@@ -635,7 +635,14 @@ func java_method_payloadDraw_131(_args: Array = []) -> Variant:
 	return {"method": "public void payloadDraw(){", "saved_z_call": "float z = Draw.z();", "cached_gate": "if(block.drawCached){" if draw_cached else "", "cached_z_call": "Draw.z(block.buildingCacheLayer.layer);" if draw_cached else "", "cached_draw_call": "drawCached();" if draw_cached else "", "dynamic_gate": "if(block.drawDynamic){" if draw_dynamic else "", "restore_z_call": "Draw.z(z);" if draw_dynamic else "", "dynamic_draw_call": "draw();" if draw_dynamic else "", "saved_z": current_z, "cached_visible": draw_cached, "cached_z": building_cache_layer_z, "cached_draw": cached_draw, "dynamic_visible": draw_dynamic, "dynamic_z": current_z, "dynamic_draw": dynamic_draw}
 
 func java_method_drawTeamTop_132(_args: Array = []) -> Variant:
-	return null
+	var team_region_found := bool(_args[0] if _args.size() > 0 else false)
+	var team_region_matches_team := bool(_args[1] if _args.size() > 1 else false)
+	var team_color := String(_args[2] if _args.size() > 2 else "")
+	var source_x := float(_args[3] if _args.size() > 3 else 0.0)
+	var source_y := float(_args[4] if _args.size() > 4 else 0.0)
+	if not team_region_found:
+		return {"visible": false}
+	return {"visible": true, "tint_color": team_color if team_region_matches_team else "", "x": source_x, "y": source_y, "color_reset": true}
 
 func java_method_drawLight_133(_args: Array = []) -> Variant:
 	return null
