@@ -445,7 +445,10 @@ func java_method_drawItemSelection_126(_args: Array = []) -> Variant:
 	return {"visible": true, "dx": dx, "dy": dy, "shadow_color": "darkGray", "shadow_alpha": 1.0, "shadow_y": dy - 1.0, "foreground_y": dy, "selection_width": selection_width, "selection_height": selection_height}
 
 func java_method_drawDisabled_127(_args: Array = []) -> Variant:
-	return null
+	var source_x := float(_args[0] if _args.size() > 0 else 0.0)
+	var source_y := float(_args[1] if _args.size() > 1 else 0.0)
+	var disabled_icon_size := 6.0
+	return {"visible": true, "icon": "cancel", "color": "scarlet", "alpha": 0.8, "x": source_x, "y": source_y, "width": disabled_icon_size, "height": disabled_icon_size}
 
 func java_method_draw_128(_args: Array = []) -> Variant:
 	return null

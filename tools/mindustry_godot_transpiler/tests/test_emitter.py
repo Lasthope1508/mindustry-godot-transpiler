@@ -291,5 +291,41 @@ public class BuildingComp{
             self.assertIn('"shadow_color": "darkGray"', source_text)
             self.assertIn('"foreground_y": dy', source_text)
 
+    def test_emit_bridges_building_comp_draw_disabled_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public void drawDisabled(){
+        Draw.color(Color.scarlet);
+        Draw.alpha(0.8f);
+        float size = 6f;
+        Draw.rect(Icon.cancel.getRegion(), x, y, size, size);
+        Draw.reset();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawDisabled_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var disabled_icon_size := 6.0", source_text)
+            self.assertIn('"icon": "cancel"', source_text)
+            self.assertIn('"color": "scarlet"', source_text)
+            self.assertIn('"alpha": 0.8', source_text)
+            self.assertIn('"width": disabled_icon_size', source_text)
+
 if __name__ == "__main__":
     unittest.main()

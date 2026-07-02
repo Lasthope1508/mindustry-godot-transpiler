@@ -2784,6 +2784,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_building_draw_item_selection_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawItemSelection_126"', source)
 
+    def test_generated_building_comp_bridges_draw_disabled_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_drawDisabled_127(_args: Array = []) -> Variant:", source)
+        self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var disabled_icon_size := 6.0", source)
+        self.assertIn('"visible": true', source)
+        self.assertIn('"icon": "cancel"', source)
+        self.assertIn('"color": "scarlet"', source)
+        self.assertIn('"alpha": 0.8', source)
+        self.assertIn('"x": source_x', source)
+        self.assertIn('"height": disabled_icon_size', source)
+
+    def test_port_game_exposes_generated_building_comp_draw_disabled_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_draw_disabled_bridge_state(source_x: float, source_y: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', source)
+        self.assertIn('var result = instance.java_method_drawDisabled_127([source_x, source_y])', source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_disabled_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawDisabled_127"', source)
+
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

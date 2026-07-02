@@ -135,6 +135,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar selection_height := icon_small / 4.0",
             "\treturn {\"visible\": true, \"dx\": dx, \"dy\": dy, \"shadow_color\": \"darkGray\", \"shadow_alpha\": 1.0, \"shadow_y\": dy - 1.0, \"foreground_y\": dy, \"selection_width\": selection_width, \"selection_height\": selection_height}",
         ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "drawDisabled"
+    ):
+        return [
+            "\tvar source_x := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_y := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar disabled_icon_size := 6.0",
+            "\treturn {\"visible\": true, \"icon\": \"cancel\", \"color\": \"scarlet\", \"alpha\": 0.8, \"x\": source_x, \"y\": source_y, \"width\": disabled_icon_size, \"height\": disabled_icon_size}",
+        ]
     return ["\treturn null"]
 
 def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
