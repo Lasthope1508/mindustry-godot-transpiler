@@ -1372,6 +1372,10 @@ public class BuildingComp{
             flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);
             explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);
         }
+
+        if(block.consPower != null && block.consPower.buffered){
+            power += this.power.status * block.consPower.capacity;
+        }
     }
 }
 """,
@@ -1397,8 +1401,17 @@ public class BuildingComp{
             self.assertIn("if has_liquids:", source_text)
             self.assertIn("flammability += float(liquid_state.get(\"flammability\", 0.0)) * float(liquid_state.get(\"amount\", 0.0)) / 2.0", source_text)
             self.assertIn("explosiveness += float(liquid_state.get(\"explosiveness\", 0.0)) * float(liquid_state.get(\"amount\", 0.0)) / 2.0", source_text)
+            self.assertIn("var current_power := power", source_text)
+            self.assertIn("var has_cons_power := bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn("var cons_power_buffered := bool(_args[7] if _args.size() > 7 else false)", source_text)
+            self.assertIn("var power_status := float(_args[8] if _args.size() > 8 else 0.0)", source_text)
+            self.assertIn("var cons_power_capacity := float(_args[9] if _args.size() > 9 else 0.0)", source_text)
+            self.assertIn("var apply_buffered_power := has_cons_power and cons_power_buffered", source_text)
+            self.assertIn("var buffered_power_contribution := power_status * cons_power_capacity if apply_buffered_power else 0.0", source_text)
+            self.assertIn("power = current_power + buffered_power_contribution", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"', source_text)
             self.assertIn('"liquid_source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"', source_text)
+            self.assertIn('"buffered_power_source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"', source_text)
             self.assertIn('"comment": "Called when the block is destroyed. The tile is still intact at this stage."', source_text)
             self.assertIn('"method": "public void onDestroyed(){"', source_text)
             self.assertIn('"base_explosiveness_expr": "float explosiveness = block.baseExplosiveness;"', source_text)
@@ -1413,10 +1426,19 @@ public class BuildingComp{
             self.assertIn('"has_liquids_gate": "if(block.hasLiquids){"', source_text)
             self.assertIn('"liquid_flammability_add": "flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);"', source_text)
             self.assertIn('"liquid_explosiveness_add": "explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);"', source_text)
+            self.assertIn('"buffered_power_guard": "if(block.consPower != null && block.consPower.buffered){"', source_text)
+            self.assertIn('"buffered_power_add": "power += this.power.status * block.consPower.capacity;"', source_text)
             self.assertIn('"base_explosiveness": base_explosiveness', source_text)
             self.assertIn('"has_items": has_items', source_text)
             self.assertIn('"item_cap": item_cap', source_text)
             self.assertIn('"has_liquids": has_liquids', source_text)
+            self.assertIn('"current_power": current_power', source_text)
+            self.assertIn('"has_cons_power": has_cons_power', source_text)
+            self.assertIn('"cons_power_buffered": cons_power_buffered', source_text)
+            self.assertIn('"power_status": power_status', source_text)
+            self.assertIn('"cons_power_capacity": cons_power_capacity', source_text)
+            self.assertIn('"apply_buffered_power": apply_buffered_power', source_text)
+            self.assertIn('"buffered_power_contribution": buffered_power_contribution', source_text)
             self.assertIn('"explosiveness": explosiveness', source_text)
             self.assertIn('"flammability": flammability', source_text)
             self.assertIn('"power": power', source_text)
