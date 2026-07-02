@@ -17731,6 +17731,29 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_value["java_expr"], "return flow;")
         self.assertEqual(return_value["godot_symbol"], "source_building_move_liquid_result.return_value")
 
+    def test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        reaction_guard = source_symbols.source_symbol(registry, "building_move_liquid_reaction_setup.reaction_guard")
+        self.assertEqual(reaction_guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(reaction_guard["java_method"], "moveLiquid(Building next, Liquid liquid) reaction setup")
+        self.assertEqual(reaction_guard["java_expr"], "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){")
+        self.assertEqual(reaction_guard["godot_owner"], "PortGame.source_building_move_liquid_reaction_setup_state")
+        self.assertEqual(reaction_guard["runtime_proof"], "/root/Main.source_building_move_liquid_reaction_setup_state")
+        self.assertEqual(reaction_guard["godot_symbol"], "source_building_move_liquid_reaction_setup_result.reaction_guard")
+
+        destination_current_amount = source_symbols.source_symbol(registry, "building_move_liquid_reaction_setup.destination_current_amount")
+        self.assertEqual(destination_current_amount["status"], "explicit-input")
+        self.assertEqual(destination_current_amount["java_expr"], "next.liquids.currentAmount()")
+        self.assertEqual(destination_current_amount["godot_symbol"], "source_building_move_liquid_reaction_setup_input.destination_current_amount")
+
+        block_reactive_guard = source_symbols.source_symbol(registry, "building_move_liquid_reaction_setup.block_reactive_guard")
+        self.assertEqual(block_reactive_guard["java_expr"], "if(other.blockReactive && liquid.blockReactive){")
+        self.assertEqual(block_reactive_guard["godot_symbol"], "source_building_move_liquid_reaction_setup_result.block_reactive_guard")
+
     def test_building_handle_payload_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -18691,9 +18714,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 542)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 543)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 547)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 548)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23517,6 +23540,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){", building_move_liquid["exact_exprs"])
         self.assertIn("float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));", building_move_liquid["exact_exprs"])
         self.assertIn("return flow;", building_move_liquid["exact_exprs"])
+
+        building_move_liquid_reaction_setup = source_symbols.source_slice(ledger, "N946")
+        self.assertEqual(building_move_liquid_reaction_setup["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_move_liquid_reaction_setup["java_method"], "moveLiquid(Building next, Liquid liquid) reaction setup")
+        self.assertEqual(building_move_liquid_reaction_setup["godot_owner"], "PortGame.source_building_move_liquid_reaction_setup_state")
+        self.assertIn("}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){", building_move_liquid_reaction_setup["exact_exprs"])
+        self.assertIn("float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;", building_move_liquid_reaction_setup["exact_exprs"])
+        self.assertIn("Liquid other = next.liquids.current();", building_move_liquid_reaction_setup["exact_exprs"])
+        self.assertIn("if(other.blockReactive && liquid.blockReactive){", building_move_liquid_reaction_setup["exact_exprs"])
 
         thermal_generator_displayed_power = source_symbols.source_slice(ledger, "N926")
         self.assertEqual(thermal_generator_displayed_power["java_source"], "core/src/mindustry/world/blocks/power/ThermalGenerator.java")
@@ -28768,6 +28800,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("destination_liquid_amount_after", building_move_liquid["return_keys"])
         self.assertIn("return_value", building_move_liquid["return_keys"])
         self.assertEqual(building_move_liquid["source_method"], "moveLiquid(Building next, Liquid liquid)")
+
+        building_move_liquid_reaction_setup = source_symbols.api_contract(contracts, "PortGame.source_building_move_liquid_reaction_setup_state")
+        self.assertEqual([param["name"] for param in building_move_liquid_reaction_setup["params"]], ["main_guard_passed", "transfer_guard_passed", "destination_consumes_liquid", "destination_current_amount", "destination_block_liquid_capacity", "fract_value", "source_x", "source_y", "destination_x", "destination_y", "destination_current_liquid", "other_block_reactive", "liquid_block_reactive"])
+        self.assertEqual(building_move_liquid_reaction_setup["params"][3]["schema"], "source_building_move_liquid_reaction_setup_input.destination_current_amount")
+        self.assertEqual(building_move_liquid_reaction_setup["params"][5]["schema"], "source_building_move_liquid_reaction_setup_input.fract_value")
+        self.assertEqual(building_move_liquid_reaction_setup["params"][10]["schema"], "source_building_move_liquid_reaction_setup_input.destination_current_liquid")
+        self.assertIn("reaction_guard_passed", building_move_liquid_reaction_setup["return_keys"])
+        self.assertIn("fx", building_move_liquid_reaction_setup["return_keys"])
+        self.assertIn("block_reactive_guard_passed", building_move_liquid_reaction_setup["return_keys"])
+        self.assertEqual(building_move_liquid_reaction_setup["source_method"], "moveLiquid(Building next, Liquid liquid) reaction setup")
 
         thermal_generator_displayed_power = source_symbols.api_contract(contracts, "PortGame.source_thermal_generator_displayed_power_production_state")
         self.assertEqual([param["name"] for param in thermal_generator_displayed_power["params"]], ["power_production", "display_efficiency_scale"])
@@ -36791,6 +36833,20 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_move_liquid_result["keys"]["transfer_guard"]["java_expr"], "if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){")
         self.assertEqual(source_building_move_liquid_result["keys"]["current_liquid_amount"]["alias_of"], "source_building_move_liquid_input.current_liquid_amount")
         self.assertEqual(source_building_move_liquid_result["keys"]["return_value"]["java_expr"], "return flow;")
+
+        source_building_move_liquid_reaction_setup_input = source_symbols.state_schema(schema, "source_building_move_liquid_reaction_setup_input")
+        self.assertEqual(source_building_move_liquid_reaction_setup_input["keys"]["destination_consumes_liquid"]["java_expr"], "next.block.consumesLiquid(liquid)")
+        self.assertEqual(source_building_move_liquid_reaction_setup_input["keys"]["destination_current_amount"]["java_expr"], "next.liquids.currentAmount()")
+        self.assertEqual(source_building_move_liquid_reaction_setup_input["keys"]["fract_value"]["java_expr"], "fract")
+        self.assertEqual(source_building_move_liquid_reaction_setup_input["keys"]["destination_current_liquid"]["java_expr"], "next.liquids.current()")
+
+        source_building_move_liquid_reaction_setup_result = source_symbols.state_schema(schema, "source_building_move_liquid_reaction_setup_result")
+        self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["reaction_guard"]["java_expr"], "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){")
+        self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["fx_expr"]["java_expr"], "float fx = (x + next.x) / 2f")
+        self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["fy_expr"]["java_expr"], "float fy = (y + next.y) / 2f")
+        self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["other_expr"]["java_expr"], "Liquid other = next.liquids.current();")
+        self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["block_reactive_guard"]["java_expr"], "if(other.blockReactive && liquid.blockReactive){")
+        self.assertEqual(source_building_move_liquid_reaction_setup_result["keys"]["destination_current_amount"]["alias_of"], "source_building_move_liquid_reaction_setup_input.destination_current_amount")
 
         source_building_handle_payload_input = source_symbols.state_schema(schema, "source_building_handle_payload_input")
         self.assertEqual(source_building_handle_payload_input["keys"]["payload_state"]["java_expr"], "payload")

@@ -1568,6 +1568,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_move_liquid_reaction_setup_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_move_liquid_reaction_setup_source"))
+        report = source_parity.verify_building_move_liquid_reaction_setup_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "reaction_guard": "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){",
+            "effect_position": "float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;",
+            "current_liquid": "Liquid other = next.liquids.current();",
+            "block_reactive_guard": "if(other.blockReactive && liquid.blockReactive){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_maximum_accepted_and_handle_stack_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_maximum_accepted_stack_source"))
         report = source_parity.verify_building_maximum_accepted_stack_source(ROOT / "mindustry-upstream")

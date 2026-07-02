@@ -19678,6 +19678,52 @@
       ],
       "runtime_proof": "/root/Main.source_building_move_liquid_state",
       "notes": "Records moveLiquid transfer path only through return flow. Reaction branch beginning at else-if consumesLiquid remains deferred."
+    },
+    "N946": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "exact_exprs": [
+        "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){",
+        "float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;",
+        "Liquid other = next.liquids.current();",
+        "if(other.blockReactive && liquid.blockReactive){"
+      ],
+      "source_symbols": [
+        "building_move_liquid_reaction_setup.reaction_guard",
+        "building_move_liquid_reaction_setup.effect_position",
+        "building_move_liquid_reaction_setup.fx_expr",
+        "building_move_liquid_reaction_setup.fy_expr",
+        "building_move_liquid_reaction_setup.current_liquid",
+        "building_move_liquid_reaction_setup.block_reactive_guard",
+        "building_move_liquid_reaction_setup.main_guard_passed",
+        "building_move_liquid_reaction_setup.transfer_guard_passed",
+        "building_move_liquid_reaction_setup.destination_consumes_liquid",
+        "building_move_liquid_reaction_setup.destination_current_amount",
+        "building_move_liquid_reaction_setup.destination_block_liquid_capacity",
+        "building_move_liquid_reaction_setup.fract_value",
+        "building_move_liquid_reaction_setup.source_x",
+        "building_move_liquid_reaction_setup.source_y",
+        "building_move_liquid_reaction_setup.destination_x",
+        "building_move_liquid_reaction_setup.destination_y",
+        "building_move_liquid_reaction_setup.destination_current_liquid",
+        "building_move_liquid_reaction_setup.other_block_reactive",
+        "building_move_liquid_reaction_setup.liquid_block_reactive",
+        "building_move_liquid_reaction_setup.reaction_guard_passed",
+        "building_move_liquid_reaction_setup.fx",
+        "building_move_liquid_reaction_setup.fy",
+        "building_move_liquid_reaction_setup.other",
+        "building_move_liquid_reaction_setup.block_reactive_guard_passed"
+      ],
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state",
+      "notes": "Records moveLiquid reaction setup only. Fire/steam/damage/Time/RNG branches remain deferred."
     }
   },
   "version": 1

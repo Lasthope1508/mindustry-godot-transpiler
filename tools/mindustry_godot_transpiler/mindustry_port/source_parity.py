@@ -550,6 +550,25 @@ def verify_building_move_liquid_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_building_move_liquid_reaction_setup_source(upstream_root: Path) -> dict[str, Any]:
+    building_comp_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    building_comp_source = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "reaction_guard": "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){",
+        "effect_position": "float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;",
+        "current_liquid": "Liquid other = next.liquids.current();",
+        "block_reactive_guard": "if(other.blockReactive && liquid.blockReactive){",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in building_comp_source
+    ]
+    return {
+        "source": BUILDING_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_thermal_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     thermal_generator_path = Path(upstream_root) / THERMAL_GENERATOR_SOURCE
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE

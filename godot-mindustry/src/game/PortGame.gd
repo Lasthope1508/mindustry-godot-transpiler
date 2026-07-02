@@ -5499,6 +5499,42 @@ func source_building_move_liquid_state(liquid: Variant, next_present: bool, dest
 		"return_value": return_value,
 	}
 
+func source_building_move_liquid_reaction_setup_state(main_guard_passed: bool, transfer_guard_passed: bool, destination_consumes_liquid: bool, destination_current_amount: float, destination_block_liquid_capacity: float, fract_value: float, source_x: float, source_y: float, destination_x: float, destination_y: float, destination_current_liquid: Variant, other_block_reactive: bool, liquid_block_reactive: bool) -> Dictionary:
+	var reaction_guard_passed := main_guard_passed and not transfer_guard_passed and not destination_consumes_liquid and (destination_current_amount / destination_block_liquid_capacity) > 0.1 and fract_value > 0.1
+	var fx := 0.0
+	var fy := 0.0
+	var block_reactive_guard_passed := false
+	if reaction_guard_passed:
+		fx = (source_x + destination_x) / 2.0
+		fy = (source_y + destination_y) / 2.0
+		block_reactive_guard_passed = other_block_reactive and liquid_block_reactive
+	return {
+		"reaction_guard": "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){",
+		"reaction_guard_passed": reaction_guard_passed,
+		"effect_position": "float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;",
+		"fx_expr": "float fx = (x + next.x) / 2f",
+		"fy_expr": "float fy = (y + next.y) / 2f",
+		"fx": fx,
+		"fy": fy,
+		"other_expr": "Liquid other = next.liquids.current();",
+		"other": destination_current_liquid,
+		"block_reactive_guard": "if(other.blockReactive && liquid.blockReactive){",
+		"block_reactive_guard_passed": block_reactive_guard_passed,
+		"main_guard_passed": main_guard_passed,
+		"transfer_guard_passed": transfer_guard_passed,
+		"destination_consumes_liquid": destination_consumes_liquid,
+		"destination_current_amount": destination_current_amount,
+		"destination_block_liquid_capacity": destination_block_liquid_capacity,
+		"fract_value": fract_value,
+		"source_x": source_x,
+		"source_y": source_y,
+		"destination_x": destination_x,
+		"destination_y": destination_y,
+		"destination_current_liquid": destination_current_liquid,
+		"other_block_reactive": other_block_reactive,
+		"liquid_block_reactive": liquid_block_reactive,
+	}
+
 const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
 const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
 const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"

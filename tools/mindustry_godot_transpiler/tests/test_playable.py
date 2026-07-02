@@ -2151,6 +2151,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"destination_liquid_amount_after": destination_liquid_amount_after', source)
         self.assertIn('"return_value": return_value', source)
 
+    def test_port_game_exposes_source_building_move_liquid_reaction_setup_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_move_liquid_reaction_setup_state(main_guard_passed: bool, transfer_guard_passed: bool, destination_consumes_liquid: bool, destination_current_amount: float, destination_block_liquid_capacity: float, fract_value: float, source_x: float, source_y: float, destination_x: float, destination_y: float, destination_current_liquid: Variant, other_block_reactive: bool, liquid_block_reactive: bool) -> Dictionary:", source)
+        self.assertIn('"reaction_guard": "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){"', source)
+        self.assertIn('"effect_position": "float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;"', source)
+        self.assertIn('"fx_expr": "float fx = (x + next.x) / 2f"', source)
+        self.assertIn('"fy_expr": "float fy = (y + next.y) / 2f"', source)
+        self.assertIn('"other_expr": "Liquid other = next.liquids.current();"', source)
+        self.assertIn('"block_reactive_guard": "if(other.blockReactive && liquid.blockReactive){"', source)
+        self.assertIn('"reaction_guard_passed": reaction_guard_passed', source)
+        self.assertIn('"block_reactive_guard_passed": block_reactive_guard_passed', source)
+
     def test_port_game_exposes_source_building_maximum_accepted_and_stack_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

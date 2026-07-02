@@ -69268,6 +69268,366 @@
         "test_building_move_liquid_symbols_are_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_building_move_liquid_state"
+    },
+    "building_move_liquid_reaction_setup.reaction_guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.reaction_guard",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){",
+      "rule": "Preserves source reaction setup guard.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.effect_position": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.effect_position",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;",
+      "rule": "Preserves source effect midpoint assignment.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.fx_expr": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.fx_expr",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "float fx = (x + next.x) / 2f",
+      "rule": "Preserves source fx assignment expression.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.fy_expr": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.fy_expr",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "float fy = (y + next.y) / 2f",
+      "rule": "Preserves source fy assignment expression.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.current_liquid": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.other_expr",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "Liquid other = next.liquids.current();",
+      "rule": "Preserves source current liquid assignment.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.block_reactive_guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.block_reactive_guard",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "if(other.blockReactive && liquid.blockReactive){",
+      "rule": "Preserves source block reactive guard.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.main_guard_passed": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.main_guard_passed",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f",
+      "rule": "Runtime input supplies existing N945 main guard state.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.transfer_guard_passed": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.transfer_guard_passed",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)",
+      "rule": "Runtime input supplies existing N945 transfer guard state.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.destination_consumes_liquid": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.destination_consumes_liquid",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.block.consumesLiquid(liquid)",
+      "rule": "Runtime input supplies source consumesLiquid predicate.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.destination_current_amount": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.destination_current_amount",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.liquids.currentAmount()",
+      "rule": "Runtime input supplies source currentAmount amount, distinct from get(liquid).",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.destination_block_liquid_capacity": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.destination_block_liquid_capacity",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.block.liquidCapacity",
+      "rule": "Runtime input supplies source destination capacity.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.fract_value": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.fract_value",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "fract",
+      "rule": "Runtime input supplies existing N945 fract value.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.source_x": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.source_x",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "x",
+      "rule": "Runtime input supplies source building x.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.source_y": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.source_y",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "y",
+      "rule": "Runtime input supplies source building y.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.destination_x": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.destination_x",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.x",
+      "rule": "Runtime input supplies destination building x.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.destination_y": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.destination_y",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.y",
+      "rule": "Runtime input supplies destination building y.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.destination_current_liquid": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.destination_current_liquid",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.liquids.current()",
+      "rule": "Runtime input supplies source current liquid object.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.other_block_reactive": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.other_block_reactive",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "other.blockReactive",
+      "rule": "Runtime input supplies source other blockReactive flag.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.liquid_block_reactive": {
+      "status": "explicit-input",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_input.liquid_block_reactive",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "liquid.blockReactive",
+      "rule": "Runtime input supplies source liquid blockReactive flag.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.reaction_guard_passed": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.reaction_guard_passed",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f",
+      "rule": "True only when source reaction setup guard passes.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.fx": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.fx",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "(x + next.x) / 2f",
+      "rule": "Runtime fx from source midpoint assignment.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.fy": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.fy",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "(y + next.y) / 2f",
+      "rule": "Runtime fy from source midpoint assignment.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.other": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.other",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "next.liquids.current()",
+      "rule": "Runtime current liquid from source assignment.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
+    },
+    "building_move_liquid_reaction_setup.block_reactive_guard_passed": {
+      "status": "source-backed",
+      "godot_symbol": "source_building_move_liquid_reaction_setup_result.block_reactive_guard_passed",
+      "godot_owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "java_expr": "other.blockReactive && liquid.blockReactive",
+      "rule": "True only when source block reactive guard passes.",
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state"
     }
   },
   "version": 1

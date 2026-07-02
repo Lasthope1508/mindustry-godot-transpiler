@@ -82980,6 +82980,290 @@
           "rule": "N945 return value."
         }
       }
+    },
+    "source_building_move_liquid_reaction_setup_input": {
+      "status": "active",
+      "source_slice": "N946",
+      "owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "keys": {
+        "main_guard_passed": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f",
+          "rule": "N946 reaction setup input key."
+        },
+        "transfer_guard_passed": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)",
+          "rule": "N946 reaction setup input key."
+        },
+        "destination_consumes_liquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.block.consumesLiquid(liquid)",
+          "rule": "N946 reaction setup input key."
+        },
+        "destination_current_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.liquids.currentAmount()",
+          "rule": "N946 reaction setup input key."
+        },
+        "destination_block_liquid_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.block.liquidCapacity",
+          "rule": "N946 reaction setup input key."
+        },
+        "fract_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "fract",
+          "rule": "N946 reaction setup input key."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "x",
+          "rule": "N946 reaction setup input key."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "y",
+          "rule": "N946 reaction setup input key."
+        },
+        "destination_x": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.x",
+          "rule": "N946 reaction setup input key."
+        },
+        "destination_y": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.y",
+          "rule": "N946 reaction setup input key."
+        },
+        "destination_current_liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.liquids.current()",
+          "rule": "N946 reaction setup input key."
+        },
+        "other_block_reactive": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "other.blockReactive",
+          "rule": "N946 reaction setup input key."
+        },
+        "liquid_block_reactive": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "liquid.blockReactive",
+          "rule": "N946 reaction setup input key."
+        }
+      }
+    },
+    "source_building_move_liquid_reaction_setup_result": {
+      "status": "active",
+      "source_slice": "N946",
+      "owner": "PortGame.source_building_move_liquid_reaction_setup_state",
+      "keys": {
+        "reaction_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "}else if(!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f){",
+          "rule": "N946 reaction setup canonical result key."
+        },
+        "reaction_guard_passed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f",
+          "rule": "N946 reaction setup guard result."
+        },
+        "effect_position": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;",
+          "rule": "N946 source midpoint assignment."
+        },
+        "fx_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "float fx = (x + next.x) / 2f",
+          "rule": "N946 source fx expression."
+        },
+        "fy_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "float fy = (y + next.y) / 2f",
+          "rule": "N946 source fy expression."
+        },
+        "fx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "(x + next.x) / 2f",
+          "rule": "N946 computed fx midpoint."
+        },
+        "fy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "(y + next.y) / 2f",
+          "rule": "N946 computed fy midpoint."
+        },
+        "other_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "Liquid other = next.liquids.current();",
+          "rule": "N946 source current liquid assignment."
+        },
+        "other": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "next.liquids.current()",
+          "rule": "N946 current liquid value."
+        },
+        "block_reactive_guard": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "if(other.blockReactive && liquid.blockReactive){",
+          "rule": "N946 source block reactive guard."
+        },
+        "block_reactive_guard_passed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+          "java_expr": "other.blockReactive && liquid.blockReactive",
+          "rule": "N946 block reactive guard result."
+        },
+        "main_guard_passed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.main_guard_passed",
+          "rule": "Echoes N946 input key."
+        },
+        "transfer_guard_passed": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.transfer_guard_passed",
+          "rule": "Echoes N946 input key."
+        },
+        "destination_consumes_liquid": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.destination_consumes_liquid",
+          "rule": "Echoes N946 input key."
+        },
+        "destination_current_amount": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.destination_current_amount",
+          "rule": "Echoes N946 input key."
+        },
+        "destination_block_liquid_capacity": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.destination_block_liquid_capacity",
+          "rule": "Echoes N946 input key."
+        },
+        "fract_value": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.fract_value",
+          "rule": "Echoes N946 input key."
+        },
+        "source_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.source_x",
+          "rule": "Echoes N946 input key."
+        },
+        "source_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.source_y",
+          "rule": "Echoes N946 input key."
+        },
+        "destination_x": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.destination_x",
+          "rule": "Echoes N946 input key."
+        },
+        "destination_y": {
+          "type": "float",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.destination_y",
+          "rule": "Echoes N946 input key."
+        },
+        "destination_current_liquid": {
+          "type": "Variant",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.destination_current_liquid",
+          "rule": "Echoes N946 input key."
+        },
+        "other_block_reactive": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.other_block_reactive",
+          "rule": "Echoes N946 input key."
+        },
+        "liquid_block_reactive": {
+          "type": "bool",
+          "status": "generated",
+          "alias_of": "source_building_move_liquid_reaction_setup_input.liquid_block_reactive",
+          "rule": "Echoes N946 input key."
+        }
+      }
     }
   },
   "version": 1

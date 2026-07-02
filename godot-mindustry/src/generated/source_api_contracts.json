@@ -22305,6 +22305,112 @@
       ],
       "runtime_proof": "/root/Main.source_building_move_liquid_state",
       "rule": "Public runtime contract for Mindustry BuildingComp.moveLiquid transfer path before reaction branch."
+    },
+    "PortGame.source_building_move_liquid_reaction_setup_state": {
+      "status": "active",
+      "source_slice": "N946",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "moveLiquid(Building next, Liquid liquid) reaction setup",
+      "params": [
+        {
+          "name": "main_guard_passed",
+          "type": "bool",
+          "schema": "source_building_move_liquid_reaction_setup_input.main_guard_passed"
+        },
+        {
+          "name": "transfer_guard_passed",
+          "type": "bool",
+          "schema": "source_building_move_liquid_reaction_setup_input.transfer_guard_passed"
+        },
+        {
+          "name": "destination_consumes_liquid",
+          "type": "bool",
+          "schema": "source_building_move_liquid_reaction_setup_input.destination_consumes_liquid"
+        },
+        {
+          "name": "destination_current_amount",
+          "type": "float",
+          "schema": "source_building_move_liquid_reaction_setup_input.destination_current_amount"
+        },
+        {
+          "name": "destination_block_liquid_capacity",
+          "type": "float",
+          "schema": "source_building_move_liquid_reaction_setup_input.destination_block_liquid_capacity"
+        },
+        {
+          "name": "fract_value",
+          "type": "float",
+          "schema": "source_building_move_liquid_reaction_setup_input.fract_value"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_building_move_liquid_reaction_setup_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_building_move_liquid_reaction_setup_input.source_y"
+        },
+        {
+          "name": "destination_x",
+          "type": "float",
+          "schema": "source_building_move_liquid_reaction_setup_input.destination_x"
+        },
+        {
+          "name": "destination_y",
+          "type": "float",
+          "schema": "source_building_move_liquid_reaction_setup_input.destination_y"
+        },
+        {
+          "name": "destination_current_liquid",
+          "type": "Variant",
+          "schema": "source_building_move_liquid_reaction_setup_input.destination_current_liquid"
+        },
+        {
+          "name": "other_block_reactive",
+          "type": "bool",
+          "schema": "source_building_move_liquid_reaction_setup_input.other_block_reactive"
+        },
+        {
+          "name": "liquid_block_reactive",
+          "type": "bool",
+          "schema": "source_building_move_liquid_reaction_setup_input.liquid_block_reactive"
+        }
+      ],
+      "return_keys": [
+        "reaction_guard",
+        "reaction_guard_passed",
+        "effect_position",
+        "fx_expr",
+        "fy_expr",
+        "fx",
+        "fy",
+        "other_expr",
+        "other",
+        "block_reactive_guard",
+        "block_reactive_guard_passed",
+        "main_guard_passed",
+        "transfer_guard_passed",
+        "destination_consumes_liquid",
+        "destination_current_amount",
+        "destination_block_liquid_capacity",
+        "fract_value",
+        "source_x",
+        "source_y",
+        "destination_x",
+        "destination_y",
+        "destination_current_liquid",
+        "other_block_reactive",
+        "liquid_block_reactive"
+      ],
+      "tests": [
+        "test_building_move_liquid_reaction_setup_matches_upstream_source",
+        "test_port_game_exposes_source_building_move_liquid_reaction_setup_state",
+        "test_building_move_liquid_reaction_setup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_move_liquid_reaction_setup_state",
+      "rule": "Public runtime contract for Mindustry BuildingComp.moveLiquid reaction setup before fire/steam/damage branches."
     }
   },
   "policy": {
