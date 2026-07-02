@@ -4905,6 +4905,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"optional_efficiency_input": optional_efficiency_input', source)
         self.assertIn('"potential_efficiency": potential_efficiency', source)
 
+    def test_generated_building_comp_bridges_update_consumption_second_pass_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_updateConsumption_194(_args: Array = []) -> Variant:", source)
+        self.assertIn("if _args.size() <= 9:", source)
+        self.assertIn("var update_consumers: Array = _args[9] if _args.size() > 9 else []", source)
+        self.assertIn("var self_state: Dictionary = _args[10] if _args.size() > 10 else {}", source)
+        self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])", source)
+        self.assertIn('efficiency = float(multiplied.get("efficiency", efficiency))', source)
+        self.assertIn("var updated_consumers := []", source)
+        self.assertIn("if update and efficiency > 0.0:", source)
+        self.assertIn("for consumer in update_consumers:", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_second_pass_state"', source)
+        self.assertIn('"multiplier": "updateEfficiencyMultiplier();"', source)
+        self.assertIn('"comment": "//second pass: update every consumer based on efficiency"', source)
+        self.assertIn('"guard": "if(update && efficiency > 0){"', source)
+        self.assertIn('"loop": "for(var cons : block.updateConsumers){"', source)
+        self.assertIn('"update_call": "cons.update(self());"', source)
+        self.assertIn('"updated_consumers": updated_consumers', source)
+        self.assertIn('"update_count": updated_consumers.size()', source)
+
     def test_port_game_exposes_generated_building_comp_update_consumption_initial_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4968,6 +4990,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('var result = instance.java_method_updateConsumption_194([true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true])', source)
         self.assertIn("var canonical = source_building_update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)", source)
         self.assertIn('"source_owner": "PortGame.source_building_update_consumption_efficiency_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
+        self.assertIn('"canonical": canonical', source)
+
+    def test_port_game_exposes_generated_building_comp_update_consumption_second_pass_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:", source)
+        self.assertIn('var result = instance.java_method_updateConsumption_194([true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state])', source)
+        self.assertIn("var canonical = source_building_update_consumption_second_pass_state(update, result_efficiency, update_consumers, self_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_second_pass_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
         self.assertIn('"canonical": canonical', source)
 

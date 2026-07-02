@@ -3433,5 +3433,95 @@ class BuildingComp{
             self.assertIn('"optional_efficiency_input": optional_efficiency_input', source_text)
             self.assertIn('"potential_efficiency": potential_efficiency', source_text)
 
+    def test_emit_bridges_building_comp_update_consumption_second_pass_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void updateEfficiencyMultiplier(){
+        float scale = efficiencyScale();
+        efficiency *= scale;
+        optionalEfficiency *= scale;
+    }
+
+    public void updateConsumption(){
+        boolean update = shouldConsume() && productionValid();
+        float minEfficiency = 1f;
+
+        //assume efficiency is 1 for the calculations below
+        efficiency = optionalEfficiency = 1f;
+        shouldConsumePower = true;
+
+        //first pass: get the minimum efficiency of any consumer
+        for(var cons : block.nonOptionalConsumers){
+            float result = cons.efficiency(self());
+
+            if(cons != block.consPower && result <= 0.0000001f){
+                shouldConsumePower = false;
+            }
+
+            minEfficiency = Math.min(minEfficiency, result);
+        }
+
+        //same for optionals
+        for(var cons : block.optionalConsumers){
+            optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));
+        }
+
+        //efficiency is now this minimum value
+        efficiency = minEfficiency;
+        optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);
+
+        //assign "potential"
+        potentialEfficiency = efficiency;
+
+        //no updating means zero efficiency
+        if(!update){
+            efficiency = optionalEfficiency = 0f;
+        }
+
+        updateEfficiencyMultiplier();
+
+        //second pass: update every consumer based on efficiency
+        if(update && efficiency > 0){
+            for(var cons : block.updateConsumers){
+                cons.update(self());
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateConsumption_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("if _args.size() <= 9:", source_text)
+            self.assertIn("var update_consumers: Array = _args[9] if _args.size() > 9 else []", source_text)
+            self.assertIn("var self_state: Dictionary = _args[10] if _args.size() > 10 else {}", source_text)
+            self.assertIn("var multiplied = java_method_updateEfficiencyMultiplier_0([efficiency, optional_efficiency, efficiency_scale])", source_text)
+            self.assertIn('efficiency = float(multiplied.get("efficiency", efficiency))', source_text)
+            self.assertIn("var updated_consumers := []", source_text)
+            self.assertIn("if update and efficiency > 0.0:", source_text)
+            self.assertIn("for consumer in update_consumers:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_consumption_second_pass_state"', source_text)
+            self.assertIn('"multiplier": "updateEfficiencyMultiplier();"', source_text)
+            self.assertIn('"comment": "//second pass: update every consumer based on efficiency"', source_text)
+            self.assertIn('"guard": "if(update && efficiency > 0){"', source_text)
+            self.assertIn('"loop": "for(var cons : block.updateConsumers){"', source_text)
+            self.assertIn('"update_call": "cons.update(self());"', source_text)
+            self.assertIn('"updated_consumers": updated_consumers', source_text)
+            self.assertIn('"update_count": updated_consumers.size()', source_text)
+
 if __name__ == "__main__":
     unittest.main()

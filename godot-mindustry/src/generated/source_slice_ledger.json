@@ -22044,6 +22044,47 @@
         "test_port_game_exposes_generated_building_comp_update_consumption_efficiency_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1065": {
+      "deferred_exprs": [
+        "Concrete Consume.update side effects stay deferred until consumer implementations are ported."
+      ],
+      "exact_exprs": [
+        "public void updateConsumption(){",
+        "updateEfficiencyMultiplier();",
+        "//second pass: update every consumer based on efficiency",
+        "if(update && efficiency > 0){",
+        "for(var cons : block.updateConsumers){",
+        "cons.update(self());",
+        "block.updateConsumers"
+      ],
+      "godot_owner": "PortGame.source_building_update_consumption_second_pass_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateConsumption_194 efficiency multiplier and update-consumer second pass bridge to existing N664 canonical source_building_update_consumption_second_pass_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_consumption_second_pass_bridge_state",
+      "source_symbols": [
+        "building_update_consumption_second_pass.method",
+        "building_update_consumption_second_pass.multiplier",
+        "building_update_consumption_second_pass.comment",
+        "building_update_consumption_second_pass.guard",
+        "building_update_consumption_second_pass.loop",
+        "building_update_consumption_second_pass.update_call",
+        "building_update_consumption_second_pass.update",
+        "building_update_consumption_second_pass.efficiency",
+        "building_update_consumption_second_pass.update_consumers",
+        "building_update_consumption_second_pass.self_state",
+        "building_update_consumption_second_pass.updated_consumers",
+        "building_update_consumption_second_pass.update_count"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_consumption_second_pass_to_source_state",
+        "test_generated_building_comp_bridges_update_consumption_second_pass_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_consumption_second_pass_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
