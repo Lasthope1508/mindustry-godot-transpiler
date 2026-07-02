@@ -25819,6 +25819,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Time.delta", building_generated_delta["exact_exprs"])
         self.assertIn("timeScale", building_generated_delta["exact_exprs"])
 
+        building_generated_edelta = source_symbols.source_slice(ledger, "N1056")
+        self.assertEqual(building_generated_edelta["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_edelta["java_method"], "edelta()")
+        self.assertEqual(building_generated_edelta["godot_owner"], "PortGame.source_building_edelta")
+        self.assertEqual(building_generated_edelta["runtime_proof"], "/root/Main.generated_building_comp_edelta_bridge_state")
+        self.assertIn("/** Efficiency * delta. */", building_generated_edelta["exact_exprs"])
+        self.assertIn("public float edelta(){", building_generated_edelta["exact_exprs"])
+        self.assertIn("return efficiency * delta();", building_generated_edelta["exact_exprs"])
+        self.assertIn("efficiency", building_generated_edelta["exact_exprs"])
+        self.assertIn("delta()", building_generated_edelta["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

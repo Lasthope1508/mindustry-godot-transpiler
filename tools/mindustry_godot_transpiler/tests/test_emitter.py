@@ -2871,5 +2871,46 @@ public class BuildingComp{
             self.assertIn('"time_scale": time_scale', source_text)
             self.assertIn('"delta": delta', source_text)
 
+    def test_emit_bridges_building_comp_edelta_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "core" / "src"
+            source = source_root / "mindustry" / "entities" / "comp" / "BuildingComp.java"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                """
+package mindustry.entities.comp;
+public class BuildingComp{
+    public float delta(){
+        return Time.delta * timeScale;
+    }
+    public float edelta(){
+        return efficiency * delta();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_edelta_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_delta := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var time_scale := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var efficiency := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var delta_result = java_method_delta_0([source_delta, time_scale])", source_text)
+            self.assertIn('var delta_call := float(delta_result.get("delta", 0.0))', source_text)
+            self.assertIn("var edelta := efficiency * delta_call", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_edelta"', source_text)
+            self.assertIn('"method": "public float edelta(){"', source_text)
+            self.assertIn('"delta_call": delta_call', source_text)
+            self.assertIn('"efficiency": efficiency', source_text)
+            self.assertIn('"source_delta": source_delta', source_text)
+            self.assertIn('"time_scale": time_scale', source_text)
+            self.assertIn('"edelta": edelta', source_text)
+
 if __name__ == "__main__":
     unittest.main()
