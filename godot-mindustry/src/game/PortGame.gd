@@ -3582,6 +3582,17 @@ func generated_building_comp_get_progress_increase_bridge_state(base_time: float
 		"result": result,
 	}
 
+func generated_building_comp_get_display_efficiency_bridge_state(edelta_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_getDisplayEfficiency_121([edelta_value])
+	return {
+		"source_owner": "PortGame.source_building_display_efficiency",
+		"generated_owner": "BuildingComp.java_method_getDisplayEfficiency_121",
+		"edelta_value": edelta_value,
+		"result": result,
+	}
+
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public boolean shouldAmbientSound(){",

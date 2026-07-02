@@ -379,7 +379,8 @@ func java_method_getProgressIncrease_120(_args: Array = []) -> Variant:
 	return 1.0 / base_time * edelta_value
 
 func java_method_getDisplayEfficiency_121(_args: Array = []) -> Variant:
-	return null
+	var edelta_value := float(_args[0] if _args.size() > 0 else 1.0)
+	return (1.0 / 1.0 * edelta_value) / edelta_value
 
 func java_method_shouldAmbientSound_122(_args: Array = []) -> Variant:
 	return null

@@ -98,6 +98,10 @@ public class BuildingComp{
     public float getProgressIncrease(float baseTime){
         return 1f / baseTime * edelta();
     }
+
+    public float getDisplayEfficiency(){
+        return getProgressIncrease(1f) / edelta();
+    }
 }
 """,
                 encoding="utf-8",
@@ -112,6 +116,9 @@ public class BuildingComp{
             self.assertIn("var base_time := float(_args[0] if _args.size() > 0 else 1.0)", source_text)
             self.assertIn("var edelta_value := float(_args[1] if _args.size() > 1 else 1.0)", source_text)
             self.assertIn("return 1.0 / base_time * edelta_value", source_text)
+            self.assertIn("func java_method_getDisplayEfficiency_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var edelta_value := float(_args[0] if _args.size() > 0 else 1.0)", source_text)
+            self.assertIn("return (1.0 / 1.0 * edelta_value) / edelta_value", source_text)
 
 if __name__ == "__main__":
     unittest.main()
