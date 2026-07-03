@@ -22819,6 +22819,48 @@
         "test_port_game_exposes_generated_building_comp_sense_camera_default_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1086": {
+      "deferred_exprs": [
+        "Concrete block object, item module, config object, and payload object internals stay owned by their runtime integration slices; this generated bridge records only BuildingComp.senseObject branch selection through existing N636 canonical owner."
+      ],
+      "exact_exprs": [
+        "public Object senseObject(LAccess sensor){",
+        "case type -> block;",
+        "case firstItem -> items == null ? null : items.first();",
+        "case config -> block.configSenseable() ? config() : null;",
+        "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
+        "default -> noSensed;"
+      ],
+      "godot_owner": "PortGame.source_building_sense_object_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "senseObject(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_senseObject_207 and PortGame generated bridge to existing N636 canonical source_building_sense_object_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_object_bridge_state",
+      "source_symbols": [
+        "building_sense_object.method",
+        "building_sense_object.type_case",
+        "building_sense_object.first_item_case",
+        "building_sense_object.config_case",
+        "building_sense_object.payload_type_case",
+        "building_sense_object.default_case",
+        "building_sense_object.sensor",
+        "building_sense_object.block_value",
+        "building_sense_object.has_items_module",
+        "building_sense_object.first_item_value",
+        "building_sense_object.config_senseable",
+        "building_sense_object.config_value",
+        "building_sense_object.single_payload_kind",
+        "building_sense_object.single_payload_content"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_object_to_source_state",
+        "test_generated_building_comp_bridges_sense_object_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_object_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

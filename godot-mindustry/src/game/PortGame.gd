@@ -4900,6 +4900,18 @@ func generated_building_comp_sense_camera_default_bridge_state(world_x: float, w
 		"canonical": canonical,
 	}
 
+func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_senseObject_207([sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content])
+	var canonical = source_building_sense_object_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)
+	return {
+		"source_owner": "PortGame.source_building_sense_object_state",
+		"generated_owner": "BuildingComp.java_method_senseObject_207",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

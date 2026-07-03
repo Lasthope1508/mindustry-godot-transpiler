@@ -4050,6 +4050,57 @@ class BuildingComp{
             self.assertIn('"invalid_sensor": null', source_text)
             self.assertIn('"sense_camera_default": sense_camera_default', source_text)
 
+    def test_emit_bridges_building_comp_sense_object_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public Object senseObject(LAccess sensor){
+        return switch(sensor){
+            case type -> block;
+            case firstItem -> items == null ? null : items.first();
+            case config -> block.configSenseable() ? config() : null;
+            case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;
+            default -> noSensed;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_senseObject_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var sensor := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var block_value: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var has_items_module := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var first_item_value: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("var config_senseable := bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var config_value: Variant = _args[5] if _args.size() > 5 else null", source_text)
+            self.assertIn('var single_payload_kind := str(_args[6] if _args.size() > 6 else "")', source_text)
+            self.assertIn("var single_payload_content: Variant = _args[7] if _args.size() > 7 else null", source_text)
+            self.assertIn('"object_source_owner": "PortGame.source_building_sense_object_state"', source_text)
+            self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source_text)
+            self.assertIn('"type_case": "case type -> block;"', source_text)
+            self.assertIn('"first_item_case": "case firstItem -> items == null ? null : items.first();"', source_text)
+            self.assertIn('"config_case": "case config -> block.configSenseable() ? config() : null;"', source_text)
+            self.assertIn('"payload_type_case": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;"', source_text)
+            self.assertIn('"default_case": "default -> noSensed;"', source_text)
+            self.assertIn('"no_sensed": no_sensed', source_text)
+            self.assertIn('"value": value', source_text)
+            self.assertIn('"sense_object": sense_object', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

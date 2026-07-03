@@ -1181,6 +1181,37 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "senseObject"
+    ):
+        return [
+            "\tvar sensor := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar block_value: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar has_items_module := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar first_item_value: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar config_senseable := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar config_value: Variant = _args[5] if _args.size() > 5 else null",
+            "\tvar single_payload_kind := str(_args[6] if _args.size() > 6 else \"\")",
+            "\tvar single_payload_content: Variant = _args[7] if _args.size() > 7 else null",
+            "\tvar no_sensed := false",
+            "\tvar value: Variant = null",
+            "\tmatch sensor:",
+            "\t\t\"type\":",
+            "\t\t\tvalue = block_value",
+            "\t\t\"firstItem\":",
+            "\t\t\tvalue = first_item_value if has_items_module else null",
+            "\t\t\"config\":",
+            "\t\t\tvalue = config_value if config_senseable else null",
+            "\t\t\"payloadType\":",
+            "\t\t\tif single_payload_kind == \"unit\" or single_payload_kind == \"block\":",
+            "\t\t\t\tvalue = single_payload_content",
+            "\t\t_:",
+            "\t\t\tno_sensed = true",
+            "\tvar sense_object := {\"method\": \"public Object senseObject(LAccess sensor){\", \"type_case\": \"case type -> block;\", \"first_item_case\": \"case firstItem -> items == null ? null : items.first();\", \"config_case\": \"case config -> block.configSenseable() ? config() : null;\", \"payload_type_case\": \"case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;\", \"default_case\": \"default -> noSensed;\", \"sensor\": sensor, \"block_value\": block_value, \"has_items_module\": has_items_module, \"first_item_value\": first_item_value, \"config_senseable\": config_senseable, \"config_value\": config_value, \"single_payload_kind\": single_payload_kind, \"single_payload_content\": single_payload_content, \"no_sensed\": no_sensed, \"value\": value}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_sense_object_state\", \"object_source_owner\": \"PortGame.source_building_sense_object_state\", \"sense_object\": sense_object}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

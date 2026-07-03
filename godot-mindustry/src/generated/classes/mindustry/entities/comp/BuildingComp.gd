@@ -1352,7 +1352,30 @@ func java_method_sense_206(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_sense_position_state", "health_process_source_owner": "PortGame.source_building_sense_health_process_state", "totals_source_owner": "PortGame.source_building_sense_totals_state", "capacity_power_net_source_owner": "PortGame.source_building_sense_capacity_power_net_state", "enabled_controlled_source_owner": "PortGame.source_building_sense_enabled_controlled_state", "payload_size_source_owner": "PortGame.source_building_sense_payload_size_state", "camera_default_source_owner": "PortGame.source_building_sense_camera_default_state", "method": "public double sense(LAccess sensor){", "switch_case": "return switch(sensor){", "x_case": "case x -> World.conv(x);", "y_case": "case y -> World.conv(y);", "world_conv_method": "public static float conv(float coord){", "world_conv_return": "return coord / tilesize;", "world_x": world_x, "world_y": world_y, "source_tilesize": source_tilesize, "x": source_x, "y": source_y, "health_process": sense_health_process, "sense_health_process": sense_health_process, "totals": sense_totals, "sense_totals": sense_totals, "capacity_power_net": sense_capacity_power_net, "sense_capacity_power_net": sense_capacity_power_net, "enabled_controlled": sense_enabled_controlled, "sense_enabled_controlled": sense_enabled_controlled, "payload_size": sense_payload_size, "sense_payload_size": sense_payload_size, "camera_default": sense_camera_default, "sense_camera_default": sense_camera_default}
 
 func java_method_senseObject_207(_args: Array = []) -> Variant:
-	return null
+	var sensor := str(_args[0] if _args.size() > 0 else "")
+	var block_value: Variant = _args[1] if _args.size() > 1 else null
+	var has_items_module := bool(_args[2] if _args.size() > 2 else false)
+	var first_item_value: Variant = _args[3] if _args.size() > 3 else null
+	var config_senseable := bool(_args[4] if _args.size() > 4 else false)
+	var config_value: Variant = _args[5] if _args.size() > 5 else null
+	var single_payload_kind := str(_args[6] if _args.size() > 6 else "")
+	var single_payload_content: Variant = _args[7] if _args.size() > 7 else null
+	var no_sensed := false
+	var value: Variant = null
+	match sensor:
+		"type":
+			value = block_value
+		"firstItem":
+			value = first_item_value if has_items_module else null
+		"config":
+			value = config_value if config_senseable else null
+		"payloadType":
+			if single_payload_kind == "unit" or single_payload_kind == "block":
+				value = single_payload_content
+		_:
+			no_sensed = true
+	var sense_object := {"method": "public Object senseObject(LAccess sensor){", "type_case": "case type -> block;", "first_item_case": "case firstItem -> items == null ? null : items.first();", "config_case": "case config -> block.configSenseable() ? config() : null;", "payload_type_case": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;", "default_case": "default -> noSensed;", "sensor": sensor, "block_value": block_value, "has_items_module": has_items_module, "first_item_value": first_item_value, "config_senseable": config_senseable, "config_value": config_value, "single_payload_kind": single_payload_kind, "single_payload_content": single_payload_content, "no_sensed": no_sensed, "value": value}
+	return {"source_owner": "PortGame.source_building_sense_object_state", "object_source_owner": "PortGame.source_building_sense_object_state", "sense_object": sense_object}
 
 func java_method_sense_208(_args: Array = []) -> Variant:
 	return null

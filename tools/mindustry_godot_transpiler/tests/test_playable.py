@@ -5344,6 +5344,42 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_object_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_senseObject_207(_args: Array = []) -> Variant:", source)
+        self.assertIn('var sensor := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var block_value: Variant = _args[1] if _args.size() > 1 else null", source)
+        self.assertIn("var has_items_module := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var first_item_value: Variant = _args[3] if _args.size() > 3 else null", source)
+        self.assertIn("var config_senseable := bool(_args[4] if _args.size() > 4 else false)", source)
+        self.assertIn("var config_value: Variant = _args[5] if _args.size() > 5 else null", source)
+        self.assertIn('var single_payload_kind := str(_args[6] if _args.size() > 6 else "")', source)
+        self.assertIn("var single_payload_content: Variant = _args[7] if _args.size() > 7 else null", source)
+        self.assertIn('"object_source_owner": "PortGame.source_building_sense_object_state"', source)
+        self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source)
+        self.assertIn('"type_case": "case type -> block;"', source)
+        self.assertIn('"first_item_case": "case firstItem -> items == null ? null : items.first();"', source)
+        self.assertIn('"config_case": "case config -> block.configSenseable() ? config() : null;"', source)
+        self.assertIn('"payload_type_case": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;"', source)
+        self.assertIn('"default_case": "default -> noSensed;"', source)
+        self.assertIn('"no_sensed": no_sensed', source)
+        self.assertIn('"value": value', source)
+        self.assertIn('"sense_object": sense_object', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_object_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_senseObject_207([sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content])", source)
+        self.assertIn("var canonical = source_building_sense_object_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_object_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_senseObject_207"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
