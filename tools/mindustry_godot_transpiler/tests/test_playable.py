@@ -5416,6 +5416,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_control_enabled_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_control_209(_args: Array = []) -> Variant:", source)
+        self.assertIn("var current_enabled := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn('var control_type := str(_args[1] if _args.size() > 1 else "")', source)
+        self.assertIn("var p1 := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var next_enabled := current_enabled", source)
+        self.assertIn('if control_type == "enabled":', source)
+        self.assertIn("next_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR", source)
+        self.assertIn('"enabled_source_owner": "PortGame.source_building_control_enabled_state"', source)
+        self.assertIn('"method": "public void control(LAccess type, double p1, double p2, double p3, double p4){"', source)
+        self.assertIn('"guard": "if(type == LAccess.enabled){"', source)
+        self.assertIn('"assignment": "enabled = !Mathf.zero((float)p1);"', source)
+        self.assertIn('"current_enabled": current_enabled', source)
+        self.assertIn('"control_type": control_type', source)
+        self.assertIn('"p1": p1', source)
+        self.assertIn('"enabled": next_enabled', source)
+        self.assertIn('"control_enabled": control_enabled', source)
+
+    def test_port_game_exposes_generated_building_comp_control_enabled_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_control_209([current_enabled, control_type, p1])", source)
+        self.assertIn("var canonical = source_building_control_enabled_state(current_enabled, control_type, p1)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_control_enabled_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_control_209"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

@@ -26278,6 +26278,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(content instanceof Block b) return getPayloads().get(b);", building_generated_sense_content["exact_exprs"])
         self.assertIn("return Float.NaN; //invalid sense", building_generated_sense_content["exact_exprs"])
 
+        building_generated_control_enabled = source_symbols.source_slice(ledger, "N1088")
+        self.assertEqual(building_generated_control_enabled["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_control_enabled["java_method"], "control(LAccess type, double p1, double p2, double p3, double p4)")
+        self.assertEqual(building_generated_control_enabled["godot_owner"], "PortGame.source_building_control_enabled_state")
+        self.assertEqual(building_generated_control_enabled["runtime_proof"], "/root/Main.generated_building_comp_control_enabled_bridge_state")
+        self.assertIn("public void control(LAccess type, double p1, double p2, double p3, double p4){", building_generated_control_enabled["exact_exprs"])
+        self.assertIn("if(type == LAccess.enabled){", building_generated_control_enabled["exact_exprs"])
+        self.assertIn("enabled = !Mathf.zero((float)p1);", building_generated_control_enabled["exact_exprs"])
+        self.assertIn("public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits", building_generated_control_enabled["exact_exprs"])
+        self.assertIn("return Math.abs(value) <= FLOAT_ROUNDING_ERROR;", building_generated_control_enabled["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

@@ -14,6 +14,7 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [
 const JAVA_ENUM_CONSTANTS := []
 
 const SOURCE_INT64_MIN := -9223372036854775807 - 1
+const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const SOURCE_UINT16_MASK := 65535
 const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]
 const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
@@ -1400,7 +1401,14 @@ func java_method_sense_208(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_sense_content_state", "content_source_owner": "PortGame.source_building_sense_content_state", "sense_content": sense_content}
 
 func java_method_control_209(_args: Array = []) -> Variant:
-	return null
+	var current_enabled := bool(_args[0] if _args.size() > 0 else false)
+	var control_type := str(_args[1] if _args.size() > 1 else "")
+	var p1 := float(_args[2] if _args.size() > 2 else 0.0)
+	var next_enabled := current_enabled
+	if control_type == "enabled":
+		next_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR
+	var control_enabled := {"method": "public void control(LAccess type, double p1, double p2, double p3, double p4){", "guard": "if(type == LAccess.enabled){", "assignment": "enabled = !Mathf.zero((float)p1);", "mathf_float_rounding_error": "public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits", "mathf_zero_float_method": "public static boolean zero(float value){", "mathf_zero_float_return": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;", "current_enabled": current_enabled, "control_type": control_type, "p1": p1, "enabled": next_enabled}
+	return {"source_owner": "PortGame.source_building_control_enabled_state", "enabled_source_owner": "PortGame.source_building_control_enabled_state", "control_enabled": control_enabled}
 
 func java_method_control_210(_args: Array = []) -> Variant:
 	return null

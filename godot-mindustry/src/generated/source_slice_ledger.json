@@ -22904,6 +22904,40 @@
         "test_port_game_exposes_generated_building_comp_sense_content_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1088": {
+      "deferred_exprs": [
+        "Concrete BuildingComp enabled field mutation remains owned by runtime entity integration; this generated bridge records only BuildingComp numeric control enabled branch selection through existing N553 canonical owner."
+      ],
+      "exact_exprs": [
+        "public void control(LAccess type, double p1, double p2, double p3, double p4){",
+        "if(type == LAccess.enabled){",
+        "enabled = !Mathf.zero((float)p1);",
+        "public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits",
+        "public static boolean zero(float value){",
+        "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;"
+      ],
+      "godot_owner": "PortGame.source_building_control_enabled_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "control(LAccess type, double p1, double p2, double p3, double p4)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_control_209 and PortGame generated bridge to existing N553 canonical source_building_control_enabled_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_control_enabled_bridge_state",
+      "source_symbols": [
+        "building_control_enabled.method",
+        "building_control_enabled.guard",
+        "building_control_enabled.assignment",
+        "building_control_enabled.current_enabled",
+        "building_control_enabled.control_type",
+        "building_control_enabled.p1"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_control_enabled_to_source_state",
+        "test_generated_building_comp_bridges_control_enabled_to_source_state",
+        "test_port_game_exposes_generated_building_comp_control_enabled_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

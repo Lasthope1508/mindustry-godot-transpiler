@@ -1240,6 +1240,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "control"
+        and [parameter.get("type") for parameter in method.get("parameters", [])] == ["LAccess", "double", "double", "double", "double"]
+    ):
+        return [
+            "\tvar current_enabled := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar control_type := str(_args[1] if _args.size() > 1 else \"\")",
+            "\tvar p1 := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar next_enabled := current_enabled",
+            "\tif control_type == \"enabled\":",
+            "\t\tnext_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR",
+            "\tvar control_enabled := {\"method\": \"public void control(LAccess type, double p1, double p2, double p3, double p4){\", \"guard\": \"if(type == LAccess.enabled){\", \"assignment\": \"enabled = !Mathf.zero((float)p1);\", \"mathf_float_rounding_error\": \"public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits\", \"mathf_zero_float_method\": \"public static boolean zero(float value){\", \"mathf_zero_float_return\": \"return Math.abs(value) <= FLOAT_ROUNDING_ERROR;\", \"current_enabled\": current_enabled, \"control_type\": control_type, \"p1\": p1, \"enabled\": next_enabled}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_control_enabled_state\", \"enabled_source_owner\": \"PortGame.source_building_control_enabled_state\", \"control_enabled\": control_enabled}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
@@ -1354,6 +1370,7 @@ def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
     return [
         "",
         "const SOURCE_INT64_MIN := -9223372036854775807 - 1",
+        "const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001",
         "const SOURCE_UINT16_MASK := 65535",
         "const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]",
         "const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]",

@@ -6430,6 +6430,18 @@ func source_building_control_enabled_state(current_enabled: bool, control_type: 
 		next_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR
 	return {"enabled": next_enabled}
 
+func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_control_209([current_enabled, control_type, p1])
+	var canonical = source_building_control_enabled_state(current_enabled, control_type, p1)
+	return {
+		"source_owner": "PortGame.source_building_control_enabled_state",
+		"generated_owner": "BuildingComp.java_method_control_209",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_control_config_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:
 	if control_type == "config" and block_logic_configurable and not p1_is_logic_build:
 		return {"configured_called": true, "builder": null, "value": p1_value}

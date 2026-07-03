@@ -4152,6 +4152,50 @@ class BuildingComp{
             self.assertIn('"value": value', source_text)
             self.assertIn('"sense_content": sense_content', source_text)
 
+    def test_emit_bridges_building_comp_control_enabled_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void control(LAccess type, double p1, double p2, double p3, double p4){
+        if(type == LAccess.enabled){
+            enabled = !Mathf.zero((float)p1);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_control_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_enabled := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('var control_type := str(_args[1] if _args.size() > 1 else "")', source_text)
+            self.assertIn("var p1 := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var next_enabled := current_enabled", source_text)
+            self.assertIn('if control_type == "enabled":', source_text)
+            self.assertIn("next_enabled = not absf(p1) <= SOURCE_FLOAT_ROUNDING_ERROR", source_text)
+            self.assertIn('"enabled_source_owner": "PortGame.source_building_control_enabled_state"', source_text)
+            self.assertIn('"method": "public void control(LAccess type, double p1, double p2, double p3, double p4){"', source_text)
+            self.assertIn('"guard": "if(type == LAccess.enabled){"', source_text)
+            self.assertIn('"assignment": "enabled = !Mathf.zero((float)p1);"', source_text)
+            self.assertIn('"current_enabled": current_enabled', source_text)
+            self.assertIn('"control_type": control_type', source_text)
+            self.assertIn('"p1": p1', source_text)
+            self.assertIn('"enabled": next_enabled', source_text)
+            self.assertIn('"control_enabled": control_enabled', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
