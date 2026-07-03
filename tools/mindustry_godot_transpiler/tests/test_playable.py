@@ -5755,6 +5755,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_in_fog_discovery_gate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_inFogTo_214(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn("var block_size_offset := int(_args[3] if _args.size() > 3 else 0)", source)
+        self.assertIn("var tile_x := int(_args[4] if _args.size() > 4 else 0)", source)
+        self.assertIn("var tile_y := int(_args[5] if _args.size() > 5 else 0)", source)
+        self.assertIn("var is_discovered := bool(_args[6] if _args.size() > 6 else false)", source)
+        self.assertIn('var in_fog_discovery_gate := {"method": "public boolean inFogTo(Team viewer){", "grid_declaration": "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;", "undiscovered_return": "if(!isDiscovered(viewer)) return true;", "block_size_value": block_size_value, "block_size_offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y, "is_discovered": is_discovered}', source)
+        self.assertIn("if not is_discovered:", source)
+        self.assertIn('in_fog_discovery_gate.merge({"returned": true, "value": true, "grid": {"size": block_size_value, "offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y}})', source)
+        self.assertIn('in_fog_discovery_gate.merge({"returned": false, "value": null, "grid": {"size": block_size_value, "offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y}})', source)
+        self.assertIn('"in_fog_discovery_gate_source_owner": "PortGame.source_building_in_fog_discovery_gate_state"', source)
+        self.assertIn('"in_fog_discovery_gate": in_fog_discovery_gate', source)
+
+    def test_port_game_exposes_generated_building_comp_in_fog_discovery_gate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_inFogTo_214([false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered])", source)
+        self.assertIn("var canonical = source_building_in_fog_discovery_gate_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_in_fog_discovery_gate_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

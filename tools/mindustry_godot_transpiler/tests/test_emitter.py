@@ -4633,6 +4633,51 @@ class BuildingComp{
             self.assertIn('"in_fog_initial_gate_source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source_text)
             self.assertIn('"in_fog_initial_gate": in_fog_initial_gate', source_text)
 
+    def test_emit_bridges_building_comp_in_fog_discovery_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public boolean inFogTo(Team viewer){
+        if(team == viewer || !state.rules.fog) return false;
+
+        int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;
+
+        if(!isDiscovered(viewer)) return true;
+
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_inFogTo_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var block_size_offset := int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var tile_x := int(_args[4] if _args.size() > 4 else 0)", source_text)
+            self.assertIn("var tile_y := int(_args[5] if _args.size() > 5 else 0)", source_text)
+            self.assertIn("var is_discovered := bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn('var in_fog_discovery_gate := {"method": "public boolean inFogTo(Team viewer){", "grid_declaration": "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;", "undiscovered_return": "if(!isDiscovered(viewer)) return true;", "block_size_value": block_size_value, "block_size_offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y, "is_discovered": is_discovered}', source_text)
+            self.assertIn("if not is_discovered:", source_text)
+            self.assertIn('in_fog_discovery_gate.merge({"returned": true, "value": true, "grid": {"size": block_size_value, "offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y}})', source_text)
+            self.assertIn('in_fog_discovery_gate.merge({"returned": false, "value": null, "grid": {"size": block_size_value, "offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y}})', source_text)
+            self.assertIn('"in_fog_discovery_gate_source_owner": "PortGame.source_building_in_fog_discovery_gate_state"', source_text)
+            self.assertIn('"in_fog_discovery_gate": in_fog_discovery_gate', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

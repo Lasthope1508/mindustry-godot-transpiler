@@ -1404,12 +1404,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar same_team := bool(_args[0] if _args.size() > 0 else false)",
             "\tvar rules_fog := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar block_size_value := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar block_size_offset := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar tile_x := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar tile_y := int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar is_discovered := bool(_args[6] if _args.size() > 6 else false)",
             "\tvar in_fog_initial_gate := {\"method\": \"public boolean inFogTo(Team viewer){\", \"initial_return\": \"if(team == viewer || !state.rules.fog) return false;\", \"same_team\": same_team, \"rules_fog\": rules_fog}",
+            "\tvar in_fog_discovery_gate := {\"method\": \"public boolean inFogTo(Team viewer){\", \"grid_declaration\": \"int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;\", \"undiscovered_return\": \"if(!isDiscovered(viewer)) return true;\", \"block_size_value\": block_size_value, \"block_size_offset\": block_size_offset, \"tile_x\": tile_x, \"tile_y\": tile_y, \"is_discovered\": is_discovered}",
             "\tif same_team or not rules_fog:",
             "\t\tin_fog_initial_gate.merge({\"returned\": true, \"value\": false})",
             "\telse:",
             "\t\tin_fog_initial_gate.merge({\"returned\": false, \"value\": null})",
-            "\treturn {\"source_owner\": \"PortGame.source_building_in_fog_initial_gate_state\", \"in_fog_initial_gate_source_owner\": \"PortGame.source_building_in_fog_initial_gate_state\", \"in_fog_initial_gate\": in_fog_initial_gate}",
+            "\tif not is_discovered:",
+            "\t\tin_fog_discovery_gate.merge({\"returned\": true, \"value\": true, \"grid\": {\"size\": block_size_value, \"offset\": block_size_offset, \"tile_x\": tile_x, \"tile_y\": tile_y}})",
+            "\telse:",
+            "\t\tin_fog_discovery_gate.merge({\"returned\": false, \"value\": null, \"grid\": {\"size\": block_size_value, \"offset\": block_size_offset, \"tile_x\": tile_x, \"tile_y\": tile_y}})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_in_fog_initial_gate_state\", \"in_fog_initial_gate_source_owner\": \"PortGame.source_building_in_fog_initial_gate_state\", \"in_fog_initial_gate\": in_fog_initial_gate, \"in_fog_discovery_gate_source_owner\": \"PortGame.source_building_in_fog_discovery_gate_state\", \"in_fog_discovery_gate\": in_fog_discovery_gate}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

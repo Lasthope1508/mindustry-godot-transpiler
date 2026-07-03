@@ -23249,6 +23249,44 @@
         "test_port_game_exposes_generated_building_comp_in_fog_initial_gate_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1097": {
+      "deferred_exprs": [
+        "BuildingComp.inFogTo fogControl visible-tile loop remains owned by existing N594 canonical helper and a later generated bridge slice."
+      ],
+      "exact_exprs": [
+        "public boolean inFogTo(Team viewer){",
+        "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;",
+        "if(!isDiscovered(viewer)) return true;",
+        "block.size",
+        "block.sizeOffset",
+        "tile.x",
+        "tile.y",
+        "isDiscovered(viewer)"
+      ],
+      "godot_owner": "PortGame.source_building_in_fog_discovery_gate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "inFogTo(Team viewer)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_inFogTo_214 and PortGame generated bridge to existing N592 canonical source_building_in_fog_discovery_gate_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_in_fog_discovery_gate_bridge_state",
+      "source_symbols": [
+        "building_in_fog_discovery_gate.method",
+        "building_in_fog_discovery_gate.grid_declaration",
+        "building_in_fog_discovery_gate.undiscovered_return",
+        "building_in_fog_discovery_gate.block_size",
+        "building_in_fog_discovery_gate.block_size_offset",
+        "building_in_fog_discovery_gate.tile_x",
+        "building_in_fog_discovery_gate.tile_y",
+        "building_in_fog_discovery_gate.is_discovered"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_in_fog_discovery_gate_to_source_state",
+        "test_generated_building_comp_bridges_in_fog_discovery_gate_to_source_state",
+        "test_port_game_exposes_generated_building_comp_in_fog_discovery_gate_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
