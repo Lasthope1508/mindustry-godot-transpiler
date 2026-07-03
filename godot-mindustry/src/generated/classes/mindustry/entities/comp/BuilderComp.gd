@@ -14,7 +14,12 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "canBuild", "parameters
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_canBuild_0(_args: Array = []) -> Variant:
-	return null
+	var type_build_speed: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var build_speed_multiplier: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var type_build_speed_positive: bool = type_build_speed > 0
+	var build_speed_multiplier_positive: bool = build_speed_multiplier > 0
+	var can_build: bool = type_build_speed_positive and build_speed_multiplier_positive
+	return {"source_owner": "PortGame.source_builder_can_build_state", "method": "public boolean canBuild(){", "return_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;", "type_build_speed": type_build_speed, "build_speed_multiplier": build_speed_multiplier, "type_build_speed_positive": type_build_speed_positive, "build_speed_multiplier_positive": build_speed_multiplier_positive, "can_build": can_build}
 
 func java_method_update_1(_args: Array = []) -> Variant:
 	return null

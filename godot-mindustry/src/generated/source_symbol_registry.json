@@ -76423,6 +76423,97 @@
       "tests": [
         "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
       ]
+    },
+    "builder_can_build.method": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "canBuild()",
+      "java_expr": "public boolean canBuild(){",
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "godot_symbol": "source_builder_can_build_result.method",
+      "status": "source-backed",
+      "rule": "BuilderComp canBuild method boundary.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_can_build.return_expr": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "canBuild()",
+      "java_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;",
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "godot_symbol": "source_builder_can_build_result.return_expr",
+      "status": "source-backed",
+      "rule": "Exact BuilderComp canBuild return expression.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_can_build.type_build_speed": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "canBuild()",
+      "java_expr": "type.buildSpeed",
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "godot_symbol": "source_builder_can_build_input.type_build_speed",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for type.buildSpeed operand.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_can_build.build_speed_multiplier": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "canBuild()",
+      "java_expr": "buildSpeedMultiplier",
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "godot_symbol": "source_builder_can_build_input.build_speed_multiplier",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for buildSpeedMultiplier operand.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_can_build.type_build_speed_positive": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "canBuild()",
+      "java_expr": "type.buildSpeed > 0",
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "godot_symbol": "source_builder_can_build_result.type_build_speed_positive",
+      "status": "source-backed",
+      "rule": "Result records type.buildSpeed > 0 predicate.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_can_build.build_speed_multiplier_positive": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "canBuild()",
+      "java_expr": "buildSpeedMultiplier > 0",
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "godot_symbol": "source_builder_can_build_result.build_speed_multiplier_positive",
+      "status": "source-backed",
+      "rule": "Result records buildSpeedMultiplier > 0 predicate.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_can_build.can_build": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "canBuild()",
+      "java_expr": "type.buildSpeed > 0 && buildSpeedMultiplier > 0",
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "godot_symbol": "source_builder_can_build_result.can_build",
+      "status": "source-backed",
+      "rule": "Result records BuilderComp canBuild boolean expression.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

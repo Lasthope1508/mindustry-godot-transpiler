@@ -12438,5 +12438,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_add_1"', source)
         self.assertIn('"matches": result.get("runtime_exception_thrown", null) == canonical.get("runtime_exception_thrown", null) and result.get("runtime_exception_message", null) == canonical.get("runtime_exception_message", null)', source)
 
+    def test_port_game_exposes_source_builder_can_build_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_can_build_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:", source)
+        self.assertIn("var type_build_speed_positive: bool = type_build_speed > 0", source)
+        self.assertIn("var build_speed_multiplier_positive: bool = build_speed_multiplier > 0", source)
+        self.assertIn("var can_build: bool = type_build_speed_positive and build_speed_multiplier_positive", source)
+        self.assertIn('"method": "public boolean canBuild(){"', source)
+        self.assertIn('"return_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;"', source)
+        self.assertIn('"type_build_speed": type_build_speed', source)
+        self.assertIn('"build_speed_multiplier": build_speed_multiplier', source)
+        self.assertIn('"can_build": can_build', source)
+
+    def test_port_game_exposes_generated_builder_comp_can_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_canBuild_0([type_build_speed, build_speed_multiplier])", source)
+        self.assertIn("var canonical = source_builder_can_build_state(type_build_speed, build_speed_multiplier)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_can_build_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_canBuild_0"', source)
+        self.assertIn('"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

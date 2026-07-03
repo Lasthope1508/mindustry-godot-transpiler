@@ -7691,6 +7691,33 @@ func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_
 		"matches": result.get("is_added", null) == canonical.get("is_added", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_builder_can_build_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
+	var type_build_speed_positive: bool = type_build_speed > 0
+	var build_speed_multiplier_positive: bool = build_speed_multiplier > 0
+	var can_build: bool = type_build_speed_positive and build_speed_multiplier_positive
+	return {
+		"method": "public boolean canBuild(){",
+		"return_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;",
+		"type_build_speed": type_build_speed,
+		"build_speed_multiplier": build_speed_multiplier,
+		"type_build_speed_positive": type_build_speed_positive,
+		"build_speed_multiplier_positive": build_speed_multiplier_positive,
+		"can_build": can_build,
+	}
+
+func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_canBuild_0([type_build_speed, build_speed_multiplier])
+	var canonical = source_builder_can_build_state(type_build_speed, build_speed_multiplier)
+	return {
+		"source_owner": "PortGame.source_builder_can_build_state",
+		"generated_owner": "BuilderComp.java_method_canBuild_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

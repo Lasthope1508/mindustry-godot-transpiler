@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 608)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 609)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 613)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 614)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19747,6 +19747,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_unit_team_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_update_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_sync_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_update_state", audit["registeredSourceOwners"])
@@ -41483,6 +41484,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_unit_tile_result["keys"]["hit_size_call"]["java_expr"], "hitSize(tile.block.size * tilesize * 0.7f);")
         self.assertEqual(source_block_unit_tile_result["keys"]["set_call"]["java_expr"], "set(tile);")
         self.assertEqual(source_block_unit_tile_result["keys"]["hit_size"]["java_expr"], "tile.block.size * tilesize * 0.7f")
+
+    def test_generated_builder_comp_can_build_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_can_build.method")
+        self.assertEqual(method["java_expr"], "public boolean canBuild(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "canBuild()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_can_build_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_can_build_state")
+
+        type_build_speed = source_symbols.source_symbol(registry, "builder_can_build.type_build_speed")
+        self.assertEqual(type_build_speed["java_expr"], "type.buildSpeed")
+        self.assertEqual(type_build_speed["godot_symbol"], "source_builder_can_build_input.type_build_speed")
+        build_speed_multiplier = source_symbols.source_symbol(registry, "builder_can_build.build_speed_multiplier")
+        self.assertEqual(build_speed_multiplier["java_expr"], "buildSpeedMultiplier")
+        self.assertEqual(build_speed_multiplier["godot_symbol"], "source_builder_can_build_input.build_speed_multiplier")
+        can_build = source_symbols.source_symbol(registry, "builder_can_build.can_build")
+        self.assertEqual(can_build["java_expr"], "type.buildSpeed > 0 && buildSpeedMultiplier > 0")
+        self.assertEqual(can_build["godot_symbol"], "source_builder_can_build_result.can_build")
+
+        can_build_slice = source_symbols.source_slice(ledger, "N1140")
+        self.assertEqual(can_build_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(can_build_slice["java_method"], "canBuild()")
+        self.assertEqual(can_build_slice["godot_owner"], "PortGame.source_builder_can_build_state")
+        self.assertEqual(can_build_slice["runtime_proof"], "/root/Main.generated_builder_comp_can_build_bridge_state")
+        self.assertIn("public boolean canBuild(){", can_build_slice["exact_exprs"])
+        self.assertIn("return type.buildSpeed > 0 && buildSpeedMultiplier > 0;", can_build_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_can_build_state")
+        self.assertEqual(contract["params"], [
+            {"name": "type_build_speed", "schema": "source_builder_can_build_input.type_build_speed", "type": "float"},
+            {"name": "build_speed_multiplier", "schema": "source_builder_can_build_input.build_speed_multiplier", "type": "float"},
+        ])
+        for key in ["method", "return_expr", "type_build_speed", "build_speed_multiplier", "type_build_speed_positive", "build_speed_multiplier_positive", "can_build"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_can_build_input = source_symbols.state_schema(schema, "source_builder_can_build_input")
+        self.assertEqual(source_builder_can_build_input["keys"]["type_build_speed"]["java_expr"], "type.buildSpeed")
+        self.assertEqual(source_builder_can_build_input["keys"]["build_speed_multiplier"]["java_expr"], "buildSpeedMultiplier")
+        source_builder_can_build_result = source_symbols.state_schema(schema, "source_builder_can_build_result")
+        self.assertEqual(source_builder_can_build_result["keys"]["method"]["java_expr"], "public boolean canBuild(){")
+        self.assertEqual(source_builder_can_build_result["keys"]["return_expr"]["java_expr"], "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;")
+        self.assertEqual(source_builder_can_build_result["keys"]["type_build_speed_positive"]["java_expr"], "type.buildSpeed > 0")
+        self.assertEqual(source_builder_can_build_result["keys"]["build_speed_multiplier_positive"]["java_expr"], "buildSpeedMultiplier > 0")
+        self.assertEqual(source_builder_can_build_result["keys"]["can_build"]["java_expr"], "type.buildSpeed > 0 && buildSpeedMultiplier > 0")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

@@ -1214,6 +1214,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_block_unit_tile_state\", \"method\": \"public void tile(Building tile){\", \"tile_assignment_expr\": \"this.tile = tile;\", \"comment\": \"//sets up block stats\", \"max_health_call\": max_health_call, \"health_call\": health_call, \"hit_size_call\": hit_size_call, \"set_call\": set_call, \"tile\": tile, \"tile_block_health\": tile_block_health, \"tile_health\": tile_health, \"tile_block_size\": tile_block_size, \"tilesize\": tilesize, \"this_tile_after\": this_tile_after, \"hit_size\": hit_size}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "canBuild"
+    ):
+        return [
+            "\tvar type_build_speed: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar build_speed_multiplier: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar type_build_speed_positive: bool = type_build_speed > 0",
+            "\tvar build_speed_multiplier_positive: bool = build_speed_multiplier > 0",
+            "\tvar can_build: bool = type_build_speed_positive and build_speed_multiplier_positive",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_can_build_state\", \"method\": \"public boolean canBuild(){\", \"return_expr\": \"return type.buildSpeed > 0 && buildSpeedMultiplier > 0;\", \"type_build_speed\": type_build_speed, \"build_speed_multiplier\": build_speed_multiplier, \"type_build_speed_positive\": type_build_speed_positive, \"build_speed_multiplier_positive\": build_speed_multiplier_positive, \"can_build\": can_build}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "add"

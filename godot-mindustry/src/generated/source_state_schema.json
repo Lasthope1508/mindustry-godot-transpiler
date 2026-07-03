@@ -89754,6 +89754,124 @@
           ]
         }
       }
+    },
+    "source_builder_can_build_input": {
+      "status": "active",
+      "keys": {
+        "type_build_speed": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "type.buildSpeed",
+          "godot_symbol": "source_builder_can_build_input.type_build_speed",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves type.buildSpeed operand.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        },
+        "build_speed_multiplier": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "buildSpeedMultiplier",
+          "godot_symbol": "source_builder_can_build_input.build_speed_multiplier",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves buildSpeedMultiplier operand.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        }
+      }
+    },
+    "source_builder_can_build_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "public boolean canBuild(){",
+          "godot_symbol": "source_builder_can_build_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BuilderComp.canBuild method boundary.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        },
+        "return_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;",
+          "godot_symbol": "source_builder_can_build_result.return_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact canBuild return expression.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        },
+        "type_build_speed": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "type.buildSpeed",
+          "godot_symbol": "source_builder_can_build_input.type_build_speed",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result preserves type.buildSpeed input.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        },
+        "build_speed_multiplier": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "buildSpeedMultiplier",
+          "godot_symbol": "source_builder_can_build_input.build_speed_multiplier",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result preserves buildSpeedMultiplier input.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        },
+        "type_build_speed_positive": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "type.buildSpeed > 0",
+          "godot_symbol": "source_builder_can_build_result.type_build_speed_positive",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records type.buildSpeed positive predicate.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        },
+        "build_speed_multiplier_positive": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "buildSpeedMultiplier > 0",
+          "godot_symbol": "source_builder_can_build_result.build_speed_multiplier_positive",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records buildSpeedMultiplier positive predicate.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        },
+        "can_build": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "canBuild()",
+          "java_expr": "type.buildSpeed > 0 && buildSpeedMultiplier > 0",
+          "godot_symbol": "source_builder_can_build_result.can_build",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records full canBuild return value.",
+          "used_by": [
+            "PortGame.source_builder_can_build_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

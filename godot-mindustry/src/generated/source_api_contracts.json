@@ -24565,6 +24565,39 @@
         "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_tile_state"
       ]
+    },
+    "PortGame.source_builder_can_build_state": {
+      "source_slice": "N1140",
+      "source_method": "canBuild()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "type_build_speed",
+          "type": "float",
+          "schema": "source_builder_can_build_input.type_build_speed"
+        },
+        {
+          "name": "build_speed_multiplier",
+          "type": "float",
+          "schema": "source_builder_can_build_input.build_speed_multiplier"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "type_build_speed",
+        "build_speed_multiplier",
+        "type_build_speed_positive",
+        "build_speed_multiplier_positive",
+        "can_build"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.canBuild() source return predicate.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_can_build_state"
+      ]
     }
   },
   "policy": {
