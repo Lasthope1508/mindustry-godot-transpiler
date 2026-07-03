@@ -3450,6 +3450,31 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1120": {
+      "exact_exprs": [
+        "void writeSync(Writes write){}"
+      ],
+      "godot_owner": "PortGame.source_sync_write_sync_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "writeSync(Writes write)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.writeSync(Writes write) empty internally generated body and wires generated SyncComp.java_method_writeSync_3 plus PortGame generated bridge to canonical source_sync_write_sync_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_write_sync_bridge_state",
+      "source_symbols": [
+        "sync_write_sync.method",
+        "sync_write_sync.empty_body",
+        "sync_write_sync.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_write_sync_to_source_state",
+        "test_generated_sync_comp_bridges_write_sync_to_source_state",
+        "test_port_game_exposes_source_sync_write_sync_state",
+        "test_port_game_exposes_generated_sync_comp_write_sync_bridge_state",
+        "test_generated_sync_comp_write_sync_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
