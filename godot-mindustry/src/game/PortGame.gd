@@ -6741,6 +6741,18 @@ func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value
 		"canonical": canonical,
 	}
 
+func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_killed_215([tile_value, tile_not_empty_tile])
+	var canonical = source_building_killed_removal_side_effects_state(tile_not_empty_tile)
+	return {
+		"source_owner": "PortGame.source_building_killed_removal_side_effects_state",
+		"generated_owner": "BuildingComp.java_method_killed_215",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:
 	return {
 		"method": "public void killed(){",

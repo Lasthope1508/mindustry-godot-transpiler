@@ -4765,9 +4765,13 @@ class BuildingComp{
             self.assertIn("func java_method_killed_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var tile_value: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn('var killed_initial_side_effects := {"method": "public void killed(){", "tile_value": tile_value, "dead": true, "event": {"type": "BlockDestroyEvent", "tile": tile_value}, "on_destroyed_called": true, "next_step": "tile_remove_gate"}', source_text)
+            self.assertIn("var tile_not_empty_tile := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('var killed_removal_side_effects := {"method": "public void killed(){", "tile_not_empty_tile": tile_not_empty_tile, "tile_remove_gate": tile_not_empty_tile, "tile_remove_called": tile_not_empty_tile, "remove_called": true, "after_destroyed_called": true}', source_text)
             self.assertIn('"source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source_text)
             self.assertIn('"killed_initial_side_effects_source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source_text)
             self.assertIn('"killed_initial_side_effects": killed_initial_side_effects', source_text)
+            self.assertIn('"killed_removal_side_effects_source_owner": "PortGame.source_building_killed_removal_side_effects_state"', source_text)
+            self.assertIn('"killed_removal_side_effects": killed_removal_side_effects', source_text)
 
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:

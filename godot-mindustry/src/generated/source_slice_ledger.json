@@ -23361,6 +23361,40 @@
         "test_port_game_exposes_generated_building_comp_killed_initial_side_effects_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1100": {
+      "deferred_exprs": [
+        "Concrete tile/world mutation, entity-group removal, and afterDestroyed hook implementation remain owned by world/entity runtime integration slices."
+      ],
+      "exact_exprs": [
+        "public void killed(){",
+        "if(tile != emptyTile){",
+        "tile.remove();",
+        "remove();",
+        "afterDestroyed();",
+        "tile != emptyTile"
+      ],
+      "godot_owner": "PortGame.source_building_killed_removal_side_effects_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "killed()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_killed_215 and PortGame generated bridge to existing N602 canonical source_building_killed_removal_side_effects_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_killed_removal_side_effects_bridge_state",
+      "source_symbols": [
+        "building_killed_removal_side_effects.method",
+        "building_killed_removal_side_effects.tile_remove_gate",
+        "building_killed_removal_side_effects.tile_remove_call",
+        "building_killed_removal_side_effects.remove_call",
+        "building_killed_removal_side_effects.after_destroyed_call",
+        "building_killed_removal_side_effects.tile_not_empty_tile"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_killed_initial_side_effects_to_source_state",
+        "test_generated_building_comp_bridges_killed_initial_side_effects_to_source_state",
+        "test_port_game_exposes_generated_building_comp_killed_removal_side_effects_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

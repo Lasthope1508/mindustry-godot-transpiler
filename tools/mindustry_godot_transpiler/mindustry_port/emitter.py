@@ -1449,7 +1449,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar killed_initial_side_effects := {\"method\": \"public void killed(){\", \"tile_value\": tile_value, \"dead\": true, \"event\": {\"type\": \"BlockDestroyEvent\", \"tile\": tile_value}, \"on_destroyed_called\": true, \"next_step\": \"tile_remove_gate\"}",
-            "\treturn {\"source_owner\": \"PortGame.source_building_killed_initial_side_effects_state\", \"killed_initial_side_effects_source_owner\": \"PortGame.source_building_killed_initial_side_effects_state\", \"killed_initial_side_effects\": killed_initial_side_effects}",
+            "\tvar tile_not_empty_tile := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar killed_removal_side_effects := {\"method\": \"public void killed(){\", \"tile_not_empty_tile\": tile_not_empty_tile, \"tile_remove_gate\": tile_not_empty_tile, \"tile_remove_called\": tile_not_empty_tile, \"remove_called\": true, \"after_destroyed_called\": true}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_killed_initial_side_effects_state\", \"killed_initial_side_effects_source_owner\": \"PortGame.source_building_killed_initial_side_effects_state\", \"killed_initial_side_effects\": killed_initial_side_effects, \"killed_removal_side_effects_source_owner\": \"PortGame.source_building_killed_removal_side_effects_state\", \"killed_removal_side_effects\": killed_removal_side_effects}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

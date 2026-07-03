@@ -26421,6 +26421,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(tile != emptyTile){", building_generated_killed_initial["exact_exprs"])
         self.assertIn("tile", building_generated_killed_initial["exact_exprs"])
 
+        building_generated_killed_removal = source_symbols.source_slice(ledger, "N1100")
+        self.assertEqual(building_generated_killed_removal["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_killed_removal["java_method"], "killed()")
+        self.assertEqual(building_generated_killed_removal["godot_owner"], "PortGame.source_building_killed_removal_side_effects_state")
+        self.assertEqual(building_generated_killed_removal["runtime_proof"], "/root/Main.generated_building_comp_killed_removal_side_effects_bridge_state")
+        self.assertIn("public void killed(){", building_generated_killed_removal["exact_exprs"])
+        self.assertIn("if(tile != emptyTile){", building_generated_killed_removal["exact_exprs"])
+        self.assertIn("tile.remove();", building_generated_killed_removal["exact_exprs"])
+        self.assertIn("remove();", building_generated_killed_removal["exact_exprs"])
+        self.assertIn("afterDestroyed();", building_generated_killed_removal["exact_exprs"])
+        self.assertIn("tile != emptyTile", building_generated_killed_removal["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
