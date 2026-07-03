@@ -44897,6 +44897,45 @@
         "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
       ]
     },
+    "shielder_absorb.empty_body": {
+      "godot_owner": "PortGame.source_shielder_absorb_state",
+      "godot_symbol": "source_shielder_absorb_result.empty_body",
+      "java_expr": "void absorb(){\n\n    }",
+      "java_method": "absorb()",
+      "java_source": "core/src/mindustry/entities/comp/ShielderComp.java",
+      "rule": "ShielderComp absorb body is empty.",
+      "runtime_proof": "/root/Main.source_shielder_absorb_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_shielder_comp_absorb_slice_is_registered_with_source_backing"
+      ]
+    },
+    "shielder_absorb.method": {
+      "godot_owner": "PortGame.source_shielder_absorb_state",
+      "godot_symbol": "source_shielder_absorb_result.method",
+      "java_expr": "void absorb(){",
+      "java_method": "absorb()",
+      "java_source": "core/src/mindustry/entities/comp/ShielderComp.java",
+      "rule": "ShielderComp absorb method boundary.",
+      "runtime_proof": "/root/Main.source_shielder_absorb_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_shielder_comp_absorb_slice_is_registered_with_source_backing"
+      ]
+    },
+    "shielder_absorb.no_op": {
+      "godot_owner": "PortGame.source_shielder_absorb_state",
+      "godot_symbol": "source_shielder_absorb_result.no_op",
+      "java_expr": "void absorb(){\n\n    }",
+      "java_method": "absorb()",
+      "java_source": "core/src/mindustry/entities/comp/ShielderComp.java",
+      "rule": "Empty ShielderComp absorb body has no side effects.",
+      "runtime_proof": "/root/Main.source_shielder_absorb_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_shielder_comp_absorb_slice_is_registered_with_source_backing"
+      ]
+    },
     "shoot_alternate.barrel_incrementer": {
       "godot_owner": "PortGame.source_turret_shoot_pattern",
       "godot_symbol": "source_turret_shoot_pattern_result.barrelIncrementer",

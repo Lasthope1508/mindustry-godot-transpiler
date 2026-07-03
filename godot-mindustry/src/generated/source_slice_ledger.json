@@ -3349,6 +3349,32 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1116": {
+      "exact_exprs": [
+        "void absorb(){",
+        "void absorb(){\n\n    }"
+      ],
+      "godot_owner": "PortGame.source_shielder_absorb_state",
+      "java_class": "mindustry.entities.comp.ShielderComp",
+      "java_method": "absorb()",
+      "java_source": "core/src/mindustry/entities/comp/ShielderComp.java",
+      "rule": "Registers ShielderComp.absorb() empty body no-op and wires generated ShielderComp.java_method_absorb_0 plus PortGame generated bridge to canonical source_shielder_absorb_state.",
+      "runtime_proof": "/root/Main.generated_shielder_comp_absorb_bridge_state",
+      "source_symbols": [
+        "shielder_absorb.method",
+        "shielder_absorb.empty_body",
+        "shielder_absorb.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_shielder_comp_absorb_to_source_state",
+        "test_generated_shielder_comp_bridges_absorb_to_source_state",
+        "test_port_game_exposes_source_shielder_absorb_state",
+        "test_port_game_exposes_generated_shielder_comp_absorb_bridge_state",
+        "test_generated_shielder_comp_absorb_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

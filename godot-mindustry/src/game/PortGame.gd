@@ -7127,6 +7127,26 @@ func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dict
 		"matches": result.get("x", null) == canonical.get("x", null) and result.get("y", null) == canonical.get("y", null),
 	}
 
+func source_shielder_absorb_state() -> Dictionary:
+	return {
+		"method": "void absorb(){",
+		"empty_body": "void absorb(){\n\n    }",
+		"no_op": true,
+	}
+
+func generated_shielder_comp_absorb_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_absorb_0([])
+	var canonical = source_shielder_absorb_state()
+	return {
+		"source_owner": "PortGame.source_shielder_absorb_state",
+		"generated_owner": "ShielderComp.java_method_absorb_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

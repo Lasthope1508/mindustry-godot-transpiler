@@ -1206,6 +1206,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_pos_set_state\", \"method\": \"void set(float x, float y){\", \"x_assign_expr\": \"this.x = x;\", \"y_assign_expr\": \"this.y = y;\", \"x\": x_value, \"y\": y_value}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/ShielderComp.java"
+        and type_entry.get("name") == "ShielderComp"
+        and method.get("name") == "absorb"
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_shielder_absorb_state\", \"method\": \"void absorb(){\", \"empty_body\": \"void absorb(){\\n\\n    }\", \"no_op\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"

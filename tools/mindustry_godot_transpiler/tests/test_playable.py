@@ -11668,5 +11668,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "PosComp.java_method_set_0"', source)
         self.assertIn('"matches": result.get("x", null) == canonical.get("x", null) and result.get("y", null) == canonical.get("y", null)', source)
 
+    def test_generated_shielder_comp_bridges_absorb_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "ShielderComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_absorb_0(_args: Array = []) -> Variant:", source)
+        self.assertIn('"source_owner": "PortGame.source_shielder_absorb_state"', source)
+        self.assertIn('"method": "void absorb(){"', source)
+        self.assertIn('"empty_body": "void absorb(){\\n\\n    }"', source)
+        self.assertIn('"no_op": true', source)
+
+    def test_port_game_exposes_source_shielder_absorb_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_shielder_absorb_state() -> Dictionary:", source)
+        self.assertIn('"method": "void absorb(){"', source)
+        self.assertIn('"empty_body": "void absorb(){\\n\\n    }"', source)
+        self.assertIn('"no_op": true', source)
+
+    def test_port_game_exposes_generated_shielder_comp_absorb_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_shielder_comp_absorb_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_absorb_0([])", source)
+        self.assertIn("var canonical = source_shielder_absorb_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_shielder_absorb_state"', source)
+        self.assertIn('"generated_owner": "ShielderComp.java_method_absorb_0"', source)
+        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

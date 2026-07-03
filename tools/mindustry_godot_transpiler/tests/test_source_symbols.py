@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 584)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 585)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 589)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 590)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40345,6 +40345,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_pos_set_result["keys"]["method"]["java_expr"], "void set(float x, float y){")
         self.assertEqual(source_pos_set_result["keys"]["x"]["java_expr"], "this.x = x;")
         self.assertEqual(source_pos_set_result["keys"]["y"]["java_expr"], "this.y = y;")
+
+    def test_generated_shielder_comp_absorb_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "shielder_absorb.method")
+        self.assertEqual(method["java_expr"], "void absorb(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/ShielderComp.java")
+        self.assertEqual(method["java_method"], "absorb()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_shielder_absorb_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_shielder_absorb_state")
+
+        empty_body = source_symbols.source_symbol(registry, "shielder_absorb.empty_body")
+        self.assertEqual(empty_body["java_expr"], "void absorb(){\n\n    }")
+        self.assertEqual(empty_body["godot_symbol"], "source_shielder_absorb_result.empty_body")
+        no_op = source_symbols.source_symbol(registry, "shielder_absorb.no_op")
+        self.assertEqual(no_op["java_expr"], "void absorb(){\n\n    }")
+        self.assertEqual(no_op["godot_symbol"], "source_shielder_absorb_result.no_op")
+
+        shielder_absorb = source_symbols.source_slice(ledger, "N1116")
+        self.assertEqual(shielder_absorb["java_source"], "core/src/mindustry/entities/comp/ShielderComp.java")
+        self.assertEqual(shielder_absorb["java_method"], "absorb()")
+        self.assertEqual(shielder_absorb["godot_owner"], "PortGame.source_shielder_absorb_state")
+        self.assertEqual(shielder_absorb["runtime_proof"], "/root/Main.generated_shielder_comp_absorb_bridge_state")
+        self.assertIn("void absorb(){", shielder_absorb["exact_exprs"])
+        self.assertIn("void absorb(){\n\n    }", shielder_absorb["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_shielder_absorb_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "empty_body", "no_op"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_shielder_absorb_result = source_symbols.state_schema(schema, "source_shielder_absorb_result")
+        self.assertEqual(source_shielder_absorb_result["keys"]["method"]["java_expr"], "void absorb(){")
+        self.assertEqual(source_shielder_absorb_result["keys"]["empty_body"]["java_expr"], "void absorb(){\n\n    }")
+        self.assertEqual(source_shielder_absorb_result["keys"]["no_op"]["java_expr"], "void absorb(){\n\n    }")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

@@ -16214,6 +16214,24 @@
         "test_power_graph_use_batteries_matches_upstream_source"
       ]
     },
+    "PortGame.source_shielder_absorb_state": {
+      "java_source": "core/src/mindustry/entities/comp/ShielderComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "empty_body",
+        "no_op"
+      ],
+      "rule": "Public runtime contract for ShielderComp.absorb() empty no-op state.",
+      "runtime_proof": "/root/Main.source_shielder_absorb_state",
+      "source_method": "absorb()",
+      "source_slice": "N1116",
+      "status": "active",
+      "tests": [
+        "test_generated_shielder_comp_absorb_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_shielder_absorb_state"
+      ]
+    },
     "PortGame.source_shoot_pattern_default_events": {
       "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
       "params": [
