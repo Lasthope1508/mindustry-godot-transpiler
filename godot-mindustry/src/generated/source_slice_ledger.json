@@ -23461,6 +23461,48 @@
         "test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1103": {
+      "deferred_exprs": [
+        "Concrete control.sound.loop audio source internals, updateConsumption(), and updateTile() remain owned by adjacent runtime/source integration slices."
+      ],
+      "exact_exprs": [
+        "public void update(){",
+        "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){",
+        "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+        "block.ambientSoundVolume * ambientVolume()",
+        "headless",
+        "block.ambientSound",
+        "Sounds.none",
+        "shouldAmbientSound()",
+        "block.ambientSoundVolume",
+        "ambientVolume()"
+      ],
+      "godot_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_update_217 and PortGame generated bridge to existing N657 canonical source_building_update_ambient_sound_gate_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_ambient_sound_gate_bridge_state",
+      "source_symbols": [
+        "building_update_ambient_sound_gate.method",
+        "building_update_ambient_sound_gate.gate",
+        "building_update_ambient_sound_gate.loop_call",
+        "building_update_ambient_sound_gate.volume_expr",
+        "building_update_ambient_sound_gate.headless",
+        "building_update_ambient_sound_gate.ambient_sound",
+        "building_update_ambient_sound_gate.sounds_none",
+        "building_update_ambient_sound_gate.should_ambient_sound",
+        "building_update_ambient_sound_gate.block_ambient_sound_volume",
+        "building_update_ambient_sound_gate.ambient_volume"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_ambient_sound_gate_to_source_state",
+        "test_generated_building_comp_bridges_update_ambient_sound_gate_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_ambient_sound_gate_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

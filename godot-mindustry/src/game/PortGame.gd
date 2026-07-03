@@ -6813,6 +6813,18 @@ func source_building_update_timescale_decay_state(current_time_scale: float, cur
 		return {"time_scale": 1.0, "time_scale_duration": next_duration}
 	return {"time_scale": current_time_scale, "time_scale_duration": next_duration}
 
+func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_217([1.0, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value])
+	var canonical = source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
+	return {
+		"source_owner": "PortGame.source_building_update_ambient_sound_gate_state",
+		"generated_owner": "BuildingComp.java_method_update_217",
+		"result": result,
+		"canonical": canonical,
+	}
+
 const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_METHOD := "public void update(){"
 const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_GATE := "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){"
 const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_LOOP := "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());"

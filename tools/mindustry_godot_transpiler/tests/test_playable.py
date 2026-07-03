@@ -5909,6 +5909,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_update_ambient_sound_gate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_update_217(_args: Array = []) -> Variant:", source)
+        self.assertIn("var headless_mode := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var ambient_sound_value: Variant = _args[4] if _args.size() > 4 else null", source)
+        self.assertIn("var sounds_none_value: Variant = _args[5] if _args.size() > 5 else null", source)
+        self.assertIn("var should_ambient_sound_result := bool(_args[6] if _args.size() > 6 else false)", source)
+        self.assertIn("var block_ambient_sound_volume := float(_args[7] if _args.size() > 7 else 0.0)", source)
+        self.assertIn("var ambient_volume_value := float(_args[8] if _args.size() > 8 else 0.0)", source)
+        self.assertIn("var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result", source)
+        self.assertIn('"gate": "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){"', source)
+        self.assertIn('"loop_call": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());"', source)
+        self.assertIn('"volume_expr": "block.ambientSoundVolume * ambientVolume()"', source)
+        self.assertIn('"update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state"', source)
+        self.assertIn('"update_ambient_sound_gate": update_ambient_sound_gate', source)
+
+    def test_port_game_exposes_generated_building_comp_update_ambient_sound_gate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_update_217([1.0, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value])", source)
+        self.assertIn("var canonical = source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_ambient_sound_gate_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

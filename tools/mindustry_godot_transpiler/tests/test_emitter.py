@@ -4851,6 +4851,48 @@ class BuildingComp{
             self.assertIn('"update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state"', source_text)
             self.assertIn('"update_timescale_decay": update_timescale_decay', source_text)
 
+    def test_emit_bridges_building_comp_update_ambient_sound_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void update(){
+        if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){
+            control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var headless_mode := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var ambient_sound_value: Variant = _args[4] if _args.size() > 4 else null", source_text)
+            self.assertIn("var sounds_none_value: Variant = _args[5] if _args.size() > 5 else null", source_text)
+            self.assertIn("var should_ambient_sound_result := bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn("var block_ambient_sound_volume := float(_args[7] if _args.size() > 7 else 0.0)", source_text)
+            self.assertIn("var ambient_volume_value := float(_args[8] if _args.size() > 8 else 0.0)", source_text)
+            self.assertIn("var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result", source_text)
+            self.assertIn('update_ambient_sound_gate.merge({"loop_called": false, "sound": ambient_sound_value, "volume": 0.0})', source_text)
+            self.assertIn('update_ambient_sound_gate.merge({"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value})', source_text)
+            self.assertIn('"gate": "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){"', source_text)
+            self.assertIn('"loop_call": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());"', source_text)
+            self.assertIn('"volume_expr": "block.ambientSoundVolume * ambientVolume()"', source_text)
+            self.assertIn('"update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state"', source_text)
+            self.assertIn('"update_ambient_sound_gate": update_ambient_sound_gate', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

@@ -1596,7 +1596,19 @@ func java_method_update_217(_args: Array = []) -> Variant:
 		update_timescale_decay.merge({"time_scale": 1.0, "time_scale_duration": next_duration})
 	else:
 		update_timescale_decay.merge({"time_scale": current_time_scale, "time_scale_duration": next_duration})
-	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay}
+	var headless_mode := bool(_args[3] if _args.size() > 3 else false)
+	var ambient_sound_value: Variant = _args[4] if _args.size() > 4 else null
+	var sounds_none_value: Variant = _args[5] if _args.size() > 5 else null
+	var should_ambient_sound_result := bool(_args[6] if _args.size() > 6 else false)
+	var block_ambient_sound_volume := float(_args[7] if _args.size() > 7 else 0.0)
+	var ambient_volume_value := float(_args[8] if _args.size() > 8 else 0.0)
+	var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result
+	var update_ambient_sound_gate := {"method": "public void update(){", "gate": "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){", "loop_call": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());", "volume_expr": "block.ambientSoundVolume * ambientVolume()", "headless_mode": headless_mode, "ambient_sound_value": ambient_sound_value, "sounds_none_value": sounds_none_value, "should_ambient_sound_result": should_ambient_sound_result, "block_ambient_sound_volume": block_ambient_sound_volume, "ambient_volume_value": ambient_volume_value}
+	if not should_loop:
+		update_ambient_sound_gate.merge({"loop_called": false, "sound": ambient_sound_value, "volume": 0.0})
+	else:
+		update_ambient_sound_gate.merge({"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value})
+	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay, "update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state", "update_ambient_sound_gate": update_ambient_sound_gate}
 
 func java_method_updateFogVisibility_218(_args: Array = []) -> Variant:
 	return null
