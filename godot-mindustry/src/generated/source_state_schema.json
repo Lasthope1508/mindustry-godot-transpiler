@@ -91152,6 +91152,268 @@
           ]
         }
       }
+    },
+    "source_builder_draw_plan_top_input": {
+      "status": "active",
+      "keys": {
+        "plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plan",
+          "godot_symbol": "source_builder_draw_plan_top_input.plan",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves drawPlanTop plan parameter.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "plans": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plans",
+          "godot_symbol": "source_builder_draw_plan_top_input.plans",
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp plans queue field.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "plan_breaking": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plan.breaking",
+          "godot_symbol": "source_builder_draw_plan_top_input.plan_breaking",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves plan.breaking guard predicate.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "alpha": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "alpha",
+          "godot_symbol": "source_builder_draw_plan_top_input.alpha",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves drawPlanTop alpha parameter.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "mathf_absin_time_global_6_0_28": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "Mathf.absin(Time.globalTime, 6f, 0.28f)",
+          "godot_symbol": "source_builder_draw_plan_top_input.mathf_absin_time_global_6_0_28",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves Mathf.absin(Time.globalTime, 6f, 0.28f) result.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        }
+      }
+    },
+    "source_builder_draw_plan_top_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "void drawPlanTop(BuildPlan plan, float alpha){",
+          "godot_symbol": "source_builder_draw_plan_top_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records method boundary.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "if(!plan.breaking){",
+          "godot_symbol": "source_builder_draw_plan_top_result.guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records non-breaking guard.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "draw_reset_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "Draw.reset();",
+          "godot_symbol": "source_builder_draw_plan_top_result.draw_reset_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records Draw.reset call.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "mixcol_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));",
+          "godot_symbol": "source_builder_draw_plan_top_result.mixcol_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records Draw.mixcol call.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "draw_alpha_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "Draw.alpha(alpha);",
+          "godot_symbol": "source_builder_draw_plan_top_result.draw_alpha_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records Draw.alpha call.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "draw_plan_config_top_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plan.block.drawPlanConfigTop(plan, plans);",
+          "godot_symbol": "source_builder_draw_plan_top_result.draw_plan_config_top_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records drawPlanConfigTop call.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plan",
+          "godot_symbol": "source_builder_draw_plan_top_result.plan",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result echoes plan input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "plans": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plans",
+          "godot_symbol": "source_builder_draw_plan_top_result.plans",
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "Result echoes plans input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "plan_breaking": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plan.breaking",
+          "godot_symbol": "source_builder_draw_plan_top_result.plan_breaking",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes plan.breaking input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "alpha": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "alpha",
+          "godot_symbol": "source_builder_draw_plan_top_result.alpha",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result echoes alpha input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "mathf_absin_time_global_6_0_28": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "Mathf.absin(Time.globalTime, 6f, 0.28f)",
+          "godot_symbol": "source_builder_draw_plan_top_result.mathf_absin_time_global_6_0_28",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result echoes Mathf.absin(Time.globalTime, 6f, 0.28f) input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "draw_top": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "!plan.breaking",
+          "godot_symbol": "source_builder_draw_plan_top_result.draw_top",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records guard outcome.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "mixcol_alpha": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f)",
+          "godot_symbol": "source_builder_draw_plan_top_result.mixcol_alpha",
+          "type": "float",
+          "status": "source-backed",
+          "rule": "Result records mix color alpha expression.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "draw_reset_called": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "Draw.reset();",
+          "godot_symbol": "source_builder_draw_plan_top_result.draw_reset_called",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records whether Draw.reset is called.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "draw_alpha_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "Draw.alpha(alpha);",
+          "godot_symbol": "source_builder_draw_plan_top_result.draw_alpha_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result records Draw.alpha call data when non-breaking.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        },
+        "draw_plan_config_top_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+          "java_expr": "plan.block.drawPlanConfigTop(plan, plans);",
+          "godot_symbol": "source_builder_draw_plan_top_result.draw_plan_config_top_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result records drawPlanConfigTop call data when non-breaking.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_top_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

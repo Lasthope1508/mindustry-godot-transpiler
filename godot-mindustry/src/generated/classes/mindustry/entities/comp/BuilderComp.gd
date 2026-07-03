@@ -42,7 +42,20 @@ func java_method_drawPlan_5(_args: Array = []) -> Variant:
 	return null
 
 func java_method_drawPlanTop_6(_args: Array = []) -> Variant:
-	return null
+	var plan: Variant = _args[0] if _args.size() > 0 else null
+	var plans: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []
+	var plan_breaking: bool = bool(_args[2] if _args.size() > 2 else false)
+	var alpha: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var mathf_absin_time_global_6_0_28: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var draw_top: bool = not plan_breaking
+	var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28
+	var draw_reset_called: bool = draw_top
+	var draw_alpha_call: Variant = null
+	var draw_plan_config_top_call: Variant = null
+	if draw_top:
+		draw_alpha_call = {"call": "Draw.alpha(alpha);", "alpha": alpha}
+		draw_plan_config_top_call = {"call": "plan.block.drawPlanConfigTop(plan, plans);", "plan": plan, "plans": plans}
+	return {"source_owner": "PortGame.source_builder_draw_plan_top_state", "method": "void drawPlanTop(BuildPlan plan, float alpha){", "guard_expr": "if(!plan.breaking){", "draw_reset_expr": "Draw.reset();", "mixcol_expr": "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));", "draw_alpha_expr": "Draw.alpha(alpha);", "draw_plan_config_top_expr": "plan.block.drawPlanConfigTop(plan, plans);", "plan": plan, "plans": plans, "plan_breaking": plan_breaking, "alpha": alpha, "mathf_absin_time_global_6_0_28": mathf_absin_time_global_6_0_28, "draw_top": draw_top, "mixcol_alpha": mixcol_alpha, "draw_reset_called": draw_reset_called, "draw_alpha_call": draw_alpha_call, "draw_plan_config_top_call": draw_plan_config_top_call}
 
 func java_method_shouldSkip_7(_args: Array = []) -> Variant:
 	var state_rules_infinite_resources: bool = bool(_args[0] if _args.size() > 0 else false)

@@ -6911,5 +6911,52 @@ class BuilderComp{
             self.assertIn('"return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));"', source_text)
             self.assertIn('"should_skip": should_skip', source_text)
 
+    def test_emit_bridges_builder_comp_draw_plan_top_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    void drawPlanTop(BuildPlan plan, float alpha){
+        if(!plan.breaking){
+            Draw.reset();
+            Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));
+            Draw.alpha(alpha);
+            plan.block.drawPlanConfigTop(plan, plans);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawPlanTop_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plan: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var plans: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var plan_breaking: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var alpha: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var mathf_absin_time_global_6_0_28: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var draw_top: bool = not plan_breaking", source_text)
+            self.assertIn("var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28", source_text)
+            self.assertIn("var draw_reset_called: bool = draw_top", source_text)
+            self.assertIn("var draw_plan_config_top_call: Variant = null", source_text)
+            self.assertIn('draw_plan_config_top_call = {"call": "plan.block.drawPlanConfigTop(plan, plans);", "plan": plan, "plans": plans}', source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_top_state"', source_text)
+            self.assertIn('"method": "void drawPlanTop(BuildPlan plan, float alpha){"', source_text)
+            self.assertIn('"guard_expr": "if(!plan.breaking){"', source_text)
+            self.assertIn('"mixcol_expr": "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));"', source_text)
+            self.assertIn('"draw_plan_config_top_expr": "plan.block.drawPlanConfigTop(plan, plans);"', source_text)
+            self.assertIn('"draw_top": draw_top', source_text)
+
 if __name__ == "__main__":
     unittest.main()

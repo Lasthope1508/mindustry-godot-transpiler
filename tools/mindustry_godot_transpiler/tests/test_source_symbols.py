@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 618)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 619)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 623)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 624)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19753,6 +19753,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_builder_build_plan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_clear_building_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_draw_plan_top_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_is_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_remove_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_should_skip_state", audit["registeredSourceOwners"])
@@ -42055,6 +42056,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_should_skip_result["keys"]["stuck_missing_requirements"]["java_expr"], "plan.stuck && !core.items.has(plan.block.requirements)")
         self.assertEqual(source_builder_should_skip_result["keys"]["guard_returns_false"]["java_expr"], "state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()")
         self.assertEqual(source_builder_should_skip_result["keys"]["should_skip"]["java_expr"], "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));")
+
+    def test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_draw_plan_top.method")
+        self.assertEqual(method["java_expr"], "void drawPlanTop(BuildPlan plan, float alpha){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "drawPlanTop(BuildPlan plan, float alpha)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_draw_plan_top_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_draw_plan_top_state")
+
+        guard = source_symbols.source_symbol(registry, "builder_draw_plan_top.guard")
+        self.assertEqual(guard["java_expr"], "if(!plan.breaking){")
+        self.assertEqual(guard["godot_symbol"], "source_builder_draw_plan_top_result.guard_expr")
+        mixcol = source_symbols.source_symbol(registry, "builder_draw_plan_top.mixcol_expr")
+        self.assertEqual(mixcol["java_expr"], "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));")
+        self.assertEqual(mixcol["godot_symbol"], "source_builder_draw_plan_top_result.mixcol_expr")
+        draw_plan_config_top = source_symbols.source_symbol(registry, "builder_draw_plan_top.draw_plan_config_top_call")
+        self.assertEqual(draw_plan_config_top["java_expr"], "plan.block.drawPlanConfigTop(plan, plans);")
+        self.assertEqual(draw_plan_config_top["godot_symbol"], "source_builder_draw_plan_top_result.draw_plan_config_top_call")
+
+        draw_plan_top_slice = source_symbols.source_slice(ledger, "N1150")
+        self.assertEqual(draw_plan_top_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(draw_plan_top_slice["java_method"], "drawPlanTop(BuildPlan plan, float alpha)")
+        self.assertEqual(draw_plan_top_slice["godot_owner"], "PortGame.source_builder_draw_plan_top_state")
+        self.assertEqual(draw_plan_top_slice["runtime_proof"], "/root/Main.generated_builder_comp_draw_plan_top_bridge_state")
+        self.assertIn("void drawPlanTop(BuildPlan plan, float alpha){", draw_plan_top_slice["exact_exprs"])
+        self.assertIn("if(!plan.breaking){", draw_plan_top_slice["exact_exprs"])
+        self.assertIn("Draw.reset();", draw_plan_top_slice["exact_exprs"])
+        self.assertIn("Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));", draw_plan_top_slice["exact_exprs"])
+        self.assertIn("Draw.alpha(alpha);", draw_plan_top_slice["exact_exprs"])
+        self.assertIn("plan.block.drawPlanConfigTop(plan, plans);", draw_plan_top_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_draw_plan_top_state")
+        self.assertEqual(contract["params"], [
+            {"name": "plan", "schema": "source_builder_draw_plan_top_input.plan", "type": "Variant"},
+            {"name": "plans", "schema": "source_builder_draw_plan_top_input.plans", "type": "Array"},
+            {"name": "plan_breaking", "schema": "source_builder_draw_plan_top_input.plan_breaking", "type": "bool"},
+            {"name": "alpha", "schema": "source_builder_draw_plan_top_input.alpha", "type": "float"},
+            {"name": "mathf_absin_time_global_6_0_28", "schema": "source_builder_draw_plan_top_input.mathf_absin_time_global_6_0_28", "type": "float"},
+        ])
+        for key in ["method", "guard_expr", "draw_reset_expr", "mixcol_expr", "draw_alpha_expr", "draw_plan_config_top_expr", "plan", "plans", "plan_breaking", "alpha", "mathf_absin_time_global_6_0_28", "draw_top", "mixcol_alpha", "draw_reset_called", "draw_alpha_call", "draw_plan_config_top_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_draw_plan_top_input = source_symbols.state_schema(schema, "source_builder_draw_plan_top_input")
+        self.assertEqual(source_builder_draw_plan_top_input["keys"]["plan"]["java_expr"], "plan")
+        self.assertEqual(source_builder_draw_plan_top_input["keys"]["plans"]["java_expr"], "plans")
+        self.assertEqual(source_builder_draw_plan_top_input["keys"]["plan_breaking"]["java_expr"], "plan.breaking")
+        self.assertEqual(source_builder_draw_plan_top_input["keys"]["alpha"]["java_expr"], "alpha")
+        self.assertEqual(source_builder_draw_plan_top_input["keys"]["mathf_absin_time_global_6_0_28"]["java_expr"], "Mathf.absin(Time.globalTime, 6f, 0.28f)")
+        source_builder_draw_plan_top_result = source_symbols.state_schema(schema, "source_builder_draw_plan_top_result")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["method"]["java_expr"], "void drawPlanTop(BuildPlan plan, float alpha){")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["guard_expr"]["java_expr"], "if(!plan.breaking){")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_reset_expr"]["java_expr"], "Draw.reset();")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["mixcol_expr"]["java_expr"], "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_alpha_expr"]["java_expr"], "Draw.alpha(alpha);")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_plan_config_top_expr"]["java_expr"], "plan.block.drawPlanConfigTop(plan, plans);")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_top"]["java_expr"], "!plan.breaking")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["mixcol_alpha"]["java_expr"], "0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f)")
+        self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_plan_config_top_call"]["java_expr"], "plan.block.drawPlanConfigTop(plan, plans);")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

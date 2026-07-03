@@ -8139,5 +8139,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_builder_draw_plan_top_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_builder_draw_plan_top_source"))
+        report = source_parity.verify_builder_draw_plan_top_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "void drawPlanTop(BuildPlan plan, float alpha){",
+            "guard": "if(!plan.breaking){",
+            "draw_reset": "Draw.reset();",
+            "mixcol": "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));",
+            "draw_alpha": "Draw.alpha(alpha);",
+            "draw_plan_config_top": "plan.block.drawPlanConfigTop(plan, plans);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

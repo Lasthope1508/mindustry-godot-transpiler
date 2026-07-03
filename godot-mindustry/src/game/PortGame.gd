@@ -7810,6 +7810,47 @@ func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
 		"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null),
 	}
 
+func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
+	var draw_top: bool = not plan_breaking
+	var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28
+	var draw_reset_called: bool = draw_top
+	var draw_alpha_call: Variant = null
+	var draw_plan_config_top_call: Variant = null
+	if draw_top:
+		draw_alpha_call = {"call": "Draw.alpha(alpha);", "alpha": alpha}
+		draw_plan_config_top_call = {"call": "plan.block.drawPlanConfigTop(plan, plans);", "plan": plan, "plans": plans}
+	return {
+		"method": "void drawPlanTop(BuildPlan plan, float alpha){",
+		"guard_expr": "if(!plan.breaking){",
+		"draw_reset_expr": "Draw.reset();",
+		"mixcol_expr": "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));",
+		"draw_alpha_expr": "Draw.alpha(alpha);",
+		"draw_plan_config_top_expr": "plan.block.drawPlanConfigTop(plan, plans);",
+		"plan": plan,
+		"plans": plans,
+		"plan_breaking": plan_breaking,
+		"alpha": alpha,
+		"mathf_absin_time_global_6_0_28": mathf_absin_time_global_6_0_28,
+		"draw_top": draw_top,
+		"mixcol_alpha": mixcol_alpha,
+		"draw_reset_called": draw_reset_called,
+		"draw_alpha_call": draw_alpha_call,
+		"draw_plan_config_top_call": draw_plan_config_top_call,
+	}
+
+func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawPlanTop_6([plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28])
+	var canonical = source_builder_draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
+	return {
+		"source_owner": "PortGame.source_builder_draw_plan_top_state",
+		"generated_owner": "BuilderComp.java_method_drawPlanTop_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("draw_top", null) == canonical.get("draw_top", null) and result.get("draw_plan_config_top_call", null) == canonical.get("draw_plan_config_top_call", null),
+	}
+
 func source_builder_should_skip_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
 	var guard_returns_false: bool = state_rules_infinite_resources or team_rules_infinite_resources or plan_breaking or core_null or plan_is_rotation or plan_is_derelict_repair
 	var stuck_missing_requirements: bool = plan_stuck and not core_items_has_plan_block_requirements

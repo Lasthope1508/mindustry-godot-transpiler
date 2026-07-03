@@ -24940,6 +24940,63 @@
         "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_should_skip_state"
       ]
+    },
+    "PortGame.source_builder_draw_plan_top_state": {
+      "source_slice": "N1150",
+      "source_method": "drawPlanTop(BuildPlan plan, float alpha)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plan",
+          "type": "Variant",
+          "schema": "source_builder_draw_plan_top_input.plan"
+        },
+        {
+          "name": "plans",
+          "type": "Array",
+          "schema": "source_builder_draw_plan_top_input.plans"
+        },
+        {
+          "name": "plan_breaking",
+          "type": "bool",
+          "schema": "source_builder_draw_plan_top_input.plan_breaking"
+        },
+        {
+          "name": "alpha",
+          "type": "float",
+          "schema": "source_builder_draw_plan_top_input.alpha"
+        },
+        {
+          "name": "mathf_absin_time_global_6_0_28",
+          "type": "float",
+          "schema": "source_builder_draw_plan_top_input.mathf_absin_time_global_6_0_28"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard_expr",
+        "draw_reset_expr",
+        "mixcol_expr",
+        "draw_alpha_expr",
+        "draw_plan_config_top_expr",
+        "plan",
+        "plans",
+        "plan_breaking",
+        "alpha",
+        "mathf_absin_time_global_6_0_28",
+        "draw_top",
+        "mixcol_alpha",
+        "draw_reset_called",
+        "draw_alpha_call",
+        "draw_plan_config_top_call"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.drawPlanTop() preserving non-breaking guard and draw call state.",
+      "runtime_proof": "/root/Main.source_builder_draw_plan_top_state",
+      "tests": [
+        "test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_draw_plan_top_state"
+      ]
     }
   },
   "policy": {

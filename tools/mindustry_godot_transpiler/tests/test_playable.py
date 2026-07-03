@@ -12692,5 +12692,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_shouldSkip_7"', source)
         self.assertIn('"matches": result.get("should_skip", null) == canonical.get("should_skip", null) and result.get("guard_returns_false", null) == canonical.get("guard_returns_false", null)', source)
 
+    def test_port_game_exposes_source_builder_draw_plan_top_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:", source)
+        self.assertIn("var draw_top: bool = not plan_breaking", source)
+        self.assertIn("var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28", source)
+        self.assertIn("var draw_reset_called: bool = draw_top", source)
+        self.assertIn("var draw_plan_config_top_call: Variant = null", source)
+        self.assertIn('draw_plan_config_top_call = {"call": "plan.block.drawPlanConfigTop(plan, plans);", "plan": plan, "plans": plans}', source)
+        self.assertIn('"method": "void drawPlanTop(BuildPlan plan, float alpha){"', source)
+        self.assertIn('"guard_expr": "if(!plan.breaking){"', source)
+        self.assertIn('"mixcol_expr": "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));"', source)
+        self.assertIn('"draw_plan_config_top_expr": "plan.block.drawPlanConfigTop(plan, plans);"', source)
+        self.assertIn('"draw_top": draw_top', source)
+
+    def test_port_game_exposes_generated_builder_comp_draw_plan_top_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_drawPlanTop_6([plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28])", source)
+        self.assertIn("var canonical = source_builder_draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_top_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlanTop_6"', source)
+        self.assertIn('"matches": result.get("draw_top", null) == canonical.get("draw_top", null) and result.get("draw_plan_config_top_call", null) == canonical.get("draw_plan_config_top_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()
