@@ -26501,6 +26501,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("renderer.blocks.updateShadow(self());", building_generated_update_fog_visibility["exact_exprs"])
         self.assertIn("renderer.minimap.update(tile);", building_generated_update_fog_visibility["exact_exprs"])
 
+        building_generated_hitbox = source_symbols.source_slice(ledger, "N1107")
+        self.assertEqual(building_generated_hitbox["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_hitbox["java_method"], "hitbox(Rect out)")
+        self.assertEqual(building_generated_hitbox["godot_owner"], "PortGame.source_building_hitbox_state")
+        self.assertEqual(building_generated_hitbox["runtime_proof"], "/root/Main.generated_building_comp_hitbox_bridge_state")
+        self.assertIn("public void hitbox(Rect out){", building_generated_hitbox["exact_exprs"])
+        self.assertIn("out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", building_generated_hitbox["exact_exprs"])
+        self.assertIn("block.size * tilesize", building_generated_hitbox["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

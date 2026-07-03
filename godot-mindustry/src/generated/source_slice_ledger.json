@@ -23605,6 +23605,37 @@
         "test_port_game_exposes_generated_building_comp_update_fog_visibility_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1107": {
+      "deferred_exprs": [
+        "Rect object mutation stays represented as a set_centered result dictionary until the owning collision/geometry runtime consumes it."
+      ],
+      "exact_exprs": [
+        "public void hitbox(Rect out){",
+        "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);",
+        "block.size * tilesize"
+      ],
+      "godot_owner": "PortGame.source_building_hitbox_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "hitbox(Rect out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_hitbox_219 and PortGame generated bridge to existing N591 canonical source_building_hitbox_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_hitbox_bridge_state",
+      "source_symbols": [
+        "building_hitbox.method",
+        "building_hitbox.set_centered",
+        "building_hitbox.world_x",
+        "building_hitbox.world_y",
+        "building_hitbox.block_size",
+        "building_hitbox.tilesize"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_hitbox_to_source_state",
+        "test_generated_building_comp_bridges_hitbox_to_source_state",
+        "test_port_game_exposes_generated_building_comp_hitbox_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

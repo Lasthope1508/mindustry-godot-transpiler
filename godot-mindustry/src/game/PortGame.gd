@@ -6917,6 +6917,18 @@ func source_building_hitbox_state(world_x: float, world_y: float, block_size_val
 		"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size},
 	}
 
+func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_hitbox_219([world_x, world_y, block_size_value, source_tilesize])
+	var canonical = source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)
+	return {
+		"source_owner": "PortGame.source_building_hitbox_state",
+		"generated_owner": "BuildingComp.java_method_hitbox_219",
+		"result": result,
+		"canonical": canonical,
+	}
+
 const SOURCE_BUILDING_TO_STRING_OVERRIDE := "@Override"
 const SOURCE_BUILDING_TO_STRING_REPLACE := "@Replace"
 const SOURCE_BUILDING_TO_STRING_METHOD := "public String toString(){"

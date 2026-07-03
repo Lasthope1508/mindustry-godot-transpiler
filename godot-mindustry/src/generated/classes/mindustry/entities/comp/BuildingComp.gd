@@ -1632,7 +1632,12 @@ func java_method_updateFogVisibility_218(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_update_fog_visibility_state", "update_fog_visibility_source_owner": "PortGame.source_building_update_fog_visibility_state", "update_fog_visibility": update_fog_visibility}
 
 func java_method_hitbox_219(_args: Array = []) -> Variant:
-	return null
+	var world_x := float(_args[0] if _args.size() > 0 else 0.0)
+	var world_y := float(_args[1] if _args.size() > 1 else 0.0)
+	var block_size_value := int(_args[2] if _args.size() > 2 else 0)
+	var source_tilesize := float(_args[3] if _args.size() > 3 else 8.0)
+	var hitbox_size := float(block_size_value) * source_tilesize
+	return {"source_owner": "PortGame.source_building_hitbox_state", "method": "public void hitbox(Rect out){", "set_centered_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", "hitbox_size_expr": "block.size * tilesize", "world_x": world_x, "world_y": world_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize, "hitbox_size": hitbox_size, "set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}}
 
 func java_method_toString_220(_args: Array = []) -> Variant:
 	return null

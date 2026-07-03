@@ -5003,6 +5003,42 @@ class BuildingComp{
             self.assertIn('"update_fog_visibility_source_owner": "PortGame.source_building_update_fog_visibility_state"', source_text)
             self.assertIn('"update_fog_visibility": update_fog_visibility', source_text)
 
+    def test_emit_bridges_building_comp_hitbox_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void hitbox(Rect out){
+        out.setCentered(x, y, block.size * tilesize, block.size * tilesize);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_hitbox_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var world_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var world_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 8.0)", source_text)
+            self.assertIn("var hitbox_size := float(block_size_value) * source_tilesize", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_hitbox_state"', source_text)
+            self.assertIn('"method": "public void hitbox(Rect out){"', source_text)
+            self.assertIn('"set_centered_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);"', source_text)
+            self.assertIn('"hitbox_size_expr": "block.size * tilesize"', source_text)
+            self.assertIn('"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

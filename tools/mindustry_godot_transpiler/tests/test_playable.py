@@ -6016,6 +6016,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_hitbox_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_hitbox_219(_args: Array = []) -> Variant:", source)
+        self.assertIn("var world_x := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var world_y := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 8.0)", source)
+        self.assertIn("var hitbox_size := float(block_size_value) * source_tilesize", source)
+        self.assertIn('"source_owner": "PortGame.source_building_hitbox_state"', source)
+        self.assertIn('"method": "public void hitbox(Rect out){"', source)
+        self.assertIn('"set_centered_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);"', source)
+        self.assertIn('"hitbox_size_expr": "block.size * tilesize"', source)
+        self.assertIn('"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}', source)
+
+    def test_port_game_exposes_generated_building_comp_hitbox_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_hitbox_219([world_x, world_y, block_size_value, source_tilesize])", source)
+        self.assertIn("var canonical = source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_hitbox_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_hitbox_219"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
