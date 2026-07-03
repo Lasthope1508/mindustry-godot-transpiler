@@ -23019,6 +23019,42 @@
         "test_port_game_exposes_generated_building_comp_set_prop_health_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1091": {
+      "deferred_exprs": [
+        "Concrete Team.get lookup and changeTeam side effects remain owned by runtime team integration; this generated bridge records only BuildingComp setProp team double case branch selection through existing N643 canonical owner.",
+        "BuildingComp.setProp(LAccess prop, double value) totalPower case remains deferred to a later generated bridge slice."
+      ],
+      "exact_exprs": [
+        "public void setProp(LAccess prop, double value){",
+        "case team -> {",
+        "Team team = Team.get((int)value);",
+        "if(this.team != team){",
+        "changeTeam(team);"
+      ],
+      "godot_owner": "PortGame.source_building_set_prop_team_double_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(LAccess prop, double value)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_setProp_211 and PortGame generated bridge to existing N643 canonical source_building_set_prop_team_double_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_set_prop_team_double_bridge_state",
+      "source_symbols": [
+        "building_set_prop_team_double.method",
+        "building_set_prop_team_double.team_case",
+        "building_set_prop_team_double.team_lookup",
+        "building_set_prop_team_double.change_gate",
+        "building_set_prop_team_double.change_team_call",
+        "building_set_prop_team_double.prop",
+        "building_set_prop_team_double.current_team_id",
+        "building_set_prop_team_double.value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_set_prop_team_double_to_source_state",
+        "test_generated_building_comp_bridges_set_prop_team_double_to_source_state",
+        "test_port_game_exposes_generated_building_comp_set_prop_team_double_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

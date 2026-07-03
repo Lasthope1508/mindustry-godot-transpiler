@@ -4308,6 +4308,61 @@ class BuildingComp{
             self.assertIn('"health_changed_call": "healthChanged();"', source_text)
             self.assertIn('"set_prop_health": set_prop_health', source_text)
 
+    def test_emit_bridges_building_comp_set_prop_team_double_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void setProp(LAccess prop, double value){
+        switch(prop){
+            case team -> {
+                Team team = Team.get((int)value);
+                if(this.team != team){
+                    changeTeam(team);
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setProp_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_team_id := int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var team_value := float(_args[2] if _args.size() > 2 else value)", source_text)
+            self.assertIn("var team_id := current_team_id", source_text)
+            self.assertIn("var change_team_called := false", source_text)
+            self.assertIn("var change_team: Variant = null", source_text)
+            self.assertIn('if prop == "team":', source_text)
+            self.assertIn("var next_team_id := int(team_value)", source_text)
+            self.assertIn("if current_team_id != next_team_id:", source_text)
+            self.assertIn("team_id = next_team_id", source_text)
+            self.assertIn("change_team_called = true", source_text)
+            self.assertIn("change_team = next_team_id", source_text)
+            self.assertIn('"team_source_owner": "PortGame.source_building_set_prop_team_double_state"', source_text)
+            self.assertIn('"team_case": "case team -> {"', source_text)
+            self.assertIn('"team_lookup": "Team team = Team.get((int)value);"', source_text)
+            self.assertIn('"change_gate": "if(this.team != team){"', source_text)
+            self.assertIn('"change_team_call": "changeTeam(team);"', source_text)
+            self.assertIn('"current_team_id": current_team_id', source_text)
+            self.assertIn('"team_id": team_id', source_text)
+            self.assertIn('"change_team_called": change_team_called', source_text)
+            self.assertIn('"change_team": change_team', source_text)
+            self.assertIn('"set_prop_team_double": set_prop_team_double', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

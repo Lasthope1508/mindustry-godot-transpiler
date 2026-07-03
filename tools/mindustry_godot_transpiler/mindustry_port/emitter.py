@@ -1296,8 +1296,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\t\tbuild_destroyed = self_state",
             "\t\telse:",
             "\t\t\thealth_changed = true",
+            "\tvar current_team_id := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar team_value := float(_args[2] if _args.size() > 2 else value)",
+            "\tvar team_id := current_team_id",
+            "\tvar change_team_called := false",
+            "\tvar change_team: Variant = null",
+            "\tif prop == \"team\":",
+            "\t\tvar next_team_id := int(team_value)",
+            "\t\tif current_team_id != next_team_id:",
+            "\t\t\tteam_id = next_team_id",
+            "\t\t\tchange_team_called = true",
+            "\t\t\tchange_team = next_team_id",
             "\tvar set_prop_health := {\"method\": \"public void setProp(LAccess prop, double value){\", \"switch_prop\": \"switch(prop){\", \"health_case\": \"case health -> {\", \"clamp_assign\": \"health = (float)Mathf.clamp(value, 0, maxHealth);\", \"destroy_gate\": \"if(health <= 0f && !dead()){\", \"build_destroyed_call\": \"Call.buildDestroyed(self());\", \"else_branch\": \"}else{\", \"health_changed_call\": \"healthChanged();\", \"prop\": prop, \"current_health\": current_health, \"max_health_value\": max_health_value, \"value\": value, \"dead_state\": dead_state, \"self_state\": self_state, \"health\": health, \"build_destroyed_called\": build_destroyed_called, \"build_destroyed\": build_destroyed, \"health_changed\": health_changed}",
-            "\treturn {\"source_owner\": \"PortGame.source_building_set_prop_health_state\", \"health_source_owner\": \"PortGame.source_building_set_prop_health_state\", \"set_prop_health\": set_prop_health}",
+            "\tvar set_prop_team_double := {\"method\": \"public void setProp(LAccess prop, double value){\", \"team_case\": \"case team -> {\", \"team_lookup\": \"Team team = Team.get((int)value);\", \"change_gate\": \"if(this.team != team){\", \"change_team_call\": \"changeTeam(team);\", \"prop\": prop, \"current_team_id\": current_team_id, \"value\": team_value, \"team_id\": team_id, \"change_team_called\": change_team_called, \"change_team\": change_team}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_set_prop_health_state\", \"health_source_owner\": \"PortGame.source_building_set_prop_health_state\", \"team_source_owner\": \"PortGame.source_building_set_prop_team_double_state\", \"set_prop_health\": set_prop_health, \"set_prop_team_double\": set_prop_team_double}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
