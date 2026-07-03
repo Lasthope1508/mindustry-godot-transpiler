@@ -7307,6 +7307,27 @@ func generated_sync_comp_interpolate_bridge_state() -> Dictionary:
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
 	}
 
+func source_sync_is_sync_hidden_state(player: Variant = null) -> Dictionary:
+	return {
+		"method": "boolean isSyncHidden(Player player){",
+		"player": player,
+		"return_expr": "return false;",
+		"is_sync_hidden": false,
+	}
+
+func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_isSyncHidden_8([player])
+	var canonical = source_sync_is_sync_hidden_state(player)
+	return {
+		"source_owner": "PortGame.source_sync_is_sync_hidden_state",
+		"generated_owner": "SyncComp.java_method_isSyncHidden_8",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("is_sync_hidden", null) == canonical.get("is_sync_hidden", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

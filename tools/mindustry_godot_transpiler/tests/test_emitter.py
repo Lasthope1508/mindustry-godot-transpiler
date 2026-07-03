@@ -5971,5 +5971,37 @@ class SyncComp{
             self.assertIn('"empty_body": "void interpolate(){}"', source_text)
             self.assertIn('"no_op": true', source_text)
 
+    def test_emit_bridges_sync_comp_is_sync_hidden_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "SyncComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class SyncComp{
+    boolean isSyncHidden(Player player){
+        return false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_isSyncHidden_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var player: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_sync_is_sync_hidden_state"', source_text)
+            self.assertIn('"method": "boolean isSyncHidden(Player player){"', source_text)
+            self.assertIn('"player": player', source_text)
+            self.assertIn('"return_expr": "return false;"', source_text)
+            self.assertIn('"is_sync_hidden": false', source_text)
+
 if __name__ == "__main__":
     unittest.main()

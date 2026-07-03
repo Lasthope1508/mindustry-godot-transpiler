@@ -54977,6 +54977,59 @@
       },
       "status": "active"
     },
+    "source_sync_is_sync_hidden_result": {
+      "keys": {
+        "is_sync_hidden": {
+          "godot_symbol": "source_sync_is_sync_hidden_result.is_sync_hidden",
+          "java_expr": "return false;",
+          "java_method": "isSyncHidden(Player player)",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records source false return as canonical bool.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_sync_is_sync_hidden_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_sync_is_sync_hidden_result.method",
+          "java_expr": "boolean isSyncHidden(Player player){",
+          "java_method": "isSyncHidden(Player player)",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records SyncComp.isSyncHidden method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_sync_is_sync_hidden_state"
+          ]
+        },
+        "player": {
+          "godot_symbol": "source_sync_is_sync_hidden_input.player",
+          "java_expr": "Player player",
+          "java_method": "isSyncHidden(Player player)",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result preserves isSyncHidden Player parameter input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_sync_is_sync_hidden_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_sync_is_sync_hidden_result.return_expr",
+          "java_expr": "return false;",
+          "java_method": "isSyncHidden(Player player)",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records exact return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_sync_is_sync_hidden_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "source_sync_read_sync_manual_result": {
       "keys": {
         "empty_body": {

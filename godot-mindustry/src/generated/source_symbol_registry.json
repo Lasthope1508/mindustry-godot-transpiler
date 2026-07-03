@@ -45667,6 +45667,58 @@
         "test_generated_sync_comp_interpolate_slice_is_registered_with_source_backing"
       ]
     },
+    "sync_is_sync_hidden.is_sync_hidden": {
+      "godot_owner": "PortGame.source_sync_is_sync_hidden_state",
+      "godot_symbol": "source_sync_is_sync_hidden_result.is_sync_hidden",
+      "java_expr": "return false;",
+      "java_method": "isSyncHidden(Player player)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Canonical boolean result for SyncComp isSyncHidden false return.",
+      "runtime_proof": "/root/Main.source_sync_is_sync_hidden_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_is_sync_hidden_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_is_sync_hidden.method": {
+      "godot_owner": "PortGame.source_sync_is_sync_hidden_state",
+      "godot_symbol": "source_sync_is_sync_hidden_result.method",
+      "java_expr": "boolean isSyncHidden(Player player){",
+      "java_method": "isSyncHidden(Player player)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp isSyncHidden method boundary.",
+      "runtime_proof": "/root/Main.source_sync_is_sync_hidden_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_is_sync_hidden_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_is_sync_hidden.player": {
+      "godot_owner": "PortGame.source_sync_is_sync_hidden_state",
+      "godot_symbol": "source_sync_is_sync_hidden_input.player",
+      "java_expr": "Player player",
+      "java_method": "isSyncHidden(Player player)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp isSyncHidden Player parameter.",
+      "runtime_proof": "/root/Main.source_sync_is_sync_hidden_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_is_sync_hidden_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_is_sync_hidden.return_false": {
+      "godot_owner": "PortGame.source_sync_is_sync_hidden_state",
+      "godot_symbol": "source_sync_is_sync_hidden_result.return_expr",
+      "java_expr": "return false;",
+      "java_method": "isSyncHidden(Player player)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp isSyncHidden always returns false in upstream source.",
+      "runtime_proof": "/root/Main.source_sync_is_sync_hidden_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_is_sync_hidden_slice_is_registered_with_source_backing"
+      ]
+    },
     "sync_read_sync.empty_body": {
       "godot_owner": "PortGame.source_sync_read_sync_state",
       "godot_symbol": "source_sync_read_sync_result.empty_body",

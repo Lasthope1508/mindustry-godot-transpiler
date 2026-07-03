@@ -16380,6 +16380,31 @@
         "test_port_game_exposes_source_sync_interpolate_state"
       ]
     },
+    "PortGame.source_sync_is_sync_hidden_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [
+        {
+          "name": "player",
+          "schema": "source_sync_is_sync_hidden_input.player",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "player",
+        "return_expr",
+        "is_sync_hidden"
+      ],
+      "rule": "Public runtime contract for SyncComp.isSyncHidden(Player player) false return state.",
+      "runtime_proof": "/root/Main.source_sync_is_sync_hidden_state",
+      "source_method": "isSyncHidden(Player player)",
+      "source_slice": "N1125",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_is_sync_hidden_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_is_sync_hidden_state"
+      ]
+    },
     "PortGame.source_sync_read_sync_manual_state": {
       "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
       "params": [],

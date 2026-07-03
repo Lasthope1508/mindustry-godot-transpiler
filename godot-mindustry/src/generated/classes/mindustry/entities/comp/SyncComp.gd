@@ -38,7 +38,8 @@ func java_method_interpolate_7(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_sync_interpolate_state", "method": "void interpolate(){}", "empty_body": "void interpolate(){}", "no_op": true}
 
 func java_method_isSyncHidden_8(_args: Array = []) -> Variant:
-	return null
+	var player: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_sync_is_sync_hidden_state", "method": "boolean isSyncHidden(Player player){", "player": player, "return_expr": "return false;", "is_sync_hidden": false}
 
 func java_method_handleSyncHidden_9(_args: Array = []) -> Variant:
 	return null

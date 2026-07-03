@@ -1278,6 +1278,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_sync_interpolate_state\", \"method\": \"void interpolate(){}\", \"empty_body\": \"void interpolate(){}\", \"no_op\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/SyncComp.java"
+        and type_entry.get("name") == "SyncComp"
+        and method.get("name") == "isSyncHidden"
+    ):
+        return [
+            "\tvar player: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_sync_is_sync_hidden_state\", \"method\": \"boolean isSyncHidden(Player player){\", \"player\": player, \"return_expr\": \"return false;\", \"is_sync_hidden\": false}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"
