@@ -7043,6 +7043,70 @@ func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionar
 		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("offsetX", null) == canonical.get("offsetX", null) and result.get("offsetY", null) == canonical.get("offsetY", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and result.get("offsetPos", null) == canonical.get("offsetPos", null) and result.get("offsetRot", null) == canonical.get("offsetRot", null),
 	}
 
+func source_child_update_state(child_state: Dictionary) -> Dictionary:
+	var x: float = float(child_state.get("x", 0.0))
+	var y: float = float(child_state.get("y", 0.0))
+	var rotation_value: float = float(child_state.get("rotation", 0.0))
+	var offset_x: float = float(child_state.get("offsetX", 0.0))
+	var offset_y: float = float(child_state.get("offsetY", 0.0))
+	var offset_pos: float = float(child_state.get("offsetPos", 0.0))
+	var offset_rot: float = float(child_state.get("offsetRot", 0.0))
+	var parent_guard: bool = bool(child_state.get("parent_exists", false))
+	var parent_get_x: float = float(child_state.get("parent_get_x", 0.0))
+	var parent_get_y: float = float(child_state.get("parent_get_y", 0.0))
+	var rot_with_parent: bool = bool(child_state.get("rot_with_parent", false))
+	var parent_is_rotc: bool = bool(child_state.get("parent_is_rotc", false))
+	var parent_rotc_rotation: float = float(child_state.get("parent_rotc_rotation", 0.0))
+	var parent_is_rotblock: bool = bool(child_state.get("parent_is_rotblock", false))
+	var parent_rotblock_build_rotation: float = float(child_state.get("parent_rotblock_build_rotation", 0.0))
+	var next_x: float = x
+	var next_y: float = y
+	var next_rotation: float = rotation_value
+	var rot_with_parent_guard := false
+	var parent_rotc_guard := false
+	var parent_rotblock_guard := false
+	if parent_guard:
+		if rot_with_parent:
+			rot_with_parent_guard = true
+			if parent_is_rotc:
+				parent_rotc_guard = true
+				var trns_vec_rotc := source_arc_angles_trns_vec(parent_rotc_rotation + offset_pos, offset_x, offset_y)
+				next_x = parent_get_x + float(trns_vec_rotc.get("x", 0.0))
+				next_y = parent_get_y + float(trns_vec_rotc.get("y", 0.0))
+				next_rotation = parent_rotc_rotation + offset_rot
+			elif parent_is_rotblock:
+				parent_rotblock_guard = true
+				var trns_vec_rotblock := source_arc_angles_trns_vec(parent_rotblock_build_rotation + offset_pos, offset_x, offset_y)
+				next_x = parent_get_x + float(trns_vec_rotblock.get("x", 0.0))
+				next_y = parent_get_y + float(trns_vec_rotblock.get("y", 0.0))
+				next_rotation = parent_rotblock_build_rotation + offset_rot
+		else:
+			next_x = parent_get_x + offset_x
+			next_y = parent_get_y + offset_y
+	return {
+		"method": "public void update(){",
+		"parentGuard": parent_guard,
+		"rotWithParentGuard": rot_with_parent_guard,
+		"parentRotcGuard": parent_rotc_guard,
+		"parentRotBlockGuard": parent_rotblock_guard,
+		"x": next_x,
+		"y": next_y,
+		"rotation": next_rotation,
+	}
+
+func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_1([child_state])
+	var canonical = source_child_update_state(child_state)
+	return {
+		"source_owner": "PortGame.source_child_update_state",
+		"generated_owner": "ChildComp.java_method_update_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and is_equal_approx(float(result.get("x", 0.0)), float(canonical.get("x", 0.0))) and is_equal_approx(float(result.get("y", 0.0)), float(canonical.get("y", 0.0))) and is_equal_approx(float(result.get("rotation", 0.0)), float(canonical.get("rotation", 0.0))),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

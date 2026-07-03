@@ -12643,6 +12643,35 @@
         "test_port_game_exposes_source_child_add_state"
       ]
     },
+    "PortGame.source_child_update_state": {
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "params": [
+        {
+          "name": "child_state",
+          "schema": "source_child_update_input",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "parentGuard",
+        "rotWithParentGuard",
+        "parentRotcGuard",
+        "parentRotBlockGuard",
+        "x",
+        "y",
+        "rotation"
+      ],
+      "rule": "Public runtime contract for ChildComp.update parent-follow position and rotation state.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "source_method": "update()",
+      "source_slice": "N1114",
+      "status": "active",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_child_update_state"
+      ]
+    },
     "PortGame.source_consume_power_requested_power_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
       "params": [

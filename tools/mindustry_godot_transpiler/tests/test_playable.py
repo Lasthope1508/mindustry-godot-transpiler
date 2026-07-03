@@ -11579,5 +11579,59 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_child_comp_bridges_update_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "ChildComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_update_1(_args: Array = []) -> Variant:", source)
+        self.assertIn("var child_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", source)
+        self.assertIn("var parent_guard: bool = bool(child_state.get(\"parent_exists\", false))", source)
+        self.assertIn("var next_x: float = x", source)
+        self.assertIn("var next_y: float = y", source)
+        self.assertIn("var next_rotation: float = rotation", source)
+        self.assertIn("var _source_arc_angles_trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:", source)
+        self.assertIn("var trns_vec_rotc: Dictionary = _source_arc_angles_trns_vec.call(parent_rotc_rotation + offset_pos, offset_x, offset_y)", source)
+        self.assertIn("next_x = parent_get_x + float(trns_vec_rotc.get(\"x\", 0.0))", source)
+        self.assertIn("next_y = parent_get_y + float(trns_vec_rotc.get(\"y\", 0.0))", source)
+        self.assertIn("next_rotation = parent_rotc_rotation + offset_rot", source)
+        self.assertIn("var trns_vec_rotblock: Dictionary = _source_arc_angles_trns_vec.call(parent_rotblock_build_rotation + offset_pos, offset_x, offset_y)", source)
+        self.assertIn("next_rotation = parent_rotblock_build_rotation + offset_rot", source)
+        self.assertIn("next_x = parent_get_x + offset_x", source)
+        self.assertIn("next_y = parent_get_y + offset_y", source)
+        self.assertIn('"source_owner": "PortGame.source_child_update_state"', source)
+        self.assertIn('"x": next_x', source)
+        self.assertIn('"y": next_y', source)
+        self.assertIn('"rotation": next_rotation', source)
+
+    def test_port_game_exposes_source_child_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_child_update_state(child_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var rotation_value: float = float(child_state.get(\"rotation\", 0.0))", source)
+        self.assertIn("var next_rotation: float = rotation_value", source)
+        self.assertIn("source_arc_angles_trns_vec(parent_rotc_rotation + offset_pos, offset_x, offset_y)", source)
+        self.assertIn("next_x = parent_get_x + float(trns_vec_rotc.get(\"x\", 0.0))", source)
+        self.assertIn("next_y = parent_get_y + float(trns_vec_rotc.get(\"y\", 0.0))", source)
+        self.assertIn("next_rotation = parent_rotc_rotation + offset_rot", source)
+        self.assertIn("source_arc_angles_trns_vec(parent_rotblock_build_rotation + offset_pos, offset_x, offset_y)", source)
+        self.assertIn("next_rotation = parent_rotblock_build_rotation + offset_rot", source)
+        self.assertIn("next_x = parent_get_x + offset_x", source)
+        self.assertIn("next_y = parent_get_y + offset_y", source)
+        self.assertIn('"x": next_x', source)
+        self.assertIn('"rotation": next_rotation', source)
+
+    def test_port_game_exposes_generated_child_comp_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_update_1([child_state])", source)
+        self.assertIn("var canonical = source_child_update_state(child_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_child_update_state"', source)
+        self.assertIn('"generated_owner": "ChildComp.java_method_update_1"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

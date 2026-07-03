@@ -41230,6 +41230,292 @@
       },
       "status": "active"
     },
+    "source_child_update_input": {
+      "keys": {
+        "offsetPos": {
+          "godot_symbol": "source_child_update_input.offsetPos",
+          "java_expr": "offsetPos",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Child offsetPos value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "offsetRot": {
+          "godot_symbol": "source_child_update_input.offsetRot",
+          "java_expr": "offsetRot",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Child offsetRot value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "offsetX": {
+          "godot_symbol": "source_child_update_input.offsetX",
+          "java_expr": "offsetX",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Child offsetX value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "offsetY": {
+          "godot_symbol": "source_child_update_input.offsetY",
+          "java_expr": "offsetY",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Child offsetY value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parent_exists": {
+          "godot_symbol": "source_child_update_input.parent_exists",
+          "java_expr": "parent != null",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Explicit parent presence guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parent_get_x": {
+          "godot_symbol": "source_child_update_input.parent_get_x",
+          "java_expr": "parent.getX()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Explicit parent.getX value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parent_get_y": {
+          "godot_symbol": "source_child_update_input.parent_get_y",
+          "java_expr": "parent.getY()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Explicit parent.getY value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parent_is_rotblock": {
+          "godot_symbol": "source_child_update_input.parent_is_rotblock",
+          "java_expr": "parent instanceof RotBlock rot",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Explicit RotBlock branch check.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parent_is_rotc": {
+          "godot_symbol": "source_child_update_input.parent_is_rotc",
+          "java_expr": "parent instanceof Rotc r",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Explicit Rotc branch check.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parent_rotblock_build_rotation": {
+          "godot_symbol": "source_child_update_input.parent_rotblock_build_rotation",
+          "java_expr": "rot.buildRotation()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Explicit RotBlock buildRotation value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parent_rotc_rotation": {
+          "godot_symbol": "source_child_update_input.parent_rotc_rotation",
+          "java_expr": "r.rotation()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Explicit Rotc rotation value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "rot_with_parent": {
+          "godot_symbol": "source_child_update_input.rot_with_parent",
+          "java_expr": "rotWithParent",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Child rotWithParent field.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_child_update_input.rotation",
+          "java_expr": "rotation",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Imported child rotation field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_child_update_input.x",
+          "java_expr": "x",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Imported child x field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_child_update_input.y",
+          "java_expr": "y",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Imported child y field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_child_update_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_child_update_result.method",
+          "java_expr": "public void update(){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records ChildComp.update method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parentGuard": {
+          "godot_symbol": "source_child_update_result.parentGuard",
+          "java_expr": "if(parent != null){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records parent guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parentRotBlockGuard": {
+          "godot_symbol": "source_child_update_result.parentRotBlockGuard",
+          "java_expr": "}else if(parent instanceof RotBlock rot){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records RotBlock branch guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "parentRotcGuard": {
+          "godot_symbol": "source_child_update_result.parentRotcGuard",
+          "java_expr": "if(parent instanceof Rotc r){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records Rotc branch guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "rotWithParentGuard": {
+          "godot_symbol": "source_child_update_result.rotWithParentGuard",
+          "java_expr": "if(rotWithParent){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records rotWithParent guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_child_update_result.rotation",
+          "java_expr": "rotation = r.rotation() + offsetRot;",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records child rotation value; RotBlock alternate is registered as child_update.rotblock_rotation_assign.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_child_update_result.x",
+          "java_expr": "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records child x value; RotBlock and non-rotating alternates are registered as child_update.rotblock_x_assign and child_update.no_rot_x_assign.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_child_update_result.y",
+          "java_expr": "y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+          "rule": "Result records child y value; RotBlock and non-rotating alternates are registered as child_update.rotblock_y_assign and child_update.no_rot_y_assign.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_child_update_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "source_consume_power_requested_power_input": {
       "keys": {
         "buffered": {

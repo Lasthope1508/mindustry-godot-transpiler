@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 582)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 583)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 587)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 588)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40251,6 +40251,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_child_add_result["keys"]["offsetY"]["java_expr"], "offsetY = y - parent.getY();")
         self.assertEqual(source_child_add_result["keys"]["offsetPos"]["java_expr"], "offsetPos = -r.rotation();")
         self.assertEqual(source_child_add_result["keys"]["offsetRot"]["java_expr"], "offsetRot = rotation - r.rotation();")
+
+    def test_generated_child_comp_update_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "child_update.method")
+        self.assertEqual(method["java_expr"], "public void update(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/ChildComp.java")
+        self.assertEqual(method["java_method"], "update()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_child_update_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_child_update_state")
+
+        rotc_x = source_symbols.source_symbol(registry, "child_update.rotc_x_assign")
+        self.assertEqual(rotc_x["java_expr"], "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);")
+        rotblock_y = source_symbols.source_symbol(registry, "child_update.rotblock_y_assign")
+        self.assertEqual(rotblock_y["java_expr"], "y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);")
+        no_rot_x = source_symbols.source_symbol(registry, "child_update.no_rot_x_assign")
+        self.assertEqual(no_rot_x["java_expr"], "x = parent.getX() + offsetX;")
+
+        child_update = source_symbols.source_slice(ledger, "N1114")
+        self.assertEqual(child_update["java_source"], "core/src/mindustry/entities/comp/ChildComp.java")
+        self.assertEqual(child_update["java_method"], "update()")
+        self.assertEqual(child_update["godot_owner"], "PortGame.source_child_update_state")
+        self.assertEqual(child_update["runtime_proof"], "/root/Main.generated_child_comp_update_bridge_state")
+        self.assertIn("x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);", child_update["exact_exprs"])
+        self.assertIn("x = parent.getX() + offsetX;", child_update["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_child_update_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["child_state"])
+        self.assertEqual(contract["params"][0]["schema"], "source_child_update_input")
+        for key in ["method", "parentGuard", "rotWithParentGuard", "parentRotcGuard", "parentRotBlockGuard", "x", "y", "rotation"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_child_update_input = source_symbols.state_schema(schema, "source_child_update_input")
+        self.assertEqual(source_child_update_input["keys"]["x"]["java_expr"], "x")
+        self.assertEqual(source_child_update_input["keys"]["offsetPos"]["java_expr"], "offsetPos")
+        self.assertEqual(source_child_update_input["keys"]["parent_rotc_rotation"]["java_expr"], "r.rotation()")
+        self.assertEqual(source_child_update_input["keys"]["parent_rotblock_build_rotation"]["java_expr"], "rot.buildRotation()")
+
+        source_child_update_result = source_symbols.state_schema(schema, "source_child_update_result")
+        self.assertEqual(source_child_update_result["keys"]["method"]["java_expr"], "public void update(){")
+        self.assertEqual(source_child_update_result["keys"]["x"]["java_expr"], "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);")
+        self.assertEqual(source_child_update_result["keys"]["y"]["java_expr"], "y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);")
+        self.assertEqual(source_child_update_result["keys"]["rotation"]["java_expr"], "rotation = r.rotation() + offsetRot;")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

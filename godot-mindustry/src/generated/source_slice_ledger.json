@@ -3245,6 +3245,80 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1114": {
+      "bridge_exprs": [
+        "public static float trnsx(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).x;\n    }",
+        "public static float trnsy(float angle, float x, float y){\n        return rv.set(x, y).rotate(angle).y;\n    }"
+      ],
+      "deferred_exprs": [
+        "Live parent object dispatch remains explicit inputs until generated Rotc/RotBlock runtime object adapters exist."
+      ],
+      "exact_exprs": [
+        "@Import float x, y, rotation;",
+        "@Nullable Posc parent;",
+        "boolean rotWithParent;",
+        "float offsetX, offsetY, offsetPos, offsetRot;",
+        "public void update(){",
+        "if(parent != null){",
+        "if(rotWithParent){",
+        "if(parent instanceof Rotc r){",
+        "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);",
+        "y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);",
+        "rotation = r.rotation() + offsetRot;",
+        "}else if(parent instanceof RotBlock rot){",
+        "x = parent.getX() + Angles.trnsx(rot.buildRotation() + offsetPos, offsetX, offsetY);",
+        "y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);",
+        "rotation = rot.buildRotation() + offsetRot;",
+        "}else{",
+        "x = parent.getX() + offsetX;",
+        "y = parent.getY() + offsetY;"
+      ],
+      "godot_owner": "PortGame.source_child_update_state",
+      "java_class": "mindustry.entities.comp.ChildComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Registers ChildComp.update parent-follow position and optional Rotc/RotBlock rotation state; wires generated ChildComp.java_method_update_1 plus PortGame generated bridge to canonical source_child_update_state.",
+      "runtime_proof": "/root/Main.generated_child_comp_update_bridge_state",
+      "source_symbols": [
+        "child_update.method",
+        "child_update.parent_guard",
+        "child_update.rot_with_parent_guard",
+        "child_update.parent_rotc_guard",
+        "child_update.parent_rotblock_guard",
+        "child_update.rotc_x_assign",
+        "child_update.rotc_y_assign",
+        "child_update.rotc_rotation_assign",
+        "child_update.rotblock_x_assign",
+        "child_update.rotblock_y_assign",
+        "child_update.rotblock_rotation_assign",
+        "child_update.no_rot_x_assign",
+        "child_update.no_rot_y_assign",
+        "child_update.x",
+        "child_update.y",
+        "child_update.rotation",
+        "child_update.offset_x",
+        "child_update.offset_y",
+        "child_update.offset_pos",
+        "child_update.offset_rot",
+        "child_update.parent_exists",
+        "child_update.parent_get_x",
+        "child_update.parent_get_y",
+        "child_update.rot_with_parent",
+        "child_update.parent_is_rotc",
+        "child_update.parent_rotc_rotation",
+        "child_update.parent_is_rotblock",
+        "child_update.parent_rotblock_build_rotation"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_child_comp_update_to_source_state",
+        "test_generated_child_comp_bridges_update_to_source_state",
+        "test_port_game_exposes_source_child_update_state",
+        "test_port_game_exposes_generated_child_comp_update_bridge_state",
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

@@ -26950,6 +26950,370 @@
         "test_generated_child_comp_add_slice_is_registered_with_source_backing"
       ]
     },
+    "child_update.method": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.method",
+      "java_expr": "public void update(){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update method boundary.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.no_rot_x_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.x",
+      "java_expr": "x = parent.getX() + offsetX;",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update non-rotating x assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.no_rot_y_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.y",
+      "java_expr": "y = parent.getY() + offsetY;",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update non-rotating y assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.offset_pos": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.offsetPos",
+      "java_expr": "offsetPos",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetPos value before update.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.offset_rot": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.offsetRot",
+      "java_expr": "offsetRot",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetRot value before update.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.offset_x": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.offsetX",
+      "java_expr": "offsetX",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetX value before update.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.offset_y": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.offsetY",
+      "java_expr": "offsetY",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetY value before update.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_exists": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.parent_exists",
+      "java_expr": "parent != null",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for parent presence guard.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_get_x": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.parent_get_x",
+      "java_expr": "parent.getX()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for parent.getX().",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_get_y": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.parent_get_y",
+      "java_expr": "parent.getY()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for parent.getY().",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_guard": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.parentGuard",
+      "java_expr": "if(parent != null){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update parent presence guard.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_is_rotblock": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.parent_is_rotblock",
+      "java_expr": "parent instanceof RotBlock rot",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit RotBlock branch check.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_is_rotc": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.parent_is_rotc",
+      "java_expr": "parent instanceof Rotc r",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit Rotc branch check.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_rotblock_build_rotation": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.parent_rotblock_build_rotation",
+      "java_expr": "rot.buildRotation()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit RotBlock buildRotation value.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_rotblock_guard": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.parentRotBlockGuard",
+      "java_expr": "}else if(parent instanceof RotBlock rot){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update RotBlock parent branch.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_rotc_guard": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.parentRotcGuard",
+      "java_expr": "if(parent instanceof Rotc r){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update Rotc parent branch.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.parent_rotc_rotation": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.parent_rotc_rotation",
+      "java_expr": "r.rotation()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit Rotc rotation value.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rot_with_parent": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.rot_with_parent",
+      "java_expr": "rotWithParent",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child rotWithParent field.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rot_with_parent_guard": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.rotWithParentGuard",
+      "java_expr": "if(rotWithParent){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update rotWithParent guard.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rotation": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.rotation",
+      "java_expr": "rotation",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Imported child rotation field before update.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rotblock_rotation_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.rotation",
+      "java_expr": "rotation = rot.buildRotation() + offsetRot;",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update RotBlock rotation assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rotblock_x_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.x",
+      "java_expr": "x = parent.getX() + Angles.trnsx(rot.buildRotation() + offsetPos, offsetX, offsetY);",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update RotBlock x assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rotblock_y_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.y",
+      "java_expr": "y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update RotBlock y assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rotc_rotation_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.rotation",
+      "java_expr": "rotation = r.rotation() + offsetRot;",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update Rotc rotation assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rotc_x_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.x",
+      "java_expr": "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update Rotc x assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.rotc_y_assign": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_result.y",
+      "java_expr": "y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.update Rotc y assignment.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.x": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.x",
+      "java_expr": "x",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Imported child x field before update.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_update.y": {
+      "godot_owner": "PortGame.source_child_update_state",
+      "godot_symbol": "source_child_update_input.y",
+      "java_expr": "y",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Imported child y field before update.",
+      "runtime_proof": "/root/Main.source_child_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_power_requested_power.buffered": {
       "godot_owner": "PortGame.source_consume_power_requested_power_state",
       "godot_symbol": "source_consume_power_requested_power_result.requested_power",

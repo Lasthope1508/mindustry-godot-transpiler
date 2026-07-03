@@ -5620,5 +5620,67 @@ class ChildComp{
             self.assertIn('"parent_rotc_guard_expr": "if(parent instanceof Rotc r){"', source_text)
             self.assertIn('"parent_rotblock_guard_expr": "}else if(parent instanceof RotBlock rot){"', source_text)
 
+    def test_emit_bridges_child_comp_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "ChildComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class ChildComp{
+    public void add(){
+    }
+
+    public void update(){
+        if(parent != null){
+            if(rotWithParent){
+                if(parent instanceof Rotc r){
+                    x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);
+                    y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);
+                    rotation = r.rotation() + offsetRot;
+                }else if(parent instanceof RotBlock rot){
+                    x = parent.getX() + Angles.trnsx(rot.buildRotation() + offsetPos, offsetX, offsetY);
+                    y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);
+                    rotation = rot.buildRotation() + offsetRot;
+                }
+            }else{
+                x = parent.getX() + offsetX;
+                y = parent.getY() + offsetY;
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "ChildComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var child_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", source_text)
+            self.assertIn("var parent_guard: bool = bool(child_state.get(\"parent_exists\", false))", source_text)
+            self.assertIn("var next_x: float = x", source_text)
+            self.assertIn("var next_y: float = y", source_text)
+            self.assertIn("var next_rotation: float = rotation", source_text)
+            self.assertIn("var _source_arc_angles_trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:", source_text)
+            self.assertIn("var trns_vec_rotc: Dictionary = _source_arc_angles_trns_vec.call(parent_rotc_rotation + offset_pos, offset_x, offset_y)", source_text)
+            self.assertIn("next_x = parent_get_x + float(trns_vec_rotc.get(\"x\", 0.0))", source_text)
+            self.assertIn("next_y = parent_get_y + float(trns_vec_rotc.get(\"y\", 0.0))", source_text)
+            self.assertIn("next_rotation = parent_rotc_rotation + offset_rot", source_text)
+            self.assertIn("var trns_vec_rotblock: Dictionary = _source_arc_angles_trns_vec.call(parent_rotblock_build_rotation + offset_pos, offset_x, offset_y)", source_text)
+            self.assertIn("next_rotation = parent_rotblock_build_rotation + offset_rot", source_text)
+            self.assertIn("next_x = parent_get_x + offset_x", source_text)
+            self.assertIn("next_y = parent_get_y + offset_y", source_text)
+            self.assertIn('"source_owner": "PortGame.source_child_update_state"', source_text)
+            self.assertIn('"method": "public void update(){"', source_text)
+            self.assertIn('"trnsx_rotc_expr": "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);"', source_text)
+            self.assertIn('"trnsy_rotblock_expr": "y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);"', source_text)
+
 if __name__ == "__main__":
     unittest.main()
