@@ -77073,6 +77073,175 @@
       "tests": [
         "test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing"
       ]
+    },
+    "builder_remove_build.method": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "void removeBuild(int x, int y, boolean breaking){",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.method",
+      "status": "source-backed",
+      "rule": "BuilderComp removeBuild method boundary.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.comment": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "//remove matching plan",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.comment",
+      "status": "source-backed",
+      "rule": "Exact source comment for matching plan removal.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.index_expr": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.index_expr",
+      "status": "source-backed",
+      "rule": "Exact indexOf lambda used to find matching queued plan.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.guard": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "if(idx != -1){",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.guard_expr",
+      "status": "source-backed",
+      "rule": "Removal only occurs when indexOf found a match.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.remove_index_expr": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "plans.removeIndex(idx);",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.remove_index_expr",
+      "status": "source-backed",
+      "rule": "Exact queued plan removal call.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.plans": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "plans",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_input.plans",
+      "status": "explicit-input",
+      "rule": "Input preserves BuilderComp plans queue snapshot.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.x": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "x",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_input.x",
+      "status": "explicit-input",
+      "rule": "Input preserves removeBuild x parameter.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.y": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "y",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_input.y",
+      "status": "explicit-input",
+      "rule": "Input preserves removeBuild y parameter.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.breaking": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "breaking",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_input.breaking",
+      "status": "explicit-input",
+      "rule": "Input preserves removeBuild breaking parameter.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.idx": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "idx",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.idx",
+      "status": "source-backed",
+      "rule": "Result records index found by plans.indexOf lambda, or -1.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.removed": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "idx != -1",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.removed",
+      "status": "source-backed",
+      "rule": "Result records whether guard passed and removal happened.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.remove_index_call": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "plans.removeIndex(idx);",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.remove_index_call",
+      "status": "source-backed",
+      "rule": "Result records removeIndex call payload when guard passes.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_remove_build.plans_after": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_expr": "plans.removeIndex(idx);",
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "godot_symbol": "source_builder_remove_build_result.plans_after",
+      "status": "source-backed",
+      "rule": "Result records queue snapshot after exact removeIndex effect.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

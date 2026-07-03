@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 616)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 617)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 621)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 622)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19754,6 +19754,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_clear_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_is_building_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_remove_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_sync_state", audit["registeredSourceOwners"])
@@ -41910,6 +41911,79 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_actively_building_result["keys"]["return_false_expr"]["java_expr"], "return false;")
         self.assertEqual(source_builder_actively_building_result["keys"]["return_expr"]["java_expr"], "return isBuilding() && updateBuilding;")
         self.assertEqual(source_builder_actively_building_result["keys"]["actively_building"]["java_expr"], "return isBuilding() && updateBuilding;")
+
+    def test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_remove_build.method")
+        self.assertEqual(method["java_expr"], "void removeBuild(int x, int y, boolean breaking){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "removeBuild(int x, int y, boolean breaking)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_remove_build_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_remove_build_state")
+
+        plans = source_symbols.source_symbol(registry, "builder_remove_build.plans")
+        self.assertEqual(plans["java_expr"], "plans")
+        self.assertEqual(plans["godot_symbol"], "source_builder_remove_build_input.plans")
+        x_symbol = source_symbols.source_symbol(registry, "builder_remove_build.x")
+        self.assertEqual(x_symbol["java_expr"], "x")
+        self.assertEqual(x_symbol["godot_symbol"], "source_builder_remove_build_input.x")
+        y_symbol = source_symbols.source_symbol(registry, "builder_remove_build.y")
+        self.assertEqual(y_symbol["java_expr"], "y")
+        self.assertEqual(y_symbol["godot_symbol"], "source_builder_remove_build_input.y")
+        breaking = source_symbols.source_symbol(registry, "builder_remove_build.breaking")
+        self.assertEqual(breaking["java_expr"], "breaking")
+        self.assertEqual(breaking["godot_symbol"], "source_builder_remove_build_input.breaking")
+        index_expr = source_symbols.source_symbol(registry, "builder_remove_build.index_expr")
+        self.assertEqual(index_expr["java_expr"], "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);")
+        self.assertEqual(index_expr["godot_symbol"], "source_builder_remove_build_result.index_expr")
+        idx = source_symbols.source_symbol(registry, "builder_remove_build.idx")
+        self.assertEqual(idx["java_expr"], "idx")
+        self.assertEqual(idx["godot_symbol"], "source_builder_remove_build_result.idx")
+        removed = source_symbols.source_symbol(registry, "builder_remove_build.removed")
+        self.assertEqual(removed["java_expr"], "idx != -1")
+        self.assertEqual(removed["godot_symbol"], "source_builder_remove_build_result.removed")
+
+        remove_build_slice = source_symbols.source_slice(ledger, "N1148")
+        self.assertEqual(remove_build_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(remove_build_slice["java_method"], "removeBuild(int x, int y, boolean breaking)")
+        self.assertEqual(remove_build_slice["godot_owner"], "PortGame.source_builder_remove_build_state")
+        self.assertEqual(remove_build_slice["runtime_proof"], "/root/Main.generated_builder_comp_remove_build_bridge_state")
+        self.assertIn("void removeBuild(int x, int y, boolean breaking){", remove_build_slice["exact_exprs"])
+        self.assertIn("//remove matching plan", remove_build_slice["exact_exprs"])
+        self.assertIn("int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);", remove_build_slice["exact_exprs"])
+        self.assertIn("if(idx != -1){", remove_build_slice["exact_exprs"])
+        self.assertIn("plans.removeIndex(idx);", remove_build_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_remove_build_state")
+        self.assertEqual(contract["params"], [
+            {"name": "plans", "schema": "source_builder_remove_build_input.plans", "type": "Array"},
+            {"name": "x", "schema": "source_builder_remove_build_input.x", "type": "int"},
+            {"name": "y", "schema": "source_builder_remove_build_input.y", "type": "int"},
+            {"name": "breaking", "schema": "source_builder_remove_build_input.breaking", "type": "bool"},
+        ])
+        for key in ["method", "comment", "index_expr", "guard_expr", "remove_index_expr", "plans", "x", "y", "breaking", "idx", "removed", "remove_index_call", "plans_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_remove_build_input = source_symbols.state_schema(schema, "source_builder_remove_build_input")
+        self.assertEqual(source_builder_remove_build_input["keys"]["plans"]["java_expr"], "plans")
+        self.assertEqual(source_builder_remove_build_input["keys"]["x"]["java_expr"], "x")
+        self.assertEqual(source_builder_remove_build_input["keys"]["y"]["java_expr"], "y")
+        self.assertEqual(source_builder_remove_build_input["keys"]["breaking"]["java_expr"], "breaking")
+        source_builder_remove_build_result = source_symbols.state_schema(schema, "source_builder_remove_build_result")
+        self.assertEqual(source_builder_remove_build_result["keys"]["method"]["java_expr"], "void removeBuild(int x, int y, boolean breaking){")
+        self.assertEqual(source_builder_remove_build_result["keys"]["comment"]["java_expr"], "//remove matching plan")
+        self.assertEqual(source_builder_remove_build_result["keys"]["index_expr"]["java_expr"], "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);")
+        self.assertEqual(source_builder_remove_build_result["keys"]["guard_expr"]["java_expr"], "if(idx != -1){")
+        self.assertEqual(source_builder_remove_build_result["keys"]["remove_index_expr"]["java_expr"], "plans.removeIndex(idx);")
+        self.assertEqual(source_builder_remove_build_result["keys"]["idx"]["java_expr"], "idx")
+        self.assertEqual(source_builder_remove_build_result["keys"]["removed"]["java_expr"], "idx != -1")
+        self.assertEqual(source_builder_remove_build_result["keys"]["remove_index_call"]["java_expr"], "plans.removeIndex(idx);")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

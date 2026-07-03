@@ -206,6 +206,23 @@ def verify_builder_actively_building_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_builder_remove_build_source(upstream_root: Path) -> dict[str, Any]:
+    builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
+    source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "void removeBuild(int x, int y, boolean breaking){",
+        "comment": "//remove matching plan",
+        "index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);",
+        "guard": "if(idx != -1){",
+        "remove_index": "plans.removeIndex(idx);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BUILDER_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

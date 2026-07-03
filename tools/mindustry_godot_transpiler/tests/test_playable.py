@@ -12636,5 +12636,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_activelyBuilding_13"', source)
         self.assertIn('"matches": result.get("actively_building", null) == canonical.get("actively_building", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null)', source)
 
+    def test_port_game_exposes_source_builder_remove_build_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:", source)
+        self.assertIn("var idx: int = -1", source)
+        self.assertIn("if bool(plan.get(\"breaking\", false)) == breaking and int(plan.get(\"x\", 0)) == x and int(plan.get(\"y\", 0)) == y:", source)
+        self.assertIn("var plans_after: Array = plans.duplicate(true)", source)
+        self.assertIn("plans_after.remove_at(idx)", source)
+        self.assertIn("var remove_index_call: Variant = null", source)
+        self.assertIn('remove_index_call = {"call": "plans.removeIndex(idx);", "idx": idx}', source)
+        self.assertIn('"method": "void removeBuild(int x, int y, boolean breaking){"', source)
+        self.assertIn('"comment": "//remove matching plan"', source)
+        self.assertIn('"index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);"', source)
+        self.assertIn('"guard_expr": "if(idx != -1){"', source)
+        self.assertIn('"remove_index_expr": "plans.removeIndex(idx);"', source)
+        self.assertIn('"removed": idx != -1', source)
+
+    def test_port_game_exposes_generated_builder_comp_remove_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_removeBuild_8([plans, x, y, breaking])", source)
+        self.assertIn("var canonical = source_builder_remove_build_state(plans, x, y, breaking)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_remove_build_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_removeBuild_8"', source)
+        self.assertIn('"matches": result.get("idx", null) == canonical.get("idx", null) and result.get("plans_after", null) == canonical.get("plans_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

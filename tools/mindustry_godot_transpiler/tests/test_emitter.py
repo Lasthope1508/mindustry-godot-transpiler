@@ -6819,5 +6819,49 @@ class BuilderComp{
             self.assertIn('"range_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange"', source_text)
             self.assertIn('"actively_building": actively_building', source_text)
 
+    def test_emit_bridges_builder_comp_remove_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    void removeBuild(int x, int y, boolean breaking){
+        //remove matching plan
+        int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);
+        if(idx != -1){
+            plans.removeIndex(idx);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_removeBuild_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plans: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var x: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var y: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var breaking: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var idx: int = -1", source_text)
+            self.assertIn("if bool(plan.get(\"breaking\", false)) == breaking and int(plan.get(\"x\", 0)) == x and int(plan.get(\"y\", 0)) == y:", source_text)
+            self.assertIn("var plans_after: Array = plans.duplicate(true)", source_text)
+            self.assertIn("plans_after.remove_at(idx)", source_text)
+            self.assertIn("var remove_index_call: Variant = null", source_text)
+            self.assertIn('remove_index_call = {"call": "plans.removeIndex(idx);", "idx": idx}', source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_remove_build_state"', source_text)
+            self.assertIn('"method": "void removeBuild(int x, int y, boolean breaking){"', source_text)
+            self.assertIn('"index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);"', source_text)
+            self.assertIn('"removed": idx != -1', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -1260,6 +1260,29 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "removeBuild"
+    ):
+        return [
+            "\tvar plans: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar x: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar y: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar breaking: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar idx: int = -1",
+            "\tfor i in range(plans.size()):",
+            "\t\tvar plan: Dictionary = plans[i] if plans[i] is Dictionary else {}",
+            "\t\tif bool(plan.get(\"breaking\", false)) == breaking and int(plan.get(\"x\", 0)) == x and int(plan.get(\"y\", 0)) == y:",
+            "\t\t\tidx = i",
+            "\t\t\tbreak",
+            "\tvar plans_after: Array = plans.duplicate(true)",
+            "\tvar remove_index_call: Variant = null",
+            "\tif idx != -1:",
+            "\t\tplans_after.remove_at(idx)",
+            "\t\tremove_index_call = {\"call\": \"plans.removeIndex(idx);\", \"idx\": idx}",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_remove_build_state\", \"method\": \"void removeBuild(int x, int y, boolean breaking){\", \"comment\": \"//remove matching plan\", \"index_expr\": \"int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);\", \"guard_expr\": \"if(idx != -1){\", \"remove_index_expr\": \"plans.removeIndex(idx);\", \"plans\": plans, \"x\": x, \"y\": y, \"breaking\": breaking, \"idx\": idx, \"removed\": idx != -1, \"remove_index_call\": remove_index_call, \"plans_after\": plans_after}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "clearBuilding"
     ):
         return [

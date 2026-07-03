@@ -8112,5 +8112,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_builder_remove_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_builder_remove_build_source"))
+        report = source_parity.verify_builder_remove_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "void removeBuild(int x, int y, boolean breaking){",
+            "comment": "//remove matching plan",
+            "index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);",
+            "guard": "if(idx != -1){",
+            "remove_index": "plans.removeIndex(idx);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

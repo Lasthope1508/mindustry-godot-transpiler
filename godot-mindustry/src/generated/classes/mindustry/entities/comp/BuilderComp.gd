@@ -48,7 +48,22 @@ func java_method_shouldSkip_7(_args: Array = []) -> Variant:
 	return null
 
 func java_method_removeBuild_8(_args: Array = []) -> Variant:
-	return null
+	var plans: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []
+	var x: int = int(_args[1] if _args.size() > 1 else 0)
+	var y: int = int(_args[2] if _args.size() > 2 else 0)
+	var breaking: bool = bool(_args[3] if _args.size() > 3 else false)
+	var idx: int = -1
+	for i in range(plans.size()):
+		var plan: Dictionary = plans[i] if plans[i] is Dictionary else {}
+		if bool(plan.get("breaking", false)) == breaking and int(plan.get("x", 0)) == x and int(plan.get("y", 0)) == y:
+			idx = i
+			break
+	var plans_after: Array = plans.duplicate(true)
+	var remove_index_call: Variant = null
+	if idx != -1:
+		plans_after.remove_at(idx)
+		remove_index_call = {"call": "plans.removeIndex(idx);", "idx": idx}
+	return {"source_owner": "PortGame.source_builder_remove_build_state", "method": "void removeBuild(int x, int y, boolean breaking){", "comment": "//remove matching plan", "index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);", "guard_expr": "if(idx != -1){", "remove_index_expr": "plans.removeIndex(idx);", "plans": plans, "x": x, "y": y, "breaking": breaking, "idx": idx, "removed": idx != -1, "remove_index_call": remove_index_call, "plans_after": plans_after}
 
 func java_method_isBuilding_9(_args: Array = []) -> Variant:
 	var plans_size: int = int(_args[0] if _args.size() > 0 else 0)

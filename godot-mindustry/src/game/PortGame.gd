@@ -7810,6 +7810,47 @@ func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
 		"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null),
 	}
 
+func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
+	var idx: int = -1
+	for i in range(plans.size()):
+		var plan: Dictionary = plans[i] if plans[i] is Dictionary else {}
+		if bool(plan.get("breaking", false)) == breaking and int(plan.get("x", 0)) == x and int(plan.get("y", 0)) == y:
+			idx = i
+			break
+	var plans_after: Array = plans.duplicate(true)
+	var remove_index_call: Variant = null
+	if idx != -1:
+		plans_after.remove_at(idx)
+		remove_index_call = {"call": "plans.removeIndex(idx);", "idx": idx}
+	return {
+		"method": "void removeBuild(int x, int y, boolean breaking){",
+		"comment": "//remove matching plan",
+		"index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);",
+		"guard_expr": "if(idx != -1){",
+		"remove_index_expr": "plans.removeIndex(idx);",
+		"plans": plans,
+		"x": x,
+		"y": y,
+		"breaking": breaking,
+		"idx": idx,
+		"removed": idx != -1,
+		"remove_index_call": remove_index_call,
+		"plans_after": plans_after,
+	}
+
+func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_removeBuild_8([plans, x, y, breaking])
+	var canonical = source_builder_remove_build_state(plans, x, y, breaking)
+	return {
+		"source_owner": "PortGame.source_builder_remove_build_state",
+		"generated_owner": "BuilderComp.java_method_removeBuild_8",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("idx", null) == canonical.get("idx", null) and result.get("plans_after", null) == canonical.get("plans_after", null),
+	}
+
 func source_builder_add_build_tail_state(place: Variant) -> Dictionary:
 	var tail: bool = true
 	var add_build_call: Dictionary = {"call": "addBuild(place, true);", "place": place, "tail": tail}

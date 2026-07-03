@@ -24814,6 +24814,55 @@
         "test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_actively_building_state"
       ]
+    },
+    "PortGame.source_builder_remove_build_state": {
+      "source_slice": "N1148",
+      "source_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans",
+          "type": "Array",
+          "schema": "source_builder_remove_build_input.plans"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_builder_remove_build_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_builder_remove_build_input.y"
+        },
+        {
+          "name": "breaking",
+          "type": "bool",
+          "schema": "source_builder_remove_build_input.breaking"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "index_expr",
+        "guard_expr",
+        "remove_index_expr",
+        "plans",
+        "x",
+        "y",
+        "breaking",
+        "idx",
+        "removed",
+        "remove_index_call",
+        "plans_after"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.removeBuild() matching index and removeIndex mutation state.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_remove_build_state"
+      ]
     }
   },
   "policy": {
