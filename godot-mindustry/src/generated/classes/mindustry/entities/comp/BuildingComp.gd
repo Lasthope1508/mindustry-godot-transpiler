@@ -1469,7 +1469,19 @@ func java_method_setProp_211(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_set_prop_health_state", "health_source_owner": "PortGame.source_building_set_prop_health_state", "team_source_owner": "PortGame.source_building_set_prop_team_double_state", "total_power_source_owner": "PortGame.source_building_set_prop_total_power_state", "set_prop_health": set_prop_health, "set_prop_team_double": set_prop_team_double, "set_prop_total_power": set_prop_total_power}
 
 func java_method_setProp_212(_args: Array = []) -> Variant:
-	return null
+	var prop := str(_args[0] if _args.size() > 0 else "")
+	var current_team_value: Variant = _args[1] if _args.size() > 1 else null
+	var value_is_team := bool(_args[2] if _args.size() > 2 else false)
+	var team_value: Variant = _args[3] if _args.size() > 3 else null
+	var team: Variant = current_team_value
+	var change_team_called := false
+	var change_team: Variant = null
+	if prop == "team" and value_is_team and current_team_value != team_value:
+		team = team_value
+		change_team_called = true
+		change_team = team_value
+	var set_prop_team_object := {"method": "public void setProp(LAccess prop, Object value){", "switch_prop": "switch(prop){", "team_case": "case team -> {", "team_gate": "if(value instanceof Team team && this.team != team){", "change_team_call": "changeTeam(team);", "prop": prop, "current_team_value": current_team_value, "value_is_team": value_is_team, "team_value": team_value, "team": team, "change_team_called": change_team_called, "change_team": change_team}
+	return {"source_owner": "PortGame.source_building_set_prop_team_object_state", "team_object_source_owner": "PortGame.source_building_set_prop_team_object_state", "set_prop_team_object": set_prop_team_object}
 
 func java_method_setProp_213(_args: Array = []) -> Variant:
 	return null

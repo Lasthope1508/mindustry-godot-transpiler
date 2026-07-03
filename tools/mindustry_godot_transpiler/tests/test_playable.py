@@ -5611,6 +5611,48 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_set_prop_team_object_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_setProp_212(_args: Array = []) -> Variant:", source)
+        self.assertIn('var prop := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var current_team_value: Variant = _args[1] if _args.size() > 1 else null", source)
+        self.assertIn("var value_is_team := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var team_value: Variant = _args[3] if _args.size() > 3 else null", source)
+        self.assertIn("var team: Variant = current_team_value", source)
+        self.assertIn("var change_team_called := false", source)
+        self.assertIn("var change_team: Variant = null", source)
+        self.assertIn('if prop == "team" and value_is_team and current_team_value != team_value:', source)
+        self.assertIn("team = team_value", source)
+        self.assertIn("change_team_called = true", source)
+        self.assertIn("change_team = team_value", source)
+        self.assertIn('"team_object_source_owner": "PortGame.source_building_set_prop_team_object_state"', source)
+        self.assertIn('"method": "public void setProp(LAccess prop, Object value){"', source)
+        self.assertIn('"switch_prop": "switch(prop){"', source)
+        self.assertIn('"team_case": "case team -> {"', source)
+        self.assertIn('"team_gate": "if(value instanceof Team team && this.team != team){"', source)
+        self.assertIn('"change_team_call": "changeTeam(team);"', source)
+        self.assertIn('"current_team_value": current_team_value', source)
+        self.assertIn('"value_is_team": value_is_team', source)
+        self.assertIn('"team_value": team_value', source)
+        self.assertIn('"team": team', source)
+        self.assertIn('"change_team_called": change_team_called', source)
+        self.assertIn('"change_team": change_team', source)
+        self.assertIn('"set_prop_team_object": set_prop_team_object', source)
+
+    def test_port_game_exposes_generated_building_comp_set_prop_team_object_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setProp_212([prop, current_team_value, value_is_team, team_value])", source)
+        self.assertIn("var canonical = source_building_set_prop_team_object_state(prop, current_team_value, value_is_team, team_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_set_prop_team_object_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_212"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

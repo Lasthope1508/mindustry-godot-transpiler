@@ -4420,6 +4420,63 @@ class BuildingComp{
             self.assertIn('"updated": updated', source_text)
             self.assertIn('"set_prop_total_power": set_prop_total_power', source_text)
 
+    def test_emit_bridges_building_comp_set_prop_team_object_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void setProp(LAccess prop, Object value){
+        switch(prop){
+            case team -> {
+                if(value instanceof Team team && this.team != team){
+                    changeTeam(team);
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setProp_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var prop := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var current_team_value: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var value_is_team := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var team_value: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("var team: Variant = current_team_value", source_text)
+            self.assertIn("var change_team_called := false", source_text)
+            self.assertIn("var change_team: Variant = null", source_text)
+            self.assertIn('if prop == "team" and value_is_team and current_team_value != team_value:', source_text)
+            self.assertIn("team = team_value", source_text)
+            self.assertIn("change_team_called = true", source_text)
+            self.assertIn("change_team = team_value", source_text)
+            self.assertIn('"team_object_source_owner": "PortGame.source_building_set_prop_team_object_state"', source_text)
+            self.assertIn('"method": "public void setProp(LAccess prop, Object value){"', source_text)
+            self.assertIn('"switch_prop": "switch(prop){"', source_text)
+            self.assertIn('"team_case": "case team -> {"', source_text)
+            self.assertIn('"team_gate": "if(value instanceof Team team && this.team != team){"', source_text)
+            self.assertIn('"change_team_call": "changeTeam(team);"', source_text)
+            self.assertIn('"current_team_value": current_team_value', source_text)
+            self.assertIn('"value_is_team": value_is_team', source_text)
+            self.assertIn('"team_value": team_value', source_text)
+            self.assertIn('"team": team', source_text)
+            self.assertIn('"change_team_called": change_team_called', source_text)
+            self.assertIn('"change_team": change_team', source_text)
+            self.assertIn('"set_prop_team_object": set_prop_team_object', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

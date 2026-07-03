@@ -23093,6 +23093,43 @@
         "test_port_game_exposes_generated_building_comp_set_prop_total_power_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1093": {
+      "deferred_exprs": [
+        "Concrete Team object identity and changeTeam side effects remain owned by runtime team integration; this generated bridge records only BuildingComp setProp team Object case branch selection through existing N644 canonical owner.",
+        "BuildingComp.setProp(UnlockableContent content, double value) generated item and liquid content bridges remain deferred to later slices."
+      ],
+      "exact_exprs": [
+        "public void setProp(LAccess prop, Object value){",
+        "switch(prop){",
+        "case team -> {",
+        "if(value instanceof Team team && this.team != team){",
+        "changeTeam(team);"
+      ],
+      "godot_owner": "PortGame.source_building_set_prop_team_object_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(LAccess prop, Object value)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_setProp_212 and PortGame generated bridge to existing N644 canonical source_building_set_prop_team_object_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_set_prop_team_object_bridge_state",
+      "source_symbols": [
+        "building_set_prop_team_object.method",
+        "building_set_prop_team_object.switch_prop",
+        "building_set_prop_team_object.team_case",
+        "building_set_prop_team_object.team_gate",
+        "building_set_prop_team_object.change_team_call",
+        "building_set_prop_team_object.prop",
+        "building_set_prop_team_object.current_team_value",
+        "building_set_prop_team_object.value_is_team",
+        "building_set_prop_team_object.team_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_set_prop_team_object_to_source_state",
+        "test_generated_building_comp_bridges_set_prop_team_object_to_source_state",
+        "test_port_game_exposes_generated_building_comp_set_prop_team_object_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

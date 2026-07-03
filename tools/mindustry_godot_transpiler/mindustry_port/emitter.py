@@ -1326,6 +1326,27 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "setProp"
+        and [parameter.get("type") for parameter in method.get("parameters", [])] == ["LAccess", "Object"]
+    ):
+        return [
+            "\tvar prop := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar current_team_value: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar value_is_team := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar team_value: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar team: Variant = current_team_value",
+            "\tvar change_team_called := false",
+            "\tvar change_team: Variant = null",
+            "\tif prop == \"team\" and value_is_team and current_team_value != team_value:",
+            "\t\tteam = team_value",
+            "\t\tchange_team_called = true",
+            "\t\tchange_team = team_value",
+            "\tvar set_prop_team_object := {\"method\": \"public void setProp(LAccess prop, Object value){\", \"switch_prop\": \"switch(prop){\", \"team_case\": \"case team -> {\", \"team_gate\": \"if(value instanceof Team team && this.team != team){\", \"change_team_call\": \"changeTeam(team);\", \"prop\": prop, \"current_team_value\": current_team_value, \"value_is_team\": value_is_team, \"team_value\": team_value, \"team\": team, \"change_team_called\": change_team_called, \"change_team\": change_team}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_set_prop_team_object_state\", \"team_object_source_owner\": \"PortGame.source_building_set_prop_team_object_state\", \"set_prop_team_object\": set_prop_team_object}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

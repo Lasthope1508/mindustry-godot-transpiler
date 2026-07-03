@@ -6572,6 +6572,18 @@ func source_building_set_prop_team_object_state(prop: String, current_team_value
 	same_result.merge(source_exprs)
 	return same_result
 
+func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_setProp_212([prop, current_team_value, value_is_team, team_value])
+	var canonical = source_building_set_prop_team_object_state(prop, current_team_value, value_is_team, team_value)
+	return {
+		"source_owner": "PortGame.source_building_set_prop_team_object_state",
+		"generated_owner": "BuildingComp.java_method_setProp_212",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public void setProp(UnlockableContent content, double value){",
