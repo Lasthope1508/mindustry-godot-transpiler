@@ -27,7 +27,10 @@ func java_method_update_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_builder_update_state", "method": "public void update(){", "update_build_logic_call": update_build_logic_call, "update_build_logic_called": update_build_logic_called}
 
 func java_method_afterRead_2(_args: Array = []) -> Variant:
-	return null
+	var plans_null: bool = bool(_args[0] if _args.size() > 0 else false)
+	var queue_reset: bool = plans_null
+	var plans_capacity: int = 1 if queue_reset else 0
+	return {"source_owner": "PortGame.source_builder_after_read_state", "method": "public void afterRead(){", "comment": "//why would this happen?", "guard_expr": "if(plans == null){", "queue_constructor": "new Queue<>(1)", "plans_null": plans_null, "queue_reset": queue_reset, "plans_capacity": plans_capacity}
 
 func java_method_validatePlans_3(_args: Array = []) -> Variant:
 	return null

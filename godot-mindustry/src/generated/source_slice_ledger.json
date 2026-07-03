@@ -24832,6 +24832,39 @@
         "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1146": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "afterRead()",
+      "godot_owner": "PortGame.source_builder_after_read_state",
+      "source_symbols": [
+        "builder_after_read.method",
+        "builder_after_read.plans_null",
+        "builder_after_read.queue_constructor",
+        "builder_after_read.queue_reset",
+        "builder_after_read.plans_capacity"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void afterRead(){",
+        "//why would this happen?",
+        "if(plans == null){",
+        "plans = new Queue<>(1);"
+      ],
+      "deferred_exprs": [
+        "Concrete Queue object identity and serialization lifecycle remain engine integration work; this slice preserves only the null guard and Queue<>(1) reset contract."
+      ],
+      "status": "done",
+      "rule": "Registers BuilderComp.afterRead() null plans guard and Queue<>(1) reset; wires generated BuilderComp.java_method_afterRead_2 plus PortGame generated bridge to canonical source_builder_after_read_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_after_read_bridge_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_after_read_to_source_state",
+        "test_port_game_exposes_source_builder_after_read_state",
+        "test_port_game_exposes_generated_builder_comp_after_read_bridge_state",
+        "test_generated_builder_comp_after_read_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

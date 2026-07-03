@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 614)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 615)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 619)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 620)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19748,6 +19748,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_unit_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_add_build_tail_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_build_plan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_clear_building_state", audit["registeredSourceOwners"])
@@ -41773,6 +41774,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_build_plan_result["keys"]["plans_size"]["java_expr"], "plans.size")
         self.assertEqual(source_builder_build_plan_result["keys"]["plans_first"]["java_expr"], "plans.first()")
         self.assertEqual(source_builder_build_plan_result["keys"]["build_plan"]["java_expr"], "plans.size == 0 ? null : plans.first()")
+
+    def test_generated_builder_comp_after_read_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_after_read.method")
+        self.assertEqual(method["java_expr"], "public void afterRead(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "afterRead()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_after_read_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_after_read_state")
+
+        plans_null = source_symbols.source_symbol(registry, "builder_after_read.plans_null")
+        self.assertEqual(plans_null["java_expr"], "plans == null")
+        self.assertEqual(plans_null["godot_symbol"], "source_builder_after_read_input.plans_null")
+        queue_constructor = source_symbols.source_symbol(registry, "builder_after_read.queue_constructor")
+        self.assertEqual(queue_constructor["java_expr"], "new Queue<>(1)")
+        self.assertEqual(queue_constructor["godot_symbol"], "source_builder_after_read_result.queue_constructor")
+        queue_reset = source_symbols.source_symbol(registry, "builder_after_read.queue_reset")
+        self.assertEqual(queue_reset["java_expr"], "plans = new Queue<>(1);")
+        self.assertEqual(queue_reset["godot_symbol"], "source_builder_after_read_result.queue_reset")
+
+        after_read_slice = source_symbols.source_slice(ledger, "N1146")
+        self.assertEqual(after_read_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(after_read_slice["java_method"], "afterRead()")
+        self.assertEqual(after_read_slice["godot_owner"], "PortGame.source_builder_after_read_state")
+        self.assertEqual(after_read_slice["runtime_proof"], "/root/Main.generated_builder_comp_after_read_bridge_state")
+        self.assertIn("@Override", after_read_slice["exact_exprs"])
+        self.assertIn("public void afterRead(){", after_read_slice["exact_exprs"])
+        self.assertIn("//why would this happen?", after_read_slice["exact_exprs"])
+        self.assertIn("if(plans == null){", after_read_slice["exact_exprs"])
+        self.assertIn("plans = new Queue<>(1);", after_read_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_after_read_state")
+        self.assertEqual(contract["params"], [
+            {"name": "plans_null", "schema": "source_builder_after_read_input.plans_null", "type": "bool"},
+        ])
+        for key in ["method", "comment", "guard_expr", "queue_constructor", "plans_null", "queue_reset", "plans_capacity"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_after_read_input = source_symbols.state_schema(schema, "source_builder_after_read_input")
+        self.assertEqual(source_builder_after_read_input["keys"]["plans_null"]["java_expr"], "plans == null")
+        source_builder_after_read_result = source_symbols.state_schema(schema, "source_builder_after_read_result")
+        self.assertEqual(source_builder_after_read_result["keys"]["method"]["java_expr"], "public void afterRead(){")
+        self.assertEqual(source_builder_after_read_result["keys"]["comment"]["java_expr"], "//why would this happen?")
+        self.assertEqual(source_builder_after_read_result["keys"]["guard_expr"]["java_expr"], "if(plans == null){")
+        self.assertEqual(source_builder_after_read_result["keys"]["queue_constructor"]["java_expr"], "new Queue<>(1)")
+        self.assertEqual(source_builder_after_read_result["keys"]["plans_null"]["java_expr"], "plans == null")
+        self.assertEqual(source_builder_after_read_result["keys"]["queue_reset"]["java_expr"], "plans = new Queue<>(1);")
+        self.assertEqual(source_builder_after_read_result["keys"]["plans_capacity"]["java_expr"], "1")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

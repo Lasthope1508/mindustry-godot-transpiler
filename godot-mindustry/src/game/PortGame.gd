@@ -7740,6 +7740,32 @@ func generated_builder_comp_update_bridge_state() -> Dictionary:
 		"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null),
 	}
 
+func source_builder_after_read_state(plans_null: bool) -> Dictionary:
+	var queue_reset: bool = plans_null
+	var plans_capacity: int = 1 if queue_reset else 0
+	return {
+		"method": "public void afterRead(){",
+		"comment": "//why would this happen?",
+		"guard_expr": "if(plans == null){",
+		"queue_constructor": "new Queue<>(1)",
+		"plans_null": plans_null,
+		"queue_reset": queue_reset,
+		"plans_capacity": plans_capacity,
+	}
+
+func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_afterRead_2([plans_null])
+	var canonical = source_builder_after_read_state(plans_null)
+	return {
+		"source_owner": "PortGame.source_builder_after_read_state",
+		"generated_owner": "BuilderComp.java_method_afterRead_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("queue_reset", null) == canonical.get("queue_reset", null) and result.get("plans_capacity", null) == canonical.get("plans_capacity", null),
+	}
+
 func source_builder_is_building_state(plans_size: int) -> Dictionary:
 	var is_building: bool = plans_size != 0
 	return {

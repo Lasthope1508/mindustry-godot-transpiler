@@ -24686,6 +24686,34 @@
         "test_port_game_exposes_source_builder_add_build_tail_state"
       ]
     },
+    "PortGame.source_builder_after_read_state": {
+      "source_slice": "N1146",
+      "source_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans_null",
+          "type": "bool",
+          "schema": "source_builder_after_read_input.plans_null"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "queue_constructor",
+        "plans_null",
+        "queue_reset",
+        "plans_capacity"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.afterRead() null plans queue reset state.",
+      "runtime_proof": "/root/Main.source_builder_after_read_state",
+      "tests": [
+        "test_generated_builder_comp_after_read_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_after_read_state"
+      ]
+    },
     "PortGame.source_builder_build_plan_state": {
       "source_slice": "N1145",
       "source_method": "buildPlan()",

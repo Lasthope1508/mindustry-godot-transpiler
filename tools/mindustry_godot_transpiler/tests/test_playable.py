@@ -12582,5 +12582,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_buildPlan_14"', source)
         self.assertIn('"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
+    def test_port_game_exposes_source_builder_after_read_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_after_read_state(plans_null: bool) -> Dictionary:", source)
+        self.assertIn("var queue_reset: bool = plans_null", source)
+        self.assertIn("var plans_capacity: int = 1 if queue_reset else 0", source)
+        self.assertIn('"method": "public void afterRead(){"', source)
+        self.assertIn('"comment": "//why would this happen?"', source)
+        self.assertIn('"guard_expr": "if(plans == null){"', source)
+        self.assertIn('"queue_constructor": "new Queue<>(1)"', source)
+        self.assertIn('"queue_reset": queue_reset', source)
+
+    def test_port_game_exposes_generated_builder_comp_after_read_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_afterRead_2([plans_null])", source)
+        self.assertIn("var canonical = source_builder_after_read_state(plans_null)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_after_read_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_afterRead_2"', source)
+        self.assertIn('"matches": result.get("queue_reset", null) == canonical.get("queue_reset", null) and result.get("plans_capacity", null) == canonical.get("plans_capacity", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

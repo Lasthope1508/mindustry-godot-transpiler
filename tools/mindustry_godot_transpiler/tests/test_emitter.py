@@ -6733,5 +6733,43 @@ class BuilderComp{
             self.assertIn('"return_expr": "return plans.size == 0 ? null : plans.first();"', source_text)
             self.assertIn('"build_plan": build_plan', source_text)
 
+    def test_emit_bridges_builder_comp_after_read_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    @Override
+    public void afterRead(){
+        //why would this happen?
+        if(plans == null){
+            plans = new Queue<>(1);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_afterRead_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plans_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var queue_reset: bool = plans_null", source_text)
+            self.assertIn("var plans_capacity: int = 1 if queue_reset else 0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_after_read_state"', source_text)
+            self.assertIn('"method": "public void afterRead(){"', source_text)
+            self.assertIn('"guard_expr": "if(plans == null){"', source_text)
+            self.assertIn('"queue_constructor": "new Queue<>(1)"', source_text)
+            self.assertIn('"queue_reset": queue_reset', source_text)
+
 if __name__ == "__main__":
     unittest.main()

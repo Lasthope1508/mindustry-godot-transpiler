@@ -1239,6 +1239,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "afterRead"
+    ):
+        return [
+            "\tvar plans_null: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar queue_reset: bool = plans_null",
+            "\tvar plans_capacity: int = 1 if queue_reset else 0",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_after_read_state\", \"method\": \"public void afterRead(){\", \"comment\": \"//why would this happen?\", \"guard_expr\": \"if(plans == null){\", \"queue_constructor\": \"new Queue<>(1)\", \"plans_null\": plans_null, \"queue_reset\": queue_reset, \"plans_capacity\": plans_capacity}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "isBuilding"
     ):
         return [

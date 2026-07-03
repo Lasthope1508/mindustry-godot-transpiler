@@ -90107,6 +90107,112 @@
         }
       }
     },
+    "source_builder_after_read_input": {
+      "status": "active",
+      "keys": {
+        "plans_null": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "plans == null",
+          "godot_symbol": "source_builder_after_read_input.plans_null",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves afterRead plans null guard.",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        }
+      }
+    },
+    "source_builder_after_read_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "public void afterRead(){",
+          "godot_symbol": "source_builder_after_read_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BuilderComp afterRead method boundary.",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        },
+        "comment": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "//why would this happen?",
+          "godot_symbol": "source_builder_after_read_result.comment",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact afterRead source comment.",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        },
+        "guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "if(plans == null){",
+          "godot_symbol": "source_builder_after_read_result.guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact afterRead null guard.",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        },
+        "queue_constructor": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "new Queue<>(1)",
+          "godot_symbol": "source_builder_after_read_result.queue_constructor",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact afterRead queue constructor.",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        },
+        "plans_null": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "plans == null",
+          "godot_symbol": "source_builder_after_read_input.plans_null",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result preserves plans null input.",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        },
+        "queue_reset": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "plans = new Queue<>(1);",
+          "godot_symbol": "source_builder_after_read_result.queue_reset",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records afterRead queue reset occurrence.",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        },
+        "plans_capacity": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "afterRead()",
+          "java_expr": "1",
+          "godot_symbol": "source_builder_after_read_result.plans_capacity",
+          "type": "int",
+          "status": "source-backed",
+          "rule": "Result records Queue initial capacity from new Queue<>(1).",
+          "used_by": [
+            "PortGame.source_builder_after_read_state"
+          ]
+        }
+      }
+    },
     "source_builder_build_plan_input": {
       "status": "active",
       "keys": {
