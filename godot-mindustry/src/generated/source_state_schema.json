@@ -35705,6 +35705,152 @@
       },
       "status": "active"
     },
+    "source_building_tether_update_input": {
+      "keys": {
+        "building_exists": {
+          "godot_symbol": "source_building_tether_update_input.building_exists",
+          "java_expr": "building != null",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Input mirrors nullable building presence in update guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "building_is_valid": {
+          "godot_symbol": "source_building_tether_update_input.building_is_valid",
+          "java_expr": "building.isValid()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Input mirrors building validity call in update guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "building_team_value": {
+          "godot_symbol": "source_building_tether_update_input.building_team_value",
+          "java_expr": "building.team",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Input mirrors tethered building team.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "team_value": {
+          "godot_symbol": "source_building_tether_update_input.team_value",
+          "java_expr": "team",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Input mirrors imported team field.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "unit_id": {
+          "godot_symbol": "source_building_tether_update_input.unit_id",
+          "java_expr": "self()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Input identifies unit passed to Call.unitDespawn.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_tether_update_result": {
+      "keys": {
+        "buildingExists": {
+          "alias_of": "source_building_tether_update_input.building_exists",
+          "godot_symbol": "source_building_tether_update_result.buildingExists",
+          "java_expr": "building != null",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Result exposes nullable building guard input.",
+          "status": "alias",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "buildingIsValid": {
+          "alias_of": "source_building_tether_update_input.building_is_valid",
+          "godot_symbol": "source_building_tether_update_result.buildingIsValid",
+          "java_expr": "building.isValid()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Result exposes building validity guard input.",
+          "status": "alias",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "buildingTeam": {
+          "alias_of": "source_building_tether_update_input.building_team_value",
+          "godot_symbol": "source_building_tether_update_result.buildingTeam",
+          "java_expr": "building.team",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Result exposes tethered building team.",
+          "status": "alias",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "despawn": {
+          "godot_symbol": "source_building_tether_update_result.despawn",
+          "java_expr": "Call.unitDespawn(self());",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Result records despawn call when guard passes.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "guard": {
+          "godot_symbol": "source_building_tether_update_result.guard",
+          "java_expr": "if(building == null || !building.isValid() || building.team != team){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Result records full BuildingTetherComp.update despawn guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        },
+        "team": {
+          "alias_of": "source_building_tether_update_input.team_value",
+          "godot_symbol": "source_building_tether_update_result.team",
+          "java_expr": "team",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+          "rule": "Result exposes imported team field.",
+          "status": "alias",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_tether_update_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "source_building_transfer_liquid_input": {
       "keys": {
         "amount": {

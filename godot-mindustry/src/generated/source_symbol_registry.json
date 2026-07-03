@@ -21796,6 +21796,97 @@
         "test_building_to_string_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_tether_update.building_exists": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.building_exists",
+      "java_expr": "building != null",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors null branch in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.building_is_valid": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.building_is_valid",
+      "java_expr": "building.isValid()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors building.isValid() branch in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.building_team": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.building_team_value",
+      "java_expr": "building.team",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors building.team branch in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.call": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_result.despawn",
+      "java_expr": "Call.unitDespawn(self());",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "BuildingTetherComp.update despawn call recorded when guard passes.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.guard": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_result.guard",
+      "java_expr": "if(building == null || !building.isValid() || building.team != team){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "BuildingTetherComp.update despawns when tethered building is missing, invalid, or on another team.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.team": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.team_value",
+      "java_expr": "team",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors imported team field in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.unit_id": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input identifies self() passed to Call.unitDespawn.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_transfer_liquid.accept_guard": {
       "godot_owner": "PortGame.source_building_transfer_liquid_state",
       "godot_symbol": "source_building_transfer_liquid_result.accept_guard",

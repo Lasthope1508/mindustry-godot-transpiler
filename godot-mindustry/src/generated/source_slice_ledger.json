@@ -23670,6 +23670,42 @@
         "test_port_game_exposes_generated_building_comp_to_string_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1109": {
+      "deferred_exprs": [
+        "Live unit despawn side effect remains recorded call state only until unit networking/removal runtime owns Call.unitDespawn."
+      ],
+      "exact_exprs": [
+        "/** A unit that depends on a building's existence; if that building is removed, it despawns. */",
+        "public @Nullable Building building;",
+        "public void update(){",
+        "if(building == null || !building.isValid() || building.team != team){",
+        "Call.unitDespawn(self());"
+      ],
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "java_class": "mindustry.entities.comp.BuildingTetherComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Registers BuildingTetherComp.update despawn guard and wires generated BuildingTetherComp.java_method_update_0 plus PortGame generated bridge to canonical source_building_tether_update_state.",
+      "runtime_proof": "/root/Main.generated_building_tether_comp_update_bridge_state",
+      "source_symbols": [
+        "building_tether_update.building_exists",
+        "building_tether_update.building_is_valid",
+        "building_tether_update.building_team",
+        "building_tether_update.team",
+        "building_tether_update.unit_id",
+        "building_tether_update.guard",
+        "building_tether_update.call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_tether_comp_update_to_source_state",
+        "test_generated_building_tether_comp_bridges_update_to_source_state",
+        "test_port_game_exposes_source_building_tether_update_state",
+        "test_port_game_exposes_generated_building_tether_comp_update_bridge_state",
+        "test_building_tether_update_symbols_are_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

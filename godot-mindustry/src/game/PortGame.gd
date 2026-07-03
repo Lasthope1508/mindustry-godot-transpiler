@@ -6952,6 +6952,36 @@ func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value:
 		"matches": generated_to_string == canonical,
 	}
 
+func source_building_tether_update_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:
+	var guard: bool = (not building_exists) or (not building_is_valid) or building_team_value != team_value
+	var despawn_call: Variant = null
+	if guard:
+		despawn_call = {
+			"call": "Call.unitDespawn(self())",
+			"unit": unit_id,
+		}
+	return {
+		"guard": guard,
+		"buildingExists": building_exists,
+		"buildingIsValid": building_is_valid,
+		"buildingTeam": building_team_value,
+		"team": team_value,
+		"despawn": despawn_call,
+	}
+
+func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_0([building_exists, building_is_valid, building_team_value, team_value, unit_id])
+	var canonical = source_building_tether_update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
+	return {
+		"source_owner": "PortGame.source_building_tether_update_state",
+		"generated_owner": "BuildingTetherComp.java_method_update_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("despawn", null) == canonical.get("despawn", null),
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

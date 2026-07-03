@@ -1079,6 +1079,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_building_to_string_state\", \"override_annotation\": \"@Override\", \"replace_annotation\": \"@Replace\", \"method\": \"public String toString(){\", \"return_expr\": \"return \\\"Building#\\\" + id() + \\\"[\\\" + tileX() + \\\",\\\" + tileY() + \\\"]:\\\" + block;\", \"id_value\": id_value, \"tile_x_value\": tile_x_value, \"tile_y_value\": tile_y_value, \"block_value\": block_value, \"to_string\": to_string_result}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingTetherComp.java"
+        and type_entry.get("name") == "BuildingTetherComp"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar building_exists := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar building_is_valid := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar building_team_value: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar team_value: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar unit_id := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar guard: bool = (not building_exists) or (not building_is_valid) or building_team_value != team_value",
+            "\tvar despawn_call: Variant = null",
+            "\tif guard:",
+            "\t\tdespawn_call = {\"call\": \"Call.unitDespawn(self())\", \"unit\": unit_id}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_tether_update_state\", \"method\": \"public void update(){\", \"guard_expr\": \"if(building == null || !building.isValid() || building.team != team){\", \"building_exists\": building_exists, \"building_is_valid\": building_is_valid, \"building_team_value\": building_team_value, \"team_value\": team_value, \"guard\": guard, \"despawn\": despawn_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "kill"

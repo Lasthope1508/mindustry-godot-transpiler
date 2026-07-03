@@ -6073,6 +6073,46 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_tether_comp_bridges_update_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingTetherComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source)
+        self.assertIn("var building_exists := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var building_is_valid := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var building_team_value: Variant = _args[2] if _args.size() > 2 else null", source)
+        self.assertIn("var team_value: Variant = _args[3] if _args.size() > 3 else null", source)
+        self.assertIn("var unit_id := int(_args[4] if _args.size() > 4 else 0)", source)
+        self.assertIn("var guard: bool = (not building_exists) or (not building_is_valid) or building_team_value != team_value", source)
+        self.assertIn('"source_owner": "PortGame.source_building_tether_update_state"', source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"guard_expr": "if(building == null || !building.isValid() || building.team != team){"', source)
+        self.assertIn('"call": "Call.unitDespawn(self())"', source)
+        self.assertIn('"despawn": despawn_call', source)
+
+    def test_port_game_exposes_source_building_tether_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_tether_update_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var guard: bool = (not building_exists) or (not building_is_valid) or building_team_value != team_value", source)
+        self.assertIn("if guard:", source)
+        self.assertIn('"call": "Call.unitDespawn(self())"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn('"despawn": despawn_call', source)
+
+    def test_port_game_exposes_generated_building_tether_comp_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_update_0([building_exists, building_is_valid, building_team_value, team_value, unit_id])", source)
+        self.assertIn("var canonical = source_building_tether_update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_tether_update_state"', source)
+        self.assertIn('"generated_owner": "BuildingTetherComp.java_method_update_0"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

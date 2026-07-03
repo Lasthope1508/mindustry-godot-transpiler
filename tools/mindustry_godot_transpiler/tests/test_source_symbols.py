@@ -8009,6 +8009,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(remote_remove["java_expr"], "unit.remove();")
         self.assertEqual(remote_remove["godot_symbol"], "source_unit_update_spawned_core_despawn_result.despawn")
 
+    def test_building_tether_update_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        guard = source_symbols.source_symbol(registry, "building_tether_update.guard")
+        self.assertEqual(guard["java_expr"], "if(building == null || !building.isValid() || building.team != team){")
+        self.assertEqual(guard["java_source"], "core/src/mindustry/entities/comp/BuildingTetherComp.java")
+        self.assertEqual(guard["java_method"], "update()")
+        self.assertEqual(guard["godot_owner"], "PortGame.source_building_tether_update_state")
+        self.assertEqual(guard["runtime_proof"], "/root/Main.source_building_tether_update_state")
+        self.assertEqual(guard["godot_symbol"], "source_building_tether_update_result.guard")
+
+        call = source_symbols.source_symbol(registry, "building_tether_update.call")
+        self.assertEqual(call["java_expr"], "Call.unitDespawn(self());")
+        self.assertEqual(call["godot_symbol"], "source_building_tether_update_result.despawn")
+
+        building_exists = source_symbols.source_symbol(registry, "building_tether_update.building_exists")
+        self.assertEqual(building_exists["java_expr"], "building != null")
+        self.assertEqual(building_exists["godot_symbol"], "source_building_tether_update_input.building_exists")
+
+        building_is_valid = source_symbols.source_symbol(registry, "building_tether_update.building_is_valid")
+        self.assertEqual(building_is_valid["java_expr"], "building.isValid()")
+        self.assertEqual(building_is_valid["godot_symbol"], "source_building_tether_update_input.building_is_valid")
+
+        building_team = source_symbols.source_symbol(registry, "building_tether_update.building_team")
+        self.assertEqual(building_team["java_expr"], "building.team")
+        self.assertEqual(building_team["godot_symbol"], "source_building_tether_update_input.building_team_value")
+
+        team_value = source_symbols.source_symbol(registry, "building_tether_update.team")
+        self.assertEqual(team_value["java_expr"], "team")
+        self.assertEqual(team_value["godot_symbol"], "source_building_tether_update_input.team_value")
+
+        unit_id = source_symbols.source_symbol(registry, "building_tether_update.unit_id")
+        self.assertEqual(unit_id["java_expr"], "self()")
+        self.assertEqual(unit_id["godot_symbol"], "source_building_tether_update_input.unit_id")
+
     def test_unit_update_tile_unit_on_any_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19573,9 +19611,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 577)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 578)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 582)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 583)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19597,6 +19635,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_is_heal_suppressed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_insulated_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_is_payload_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_tether_update_state", audit["registeredSourceOwners"])
+        self.assertNotIn("PortGame.source_building_tether_update_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapon_update_continuous_sound_state", audit["registeredSourceOwners"])
         self.assertNotIn("PortGame.source_weapon_update_continuous_sound_state", audit["legacyUnregisteredOwners"])
         self.assertIn("PortGame.source_weapon_update_mount_origin_state", audit["registeredSourceOwners"])
@@ -26520,6 +26560,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public String toString(){", building_generated_to_string["exact_exprs"])
         self.assertIn('return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;', building_generated_to_string["exact_exprs"])
 
+        building_tether_update = source_symbols.source_slice(ledger, "N1109")
+        self.assertEqual(building_tether_update["java_source"], "core/src/mindustry/entities/comp/BuildingTetherComp.java")
+        self.assertEqual(building_tether_update["java_method"], "update()")
+        self.assertEqual(building_tether_update["godot_owner"], "PortGame.source_building_tether_update_state")
+        self.assertEqual(building_tether_update["runtime_proof"], "/root/Main.generated_building_tether_comp_update_bridge_state")
+        self.assertIn("/** A unit that depends on a building's existence; if that building is removed, it despawns. */", building_tether_update["exact_exprs"])
+        self.assertIn("public @Nullable Building building;", building_tether_update["exact_exprs"])
+        self.assertIn("public void update(){", building_tether_update["exact_exprs"])
+        self.assertIn("if(building == null || !building.isValid() || building.team != team){", building_tether_update["exact_exprs"])
+        self.assertIn("Call.unitDespawn(self());", building_tether_update["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
@@ -29340,6 +29391,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn(key, unit_update_spawned_core_despawn["return_keys"])
         self.assertNotIn("unit_id", unit_update_spawned_core_despawn["return_keys"])
         self.assertEqual(unit_update_spawned_core_despawn["source_method"], "UnitComp.update() spawned core despawn")
+
+        building_tether_update = source_symbols.api_contract(contracts, "PortGame.source_building_tether_update_state")
+        self.assertEqual(
+            [param["name"] for param in building_tether_update["params"]],
+            ["building_exists", "building_is_valid", "building_team_value", "team_value", "unit_id"],
+        )
+        self.assertEqual(building_tether_update["params"][0]["schema"], "source_building_tether_update_input.building_exists")
+        self.assertEqual(building_tether_update["params"][1]["schema"], "source_building_tether_update_input.building_is_valid")
+        self.assertEqual(building_tether_update["params"][2]["schema"], "source_building_tether_update_input.building_team_value")
+        self.assertEqual(building_tether_update["params"][3]["schema"], "source_building_tether_update_input.team_value")
+        self.assertEqual(building_tether_update["params"][4]["schema"], "source_building_tether_update_input.unit_id")
+        for key in ["guard", "buildingExists", "buildingIsValid", "buildingTeam", "team", "despawn"]:
+            self.assertIn(key, building_tether_update["return_keys"])
+        self.assertNotIn("unit_id", building_tether_update["return_keys"])
+        self.assertEqual(building_tether_update["source_method"], "update()")
 
         unit_update_tile_unit_on_any = source_symbols.api_contract(contracts, "PortGame.source_unit_update_tile_unit_on_any_state")
         self.assertEqual(
@@ -34884,6 +34950,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["dead_value"]["java_expr"], "dead")
         self.assertEqual(source_unit_update_spawned_core_despawn_input["keys"]["unit_id"]["java_expr"], "self()")
 
+        source_building_tether_update_input = source_symbols.state_schema(schema, "source_building_tether_update_input")
+        self.assertEqual(source_building_tether_update_input["keys"]["building_exists"]["java_expr"], "building != null")
+        self.assertEqual(source_building_tether_update_input["keys"]["building_is_valid"]["java_expr"], "building.isValid()")
+        self.assertEqual(source_building_tether_update_input["keys"]["building_team_value"]["java_expr"], "building.team")
+        self.assertEqual(source_building_tether_update_input["keys"]["team_value"]["java_expr"], "team")
+        self.assertEqual(source_building_tether_update_input["keys"]["unit_id"]["java_expr"], "self()")
+
         source_unit_update_tile_unit_on_any_input = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_any_input")
         self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["tile_exists"]["java_expr"], "tile != null")
         self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["tile_build_exists"]["java_expr"], "tile.build != null")
@@ -35407,6 +35480,15 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["dead"]["alias_of"], "source_unit_update_spawned_core_despawn_input.dead_value")
         self.assertEqual(source_unit_update_spawned_core_despawn_result["keys"]["despawn"]["java_expr"], "Call.unitDespawn(self());")
         self.assertNotIn("unit_id", source_unit_update_spawned_core_despawn_result["keys"])
+
+        source_building_tether_update_result = source_symbols.state_schema(schema, "source_building_tether_update_result")
+        self.assertEqual(source_building_tether_update_result["keys"]["guard"]["java_expr"], "if(building == null || !building.isValid() || building.team != team){")
+        self.assertEqual(source_building_tether_update_result["keys"]["buildingExists"]["alias_of"], "source_building_tether_update_input.building_exists")
+        self.assertEqual(source_building_tether_update_result["keys"]["buildingIsValid"]["alias_of"], "source_building_tether_update_input.building_is_valid")
+        self.assertEqual(source_building_tether_update_result["keys"]["buildingTeam"]["alias_of"], "source_building_tether_update_input.building_team_value")
+        self.assertEqual(source_building_tether_update_result["keys"]["team"]["alias_of"], "source_building_tether_update_input.team_value")
+        self.assertEqual(source_building_tether_update_result["keys"]["despawn"]["java_expr"], "Call.unitDespawn(self());")
+        self.assertNotIn("unit_id", source_building_tether_update_result["keys"])
 
         source_unit_update_tile_unit_on_any_result = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_any_result")
         self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["guard"]["java_expr"], "if(tile != null && tile.build != null){")
