@@ -1537,8 +1537,10 @@ func java_method_inFogTo_214(_args: Array = []) -> Variant:
 	var tile_x := int(_args[4] if _args.size() > 4 else 0)
 	var tile_y := int(_args[5] if _args.size() > 5 else 0)
 	var is_discovered := bool(_args[6] if _args.size() > 6 else false)
+	var visible_tiles: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []
 	var in_fog_initial_gate := {"method": "public boolean inFogTo(Team viewer){", "initial_return": "if(team == viewer || !state.rules.fog) return false;", "same_team": same_team, "rules_fog": rules_fog}
 	var in_fog_discovery_gate := {"method": "public boolean inFogTo(Team viewer){", "grid_declaration": "int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;", "undiscovered_return": "if(!isDiscovered(viewer)) return true;", "block_size_value": block_size_value, "block_size_offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y, "is_discovered": is_discovered}
+	var in_fog_visibility_loop := {"method": "public boolean inFogTo(Team viewer){", "outer_loop": "for(int x = 0; x < size; x++){", "inner_loop": "for(int y = 0; y < size; y++){", "visible_tile_check": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){", "visible_return": "return false;", "final_return": "return true;", "block_size_value": block_size_value, "block_size_offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y, "visible_tiles": visible_tiles}
 	if same_team or not rules_fog:
 		in_fog_initial_gate.merge({"returned": true, "value": false})
 	else:
@@ -1547,7 +1549,25 @@ func java_method_inFogTo_214(_args: Array = []) -> Variant:
 		in_fog_discovery_gate.merge({"returned": true, "value": true, "grid": {"size": block_size_value, "offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y}})
 	else:
 		in_fog_discovery_gate.merge({"returned": false, "value": null, "grid": {"size": block_size_value, "offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y}})
-	return {"source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate_source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate": in_fog_initial_gate, "in_fog_discovery_gate_source_owner": "PortGame.source_building_in_fog_discovery_gate_state", "in_fog_discovery_gate": in_fog_discovery_gate}
+	var checked_tiles: Array = []
+	var visible_match := false
+	for x in range(block_size_value):
+		if visible_match:
+			break
+		for y in range(block_size_value):
+			var check_x := tile_x + x + block_size_offset
+			var check_y := tile_y + y + block_size_offset
+			checked_tiles.append({"x": check_x, "y": check_y})
+			for visible_tile in visible_tiles:
+				if int(visible_tile.get("x", -2147483648)) == check_x and int(visible_tile.get("y", -2147483648)) == check_y:
+					visible_match = true
+					in_fog_visibility_loop.merge({"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}})
+					break
+			if visible_match:
+				break
+	if not visible_match:
+		in_fog_visibility_loop.merge({"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null})
+	return {"source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate_source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate": in_fog_initial_gate, "in_fog_discovery_gate_source_owner": "PortGame.source_building_in_fog_discovery_gate_state", "in_fog_discovery_gate": in_fog_discovery_gate, "in_fog_visibility_loop_source_owner": "PortGame.source_building_in_fog_visibility_loop_state", "in_fog_visibility_loop": in_fog_visibility_loop}
 
 func java_method_killed_215(_args: Array = []) -> Variant:
 	return null

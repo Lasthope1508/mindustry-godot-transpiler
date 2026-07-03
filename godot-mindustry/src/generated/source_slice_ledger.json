@@ -23287,6 +23287,46 @@
         "test_port_game_exposes_generated_building_comp_in_fog_discovery_gate_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1098": {
+      "deferred_exprs": [
+        "Concrete fogControl implementation and viewer-team visibility data remain owned by runtime fog integration; this generated bridge records source loop coordinates and consumes explicit visible_tiles input."
+      ],
+      "exact_exprs": [
+        "public boolean inFogTo(Team viewer){",
+        "for(int x = 0; x < size; x++){",
+        "for(int y = 0; y < size; y++){",
+        "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){",
+        "return false;",
+        "return true;",
+        "fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)"
+      ],
+      "godot_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "inFogTo(Team viewer)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_inFogTo_214 and PortGame generated bridge to existing N594 canonical source_building_in_fog_visibility_loop_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_in_fog_visibility_loop_bridge_state",
+      "source_symbols": [
+        "building_in_fog_visibility_loop.method",
+        "building_in_fog_visibility_loop.outer_loop",
+        "building_in_fog_visibility_loop.inner_loop",
+        "building_in_fog_visibility_loop.visible_tile_check",
+        "building_in_fog_visibility_loop.visible_return",
+        "building_in_fog_visibility_loop.final_return",
+        "building_in_fog_visibility_loop.block_size",
+        "building_in_fog_visibility_loop.block_size_offset",
+        "building_in_fog_visibility_loop.tile_x",
+        "building_in_fog_visibility_loop.tile_y",
+        "building_in_fog_visibility_loop.visible_tiles"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_in_fog_visibility_loop_to_source_state",
+        "test_generated_building_comp_bridges_in_fog_visibility_loop_to_source_state",
+        "test_port_game_exposes_generated_building_comp_in_fog_visibility_loop_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

@@ -4678,6 +4678,59 @@ class BuildingComp{
             self.assertIn('"in_fog_discovery_gate_source_owner": "PortGame.source_building_in_fog_discovery_gate_state"', source_text)
             self.assertIn('"in_fog_discovery_gate": in_fog_discovery_gate', source_text)
 
+    def test_emit_bridges_building_comp_in_fog_visibility_loop_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public boolean inFogTo(Team viewer){
+        if(team == viewer || !state.rules.fog) return false;
+
+        int size = block.size, of = block.sizeOffset, tx = tile.x, ty = tile.y;
+
+        if(!isDiscovered(viewer)) return true;
+
+        for(int x = 0; x < size; x++){
+            for(int y = 0; y < size; y++){
+                if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var visible_tiles: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []", source_text)
+            self.assertIn('var in_fog_visibility_loop := {"method": "public boolean inFogTo(Team viewer){", "outer_loop": "for(int x = 0; x < size; x++){", "inner_loop": "for(int y = 0; y < size; y++){", "visible_tile_check": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){", "visible_return": "return false;", "final_return": "return true;", "block_size_value": block_size_value, "block_size_offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y, "visible_tiles": visible_tiles}', source_text)
+            self.assertIn("var checked_tiles: Array = []", source_text)
+            self.assertIn("for x in range(block_size_value):", source_text)
+            self.assertIn("for y in range(block_size_value):", source_text)
+            self.assertIn("var check_x := tile_x + x + block_size_offset", source_text)
+            self.assertIn("var check_y := tile_y + y + block_size_offset", source_text)
+            self.assertIn('checked_tiles.append({"x": check_x, "y": check_y})', source_text)
+            self.assertIn('in_fog_visibility_loop.merge({"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}})', source_text)
+            self.assertIn('in_fog_visibility_loop.merge({"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null})', source_text)
+            self.assertIn('"in_fog_visibility_loop_source_owner": "PortGame.source_building_in_fog_visibility_loop_state"', source_text)
+            self.assertIn('"in_fog_visibility_loop": in_fog_visibility_loop', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

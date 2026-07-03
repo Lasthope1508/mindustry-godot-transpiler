@@ -6689,6 +6689,18 @@ func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value
 		"canonical": canonical,
 	}
 
+func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_inFogTo_214([false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles])
+	var canonical = source_building_in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
+	return {
+		"source_owner": "PortGame.source_building_in_fog_visibility_loop_state",
+		"generated_owner": "BuildingComp.java_method_inFogTo_214",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_in_fog_initial_gate_state(same_team: bool, rules_fog: bool) -> Dictionary:
 	if same_team or not rules_fog:
 		return {"returned": true, "value": false}

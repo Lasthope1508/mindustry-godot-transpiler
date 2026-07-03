@@ -5784,6 +5784,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_in_fog_visibility_loop_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_inFogTo_214(_args: Array = []) -> Variant:", source)
+        self.assertIn("var visible_tiles: Array = _args[7] if _args.size() > 7 and _args[7] is Array else []", source)
+        self.assertIn('var in_fog_visibility_loop := {"method": "public boolean inFogTo(Team viewer){", "outer_loop": "for(int x = 0; x < size; x++){", "inner_loop": "for(int y = 0; y < size; y++){", "visible_tile_check": "if(fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)){", "visible_return": "return false;", "final_return": "return true;", "block_size_value": block_size_value, "block_size_offset": block_size_offset, "tile_x": tile_x, "tile_y": tile_y, "visible_tiles": visible_tiles}', source)
+        self.assertIn("var checked_tiles: Array = []", source)
+        self.assertIn("for x in range(block_size_value):", source)
+        self.assertIn("for y in range(block_size_value):", source)
+        self.assertIn("var check_x := tile_x + x + block_size_offset", source)
+        self.assertIn("var check_y := tile_y + y + block_size_offset", source)
+        self.assertIn('checked_tiles.append({"x": check_x, "y": check_y})', source)
+        self.assertIn('in_fog_visibility_loop.merge({"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}})', source)
+        self.assertIn('in_fog_visibility_loop.merge({"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null})', source)
+        self.assertIn('"in_fog_visibility_loop_source_owner": "PortGame.source_building_in_fog_visibility_loop_state"', source)
+        self.assertIn('"in_fog_visibility_loop": in_fog_visibility_loop', source)
+
+    def test_port_game_exposes_generated_building_comp_in_fog_visibility_loop_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_inFogTo_214([false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles])", source)
+        self.assertIn("var canonical = source_building_in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_in_fog_visibility_loop_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
