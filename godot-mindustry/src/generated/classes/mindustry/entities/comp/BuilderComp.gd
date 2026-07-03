@@ -70,7 +70,19 @@ func java_method_addBuild_12(_args: Array = []) -> Variant:
 	return null
 
 func java_method_activelyBuilding_13(_args: Array = []) -> Variant:
-	return null
+	var plans_size: int = int(_args[0] if _args.size() > 0 else 0)
+	var plans_first: Variant = _args[1] if _args.size() > 1 else null
+	var state_is_editor: bool = bool(_args[2] if _args.size() > 2 else false)
+	var state_rules_infinite_resources: bool = bool(_args[3] if _args.size() > 3 else false)
+	var type_build_range: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var within_plan: bool = bool(_args[5] if _args.size() > 5 else false)
+	var update_building: bool = bool(_args[6] if _args.size() > 6 else false)
+	var is_building: bool = plans_size != 0
+	var build_plan: Variant = null if plans_size == 0 else plans_first
+	var final_place_dst: float = 3.4028234663852886e38 if state_rules_infinite_resources else type_build_range
+	var outside_range_blocked: bool = is_building and not state_is_editor and build_plan != null and not within_plan
+	var actively_building: bool = false if outside_range_blocked else is_building and update_building
+	return {"source_owner": "PortGame.source_builder_actively_building_state", "method": "boolean activelyBuilding(){", "comment": "//not actively building when not near the build plan", "guard_expr": "if(isBuilding()){", "plan_assignment": "var plan = buildPlan();", "range_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange", "return_false_expr": "return false;", "return_expr": "return isBuilding() && updateBuilding;", "plans_size": plans_size, "plans_first": plans_first, "is_building": is_building, "build_plan": build_plan, "state_is_editor": state_is_editor, "state_rules_infinite_resources": state_rules_infinite_resources, "type_build_range": type_build_range, "final_place_dst": final_place_dst, "within_plan": within_plan, "update_building": update_building, "outside_range_blocked": outside_range_blocked, "actively_building": actively_building}
 
 func java_method_buildPlan_14(_args: Array = []) -> Variant:
 	var plans_size: int = int(_args[0]) if _args.size() > 0 else 0

@@ -12607,5 +12607,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_afterRead_2"', source)
         self.assertIn('"matches": result.get("queue_reset", null) == canonical.get("queue_reset", null) and result.get("plans_capacity", null) == canonical.get("plans_capacity", null)', source)
 
+    def test_port_game_exposes_source_builder_actively_building_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_actively_building_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:", source)
+        self.assertIn("var is_building: bool = plans_size != 0", source)
+        self.assertIn("var build_plan: Variant = null if plans_size == 0 else plans_first", source)
+        self.assertIn("var final_place_dst: float = 3.4028234663852886e38 if state_rules_infinite_resources else type_build_range", source)
+        self.assertIn("var outside_range_blocked: bool = is_building and not state_is_editor and build_plan != null and not within_plan", source)
+        self.assertIn("var actively_building: bool = false if outside_range_blocked else is_building and update_building", source)
+        self.assertIn('"method": "boolean activelyBuilding(){"', source)
+        self.assertIn('"comment": "//not actively building when not near the build plan"', source)
+        self.assertIn('"guard_expr": "if(isBuilding()){"', source)
+        self.assertIn('"range_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange"', source)
+        self.assertIn('"return_expr": "return isBuilding() && updateBuilding;"', source)
+        self.assertIn('"actively_building": actively_building', source)
+
+    def test_port_game_exposes_generated_builder_comp_actively_building_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_activelyBuilding_13([plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building])", source)
+        self.assertIn("var canonical = source_builder_actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_actively_building_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_activelyBuilding_13"', source)
+        self.assertIn('"matches": result.get("actively_building", null) == canonical.get("actively_building", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

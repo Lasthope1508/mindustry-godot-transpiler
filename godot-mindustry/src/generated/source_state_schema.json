@@ -90306,6 +90306,328 @@
           ]
         }
       }
+    },
+    "source_builder_actively_building_input": {
+      "status": "active",
+      "keys": {
+        "plans_size": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "plans.size",
+          "godot_symbol": "source_builder_actively_building_input.plans_size",
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "Input preserves plans.size for isBuilding().",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "plans_first": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "plans.first()",
+          "godot_symbol": "source_builder_actively_building_input.plans_first",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves plans.first() for buildPlan().",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "state_is_editor": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "state.isEditor()",
+          "godot_symbol": "source_builder_actively_building_input.state_is_editor",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves editor predicate.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "state_rules_infinite_resources": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "state.rules.infiniteResources",
+          "godot_symbol": "source_builder_actively_building_input.state_rules_infinite_resources",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves infinite resource rule.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "type_build_range": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "type.buildRange",
+          "godot_symbol": "source_builder_actively_building_input.type_build_range",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves UnitType build range.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "within_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)",
+          "godot_symbol": "source_builder_actively_building_input.within_plan",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves source within(plan, range) result.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "update_building": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "updateBuilding",
+          "godot_symbol": "source_builder_actively_building_input.update_building",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves updateBuilding field.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        }
+      }
+    },
+    "source_builder_actively_building_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "boolean activelyBuilding(){",
+          "godot_symbol": "source_builder_actively_building_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records method boundary.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "comment": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "//not actively building when not near the build plan",
+          "godot_symbol": "source_builder_actively_building_result.comment",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records source comment.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "if(isBuilding()){",
+          "godot_symbol": "source_builder_actively_building_result.guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records isBuilding guard.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "plan_assignment": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "var plan = buildPlan();",
+          "godot_symbol": "source_builder_actively_building_result.plan_assignment",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records buildPlan assignment.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "range_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange",
+          "godot_symbol": "source_builder_actively_building_result.range_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records source range ternary expression.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "return_false_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "return false;",
+          "godot_symbol": "source_builder_actively_building_result.return_false_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records range-block false return.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "return_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "return isBuilding() && updateBuilding;",
+          "godot_symbol": "source_builder_actively_building_result.return_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records final return expression.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "plans_size": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "plans.size",
+          "godot_symbol": "source_builder_actively_building_input.plans_size",
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "Result echoes plans.size input.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "plans_first": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "plans.first()",
+          "godot_symbol": "source_builder_actively_building_input.plans_first",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result echoes plans.first() input.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "is_building": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "isBuilding()",
+          "godot_symbol": "source_builder_actively_building_result.is_building",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records isBuilding() from plans.size.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "build_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "buildPlan()",
+          "godot_symbol": "source_builder_actively_building_result.build_plan",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result records buildPlan() value.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "state_is_editor": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "state.isEditor()",
+          "godot_symbol": "source_builder_actively_building_input.state_is_editor",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes editor predicate.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "state_rules_infinite_resources": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "state.rules.infiniteResources",
+          "godot_symbol": "source_builder_actively_building_input.state_rules_infinite_resources",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes infinite resources predicate.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "type_build_range": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "type.buildRange",
+          "godot_symbol": "source_builder_actively_building_input.type_build_range",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result echoes type.buildRange input.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "final_place_dst": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange",
+          "godot_symbol": "source_builder_actively_building_result.final_place_dst",
+          "type": "float",
+          "status": "source-backed",
+          "rule": "Result records final range limit.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "within_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)",
+          "godot_symbol": "source_builder_actively_building_input.within_plan",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes within(plan, range) input.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "update_building": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "updateBuilding",
+          "godot_symbol": "source_builder_actively_building_input.update_building",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes updateBuilding input.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "outside_range_blocked": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "!state.isEditor() && plan != null && !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)",
+          "godot_symbol": "source_builder_actively_building_result.outside_range_blocked",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records exact outside-range block predicate.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        },
+        "actively_building": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "activelyBuilding()",
+          "java_expr": "return isBuilding() && updateBuilding;",
+          "godot_symbol": "source_builder_actively_building_result.actively_building",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records activelyBuilding return value after range guard.",
+          "used_by": [
+            "PortGame.source_builder_actively_building_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

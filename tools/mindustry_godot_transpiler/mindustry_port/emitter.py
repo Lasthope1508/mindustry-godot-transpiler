@@ -1291,6 +1291,26 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_builder_build_plan_state\", \"method\": \"BuildPlan buildPlan(){\", \"return_expr\": \"return plans.size == 0 ? null : plans.first();\", \"plans_size\": plans_size, \"plans_first\": plans_first, \"build_plan\": build_plan}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "activelyBuilding"
+    ):
+        return [
+            "\tvar plans_size: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar plans_first: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar state_is_editor: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar state_rules_infinite_resources: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar type_build_range: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar within_plan: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar update_building: bool = bool(_args[6] if _args.size() > 6 else false)",
+            "\tvar is_building: bool = plans_size != 0",
+            "\tvar build_plan: Variant = null if plans_size == 0 else plans_first",
+            "\tvar final_place_dst: float = 3.4028234663852886e38 if state_rules_infinite_resources else type_build_range",
+            "\tvar outside_range_blocked: bool = is_building and not state_is_editor and build_plan != null and not within_plan",
+            "\tvar actively_building: bool = false if outside_range_blocked else is_building and update_building",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_actively_building_state\", \"method\": \"boolean activelyBuilding(){\", \"comment\": \"//not actively building when not near the build plan\", \"guard_expr\": \"if(isBuilding()){\", \"plan_assignment\": \"var plan = buildPlan();\", \"range_expr\": \"state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange\", \"return_false_expr\": \"return false;\", \"return_expr\": \"return isBuilding() && updateBuilding;\", \"plans_size\": plans_size, \"plans_first\": plans_first, \"is_building\": is_building, \"build_plan\": build_plan, \"state_is_editor\": state_is_editor, \"state_rules_infinite_resources\": state_rules_infinite_resources, \"type_build_range\": type_build_range, \"final_place_dst\": final_place_dst, \"within_plan\": within_plan, \"update_building\": update_building, \"outside_range_blocked\": outside_range_blocked, \"actively_building\": actively_building}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "add"

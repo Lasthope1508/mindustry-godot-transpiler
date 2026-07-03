@@ -7857,6 +7857,47 @@ func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first
 		"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_builder_actively_building_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
+	var is_building: bool = plans_size != 0
+	var build_plan: Variant = null if plans_size == 0 else plans_first
+	var final_place_dst: float = 3.4028234663852886e38 if state_rules_infinite_resources else type_build_range
+	var outside_range_blocked: bool = is_building and not state_is_editor and build_plan != null and not within_plan
+	var actively_building: bool = false if outside_range_blocked else is_building and update_building
+	return {
+		"method": "boolean activelyBuilding(){",
+		"comment": "//not actively building when not near the build plan",
+		"guard_expr": "if(isBuilding()){",
+		"plan_assignment": "var plan = buildPlan();",
+		"range_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange",
+		"return_false_expr": "return false;",
+		"return_expr": "return isBuilding() && updateBuilding;",
+		"plans_size": plans_size,
+		"plans_first": plans_first,
+		"is_building": is_building,
+		"build_plan": build_plan,
+		"state_is_editor": state_is_editor,
+		"state_rules_infinite_resources": state_rules_infinite_resources,
+		"type_build_range": type_build_range,
+		"final_place_dst": final_place_dst,
+		"within_plan": within_plan,
+		"update_building": update_building,
+		"outside_range_blocked": outside_range_blocked,
+		"actively_building": actively_building,
+	}
+
+func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_activelyBuilding_13([plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building])
+	var canonical = source_builder_actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
+	return {
+		"source_owner": "PortGame.source_builder_actively_building_state",
+		"generated_owner": "BuilderComp.java_method_activelyBuilding_13",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("actively_building", null) == canonical.get("actively_building", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

@@ -6771,5 +6771,53 @@ class BuilderComp{
             self.assertIn('"queue_constructor": "new Queue<>(1)"', source_text)
             self.assertIn('"queue_reset": queue_reset', source_text)
 
+    def test_emit_bridges_builder_comp_actively_building_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    boolean activelyBuilding(){
+        //not actively building when not near the build plan
+        if(isBuilding()){
+            var plan = buildPlan();
+            if(!state.isEditor() && plan != null && !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){
+                return false;
+            }
+        }
+        return isBuilding() && updateBuilding;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_activelyBuilding_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plans_size: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var plans_first: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var state_is_editor: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var state_rules_infinite_resources: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var type_build_range: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var within_plan: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn("var update_building: bool = bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn("var build_plan: Variant = null if plans_size == 0 else plans_first", source_text)
+            self.assertIn("var final_place_dst: float = 3.4028234663852886e38 if state_rules_infinite_resources else type_build_range", source_text)
+            self.assertIn("var outside_range_blocked: bool = is_building and not state_is_editor and build_plan != null and not within_plan", source_text)
+            self.assertIn("var actively_building: bool = false if outside_range_blocked else is_building and update_building", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_actively_building_state"', source_text)
+            self.assertIn('"method": "boolean activelyBuilding(){"', source_text)
+            self.assertIn('"range_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange"', source_text)
+            self.assertIn('"actively_building": actively_building', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -8096,5 +8096,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_builder_actively_building_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_builder_actively_building_source"))
+        report = source_parity.verify_builder_actively_building_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "boolean activelyBuilding(){",
+            "comment": "//not actively building when not near the build plan",
+            "guard": "if(isBuilding()){",
+            "plan_assignment": "var plan = buildPlan();",
+            "range_guard": "if(!state.isEditor() && plan != null && !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+            "range_return_false": "return false;",
+            "return_expr": "return isBuilding() && updateBuilding;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

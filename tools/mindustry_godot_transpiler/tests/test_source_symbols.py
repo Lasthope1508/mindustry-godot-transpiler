@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 615)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 616)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 620)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 621)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19749,6 +19749,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_unit_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_add_build_tail_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_after_read_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_actively_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_build_plan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_clear_building_state", audit["registeredSourceOwners"])
@@ -41828,6 +41829,87 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_after_read_result["keys"]["plans_null"]["java_expr"], "plans == null")
         self.assertEqual(source_builder_after_read_result["keys"]["queue_reset"]["java_expr"], "plans = new Queue<>(1);")
         self.assertEqual(source_builder_after_read_result["keys"]["plans_capacity"]["java_expr"], "1")
+
+    def test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_actively_building.method")
+        self.assertEqual(method["java_expr"], "boolean activelyBuilding(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "activelyBuilding()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_actively_building_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_actively_building_state")
+
+        plans_size = source_symbols.source_symbol(registry, "builder_actively_building.plans_size")
+        self.assertEqual(plans_size["java_expr"], "plans.size")
+        self.assertEqual(plans_size["godot_symbol"], "source_builder_actively_building_input.plans_size")
+        plans_first = source_symbols.source_symbol(registry, "builder_actively_building.plans_first")
+        self.assertEqual(plans_first["java_expr"], "plans.first()")
+        self.assertEqual(plans_first["godot_symbol"], "source_builder_actively_building_input.plans_first")
+        state_is_editor = source_symbols.source_symbol(registry, "builder_actively_building.state_is_editor")
+        self.assertEqual(state_is_editor["java_expr"], "state.isEditor()")
+        self.assertEqual(state_is_editor["godot_symbol"], "source_builder_actively_building_input.state_is_editor")
+        infinite_resources = source_symbols.source_symbol(registry, "builder_actively_building.state_rules_infinite_resources")
+        self.assertEqual(infinite_resources["java_expr"], "state.rules.infiniteResources")
+        self.assertEqual(infinite_resources["godot_symbol"], "source_builder_actively_building_input.state_rules_infinite_resources")
+        type_build_range = source_symbols.source_symbol(registry, "builder_actively_building.type_build_range")
+        self.assertEqual(type_build_range["java_expr"], "type.buildRange")
+        self.assertEqual(type_build_range["godot_symbol"], "source_builder_actively_building_input.type_build_range")
+        within_plan = source_symbols.source_symbol(registry, "builder_actively_building.within_plan")
+        self.assertEqual(within_plan["java_expr"], "within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)")
+        self.assertEqual(within_plan["godot_symbol"], "source_builder_actively_building_input.within_plan")
+        update_building = source_symbols.source_symbol(registry, "builder_actively_building.update_building")
+        self.assertEqual(update_building["java_expr"], "updateBuilding")
+        self.assertEqual(update_building["godot_symbol"], "source_builder_actively_building_input.update_building")
+        active = source_symbols.source_symbol(registry, "builder_actively_building.actively_building")
+        self.assertEqual(active["java_expr"], "return isBuilding() && updateBuilding;")
+        self.assertEqual(active["godot_symbol"], "source_builder_actively_building_result.actively_building")
+
+        actively_building_slice = source_symbols.source_slice(ledger, "N1147")
+        self.assertEqual(actively_building_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(actively_building_slice["java_method"], "activelyBuilding()")
+        self.assertEqual(actively_building_slice["godot_owner"], "PortGame.source_builder_actively_building_state")
+        self.assertEqual(actively_building_slice["runtime_proof"], "/root/Main.generated_builder_comp_actively_building_bridge_state")
+        self.assertIn("boolean activelyBuilding(){", actively_building_slice["exact_exprs"])
+        self.assertIn("//not actively building when not near the build plan", actively_building_slice["exact_exprs"])
+        self.assertIn("if(!state.isEditor() && plan != null && !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){", actively_building_slice["exact_exprs"])
+        self.assertIn("return isBuilding() && updateBuilding;", actively_building_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_actively_building_state")
+        self.assertEqual(contract["params"], [
+            {"name": "plans_size", "schema": "source_builder_actively_building_input.plans_size", "type": "int"},
+            {"name": "plans_first", "schema": "source_builder_actively_building_input.plans_first", "type": "Variant"},
+            {"name": "state_is_editor", "schema": "source_builder_actively_building_input.state_is_editor", "type": "bool"},
+            {"name": "state_rules_infinite_resources", "schema": "source_builder_actively_building_input.state_rules_infinite_resources", "type": "bool"},
+            {"name": "type_build_range", "schema": "source_builder_actively_building_input.type_build_range", "type": "float"},
+            {"name": "within_plan", "schema": "source_builder_actively_building_input.within_plan", "type": "bool"},
+            {"name": "update_building", "schema": "source_builder_actively_building_input.update_building", "type": "bool"},
+        ])
+        for key in ["method", "comment", "guard_expr", "plan_assignment", "range_expr", "return_false_expr", "return_expr", "plans_size", "plans_first", "is_building", "build_plan", "state_is_editor", "state_rules_infinite_resources", "type_build_range", "final_place_dst", "within_plan", "update_building", "outside_range_blocked", "actively_building"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_actively_building_input = source_symbols.state_schema(schema, "source_builder_actively_building_input")
+        self.assertEqual(source_builder_actively_building_input["keys"]["plans_size"]["java_expr"], "plans.size")
+        self.assertEqual(source_builder_actively_building_input["keys"]["plans_first"]["java_expr"], "plans.first()")
+        self.assertEqual(source_builder_actively_building_input["keys"]["state_is_editor"]["java_expr"], "state.isEditor()")
+        self.assertEqual(source_builder_actively_building_input["keys"]["state_rules_infinite_resources"]["java_expr"], "state.rules.infiniteResources")
+        self.assertEqual(source_builder_actively_building_input["keys"]["type_build_range"]["java_expr"], "type.buildRange")
+        self.assertEqual(source_builder_actively_building_input["keys"]["within_plan"]["java_expr"], "within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)")
+        self.assertEqual(source_builder_actively_building_input["keys"]["update_building"]["java_expr"], "updateBuilding")
+        source_builder_actively_building_result = source_symbols.state_schema(schema, "source_builder_actively_building_result")
+        self.assertEqual(source_builder_actively_building_result["keys"]["method"]["java_expr"], "boolean activelyBuilding(){")
+        self.assertEqual(source_builder_actively_building_result["keys"]["comment"]["java_expr"], "//not actively building when not near the build plan")
+        self.assertEqual(source_builder_actively_building_result["keys"]["guard_expr"]["java_expr"], "if(isBuilding()){")
+        self.assertEqual(source_builder_actively_building_result["keys"]["plan_assignment"]["java_expr"], "var plan = buildPlan();")
+        self.assertEqual(source_builder_actively_building_result["keys"]["range_expr"]["java_expr"], "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange")
+        self.assertEqual(source_builder_actively_building_result["keys"]["return_false_expr"]["java_expr"], "return false;")
+        self.assertEqual(source_builder_actively_building_result["keys"]["return_expr"]["java_expr"], "return isBuilding() && updateBuilding;")
+        self.assertEqual(source_builder_actively_building_result["keys"]["actively_building"]["java_expr"], "return isBuilding() && updateBuilding;")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

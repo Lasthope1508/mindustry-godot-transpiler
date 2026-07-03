@@ -24744,6 +24744,76 @@
         "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_build_plan_state"
       ]
+    },
+    "PortGame.source_builder_actively_building_state": {
+      "source_slice": "N1147",
+      "source_method": "activelyBuilding()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans_size",
+          "type": "int",
+          "schema": "source_builder_actively_building_input.plans_size"
+        },
+        {
+          "name": "plans_first",
+          "type": "Variant",
+          "schema": "source_builder_actively_building_input.plans_first"
+        },
+        {
+          "name": "state_is_editor",
+          "type": "bool",
+          "schema": "source_builder_actively_building_input.state_is_editor"
+        },
+        {
+          "name": "state_rules_infinite_resources",
+          "type": "bool",
+          "schema": "source_builder_actively_building_input.state_rules_infinite_resources"
+        },
+        {
+          "name": "type_build_range",
+          "type": "float",
+          "schema": "source_builder_actively_building_input.type_build_range"
+        },
+        {
+          "name": "within_plan",
+          "type": "bool",
+          "schema": "source_builder_actively_building_input.within_plan"
+        },
+        {
+          "name": "update_building",
+          "type": "bool",
+          "schema": "source_builder_actively_building_input.update_building"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "plan_assignment",
+        "range_expr",
+        "return_false_expr",
+        "return_expr",
+        "plans_size",
+        "plans_first",
+        "is_building",
+        "build_plan",
+        "state_is_editor",
+        "state_rules_infinite_resources",
+        "type_build_range",
+        "final_place_dst",
+        "within_plan",
+        "update_building",
+        "outside_range_blocked",
+        "actively_building"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.activelyBuilding() source range guard and updateBuilding predicate.",
+      "runtime_proof": "/root/Main.source_builder_actively_building_state",
+      "tests": [
+        "test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_actively_building_state"
+      ]
     }
   },
   "policy": {

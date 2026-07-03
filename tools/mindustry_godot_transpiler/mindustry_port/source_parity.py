@@ -24,6 +24,7 @@ UNIT_COMP_SOURCE = "core/src/mindustry/entities/comp/UnitComp.java"
 WEAPONS_COMP_SOURCE = "core/src/mindustry/entities/comp/WeaponsComp.java"
 HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
 PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
+BUILDER_COMP_SOURCE = "core/src/mindustry/entities/comp/BuilderComp.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
@@ -182,6 +183,25 @@ def verify_power_generator_get_power_production_source(upstream_root: Path) -> d
     return {
         "source": POWER_GENERATOR_SOURCE,
         "sources": [BUILDING_COMP_SOURCE],
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_builder_actively_building_source(upstream_root: Path) -> dict[str, Any]:
+    builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
+    source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "boolean activelyBuilding(){",
+        "comment": "//not actively building when not near the build plan",
+        "guard": "if(isBuilding()){",
+        "plan_assignment": "var plan = buildPlan();",
+        "range_guard": "if(!state.isEditor() && plan != null && !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+        "range_return_false": "return false;",
+        "return_expr": "return isBuilding() && updateBuilding;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BUILDER_COMP_SOURCE,
         "checked": checked,
         "missing": missing,
     }
