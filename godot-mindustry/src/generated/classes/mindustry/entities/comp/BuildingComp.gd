@@ -1251,7 +1251,9 @@ func java_method_kill_203(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_kill_state", "replace": "@Replace", "override": "@Override", "method": "public void kill(){", "build_destroyed_call": "Call.buildDestroyed(self());", "self_state": self_state}
 
 func java_method_damage_204(_args: Array = []) -> Variant:
-	return null
+	var damage_amount := float(_args[0] if _args.size() > 0 else 0.0)
+	var dead_state := bool(_args[1] if _args.size() > 1 else false)
+	return {"source_owner": "PortGame.source_building_damage_dead_guard_state", "replace": "@Replace", "override": "@Override", "method": "public void damage(float damage){", "dead_guard": "if(dead()) return;", "damage_amount": damage_amount, "dead_state": dead_state, "returned": dead_state, "continues": not dead_state}
 
 func java_method_healthChanged_205(_args: Array = []) -> Variant:
 	return null

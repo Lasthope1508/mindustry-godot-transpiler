@@ -1064,6 +1064,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "damage"
+    ):
+        return [
+            "\tvar damage_amount := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar dead_state := bool(_args[1] if _args.size() > 1 else false)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_damage_dead_guard_state\", \"replace\": \"@Replace\", \"override\": \"@Override\", \"method\": \"public void damage(float damage){\", \"dead_guard\": \"if(dead()) return;\", \"damage_amount\": damage_amount, \"dead_state\": dead_state, \"returned\": dead_state, \"continues\": not dead_state}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

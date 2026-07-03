@@ -26013,6 +26013,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Call.buildDestroyed(self());", building_generated_kill["exact_exprs"])
         self.assertIn("self()", building_generated_kill["exact_exprs"])
 
+        building_generated_damage_dead_guard = source_symbols.source_slice(ledger, "N1072")
+        self.assertEqual(building_generated_damage_dead_guard["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_damage_dead_guard["java_method"], "damage(float damage)")
+        self.assertEqual(building_generated_damage_dead_guard["godot_owner"], "PortGame.source_building_damage_dead_guard_state")
+        self.assertEqual(building_generated_damage_dead_guard["runtime_proof"], "/root/Main.generated_building_comp_damage_dead_guard_bridge_state")
+        self.assertIn("@Replace", building_generated_damage_dead_guard["exact_exprs"])
+        self.assertIn("@Override", building_generated_damage_dead_guard["exact_exprs"])
+        self.assertIn("public void damage(float damage){", building_generated_damage_dead_guard["exact_exprs"])
+        self.assertIn("if(dead()) return;", building_generated_damage_dead_guard["exact_exprs"])
+        self.assertIn("dead()", building_generated_damage_dead_guard["exact_exprs"])
+        self.assertIn("float damage", building_generated_damage_dead_guard["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

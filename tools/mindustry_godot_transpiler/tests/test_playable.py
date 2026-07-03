@@ -5158,6 +5158,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_kill_203"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_damage_dead_guard_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_damage_204(_args: Array = []) -> Variant:", source)
+        self.assertIn("var damage_amount := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var dead_state := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_dead_guard_state"', source)
+        self.assertIn('"replace": "@Replace"', source)
+        self.assertIn('"override": "@Override"', source)
+        self.assertIn('"method": "public void damage(float damage){"', source)
+        self.assertIn('"dead_guard": "if(dead()) return;"', source)
+        self.assertIn('"damage_amount": damage_amount', source)
+        self.assertIn('"dead_state": dead_state', source)
+        self.assertIn('"returned": dead_state', source)
+        self.assertIn('"continues": not dead_state', source)
+
+    def test_port_game_exposes_generated_building_comp_damage_dead_guard_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_damage_dead_guard_bridge_state(damage_amount: float, dead_state: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_damage_204([damage_amount, dead_state])", source)
+        self.assertIn("var canonical = source_building_damage_dead_guard_state(dead_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_dead_guard_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

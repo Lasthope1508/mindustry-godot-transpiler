@@ -3743,5 +3743,44 @@ class BuildingComp{
             self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());"', source_text)
             self.assertIn('"self_state": self_state', source_text)
 
+    def test_emit_bridges_building_comp_damage_dead_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public void damage(float damage){
+        if(dead()) return;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_damage_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var damage_amount := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var dead_state := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_damage_dead_guard_state"', source_text)
+            self.assertIn('"replace": "@Replace"', source_text)
+            self.assertIn('"override": "@Override"', source_text)
+            self.assertIn('"method": "public void damage(float damage){"', source_text)
+            self.assertIn('"dead_guard": "if(dead()) return;"', source_text)
+            self.assertIn('"damage_amount": damage_amount', source_text)
+            self.assertIn('"dead_state": dead_state', source_text)
+            self.assertIn('"returned": dead_state', source_text)
+            self.assertIn('"continues": not dead_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()
