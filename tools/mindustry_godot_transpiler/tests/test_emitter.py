@@ -3888,5 +3888,53 @@ class BuildingComp{
             self.assertIn('"health_assignment": "health -= handleDamage(damage);"', source_text)
             self.assertIn('"handle_damage_gate": handle_damage_gate', source_text)
 
+    def test_emit_bridges_building_comp_damage_health_changed_call_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public void damage(float damage){
+        if(dead()) return;
+
+        float dm = state.rules.blockHealth(team);
+        lastDamageTime = Time.time;
+
+        if(Mathf.zero(dm)){
+            damage = health + 1;
+        }else{
+            damage /= dm;
+        }
+
+        //TODO handle this better on the client.
+        if(!net.client()){
+            health -= handleDamage(damage);
+        }
+
+        healthChanged();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('"health_changed_source_owner": "PortGame.source_building_damage_health_changed_call_state"', source_text)
+            self.assertIn('"health_changed_call": "healthChanged();"', source_text)
+            self.assertIn("var health_changed_call_state := {}", source_text)
+            self.assertIn('health_changed_call_state = {"health_changed": true}', source_text)
+            self.assertIn('"health_changed_call_state": health_changed_call_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()

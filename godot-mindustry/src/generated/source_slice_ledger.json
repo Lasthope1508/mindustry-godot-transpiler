@@ -22376,6 +22376,33 @@
         "test_port_game_exposes_generated_building_comp_damage_handle_damage_gate_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1075": {
+      "deferred_exprs": [
+        "Call.buildDestroyed side effects stay owned by a later damage slice. The generated bridge passes dead_state=false because this block is reachable only after if(dead()) return;."
+      ],
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public void damage(float damage){",
+        "healthChanged();"
+      ],
+      "godot_owner": "PortGame.source_building_damage_health_changed_call_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_damage_204 and PortGame generated bridge to existing N205 canonical source_building_damage_health_changed_call_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_damage_health_changed_call_bridge_state",
+      "source_symbols": [
+        "building_damage_health_changed_call.call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_damage_health_changed_call_to_source_state",
+        "test_generated_building_comp_bridges_damage_health_changed_call_to_source_state",
+        "test_port_game_exposes_generated_building_comp_damage_health_changed_call_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
