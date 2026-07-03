@@ -1471,6 +1471,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar current_time_scale := float(_args[0] if _args.size() > 0 else 1.0)",
+            "\tvar current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar time_delta := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar next_duration := current_time_scale_duration - time_delta",
+            "\tvar update_timescale_decay := {\"field\": \"private transient float timeScale = 1f, timeScaleDuration;\", \"method\": \"public void update(){\", \"decay_gate\": \"if((timeScaleDuration -= Time.delta) <= 0f){\", \"reset\": \"timeScale = 1f;\", \"current_time_scale\": current_time_scale, \"current_time_scale_duration\": current_time_scale_duration, \"time_delta\": time_delta}",
+            "\tif next_duration <= 0.0:",
+            "\t\tupdate_timescale_decay.merge({\"time_scale\": 1.0, \"time_scale_duration\": next_duration})",
+            "\telse:",
+            "\t\tupdate_timescale_decay.merge({\"time_scale\": current_time_scale, \"time_scale_duration\": next_duration})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay_source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay\": update_timescale_decay}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

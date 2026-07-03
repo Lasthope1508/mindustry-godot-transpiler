@@ -1587,7 +1587,16 @@ func java_method_checkAllowUpdate_216(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_check_allow_update_state", "check_allow_update_source_owner": "PortGame.source_building_check_allow_update_state", "check_allow_update": check_allow_update}
 
 func java_method_update_217(_args: Array = []) -> Variant:
-	return null
+	var current_time_scale := float(_args[0] if _args.size() > 0 else 1.0)
+	var current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)
+	var time_delta := float(_args[2] if _args.size() > 2 else 0.0)
+	var next_duration := current_time_scale_duration - time_delta
+	var update_timescale_decay := {"field": "private transient float timeScale = 1f, timeScaleDuration;", "method": "public void update(){", "decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){", "reset": "timeScale = 1f;", "current_time_scale": current_time_scale, "current_time_scale_duration": current_time_scale_duration, "time_delta": time_delta}
+	if next_duration <= 0.0:
+		update_timescale_decay.merge({"time_scale": 1.0, "time_scale_duration": next_duration})
+	else:
+		update_timescale_decay.merge({"time_scale": current_time_scale, "time_scale_duration": next_duration})
+	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay}
 
 func java_method_updateFogVisibility_218(_args: Array = []) -> Variant:
 	return null

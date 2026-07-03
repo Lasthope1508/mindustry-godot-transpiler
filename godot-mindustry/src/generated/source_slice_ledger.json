@@ -23426,6 +23426,41 @@
         "test_port_game_exposes_generated_building_comp_check_allow_update_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1102": {
+      "deferred_exprs": [
+        "Ambient sound loop, updateConsumption(), and updateTile() remain owned by adjacent source helpers and later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "public void update(){",
+        "if((timeScaleDuration -= Time.delta) <= 0f){",
+        "timeScale = 1f;",
+        "timeScaleDuration",
+        "Time.delta"
+      ],
+      "godot_owner": "PortGame.source_building_update_timescale_decay_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_update_217 and PortGame generated bridge to existing N670 canonical source_building_update_timescale_decay_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_timescale_decay_bridge_state",
+      "source_symbols": [
+        "building_update_timescale_decay.field",
+        "building_update_timescale_decay.method",
+        "building_update_timescale_decay.decay_gate",
+        "building_update_timescale_decay.reset",
+        "building_update_timescale_decay.current_time_scale",
+        "building_update_timescale_decay.current_duration",
+        "building_update_timescale_decay.source_delta"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_timescale_decay_to_source_state",
+        "test_generated_building_comp_bridges_update_timescale_decay_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

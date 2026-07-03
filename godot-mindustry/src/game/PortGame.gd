@@ -6790,6 +6790,18 @@ func source_building_check_allow_update_state(current_enabled: bool, allow_updat
 		return {"enabled": false, "changed": current_enabled}
 	return {"enabled": current_enabled, "changed": false}
 
+func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_217([current_time_scale, current_time_scale_duration, time_delta])
+	var canonical = source_building_update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta)
+	return {
+		"source_owner": "PortGame.source_building_update_timescale_decay_state",
+		"generated_owner": "BuildingComp.java_method_update_217",
+		"result": result,
+		"canonical": canonical,
+	}
+
 const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_FIELD := "private transient float timeScale = 1f, timeScaleDuration;"
 const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_METHOD := "public void update(){"
 const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_GATE := "if((timeScaleDuration -= Time.delta) <= 0f){"

@@ -5879,6 +5879,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_update_timescale_decay_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_update_217(_args: Array = []) -> Variant:", source)
+        self.assertIn("var current_time_scale := float(_args[0] if _args.size() > 0 else 1.0)", source)
+        self.assertIn("var current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var time_delta := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var next_duration := current_time_scale_duration - time_delta", source)
+        self.assertIn("if next_duration <= 0.0:", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_timescale_decay_state"', source)
+        self.assertIn('"field": "private transient float timeScale = 1f, timeScaleDuration;"', source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){"', source)
+        self.assertIn('"reset": "timeScale = 1f;"', source)
+        self.assertIn('"update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state"', source)
+        self.assertIn('"update_timescale_decay": update_timescale_decay', source)
+
+    def test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_update_217([current_time_scale, current_time_scale_duration, time_delta])", source)
+        self.assertIn("var canonical = source_building_update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_timescale_decay_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

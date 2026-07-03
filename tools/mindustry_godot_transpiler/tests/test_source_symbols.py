@@ -26443,6 +26443,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("enabled = false;", building_generated_check_allow_update["exact_exprs"])
         self.assertIn("allowUpdate()", building_generated_check_allow_update["exact_exprs"])
 
+        building_generated_update_timescale_decay = source_symbols.source_slice(ledger, "N1102")
+        self.assertEqual(building_generated_update_timescale_decay["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_update_timescale_decay["java_method"], "update()")
+        self.assertEqual(building_generated_update_timescale_decay["godot_owner"], "PortGame.source_building_update_timescale_decay_state")
+        self.assertEqual(building_generated_update_timescale_decay["runtime_proof"], "/root/Main.generated_building_comp_update_timescale_decay_bridge_state")
+        self.assertIn("private transient float timeScale = 1f, timeScaleDuration;", building_generated_update_timescale_decay["exact_exprs"])
+        self.assertIn("public void update(){", building_generated_update_timescale_decay["exact_exprs"])
+        self.assertIn("if((timeScaleDuration -= Time.delta) <= 0f){", building_generated_update_timescale_decay["exact_exprs"])
+        self.assertIn("timeScale = 1f;", building_generated_update_timescale_decay["exact_exprs"])
+        self.assertIn("timeScaleDuration", building_generated_update_timescale_decay["exact_exprs"])
+        self.assertIn("Time.delta", building_generated_update_timescale_decay["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

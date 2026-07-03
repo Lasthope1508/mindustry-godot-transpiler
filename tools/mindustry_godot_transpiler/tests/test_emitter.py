@@ -4809,6 +4809,48 @@ class BuildingComp{
             self.assertIn('"check_allow_update_source_owner": "PortGame.source_building_check_allow_update_state"', source_text)
             self.assertIn('"check_allow_update": check_allow_update', source_text)
 
+    def test_emit_bridges_building_comp_update_timescale_decay_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void update(){
+        if((timeScaleDuration -= Time.delta) <= 0f){
+            timeScale = 1f;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_time_scale := float(_args[0] if _args.size() > 0 else 1.0)", source_text)
+            self.assertIn("var current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var time_delta := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var next_duration := current_time_scale_duration - time_delta", source_text)
+            self.assertIn("if next_duration <= 0.0:", source_text)
+            self.assertIn('update_timescale_decay.merge({"time_scale": 1.0, "time_scale_duration": next_duration})', source_text)
+            self.assertIn('update_timescale_decay.merge({"time_scale": current_time_scale, "time_scale_duration": next_duration})', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_timescale_decay_state"', source_text)
+            self.assertIn('"field": "private transient float timeScale = 1f, timeScaleDuration;"', source_text)
+            self.assertIn('"method": "public void update(){"', source_text)
+            self.assertIn('"decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){"', source_text)
+            self.assertIn('"reset": "timeScale = 1f;"', source_text)
+            self.assertIn('"update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state"', source_text)
+            self.assertIn('"update_timescale_decay": update_timescale_decay', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
