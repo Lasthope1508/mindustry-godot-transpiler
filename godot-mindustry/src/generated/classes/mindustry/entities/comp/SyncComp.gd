@@ -14,7 +14,7 @@ const JAVA_METHODS := [{"modifiers": [], "name": "snapSync", "parameters": [], "
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_snapSync_0(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_sync_snap_sync_state", "method": "void snapSync(){}", "empty_body": "void snapSync(){}", "no_op": true}
 
 func java_method_snapInterpolation_1(_args: Array = []) -> Variant:
 	return null

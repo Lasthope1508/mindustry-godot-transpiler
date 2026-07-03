@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 585,
+  "registeredSourceOwnerCount": 586,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -434,6 +434,7 @@
     "PortGame.source_shoot_pattern_default_events",
     "PortGame.source_solar_generator_update_tile_state",
     "PortGame.source_status_apply_result",
+    "PortGame.source_sync_snap_sync_state",
     "PortGame.source_thermal_generator_after_picked_up_state",
     "PortGame.source_thermal_generator_can_place_on_state",
     "PortGame.source_thermal_generator_displayed_power_production_state",
@@ -1986,6 +1987,11 @@
       "function": "source_shielder_absorb_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_shielder_absorb_state"
+    },
+    {
+      "function": "source_sync_snap_sync_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_sync_snap_sync_state"
     },
     {
       "function": "source_unit_tether_after_read_state",
@@ -3553,6 +3559,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 590,
+  "totalSourceFunctions": 591,
   "version": 1
 }

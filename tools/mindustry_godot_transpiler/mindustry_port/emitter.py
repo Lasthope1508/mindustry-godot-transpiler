@@ -1214,6 +1214,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_shielder_absorb_state\", \"method\": \"void absorb(){\", \"empty_body\": \"void absorb(){\\n\\n    }\", \"no_op\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/SyncComp.java"
+        and type_entry.get("name") == "SyncComp"
+        and method.get("name") == "snapSync"
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_sync_snap_sync_state\", \"method\": \"void snapSync(){}\", \"empty_body\": \"void snapSync(){}\", \"no_op\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"
