@@ -7443,6 +7443,29 @@ func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) ->
 		"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:
+	var dead: bool = tile_null or tile_dead
+	return {
+		"method": "public boolean dead(){",
+		"return_expr": "return tile == null || tile.dead();",
+		"tile_null": tile_null,
+		"tile_dead": tile_dead,
+		"dead": dead,
+	}
+
+func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_dead_7([tile_null, tile_dead])
+	var canonical = source_block_unit_dead_state(tile_null, tile_dead)
+	return {
+		"source_owner": "PortGame.source_block_unit_dead_state",
+		"generated_owner": "BlockUnitComp.java_method_dead_7",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("dead", null) == canonical.get("dead", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

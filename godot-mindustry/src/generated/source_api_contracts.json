@@ -24252,6 +24252,37 @@
         "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_icon_state"
       ]
+    },
+    "PortGame.source_block_unit_dead_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_null",
+          "schema": "source_block_unit_dead_input.tile_null",
+          "type": "bool"
+        },
+        {
+          "name": "tile_dead",
+          "schema": "source_block_unit_dead_input.tile_dead",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "tile_null",
+        "tile_dead",
+        "dead"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.dead() tile null/dead return state.",
+      "runtime_proof": "/root/Main.source_block_unit_dead_state",
+      "source_method": "dead()",
+      "source_slice": "N1131",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_dead_state"
+      ]
     }
   },
   "policy": {

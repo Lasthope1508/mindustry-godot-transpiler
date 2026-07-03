@@ -88637,6 +88637,100 @@
         }
       },
       "status": "active"
+    },
+    "source_block_unit_dead_input": {
+      "keys": {
+        "tile_null": {
+          "godot_symbol": "source_block_unit_dead_input.tile_null",
+          "java_expr": "tile == null",
+          "java_method": "dead()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves explicit BlockUnitComp tile null branch.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_dead_state"
+          ]
+        },
+        "tile_dead": {
+          "godot_symbol": "source_block_unit_dead_input.tile_dead",
+          "java_expr": "tile.dead()",
+          "java_method": "dead()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves explicit BlockUnitComp tile.dead() branch.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_dead_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_block_unit_dead_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_block_unit_dead_result.method",
+          "java_expr": "public boolean dead(){",
+          "java_method": "dead()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records BlockUnitComp.dead method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_dead_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_unit_dead_result.return_expr",
+          "java_expr": "return tile == null || tile.dead();",
+          "java_method": "dead()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records exact tile null or tile.dead return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_dead_state"
+          ]
+        },
+        "tile_null": {
+          "godot_symbol": "source_block_unit_dead_input.tile_null",
+          "java_expr": "tile == null",
+          "java_method": "dead()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves explicit tile null branch value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_dead_state"
+          ]
+        },
+        "tile_dead": {
+          "godot_symbol": "source_block_unit_dead_input.tile_dead",
+          "java_expr": "tile.dead()",
+          "java_method": "dead()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves explicit tile.dead branch value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_dead_state"
+          ]
+        },
+        "dead": {
+          "godot_symbol": "source_block_unit_dead_result.dead",
+          "java_expr": "tile == null || tile.dead()",
+          "java_method": "dead()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result of BlockUnitComp.dead return expression.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_dead_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

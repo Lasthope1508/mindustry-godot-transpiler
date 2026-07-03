@@ -6179,5 +6179,40 @@ class BlockUnitComp{
             self.assertIn('"return_expr": "return tile.block.uiIcon;"', source_text)
             self.assertIn('"tile_block_ui_icon": tile_block_ui_icon', source_text)
 
+    def test_emit_bridges_block_unit_comp_dead_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public boolean dead(){
+        return tile == null || tile.dead();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_dead_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var tile_dead: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var dead: bool = tile_null or tile_dead", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_dead_state"', source_text)
+            self.assertIn('"method": "public boolean dead(){"', source_text)
+            self.assertIn('"return_expr": "return tile == null || tile.dead();"', source_text)
+            self.assertIn('"tile_null": tile_null', source_text)
+            self.assertIn('"tile_dead": tile_dead', source_text)
+            self.assertIn('"dead": dead', source_text)
+
 if __name__ == "__main__":
     unittest.main()

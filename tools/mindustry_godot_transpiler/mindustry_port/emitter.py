@@ -1211,6 +1211,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_block_unit_ammof_state\", \"method\": \"public float ammof(){\", \"return_expr\": \"return ammo;\", \"ammo\": ammo}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "dead"
+    ):
+        return [
+            "\tvar tile_null: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar tile_dead: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar dead: bool = tile_null or tile_dead",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_dead_state\", \"method\": \"public boolean dead(){\", \"return_expr\": \"return tile == null || tile.dead();\", \"tile_null\": tile_null, \"tile_dead\": tile_dead, \"dead\": dead}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/PosComp.java"
         and type_entry.get("name") == "PosComp"
         and method.get("name") == "set"

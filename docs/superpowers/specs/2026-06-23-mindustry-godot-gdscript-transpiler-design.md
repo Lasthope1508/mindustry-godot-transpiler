@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1020 |
-| Done | 1020 |
+| Total tracked work items | 1021 |
+| Done | 1021 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -943,6 +943,7 @@
 - [x] N1128: Generated SyncComp remove client removed-entity bridge state.
 - [x] N1129: Generated BlockUnitComp ammof bridge state.
 - [x] N1130: Generated BlockUnitComp icon bridge state.
+- [x] N1131: Generated BlockUnitComp dead bridge state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode

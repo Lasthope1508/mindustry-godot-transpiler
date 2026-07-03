@@ -24388,6 +24388,35 @@
         "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1131": {
+      "exact_exprs": [
+        "@Replace",
+        "public boolean dead(){",
+        "return tile == null || tile.dead();"
+      ],
+      "godot_owner": "PortGame.source_block_unit_dead_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "dead()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.dead() tile null/dead return and wires generated BlockUnitComp.java_method_dead_7 plus PortGame generated bridge to canonical source_block_unit_dead_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_dead_bridge_state",
+      "source_symbols": [
+        "block_unit_dead.method",
+        "block_unit_dead.return_expr",
+        "block_unit_dead.tile_null",
+        "block_unit_dead.tile_dead",
+        "block_unit_dead.dead"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_dead_to_source_state",
+        "test_generated_block_unit_comp_bridges_dead_to_source_state",
+        "test_port_game_exposes_source_block_unit_dead_state",
+        "test_port_game_exposes_generated_block_unit_comp_dead_bridge_state",
+        "test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

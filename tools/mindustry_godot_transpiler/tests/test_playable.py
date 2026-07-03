@@ -11857,6 +11857,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_expr": "return tile.block.uiIcon;"', source)
         self.assertIn('"tile_block_ui_icon": tile_block_ui_icon', source)
 
+    def test_generated_block_unit_comp_bridges_dead_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_dead_7(_args: Array = []) -> Variant:", source)
+        self.assertIn("var tile_null: bool = bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var tile_dead: bool = bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var dead: bool = tile_null or tile_dead", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_dead_state"', source)
+        self.assertIn('"method": "public boolean dead(){"', source)
+        self.assertIn('"return_expr": "return tile == null || tile.dead();"', source)
+        self.assertIn('"tile_null": tile_null', source)
+        self.assertIn('"tile_dead": tile_dead', source)
+        self.assertIn('"dead": dead', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -12160,6 +12175,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_block_unit_icon_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_icon_3"', source)
         self.assertIn('"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+
+    def test_port_game_exposes_source_block_unit_dead_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:", source)
+        self.assertIn("var dead: bool = tile_null or tile_dead", source)
+        self.assertIn('"method": "public boolean dead(){"', source)
+        self.assertIn('"return_expr": "return tile == null || tile.dead();"', source)
+        self.assertIn('"tile_null": tile_null', source)
+        self.assertIn('"tile_dead": tile_dead', source)
+        self.assertIn('"dead": dead', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_dead_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_dead_7([tile_null, tile_dead])", source)
+        self.assertIn("var canonical = source_block_unit_dead_state(tile_null, tile_dead)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_dead_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_dead_7"', source)
+        self.assertIn('"matches": result.get("dead", null) == canonical.get("dead", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
 if __name__ == "__main__":
     unittest.main()

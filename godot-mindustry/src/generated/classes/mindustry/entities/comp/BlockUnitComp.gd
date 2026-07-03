@@ -37,7 +37,10 @@ func java_method_damage_6(_args: Array = []) -> Variant:
 	return null
 
 func java_method_dead_7(_args: Array = []) -> Variant:
-	return null
+	var tile_null: bool = bool(_args[0] if _args.size() > 0 else false)
+	var tile_dead: bool = bool(_args[1] if _args.size() > 1 else false)
+	var dead: bool = tile_null or tile_dead
+	return {"source_owner": "PortGame.source_block_unit_dead_state", "method": "public boolean dead(){", "return_expr": "return tile == null || tile.dead();", "tile_null": tile_null, "tile_dead": tile_dead, "dead": dead}
 
 func java_method_isValid_8(_args: Array = []) -> Variant:
 	return null
