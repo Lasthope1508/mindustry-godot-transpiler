@@ -5286,6 +5286,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_payload_size_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_206(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_payload_seq := bool(_args[28] if _args.size() > 28 else false)", source)
+        self.assertIn("var payload_seq_total := float(_args[29] if _args.size() > 29 else 0.0)", source)
+        self.assertIn("var has_single_payload := bool(_args[30] if _args.size() > 30 else false)", source)
+        self.assertIn("var block_size_value := float(_args[31] if _args.size() > 31 else 0.0)", source)
+        self.assertIn("payload_count += payload_seq_total", source)
+        self.assertIn("payload_count += 1.0", source)
+        self.assertIn('"payload_size_source_owner": "PortGame.source_building_sense_payload_size_state"', source)
+        self.assertIn('"payload_count_case": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);"', source)
+        self.assertIn('"size_case": "case size -> block.size;"', source)
+        self.assertIn('"sense_payload_size": sense_payload_size', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_payload_size_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, has_payload_seq, payload_seq_total, has_single_payload, block_size_value])", source)
+        self.assertIn("var canonical = source_building_sense_payload_size_state(has_payload_seq, payload_seq_total, has_single_payload, block_size_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_payload_size_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

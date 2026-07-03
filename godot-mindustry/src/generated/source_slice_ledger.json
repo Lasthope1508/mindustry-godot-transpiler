@@ -22701,6 +22701,42 @@
         "test_port_game_exposes_generated_building_comp_sense_enabled_controlled_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1083": {
+      "deferred_exprs": [
+        "Position, color, dead, solid, team, health/process, totals, capacity/power-net, enabled, controlled, camera, and default NaN sense cases stay owned by their own canonical slices; this generated bridge records only the payloadCount and size cases. Concrete payload containers stay owned by payload runtime integration slices."
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",
+        "case size -> block.size;",
+        "getPayloads() != null",
+        "getPayloads().total()",
+        "getPayload() != null",
+        "block.size"
+      ],
+      "godot_owner": "PortGame.source_building_sense_payload_size_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_sense_206 and PortGame generated bridge to existing N637 canonical source_building_sense_payload_size_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_payload_size_bridge_state",
+      "source_symbols": [
+        "building_sense_payload_size.method",
+        "building_sense_payload_size.payload_count_case",
+        "building_sense_payload_size.size_case",
+        "building_sense_payload_size.has_payload_seq",
+        "building_sense_payload_size.payload_seq_total",
+        "building_sense_payload_size.has_single_payload",
+        "building_sense_payload_size.block_size_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_payload_size_to_source_state",
+        "test_generated_building_comp_bridges_sense_payload_size_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_payload_size_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

@@ -3957,6 +3957,52 @@ class BuildingComp{
             self.assertIn('"controlled": ctrl_player_value if is_control_block and is_controlled else 0.0', source_text)
             self.assertIn('"sense_enabled_controlled": sense_enabled_controlled', source_text)
 
+    def test_emit_bridges_building_comp_sense_payload_size_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);
+            case size -> block.size;
+            default -> Float.NaN;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_payload_seq := bool(_args[28] if _args.size() > 28 else false)", source_text)
+            self.assertIn("var payload_seq_total := float(_args[29] if _args.size() > 29 else 0.0)", source_text)
+            self.assertIn("var has_single_payload := bool(_args[30] if _args.size() > 30 else false)", source_text)
+            self.assertIn("var block_size_value := float(_args[31] if _args.size() > 31 else 0.0)", source_text)
+            self.assertIn("var payload_count := 0.0", source_text)
+            self.assertIn("if has_payload_seq:", source_text)
+            self.assertIn("payload_count += payload_seq_total", source_text)
+            self.assertIn("if has_single_payload:", source_text)
+            self.assertIn("payload_count += 1.0", source_text)
+            self.assertIn('"payload_size_source_owner": "PortGame.source_building_sense_payload_size_state"', source_text)
+            self.assertIn('"payload_count_case": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);"', source_text)
+            self.assertIn('"size_case": "case size -> block.size;"', source_text)
+            self.assertIn('"payload_count": payload_count', source_text)
+            self.assertIn('"size": block_size_value', source_text)
+            self.assertIn('"sense_payload_size": sense_payload_size', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
