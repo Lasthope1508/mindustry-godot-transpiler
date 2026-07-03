@@ -73654,6 +73654,175 @@
       "java_expr": "self()",
       "rule": "Self payload passed to buildDestroyed when destroy gate fires.",
       "status": "generated"
+    },
+    "building_sense_camera_default.method": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.method",
+      "java_expr": "public double sense(LAccess sensor){",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp sense(LAccess) method boundary.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_case": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_case",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "sense(LAccess) camera sensor case delegates to controlled unit or returns zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.default_case": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.default_case",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "sense(LAccess) default returns Float.NaN upstream, converted to null in logic.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.is_control_block": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.is_control_block",
+      "java_expr": "this instanceof ControlBlock c",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime is_control_block supplies ControlBlock type guard.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_x": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_x",
+      "java_expr": "c.unit().sense(cameraX)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_x supplies delegated unit cameraX sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_y": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_y",
+      "java_expr": "c.unit().sense(cameraY)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_y supplies delegated unit cameraY sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_width": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_width",
+      "java_expr": "c.unit().sense(cameraWidth)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_width supplies delegated unit cameraWidth sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_height": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_height",
+      "java_expr": "c.unit().sense(cameraHeight)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_height supplies delegated unit cameraHeight sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_x": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_x",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_x mirrors delegated unit cameraX when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_y": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_y",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_y mirrors delegated unit cameraY when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_width": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_width",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_width mirrors delegated unit cameraWidth when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_height": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_height",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_height mirrors delegated unit cameraHeight when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.invalid_sensor": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.invalid_sensor",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime invalid_sensor is null for upstream Float.NaN default sense path.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

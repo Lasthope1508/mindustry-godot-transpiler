@@ -22737,6 +22737,48 @@
         "test_port_game_exposes_generated_building_comp_sense_payload_size_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1084": {
+      "deferred_exprs": [
+        "UnitComp cameraX/cameraY/cameraWidth/cameraHeight internals stay owned by UnitComp camera sense slices; this slice only preserves BuildingComp ControlBlock delegation and default Float.NaN behavior. Generated BuildingComp bridge wiring stays deferred to a later generated bridge slice."
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+        "default -> Float.NaN; //gets converted to null in logic",
+        "this instanceof ControlBlock c",
+        "c.unit().sense(sensor)"
+      ],
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Registers canonical BuildingComp.sense camera/default helper against exact upstream camera delegation and Float.NaN default cases.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "source_symbols": [
+        "building_sense_camera_default.method",
+        "building_sense_camera_default.camera_case",
+        "building_sense_camera_default.default_case",
+        "building_sense_camera_default.is_control_block",
+        "building_sense_camera_default.unit_camera_x",
+        "building_sense_camera_default.unit_camera_y",
+        "building_sense_camera_default.unit_camera_width",
+        "building_sense_camera_default.unit_camera_height",
+        "building_sense_camera_default.camera_x",
+        "building_sense_camera_default.camera_y",
+        "building_sense_camera_default.camera_width",
+        "building_sense_camera_default.camera_height",
+        "building_sense_camera_default.invalid_sensor"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_sense_camera_default_matches_upstream_source",
+        "test_port_game_exposes_source_building_sense_camera_default_state",
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners",
+        "test_source_api_contracts_define_runtime_shapes",
+        "test_source_state_schema_tracks_runtime_keys"
+      ]
     }
   },
   "version": 1

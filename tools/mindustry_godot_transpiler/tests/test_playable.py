@@ -6813,6 +6813,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('source_state["value"] = null', source)
         self.assertIn("return source_state", source)
 
+    def test_port_game_exposes_source_building_sense_camera_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_sense_camera_default_state(is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float) -> Dictionary:", source)
+        self.assertIn('"method": "public double sense(LAccess sensor){",', source)
+        self.assertIn('"camera_case": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",', source)
+        self.assertIn('"default_case": "default -> Float.NaN; //gets converted to null in logic",', source)
+        self.assertIn('"is_control_block": is_control_block,', source)
+        self.assertIn('"unit_camera_x": unit_camera_x,', source)
+        self.assertIn('"unit_camera_y": unit_camera_y,', source)
+        self.assertIn('"unit_camera_width": unit_camera_width,', source)
+        self.assertIn('"unit_camera_height": unit_camera_height,', source)
+        self.assertIn('var camera_x := unit_camera_x if is_control_block else 0.0', source)
+        self.assertIn('var camera_y := unit_camera_y if is_control_block else 0.0', source)
+        self.assertIn('var camera_width := unit_camera_width if is_control_block else 0.0', source)
+        self.assertIn('var camera_height := unit_camera_height if is_control_block else 0.0', source)
+        self.assertIn('"camera_x": camera_x,', source)
+        self.assertIn('"camera_y": camera_y,', source)
+        self.assertIn('"camera_width": camera_width,', source)
+        self.assertIn('"camera_height": camera_height,', source)
+        self.assertIn('"invalid_sensor": null,', source)
+        self.assertIn("return source_state", source)
+
     def test_port_game_exposes_source_building_control_enabled_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

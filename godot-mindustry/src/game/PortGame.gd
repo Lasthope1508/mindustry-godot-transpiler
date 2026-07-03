@@ -6366,6 +6366,28 @@ func source_building_sense_content_state(content_type: String, has_items_module:
 	source_state["value"] = null
 	return source_state
 
+func source_building_sense_camera_default_state(is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float) -> Dictionary:
+	var camera_x := unit_camera_x if is_control_block else 0.0
+	var camera_y := unit_camera_y if is_control_block else 0.0
+	var camera_width := unit_camera_width if is_control_block else 0.0
+	var camera_height := unit_camera_height if is_control_block else 0.0
+	var source_state := {
+		"method": "public double sense(LAccess sensor){",
+		"camera_case": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+		"default_case": "default -> Float.NaN; //gets converted to null in logic",
+		"is_control_block": is_control_block,
+		"unit_camera_x": unit_camera_x,
+		"unit_camera_y": unit_camera_y,
+		"unit_camera_width": unit_camera_width,
+		"unit_camera_height": unit_camera_height,
+		"camera_x": camera_x,
+		"camera_y": camera_y,
+		"camera_width": camera_width,
+		"camera_height": camera_height,
+		"invalid_sensor": null,
+	}
+	return source_state
+
 func source_building_control_enabled_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:
 	var next_enabled := current_enabled
 	if control_type == "enabled":

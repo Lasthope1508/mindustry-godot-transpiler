@@ -11698,6 +11698,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(payload_amount["java_expr"], "getPayloads().get(u) / getPayloads().get(b)")
         self.assertEqual(payload_amount["godot_symbol"], "source_building_sense_content_input.payload_amount")
 
+    def test_building_sense_camera_default_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "building_sense_camera_default.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(method["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_building_sense_camera_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_building_sense_camera_default_state")
+        self.assertEqual(method["godot_symbol"], "source_building_sense_camera_default_result.method")
+
+        camera_case = source_symbols.source_symbol(registry, "building_sense_camera_default.camera_case")
+        self.assertEqual(camera_case["java_expr"], "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;")
+        self.assertEqual(camera_case["godot_symbol"], "source_building_sense_camera_default_result.camera_case")
+
+        default_case = source_symbols.source_symbol(registry, "building_sense_camera_default.default_case")
+        self.assertEqual(default_case["java_expr"], "default -> Float.NaN; //gets converted to null in logic")
+        self.assertEqual(default_case["godot_symbol"], "source_building_sense_camera_default_result.default_case")
+
+        is_control_block = source_symbols.source_symbol(registry, "building_sense_camera_default.is_control_block")
+        self.assertEqual(is_control_block["status"], "explicit-input")
+        self.assertEqual(is_control_block["java_expr"], "this instanceof ControlBlock c")
+        self.assertEqual(is_control_block["godot_symbol"], "source_building_sense_camera_default_input.is_control_block")
+
+        unit_camera_x = source_symbols.source_symbol(registry, "building_sense_camera_default.unit_camera_x")
+        self.assertEqual(unit_camera_x["status"], "explicit-input")
+        self.assertEqual(unit_camera_x["java_expr"], "c.unit().sense(cameraX)")
+        self.assertEqual(unit_camera_x["godot_symbol"], "source_building_sense_camera_default_input.unit_camera_x")
+
+        unit_camera_height = source_symbols.source_symbol(registry, "building_sense_camera_default.unit_camera_height")
+        self.assertEqual(unit_camera_height["status"], "explicit-input")
+        self.assertEqual(unit_camera_height["java_expr"], "c.unit().sense(cameraHeight)")
+        self.assertEqual(unit_camera_height["godot_symbol"], "source_building_sense_camera_default_input.unit_camera_height")
+
     def test_building_maximum_accepted_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19536,9 +19573,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 576)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 577)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 581)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 582)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19959,6 +19996,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_accept_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_remove_stack_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_capacity_power_net_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_sense_camera_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_enabled_controlled_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_sense_health_process_state", audit["registeredSourceOwners"])
@@ -26193,6 +26231,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("getPayload() != null", building_generated_sense_payload_size["exact_exprs"])
         self.assertIn("block.size", building_generated_sense_payload_size["exact_exprs"])
 
+        building_sense_camera_default = source_symbols.source_slice(ledger, "N1084")
+        self.assertEqual(building_sense_camera_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_sense_camera_default["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_sense_camera_default["godot_owner"], "PortGame.source_building_sense_camera_default_state")
+        self.assertEqual(building_sense_camera_default["runtime_proof"], "/root/Main.source_building_sense_camera_default_state")
+        self.assertIn("public double sense(LAccess sensor){", building_sense_camera_default["exact_exprs"])
+        self.assertIn("case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;", building_sense_camera_default["exact_exprs"])
+        self.assertIn("default -> Float.NaN; //gets converted to null in logic", building_sense_camera_default["exact_exprs"])
+        self.assertIn("this instanceof ControlBlock c", building_sense_camera_default["exact_exprs"])
+        self.assertIn("c.unit().sense(sensor)", building_sense_camera_default["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
@@ -29719,6 +29768,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("sensed", building_sense_content["return_keys"])
         self.assertIn("value", building_sense_content["return_keys"])
         self.assertEqual(building_sense_content["source_method"], "sense(Content content)")
+
+        building_sense_camera_default = source_symbols.api_contract(contracts, "PortGame.source_building_sense_camera_default_state")
+        self.assertEqual([param["name"] for param in building_sense_camera_default["params"]], ["is_control_block", "unit_camera_x", "unit_camera_y", "unit_camera_width", "unit_camera_height"])
+        self.assertEqual(building_sense_camera_default["params"][0]["schema"], "source_building_sense_camera_default_input.is_control_block")
+        self.assertEqual(building_sense_camera_default["params"][4]["schema"], "source_building_sense_camera_default_input.unit_camera_height")
+        self.assertIn("method", building_sense_camera_default["return_keys"])
+        self.assertIn("camera_case", building_sense_camera_default["return_keys"])
+        self.assertIn("default_case", building_sense_camera_default["return_keys"])
+        self.assertIn("camera_x", building_sense_camera_default["return_keys"])
+        self.assertIn("camera_height", building_sense_camera_default["return_keys"])
+        self.assertIn("invalid_sensor", building_sense_camera_default["return_keys"])
+        self.assertEqual(building_sense_camera_default["source_method"], "sense(LAccess sensor)")
 
         building_sense_enabled_controlled = source_symbols.api_contract(contracts, "PortGame.source_building_sense_enabled_controlled_state")
         self.assertEqual([param["name"] for param in building_sense_enabled_controlled["params"]], ["enabled_state", "is_control_block", "is_controlled", "ctrl_player_value"])
@@ -36461,6 +36522,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_building_sense_payload_size_result["keys"]["size_case"]["java_expr"], "case size -> block.size;")
         self.assertEqual(source_building_sense_payload_size_result["keys"]["payload_seq_total"]["alias_of"], "source_building_sense_payload_size_input.payload_seq_total")
         self.assertEqual(source_building_sense_payload_size_result["keys"]["block_size_value"]["alias_of"], "source_building_sense_payload_size_input.block_size_value")
+
+        source_building_sense_camera_default_input = source_symbols.state_schema(schema, "source_building_sense_camera_default_input")
+        self.assertEqual(source_building_sense_camera_default_input["keys"]["is_control_block"]["java_expr"], "this instanceof ControlBlock c")
+        self.assertEqual(source_building_sense_camera_default_input["keys"]["unit_camera_x"]["java_expr"], "c.unit().sense(cameraX)")
+        self.assertEqual(source_building_sense_camera_default_input["keys"]["unit_camera_y"]["java_expr"], "c.unit().sense(cameraY)")
+        self.assertEqual(source_building_sense_camera_default_input["keys"]["unit_camera_width"]["java_expr"], "c.unit().sense(cameraWidth)")
+        self.assertEqual(source_building_sense_camera_default_input["keys"]["unit_camera_height"]["java_expr"], "c.unit().sense(cameraHeight)")
+
+        source_building_sense_camera_default_result = source_symbols.state_schema(schema, "source_building_sense_camera_default_result")
+        self.assertEqual(source_building_sense_camera_default_result["keys"]["method"]["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(source_building_sense_camera_default_result["keys"]["camera_case"]["java_expr"], "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;")
+        self.assertEqual(source_building_sense_camera_default_result["keys"]["default_case"]["java_expr"], "default -> Float.NaN; //gets converted to null in logic")
+        self.assertEqual(source_building_sense_camera_default_result["keys"]["is_control_block"]["alias_of"], "source_building_sense_camera_default_input.is_control_block")
+        self.assertEqual(source_building_sense_camera_default_result["keys"]["unit_camera_height"]["alias_of"], "source_building_sense_camera_default_input.unit_camera_height")
+        self.assertEqual(source_building_sense_camera_default_result["keys"]["invalid_sensor"]["java_expr"], "default -> Float.NaN; //gets converted to null in logic")
 
         source_building_sense_object_input = source_symbols.state_schema(schema, "source_building_sense_object_input")
         self.assertEqual(source_building_sense_object_input["keys"]["sensor"]["java_expr"], "sensor")

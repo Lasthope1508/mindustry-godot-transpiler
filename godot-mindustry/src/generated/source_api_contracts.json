@@ -23623,6 +23623,59 @@
       "tests": [
         "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_building_sense_camera_default_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "is_control_block",
+          "schema": "source_building_sense_camera_default_input.is_control_block",
+          "type": "bool"
+        },
+        {
+          "name": "unit_camera_x",
+          "schema": "source_building_sense_camera_default_input.unit_camera_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_camera_y",
+          "schema": "source_building_sense_camera_default_input.unit_camera_y",
+          "type": "float"
+        },
+        {
+          "name": "unit_camera_width",
+          "schema": "source_building_sense_camera_default_input.unit_camera_width",
+          "type": "float"
+        },
+        {
+          "name": "unit_camera_height",
+          "schema": "source_building_sense_camera_default_input.unit_camera_height",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "camera_case",
+        "default_case",
+        "is_control_block",
+        "unit_camera_x",
+        "unit_camera_y",
+        "unit_camera_width",
+        "unit_camera_height",
+        "camera_x",
+        "camera_y",
+        "camera_width",
+        "camera_height",
+        "invalid_sensor"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) camera delegation and default NaN helper.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "source_method": "sense(LAccess sensor)",
+      "source_slice": "N1084",
+      "status": "active",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

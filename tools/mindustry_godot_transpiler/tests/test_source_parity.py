@@ -3547,6 +3547,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_sense_camera_default_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_sense_camera_default_source"))
+        report = source_parity.verify_building_sense_camera_default_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "sense_method": "public double sense(LAccess sensor){",
+            "camera_case": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+            "default_case": "default -> Float.NaN; //gets converted to null in logic",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_control_enabled_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_control_enabled_source"))
         report = source_parity.verify_building_control_enabled_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
