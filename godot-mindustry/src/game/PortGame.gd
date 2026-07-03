@@ -7784,6 +7784,30 @@ func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
 		"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null),
 	}
 
+func source_builder_add_build_tail_state(place: Variant) -> Dictionary:
+	var tail: bool = true
+	var add_build_call: Dictionary = {"call": "addBuild(place, true);", "place": place, "tail": tail}
+	return {
+		"method": "void addBuild(BuildPlan place){",
+		"place": place,
+		"tail": tail,
+		"add_build_call": add_build_call,
+		"add_build_called": true,
+	}
+
+func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_addBuild_11([place])
+	var canonical = source_builder_add_build_tail_state(place)
+	return {
+		"source_owner": "PortGame.source_builder_add_build_tail_state",
+		"generated_owner": "BuilderComp.java_method_addBuild_11",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

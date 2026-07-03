@@ -24659,6 +24659,32 @@
         "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_clear_building_state"
       ]
+    },
+    "PortGame.source_builder_add_build_tail_state": {
+      "source_slice": "N1144",
+      "source_method": "addBuild(BuildPlan place)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "place",
+          "type": "Variant",
+          "schema": "source_builder_add_build_tail_input.place"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "place",
+        "tail",
+        "add_build_call",
+        "add_build_called"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.addBuild(BuildPlan place) delegate state.",
+      "runtime_proof": "/root/Main.source_builder_add_build_tail_state",
+      "tests": [
+        "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_add_build_tail_state"
+      ]
     }
   },
   "policy": {

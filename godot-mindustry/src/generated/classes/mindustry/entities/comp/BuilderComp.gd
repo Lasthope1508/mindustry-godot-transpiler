@@ -58,7 +58,10 @@ func java_method_clearBuilding_10(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_builder_clear_building_state", "method": "void clearBuilding(){", "plans_clear_call": plans_clear_call, "plans_clear_called": plans_clear_called}
 
 func java_method_addBuild_11(_args: Array = []) -> Variant:
-	return null
+	var place: Variant = _args[0] if _args.size() > 0 else null
+	var tail: bool = true
+	var add_build_call: Dictionary = {"call": "addBuild(place, true);", "place": place, "tail": tail}
+	return {"source_owner": "PortGame.source_builder_add_build_tail_state", "method": "void addBuild(BuildPlan place){", "place": place, "tail": tail, "add_build_call": add_build_call, "add_build_called": true}
 
 func java_method_addBuild_12(_args: Array = []) -> Variant:
 	return null

@@ -12533,5 +12533,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_clearBuilding_10"', source)
         self.assertIn('"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null)', source)
 
+    def test_port_game_exposes_source_builder_add_build_tail_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_add_build_tail_state(place: Variant) -> Dictionary:", source)
+        self.assertIn("var tail: bool = true", source)
+        self.assertIn('var add_build_call: Dictionary = {"call": "addBuild(place, true);", "place": place, "tail": tail}', source)
+        self.assertIn('"method": "void addBuild(BuildPlan place){"', source)
+        self.assertIn('"place": place', source)
+        self.assertIn('"tail": tail', source)
+        self.assertIn('"add_build_call": add_build_call', source)
+        self.assertIn('"add_build_called": true', source)
+
+    def test_port_game_exposes_generated_builder_comp_add_build_tail_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_addBuild_11([place])", source)
+        self.assertIn("var canonical = source_builder_add_build_tail_state(place)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_add_build_tail_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_11"', source)
+        self.assertIn('"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

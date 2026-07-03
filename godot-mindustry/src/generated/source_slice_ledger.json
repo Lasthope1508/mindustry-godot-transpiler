@@ -24774,6 +24774,34 @@
         "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1144": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "addBuild(BuildPlan place)",
+      "godot_owner": "PortGame.source_builder_add_build_tail_state",
+      "source_symbols": [
+        "builder_add_build_tail.method",
+        "builder_add_build_tail.place",
+        "builder_add_build_tail.tail",
+        "builder_add_build_tail.add_build_call",
+        "builder_add_build_tail.add_build_called"
+      ],
+      "exact_exprs": [
+        "/** Add another build plans to the tail of the queue, if it doesn't exist there yet. */",
+        "void addBuild(BuildPlan place){",
+        "addBuild(place, true);"
+      ],
+      "status": "done",
+      "rule": "Registers BuilderComp.addBuild(BuildPlan place) delegate to addBuild(place, true); wires generated BuilderComp.java_method_addBuild_11 plus PortGame generated bridge to canonical source_builder_add_build_tail_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_add_build_tail_bridge_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_tail_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_tail_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_tail_bridge_state",
+        "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
