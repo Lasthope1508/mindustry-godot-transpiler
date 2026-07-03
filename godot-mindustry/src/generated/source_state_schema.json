@@ -89983,6 +89983,47 @@
           ]
         }
       }
+    },
+    "source_builder_clear_building_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "clearBuilding()",
+          "java_expr": "void clearBuilding(){",
+          "godot_symbol": "source_builder_clear_building_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BuilderComp.clearBuilding method boundary.",
+          "used_by": [
+            "PortGame.source_builder_clear_building_state"
+          ]
+        },
+        "plans_clear_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "clearBuilding()",
+          "java_expr": "plans.clear();",
+          "godot_symbol": "source_builder_clear_building_result.plans_clear_call",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact plans.clear call.",
+          "used_by": [
+            "PortGame.source_builder_clear_building_state"
+          ]
+        },
+        "plans_clear_called": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "clearBuilding()",
+          "java_expr": "plans.clear();",
+          "godot_symbol": "source_builder_clear_building_result.plans_clear_called",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records plans.clear call occurrence.",
+          "used_by": [
+            "PortGame.source_builder_clear_building_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

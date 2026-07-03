@@ -24641,6 +24641,24 @@
         "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_is_building_state"
       ]
+    },
+    "PortGame.source_builder_clear_building_state": {
+      "source_slice": "N1143",
+      "source_method": "clearBuilding()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "plans_clear_call",
+        "plans_clear_called"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.clearBuilding() plans.clear() call state.",
+      "runtime_proof": "/root/Main.source_builder_clear_building_state",
+      "tests": [
+        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_clear_building_state"
+      ]
     }
   },
   "policy": {

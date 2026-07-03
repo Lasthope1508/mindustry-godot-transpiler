@@ -24748,6 +24748,32 @@
         "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1143": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "clearBuilding()",
+      "godot_owner": "PortGame.source_builder_clear_building_state",
+      "source_symbols": [
+        "builder_clear_building.method",
+        "builder_clear_building.plans_clear_call",
+        "builder_clear_building.plans_clear_called"
+      ],
+      "exact_exprs": [
+        "/** Clears the placement queue. */",
+        "void clearBuilding(){",
+        "plans.clear();"
+      ],
+      "status": "done",
+      "rule": "Registers BuilderComp.clearBuilding() plans.clear() call; wires generated BuilderComp.java_method_clearBuilding_10 plus PortGame generated bridge to canonical source_builder_clear_building_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_clear_building_bridge_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_clear_building_to_source_state",
+        "test_port_game_exposes_source_builder_clear_building_state",
+        "test_port_game_exposes_generated_builder_comp_clear_building_bridge_state",
+        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

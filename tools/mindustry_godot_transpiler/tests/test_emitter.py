@@ -6635,5 +6635,37 @@ class BuilderComp{
             self.assertIn('"plans_size": plans_size', source_text)
             self.assertIn('"is_building": is_building', source_text)
 
+    def test_emit_bridges_builder_comp_clear_building_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    void clearBuilding(){
+        plans.clear();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_clearBuilding_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var plans_clear_call: String = "plans.clear();"', source_text)
+            self.assertIn("var plans_clear_called: bool = true", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_clear_building_state"', source_text)
+            self.assertIn('"method": "void clearBuilding(){"', source_text)
+            self.assertIn('"plans_clear_call": plans_clear_call', source_text)
+            self.assertIn('"plans_clear_called": plans_clear_called', source_text)
+
 if __name__ == "__main__":
     unittest.main()

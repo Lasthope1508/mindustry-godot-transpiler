@@ -76592,6 +76592,45 @@
       "tests": [
         "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing"
       ]
+    },
+    "builder_clear_building.method": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "clearBuilding()",
+      "java_expr": "void clearBuilding(){",
+      "godot_owner": "PortGame.source_builder_clear_building_state",
+      "godot_symbol": "source_builder_clear_building_result.method",
+      "status": "source-backed",
+      "rule": "BuilderComp clearBuilding method boundary.",
+      "runtime_proof": "/root/Main.source_builder_clear_building_state",
+      "tests": [
+        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_clear_building.plans_clear_call": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "clearBuilding()",
+      "java_expr": "plans.clear();",
+      "godot_owner": "PortGame.source_builder_clear_building_state",
+      "godot_symbol": "source_builder_clear_building_result.plans_clear_call",
+      "status": "source-backed",
+      "rule": "Result records exact plans.clear call.",
+      "runtime_proof": "/root/Main.source_builder_clear_building_state",
+      "tests": [
+        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_clear_building.plans_clear_called": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "clearBuilding()",
+      "java_expr": "plans.clear();",
+      "godot_owner": "PortGame.source_builder_clear_building_state",
+      "godot_symbol": "source_builder_clear_building_result.plans_clear_called",
+      "status": "source-backed",
+      "rule": "Result records plans.clear call occurrence.",
+      "runtime_proof": "/root/Main.source_builder_clear_building_state",
+      "tests": [
+        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

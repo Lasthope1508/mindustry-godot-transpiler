@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 611)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 612)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 616)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 617)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19748,6 +19748,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_unit_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_clear_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_is_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
@@ -41624,6 +41625,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_is_building_result["keys"]["return_expr"]["java_expr"], "return plans.size != 0;")
         self.assertEqual(source_builder_is_building_result["keys"]["plans_size"]["java_expr"], "plans.size")
         self.assertEqual(source_builder_is_building_result["keys"]["is_building"]["java_expr"], "plans.size != 0")
+
+    def test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_clear_building.method")
+        self.assertEqual(method["java_expr"], "void clearBuilding(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "clearBuilding()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_clear_building_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_clear_building_state")
+
+        call = source_symbols.source_symbol(registry, "builder_clear_building.plans_clear_call")
+        self.assertEqual(call["java_expr"], "plans.clear();")
+        self.assertEqual(call["godot_symbol"], "source_builder_clear_building_result.plans_clear_call")
+        called = source_symbols.source_symbol(registry, "builder_clear_building.plans_clear_called")
+        self.assertEqual(called["java_expr"], "plans.clear();")
+        self.assertEqual(called["godot_symbol"], "source_builder_clear_building_result.plans_clear_called")
+
+        clear_building_slice = source_symbols.source_slice(ledger, "N1143")
+        self.assertEqual(clear_building_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(clear_building_slice["java_method"], "clearBuilding()")
+        self.assertEqual(clear_building_slice["godot_owner"], "PortGame.source_builder_clear_building_state")
+        self.assertEqual(clear_building_slice["runtime_proof"], "/root/Main.generated_builder_comp_clear_building_bridge_state")
+        self.assertIn("/** Clears the placement queue. */", clear_building_slice["exact_exprs"])
+        self.assertIn("void clearBuilding(){", clear_building_slice["exact_exprs"])
+        self.assertIn("plans.clear();", clear_building_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_clear_building_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "plans_clear_call", "plans_clear_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_clear_building_result = source_symbols.state_schema(schema, "source_builder_clear_building_result")
+        self.assertEqual(source_builder_clear_building_result["keys"]["method"]["java_expr"], "void clearBuilding(){")
+        self.assertEqual(source_builder_clear_building_result["keys"]["plans_clear_call"]["java_expr"], "plans.clear();")
+        self.assertEqual(source_builder_clear_building_result["keys"]["plans_clear_called"]["java_expr"], "plans.clear();")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

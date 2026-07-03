@@ -53,7 +53,9 @@ func java_method_isBuilding_9(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_builder_is_building_state", "method": "boolean isBuilding(){", "return_expr": "return plans.size != 0;", "plans_size": plans_size, "is_building": is_building}
 
 func java_method_clearBuilding_10(_args: Array = []) -> Variant:
-	return null
+	var plans_clear_call: String = "plans.clear();"
+	var plans_clear_called: bool = true
+	return {"source_owner": "PortGame.source_builder_clear_building_state", "method": "void clearBuilding(){", "plans_clear_call": plans_clear_call, "plans_clear_called": plans_clear_called}
 
 func java_method_addBuild_11(_args: Array = []) -> Variant:
 	return null
