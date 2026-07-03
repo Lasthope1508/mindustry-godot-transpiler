@@ -11801,6 +11801,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"empty_body": "void handleSyncHidden(){\\n\\n}"', source)
         self.assertIn('"no_op": true', source)
 
+    def test_generated_sync_comp_bridges_update_interpolate_gate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_update_10(_args: Array = []) -> Variant:", source)
+        self.assertIn("var net_client: bool = bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var is_local: bool = bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var is_remote: bool = bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var interpolate_called: bool = (net_client and not is_local) or is_remote", source)
+        self.assertIn("var interpolate_result: Variant = null", source)
+        self.assertIn("if interpolate_called:", source)
+        self.assertIn("\t\tinterpolate_result = java_method_interpolate_7([])", source)
+        self.assertNotIn("java_method_interpolate_7([]) if interpolate_called else null", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_update_interpolate_state"', source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"condition": "if((Vars.net.client() && !isLocal()) || isRemote()){"', source)
+        self.assertIn('"interpolate_call": "interpolate();"', source)
+        self.assertIn('"interpolate_called": interpolate_called', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -11891,6 +11910,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"method": "void handleSyncHidden(){"', source)
         self.assertIn('"empty_body": "void handleSyncHidden(){\\n\\n}"', source)
         self.assertIn('"no_op": true', source)
+
+    def test_port_game_exposes_source_sync_update_interpolate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_sync_update_interpolate_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:", source)
+        self.assertIn("var interpolate_called: bool = (net_client and not is_local) or is_remote", source)
+        self.assertIn("var interpolate_result: Variant = null", source)
+        self.assertIn("if interpolate_called:", source)
+        self.assertIn("\t\tinterpolate_result = source_sync_interpolate_state()", source)
+        self.assertNotIn("source_sync_interpolate_state() if interpolate_called else null", source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"condition": "if((Vars.net.client() && !isLocal()) || isRemote()){"', source)
+        self.assertIn('"interpolate_call": "interpolate();"', source)
+        self.assertIn('"interpolate_called": interpolate_called', source)
 
     def test_port_game_exposes_generated_sync_comp_snap_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -12011,6 +12045,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_sync_handle_sync_hidden_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_handleSyncHidden_9"', source)
         self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null)', source)
+
+    def test_port_game_exposes_generated_sync_comp_update_interpolate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
+        self.assertIn("var result = instance.java_method_update_10([net_client, is_local, is_remote])", source)
+        self.assertIn("var canonical = source_sync_update_interpolate_state(net_client, is_local, is_remote)", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_update_interpolate_state"', source)
+        self.assertIn('"generated_owner": "SyncComp.java_method_update_10"', source)
+        self.assertIn('"matches": result.get("interpolate_called", null) == canonical.get("interpolate_called", null) and result.get("condition", null) == canonical.get("condition", null)', source)
 
 if __name__ == "__main__":
     unittest.main()

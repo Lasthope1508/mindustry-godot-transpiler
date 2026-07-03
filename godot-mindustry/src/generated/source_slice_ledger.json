@@ -24268,6 +24268,41 @@
         "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1127": {
+      "exact_exprs": [
+        "public void update(){",
+        "//interpolate the player if:",
+        "//- this is a client and the entity is everything except the local player",
+        "//- this is a server and the entity is a remote player",
+        "if((Vars.net.client() && !isLocal()) || isRemote()){",
+        "interpolate();"
+      ],
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.update() interpolation gate and wires generated SyncComp.java_method_update_10 plus PortGame generated bridge to canonical source_sync_update_interpolate_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_update_interpolate_bridge_state",
+      "source_symbols": [
+        "sync_update_interpolate.method",
+        "sync_update_interpolate.condition",
+        "sync_update_interpolate.interpolate_call",
+        "sync_update_interpolate.net_client",
+        "sync_update_interpolate.is_local",
+        "sync_update_interpolate.is_remote",
+        "sync_update_interpolate.interpolate_called",
+        "sync_update_interpolate.interpolate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_update_interpolate_gate_to_source_state",
+        "test_generated_sync_comp_bridges_update_interpolate_gate_to_source_state",
+        "test_port_game_exposes_source_sync_update_interpolate_state",
+        "test_port_game_exposes_generated_sync_comp_update_interpolate_bridge_state",
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

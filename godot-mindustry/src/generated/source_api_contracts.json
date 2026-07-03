@@ -24133,6 +24133,45 @@
         "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_sync_handle_sync_hidden_state"
       ]
+    },
+    "PortGame.source_sync_update_interpolate_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [
+        {
+          "name": "net_client",
+          "schema": "source_sync_update_interpolate_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "is_local",
+          "schema": "source_sync_update_interpolate_input.is_local",
+          "type": "bool"
+        },
+        {
+          "name": "is_remote",
+          "schema": "source_sync_update_interpolate_input.is_remote",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "condition",
+        "interpolate_call",
+        "net_client",
+        "is_local",
+        "is_remote",
+        "interpolate_called",
+        "interpolate"
+      ],
+      "rule": "Public runtime contract for SyncComp.update() interpolation gate state.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "source_method": "update()",
+      "source_slice": "N1127",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_update_interpolate_state"
+      ]
     }
   },
   "policy": {

@@ -7348,6 +7348,35 @@ func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
 	}
 
+func source_sync_update_interpolate_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
+	var interpolate_called: bool = (net_client and not is_local) or is_remote
+	var interpolate_result: Variant = null
+	if interpolate_called:
+		interpolate_result = source_sync_interpolate_state()
+	return {
+		"method": "public void update(){",
+		"condition": "if((Vars.net.client() && !isLocal()) || isRemote()){",
+		"interpolate_call": "interpolate();",
+		"net_client": net_client,
+		"is_local": is_local,
+		"is_remote": is_remote,
+		"interpolate_called": interpolate_called,
+		"interpolate": interpolate_result,
+	}
+
+func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_10([net_client, is_local, is_remote])
+	var canonical = source_sync_update_interpolate_state(net_client, is_local, is_remote)
+	return {
+		"source_owner": "PortGame.source_sync_update_interpolate_state",
+		"generated_owner": "SyncComp.java_method_update_10",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("interpolate_called", null) == canonical.get("interpolate_called", null) and result.get("condition", null) == canonical.get("condition", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

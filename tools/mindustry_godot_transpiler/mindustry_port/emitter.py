@@ -1295,6 +1295,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_sync_handle_sync_hidden_state\", \"method\": \"void handleSyncHidden(){\", \"empty_body\": \"void handleSyncHidden(){\\n\\n}\", \"no_op\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/SyncComp.java"
+        and type_entry.get("name") == "SyncComp"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar net_client: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar is_local: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar is_remote: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar interpolate_called: bool = (net_client and not is_local) or is_remote",
+            "\tvar interpolate_result: Variant = null",
+            "\tif interpolate_called:",
+            "\t\tinterpolate_result = java_method_interpolate_7([])",
+            "\treturn {\"source_owner\": \"PortGame.source_sync_update_interpolate_state\", \"method\": \"public void update(){\", \"condition\": \"if((Vars.net.client() && !isLocal()) || isRemote()){\", \"interpolate_call\": \"interpolate();\", \"net_client\": net_client, \"is_local\": is_local, \"is_remote\": is_remote, \"interpolate_called\": interpolate_called, \"interpolate\": interpolate_result}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"

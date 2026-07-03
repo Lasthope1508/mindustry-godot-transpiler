@@ -6033,5 +6033,49 @@ class SyncComp{
             self.assertIn('"empty_body": "void handleSyncHidden(){\\n\\n}"', source_text)
             self.assertIn('"no_op": true', source_text)
 
+    def test_emit_bridges_sync_comp_update_interpolate_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "SyncComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class SyncComp{
+    public void update(){
+        //interpolate the player if:
+        //- this is a client and the entity is everything except the local player
+        //- this is a server and the entity is a remote player
+        if((Vars.net.client() && !isLocal()) || isRemote()){
+            interpolate();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var net_client: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var is_local: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var is_remote: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var interpolate_called: bool = (net_client and not is_local) or is_remote", source_text)
+            self.assertIn("var interpolate_result: Variant = null", source_text)
+            self.assertIn("if interpolate_called:", source_text)
+            self.assertIn("\t\tinterpolate_result = java_method_interpolate_7([])", source_text)
+            self.assertNotIn("java_method_interpolate_7([]) if interpolate_called else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_sync_update_interpolate_state"', source_text)
+            self.assertIn('"method": "public void update(){"', source_text)
+            self.assertIn('"condition": "if((Vars.net.client() && !isLocal()) || isRemote()){"', source_text)
+            self.assertIn('"interpolate_call": "interpolate();"', source_text)
+            self.assertIn('"interpolate_called": interpolate_called', source_text)
+
 if __name__ == "__main__":
     unittest.main()

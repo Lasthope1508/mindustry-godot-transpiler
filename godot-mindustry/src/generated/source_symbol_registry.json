@@ -75396,6 +75396,110 @@
       "tests": [
         "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing"
       ]
+    },
+    "sync_update_interpolate.method": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_result.method",
+      "java_expr": "public void update(){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp update method boundary.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_update_interpolate.condition": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_result.condition",
+      "java_expr": "if((Vars.net.client() && !isLocal()) || isRemote()){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp update interpolation gate condition.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_update_interpolate.interpolate_call": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_result.interpolate_call",
+      "java_expr": "interpolate();",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp update calls interpolate when interpolation gate passes.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_update_interpolate.net_client": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_input.net_client",
+      "java_expr": "Vars.net.client()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Explicit runtime fact for Vars.net.client() in SyncComp update gate.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_update_interpolate.is_local": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_input.is_local",
+      "java_expr": "isLocal()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Explicit runtime fact for isLocal() in SyncComp update gate.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_update_interpolate.is_remote": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_input.is_remote",
+      "java_expr": "isRemote()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Explicit runtime fact for isRemote() in SyncComp update gate.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_update_interpolate.interpolate_called": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_result.interpolate_called",
+      "java_expr": "if((Vars.net.client() && !isLocal()) || isRemote()){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Canonical boolean result of SyncComp update interpolation gate.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_update_interpolate.interpolate": {
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "godot_symbol": "source_sync_update_interpolate_result.interpolate",
+      "java_expr": "interpolate();",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Nested canonical interpolate state when SyncComp update gate calls interpolate().",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

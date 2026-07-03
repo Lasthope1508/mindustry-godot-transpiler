@@ -45,7 +45,14 @@ func java_method_handleSyncHidden_9(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_sync_handle_sync_hidden_state", "method": "void handleSyncHidden(){", "empty_body": "void handleSyncHidden(){\n\n}", "no_op": true}
 
 func java_method_update_10(_args: Array = []) -> Variant:
-	return null
+	var net_client: bool = bool(_args[0] if _args.size() > 0 else false)
+	var is_local: bool = bool(_args[1] if _args.size() > 1 else false)
+	var is_remote: bool = bool(_args[2] if _args.size() > 2 else false)
+	var interpolate_called: bool = (net_client and not is_local) or is_remote
+	var interpolate_result: Variant = null
+	if interpolate_called:
+		interpolate_result = java_method_interpolate_7([])
+	return {"source_owner": "PortGame.source_sync_update_interpolate_state", "method": "public void update(){", "condition": "if((Vars.net.client() && !isLocal()) || isRemote()){", "interpolate_call": "interpolate();", "net_client": net_client, "is_local": is_local, "is_remote": is_remote, "interpolate_called": interpolate_called, "interpolate": interpolate_result}
 
 func java_method_remove_11(_args: Array = []) -> Variant:
 	return null

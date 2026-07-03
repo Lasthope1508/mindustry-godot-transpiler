@@ -88343,6 +88343,107 @@
         }
       },
       "status": "active"
+    },
+    "source_sync_update_interpolate_result": {
+      "keys": {
+        "condition": {
+          "godot_symbol": "source_sync_update_interpolate_result.condition",
+          "java_expr": "if((Vars.net.client() && !isLocal()) || isRemote()){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records exact SyncComp update interpolation gate condition.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        },
+        "interpolate": {
+          "godot_symbol": "source_sync_update_interpolate_result.interpolate",
+          "java_expr": "interpolate();",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records nested interpolate state when gate passes.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        },
+        "interpolate_call": {
+          "godot_symbol": "source_sync_update_interpolate_result.interpolate_call",
+          "java_expr": "interpolate();",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records exact interpolate call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        },
+        "interpolate_called": {
+          "godot_symbol": "source_sync_update_interpolate_result.interpolate_called",
+          "java_expr": "if((Vars.net.client() && !isLocal()) || isRemote()){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records boolean value of SyncComp update interpolation gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        },
+        "is_local": {
+          "godot_symbol": "source_sync_update_interpolate_input.is_local",
+          "java_expr": "isLocal()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result preserves explicit isLocal() fact used by the gate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        },
+        "is_remote": {
+          "godot_symbol": "source_sync_update_interpolate_input.is_remote",
+          "java_expr": "isRemote()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result preserves explicit isRemote() fact used by the gate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_sync_update_interpolate_result.method",
+          "java_expr": "public void update(){",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records SyncComp.update method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        },
+        "net_client": {
+          "godot_symbol": "source_sync_update_interpolate_input.net_client",
+          "java_expr": "Vars.net.client()",
+          "java_method": "update()",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result preserves explicit Vars.net.client() fact used by the gate.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_sync_update_interpolate_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1
