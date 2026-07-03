@@ -6842,6 +6842,18 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_CALL := "updateConsumption();"
 func source_building_update_consumption_call_state() -> Dictionary:
 	return {"update_consumption_called": true}
 
+func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_217([1.0, 0.0, 0.0])
+	var canonical = source_building_update_consumption_call_state()
+	return {
+		"source_owner": "PortGame.source_building_update_consumption_call_state",
+		"generated_owner": "BuildingComp.java_method_update_217",
+		"result": result,
+		"canonical": canonical,
+	}
+
 const SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD := "public void update(){"
 const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := "if(enabled || !block.noUpdateDisabled){"
 const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := "updateTile();"

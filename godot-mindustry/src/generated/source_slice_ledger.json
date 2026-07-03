@@ -23503,6 +23503,33 @@
         "test_port_game_exposes_generated_building_comp_update_ambient_sound_gate_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1104": {
+      "deferred_exprs": [
+        "Callee internals of updateConsumption() remain owned by existing updateConsumption source slices; this generated update() bridge only records that BuildingComp.update reaches the call."
+      ],
+      "exact_exprs": [
+        "public void update(){",
+        "updateConsumption();"
+      ],
+      "godot_owner": "PortGame.source_building_update_consumption_call_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_update_217 and PortGame generated bridge to existing N658 canonical source_building_update_consumption_call_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_consumption_call_bridge_state",
+      "source_symbols": [
+        "building_update_consumption_call.method",
+        "building_update_consumption_call.call",
+        "building_update_consumption_call.update_consumption_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_consumption_call_to_source_state",
+        "test_generated_building_comp_bridges_update_consumption_call_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_consumption_call_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

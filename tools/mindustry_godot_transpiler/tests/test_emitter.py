@@ -4893,6 +4893,35 @@ class BuildingComp{
             self.assertIn('"update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state"', source_text)
             self.assertIn('"update_ambient_sound_gate": update_ambient_sound_gate', source_text)
 
+    def test_emit_bridges_building_comp_update_consumption_call_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void update(){
+        updateConsumption();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var update_consumption_call := {"method": "public void update(){", "call": "updateConsumption();", "update_consumption_called": true}', source_text)
+            self.assertIn('"update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state"', source_text)
+            self.assertIn('"update_consumption_call": update_consumption_call', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

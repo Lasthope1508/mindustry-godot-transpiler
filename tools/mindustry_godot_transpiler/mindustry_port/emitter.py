@@ -1495,7 +1495,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\tupdate_ambient_sound_gate.merge({\"loop_called\": false, \"sound\": ambient_sound_value, \"volume\": 0.0})",
             "\telse:",
             "\t\tupdate_ambient_sound_gate.merge({\"loop_called\": true, \"sound\": ambient_sound_value, \"volume\": block_ambient_sound_volume * ambient_volume_value})",
-            "\treturn {\"source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay_source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay\": update_timescale_decay, \"update_ambient_sound_gate_source_owner\": \"PortGame.source_building_update_ambient_sound_gate_state\", \"update_ambient_sound_gate\": update_ambient_sound_gate}",
+            "\tvar update_consumption_call := {\"method\": \"public void update(){\", \"call\": \"updateConsumption();\", \"update_consumption_called\": true}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay_source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay\": update_timescale_decay, \"update_ambient_sound_gate_source_owner\": \"PortGame.source_building_update_ambient_sound_gate_state\", \"update_ambient_sound_gate\": update_ambient_sound_gate, \"update_consumption_call_source_owner\": \"PortGame.source_building_update_consumption_call_state\", \"update_consumption_call\": update_consumption_call}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

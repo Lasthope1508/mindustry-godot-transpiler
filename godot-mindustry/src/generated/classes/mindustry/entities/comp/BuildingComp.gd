@@ -1608,7 +1608,8 @@ func java_method_update_217(_args: Array = []) -> Variant:
 		update_ambient_sound_gate.merge({"loop_called": false, "sound": ambient_sound_value, "volume": 0.0})
 	else:
 		update_ambient_sound_gate.merge({"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value})
-	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay, "update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state", "update_ambient_sound_gate": update_ambient_sound_gate}
+	var update_consumption_call := {"method": "public void update(){", "call": "updateConsumption();", "update_consumption_called": true}
+	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay, "update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state", "update_ambient_sound_gate": update_ambient_sound_gate, "update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state", "update_consumption_call": update_consumption_call}
 
 func java_method_updateFogVisibility_218(_args: Array = []) -> Variant:
 	return null

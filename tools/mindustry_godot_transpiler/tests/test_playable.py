@@ -5939,6 +5939,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_update_consumption_call_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_update_217(_args: Array = []) -> Variant:", source)
+        self.assertIn('var update_consumption_call := {"method": "public void update(){", "call": "updateConsumption();", "update_consumption_called": true}', source)
+        self.assertIn('"update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state"', source)
+        self.assertIn('"update_consumption_call": update_consumption_call', source)
+
+    def test_port_game_exposes_generated_building_comp_update_consumption_call_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_update_217([1.0, 0.0, 0.0])", source)
+        self.assertIn("var canonical = source_building_update_consumption_call_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_call_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
