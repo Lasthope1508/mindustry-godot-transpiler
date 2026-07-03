@@ -75500,6 +75500,71 @@
       "tests": [
         "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing"
       ]
+    },
+    "sync_remove_client_removed_entity.method": {
+      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+      "java_method": "remove()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
+      "tests": [
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_sync_remove_client_removed_entity_result.method",
+      "java_expr": "public void remove(){",
+      "rule": "SyncComp remove method boundary.",
+      "status": "source-backed"
+    },
+    "sync_remove_client_removed_entity.condition": {
+      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+      "java_method": "remove()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
+      "tests": [
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_sync_remove_client_removed_entity_result.condition",
+      "java_expr": "if(Vars.net.client()){",
+      "rule": "SyncComp remove client-side removed-entity notification gate.",
+      "status": "source-backed"
+    },
+    "sync_remove_client_removed_entity.add_removed_entity_call": {
+      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+      "java_method": "remove()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
+      "tests": [
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_sync_remove_client_removed_entity_result.add_removed_entity_call",
+      "java_expr": "Vars.netClient.addRemovedEntity(id());",
+      "rule": "SyncComp remove notifies netClient of removed entity id when client gate passes.",
+      "status": "source-backed"
+    },
+    "sync_remove_client_removed_entity.net_client": {
+      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+      "java_method": "remove()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
+      "tests": [
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_sync_remove_client_removed_entity_input.net_client",
+      "java_expr": "Vars.net.client()",
+      "rule": "Explicit runtime fact for Vars.net.client() in SyncComp remove gate.",
+      "status": "explicit-input"
+    },
+    "sync_remove_client_removed_entity.entity_id": {
+      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+      "java_method": "remove()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
+      "tests": [
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_sync_remove_client_removed_entity_input.entity_id",
+      "java_expr": "id()",
+      "rule": "Explicit runtime fact for id() argument passed to removed-entity notification.",
+      "status": "explicit-input"
     }
   },
   "version": 1

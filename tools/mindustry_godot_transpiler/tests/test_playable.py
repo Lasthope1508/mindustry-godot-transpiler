@@ -11820,6 +11820,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"interpolate_call": "interpolate();"', source)
         self.assertIn('"interpolate_called": interpolate_called', source)
 
+    def test_generated_sync_comp_bridges_remove_client_removed_entity_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_remove_11(_args: Array = []) -> Variant:", source)
+        self.assertIn("var net_client: bool = bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var entity_id: int = int(_args[1] if _args.size() > 1 else -1)", source)
+        self.assertIn("var add_removed_entity_call: Variant = null", source)
+        self.assertIn("if net_client:", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_remove_client_removed_entity_state"', source)
+        self.assertIn('"method": "public void remove(){"', source)
+        self.assertIn('"condition": "if(Vars.net.client()){"', source)
+        self.assertIn('"add_removed_entity_call": add_removed_entity_call', source)
+        self.assertIn('"id_call": "id()"', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -11925,6 +11940,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"condition": "if((Vars.net.client() && !isLocal()) || isRemote()){"', source)
         self.assertIn('"interpolate_call": "interpolate();"', source)
         self.assertIn('"interpolate_called": interpolate_called', source)
+
+    def test_port_game_exposes_source_sync_remove_client_removed_entity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_sync_remove_client_removed_entity_state(net_client: bool, entity_id: int) -> Dictionary:", source)
+        self.assertIn("var add_removed_entity_call: Variant = null", source)
+        self.assertIn("if net_client:", source)
+        self.assertIn('"method": "public void remove(){"', source)
+        self.assertIn('"condition": "if(Vars.net.client()){"', source)
+        self.assertIn('"add_removed_entity_call": add_removed_entity_call', source)
+        self.assertIn('"id_call": "id()"', source)
 
     def test_port_game_exposes_generated_sync_comp_snap_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -12057,6 +12084,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_sync_update_interpolate_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_update_10"', source)
         self.assertIn('"matches": result.get("interpolate_called", null) == canonical.get("interpolate_called", null) and result.get("condition", null) == canonical.get("condition", null)', source)
+
+    def test_port_game_exposes_generated_sync_comp_remove_client_removed_entity_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
+        self.assertIn("var result = instance.java_method_remove_11([net_client, entity_id])", source)
+        self.assertIn("var canonical = source_sync_remove_client_removed_entity_state(net_client, entity_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_remove_client_removed_entity_state"', source)
+        self.assertIn('"generated_owner": "SyncComp.java_method_remove_11"', source)
+        self.assertIn('"matches": result.get("add_removed_entity_call", null) == canonical.get("add_removed_entity_call", null) and result.get("condition", null) == canonical.get("condition", null)', source)
 
 if __name__ == "__main__":
     unittest.main()

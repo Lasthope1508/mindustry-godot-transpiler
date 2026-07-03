@@ -24172,6 +24172,38 @@
         "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_sync_update_interpolate_state"
       ]
+    },
+    "PortGame.source_sync_remove_client_removed_entity_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [
+        {
+          "name": "net_client",
+          "schema": "source_sync_remove_client_removed_entity_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "entity_id",
+          "schema": "source_sync_remove_client_removed_entity_input.entity_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "condition",
+        "add_removed_entity_call",
+        "id_call",
+        "net_client",
+        "entity_id"
+      ],
+      "rule": "Public runtime contract for SyncComp.remove() client removed-entity notification state.",
+      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
+      "source_method": "remove()",
+      "source_slice": "N1128",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_remove_client_removed_entity_state"
+      ]
     }
   },
   "policy": {

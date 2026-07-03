@@ -6077,5 +6077,43 @@ class SyncComp{
             self.assertIn('"interpolate_call": "interpolate();"', source_text)
             self.assertIn('"interpolate_called": interpolate_called', source_text)
 
+    def test_emit_bridges_sync_comp_remove_client_removed_entity_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "SyncComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class SyncComp{
+    public void remove(){
+        //notify client of removal
+        if(Vars.net.client()){
+            Vars.netClient.addRemovedEntity(id());
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_remove_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var net_client: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var entity_id: int = int(_args[1] if _args.size() > 1 else -1)", source_text)
+            self.assertIn("var add_removed_entity_call: Variant = null", source_text)
+            self.assertIn("if net_client:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_sync_remove_client_removed_entity_state"', source_text)
+            self.assertIn('"method": "public void remove(){"', source_text)
+            self.assertIn('"condition": "if(Vars.net.client()){"', source_text)
+            self.assertIn('"add_removed_entity_call": add_removed_entity_call', source_text)
+            self.assertIn('"id_call": "id()"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

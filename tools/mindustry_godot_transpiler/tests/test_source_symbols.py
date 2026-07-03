@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 596)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 597)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 601)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 602)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40836,6 +40836,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_sync_update_interpolate_result["keys"]["condition"]["java_expr"], "if((Vars.net.client() && !isLocal()) || isRemote()){")
         self.assertEqual(source_sync_update_interpolate_result["keys"]["interpolate_call"]["java_expr"], "interpolate();")
         self.assertEqual(source_sync_update_interpolate_result["keys"]["interpolate_called"]["java_expr"], "if((Vars.net.client() && !isLocal()) || isRemote()){")
+
+    def test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "sync_remove_client_removed_entity.method")
+        self.assertEqual(method["java_expr"], "public void remove(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/SyncComp.java")
+        self.assertEqual(method["java_method"], "remove()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_sync_remove_client_removed_entity_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_sync_remove_client_removed_entity_state")
+
+        condition = source_symbols.source_symbol(registry, "sync_remove_client_removed_entity.condition")
+        self.assertEqual(condition["java_expr"], "if(Vars.net.client()){")
+        self.assertEqual(condition["godot_symbol"], "source_sync_remove_client_removed_entity_result.condition")
+        add_removed = source_symbols.source_symbol(registry, "sync_remove_client_removed_entity.add_removed_entity_call")
+        self.assertEqual(add_removed["java_expr"], "Vars.netClient.addRemovedEntity(id());")
+        self.assertEqual(add_removed["godot_symbol"], "source_sync_remove_client_removed_entity_result.add_removed_entity_call")
+        net_client = source_symbols.source_symbol(registry, "sync_remove_client_removed_entity.net_client")
+        self.assertEqual(net_client["java_expr"], "Vars.net.client()")
+        self.assertEqual(net_client["godot_symbol"], "source_sync_remove_client_removed_entity_input.net_client")
+        entity_id = source_symbols.source_symbol(registry, "sync_remove_client_removed_entity.entity_id")
+        self.assertEqual(entity_id["java_expr"], "id()")
+        self.assertEqual(entity_id["godot_symbol"], "source_sync_remove_client_removed_entity_input.entity_id")
+
+        remove_slice = source_symbols.source_slice(ledger, "N1128")
+        self.assertEqual(remove_slice["java_source"], "core/src/mindustry/entities/comp/SyncComp.java")
+        self.assertEqual(remove_slice["java_method"], "remove()")
+        self.assertEqual(remove_slice["godot_owner"], "PortGame.source_sync_remove_client_removed_entity_state")
+        self.assertEqual(remove_slice["runtime_proof"], "/root/Main.generated_sync_comp_remove_client_removed_entity_bridge_state")
+        self.assertIn("public void remove(){", remove_slice["exact_exprs"])
+        self.assertIn("if(Vars.net.client()){", remove_slice["exact_exprs"])
+        self.assertIn("Vars.netClient.addRemovedEntity(id());", remove_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_sync_remove_client_removed_entity_state")
+        self.assertEqual(contract["params"], [
+            {"name": "net_client", "schema": "source_sync_remove_client_removed_entity_input.net_client", "type": "bool"},
+            {"name": "entity_id", "schema": "source_sync_remove_client_removed_entity_input.entity_id", "type": "int"},
+        ])
+        for key in ["method", "condition", "add_removed_entity_call", "id_call", "net_client", "entity_id"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_sync_remove_result = source_symbols.state_schema(schema, "source_sync_remove_client_removed_entity_result")
+        self.assertEqual(source_sync_remove_result["keys"]["method"]["java_expr"], "public void remove(){")
+        self.assertEqual(source_sync_remove_result["keys"]["condition"]["java_expr"], "if(Vars.net.client()){")
+        self.assertEqual(source_sync_remove_result["keys"]["add_removed_entity_call"]["java_expr"], "Vars.netClient.addRemovedEntity(id());")
+        self.assertEqual(source_sync_remove_result["keys"]["id_call"]["java_expr"], "id()")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

@@ -1310,6 +1310,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_sync_update_interpolate_state\", \"method\": \"public void update(){\", \"condition\": \"if((Vars.net.client() && !isLocal()) || isRemote()){\", \"interpolate_call\": \"interpolate();\", \"net_client\": net_client, \"is_local\": is_local, \"is_remote\": is_remote, \"interpolate_called\": interpolate_called, \"interpolate\": interpolate_result}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/SyncComp.java"
+        and type_entry.get("name") == "SyncComp"
+        and method.get("name") == "remove"
+    ):
+        return [
+            "\tvar net_client: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar entity_id: int = int(_args[1] if _args.size() > 1 else -1)",
+            "\tvar add_removed_entity_call: Variant = null",
+            "\tif net_client:",
+            "\t\tadd_removed_entity_call = {\"call\": \"Vars.netClient.addRemovedEntity(id());\", \"entity_id\": entity_id}",
+            "\treturn {\"source_owner\": \"PortGame.source_sync_remove_client_removed_entity_state\", \"method\": \"public void remove(){\", \"condition\": \"if(Vars.net.client()){\", \"add_removed_entity_call\": add_removed_entity_call, \"id_call\": \"id()\", \"net_client\": net_client, \"entity_id\": entity_id}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"

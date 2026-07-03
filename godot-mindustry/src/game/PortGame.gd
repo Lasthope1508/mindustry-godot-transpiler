@@ -7377,6 +7377,32 @@ func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_lo
 		"matches": result.get("interpolate_called", null) == canonical.get("interpolate_called", null) and result.get("condition", null) == canonical.get("condition", null),
 	}
 
+func source_sync_remove_client_removed_entity_state(net_client: bool, entity_id: int) -> Dictionary:
+	var add_removed_entity_call: Variant = null
+	if net_client:
+		add_removed_entity_call = {"call": "Vars.netClient.addRemovedEntity(id());", "entity_id": entity_id}
+	return {
+		"method": "public void remove(){",
+		"condition": "if(Vars.net.client()){",
+		"add_removed_entity_call": add_removed_entity_call,
+		"id_call": "id()",
+		"net_client": net_client,
+		"entity_id": entity_id,
+	}
+
+func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_remove_11([net_client, entity_id])
+	var canonical = source_sync_remove_client_removed_entity_state(net_client, entity_id)
+	return {
+		"source_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+		"generated_owner": "SyncComp.java_method_remove_11",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("add_removed_entity_call", null) == canonical.get("add_removed_entity_call", null) and result.get("condition", null) == canonical.get("condition", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

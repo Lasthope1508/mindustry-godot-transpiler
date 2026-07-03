@@ -24303,6 +24303,36 @@
         "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1128": {
+      "exact_exprs": [
+        "public void remove(){",
+        "//notify client of removal",
+        "if(Vars.net.client()){",
+        "Vars.netClient.addRemovedEntity(id());"
+      ],
+      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "remove()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.remove() client removed-entity notification and wires generated SyncComp.java_method_remove_11 plus PortGame generated bridge to canonical source_sync_remove_client_removed_entity_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_remove_client_removed_entity_bridge_state",
+      "source_symbols": [
+        "sync_remove_client_removed_entity.method",
+        "sync_remove_client_removed_entity.condition",
+        "sync_remove_client_removed_entity.add_removed_entity_call",
+        "sync_remove_client_removed_entity.net_client",
+        "sync_remove_client_removed_entity.entity_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_remove_client_removed_entity_to_source_state",
+        "test_generated_sync_comp_bridges_remove_client_removed_entity_to_source_state",
+        "test_port_game_exposes_source_sync_remove_client_removed_entity_state",
+        "test_port_game_exposes_generated_sync_comp_remove_client_removed_entity_bridge_state",
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
