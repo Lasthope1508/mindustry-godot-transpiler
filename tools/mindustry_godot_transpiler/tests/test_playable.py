@@ -11846,6 +11846,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_expr": "return ammo;"', source)
         self.assertIn('"ammo": ammo', source)
 
+    def test_generated_block_unit_comp_bridges_icon_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_icon_3(_args: Array = []) -> Variant:", source)
+        self.assertIn("var tile_block_ui_icon: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_icon_state"', source)
+        self.assertIn('"method": "public TextureRegion icon(){"', source)
+        self.assertIn('"return_expr": "return tile.block.uiIcon;"', source)
+        self.assertIn('"tile_block_ui_icon": tile_block_ui_icon', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -12128,6 +12139,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_block_unit_ammof_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_ammof_4"', source)
         self.assertIn('"matches": result.get("ammo", null) == canonical.get("ammo", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+
+    def test_port_game_exposes_source_block_unit_icon_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_icon_state(tile_block_ui_icon: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public TextureRegion icon(){"', source)
+        self.assertIn('"return_expr": "return tile.block.uiIcon;"', source)
+        self.assertIn('"tile_block_ui_icon": tile_block_ui_icon', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_icon_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_icon_3([tile_block_ui_icon])", source)
+        self.assertIn("var canonical = source_block_unit_icon_state(tile_block_ui_icon)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_icon_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_icon_3"', source)
+        self.assertIn('"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
 if __name__ == "__main__":
     unittest.main()

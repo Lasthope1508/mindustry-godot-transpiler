@@ -88579,6 +88579,64 @@
         }
       },
       "status": "active"
+    },
+    "source_block_unit_icon_input": {
+      "keys": {
+        "tile_block_ui_icon": {
+          "godot_symbol": "source_block_unit_icon_input.tile_block_ui_icon",
+          "java_expr": "tile.block.uiIcon",
+          "java_method": "icon()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves explicit BlockUnitComp tile.block.uiIcon value.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_block_unit_icon_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_block_unit_icon_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_block_unit_icon_result.method",
+          "java_expr": "public TextureRegion icon(){",
+          "java_method": "icon()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records BlockUnitComp.icon method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_icon_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_unit_icon_result.return_expr",
+          "java_expr": "return tile.block.uiIcon;",
+          "java_method": "icon()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records exact UI icon return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_icon_state"
+          ]
+        },
+        "tile_block_ui_icon": {
+          "godot_symbol": "source_block_unit_icon_input.tile_block_ui_icon",
+          "java_expr": "tile.block.uiIcon",
+          "java_method": "icon()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves explicit tile.block.uiIcon value returned by icon().",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_block_unit_icon_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

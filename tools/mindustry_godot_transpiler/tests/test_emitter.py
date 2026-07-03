@@ -6148,5 +6148,36 @@ class BlockUnitComp{
             self.assertIn('"return_expr": "return ammo;"', source_text)
             self.assertIn('"ammo": ammo', source_text)
 
+    def test_emit_bridges_block_unit_comp_icon_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public TextureRegion icon(){
+        return tile.block.uiIcon;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_icon_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_block_ui_icon: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_icon_state"', source_text)
+            self.assertIn('"method": "public TextureRegion icon(){"', source_text)
+            self.assertIn('"return_expr": "return tile.block.uiIcon;"', source_text)
+            self.assertIn('"tile_block_ui_icon": tile_block_ui_icon', source_text)
+
 if __name__ == "__main__":
     unittest.main()

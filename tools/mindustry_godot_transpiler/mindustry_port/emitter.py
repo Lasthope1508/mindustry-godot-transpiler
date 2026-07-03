@@ -1195,6 +1195,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "icon"
+    ):
+        return [
+            "\tvar tile_block_ui_icon: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_icon_state\", \"method\": \"public TextureRegion icon(){\", \"return_expr\": \"return tile.block.uiIcon;\", \"tile_block_ui_icon\": tile_block_ui_icon}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "ammof"
     ):
         return [

@@ -24228,6 +24228,30 @@
         "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_ammof_state"
       ]
+    },
+    "PortGame.source_block_unit_icon_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_block_ui_icon",
+          "schema": "source_block_unit_icon_input.tile_block_ui_icon",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "tile_block_ui_icon"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.icon() direct tile.block.uiIcon return state.",
+      "runtime_proof": "/root/Main.source_block_unit_icon_state",
+      "source_method": "icon()",
+      "source_slice": "N1130",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_icon_state"
+      ]
     }
   },
   "policy": {

@@ -24360,6 +24360,34 @@
         "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1130": {
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public TextureRegion icon(){",
+        "return tile.block.uiIcon;"
+      ],
+      "godot_owner": "PortGame.source_block_unit_icon_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "icon()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.icon() direct tile.block.uiIcon return and wires generated BlockUnitComp.java_method_icon_3 plus PortGame generated bridge to canonical source_block_unit_icon_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_icon_bridge_state",
+      "source_symbols": [
+        "block_unit_icon.method",
+        "block_unit_icon.return_expr",
+        "block_unit_icon.tile_block_ui_icon"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_icon_to_source_state",
+        "test_generated_block_unit_comp_bridges_icon_to_source_state",
+        "test_port_game_exposes_source_block_unit_icon_state",
+        "test_port_game_exposes_generated_block_unit_comp_icon_bridge_state",
+        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

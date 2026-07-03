@@ -75604,6 +75604,45 @@
       "java_expr": "ammo",
       "rule": "Explicit runtime fact for BlockUnitComp transient ammo field returned by ammof().",
       "status": "explicit-input"
+    },
+    "block_unit_icon.method": {
+      "godot_owner": "PortGame.source_block_unit_icon_state",
+      "java_method": "icon()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_icon_state",
+      "tests": [
+        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_icon_result.method",
+      "java_expr": "public TextureRegion icon(){",
+      "rule": "BlockUnitComp icon method boundary.",
+      "status": "source-backed"
+    },
+    "block_unit_icon.return_expr": {
+      "godot_owner": "PortGame.source_block_unit_icon_state",
+      "java_method": "icon()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_icon_state",
+      "tests": [
+        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_icon_result.return_expr",
+      "java_expr": "return tile.block.uiIcon;",
+      "rule": "BlockUnitComp icon returns tile block UI icon directly.",
+      "status": "source-backed"
+    },
+    "block_unit_icon.tile_block_ui_icon": {
+      "godot_owner": "PortGame.source_block_unit_icon_state",
+      "java_method": "icon()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_icon_state",
+      "tests": [
+        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_icon_input.tile_block_ui_icon",
+      "java_expr": "tile.block.uiIcon",
+      "rule": "Explicit runtime fact for tile.block.uiIcon returned by BlockUnitComp.icon().",
+      "status": "explicit-input"
     }
   },
   "version": 1

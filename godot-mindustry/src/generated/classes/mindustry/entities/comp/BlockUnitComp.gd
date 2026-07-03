@@ -23,7 +23,8 @@ func java_method_update_2(_args: Array = []) -> Variant:
 	return null
 
 func java_method_icon_3(_args: Array = []) -> Variant:
-	return null
+	var tile_block_ui_icon: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_block_unit_icon_state", "method": "public TextureRegion icon(){", "return_expr": "return tile.block.uiIcon;", "tile_block_ui_icon": tile_block_ui_icon}
 
 func java_method_ammof_4(_args: Array = []) -> Variant:
 	var ammo: float = float(_args[0] if _args.size() > 0 else 0.0)

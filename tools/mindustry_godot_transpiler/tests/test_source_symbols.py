@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 598)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 599)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 603)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 604)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40929,6 +40929,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_unit_ammof_result["keys"]["method"]["java_expr"], "public float ammof(){")
         self.assertEqual(source_block_unit_ammof_result["keys"]["return_expr"]["java_expr"], "return ammo;")
         self.assertEqual(source_block_unit_ammof_result["keys"]["ammo"]["java_expr"], "ammo")
+
+    def test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_unit_icon.method")
+        self.assertEqual(method["java_expr"], "public TextureRegion icon(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(method["java_method"], "icon()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_unit_icon_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_unit_icon_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_unit_icon.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return tile.block.uiIcon;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_unit_icon_result.return_expr")
+        tile_block_ui_icon = source_symbols.source_symbol(registry, "block_unit_icon.tile_block_ui_icon")
+        self.assertEqual(tile_block_ui_icon["java_expr"], "tile.block.uiIcon")
+        self.assertEqual(tile_block_ui_icon["godot_symbol"], "source_block_unit_icon_input.tile_block_ui_icon")
+
+        icon_slice = source_symbols.source_slice(ledger, "N1130")
+        self.assertEqual(icon_slice["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(icon_slice["java_method"], "icon()")
+        self.assertEqual(icon_slice["godot_owner"], "PortGame.source_block_unit_icon_state")
+        self.assertEqual(icon_slice["runtime_proof"], "/root/Main.generated_block_unit_comp_icon_bridge_state")
+        self.assertIn("@Replace", icon_slice["exact_exprs"])
+        self.assertIn("public TextureRegion icon(){", icon_slice["exact_exprs"])
+        self.assertIn("return tile.block.uiIcon;", icon_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_unit_icon_state")
+        self.assertEqual(contract["params"], [
+            {"name": "tile_block_ui_icon", "schema": "source_block_unit_icon_input.tile_block_ui_icon", "type": "Variant"},
+        ])
+        for key in ["method", "return_expr", "tile_block_ui_icon"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_block_unit_icon_result = source_symbols.state_schema(schema, "source_block_unit_icon_result")
+        self.assertEqual(source_block_unit_icon_result["keys"]["method"]["java_expr"], "public TextureRegion icon(){")
+        self.assertEqual(source_block_unit_icon_result["keys"]["return_expr"]["java_expr"], "return tile.block.uiIcon;")
+        self.assertEqual(source_block_unit_icon_result["keys"]["tile_block_ui_icon"]["java_expr"], "tile.block.uiIcon")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

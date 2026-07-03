@@ -7423,6 +7423,26 @@ func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:
 		"matches": result.get("ammo", null) == canonical.get("ammo", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_block_unit_icon_state(tile_block_ui_icon: Variant) -> Dictionary:
+	return {
+		"method": "public TextureRegion icon(){",
+		"return_expr": "return tile.block.uiIcon;",
+		"tile_block_ui_icon": tile_block_ui_icon,
+	}
+
+func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_icon_3([tile_block_ui_icon])
+	var canonical = source_block_unit_icon_state(tile_block_ui_icon)
+	return {
+		"source_owner": "PortGame.source_block_unit_icon_state",
+		"generated_owner": "BlockUnitComp.java_method_icon_3",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null
