@@ -7403,6 +7403,26 @@ func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: b
 		"matches": result.get("add_removed_entity_call", null) == canonical.get("add_removed_entity_call", null) and result.get("condition", null) == canonical.get("condition", null),
 	}
 
+func source_block_unit_ammof_state(ammo: float) -> Dictionary:
+	return {
+		"method": "public float ammof(){",
+		"return_expr": "return ammo;",
+		"ammo": ammo,
+	}
+
+func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_ammof_4([ammo])
+	var canonical = source_block_unit_ammof_state(ammo)
+	return {
+		"source_owner": "PortGame.source_block_unit_ammof_state",
+		"generated_owner": "BlockUnitComp.java_method_ammof_4",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ammo", null) == canonical.get("ammo", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

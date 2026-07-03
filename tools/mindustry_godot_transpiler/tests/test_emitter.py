@@ -6115,5 +6115,38 @@ class SyncComp{
             self.assertIn('"add_removed_entity_call": add_removed_entity_call', source_text)
             self.assertIn('"id_call": "id()"', source_text)
 
+    def test_emit_bridges_block_unit_comp_ammof_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    transient float ammo;
+
+    public float ammof(){
+        return ammo;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_ammof_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var ammo: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_ammof_state"', source_text)
+            self.assertIn('"method": "public float ammof(){"', source_text)
+            self.assertIn('"return_expr": "return ammo;"', source_text)
+            self.assertIn('"ammo": ammo', source_text)
+
 if __name__ == "__main__":
     unittest.main()

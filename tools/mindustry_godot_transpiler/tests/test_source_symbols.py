@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 597)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 598)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 602)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 603)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40887,6 +40887,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_sync_remove_result["keys"]["condition"]["java_expr"], "if(Vars.net.client()){")
         self.assertEqual(source_sync_remove_result["keys"]["add_removed_entity_call"]["java_expr"], "Vars.netClient.addRemovedEntity(id());")
         self.assertEqual(source_sync_remove_result["keys"]["id_call"]["java_expr"], "id()")
+
+    def test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_unit_ammof.method")
+        self.assertEqual(method["java_expr"], "public float ammof(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(method["java_method"], "ammof()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_unit_ammof_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_unit_ammof_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_unit_ammof.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return ammo;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_unit_ammof_result.return_expr")
+        ammo = source_symbols.source_symbol(registry, "block_unit_ammof.ammo")
+        self.assertEqual(ammo["java_expr"], "ammo")
+        self.assertEqual(ammo["godot_symbol"], "source_block_unit_ammof_input.ammo")
+
+        ammof_slice = source_symbols.source_slice(ledger, "N1129")
+        self.assertEqual(ammof_slice["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(ammof_slice["java_method"], "ammof()")
+        self.assertEqual(ammof_slice["godot_owner"], "PortGame.source_block_unit_ammof_state")
+        self.assertEqual(ammof_slice["runtime_proof"], "/root/Main.generated_block_unit_comp_ammof_bridge_state")
+        self.assertIn("public float ammof(){", ammof_slice["exact_exprs"])
+        self.assertIn("return ammo;", ammof_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_unit_ammof_state")
+        self.assertEqual(contract["params"], [
+            {"name": "ammo", "schema": "source_block_unit_ammof_input.ammo", "type": "float"},
+        ])
+        for key in ["method", "return_expr", "ammo"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_block_unit_ammof_result = source_symbols.state_schema(schema, "source_block_unit_ammof_result")
+        self.assertEqual(source_block_unit_ammof_result["keys"]["method"]["java_expr"], "public float ammof(){")
+        self.assertEqual(source_block_unit_ammof_result["keys"]["return_expr"]["java_expr"], "return ammo;")
+        self.assertEqual(source_block_unit_ammof_result["keys"]["ammo"]["java_expr"], "ammo")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

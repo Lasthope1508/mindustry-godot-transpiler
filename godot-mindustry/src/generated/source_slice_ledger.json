@@ -24333,6 +24333,33 @@
         "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1129": {
+      "exact_exprs": [
+        "@Replace",
+        "public float ammof(){",
+        "return ammo;"
+      ],
+      "godot_owner": "PortGame.source_block_unit_ammof_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "ammof()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.ammof() direct ammo return and wires generated BlockUnitComp.java_method_ammof_4 plus PortGame generated bridge to canonical source_block_unit_ammof_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_ammof_bridge_state",
+      "source_symbols": [
+        "block_unit_ammof.method",
+        "block_unit_ammof.return_expr",
+        "block_unit_ammof.ammo"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_ammof_to_source_state",
+        "test_generated_block_unit_comp_bridges_ammof_to_source_state",
+        "test_port_game_exposes_source_block_unit_ammof_state",
+        "test_port_game_exposes_generated_block_unit_comp_ammof_bridge_state",
+        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

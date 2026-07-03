@@ -75565,6 +75565,45 @@
       "java_expr": "id()",
       "rule": "Explicit runtime fact for id() argument passed to removed-entity notification.",
       "status": "explicit-input"
+    },
+    "block_unit_ammof.method": {
+      "godot_owner": "PortGame.source_block_unit_ammof_state",
+      "java_method": "ammof()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_ammof_state",
+      "tests": [
+        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_ammof_result.method",
+      "java_expr": "public float ammof(){",
+      "rule": "BlockUnitComp ammof method boundary.",
+      "status": "source-backed"
+    },
+    "block_unit_ammof.return_expr": {
+      "godot_owner": "PortGame.source_block_unit_ammof_state",
+      "java_method": "ammof()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_ammof_state",
+      "tests": [
+        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_ammof_result.return_expr",
+      "java_expr": "return ammo;",
+      "rule": "BlockUnitComp ammof returns current ammo field.",
+      "status": "source-backed"
+    },
+    "block_unit_ammof.ammo": {
+      "godot_owner": "PortGame.source_block_unit_ammof_state",
+      "java_method": "ammof()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_ammof_state",
+      "tests": [
+        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_ammof_input.ammo",
+      "java_expr": "ammo",
+      "rule": "Explicit runtime fact for BlockUnitComp transient ammo field returned by ammof().",
+      "status": "explicit-input"
     }
   },
   "version": 1

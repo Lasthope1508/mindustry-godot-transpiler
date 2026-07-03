@@ -26,7 +26,8 @@ func java_method_icon_3(_args: Array = []) -> Variant:
 	return null
 
 func java_method_ammof_4(_args: Array = []) -> Variant:
-	return null
+	var ammo: float = float(_args[0] if _args.size() > 0 else 0.0)
+	return {"source_owner": "PortGame.source_block_unit_ammof_state", "method": "public float ammof(){", "return_expr": "return ammo;", "ammo": ammo}
 
 func java_method_killed_5(_args: Array = []) -> Variant:
 	return null

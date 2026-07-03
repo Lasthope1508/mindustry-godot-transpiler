@@ -11835,6 +11835,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"add_removed_entity_call": add_removed_entity_call', source)
         self.assertIn('"id_call": "id()"', source)
 
+    def test_generated_block_unit_comp_bridges_ammof_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_ammof_4(_args: Array = []) -> Variant:", source)
+        self.assertIn("var ammo: float = float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_ammof_state"', source)
+        self.assertIn('"method": "public float ammof(){"', source)
+        self.assertIn('"return_expr": "return ammo;"', source)
+        self.assertIn('"ammo": ammo', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -12096,6 +12107,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_sync_remove_client_removed_entity_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_remove_11"', source)
         self.assertIn('"matches": result.get("add_removed_entity_call", null) == canonical.get("add_removed_entity_call", null) and result.get("condition", null) == canonical.get("condition", null)', source)
+
+    def test_port_game_exposes_source_block_unit_ammof_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_ammof_state(ammo: float) -> Dictionary:", source)
+        self.assertIn('"method": "public float ammof(){"', source)
+        self.assertIn('"return_expr": "return ammo;"', source)
+        self.assertIn('"ammo": ammo', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_ammof_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_ammof_4([ammo])", source)
+        self.assertIn("var canonical = source_block_unit_ammof_state(ammo)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_ammof_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_ammof_4"', source)
+        self.assertIn('"matches": result.get("ammo", null) == canonical.get("ammo", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
 if __name__ == "__main__":
     unittest.main()

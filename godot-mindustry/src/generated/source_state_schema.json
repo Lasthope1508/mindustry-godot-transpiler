@@ -88521,6 +88521,64 @@
         }
       },
       "status": "active"
+    },
+    "source_block_unit_ammof_input": {
+      "keys": {
+        "ammo": {
+          "godot_symbol": "source_block_unit_ammof_input.ammo",
+          "java_expr": "ammo",
+          "java_method": "ammof()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves explicit BlockUnitComp ammo field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_block_unit_ammof_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_block_unit_ammof_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_block_unit_ammof_result.method",
+          "java_expr": "public float ammof(){",
+          "java_method": "ammof()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records BlockUnitComp.ammof method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_ammof_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_unit_ammof_result.return_expr",
+          "java_expr": "return ammo;",
+          "java_method": "ammof()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records exact ammo return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_ammof_state"
+          ]
+        },
+        "ammo": {
+          "godot_symbol": "source_block_unit_ammof_input.ammo",
+          "java_expr": "ammo",
+          "java_method": "ammof()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves explicit ammo field value returned by ammof().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_block_unit_ammof_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

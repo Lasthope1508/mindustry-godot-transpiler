@@ -24204,6 +24204,30 @@
         "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_sync_remove_client_removed_entity_state"
       ]
+    },
+    "PortGame.source_block_unit_ammof_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "ammo",
+          "schema": "source_block_unit_ammof_input.ammo",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "ammo"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.ammof() direct ammo return state.",
+      "runtime_proof": "/root/Main.source_block_unit_ammof_state",
+      "source_method": "ammof()",
+      "source_slice": "N1129",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_ammof_state"
+      ]
     }
   },
   "policy": {
