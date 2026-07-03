@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 591)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 592)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 596)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 597)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40619,6 +40619,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_sync_write_sync_manual_result["keys"]["method"]["java_expr"], "void writeSyncManual(FloatBuffer buffer){}")
         self.assertEqual(source_sync_write_sync_manual_result["keys"]["empty_body"]["java_expr"], "void writeSyncManual(FloatBuffer buffer){}")
         self.assertEqual(source_sync_write_sync_manual_result["keys"]["no_op"]["java_expr"], "void writeSyncManual(FloatBuffer buffer){}")
+
+    def test_generated_sync_comp_after_sync_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "sync_after_sync.method")
+        self.assertEqual(method["java_expr"], "void afterSync(){}")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/SyncComp.java")
+        self.assertEqual(method["java_method"], "afterSync()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_sync_after_sync_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_sync_after_sync_state")
+
+        empty_body = source_symbols.source_symbol(registry, "sync_after_sync.empty_body")
+        self.assertEqual(empty_body["java_expr"], "void afterSync(){}")
+        self.assertEqual(empty_body["godot_symbol"], "source_sync_after_sync_result.empty_body")
+        no_op = source_symbols.source_symbol(registry, "sync_after_sync.no_op")
+        self.assertEqual(no_op["java_expr"], "void afterSync(){}")
+        self.assertEqual(no_op["godot_symbol"], "source_sync_after_sync_result.no_op")
+
+        after_sync = source_symbols.source_slice(ledger, "N1123")
+        self.assertEqual(after_sync["java_source"], "core/src/mindustry/entities/comp/SyncComp.java")
+        self.assertEqual(after_sync["java_method"], "afterSync()")
+        self.assertEqual(after_sync["godot_owner"], "PortGame.source_sync_after_sync_state")
+        self.assertEqual(after_sync["runtime_proof"], "/root/Main.generated_sync_comp_after_sync_bridge_state")
+        self.assertIn("void afterSync(){}", after_sync["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_sync_after_sync_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "empty_body", "no_op"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_sync_after_sync_result = source_symbols.state_schema(schema, "source_sync_after_sync_result")
+        self.assertEqual(source_sync_after_sync_result["keys"]["method"]["java_expr"], "void afterSync(){}")
+        self.assertEqual(source_sync_after_sync_result["keys"]["empty_body"]["java_expr"], "void afterSync(){}")
+        self.assertEqual(source_sync_after_sync_result["keys"]["no_op"]["java_expr"], "void afterSync(){}")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

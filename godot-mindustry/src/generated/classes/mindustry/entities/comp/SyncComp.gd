@@ -32,7 +32,7 @@ func java_method_writeSyncManual_5(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_sync_write_sync_manual_state", "method": "void writeSyncManual(FloatBuffer buffer){}", "empty_body": "void writeSyncManual(FloatBuffer buffer){}", "no_op": true}
 
 func java_method_afterSync_6(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_sync_after_sync_state", "method": "void afterSync(){}", "empty_body": "void afterSync(){}", "no_op": true}
 
 func java_method_interpolate_7(_args: Array = []) -> Variant:
 	return null

@@ -3525,6 +3525,31 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1123": {
+      "exact_exprs": [
+        "void afterSync(){}"
+      ],
+      "godot_owner": "PortGame.source_sync_after_sync_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.afterSync() empty internally generated body and wires generated SyncComp.java_method_afterSync_6 plus PortGame generated bridge to canonical source_sync_after_sync_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_after_sync_bridge_state",
+      "source_symbols": [
+        "sync_after_sync.method",
+        "sync_after_sync.empty_body",
+        "sync_after_sync.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_after_sync_to_source_state",
+        "test_generated_sync_comp_bridges_after_sync_to_source_state",
+        "test_port_game_exposes_source_sync_after_sync_state",
+        "test_port_game_exposes_generated_sync_comp_after_sync_bridge_state",
+        "test_generated_sync_comp_after_sync_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
