@@ -1282,7 +1282,12 @@ func java_method_damage_204(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_damage_dead_guard_state", "block_health_source_owner": "PortGame.source_building_damage_block_health_scale_state", "handle_damage_source_owner": "PortGame.source_building_damage_handle_damage_gate_state", "health_changed_source_owner": "PortGame.source_building_damage_health_changed_call_state", "destroy_gate_source_owner": "PortGame.source_building_damage_destroy_gate_state", "replace": "@Replace", "override": "@Override", "method": "public void damage(float damage){", "dead_guard": "if(dead()) return;", "block_health": "float dm = state.rules.blockHealth(team);", "last_damage_time_expr": "lastDamageTime = Time.time;", "zero_guard": "if(Mathf.zero(dm)){", "zero_assignment": "damage = health + 1;", "scale_assignment": "damage /= dm;", "client_comment": "//TODO handle this better on the client.", "client_guard": "if(!net.client()){", "health_assignment": "health -= handleDamage(damage);", "health_changed_call": "healthChanged();", "damage_amount": damage_amount, "dead_state": dead_state, "returned": dead_state, "continues": not dead_state, "block_health_multiplier": block_health_multiplier, "health": health, "source_time": source_time, "net_client": net_client, "handled_damage": handled_damage, "self_state": self_state, "block_health_scale": block_health_scale, "handle_damage_gate": handle_damage_gate, "health_changed_call_state": health_changed_call_state, "destroy_gate": destroy_gate_state}
 
 func java_method_healthChanged_205(_args: Array = []) -> Variant:
-	return null
+	var net_server := bool(_args[0] if _args.size() > 0 else false)
+	var self_state: Variant = _args[1] if _args.size() > 1 else {}
+	var build_health_update: Variant = self_state
+	if not net_server:
+		build_health_update = null
+	return {"source_owner": "PortGame.source_building_health_changed_state", "method": "public void healthChanged(){", "server_comment": "//server-side, health updates are batched.", "server_guard": "if(net.server()){", "build_health_update_call": "netServer.buildHealthUpdate(self());", "notify_call": "indexer.notifyHealthChanged(self());", "net_server": net_server, "self_state": self_state, "build_health_update_called": net_server, "build_health_update": build_health_update, "notify_health_changed": self_state}
 
 func java_method_sense_206(_args: Array = []) -> Variant:
 	return null

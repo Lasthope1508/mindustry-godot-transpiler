@@ -22439,6 +22439,42 @@
         "test_port_game_exposes_source_building_damage_destroy_gate_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1077": {
+      "deferred_exprs": [
+        "Concrete NetServer batching and indexer mutation internals stay owned by runtime/network/indexer integration; this generated bridge records canonical notification state."
+      ],
+      "exact_exprs": [
+        "public void healthChanged(){",
+        "//server-side, health updates are batched.",
+        "if(net.server()){",
+        "netServer.buildHealthUpdate(self());",
+        "indexer.notifyHealthChanged(self());",
+        "self()",
+        "net.server()"
+      ],
+      "godot_owner": "PortGame.source_building_health_changed_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "healthChanged()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_healthChanged_205 and PortGame generated bridge to existing N589 canonical source_building_health_changed_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_health_changed_bridge_state",
+      "source_symbols": [
+        "building_health_changed.method",
+        "building_health_changed.server_batched_comment",
+        "building_health_changed.net_server_guard",
+        "building_health_changed.build_health_update",
+        "building_health_changed.notify_health_changed",
+        "building_health_changed.net_server",
+        "building_health_changed.self_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_health_changed_to_source_state",
+        "test_generated_building_comp_bridges_health_changed_to_source_state",
+        "test_port_game_exposes_generated_building_comp_health_changed_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

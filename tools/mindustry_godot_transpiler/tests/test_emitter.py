@@ -3671,6 +3671,51 @@ class BuildingComp{
             self.assertIn('"amount": null', source_text)
             self.assertIn('"amount": amount', source_text)
 
+    def test_emit_bridges_building_comp_health_changed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void healthChanged(){
+        //server-side, health updates are batched.
+        if(net.server()){
+            netServer.buildHealthUpdate(self());
+        }
+
+        indexer.notifyHealthChanged(self());
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_healthChanged_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var net_server := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else {}", source_text)
+            self.assertIn("var build_health_update: Variant = self_state", source_text)
+            self.assertIn("if not net_server:", source_text)
+            self.assertIn("build_health_update = null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_health_changed_state"', source_text)
+            self.assertIn('"method": "public void healthChanged(){"', source_text)
+            self.assertIn('"server_comment": "//server-side, health updates are batched."', source_text)
+            self.assertIn('"server_guard": "if(net.server()){"', source_text)
+            self.assertIn('"build_health_update_call": "netServer.buildHealthUpdate(self());"', source_text)
+            self.assertIn('"notify_call": "indexer.notifyHealthChanged(self());"', source_text)
+            self.assertIn('"build_health_update_called": net_server', source_text)
+            self.assertIn('"build_health_update": build_health_update', source_text)
+            self.assertIn('"notify_health_changed": self_state', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

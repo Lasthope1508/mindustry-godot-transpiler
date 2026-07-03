@@ -26106,6 +26106,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(health <= 0){", building_generated_damage_destroy_gate["exact_exprs"])
         self.assertIn("Call.buildDestroyed(self());", building_generated_damage_destroy_gate["exact_exprs"])
 
+        building_generated_health_changed = source_symbols.source_slice(ledger, "N1077")
+        self.assertEqual(building_generated_health_changed["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_health_changed["java_method"], "healthChanged()")
+        self.assertEqual(building_generated_health_changed["godot_owner"], "PortGame.source_building_health_changed_state")
+        self.assertEqual(building_generated_health_changed["runtime_proof"], "/root/Main.generated_building_comp_health_changed_bridge_state")
+        self.assertIn("public void healthChanged(){", building_generated_health_changed["exact_exprs"])
+        self.assertIn("//server-side, health updates are batched.", building_generated_health_changed["exact_exprs"])
+        self.assertIn("if(net.server()){", building_generated_health_changed["exact_exprs"])
+        self.assertIn("netServer.buildHealthUpdate(self());", building_generated_health_changed["exact_exprs"])
+        self.assertIn("indexer.notifyHealthChanged(self());", building_generated_health_changed["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

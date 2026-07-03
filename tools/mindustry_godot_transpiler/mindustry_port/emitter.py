@@ -1100,6 +1100,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "healthChanged"
+    ):
+        return [
+            "\tvar net_server := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar self_state: Variant = _args[1] if _args.size() > 1 else {}",
+            "\tvar build_health_update: Variant = self_state",
+            "\tif not net_server:",
+            "\t\tbuild_health_update = null",
+            "\treturn {\"source_owner\": \"PortGame.source_building_health_changed_state\", \"method\": \"public void healthChanged(){\", \"server_comment\": \"//server-side, health updates are batched.\", \"server_guard\": \"if(net.server()){\", \"build_health_update_call\": \"netServer.buildHealthUpdate(self());\", \"notify_call\": \"indexer.notifyHealthChanged(self());\", \"net_server\": net_server, \"self_state\": self_state, \"build_health_update_called\": net_server, \"build_health_update\": build_health_update, \"notify_health_changed\": self_state}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

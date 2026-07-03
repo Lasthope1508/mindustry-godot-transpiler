@@ -4804,6 +4804,18 @@ func generated_building_comp_damage_destroy_gate_bridge_state(damage_amount: flo
 		"canonical": canonical,
 	}
 
+func generated_building_comp_health_changed_bridge_state(net_server: bool, self_state := {}) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_healthChanged_205([net_server, self_state])
+	var canonical = source_building_health_changed_state(net_server, self_state)
+	return {
+		"source_owner": "PortGame.source_building_health_changed_state",
+		"generated_owner": "BuildingComp.java_method_healthChanged_205",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

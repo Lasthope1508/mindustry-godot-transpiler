@@ -5107,6 +5107,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"canonical_no_arg": canonical_no_arg', source)
         self.assertIn('"canonical_amount": canonical_amount', source)
 
+    def test_generated_building_comp_bridges_health_changed_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_healthChanged_205(_args: Array = []) -> Variant:", source)
+        self.assertIn("var net_server := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var self_state: Variant = _args[1] if _args.size() > 1 else {}", source)
+        self.assertIn("var build_health_update: Variant = self_state", source)
+        self.assertIn("if not net_server:", source)
+        self.assertIn("build_health_update = null", source)
+        self.assertIn('"source_owner": "PortGame.source_building_health_changed_state"', source)
+        self.assertIn('"method": "public void healthChanged(){"', source)
+        self.assertIn('"server_comment": "//server-side, health updates are batched."', source)
+        self.assertIn('"server_guard": "if(net.server()){"', source)
+        self.assertIn('"build_health_update_call": "netServer.buildHealthUpdate(self());"', source)
+        self.assertIn('"notify_call": "indexer.notifyHealthChanged(self());"', source)
+        self.assertIn('"build_health_update_called": net_server', source)
+        self.assertIn('"build_health_update": build_health_update', source)
+        self.assertIn('"notify_health_changed": self_state', source)
+
+    def test_port_game_exposes_generated_building_comp_health_changed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_health_changed_bridge_state(net_server: bool, self_state := {}) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_healthChanged_205([net_server, self_state])", source)
+        self.assertIn("var canonical = source_building_health_changed_state(net_server, self_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_health_changed_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_healthChanged_205"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
