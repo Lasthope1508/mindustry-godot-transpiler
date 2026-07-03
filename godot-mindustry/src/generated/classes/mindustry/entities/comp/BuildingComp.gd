@@ -1256,13 +1256,21 @@ func java_method_damage_204(_args: Array = []) -> Variant:
 	var health := float(_args[2] if _args.size() > 2 else 0.0)
 	var block_health_multiplier := float(_args[3] if _args.size() > 3 else 0.0)
 	var source_time := float(_args[4] if _args.size() > 4 else 0.0)
+	var net_client := bool(_args[5] if _args.size() > 5 else false)
+	var handled_damage := float(_args[6] if _args.size() > 6 else 0.0)
 	var block_health_scale := {}
+	var handle_damage_gate := {}
 	if not dead_state:
 		if is_zero_approx(block_health_multiplier):
 			block_health_scale = {"damage": health + 1.0, "last_damage_time": source_time}
 		else:
 			block_health_scale = {"damage": damage_amount / block_health_multiplier, "last_damage_time": source_time}
-	return {"source_owner": "PortGame.source_building_damage_dead_guard_state", "block_health_source_owner": "PortGame.source_building_damage_block_health_scale_state", "replace": "@Replace", "override": "@Override", "method": "public void damage(float damage){", "dead_guard": "if(dead()) return;", "block_health": "float dm = state.rules.blockHealth(team);", "last_damage_time_expr": "lastDamageTime = Time.time;", "zero_guard": "if(Mathf.zero(dm)){", "zero_assignment": "damage = health + 1;", "scale_assignment": "damage /= dm;", "damage_amount": damage_amount, "dead_state": dead_state, "returned": dead_state, "continues": not dead_state, "block_health_multiplier": block_health_multiplier, "health": health, "source_time": source_time, "block_health_scale": block_health_scale}
+		var scaled_damage := float(block_health_scale.get("damage", damage_amount))
+		if not net_client:
+			handle_damage_gate = {"health": health - handled_damage, "damage": scaled_damage, "handled_damage": handled_damage, "handle_damage_called": true}
+		else:
+			handle_damage_gate = {"health": health, "damage": scaled_damage, "handled_damage": null, "handle_damage_called": false}
+	return {"source_owner": "PortGame.source_building_damage_dead_guard_state", "block_health_source_owner": "PortGame.source_building_damage_block_health_scale_state", "handle_damage_source_owner": "PortGame.source_building_damage_handle_damage_gate_state", "replace": "@Replace", "override": "@Override", "method": "public void damage(float damage){", "dead_guard": "if(dead()) return;", "block_health": "float dm = state.rules.blockHealth(team);", "last_damage_time_expr": "lastDamageTime = Time.time;", "zero_guard": "if(Mathf.zero(dm)){", "zero_assignment": "damage = health + 1;", "scale_assignment": "damage /= dm;", "client_comment": "//TODO handle this better on the client.", "client_guard": "if(!net.client()){", "health_assignment": "health -= handleDamage(damage);", "damage_amount": damage_amount, "dead_state": dead_state, "returned": dead_state, "continues": not dead_state, "block_health_multiplier": block_health_multiplier, "health": health, "source_time": source_time, "net_client": net_client, "handled_damage": handled_damage, "block_health_scale": block_health_scale, "handle_damage_gate": handle_damage_gate}
 
 func java_method_healthChanged_205(_args: Array = []) -> Variant:
 	return null

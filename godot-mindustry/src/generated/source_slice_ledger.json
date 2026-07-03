@@ -22340,6 +22340,42 @@
         "test_port_game_exposes_generated_building_comp_damage_block_health_scale_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1074": {
+      "deferred_exprs": [
+        "healthChanged and buildDestroyed side effects stay owned by later damage slices. The generated bridge supplies handled_damage as the source-backed handleDamage(damage) result."
+      ],
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public void damage(float damage){",
+        "//TODO handle this better on the client.",
+        "if(!net.client()){",
+        "health -= handleDamage(damage);",
+        "handleDamage(damage)"
+      ],
+      "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_damage_204 and PortGame generated bridge to existing N558 canonical source_building_damage_handle_damage_gate_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_damage_handle_damage_gate_bridge_state",
+      "source_symbols": [
+        "building_damage_handle_damage_gate.client_comment",
+        "building_damage_handle_damage_gate.client_guard",
+        "building_damage_handle_damage_gate.health_assignment",
+        "building_damage_handle_damage_gate.net_client",
+        "building_damage_handle_damage_gate.health",
+        "building_damage_handle_damage_gate.damage",
+        "building_damage_handle_damage_gate.handled_damage"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_damage_handle_damage_gate_to_source_state",
+        "test_generated_building_comp_bridges_damage_handle_damage_gate_to_source_state",
+        "test_port_game_exposes_generated_building_comp_damage_handle_damage_gate_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

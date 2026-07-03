@@ -5219,6 +5219,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_damage_handle_damage_gate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_damage_204(_args: Array = []) -> Variant:", source)
+        self.assertIn("var net_client := bool(_args[5] if _args.size() > 5 else false)", source)
+        self.assertIn("var handled_damage := float(_args[6] if _args.size() > 6 else 0.0)", source)
+        self.assertIn("var handle_damage_gate := {}", source)
+        self.assertIn('var scaled_damage := float(block_health_scale.get("damage", damage_amount))', source)
+        self.assertIn("if not net_client:", source)
+        self.assertIn('"health": health - handled_damage', source)
+        self.assertIn('"handle_damage_called": true', source)
+        self.assertIn('"handled_damage": null', source)
+        self.assertIn('"handle_damage_source_owner": "PortGame.source_building_damage_handle_damage_gate_state"', source)
+        self.assertIn('"client_comment": "//TODO handle this better on the client."', source)
+        self.assertIn('"client_guard": "if(!net.client()){"', source)
+        self.assertIn('"health_assignment": "health -= handleDamage(damage);"', source)
+        self.assertIn('"handle_damage_gate": handle_damage_gate', source)
+
+    def test_port_game_exposes_generated_building_comp_damage_handle_damage_gate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_damage_handle_damage_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage])", source)
+        self.assertIn('var block_health_canonical = source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)', source)
+        self.assertIn('var canonical = source_building_damage_handle_damage_gate_state(net_client, health, float(block_health_canonical["damage"]), handled_damage)', source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_handle_damage_gate_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

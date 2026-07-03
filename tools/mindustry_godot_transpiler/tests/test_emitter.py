@@ -3834,5 +3834,59 @@ class BuildingComp{
             self.assertIn('"scale_assignment": "damage /= dm;"', source_text)
             self.assertIn('"block_health_scale": block_health_scale', source_text)
 
+    def test_emit_bridges_building_comp_damage_handle_damage_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public void damage(float damage){
+        if(dead()) return;
+
+        float dm = state.rules.blockHealth(team);
+        lastDamageTime = Time.time;
+
+        if(Mathf.zero(dm)){
+            damage = health + 1;
+        }else{
+            damage /= dm;
+        }
+
+        //TODO handle this better on the client.
+        if(!net.client()){
+            health -= handleDamage(damage);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var net_client := bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn("var handled_damage := float(_args[6] if _args.size() > 6 else 0.0)", source_text)
+            self.assertIn("var handle_damage_gate := {}", source_text)
+            self.assertIn('var scaled_damage := float(block_health_scale.get("damage", damage_amount))', source_text)
+            self.assertIn("if not net_client:", source_text)
+            self.assertIn('"health": health - handled_damage', source_text)
+            self.assertIn('"handle_damage_called": true', source_text)
+            self.assertIn('"handled_damage": null', source_text)
+            self.assertIn('"handle_damage_source_owner": "PortGame.source_building_damage_handle_damage_gate_state"', source_text)
+            self.assertIn('"client_comment": "//TODO handle this better on the client."', source_text)
+            self.assertIn('"client_guard": "if(!net.client()){"', source_text)
+            self.assertIn('"health_assignment": "health -= handleDamage(damage);"', source_text)
+            self.assertIn('"handle_damage_gate": handle_damage_gate', source_text)
+
 if __name__ == "__main__":
     unittest.main()
