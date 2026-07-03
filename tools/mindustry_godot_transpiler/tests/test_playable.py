@@ -5229,6 +5229,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_capacity_power_net_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_206(_args: Array = []) -> Variant:", source)
+        self.assertIn("var block_has_items := bool(_args[13] if _args.size() > 13 else false)", source)
+        self.assertIn("var block_item_capacity := float(_args[14] if _args.size() > 14 else 0.0)", source)
+        self.assertIn("var block_has_liquids := bool(_args[15] if _args.size() > 15 else false)", source)
+        self.assertIn("var block_liquid_capacity := float(_args[16] if _args.size() > 16 else 0.0)", source)
+        self.assertIn("var has_cons_power := bool(_args[17] if _args.size() > 17 else false)", source)
+        self.assertIn("var cons_power_capacity := float(_args[18] if _args.size() > 18 else 0.0)", source)
+        self.assertIn("var has_power_module := bool(_args[19] if _args.size() > 19 else false)", source)
+        self.assertIn("var last_scaled_power_in := float(_args[20] if _args.size() > 20 else 0.0)", source)
+        self.assertIn("var last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)", source)
+        self.assertIn('"capacity_power_net_source_owner": "PortGame.source_building_sense_capacity_power_net_state"', source)
+        self.assertIn('"item_capacity_case": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;"', source)
+        self.assertIn('"power_net_capacity_case": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();"', source)
+        self.assertIn('"sense_capacity_power_net": sense_capacity_power_net', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_capacity_power_net_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity])", source)
+        self.assertIn("var canonical = source_building_sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_capacity_power_net_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

@@ -4852,6 +4852,18 @@ func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: 
 		"canonical": canonical,
 	}
 
+func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity])
+	var canonical = source_building_sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity)
+	return {
+		"source_owner": "PortGame.source_building_sense_capacity_power_net_state",
+		"generated_owner": "BuildingComp.java_method_sense_206",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

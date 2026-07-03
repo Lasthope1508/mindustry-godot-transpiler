@@ -3862,6 +3862,60 @@ class BuildingComp{
             self.assertIn('"total_power": total_power', source_text)
             self.assertIn('"sense_totals": sense_totals', source_text)
 
+    def test_emit_bridges_building_comp_sense_capacity_power_net_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case itemCapacity -> block.hasItems ? block.itemCapacity : 0;
+            case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;
+            case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;
+            case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;
+            case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;
+            case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();
+            case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();
+            default -> Float.NaN;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_has_items := bool(_args[13] if _args.size() > 13 else false)", source_text)
+            self.assertIn("var block_item_capacity := float(_args[14] if _args.size() > 14 else 0.0)", source_text)
+            self.assertIn("var block_has_liquids := bool(_args[15] if _args.size() > 15 else false)", source_text)
+            self.assertIn("var block_liquid_capacity := float(_args[16] if _args.size() > 16 else 0.0)", source_text)
+            self.assertIn("var has_cons_power := bool(_args[17] if _args.size() > 17 else false)", source_text)
+            self.assertIn("var cons_power_capacity := float(_args[18] if _args.size() > 18 else 0.0)", source_text)
+            self.assertIn("var has_power_module := bool(_args[19] if _args.size() > 19 else false)", source_text)
+            self.assertIn("var last_scaled_power_in := float(_args[20] if _args.size() > 20 else 0.0)", source_text)
+            self.assertIn("var last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)", source_text)
+            self.assertIn("var last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)", source_text)
+            self.assertIn("var last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)", source_text)
+            self.assertIn("var power_net_in := last_scaled_power_in * 60.0 if has_power_module else 0.0", source_text)
+            self.assertIn('"capacity_power_net_source_owner": "PortGame.source_building_sense_capacity_power_net_state"', source_text)
+            self.assertIn('"item_capacity_case": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;"', source_text)
+            self.assertIn('"power_net_capacity_case": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();"', source_text)
+            self.assertIn('"item_capacity": block_item_capacity if block_has_items else 0.0', source_text)
+            self.assertIn('"power_net_in": power_net_in', source_text)
+            self.assertIn('"sense_capacity_power_net": sense_capacity_power_net', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
