@@ -4594,6 +4594,45 @@ class BuildingComp{
             self.assertIn('"amount": liquid_amount', source_text)
             self.assertIn('"set_prop_liquid_content": set_prop_liquid_content', source_text)
 
+    def test_emit_bridges_building_comp_in_fog_initial_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public boolean inFogTo(Team viewer){
+        if(team == viewer || !state.rules.fog) return false;
+
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_inFogTo_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var same_team := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var rules_fog := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var in_fog_initial_gate := {\"method\": \"public boolean inFogTo(Team viewer){\", \"initial_return\": \"if(team == viewer || !state.rules.fog) return false;\", \"same_team\": same_team, \"rules_fog\": rules_fog}", source_text)
+            self.assertIn("if same_team or not rules_fog:", source_text)
+            self.assertIn('in_fog_initial_gate.merge({"returned": true, "value": false})', source_text)
+            self.assertIn('in_fog_initial_gate.merge({"returned": false, "value": null})', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source_text)
+            self.assertIn('"in_fog_initial_gate_source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source_text)
+            self.assertIn('"in_fog_initial_gate": in_fog_initial_gate', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

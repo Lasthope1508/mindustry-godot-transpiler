@@ -1530,7 +1530,14 @@ func java_method_setProp_213(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_set_prop_item_content_state", "item_content_source_owner": "PortGame.source_building_set_prop_item_content_state", "liquid_content_source_owner": "PortGame.source_building_set_prop_liquid_content_state", "set_prop_item_content": set_prop_item_content, "set_prop_liquid_content": set_prop_liquid_content}
 
 func java_method_inFogTo_214(_args: Array = []) -> Variant:
-	return null
+	var same_team := bool(_args[0] if _args.size() > 0 else false)
+	var rules_fog := bool(_args[1] if _args.size() > 1 else false)
+	var in_fog_initial_gate := {"method": "public boolean inFogTo(Team viewer){", "initial_return": "if(team == viewer || !state.rules.fog) return false;", "same_team": same_team, "rules_fog": rules_fog}
+	if same_team or not rules_fog:
+		in_fog_initial_gate.merge({"returned": true, "value": false})
+	else:
+		in_fog_initial_gate.merge({"returned": false, "value": null})
+	return {"source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate_source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate": in_fog_initial_gate}
 
 func java_method_killed_215(_args: Array = []) -> Variant:
 	return null

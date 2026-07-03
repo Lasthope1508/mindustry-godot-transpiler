@@ -1399,6 +1399,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "inFogTo"
+    ):
+        return [
+            "\tvar same_team := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar rules_fog := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar in_fog_initial_gate := {\"method\": \"public boolean inFogTo(Team viewer){\", \"initial_return\": \"if(team == viewer || !state.rules.fog) return false;\", \"same_team\": same_team, \"rules_fog\": rules_fog}",
+            "\tif same_team or not rules_fog:",
+            "\t\tin_fog_initial_gate.merge({\"returned\": true, \"value\": false})",
+            "\telse:",
+            "\t\tin_fog_initial_gate.merge({\"returned\": false, \"value\": null})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_in_fog_initial_gate_state\", \"in_fog_initial_gate_source_owner\": \"PortGame.source_building_in_fog_initial_gate_state\", \"in_fog_initial_gate\": in_fog_initial_gate}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

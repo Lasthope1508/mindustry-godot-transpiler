@@ -26372,6 +26372,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){", building_generated_set_prop_liquid_content["exact_exprs"])
         self.assertIn("liquids.set(liquid, amount);", building_generated_set_prop_liquid_content["exact_exprs"])
 
+        building_generated_in_fog_initial_gate = source_symbols.source_slice(ledger, "N1096")
+        self.assertEqual(building_generated_in_fog_initial_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_in_fog_initial_gate["java_method"], "inFogTo(Team viewer)")
+        self.assertEqual(building_generated_in_fog_initial_gate["godot_owner"], "PortGame.source_building_in_fog_initial_gate_state")
+        self.assertEqual(building_generated_in_fog_initial_gate["runtime_proof"], "/root/Main.generated_building_comp_in_fog_initial_gate_bridge_state")
+        self.assertIn("public boolean inFogTo(Team viewer){", building_generated_in_fog_initial_gate["exact_exprs"])
+        self.assertIn("if(team == viewer || !state.rules.fog) return false;", building_generated_in_fog_initial_gate["exact_exprs"])
+        self.assertIn("team == viewer", building_generated_in_fog_initial_gate["exact_exprs"])
+        self.assertIn("state.rules.fog", building_generated_in_fog_initial_gate["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

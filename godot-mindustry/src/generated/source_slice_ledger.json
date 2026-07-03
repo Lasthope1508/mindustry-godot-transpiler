@@ -23219,6 +23219,36 @@
         "test_port_game_exposes_generated_building_comp_set_prop_liquid_content_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1096": {
+      "deferred_exprs": [
+        "BuildingComp.inFogTo discovery gate, block-size tile grid, and fogControl visible-tile loop remain owned by adjacent canonical helpers and later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "public boolean inFogTo(Team viewer){",
+        "if(team == viewer || !state.rules.fog) return false;",
+        "team == viewer",
+        "state.rules.fog"
+      ],
+      "godot_owner": "PortGame.source_building_in_fog_initial_gate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "inFogTo(Team viewer)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_inFogTo_214 and PortGame generated bridge to existing N593 canonical source_building_in_fog_initial_gate_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_in_fog_initial_gate_bridge_state",
+      "source_symbols": [
+        "building_in_fog_initial_gate.method",
+        "building_in_fog_initial_gate.initial_return",
+        "building_in_fog_initial_gate.same_team",
+        "building_in_fog_initial_gate.rules_fog"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_in_fog_initial_gate_to_source_state",
+        "test_generated_building_comp_bridges_in_fog_initial_gate_to_source_state",
+        "test_port_game_exposes_generated_building_comp_in_fog_initial_gate_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

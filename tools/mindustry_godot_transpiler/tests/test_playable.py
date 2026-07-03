@@ -5728,6 +5728,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_in_fog_initial_gate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_inFogTo_214(_args: Array = []) -> Variant:", source)
+        self.assertIn("var same_team := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var rules_fog := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var in_fog_initial_gate := {\"method\": \"public boolean inFogTo(Team viewer){\", \"initial_return\": \"if(team == viewer || !state.rules.fog) return false;\", \"same_team\": same_team, \"rules_fog\": rules_fog}", source)
+        self.assertIn("if same_team or not rules_fog:", source)
+        self.assertIn('in_fog_initial_gate.merge({"returned": true, "value": false})', source)
+        self.assertIn('in_fog_initial_gate.merge({"returned": false, "value": null})', source)
+        self.assertIn('"source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source)
+        self.assertIn('"in_fog_initial_gate_source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source)
+        self.assertIn('"in_fog_initial_gate": in_fog_initial_gate', source)
+
+    def test_port_game_exposes_generated_building_comp_in_fog_initial_gate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_inFogTo_214([same_team, rules_fog])", source)
+        self.assertIn("var canonical = source_building_in_fog_initial_gate_state(same_team, rules_fog)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

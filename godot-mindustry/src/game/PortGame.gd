@@ -6665,6 +6665,18 @@ func source_building_set_prop_liquid_content_state(content_type: String, has_liq
 	blocked_result.merge(source_exprs)
 	return blocked_result
 
+func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_inFogTo_214([same_team, rules_fog])
+	var canonical = source_building_in_fog_initial_gate_state(same_team, rules_fog)
+	return {
+		"source_owner": "PortGame.source_building_in_fog_initial_gate_state",
+		"generated_owner": "BuildingComp.java_method_inFogTo_214",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_in_fog_initial_gate_state(same_team: bool, rules_fog: bool) -> Dictionary:
 	if same_team or not rules_fog:
 		return {"returned": true, "value": false}
