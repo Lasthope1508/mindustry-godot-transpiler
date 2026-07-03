@@ -1074,9 +1074,11 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_time := float(_args[4] if _args.size() > 4 else 0.0)",
             "\tvar net_client := bool(_args[5] if _args.size() > 5 else false)",
             "\tvar handled_damage := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar self_state: Variant = _args[7] if _args.size() > 7 else {}",
             "\tvar block_health_scale := {}",
             "\tvar handle_damage_gate := {}",
             "\tvar health_changed_call_state := {}",
+            "\tvar destroy_gate_state := {}",
             "\tif not dead_state:",
             "\t\tif is_zero_approx(block_health_multiplier):",
             "\t\t\tblock_health_scale = {\"damage\": health + 1.0, \"last_damage_time\": source_time}",
@@ -1088,7 +1090,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\telse:",
             "\t\t\thandle_damage_gate = {\"health\": health, \"damage\": scaled_damage, \"handled_damage\": null, \"handle_damage_called\": false}",
             "\t\thealth_changed_call_state = {\"health_changed\": true}",
-            "\treturn {\"source_owner\": \"PortGame.source_building_damage_dead_guard_state\", \"block_health_source_owner\": \"PortGame.source_building_damage_block_health_scale_state\", \"handle_damage_source_owner\": \"PortGame.source_building_damage_handle_damage_gate_state\", \"health_changed_source_owner\": \"PortGame.source_building_damage_health_changed_call_state\", \"replace\": \"@Replace\", \"override\": \"@Override\", \"method\": \"public void damage(float damage){\", \"dead_guard\": \"if(dead()) return;\", \"block_health\": \"float dm = state.rules.blockHealth(team);\", \"last_damage_time_expr\": \"lastDamageTime = Time.time;\", \"zero_guard\": \"if(Mathf.zero(dm)){\", \"zero_assignment\": \"damage = health + 1;\", \"scale_assignment\": \"damage /= dm;\", \"client_comment\": \"//TODO handle this better on the client.\", \"client_guard\": \"if(!net.client()){\", \"health_assignment\": \"health -= handleDamage(damage);\", \"health_changed_call\": \"healthChanged();\", \"damage_amount\": damage_amount, \"dead_state\": dead_state, \"returned\": dead_state, \"continues\": not dead_state, \"block_health_multiplier\": block_health_multiplier, \"health\": health, \"source_time\": source_time, \"net_client\": net_client, \"handled_damage\": handled_damage, \"block_health_scale\": block_health_scale, \"handle_damage_gate\": handle_damage_gate, \"health_changed_call_state\": health_changed_call_state}",
+            "\t\tvar destroy_health := float(handle_damage_gate.get(\"health\", health))",
+            "\t\tif destroy_health <= 0.0:",
+            "\t\t\tdestroy_gate_state = {\"destroy_gate\": \"if(health <= 0){\", \"build_destroyed_call\": \"Call.buildDestroyed(self());\", \"build_destroyed_called\": true, \"build_destroyed\": self_state}",
+            "\t\telse:",
+            "\t\t\tdestroy_gate_state = {\"destroy_gate\": \"if(health <= 0){\", \"build_destroyed_call\": \"Call.buildDestroyed(self());\", \"build_destroyed_called\": false, \"build_destroyed\": null}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_damage_dead_guard_state\", \"block_health_source_owner\": \"PortGame.source_building_damage_block_health_scale_state\", \"handle_damage_source_owner\": \"PortGame.source_building_damage_handle_damage_gate_state\", \"health_changed_source_owner\": \"PortGame.source_building_damage_health_changed_call_state\", \"destroy_gate_source_owner\": \"PortGame.source_building_damage_destroy_gate_state\", \"replace\": \"@Replace\", \"override\": \"@Override\", \"method\": \"public void damage(float damage){\", \"dead_guard\": \"if(dead()) return;\", \"block_health\": \"float dm = state.rules.blockHealth(team);\", \"last_damage_time_expr\": \"lastDamageTime = Time.time;\", \"zero_guard\": \"if(Mathf.zero(dm)){\", \"zero_assignment\": \"damage = health + 1;\", \"scale_assignment\": \"damage /= dm;\", \"client_comment\": \"//TODO handle this better on the client.\", \"client_guard\": \"if(!net.client()){\", \"health_assignment\": \"health -= handleDamage(damage);\", \"health_changed_call\": \"healthChanged();\", \"damage_amount\": damage_amount, \"dead_state\": dead_state, \"returned\": dead_state, \"continues\": not dead_state, \"block_health_multiplier\": block_health_multiplier, \"health\": health, \"source_time\": source_time, \"net_client\": net_client, \"handled_damage\": handled_damage, \"self_state\": self_state, \"block_health_scale\": block_health_scale, \"handle_damage_gate\": handle_damage_gate, \"health_changed_call_state\": health_changed_call_state, \"destroy_gate\": destroy_gate_state}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"

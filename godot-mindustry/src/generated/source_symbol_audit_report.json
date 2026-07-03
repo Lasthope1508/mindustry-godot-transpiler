@@ -1,19 +1,13 @@
 {
-  "exemptSourceOwnerCount": 5,
-  "exemptSourceOwners": [
-    "PortGame.source_api_contract_state",
-    "PortGame.source_slice_ledger_state",
-    "PortGame.source_state_schema_state",
-    "PortGame.source_symbol_audit_state",
-    "PortGame.source_symbol_registry_state"
-  ],
-  "legacyUnregisteredOwnerCount": 0,
-  "legacyUnregisteredOwners": [],
+  "version": 1,
   "policy": {
-    "legacyBackfillStatus": "tracked",
-    "newSourceOwnerRequiresRegistry": true
+    "newSourceOwnerRequiresRegistry": true,
+    "legacyBackfillStatus": "tracked"
   },
-  "registeredSourceOwnerCount": 575,
+  "totalSourceFunctions": 581,
+  "registeredSourceOwnerCount": 576,
+  "exemptSourceOwnerCount": 5,
+  "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -91,6 +85,7 @@
     "PortGame.source_building_damage_block_health_scale_state",
     "PortGame.source_building_damage_dead_guard_state",
     "PortGame.source_building_damage_delegate_state",
+    "PortGame.source_building_damage_destroy_gate_state",
     "PortGame.source_building_damage_handle_damage_gate_state",
     "PortGame.source_building_damage_health_changed_call_state",
     "PortGame.source_building_delta",
@@ -591,2908 +586,2919 @@
     "PortGame.source_weapons_setup_mounts_state",
     "PortGame.source_weapons_update_dispatch_state"
   ],
+  "exemptSourceOwners": [
+    "PortGame.source_api_contract_state",
+    "PortGame.source_slice_ledger_state",
+    "PortGame.source_state_schema_state",
+    "PortGame.source_symbol_audit_state",
+    "PortGame.source_symbol_registry_state"
+  ],
+  "legacyUnregisteredOwners": [],
   "sourceFunctions": [
     {
+      "owner": "PortGame.source_symbol_registry_state",
       "function": "source_symbol_registry_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_symbol_registry_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_symbol_audit_state",
       "function": "source_symbol_audit_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_symbol_audit_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_slice_ledger_state",
       "function": "source_slice_ledger_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_slice_ledger_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_api_contract_state",
       "function": "source_api_contract_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_api_contract_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_state_schema_state",
       "function": "source_state_schema_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_state_schema_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_get_power_production_state",
       "function": "source_power_generator_get_power_production_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_get_power_production_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_displayed_power_production_state",
       "function": "source_power_generator_displayed_power_production_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_displayed_power_production_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_build_serialization_state",
       "function": "source_power_generator_build_serialization_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_build_serialization_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_solar_generator_update_tile_state",
       "function": "source_solar_generator_update_tile_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_solar_generator_update_tile_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_update_tile_state",
       "function": "source_thermal_generator_update_tile_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_update_tile_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_update_tile_effect_state",
       "function": "source_thermal_generator_update_tile_effect_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_update_tile_effect_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
       "function": "source_thermal_generator_update_tile_output_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_displayed_power_production_state",
       "function": "source_thermal_generator_displayed_power_production_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_displayed_power_production_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_init_state",
       "function": "source_thermal_generator_init_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_init_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_total_progress_state",
       "function": "source_thermal_generator_total_progress_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_total_progress_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_after_picked_up_state",
       "function": "source_thermal_generator_after_picked_up_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_after_picked_up_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_on_proximity_added_state",
       "function": "source_thermal_generator_on_proximity_added_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_on_proximity_added_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_can_place_on_state",
       "function": "source_thermal_generator_can_place_on_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_can_place_on_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_draw_light_state",
       "function": "source_thermal_generator_draw_light_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_draw_light_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_set_stats_state",
       "function": "source_thermal_generator_set_stats_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_set_stats_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state",
       "function": "source_thermal_generator_set_stats_output_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_thermal_generator_draw_place_state",
       "function": "source_thermal_generator_draw_place_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_thermal_generator_draw_place_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_warmup_state",
       "function": "source_power_generator_warmup_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_warmup_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_should_explode_state",
       "function": "source_power_generator_should_explode_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_should_explode_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_ambient_volume_state",
       "function": "source_power_generator_ambient_volume_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_ambient_volume_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_gate_state",
       "function": "source_power_generator_create_explosion_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_damage_state",
       "function": "source_power_generator_create_explosion_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
       "function": "source_power_generator_create_explosion_effect_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_effect_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_loop_state",
       "function": "source_power_generator_create_explosion_puddle_loop_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_puddle_loop_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
       "function": "source_power_generator_create_explosion_puddle_vector_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
       "function": "source_power_generator_create_explosion_puddle_tile_world_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
       "function": "source_power_generator_create_explosion_puddle_deposit_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_create_explosion_shake_state",
       "function": "source_power_generator_create_explosion_shake_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_create_explosion_shake_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
       "function": "source_power_generator_on_destroyed_reactor_explosion_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_range",
       "function": "source_overdrive_projector_range",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_range"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_select_state",
       "function": "source_overdrive_projector_select_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_select_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_place_state",
       "function": "source_overdrive_projector_place_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_place_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_target_filter_state",
       "function": "source_overdrive_projector_target_filter_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_target_filter_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_apply_boost_state",
       "function": "source_building_apply_boost_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_apply_boost_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_time_scale_decay_state",
       "function": "source_building_time_scale_decay_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_time_scale_decay_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_delta",
       "function": "source_building_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_edelta",
       "function": "source_building_edelta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_edelta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_light_state",
       "function": "source_overdrive_projector_light_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_light_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_draw_state",
       "function": "source_overdrive_projector_draw_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_draw_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_real_boost",
       "function": "source_overdrive_projector_real_boost",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_real_boost"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
       "function": "source_overdrive_projector_boost_bar_fraction",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_overdrive_projector_boost_bar_fraction"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mend_projector_repair_amount",
       "function": "source_mend_projector_repair_amount",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mend_projector_repair_amount"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mend_projector_light_state",
       "function": "source_mend_projector_light_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mend_projector_light_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mend_projector_progress",
       "function": "source_mend_projector_progress",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mend_projector_progress"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mend_projector_select_state",
       "function": "source_mend_projector_select_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mend_projector_select_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mend_projector_place_state",
       "function": "source_mend_projector_place_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mend_projector_place_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mend_projector_draw_state",
       "function": "source_mend_projector_draw_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mend_projector_draw_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_absin",
       "function": "source_absin",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_absin"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_approach",
       "function": "source_approach",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_approach"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_approach_delta",
       "function": "source_approach_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_approach_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_lerp_delta",
       "function": "source_lerp_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_lerp_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_add_role_state",
       "function": "source_power_graph_add_role_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_add_role_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_add_graph_state",
       "function": "source_power_graph_add_graph_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_add_graph_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_check_add_state",
       "function": "source_power_graph_check_add_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_check_add_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_clear_state",
       "function": "source_power_graph_clear_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_clear_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_reflow_state",
       "function": "source_power_graph_reflow_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_reflow_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_remove_list_state",
       "function": "source_power_graph_remove_list_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_remove_list_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_remove_branch_seed_state",
       "function": "source_power_graph_remove_branch_seed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_remove_branch_seed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_remove_branch_bfs_state",
       "function": "source_power_graph_remove_branch_bfs_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_remove_branch_bfs_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_remove_branch_update_state",
       "function": "source_power_graph_remove_branch_update_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_remove_branch_update_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_remove_empty_entity_state",
       "function": "source_power_graph_remove_empty_entity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_remove_empty_entity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_get_id_state",
       "function": "source_power_graph_get_id_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_get_id_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_to_string_state",
       "function": "source_power_graph_to_string_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_to_string_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_consume_power_requested_power_state",
       "function": "source_consume_power_requested_power_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_consume_power_requested_power_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_power_needed_state",
       "function": "source_power_graph_power_needed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_power_needed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_power_produced_state",
       "function": "source_power_graph_power_produced_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_power_produced_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_battery_state",
       "function": "source_power_graph_battery_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_battery_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_use_batteries_state",
       "function": "source_power_graph_use_batteries_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_use_batteries_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_charge_batteries_state",
       "function": "source_power_graph_charge_batteries_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_charge_batteries_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_distribute_power_state",
       "function": "source_power_graph_distribute_power_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_distribute_power_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_update_cheat_state",
       "function": "source_power_graph_update_cheat_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_update_cheat_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_update_balance_state",
       "function": "source_power_graph_update_balance_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_update_balance_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_power_graph_update_battery_distribute_state",
       "function": "source_power_graph_update_battery_distribute_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_power_graph_update_battery_distribute_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_health_at_cell",
       "function": "source_block_health_at_cell",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_health_at_cell"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_time_scale_at_cell",
       "function": "source_block_time_scale_at_cell",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_time_scale_at_cell"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_time_scale_duration_at_cell",
       "function": "source_block_time_scale_duration_at_cell",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_time_scale_duration_at_cell"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_health",
       "function": "source_block_health",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_health"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_item_capacity",
       "function": "source_block_item_capacity",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_item_capacity"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_dump_time",
       "function": "source_block_dump_time",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_dump_time"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_dump_interval",
       "function": "source_drill_dump_interval",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_dump_interval"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_ore_count",
       "function": "source_drill_ore_count",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_ore_count"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_delay",
       "function": "source_drill_delay",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_delay"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_output_rate",
       "function": "source_drill_output_rate",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_output_rate"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_warmup_speed",
       "function": "source_drill_warmup_speed",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_warmup_speed"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_warmup_state",
       "function": "source_drill_warmup_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_warmup_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_inactive_warmup_state",
       "function": "source_drill_inactive_warmup_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_inactive_warmup_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_last_speed",
       "function": "source_drill_last_speed",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_last_speed"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_last_speed_for_cell",
       "function": "source_drill_last_speed_for_cell",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_last_speed_for_cell"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_time_drilled_delta",
       "function": "source_drill_time_drilled_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_time_drilled_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_output_delta",
       "function": "source_drill_output_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_output_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_output_delta_for_cell",
       "function": "source_drill_output_delta_for_cell",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_output_delta_for_cell"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_output_batch",
       "function": "source_drill_output_batch",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_output_batch"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_drill_progress_fraction",
       "function": "source_drill_progress_fraction",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_drill_progress_fraction"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_conveyor_world_speed",
       "function": "source_conveyor_world_speed",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_conveyor_world_speed"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_conveyor_path_progress_rate",
       "function": "source_conveyor_path_progress_rate",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_conveyor_path_progress_rate"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_conveyor_path_progress_delta",
       "function": "source_conveyor_path_progress_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_conveyor_path_progress_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_conveyor_path_progress_delta_for_cell",
       "function": "source_conveyor_path_progress_delta_for_cell",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_conveyor_path_progress_delta_for_cell"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_sprite_base_position",
       "function": "source_block_sprite_base_position",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_sprite_base_position"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_texture",
       "function": "source_bullet_texture",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_texture"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_core_accept_item",
       "function": "source_core_accept_item",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_core_accept_item"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_core_handle_item",
       "function": "source_core_handle_item",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_core_handle_item"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_handle_item_count",
       "function": "source_building_handle_item_count",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_handle_item_count"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_accept_item_state",
       "function": "source_building_accept_item_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_accept_item_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_maximum_accepted",
       "function": "source_building_maximum_accepted",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_maximum_accepted"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_handle_stack_count",
       "function": "source_building_handle_stack_count",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_handle_stack_count"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_accept_stack_state",
       "function": "source_building_accept_stack_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_accept_stack_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_remove_stack_state",
       "function": "source_building_remove_stack_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_remove_stack_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_accept_payload_state",
       "function": "source_building_accept_payload_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_accept_payload_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_handle_payload_state",
       "function": "source_building_handle_payload_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_handle_payload_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_payload_forward_offset",
       "function": "source_payload_forward_offset",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_payload_forward_offset"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_move_payload_state",
       "function": "source_move_payload_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_move_payload_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_dump_payload_index",
       "function": "source_dump_payload_index",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_dump_payload_index"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_dump_payload_state",
       "function": "source_dump_payload_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_dump_payload_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_can_replace_state",
       "function": "source_block_can_replace_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_can_replace_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_can_be_replaced_state",
       "function": "source_building_can_be_replaced_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_can_be_replaced_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_should_consume_state",
       "function": "source_building_should_consume_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_should_consume_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_production_valid_state",
       "function": "source_building_production_valid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_production_valid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_consume_trigger_valid_state",
       "function": "source_building_consume_trigger_valid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_consume_trigger_valid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_power_production_state",
       "function": "source_building_power_production_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_power_production_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_progress_increase",
       "function": "source_building_progress_increase",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_progress_increase"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_display_efficiency",
       "function": "source_building_display_efficiency",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_display_efficiency"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_should_ambient_sound",
       "function": "source_building_should_ambient_sound",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_should_ambient_sound"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_status_state",
       "function": "source_building_draw_status_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_status_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_cracks_state",
       "function": "source_building_draw_cracks_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_cracks_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_select_state",
       "function": "source_building_draw_select_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_select_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_item_selection_state",
       "function": "source_building_draw_item_selection_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_item_selection_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_disabled_state",
       "function": "source_building_draw_disabled_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_disabled_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_drawrot_state",
       "function": "source_building_drawrot_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_drawrot_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_is_power_of_two",
       "function": "source_arc_is_power_of_two",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_is_power_of_two"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_random_seed_int",
       "function": "source_arc_random_seed_int",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_random_seed_int"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_random_seed_float_max",
       "function": "source_arc_random_seed_float_max",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_random_seed_float_max"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_lerp_delta",
       "function": "source_arc_lerp_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_lerp_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_chance_delta_threshold",
       "function": "source_arc_chance_delta_threshold",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_chance_delta_threshold"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_mathf_sin_table_value",
       "function": "source_arc_mathf_sin_table_value",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_mathf_sin_table_value"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_mathf_sin_lookup",
       "function": "source_arc_mathf_sin_lookup",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_mathf_sin_lookup"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_mathf_cos_lookup",
       "function": "source_arc_mathf_cos_lookup",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_mathf_cos_lookup"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_mathf_sin_scaled",
       "function": "source_arc_mathf_sin_scaled",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_mathf_sin_scaled"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_mathf_cos_scaled",
       "function": "source_arc_mathf_cos_scaled",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_mathf_cos_scaled"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_vec2_limit",
       "function": "source_arc_vec2_limit",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_vec2_limit"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_state",
       "function": "source_building_draw_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_cached_state",
       "function": "source_building_draw_cached_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_cached_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_recache_state",
       "function": "source_building_recache_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_recache_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_payload_draw_state",
       "function": "source_building_payload_draw_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_payload_draw_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_team_top_state",
       "function": "source_building_draw_team_top_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_team_top_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_liquid_light_state",
       "function": "source_building_draw_liquid_light_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_liquid_light_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_light_state",
       "function": "source_building_draw_light_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_light_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_team_state",
       "function": "source_building_draw_team_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_team_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_is_heal_suppressed_state",
       "function": "source_building_is_heal_suppressed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_is_heal_suppressed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_check_suppression_state",
       "function": "source_building_check_suppression_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_check_suppression_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_player_placed_state",
       "function": "source_building_player_placed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_player_placed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_placed_state",
       "function": "source_building_placed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_placed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_repaired_state",
       "function": "source_building_on_repaired_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_repaired_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_is_commandable_state",
       "function": "source_building_is_commandable_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_is_commandable_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_is_payload_state",
       "function": "source_building_is_payload_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_is_payload_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_overwrote_state",
       "function": "source_building_overwrote_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_overwrote_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_removed_state",
       "function": "source_building_on_removed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_removed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_unit_on_state",
       "function": "source_building_unit_on_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_unit_on_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_unit_on_any_state",
       "function": "source_building_unit_on_any_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_unit_on_any_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_unit_removed_state",
       "function": "source_building_unit_removed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_unit_removed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_puddle_on_state",
       "function": "source_building_puddle_on_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_puddle_on_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_configured_type_state",
       "function": "source_building_configured_type_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_configured_type_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_configured_last_access_state",
       "function": "source_building_configured_last_access_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_configured_last_access_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_configured_direct_handler_state",
       "function": "source_building_configured_direct_handler_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_configured_direct_handler_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_configured_copy_config_state",
       "function": "source_building_configured_copy_config_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_configured_copy_config_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_tapped_state",
       "function": "source_building_tapped_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_tapped_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_after_destroyed_state",
       "function": "source_building_after_destroyed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_after_destroyed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_explosion_item_cap_state",
       "function": "source_building_explosion_item_cap_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_explosion_item_cap_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_splash_liquid_state",
       "function": "source_building_splash_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_splash_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_deconstructed_liquid_state",
       "function": "source_building_on_deconstructed_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_deconstructed_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_item_explosion_state",
       "function": "source_building_on_destroyed_item_explosion_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_item_explosion_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
       "function": "source_building_on_destroyed_liquid_explosion_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_buffered_power_state",
       "function": "source_building_on_destroyed_buffered_power_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_buffered_power_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
       "function": "source_building_on_destroyed_splash_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_splash_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state",
       "function": "source_building_on_destroyed_dynamic_explosion_call_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_rubble_state",
       "function": "source_building_on_destroyed_rubble_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_rubble_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_base_sound_state",
       "function": "source_building_on_destroyed_base_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_base_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
       "function": "source_building_on_destroyed_reactive_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_reactive_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_destroyed_power_sound_state",
       "function": "source_building_on_destroyed_power_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_destroyed_power_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_display_name_state",
       "function": "source_building_display_name_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_display_name_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_display_icon_state",
       "function": "source_building_display_icon_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_display_icon_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_flow_items_state",
       "function": "source_building_flow_items_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_flow_items_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_display_consumption_state",
       "function": "source_building_display_consumption_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_display_consumption_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_display_bars_state",
       "function": "source_building_display_bars_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_display_bars_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_display_ui_gates_state",
       "function": "source_building_display_ui_gates_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_display_ui_gates_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_strings_fixed_one_decimal",
       "function": "source_arc_strings_fixed_one_decimal",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_strings_fixed_one_decimal"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_display_flow_rate_label",
       "function": "source_building_display_flow_rate_label",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_display_flow_rate_label"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_cursor_state",
       "function": "source_building_cursor_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_cursor_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_configure_build_tapped_state",
       "function": "source_building_on_configure_build_tapped_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_configure_build_tapped_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_configure_tapped_state",
       "function": "source_building_on_configure_tapped_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_configure_tapped_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_configure_closed_state",
       "function": "source_building_on_configure_closed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_configure_closed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_configure_menu_visibility_state",
       "function": "source_building_configure_menu_visibility_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_configure_menu_visibility_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_should_show_configure_state",
       "function": "source_building_should_show_configure_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_should_show_configure_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_should_hide_configure_state",
       "function": "source_building_should_hide_configure_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_should_hide_configure_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_block_half_extent",
       "function": "source_building_block_half_extent",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_block_half_extent"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_draw_configure_state",
       "function": "source_building_draw_configure_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_draw_configure_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_check_solid_state",
       "function": "source_building_check_solid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_check_solid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_handle_damage_state",
       "function": "source_building_handle_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_handle_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_absorb_lasers_state",
       "function": "source_building_absorb_lasers_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_absorb_lasers_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_is_insulated_state",
       "function": "source_building_is_insulated_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_is_insulated_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_collide_state",
       "function": "source_building_collide_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_collide_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_collision_damage_state",
       "function": "source_building_collision_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_collision_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_damage_delegate_state",
       "function": "source_building_damage_delegate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_damage_delegate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_bullet_damage_state",
       "function": "source_building_bullet_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_bullet_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_change_team_delegate_state",
       "function": "source_building_change_team_delegate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_change_team_delegate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_change_team_initial_state",
       "function": "source_building_change_team_initial_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_change_team_initial_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_change_team_power_proximity_state",
       "function": "source_building_change_team_power_proximity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_change_team_power_proximity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_change_team_power_links_state",
       "function": "source_building_change_team_power_links_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_change_team_power_links_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_change_team_final_state",
       "function": "source_building_change_team_final_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_change_team_final_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_can_pickup_state",
       "function": "source_building_can_pickup_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_can_pickup_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_picked_up_state",
       "function": "source_building_picked_up_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_picked_up_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_after_picked_up_state",
       "function": "source_building_after_picked_up_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_after_picked_up_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_remove_from_proximity_state",
       "function": "source_building_remove_from_proximity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_remove_from_proximity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_proximity_state",
       "function": "source_building_update_proximity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_proximity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_nearby_build_added_state",
       "function": "source_building_on_nearby_build_added_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_nearby_build_added_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_consume_state",
       "function": "source_building_consume_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_consume_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_can_consume_state",
       "function": "source_building_can_consume_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_can_consume_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_efficiency_scale_state",
       "function": "source_building_efficiency_scale_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_efficiency_scale_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_efficiency_multiplier_state",
       "function": "source_building_update_efficiency_multiplier_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_efficiency_multiplier_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_initial_state",
       "function": "source_building_update_consumption_initial_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_initial_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_disabled_state",
       "function": "source_building_update_consumption_disabled_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_disabled_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_setup_state",
       "function": "source_building_update_consumption_setup_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_setup_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
       "function": "source_building_update_consumption_non_optional_pass_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_non_optional_pass_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_optional_pass_state",
       "function": "source_building_update_consumption_optional_pass_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_optional_pass_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_efficiency_state",
       "function": "source_building_update_consumption_efficiency_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_efficiency_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_second_pass_state",
       "function": "source_building_update_consumption_second_pass_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_second_pass_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_ambient_volume",
       "function": "source_building_ambient_volume",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_ambient_volume"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_config_default",
       "function": "source_building_config_default",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_config_default"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_is_valid",
       "function": "source_building_is_valid",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_is_valid"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_heal_state",
       "function": "source_building_heal_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_heal_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_hit_size",
       "function": "source_building_hit_size",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_hit_size"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_kill_state",
       "function": "source_building_kill_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_kill_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_damage_dead_guard_state",
       "function": "source_building_damage_dead_guard_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_damage_dead_guard_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_damage_block_health_scale_state",
       "function": "source_building_damage_block_health_scale_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_damage_block_health_scale_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_damage_handle_damage_gate_state",
       "function": "source_building_damage_handle_damage_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_damage_handle_damage_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_damage_health_changed_call_state",
       "function": "source_building_damage_health_changed_call_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_damage_health_changed_call_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_damage_destroy_gate_state",
+      "function": "source_building_damage_destroy_gate_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_building_health_changed_state",
       "function": "source_building_health_changed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_health_changed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_position_state",
       "function": "source_building_sense_position_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_position_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_health_process_state",
       "function": "source_building_sense_health_process_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_health_process_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_totals_state",
       "function": "source_building_sense_totals_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_totals_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_capacity_power_net_state",
       "function": "source_building_sense_capacity_power_net_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_capacity_power_net_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_enabled_controlled_state",
       "function": "source_building_sense_enabled_controlled_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_enabled_controlled_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_payload_size_state",
       "function": "source_building_sense_payload_size_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_payload_size_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_object_state",
       "function": "source_building_sense_object_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_object_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_sense_content_state",
       "function": "source_building_sense_content_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_sense_content_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_control_enabled_state",
       "function": "source_building_control_enabled_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_control_enabled_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_control_config_state",
       "function": "source_building_control_config_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_control_config_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_set_prop_health_state",
       "function": "source_building_set_prop_health_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_set_prop_health_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_set_prop_team_double_state",
       "function": "source_building_set_prop_team_double_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_set_prop_team_double_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_set_prop_total_power_state",
       "function": "source_building_set_prop_total_power_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_set_prop_total_power_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_set_prop_team_object_state",
       "function": "source_building_set_prop_team_object_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_set_prop_team_object_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_set_prop_item_content_state",
       "function": "source_building_set_prop_item_content_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_set_prop_item_content_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_set_prop_liquid_content_state",
       "function": "source_building_set_prop_liquid_content_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_set_prop_liquid_content_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_in_fog_initial_gate_state",
       "function": "source_building_in_fog_initial_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_in_fog_initial_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_in_fog_discovery_gate_state",
       "function": "source_building_in_fog_discovery_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_in_fog_discovery_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_in_fog_visibility_loop_state",
       "function": "source_building_in_fog_visibility_loop_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_in_fog_visibility_loop_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_killed_initial_side_effects_state",
       "function": "source_building_killed_initial_side_effects_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_killed_initial_side_effects_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_killed_removal_side_effects_state",
       "function": "source_building_killed_removal_side_effects_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_killed_removal_side_effects_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_check_allow_update_state",
       "function": "source_building_check_allow_update_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_check_allow_update_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_timescale_decay_state",
       "function": "source_building_update_timescale_decay_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_timescale_decay_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_ambient_sound_gate_state",
       "function": "source_building_update_ambient_sound_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_ambient_sound_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_consumption_call_state",
       "function": "source_building_update_consumption_call_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_consumption_call_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_tile_gate_state",
       "function": "source_building_update_tile_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_tile_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_fog_visibility_state",
       "function": "source_building_update_fog_visibility_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_fog_visibility_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_hitbox_state",
       "function": "source_building_hitbox_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_hitbox_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_to_string_state",
       "function": "source_building_to_string_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_to_string_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_handle_liquid_amount",
       "function": "source_building_handle_liquid_amount",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_handle_liquid_amount"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_accept_liquid_state",
       "function": "source_building_accept_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_accept_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_liquid_default_scaling_state",
       "function": "source_building_dump_liquid_default_scaling_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_liquid_default_scaling_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_liquid_campaign_unlock_state",
       "function": "source_building_dump_liquid_campaign_unlock_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_liquid_campaign_unlock_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_liquid_routing_gate_state",
       "function": "source_building_dump_liquid_routing_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_liquid_routing_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_liquid_fraction_transfer_state",
       "function": "source_building_dump_liquid_fraction_transfer_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_liquid_fraction_transfer_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_transfer_liquid_state",
       "function": "source_building_transfer_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_transfer_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_can_dump_liquid_default_state",
       "function": "source_building_can_dump_liquid_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_can_dump_liquid_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_can_dump_item_default_state",
       "function": "source_building_can_dump_item_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_can_dump_item_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_proximity_removed_state",
       "function": "source_building_on_proximity_removed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_proximity_removed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_proximity_added_state",
       "function": "source_building_on_proximity_added_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_proximity_added_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_on_proximity_update_state",
       "function": "source_building_on_proximity_update_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_on_proximity_update_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_update_power_graph_state",
       "function": "source_building_update_power_graph_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_update_power_graph_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_conducts_to_state",
       "function": "source_building_conducts_to_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_conducts_to_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_power_connections_empty_guard_state",
       "function": "source_building_get_power_connections_empty_guard_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_power_connections_empty_guard_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_power_connections_proximity_guard_state",
       "function": "source_building_get_power_connections_proximity_guard_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_power_connections_proximity_guard_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_power_connections_power_compatibility_guard_state",
       "function": "source_building_get_power_connections_power_compatibility_guard_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_power_connections_power_compatibility_guard_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state",
       "function": "source_building_get_power_connections_conducts_link_guard_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_power_connections_automatic_add_state",
       "function": "source_building_get_power_connections_automatic_add_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_power_connections_automatic_add_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
       "function": "source_building_get_power_connections_manual_links_loop_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_power_connections_manual_links_loop_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_liquid_destination_default_state",
       "function": "source_building_get_liquid_destination_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_liquid_destination_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_payload_default_state",
       "function": "source_building_get_payload_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_payload_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_take_payload_default_state",
       "function": "source_building_take_payload_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_take_payload_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_get_payloads_default_state",
       "function": "source_building_get_payloads_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_get_payloads_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_put_item_state",
       "function": "source_building_put_item_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_put_item_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_produced_item_default_state",
       "function": "source_building_produced_item_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_produced_item_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_produced_item_amount_state",
       "function": "source_building_produced_item_amount_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_produced_item_amount_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_move_liquid_forward_state",
       "function": "source_building_move_liquid_forward_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_move_liquid_forward_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_move_liquid_state",
       "function": "source_building_move_liquid_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_move_liquid_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_move_liquid_reaction_setup_state",
       "function": "source_building_move_liquid_reaction_setup_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_move_liquid_reaction_setup_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_move_liquid_fire_reaction_state",
       "function": "source_building_move_liquid_fire_reaction_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_move_liquid_fire_reaction_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_move_liquid_steam_reaction_state",
       "function": "source_building_move_liquid_steam_reaction_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_move_liquid_steam_reaction_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_move_liquid_return_zero_state",
       "function": "source_building_move_liquid_return_zero_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_move_liquid_return_zero_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_move_forward_accept_state",
       "function": "source_move_forward_accept_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_move_forward_accept_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_move_forward_to_core",
       "function": "source_move_forward_to_core",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_move_forward_to_core"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_increment_dump_cursor",
       "function": "source_increment_dump_cursor",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_increment_dump_cursor"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_accumulate_default_state",
       "function": "source_building_dump_accumulate_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_accumulate_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_default_state",
       "function": "source_building_dump_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_null_item_scan_state",
       "function": "source_building_dump_null_item_scan_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_null_item_scan_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_null_proximity_scan_state",
       "function": "source_building_dump_null_proximity_scan_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_null_proximity_scan_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_null_remove_item_state",
       "function": "source_building_dump_null_remove_item_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_null_remove_item_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_null_success_handoff_state",
       "function": "source_building_dump_null_success_handoff_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_null_success_handoff_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_specific_proximity_scan_state",
       "function": "source_building_dump_specific_proximity_scan_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_specific_proximity_scan_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_dump_terminal_failure_state",
       "function": "source_building_dump_terminal_failure_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_building_dump_terminal_failure_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_dump_accumulate_attempt_state",
       "function": "source_dump_accumulate_attempt_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_dump_accumulate_attempt_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_offload_to_inventory",
       "function": "source_offload_to_inventory",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_offload_to_inventory"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_dump_drill_item_to_core",
       "function": "source_dump_drill_item_to_core",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_dump_drill_item_to_core"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_block_is_damaged",
       "function": "source_block_is_damaged",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_block_is_damaged"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mend_projector_range",
       "function": "source_mend_projector_range",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mend_projector_range"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_weapon_damage",
       "function": "source_unit_weapon_damage",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_weapon_damage"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_world_speed",
       "function": "source_unit_world_speed",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_world_speed"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_hit_size",
       "function": "source_unit_hit_size",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_hit_size"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_health",
       "function": "source_unit_health",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_health"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_is_grounded",
       "function": "source_unit_is_grounded",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_is_grounded"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_is_flying",
       "function": "source_unit_is_flying",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_is_flying"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_check_target_state",
       "function": "source_unit_check_target_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_check_target_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_can_drown_state",
       "function": "source_unit_can_drown_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_can_drown_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_drown_floor_state",
       "function": "source_unit_drown_floor_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_drown_floor_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_wobble_state",
       "function": "source_unit_wobble_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_wobble_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_move_at_state",
       "function": "source_unit_move_at_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_move_at_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_move_at_default_accel_state",
       "function": "source_unit_move_at_default_accel_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_move_at_default_accel_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_approach_state",
       "function": "source_unit_approach_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_approach_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_rotate_move_motion_state",
       "function": "source_unit_rotate_move_motion_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_rotate_move_motion_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_mathf_mod_float",
       "function": "source_arc_mathf_mod_float",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_mathf_mod_float"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_angles_forward_distance",
       "function": "source_arc_angles_forward_distance",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_angles_forward_distance"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_angles_backward_distance",
       "function": "source_arc_angles_backward_distance",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_angles_backward_distance"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_angles_angle_dist",
       "function": "source_arc_angles_angle_dist",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_angles_angle_dist"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_angles_move_toward",
       "function": "source_arc_angles_move_toward",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_angles_move_toward"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_vec2_angle",
       "function": "source_unit_vec2_angle",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_vec2_angle"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_rotate_move_rotation_state",
       "function": "source_unit_rotate_move_rotation_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_rotate_move_rotation_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_aim_look_position_state",
       "function": "source_unit_aim_look_position_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_aim_look_position_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_aim_look_xy_state",
       "function": "source_unit_aim_look_xy_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_aim_look_xy_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_look_at_angle_state",
       "function": "source_unit_look_at_angle_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_look_at_angle_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_angles_angle",
       "function": "source_arc_angles_angle",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_angles_angle"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_look_at_position_state",
       "function": "source_unit_look_at_position_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_look_at_position_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_look_at_xy_state",
       "function": "source_unit_look_at_xy_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_look_at_xy_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_controller_predicates_state",
       "function": "source_unit_controller_predicates_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_controller_predicates_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_can_target_state",
       "function": "source_unit_can_target_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_can_target_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_command_state",
       "function": "source_unit_command_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_command_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_is_missile_state",
       "function": "source_unit_is_missile_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_is_missile_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_count_state",
       "function": "source_unit_count_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_count_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_cap_state",
       "function": "source_unit_cap_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_cap_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_set_type_state",
       "function": "source_unit_set_type_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_set_type_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_setup_mounts_state",
       "function": "source_weapons_setup_mounts_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_setup_mounts_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_set_rotation_state",
       "function": "source_weapons_set_rotation_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_set_rotation_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_control_state",
       "function": "source_weapons_control_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_control_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_control_rotate_shoot_state",
       "function": "source_weapons_control_rotate_shoot_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_control_rotate_shoot_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_aim_state",
       "function": "source_weapons_aim_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_aim_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_aim_position_state",
       "function": "source_weapons_aim_position_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_aim_position_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_can_shoot_state",
       "function": "source_weapons_can_shoot_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_can_shoot_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state",
       "function": "source_weapons_remove_continuous_bullet_cleanup_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_remove_sound_stop_state",
       "function": "source_weapons_remove_sound_stop_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_remove_sound_stop_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapons_update_dispatch_state",
       "function": "source_weapons_update_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapons_update_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mathf_approach_delta",
       "function": "source_mathf_approach_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mathf_approach_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mathf_dst",
       "function": "source_mathf_dst",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mathf_dst"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_mathf_lerp_delta",
       "function": "source_mathf_lerp_delta",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_mathf_lerp_delta"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_passive_timers_state",
       "function": "source_weapon_update_passive_timers_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_passive_timers_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_angles_trns_vec",
       "function": "source_arc_angles_trns_vec",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_angles_trns_vec"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_mount_origin_state",
       "function": "source_weapon_update_mount_origin_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_mount_origin_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_auto_target_retarget_state",
       "function": "source_weapon_update_auto_target_retarget_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_auto_target_retarget_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
       "function": "source_weapon_update_auto_target_invalidation_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_auto_target_invalidation_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
       "function": "source_weapon_update_auto_target_shoot_aim_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_rotate_toward_state",
       "function": "source_weapon_update_rotate_toward_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_rotate_toward_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_bullet_origin_state",
       "function": "source_weapon_update_bullet_origin_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_bullet_origin_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_always_shooting_state",
       "function": "source_weapon_update_always_shooting_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_always_shooting_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_continuous_invalidation_state",
       "function": "source_weapon_update_continuous_invalidation_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_continuous_invalidation_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_continuous_live_state",
       "function": "source_weapon_update_continuous_live_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_continuous_live_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_continuous_sound_state",
       "function": "source_weapon_update_continuous_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_continuous_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
       "function": "source_weapon_update_continuous_laser_aim_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_continuous_laser_aim_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_status_apply_result",
       "function": "source_status_apply_result",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_status_apply_result"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
       "function": "source_weapon_update_always_continuous_keepalive_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_always_continuous_keepalive_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
       "function": "source_weapon_update_continuous_idle_heat_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_alternating_side_flip_state",
       "function": "source_weapon_update_alternating_side_flip_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_alternating_side_flip_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_active_sound_loop_state",
       "function": "source_weapon_update_active_sound_loop_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_active_sound_loop_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_velocity_length_state",
       "function": "source_weapon_update_velocity_length_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_velocity_length_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
       "function": "source_weapon_update_shoot_gate_prefix_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_shoot_gate_prefix_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_reload_gate_state",
       "function": "source_weapon_update_reload_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_reload_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_angles_angle_dist",
       "function": "source_angles_angle_dist",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_angles_angle_dist"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_cone_gate_state",
       "function": "source_weapon_update_cone_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_cone_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_update_shoot_call_reload_state",
       "function": "source_weapon_update_shoot_call_reload_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_update_shoot_call_reload_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_shoot_charge_start_state",
       "function": "source_weapon_shoot_charge_start_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_shoot_charge_start_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_shoot_pattern_default_events",
       "function": "source_shoot_pattern_default_events",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_shoot_pattern_default_events"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_shoot_default_pattern_dispatch_state",
       "function": "source_weapon_shoot_default_pattern_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_initial_guard_state",
       "function": "source_weapon_bullet_initial_guard_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_initial_guard_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_geometry_state",
       "function": "source_weapon_bullet_geometry_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_geometry_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_angle_life_state",
       "function": "source_weapon_bullet_angle_life_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_angle_life_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_shooter_state",
       "function": "source_weapon_bullet_shooter_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_shooter_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_create_call_state",
       "function": "source_weapon_bullet_create_call_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_create_call_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_handle_call_state",
       "function": "source_weapon_bullet_handle_call_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_handle_call_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
       "function": "source_weapon_handle_bullet_continuous_geometry_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
       "function": "source_weapon_handle_bullet_aim_update_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_handle_bullet_aim_update_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_sound_state",
       "function": "source_weapon_bullet_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_effects_state",
       "function": "source_weapon_bullet_effects_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_effects_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_recoil_velocity_state",
       "function": "source_weapon_bullet_recoil_velocity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_recoil_velocity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_shake_state",
       "function": "source_weapon_bullet_shake_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_shake_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_mount_recoil_state",
       "function": "source_weapon_bullet_mount_recoil_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_mount_recoil_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_recoil_slots_state",
       "function": "source_weapon_bullet_recoil_slots_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_recoil_slots_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_weapon_bullet_heat_state",
       "function": "source_weapon_bullet_heat_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_weapon_bullet_heat_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_initial_gate_state",
       "function": "source_bullet_type_create_initial_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_initial_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_spawn_unit_state",
       "function": "source_bullet_type_create_spawn_unit_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_spawn_unit_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_bullet_identity_state",
       "function": "source_bullet_type_create_bullet_identity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_bullet_identity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_aim_state",
       "function": "source_bullet_type_create_aim_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_aim_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_velocity_position_state",
       "function": "source_bullet_type_create_velocity_position_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_velocity_position_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_lifetime_payload_damage_state",
       "function": "source_bullet_type_create_lifetime_payload_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_trail_add_state",
       "function": "source_bullet_type_create_trail_add_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_trail_add_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_velocity_vector_state",
       "function": "source_bullet_velocity_vector_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_velocity_vector_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_keep_velocity_state",
       "function": "source_bullet_type_create_keep_velocity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_keep_velocity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_initial_state",
       "function": "source_bullet_type_init_initial_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_initial_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
       "function": "source_bullet_type_init_spawn_bullets_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_spawn_bullets_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_dispatch_state",
       "function": "source_bullet_type_update_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_bullet_interval_state",
       "function": "source_bullet_type_update_bullet_interval_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_bullet_interval_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_trail_state",
       "function": "source_bullet_type_update_trail_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_trail_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_homing_initial_state",
       "function": "source_bullet_type_update_homing_initial_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_homing_initial_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
       "function": "source_bullet_type_update_homing_target_velocity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_homing_target_velocity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
       "function": "source_bullet_type_update_homing_follow_aim_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_homing_follow_aim_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_weaving_state",
       "function": "source_bullet_type_update_weaving_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_weaving_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
       "function": "source_bullet_type_update_weaving_rotate_speed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_vec2_limit",
       "function": "source_vec2_limit",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_vec2_limit"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
       "function": "source_bullet_type_update_weaving_circle_shooter_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_rotation_degrees",
       "function": "source_bullet_rotation_degrees",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_rotation_degrees"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
       "function": "source_bullet_type_update_trail_effects_chance_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_trail_effects_chance_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
       "function": "source_bullet_type_update_trail_effects_interval_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_update_trail_effects_interval_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_type_defaults_state",
       "function": "source_bullet_type_init_type_defaults_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_type_defaults_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_frag_velocity_state",
       "function": "source_bullet_type_init_frag_velocity_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_frag_velocity_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_lightning_type_state",
       "function": "source_bullet_type_init_lightning_type_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_lightning_type_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_light_radius_state",
       "function": "source_bullet_type_init_light_radius_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_light_radius_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_draw_size_state",
       "function": "source_bullet_type_init_draw_size_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_draw_size_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_init_range_assignment_state",
       "function": "source_bullet_type_init_range_assignment_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_init_range_assignment_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_calculate_range_override_state",
       "function": "source_bullet_type_calculate_range_override_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_calculate_range_override_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
       "function": "source_bullet_type_calculate_range_spawn_unit_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
       "function": "source_bullet_type_calculate_range_despawn_unit_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
       "function": "source_bullet_type_calculate_range_fallback_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_calculate_range_fallback_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_continuous_damage_default_state",
       "function": "source_bullet_type_continuous_damage_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_continuous_damage_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_heals_state",
       "function": "source_bullet_type_heals_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_heals_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_test_collision_state",
       "function": "source_bullet_type_test_collision_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_test_collision_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_tile_fire_state",
       "function": "source_bullet_type_hit_tile_fire_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_tile_fire_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_tile_heal_state",
       "function": "source_bullet_type_hit_tile_heal_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_tile_heal_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
       "function": "source_bullet_type_hit_tile_enemy_direct_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_tile_enemy_direct_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_tile_lifesteal_state",
       "function": "source_bullet_type_hit_tile_lifesteal_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_handle_pierce_state",
       "function": "source_bullet_type_handle_pierce_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_handle_pierce_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_damage_multiplier_state",
       "function": "source_bullet_type_damage_multiplier_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_damage_multiplier_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_default_state",
       "function": "source_bullet_type_hit_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_xy_default_state",
       "function": "source_bullet_type_hit_xy_default_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_xy_default_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_effects_state",
       "function": "source_bullet_type_hit_effects_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_effects_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
       "function": "source_bullet_type_hit_frag_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_frag_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state",
       "function": "source_bullet_type_hit_post_frag_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_incend_state",
       "function": "source_bullet_type_create_incend_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_incend_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_units_initial_state",
       "function": "source_bullet_type_create_units_initial_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_units_initial_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_units_random_offset_state",
       "function": "source_bullet_type_create_units_random_offset_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_units_random_offset_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_units_spawn_state",
       "function": "source_bullet_type_create_units_spawn_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_units_spawn_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_units_rotation_state",
       "function": "source_bullet_type_create_units_rotation_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_units_rotation_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_units_notify_state",
       "function": "source_bullet_type_create_units_notify_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_units_notify_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_despawned_dispatch_state",
       "function": "source_bullet_type_despawned_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_despawned_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_despawned_effect_state",
       "function": "source_bullet_type_despawned_effect_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_despawned_effect_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_despawned_sound_state",
       "function": "source_bullet_type_despawned_sound_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_despawned_sound_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_despawned_shake_state",
       "function": "source_bullet_type_despawned_shake_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_despawned_shake_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_removed_trail_fade_state",
       "function": "source_bullet_type_removed_trail_fade_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_removed_trail_fade_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
       "function": "source_bullet_type_removed_frag_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_removed_frag_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_suppression_state",
       "function": "source_bullet_type_hit_suppression_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_suppression_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_splash_damage_dispatch_state",
       "function": "source_bullet_type_hit_splash_damage_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_splash_damage_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
       "function": "source_bullet_type_create_splash_damage_damage_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
       "function": "source_bullet_type_create_splash_damage_status_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
       "function": "source_bullet_type_create_splash_damage_heal_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
       "function": "source_bullet_type_create_splash_damage_make_fire_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_frags_initial_state",
       "function": "source_bullet_type_create_frags_initial_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_frags_initial_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_frags_random_geometry_state",
       "function": "source_bullet_type_create_frags_random_geometry_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_frags_random_geometry_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_frags_create_call_state",
       "function": "source_bullet_type_create_frags_create_call_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_frags_create_call_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_frags_increment_state",
       "function": "source_bullet_type_create_frags_increment_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_frags_increment_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_puddles_initial_state",
       "function": "source_bullet_type_create_puddles_initial_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_puddles_initial_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_puddles_tile_world_state",
       "function": "source_bullet_type_create_puddles_tile_world_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_puddles_tile_world_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_create_puddles_deposit_state",
       "function": "source_bullet_type_create_puddles_deposit_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_create_puddles_deposit_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
       "function": "source_bullet_type_hit_entity_damage_cap_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
       "function": "source_bullet_type_hit_entity_lifesteal_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
       "function": "source_bullet_type_hit_entity_armor_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
       "function": "source_bullet_type_hit_entity_unit_effects_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state",
       "function": "source_bullet_type_hit_entity_unit_destroy_event_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state",
       "function": "source_bullet_type_hit_entity_handle_pierce_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_building_damage_state",
       "function": "source_bullet_type_building_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_building_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_shield_damage_state",
       "function": "source_bullet_type_shield_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_shield_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_draw_state",
       "function": "source_bullet_type_draw_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_draw_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_draw_trail_state",
       "function": "source_bullet_type_draw_trail_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_draw_trail_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_draw_parts_state",
       "function": "source_bullet_type_draw_parts_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_draw_parts_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_type_draw_light_state",
       "function": "source_bullet_type_draw_light_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_type_draw_light_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_player_controllable_state",
       "function": "source_unit_player_controllable_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_player_controllable_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_targetable_state",
       "function": "source_unit_targetable_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_targetable_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_killable_state",
       "function": "source_unit_killable_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_killable_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_hittable_state",
       "function": "source_unit_hittable_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_hittable_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_after_sync_state",
       "function": "source_unit_after_sync_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_after_sync_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_after_read_state",
       "function": "source_unit_after_read_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_after_read_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_after_read_all_state",
       "function": "source_unit_after_read_all_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_after_read_all_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_add_state",
       "function": "source_unit_add_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_add_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_remove_state",
       "function": "source_unit_remove_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_remove_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_landed_state",
       "function": "source_unit_landed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_landed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_heal_state",
       "function": "source_unit_heal_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_heal_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_heal_time_state",
       "function": "source_unit_update_heal_time_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_heal_time_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_captured_sector_death_state",
       "function": "source_unit_update_captured_sector_death_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_captured_sector_death_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_sound_loop_state",
       "function": "source_unit_update_sound_loop_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_sound_loop_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_unsupported_env_state",
       "function": "source_unit_update_unsupported_env_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_unsupported_env_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_abilities_loop_state",
       "function": "source_unit_update_abilities_loop_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_abilities_loop_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_trail_position_state",
       "function": "source_unit_update_trail_position_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_trail_position_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_drag_formula_state",
       "function": "source_unit_update_drag_formula_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_drag_formula_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_spawn_knockback_state",
       "function": "source_unit_update_spawn_knockback_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_spawn_knockback_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_falling_drag_state",
       "function": "source_unit_update_falling_drag_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_falling_drag_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_falling_smoke_state",
       "function": "source_unit_update_falling_smoke_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_falling_smoke_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_falling_engine_trail_state",
       "function": "source_unit_update_falling_engine_trail_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_falling_engine_trail_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_falling_descent_state",
       "function": "source_unit_update_falling_descent_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_falling_descent_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_tile_unit_on_any_state",
       "function": "source_unit_update_tile_unit_on_any_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_tile_unit_on_any_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_tile_unit_on_state",
       "function": "source_unit_update_tile_unit_on_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_tile_unit_on_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_floor_damage_state",
       "function": "source_unit_update_floor_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_floor_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_solid_tile_response_state",
       "function": "source_unit_update_solid_tile_response_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_solid_tile_response_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_ai_controller_server_gate_state",
       "function": "source_unit_update_ai_controller_server_gate_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_ai_controller_server_gate_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_invalid_controller_reset_state",
       "function": "source_unit_update_invalid_controller_reset_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_invalid_controller_reset_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_spawned_core_despawn_state",
       "function": "source_unit_update_spawned_core_despawn_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_spawned_core_despawn_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_icon_state",
       "function": "source_unit_icon_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_icon_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_initial_payload_state",
       "function": "source_unit_destroy_initial_payload_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_initial_payload_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_explosion_dispatch_state",
       "function": "source_unit_destroy_explosion_dispatch_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_explosion_dispatch_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_visual_effects_state",
       "function": "source_unit_destroy_visual_effects_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_visual_effects_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_sound_and_event_state",
       "function": "source_unit_destroy_sound_and_event_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_sound_and_event_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state",
       "function": "source_unit_destroy_suicide_bomb_trigger_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state",
       "function": "source_unit_destroy_shoot_on_death_mounts_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_crash_landing_damage_state",
       "function": "source_unit_destroy_crash_landing_damage_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_crash_landing_damage_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_wreck_decal_state",
       "function": "source_unit_destroy_wreck_decal_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_wreck_decal_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_ability_death_state",
       "function": "source_unit_destroy_ability_death_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_ability_death_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_destroy_type_killed_remove_state",
       "function": "source_unit_destroy_type_killed_remove_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_destroy_type_killed_remove_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_killed_state",
       "function": "source_unit_killed_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_killed_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_kill_sync_state",
       "function": "source_unit_kill_sync_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_kill_sync_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_drowning_state",
       "function": "source_unit_update_drowning_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_drowning_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_type_hook_state",
       "function": "source_unit_update_type_hook_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_type_hook_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_bounds_state",
       "function": "source_unit_update_bounds_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_bounds_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_nan_health_state",
       "function": "source_unit_update_nan_health_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_nan_health_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_flying_transition_state",
       "function": "source_unit_update_flying_transition_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_flying_transition_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_walk_effect_state",
       "function": "source_unit_update_walk_effect_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_walk_effect_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_move_pref_state",
       "function": "source_unit_move_pref_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_move_pref_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_floor_speed_multiplier_state",
       "function": "source_unit_floor_speed_multiplier_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_floor_speed_multiplier_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_unloaded_state",
       "function": "source_unit_unloaded_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_unloaded_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_boosting_default_event_state",
       "function": "source_unit_update_boosting_default_event_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_boosting_default_event_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_boosting_guard_state",
       "function": "source_unit_update_boosting_guard_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_boosting_guard_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_boosting_should_boost_state",
       "function": "source_unit_update_boosting_should_boost_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_boosting_should_boost_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_arc_mathf_num",
       "function": "source_arc_mathf_num",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_arc_mathf_num"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_boosting_elevation_state",
       "function": "source_unit_update_boosting_elevation_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_boosting_elevation_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_unit_update_boosting_event_state",
       "function": "source_unit_update_boosting_event_state",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_unit_update_boosting_event_state"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_ammo_data",
       "function": "source_turret_ammo_data",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_ammo_data"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_reload_seconds",
       "function": "source_turret_reload_seconds",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_reload_seconds"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_reload_seconds_for_ammo",
       "function": "source_turret_reload_seconds_for_ammo",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_reload_seconds_for_ammo"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_range",
       "function": "source_turret_range",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_range"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_shoot_y",
       "function": "source_turret_shoot_y",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_shoot_y"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_inaccuracy",
       "function": "source_turret_inaccuracy",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_inaccuracy"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_rotate_speed",
       "function": "source_turret_rotate_speed",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_rotate_speed"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_shoot_cone",
       "function": "source_turret_shoot_cone",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_shoot_cone"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_recoil",
       "function": "source_turret_recoil",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_recoil"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_recoils",
       "function": "source_turret_recoils",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_recoils"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_recoil_time",
       "function": "source_turret_recoil_time",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_recoil_time"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_recoil_offset",
       "function": "source_turret_recoil_offset",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_recoil_offset"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_shoot_pattern",
       "function": "source_turret_shoot_pattern",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_shoot_pattern"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_bullet_origin",
       "function": "source_turret_bullet_origin",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_bullet_origin"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_angle_to_target",
       "function": "source_angle_to_target",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_angle_to_target"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_angle_distance",
       "function": "source_angle_distance",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_angle_distance"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_move_angle_toward",
       "function": "source_move_angle_toward",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_move_angle_toward"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_range_change",
       "function": "source_bullet_range_change",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_range_change"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_inaccuracy",
       "function": "source_bullet_inaccuracy",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_inaccuracy"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_total_inaccuracy",
       "function": "source_turret_total_inaccuracy",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_total_inaccuracy"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_turret_range_for_ammo",
       "function": "source_turret_range_for_ammo",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_turret_range_for_ammo"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_lifetime_seconds",
       "function": "source_bullet_lifetime_seconds",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_lifetime_seconds"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_world_speed",
       "function": "source_bullet_world_speed",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_world_speed"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_velocity",
       "function": "source_bullet_velocity",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_velocity"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_hit_size",
       "function": "source_bullet_hit_size",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_hit_size"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_damage",
       "function": "source_bullet_damage",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_damage"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_ammo_multiplier",
       "function": "source_bullet_ammo_multiplier",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_ammo_multiplier"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_reload_multiplier",
       "function": "source_bullet_reload_multiplier",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_reload_multiplier"
+      "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_scale",
       "function": "source_bullet_scale",
-      "gdscript_path": "src/game/PortGame.gd",
-      "owner": "PortGame.source_bullet_scale"
+      "gdscript_path": "src/game/PortGame.gd"
     }
-  ],
-  "totalSourceFunctions": 580,
-  "version": 1
+  ]
 }

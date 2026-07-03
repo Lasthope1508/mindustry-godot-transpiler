@@ -86416,6 +86416,88 @@
         }
       },
       "status": "active"
+    },
+    "source_building_damage_destroy_gate_input": {
+      "keys": {
+        "health": {
+          "godot_symbol": "source_building_damage_destroy_gate_input.health",
+          "java_expr": "health",
+          "java_method": "damage(float damage)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime health supplies the post-handleDamage health for destroy gate evaluation.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_building_damage_destroy_gate_state"
+          ]
+        },
+        "self_state": {
+          "godot_symbol": "source_building_damage_destroy_gate_input.self_state",
+          "java_expr": "self()",
+          "java_method": "damage(float damage)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime self_state supplies self() passed to buildDestroyed.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_damage_destroy_gate_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_building_damage_destroy_gate_result": {
+      "keys": {
+        "build_destroyed": {
+          "godot_symbol": "source_building_damage_destroy_gate_result.build_destroyed",
+          "java_expr": "self()",
+          "java_method": "damage(float damage)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Self payload passed to buildDestroyed when destroy gate fires.",
+          "status": "generated",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_building_damage_destroy_gate_state"
+          ]
+        },
+        "build_destroyed_call": {
+          "godot_symbol": "source_building_damage_destroy_gate_result.build_destroyed_call",
+          "java_expr": "Call.buildDestroyed(self());",
+          "java_method": "damage(float damage)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Destroyed branch dispatches buildDestroyed for self.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_damage_destroy_gate_state"
+          ]
+        },
+        "build_destroyed_called": {
+          "godot_symbol": "source_building_damage_destroy_gate_result.build_destroyed_called",
+          "java_expr": "Call.buildDestroyed(self());",
+          "java_method": "damage(float damage)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "True when damage destroy gate calls buildDestroyed.",
+          "status": "generated",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_building_damage_destroy_gate_state"
+          ]
+        },
+        "destroy_gate": {
+          "godot_symbol": "source_building_damage_destroy_gate_result.destroy_gate",
+          "java_expr": "if(health <= 0){",
+          "java_method": "damage(float damage)",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Destroy gate after healthChanged in damage(float damage).",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_building_damage_destroy_gate_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

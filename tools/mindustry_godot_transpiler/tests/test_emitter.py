@@ -3936,5 +3936,57 @@ class BuildingComp{
             self.assertIn('health_changed_call_state = {"health_changed": true}', source_text)
             self.assertIn('"health_changed_call_state": health_changed_call_state', source_text)
 
+    def test_emit_bridges_building_comp_damage_destroy_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public void damage(float damage){
+        if(dead()) return;
+
+        float dm = state.rules.blockHealth(team);
+        lastDamageTime = Time.time;
+
+        if(Mathf.zero(dm)){
+            damage = health + 1;
+        }else{
+            damage /= dm;
+        }
+
+        //TODO handle this better on the client.
+        if(!net.client()){
+            health -= handleDamage(damage);
+        }
+
+        healthChanged();
+
+        if(health <= 0){
+            Call.buildDestroyed(self());
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var self_state: Variant = _args[7] if _args.size() > 7 else {}", source_text)
+            self.assertIn("var destroy_gate_state := {}", source_text)
+            self.assertIn('destroy_gate_state = {"destroy_gate": "if(health <= 0){", "build_destroyed_call": "Call.buildDestroyed(self());", "build_destroyed_called": true, "build_destroyed": self_state}', source_text)
+            self.assertIn('"destroy_gate_source_owner": "PortGame.source_building_damage_destroy_gate_state"', source_text)
+            self.assertIn('"destroy_gate": destroy_gate_state', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -22403,6 +22403,42 @@
         "test_port_game_exposes_generated_building_comp_damage_health_changed_call_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1076": {
+      "deferred_exprs": [
+        "Concrete Call networking side effects remain owned by runtime integration; this slice records the buildDestroyed dispatch gate and self payload."
+      ],
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public void damage(float damage){",
+        "if(health <= 0){",
+        "Call.buildDestroyed(self());",
+        "self()"
+      ],
+      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_damage_204 and PortGame generated bridge to new canonical source_building_damage_destroy_gate_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_damage_destroy_gate_bridge_state",
+      "source_symbols": [
+        "building_damage_destroy_gate.destroy_gate",
+        "building_damage_destroy_gate.build_destroyed_call",
+        "building_damage_destroy_gate.health",
+        "building_damage_destroy_gate.self_state",
+        "building_damage_destroy_gate.build_destroyed"
+      ],
+      "status": "done",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing",
+        "test_building_damage_destroy_gate_matches_upstream_source",
+        "test_emit_bridges_building_comp_damage_destroy_gate_to_source_state",
+        "test_generated_building_comp_bridges_damage_destroy_gate_to_source_state",
+        "test_port_game_exposes_generated_building_comp_damage_destroy_gate_bridge_state",
+        "test_port_game_exposes_source_building_damage_destroy_gate_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

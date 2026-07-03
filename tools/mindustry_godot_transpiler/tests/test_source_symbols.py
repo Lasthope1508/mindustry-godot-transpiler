@@ -16540,6 +16540,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(call["runtime_proof"], "/root/Main.source_building_damage_health_changed_call_state")
         self.assertEqual(call["godot_symbol"], "source_building_damage_health_changed_call_result.health_changed")
 
+    def test_building_damage_destroy_gate_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        destroy_gate = source_symbols.source_symbol(registry, "building_damage_destroy_gate.destroy_gate")
+        self.assertEqual(destroy_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(destroy_gate["java_method"], "damage(float damage)")
+        self.assertEqual(destroy_gate["java_expr"], "if(health <= 0){")
+        self.assertEqual(destroy_gate["godot_owner"], "PortGame.source_building_damage_destroy_gate_state")
+        self.assertEqual(destroy_gate["runtime_proof"], "/root/Main.source_building_damage_destroy_gate_state")
+        self.assertEqual(destroy_gate["godot_symbol"], "source_building_damage_destroy_gate_result.destroy_gate")
+
+        build_destroyed_call = source_symbols.source_symbol(registry, "building_damage_destroy_gate.build_destroyed_call")
+        self.assertEqual(build_destroyed_call["java_expr"], "Call.buildDestroyed(self());")
+        self.assertEqual(build_destroyed_call["godot_symbol"], "source_building_damage_destroy_gate_result.build_destroyed_call")
+
+        health = source_symbols.source_symbol(registry, "building_damage_destroy_gate.health")
+        self.assertEqual(health["status"], "explicit-input")
+        self.assertEqual(health["java_expr"], "health")
+        self.assertEqual(health["godot_symbol"], "source_building_damage_destroy_gate_input.health")
+
+        self_state = source_symbols.source_symbol(registry, "building_damage_destroy_gate.self_state")
+        self.assertEqual(self_state["status"], "explicit-input")
+        self.assertEqual(self_state["java_expr"], "self()")
+        self.assertEqual(self_state["godot_symbol"], "source_building_damage_destroy_gate_input.self_state")
+
+        build_destroyed = source_symbols.source_symbol(registry, "building_damage_destroy_gate.build_destroyed")
+        self.assertEqual(build_destroyed["java_expr"], "self()")
+        self.assertEqual(build_destroyed["godot_symbol"], "source_building_damage_destroy_gate_result.build_destroyed")
+
     def test_building_delta_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19504,9 +19536,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 575)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 576)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 580)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 581)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19989,6 +20021,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_damage_delegate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_handle_damage_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_damage_health_changed_call_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_building_damage_destroy_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_delta", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_efficiency", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_display_flow_rate_label", audit["registeredSourceOwners"])
@@ -26062,6 +26095,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void damage(float damage){", building_generated_damage_health_changed_call["exact_exprs"])
         self.assertIn("healthChanged();", building_generated_damage_health_changed_call["exact_exprs"])
 
+        building_generated_damage_destroy_gate = source_symbols.source_slice(ledger, "N1076")
+        self.assertEqual(building_generated_damage_destroy_gate["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_damage_destroy_gate["java_method"], "damage(float damage)")
+        self.assertEqual(building_generated_damage_destroy_gate["godot_owner"], "PortGame.source_building_damage_destroy_gate_state")
+        self.assertEqual(building_generated_damage_destroy_gate["runtime_proof"], "/root/Main.generated_building_comp_damage_destroy_gate_bridge_state")
+        self.assertIn("@Replace", building_generated_damage_destroy_gate["exact_exprs"])
+        self.assertIn("@Override", building_generated_damage_destroy_gate["exact_exprs"])
+        self.assertIn("public void damage(float damage){", building_generated_damage_destroy_gate["exact_exprs"])
+        self.assertIn("if(health <= 0){", building_generated_damage_destroy_gate["exact_exprs"])
+        self.assertIn("Call.buildDestroyed(self());", building_generated_damage_destroy_gate["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
@@ -31426,6 +31470,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual([param["name"] for param in building_damage_health_changed_call["params"]], [])
         self.assertIn("health_changed", building_damage_health_changed_call["return_keys"])
         self.assertEqual(building_damage_health_changed_call["source_method"], "damage(float damage)")
+
+        building_damage_destroy_gate = source_symbols.api_contract(contracts, "PortGame.source_building_damage_destroy_gate_state")
+        self.assertEqual([param["name"] for param in building_damage_destroy_gate["params"]], ["health", "self_state"])
+        self.assertEqual(building_damage_destroy_gate["params"][0]["schema"], "source_building_damage_destroy_gate_input.health")
+        self.assertEqual(building_damage_destroy_gate["params"][1]["schema"], "source_building_damage_destroy_gate_input.self_state")
+        self.assertIn("destroy_gate", building_damage_destroy_gate["return_keys"])
+        self.assertIn("build_destroyed_call", building_damage_destroy_gate["return_keys"])
+        self.assertIn("build_destroyed_called", building_damage_destroy_gate["return_keys"])
+        self.assertIn("build_destroyed", building_damage_destroy_gate["return_keys"])
+        self.assertEqual(building_damage_destroy_gate["source_method"], "damage(float damage)")
 
         building_delta = source_symbols.api_contract(contracts, "PortGame.source_building_delta")
         self.assertEqual([param["name"] for param in building_delta["params"]], ["source_delta", "time_scale"])
@@ -38116,6 +38170,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_building_damage_health_changed_call_result = source_symbols.state_schema(schema, "source_building_damage_health_changed_call_result")
         self.assertEqual(source_building_damage_health_changed_call_result["keys"]["health_changed"]["java_expr"], "healthChanged();")
+
+        source_building_damage_destroy_gate_input = source_symbols.state_schema(schema, "source_building_damage_destroy_gate_input")
+        self.assertEqual(source_building_damage_destroy_gate_input["keys"]["health"]["java_expr"], "health")
+        self.assertEqual(source_building_damage_destroy_gate_input["keys"]["self_state"]["java_expr"], "self()")
+
+        source_building_damage_destroy_gate_result = source_symbols.state_schema(schema, "source_building_damage_destroy_gate_result")
+        self.assertEqual(source_building_damage_destroy_gate_result["keys"]["destroy_gate"]["java_expr"], "if(health <= 0){")
+        self.assertEqual(source_building_damage_destroy_gate_result["keys"]["build_destroyed_call"]["java_expr"], "Call.buildDestroyed(self());")
+        self.assertEqual(source_building_damage_destroy_gate_result["keys"]["build_destroyed_called"]["java_expr"], "Call.buildDestroyed(self());")
+        self.assertEqual(source_building_damage_destroy_gate_result["keys"]["build_destroyed"]["java_expr"], "self()")
 
         source_building_delta_input = source_symbols.state_schema(schema, "source_building_delta_input")
         self.assertEqual(source_building_delta_input["keys"]["source_delta"]["java_expr"], "Time.delta")

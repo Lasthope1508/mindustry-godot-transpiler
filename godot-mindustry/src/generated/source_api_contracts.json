@@ -23594,6 +23594,35 @@
       "tests": [
         "test_building_display_bars_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_building_damage_destroy_gate_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "health",
+          "schema": "source_building_damage_destroy_gate_input.health",
+          "type": "float"
+        },
+        {
+          "name": "self_state",
+          "schema": "source_building_damage_destroy_gate_input.self_state",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "destroy_gate",
+        "build_destroyed_call",
+        "build_destroyed_called",
+        "build_destroyed"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp damage destroy gate helper.",
+      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
+      "source_method": "damage(float damage)",
+      "source_slice": "N1076",
+      "status": "active",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

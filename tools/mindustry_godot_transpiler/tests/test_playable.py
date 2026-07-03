@@ -5272,6 +5272,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_damage_destroy_gate_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_damage_204(_args: Array = []) -> Variant:", source)
+        self.assertIn("var self_state: Variant = _args[7] if _args.size() > 7 else {}", source)
+        self.assertIn("var destroy_gate_state := {}", source)
+        self.assertIn('destroy_gate_state = {"destroy_gate": "if(health <= 0){", "build_destroyed_call": "Call.buildDestroyed(self());", "build_destroyed_called": true, "build_destroyed": self_state}', source)
+        self.assertIn('"destroy_gate_source_owner": "PortGame.source_building_damage_destroy_gate_state"', source)
+        self.assertIn('"destroy_gate": destroy_gate_state', source)
+
+    def test_port_game_exposes_generated_building_comp_damage_destroy_gate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_damage_destroy_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float, self_state := {}) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage, self_state])", source)
+        self.assertIn("var handle_gate_canonical = source_building_damage_handle_damage_gate_state(net_client, health, float(block_health_canonical[\"damage\"]), handled_damage)", source)
+        self.assertIn("var canonical = source_building_damage_destroy_gate_state(float(handle_gate_canonical[\"health\"]), self_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_destroy_gate_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
@@ -6411,6 +6434,19 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_building_damage_health_changed_call_state() -> Dictionary:", source)
         self.assertIn('"health_changed": true', source)
+
+    def test_port_game_exposes_source_building_damage_destroy_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_building_damage_destroy_gate_state(health: float, self_state := {}) -> Dictionary:", source)
+        self.assertIn('"destroy_gate": "if(health <= 0){",', source)
+        self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());",', source)
+        self.assertIn("if health <= 0.0:", source)
+        self.assertIn('"build_destroyed_called": true', source)
+        self.assertIn('"build_destroyed": self_state', source)
+        self.assertIn('"build_destroyed_called": false', source)
+        self.assertIn('"build_destroyed": null', source)
 
     def test_port_game_exposes_source_building_health_changed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

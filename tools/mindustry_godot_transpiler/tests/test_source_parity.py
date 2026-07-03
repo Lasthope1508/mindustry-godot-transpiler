@@ -3409,6 +3409,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_building_damage_destroy_gate_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_building_damage_destroy_gate_source"))
+        report = source_parity.verify_building_damage_destroy_gate_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["checked"], {
+            "damage_destroy_gate": "if(health <= 0){",
+            "damage_build_destroyed_call": "Call.buildDestroyed(self());",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_building_health_changed_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_building_health_changed_source"))
         report = source_parity.verify_building_health_changed_source(ROOT / "mindustry-upstream")
