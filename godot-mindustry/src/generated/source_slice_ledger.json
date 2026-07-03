@@ -22515,6 +22515,58 @@
         "test_port_game_exposes_generated_building_comp_sense_position_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1079": {
+      "deferred_exprs": [
+        "Position, color, dead, solid, team, totals, capacity, power-net, enabled, controlled, payload, size, camera, and default NaN sense cases stay owned by their own canonical slices; this generated bridge records only the health/process cases."
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case health -> health;",
+        "case maxHealth -> maxHealth;",
+        "case efficiency -> efficiency;",
+        "case timescale -> timeScale;",
+        "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+        "case rotation -> rotation;",
+        "health",
+        "maxHealth",
+        "efficiency",
+        "timeScale",
+        "this instanceof Ranged r",
+        "r.range()",
+        "tilesize",
+        "rotation"
+      ],
+      "godot_owner": "PortGame.source_building_sense_health_process_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_sense_206 and PortGame generated bridge to existing N635 canonical source_building_sense_health_process_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_health_process_bridge_state",
+      "source_symbols": [
+        "building_sense_health_process.method",
+        "building_sense_health_process.health_case",
+        "building_sense_health_process.max_health_case",
+        "building_sense_health_process.efficiency_case",
+        "building_sense_health_process.timescale_case",
+        "building_sense_health_process.range_case",
+        "building_sense_health_process.rotation_case",
+        "building_sense_health_process.health",
+        "building_sense_health_process.max_health",
+        "building_sense_health_process.efficiency",
+        "building_sense_health_process.time_scale",
+        "building_sense_health_process.ranged_range",
+        "building_sense_health_process.source_tilesize",
+        "building_sense_health_process.has_range",
+        "building_sense_health_process.rotation_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_health_process_to_source_state",
+        "test_generated_building_comp_bridges_sense_health_process_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_health_process_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

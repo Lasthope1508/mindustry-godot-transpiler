@@ -3764,6 +3764,59 @@ class BuildingComp{
             self.assertIn('"x": source_x', source_text)
             self.assertIn('"y": source_y', source_text)
 
+    def test_emit_bridges_building_comp_sense_health_process_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case health -> health;
+            case maxHealth -> maxHealth;
+            case efficiency -> efficiency;
+            case timescale -> timeScale;
+            case range -> this instanceof Ranged r ? r.range() / tilesize : 0;
+            case rotation -> rotation;
+            default -> Float.NaN;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var health := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var max_health := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var efficiency := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var time_scale := float(_args[6] if _args.size() > 6 else 0.0)", source_text)
+            self.assertIn("var ranged_range := float(_args[7] if _args.size() > 7 else 0.0)", source_text)
+            self.assertIn("var has_range := bool(_args[8] if _args.size() > 8 else false)", source_text)
+            self.assertIn("var rotation_value := float(_args[9] if _args.size() > 9 else 0.0)", source_text)
+            self.assertIn("var sense_range := ranged_range / source_tilesize if has_range else 0.0", source_text)
+            self.assertIn('"health_process_source_owner": "PortGame.source_building_sense_health_process_state"', source_text)
+            self.assertIn('"health_case": "case health -> health;"', source_text)
+            self.assertIn('"max_health_case": "case maxHealth -> maxHealth;"', source_text)
+            self.assertIn('"efficiency_case": "case efficiency -> efficiency;"', source_text)
+            self.assertIn('"timescale_case": "case timescale -> timeScale;"', source_text)
+            self.assertIn('"range_case": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;"', source_text)
+            self.assertIn('"rotation_case": "case rotation -> rotation;"', source_text)
+            self.assertIn('"range": sense_range', source_text)
+            self.assertIn('"rotation": rotation_value', source_text)
+            self.assertIn('"sense_health_process": sense_health_process', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

@@ -1295,7 +1295,16 @@ func java_method_sense_206(_args: Array = []) -> Variant:
 	var source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)
 	var source_x := world_x / source_tilesize
 	var source_y := world_y / source_tilesize
-	return {"source_owner": "PortGame.source_building_sense_position_state", "method": "public double sense(LAccess sensor){", "switch_case": "return switch(sensor){", "x_case": "case x -> World.conv(x);", "y_case": "case y -> World.conv(y);", "world_conv_method": "public static float conv(float coord){", "world_conv_return": "return coord / tilesize;", "world_x": world_x, "world_y": world_y, "source_tilesize": source_tilesize, "x": source_x, "y": source_y}
+	var health := float(_args[3] if _args.size() > 3 else 0.0)
+	var max_health := float(_args[4] if _args.size() > 4 else 0.0)
+	var efficiency := float(_args[5] if _args.size() > 5 else 0.0)
+	var time_scale := float(_args[6] if _args.size() > 6 else 0.0)
+	var ranged_range := float(_args[7] if _args.size() > 7 else 0.0)
+	var has_range := bool(_args[8] if _args.size() > 8 else false)
+	var rotation_value := float(_args[9] if _args.size() > 9 else 0.0)
+	var sense_range := ranged_range / source_tilesize if has_range else 0.0
+	var sense_health_process := {"method": "public double sense(LAccess sensor){", "health_case": "case health -> health;", "max_health_case": "case maxHealth -> maxHealth;", "efficiency_case": "case efficiency -> efficiency;", "timescale_case": "case timescale -> timeScale;", "range_case": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;", "rotation_case": "case rotation -> rotation;", "health_input": health, "max_health_input": max_health, "efficiency_input": efficiency, "time_scale": time_scale, "ranged_range": ranged_range, "source_tilesize": source_tilesize, "has_range": has_range, "rotation_value": rotation_value, "health": health, "max_health": max_health, "efficiency": efficiency, "timescale": time_scale, "range": sense_range, "rotation": rotation_value}
+	return {"source_owner": "PortGame.source_building_sense_position_state", "health_process_source_owner": "PortGame.source_building_sense_health_process_state", "method": "public double sense(LAccess sensor){", "switch_case": "return switch(sensor){", "x_case": "case x -> World.conv(x);", "y_case": "case y -> World.conv(y);", "world_conv_method": "public static float conv(float coord){", "world_conv_return": "return coord / tilesize;", "world_x": world_x, "world_y": world_y, "source_tilesize": source_tilesize, "x": source_x, "y": source_y, "health_process": sense_health_process, "sense_health_process": sense_health_process}
 
 func java_method_senseObject_207(_args: Array = []) -> Variant:
 	return null

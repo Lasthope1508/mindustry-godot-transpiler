@@ -5169,6 +5169,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_health_process_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_206(_args: Array = []) -> Variant:", source)
+        self.assertIn("var health := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var max_health := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var efficiency := float(_args[5] if _args.size() > 5 else 0.0)", source)
+        self.assertIn("var time_scale := float(_args[6] if _args.size() > 6 else 0.0)", source)
+        self.assertIn("var ranged_range := float(_args[7] if _args.size() > 7 else 0.0)", source)
+        self.assertIn("var has_range := bool(_args[8] if _args.size() > 8 else false)", source)
+        self.assertIn("var rotation_value := float(_args[9] if _args.size() > 9 else 0.0)", source)
+        self.assertIn('"health_process_source_owner": "PortGame.source_building_sense_health_process_state"', source)
+        self.assertIn('"health_case": "case health -> health;"', source)
+        self.assertIn('"max_health_case": "case maxHealth -> maxHealth;"', source)
+        self.assertIn('"efficiency_case": "case efficiency -> efficiency;"', source)
+        self.assertIn('"timescale_case": "case timescale -> timeScale;"', source)
+        self.assertIn('"range_case": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;"', source)
+        self.assertIn('"rotation_case": "case rotation -> rotation;"', source)
+        self.assertIn('"sense_health_process": sense_health_process', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_health_process_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, health, max_health, efficiency, time_scale, ranged_range, has_range, rotation_value])", source)
+        self.assertIn("var canonical = source_building_sense_health_process_state(health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_health_process_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
