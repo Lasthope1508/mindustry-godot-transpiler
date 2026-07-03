@@ -6352,5 +6352,59 @@ class BlockUnitComp{
             self.assertIn('"tile_is_valid": tile_is_valid', source_text)
             self.assertIn('"is_added": is_added', source_text)
 
+    def test_emit_bridges_block_unit_comp_team_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public void team(Team team){
+        if(tile != null && this.team != team){
+            this.team = team;
+            if(tile.team != team){
+                tile.changeTeam(team);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_team_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var this_team: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var team: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var tile_team: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("var outer_guard: bool = tile_exists and this_team != team", source_text)
+            self.assertIn("var this_team_after: Variant = this_team", source_text)
+            self.assertIn("var inner_guard: bool = false", source_text)
+            self.assertIn("var tile_change_team_call: Variant = null", source_text)
+            self.assertIn("var tile_change_team_called: bool = false", source_text)
+            self.assertIn("if outer_guard:", source_text)
+            self.assertIn("this_team_after = team", source_text)
+            self.assertIn("inner_guard = tile_team != team", source_text)
+            self.assertIn("if inner_guard:", source_text)
+            self.assertIn('tile_change_team_call = {"call": "tile.changeTeam(team);", "team": team}', source_text)
+            self.assertIn("tile_change_team_called = true", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_team_state"', source_text)
+            self.assertIn('"method": "public void team(Team team){"', source_text)
+            self.assertIn('"outer_guard_expr": "if(tile != null && this.team != team){"', source_text)
+            self.assertIn('"this_team_assignment_expr": "this.team = team;"', source_text)
+            self.assertIn('"inner_guard_expr": "if(tile.team != team){"', source_text)
+            self.assertIn('"tile_change_team_call_expr": "tile.changeTeam(team);"', source_text)
+            self.assertIn('"this_team_after": this_team_after', source_text)
+            self.assertIn('"tile_change_team_called": tile_change_team_called', source_text)
+
 if __name__ == "__main__":
     unittest.main()

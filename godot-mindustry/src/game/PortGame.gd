@@ -7489,6 +7489,48 @@ func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Diction
 		"matches": result.get("tile_damage_call", null) == canonical.get("tile_damage_call", null) and result.get("tile_damage_called", null) == canonical.get("tile_damage_called", null) and result.get("v", null) == canonical.get("v", null) and result.get("b", null) == canonical.get("b", null),
 	}
 
+func source_block_unit_team_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
+	var outer_guard: bool = tile_exists and this_team != team
+	var this_team_after: Variant = this_team
+	var inner_guard: bool = false
+	var tile_change_team_call: Variant = null
+	var tile_change_team_called: bool = false
+	if outer_guard:
+		this_team_after = team
+		inner_guard = tile_team != team
+		if inner_guard:
+			tile_change_team_call = {"call": "tile.changeTeam(team);", "team": team}
+			tile_change_team_called = true
+	return {
+		"method": "public void team(Team team){",
+		"outer_guard_expr": "if(tile != null && this.team != team){",
+		"this_team_assignment_expr": "this.team = team;",
+		"inner_guard_expr": "if(tile.team != team){",
+		"tile_change_team_call_expr": "tile.changeTeam(team);",
+		"tile_exists": tile_exists,
+		"this_team": this_team,
+		"team": team,
+		"tile_team": tile_team,
+		"outer_guard": outer_guard,
+		"inner_guard": inner_guard,
+		"this_team_after": this_team_after,
+		"tile_change_team_call": tile_change_team_call,
+		"tile_change_team_called": tile_change_team_called,
+	}
+
+func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_team_10([tile_exists, this_team, team, tile_team])
+	var canonical = source_block_unit_team_state(tile_exists, this_team, team, tile_team)
+	return {
+		"source_owner": "PortGame.source_block_unit_team_state",
+		"generated_owner": "BlockUnitComp.java_method_team_10",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("outer_guard", null) == canonical.get("outer_guard", null) and result.get("inner_guard", null) == canonical.get("inner_guard", null) and result.get("this_team_after", null) == canonical.get("this_team_after", null) and result.get("tile_change_team_called", null) == canonical.get("tile_change_team_called", null),
+	}
+
 func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:
 	var dead: bool = tile_null or tile_dead
 	return {

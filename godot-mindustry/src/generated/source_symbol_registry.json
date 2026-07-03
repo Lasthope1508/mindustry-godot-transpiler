@@ -75942,6 +75942,136 @@
       "java_expr": "tile.damage(v, b);",
       "rule": "Result marker for BlockUnitComp damage tile.damage(v, b) call.",
       "status": "source-backed"
+    },
+    "block_unit_team.method": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "public void team(Team team){",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_result.method",
+      "status": "source-backed",
+      "rule": "BlockUnitComp team method boundary.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.tile_exists": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "tile != null",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_input.tile_exists",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for BlockUnitComp team tile non-null guard.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.this_team": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "this.team",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_input.this_team",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for current BlockUnitComp this.team before assignment.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.team": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "team",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_input.team",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for exact BlockUnitComp team(Team team) parameter.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.tile_team": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "tile.team",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_input.tile_team",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for tile.team checked before tile.changeTeam(team).",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.outer_guard": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "tile != null && this.team != team",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_result.outer_guard",
+      "status": "source-backed",
+      "rule": "Result of outer guard in BlockUnitComp.team(Team team).",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.this_team_assignment": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "this.team = team;",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_result.this_team_after",
+      "status": "source-backed",
+      "rule": "Result records BlockUnitComp.team assignment this.team = team when outer guard passes.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.inner_guard": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "tile.team != team",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_result.inner_guard",
+      "status": "source-backed",
+      "rule": "Result of inner tile.team != team guard in BlockUnitComp.team(Team team).",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.tile_change_team_call": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "tile.changeTeam(team);",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_result.tile_change_team_call",
+      "status": "source-backed",
+      "rule": "BlockUnitComp.team delegates to tile.changeTeam(team) when tile.team differs.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_team.tile_change_team_called": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "team(Team team)",
+      "java_expr": "tile.changeTeam(team);",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "godot_symbol": "source_block_unit_team_result.tile_change_team_called",
+      "status": "source-backed",
+      "rule": "Result marker for BlockUnitComp.team tile.changeTeam(team) call.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -24394,6 +24394,56 @@
         "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_damage_state"
       ]
+    },
+    "PortGame.source_block_unit_team_state": {
+      "source_slice": "N1136",
+      "source_method": "team(Team team)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "type": "bool",
+          "schema": "source_block_unit_team_input.tile_exists"
+        },
+        {
+          "name": "this_team",
+          "type": "Variant",
+          "schema": "source_block_unit_team_input.this_team"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_block_unit_team_input.team"
+        },
+        {
+          "name": "tile_team",
+          "type": "Variant",
+          "schema": "source_block_unit_team_input.tile_team"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "outer_guard_expr",
+        "this_team_assignment_expr",
+        "inner_guard_expr",
+        "tile_change_team_call_expr",
+        "tile_exists",
+        "this_team",
+        "team",
+        "tile_team",
+        "outer_guard",
+        "inner_guard",
+        "this_team_after",
+        "tile_change_team_call",
+        "tile_change_team_called"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BlockUnitComp.team(Team team) guarded assignment and tile.changeTeam(team) delegation state.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_team_state"
+      ]
     }
   },
   "policy": {

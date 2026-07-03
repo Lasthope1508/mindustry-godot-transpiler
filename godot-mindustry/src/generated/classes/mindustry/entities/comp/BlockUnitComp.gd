@@ -61,4 +61,19 @@ func java_method_isAdded_9(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_unit_is_added_state", "method": "public boolean isAdded(){", "return_expr": "return tile != null && tile.isValid();", "tile_exists": tile_exists, "tile_is_valid": tile_is_valid, "is_added": is_added}
 
 func java_method_team_10(_args: Array = []) -> Variant:
-	return null
+	var tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)
+	var this_team: Variant = _args[1] if _args.size() > 1 else null
+	var team: Variant = _args[2] if _args.size() > 2 else null
+	var tile_team: Variant = _args[3] if _args.size() > 3 else null
+	var outer_guard: bool = tile_exists and this_team != team
+	var this_team_after: Variant = this_team
+	var inner_guard: bool = false
+	var tile_change_team_call: Variant = null
+	var tile_change_team_called: bool = false
+	if outer_guard:
+		this_team_after = team
+		inner_guard = tile_team != team
+		if inner_guard:
+			tile_change_team_call = {"call": "tile.changeTeam(team);", "team": team}
+			tile_change_team_called = true
+	return {"source_owner": "PortGame.source_block_unit_team_state", "method": "public void team(Team team){", "outer_guard_expr": "if(tile != null && this.team != team){", "this_team_assignment_expr": "this.team = team;", "inner_guard_expr": "if(tile.team != team){", "tile_change_team_call_expr": "tile.changeTeam(team);", "tile_exists": tile_exists, "this_team": this_team, "team": team, "tile_team": tile_team, "outer_guard": outer_guard, "inner_guard": inner_guard, "this_team_after": this_team_after, "tile_change_team_call": tile_change_team_call, "tile_change_team_called": tile_change_team_called}

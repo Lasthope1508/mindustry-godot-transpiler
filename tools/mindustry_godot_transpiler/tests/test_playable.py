@@ -12326,5 +12326,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_isAdded_9"', source)
         self.assertIn('"matches": result.get("is_added", null) == canonical.get("is_added", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
+    def test_port_game_exposes_source_block_unit_team_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_team_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:", source)
+        self.assertIn("var outer_guard: bool = tile_exists and this_team != team", source)
+        self.assertIn("var this_team_after: Variant = this_team", source)
+        self.assertIn("var inner_guard: bool = false", source)
+        self.assertIn("var tile_change_team_call: Variant = null", source)
+        self.assertIn("var tile_change_team_called: bool = false", source)
+        self.assertIn("if outer_guard:", source)
+        self.assertIn("this_team_after = team", source)
+        self.assertIn("inner_guard = tile_team != team", source)
+        self.assertIn('tile_change_team_call = {"call": "tile.changeTeam(team);", "team": team}', source)
+        self.assertIn('"method": "public void team(Team team){"', source)
+        self.assertIn('"outer_guard": outer_guard', source)
+        self.assertIn('"inner_guard": inner_guard', source)
+        self.assertIn('"this_team_after": this_team_after', source)
+        self.assertIn('"tile_change_team_called": tile_change_team_called', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_team_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_team_10([tile_exists, this_team, team, tile_team])", source)
+        self.assertIn("var canonical = source_block_unit_team_state(tile_exists, this_team, team, tile_team)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_team_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_team_10"', source)
+        self.assertIn('"matches": result.get("outer_guard", null) == canonical.get("outer_guard", null) and result.get("inner_guard", null) == canonical.get("inner_guard", null) and result.get("this_team_after", null) == canonical.get("this_team_after", null) and result.get("tile_change_team_called", null) == canonical.get("tile_change_team_called", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

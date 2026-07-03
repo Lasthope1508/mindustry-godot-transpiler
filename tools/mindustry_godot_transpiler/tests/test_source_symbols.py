@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 604)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 605)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 609)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 610)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19743,6 +19743,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_dump_specific_proximity_scan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_killed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_unit_team_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_sync_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_update_state", audit["registeredSourceOwners"])
@@ -41224,6 +41225,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_unit_is_added_result["keys"]["tile_exists"]["java_expr"], "tile != null")
         self.assertEqual(source_block_unit_is_added_result["keys"]["tile_is_valid"]["java_expr"], "tile.isValid()")
         self.assertEqual(source_block_unit_is_added_result["keys"]["is_added"]["java_expr"], "tile != null && tile.isValid()")
+
+    def test_generated_block_unit_comp_team_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_unit_team.method")
+        self.assertEqual(method["java_expr"], "public void team(Team team){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(method["java_method"], "team(Team team)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_unit_team_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_unit_team_state")
+
+        team_param = source_symbols.source_symbol(registry, "block_unit_team.team")
+        self.assertEqual(team_param["java_expr"], "team")
+        self.assertEqual(team_param["godot_symbol"], "source_block_unit_team_input.team")
+        this_team = source_symbols.source_symbol(registry, "block_unit_team.this_team")
+        self.assertEqual(this_team["java_expr"], "this.team")
+        self.assertEqual(this_team["godot_symbol"], "source_block_unit_team_input.this_team")
+        tile_team = source_symbols.source_symbol(registry, "block_unit_team.tile_team")
+        self.assertEqual(tile_team["java_expr"], "tile.team")
+        self.assertEqual(tile_team["godot_symbol"], "source_block_unit_team_input.tile_team")
+        outer_guard = source_symbols.source_symbol(registry, "block_unit_team.outer_guard")
+        self.assertEqual(outer_guard["java_expr"], "tile != null && this.team != team")
+        self.assertEqual(outer_guard["godot_symbol"], "source_block_unit_team_result.outer_guard")
+        change_call = source_symbols.source_symbol(registry, "block_unit_team.tile_change_team_call")
+        self.assertEqual(change_call["java_expr"], "tile.changeTeam(team);")
+        self.assertEqual(change_call["godot_symbol"], "source_block_unit_team_result.tile_change_team_call")
+
+        team_slice = source_symbols.source_slice(ledger, "N1136")
+        self.assertEqual(team_slice["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(team_slice["java_method"], "team(Team team)")
+        self.assertEqual(team_slice["godot_owner"], "PortGame.source_block_unit_team_state")
+        self.assertEqual(team_slice["runtime_proof"], "/root/Main.generated_block_unit_comp_team_bridge_state")
+        self.assertIn("@Replace", team_slice["exact_exprs"])
+        self.assertIn("public void team(Team team){", team_slice["exact_exprs"])
+        self.assertIn("if(tile != null && this.team != team){", team_slice["exact_exprs"])
+        self.assertIn("this.team = team;", team_slice["exact_exprs"])
+        self.assertIn("if(tile.team != team){", team_slice["exact_exprs"])
+        self.assertIn("tile.changeTeam(team);", team_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_unit_team_state")
+        self.assertEqual(contract["params"], [
+            {"name": "tile_exists", "schema": "source_block_unit_team_input.tile_exists", "type": "bool"},
+            {"name": "this_team", "schema": "source_block_unit_team_input.this_team", "type": "Variant"},
+            {"name": "team", "schema": "source_block_unit_team_input.team", "type": "Variant"},
+            {"name": "tile_team", "schema": "source_block_unit_team_input.tile_team", "type": "Variant"},
+        ])
+        for key in ["method", "outer_guard_expr", "this_team_assignment_expr", "inner_guard_expr", "tile_change_team_call_expr", "outer_guard", "inner_guard", "this_team_after", "tile_change_team_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_block_unit_team_input = source_symbols.state_schema(schema, "source_block_unit_team_input")
+        self.assertEqual(source_block_unit_team_input["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_block_unit_team_input["keys"]["this_team"]["java_expr"], "this.team")
+        self.assertEqual(source_block_unit_team_input["keys"]["team"]["java_expr"], "team")
+        self.assertEqual(source_block_unit_team_input["keys"]["tile_team"]["java_expr"], "tile.team")
+        source_block_unit_team_result = source_symbols.state_schema(schema, "source_block_unit_team_result")
+        self.assertEqual(source_block_unit_team_result["keys"]["method"]["java_expr"], "public void team(Team team){")
+        self.assertEqual(source_block_unit_team_result["keys"]["outer_guard"]["java_expr"], "tile != null && this.team != team")
+        self.assertEqual(source_block_unit_team_result["keys"]["inner_guard"]["java_expr"], "tile.team != team")
+        self.assertEqual(source_block_unit_team_result["keys"]["this_team_after"]["java_expr"], "this.team = team;")
+        self.assertEqual(source_block_unit_team_result["keys"]["tile_change_team_called"]["java_expr"], "tile.changeTeam(team);")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

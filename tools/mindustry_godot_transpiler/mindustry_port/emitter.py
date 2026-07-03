@@ -1238,6 +1238,31 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "team"
+        and len(method.get("parameters", [])) == 1
+        and method.get("parameters", [])[0].get("name") == "team"
+    ):
+        return [
+            "\tvar tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar this_team: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar team: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar tile_team: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar outer_guard: bool = tile_exists and this_team != team",
+            "\tvar this_team_after: Variant = this_team",
+            "\tvar inner_guard: bool = false",
+            "\tvar tile_change_team_call: Variant = null",
+            "\tvar tile_change_team_called: bool = false",
+            "\tif outer_guard:",
+            "\t\tthis_team_after = team",
+            "\t\tinner_guard = tile_team != team",
+            "\t\tif inner_guard:",
+            "\t\t\ttile_change_team_call = {\"call\": \"tile.changeTeam(team);\", \"team\": team}",
+            "\t\t\ttile_change_team_called = true",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_team_state\", \"method\": \"public void team(Team team){\", \"outer_guard_expr\": \"if(tile != null && this.team != team){\", \"this_team_assignment_expr\": \"this.team = team;\", \"inner_guard_expr\": \"if(tile.team != team){\", \"tile_change_team_call_expr\": \"tile.changeTeam(team);\", \"tile_exists\": tile_exists, \"this_team\": this_team, \"team\": team, \"tile_team\": tile_team, \"outer_guard\": outer_guard, \"inner_guard\": inner_guard, \"this_team_after\": this_team_after, \"tile_change_team_call\": tile_change_team_call, \"tile_change_team_called\": tile_change_team_called}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "dead"
     ):
         return [

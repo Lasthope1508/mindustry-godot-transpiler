@@ -24529,6 +24529,42 @@
         "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1136": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "team(Team team)",
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "source_symbols": [
+        "block_unit_team.method",
+        "block_unit_team.tile_exists",
+        "block_unit_team.this_team",
+        "block_unit_team.team",
+        "block_unit_team.tile_team",
+        "block_unit_team.outer_guard",
+        "block_unit_team.this_team_assignment",
+        "block_unit_team.inner_guard",
+        "block_unit_team.tile_change_team_call",
+        "block_unit_team.tile_change_team_called"
+      ],
+      "exact_exprs": [
+        "@Replace",
+        "public void team(Team team){",
+        "if(tile != null && this.team != team){",
+        "this.team = team;",
+        "if(tile.team != team){",
+        "tile.changeTeam(team);"
+      ],
+      "status": "done",
+      "rule": "Registers BlockUnitComp.team(Team team) guard, this.team assignment, inner tile.team guard, and tile.changeTeam(team) delegation; wires generated BlockUnitComp.java_method_team_10 plus PortGame generated bridge to canonical source_block_unit_team_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_team_bridge_state",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_team_to_source_state",
+        "test_port_game_exposes_source_block_unit_team_state",
+        "test_port_game_exposes_generated_block_unit_comp_team_bridge_state",
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
