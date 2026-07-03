@@ -20,7 +20,14 @@ func java_method_add_1(_args: Array = []) -> Variant:
 	return null
 
 func java_method_update_2(_args: Array = []) -> Variant:
-	return null
+	var tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)
+	var team: Variant = _args[1] if _args.size() > 1 else null
+	var tile_team: Variant = _args[2] if _args.size() > 2 else null
+	var tile_guard: bool = tile_exists
+	var team_after: Variant = team
+	if tile_guard:
+		team_after = tile_team
+	return {"source_owner": "PortGame.source_block_unit_update_state", "method": "public void update(){", "guard_expr": "if(tile != null){", "team_assignment_expr": "team = tile.team;", "tile_exists": tile_exists, "team": team, "tile_team": tile_team, "tile_guard": tile_guard, "team_after": team_after}
 
 func java_method_icon_3(_args: Array = []) -> Variant:
 	var tile_block_ui_icon: Variant = _args[0] if _args.size() > 0 else null

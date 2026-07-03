@@ -12358,5 +12358,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_team_10"', source)
         self.assertIn('"matches": result.get("outer_guard", null) == canonical.get("outer_guard", null) and result.get("inner_guard", null) == canonical.get("inner_guard", null) and result.get("this_team_after", null) == canonical.get("this_team_after", null) and result.get("tile_change_team_called", null) == canonical.get("tile_change_team_called", null)', source)
 
+    def test_port_game_exposes_source_block_unit_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:", source)
+        self.assertIn("var tile_guard: bool = tile_exists", source)
+        self.assertIn("var team_after: Variant = team", source)
+        self.assertIn("if tile_guard:", source)
+        self.assertIn("team_after = tile_team", source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"guard_expr": "if(tile != null){"', source)
+        self.assertIn('"team_assignment_expr": "team = tile.team;"', source)
+        self.assertIn('"tile_guard": tile_guard', source)
+        self.assertIn('"team_after": team_after', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_update_2([tile_exists, team, tile_team])", source)
+        self.assertIn("var canonical = source_block_unit_update_state(tile_exists, team, tile_team)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_update_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_update_2"', source)
+        self.assertIn('"matches": result.get("tile_guard", null) == canonical.get("tile_guard", null) and result.get("team_after", null) == canonical.get("team_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

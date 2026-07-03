@@ -76072,6 +76072,97 @@
       "tests": [
         "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_unit_update.method": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "update()",
+      "java_expr": "public void update(){",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "godot_symbol": "source_block_unit_update_result.method",
+      "status": "source-backed",
+      "rule": "BlockUnitComp update method boundary.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_update.tile_exists": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "update()",
+      "java_expr": "tile != null",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "godot_symbol": "source_block_unit_update_input.tile_exists",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for BlockUnitComp update tile non-null guard.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_update.team": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "update()",
+      "java_expr": "team",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "godot_symbol": "source_block_unit_update_input.team",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for BlockUnitComp imported team field before update assignment.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_update.tile_team": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "update()",
+      "java_expr": "tile.team",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "godot_symbol": "source_block_unit_update_input.tile_team",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for tile.team assigned to team in BlockUnitComp.update().",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_update.tile_guard": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "update()",
+      "java_expr": "tile != null",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "godot_symbol": "source_block_unit_update_result.tile_guard",
+      "status": "source-backed",
+      "rule": "Result of BlockUnitComp.update tile != null guard.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_update.team_assignment": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "update()",
+      "java_expr": "team = tile.team;",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "godot_symbol": "source_block_unit_update_result.team_after",
+      "status": "source-backed",
+      "rule": "BlockUnitComp.update assigns team = tile.team when tile exists.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_update.team_after": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "update()",
+      "java_expr": "team = tile.team;",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "godot_symbol": "source_block_unit_update_result.team_after",
+      "status": "source-backed",
+      "rule": "Result value of BlockUnitComp team after guarded update assignment.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

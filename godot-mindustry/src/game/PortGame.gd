@@ -7443,6 +7443,35 @@ func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) ->
 		"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
+	var tile_guard: bool = tile_exists
+	var team_after: Variant = team
+	if tile_guard:
+		team_after = tile_team
+	return {
+		"method": "public void update(){",
+		"guard_expr": "if(tile != null){",
+		"team_assignment_expr": "team = tile.team;",
+		"tile_exists": tile_exists,
+		"team": team,
+		"tile_team": tile_team,
+		"tile_guard": tile_guard,
+		"team_after": team_after,
+	}
+
+func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_2([tile_exists, team, tile_team])
+	var canonical = source_block_unit_update_state(tile_exists, team, tile_team)
+	return {
+		"source_owner": "PortGame.source_block_unit_update_state",
+		"generated_owner": "BlockUnitComp.java_method_update_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("tile_guard", null) == canonical.get("tile_guard", null) and result.get("team_after", null) == canonical.get("team_after", null),
+	}
+
 func source_block_unit_killed_state() -> Dictionary:
 	var tile_kill_call: String = "tile.kill();"
 	var tile_kill_called: bool = true

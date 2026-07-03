@@ -1195,6 +1195,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar tile_team: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar tile_guard: bool = tile_exists",
+            "\tvar team_after: Variant = team",
+            "\tif tile_guard:",
+            "\t\tteam_after = tile_team",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_update_state\", \"method\": \"public void update(){\", \"guard_expr\": \"if(tile != null){\", \"team_assignment_expr\": \"team = tile.team;\", \"tile_exists\": tile_exists, \"team\": team, \"tile_team\": tile_team, \"tile_guard\": tile_guard, \"team_after\": team_after}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "icon"
     ):
         return [

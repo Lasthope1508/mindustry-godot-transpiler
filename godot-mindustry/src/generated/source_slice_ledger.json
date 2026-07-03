@@ -24565,6 +24565,37 @@
         "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1137": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "source_symbols": [
+        "block_unit_update.method",
+        "block_unit_update.tile_exists",
+        "block_unit_update.team",
+        "block_unit_update.tile_team",
+        "block_unit_update.tile_guard",
+        "block_unit_update.team_assignment",
+        "block_unit_update.team_after"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void update(){",
+        "if(tile != null){",
+        "team = tile.team;"
+      ],
+      "status": "done",
+      "rule": "Registers BlockUnitComp.update() tile non-null guard and team = tile.team assignment; wires generated BlockUnitComp.java_method_update_2 plus PortGame generated bridge to canonical source_block_unit_update_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_update_bridge_state",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_update_to_source_state",
+        "test_port_game_exposes_source_block_unit_update_state",
+        "test_port_game_exposes_generated_block_unit_comp_update_bridge_state",
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

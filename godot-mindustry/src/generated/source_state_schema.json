@@ -89280,6 +89280,148 @@
           ]
         }
       }
+    },
+    "source_block_unit_update_input": {
+      "status": "active",
+      "keys": {
+        "tile_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "tile != null",
+          "godot_symbol": "source_block_unit_update_input.tile_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves explicit BlockUnitComp update tile non-null guard.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "team": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "team",
+          "godot_symbol": "source_block_unit_update_input.team",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves BlockUnitComp imported team field value before update assignment.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "tile_team": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "tile.team",
+          "godot_symbol": "source_block_unit_update_input.tile_team",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves tile.team value assigned by BlockUnitComp.update().",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        }
+      }
+    },
+    "source_block_unit_update_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "public void update(){",
+          "godot_symbol": "source_block_unit_update_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BlockUnitComp.update method boundary.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "if(tile != null){",
+          "godot_symbol": "source_block_unit_update_result.guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact update tile guard expression.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "team_assignment_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "team = tile.team;",
+          "godot_symbol": "source_block_unit_update_result.team_assignment_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact update team assignment expression.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "tile_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "tile != null",
+          "godot_symbol": "source_block_unit_update_input.tile_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result preserves explicit tile exists guard input.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "team": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "team",
+          "godot_symbol": "source_block_unit_update_input.team",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result preserves team input value before assignment.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "tile_team": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "tile.team",
+          "godot_symbol": "source_block_unit_update_input.tile_team",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result preserves tile.team input value.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "tile_guard": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "tile != null",
+          "godot_symbol": "source_block_unit_update_result.tile_guard",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records update tile != null guard value.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        },
+        "team_after": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "update()",
+          "java_expr": "team = tile.team;",
+          "godot_symbol": "source_block_unit_update_result.team_after",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result records team value after guarded assignment.",
+          "used_by": [
+            "PortGame.source_block_unit_update_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

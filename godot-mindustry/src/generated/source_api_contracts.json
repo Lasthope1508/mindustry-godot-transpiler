@@ -24444,6 +24444,45 @@
         "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_team_state"
       ]
+    },
+    "PortGame.source_block_unit_update_state": {
+      "source_slice": "N1137",
+      "source_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "type": "bool",
+          "schema": "source_block_unit_update_input.tile_exists"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_block_unit_update_input.team"
+        },
+        {
+          "name": "tile_team",
+          "type": "Variant",
+          "schema": "source_block_unit_update_input.tile_team"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard_expr",
+        "team_assignment_expr",
+        "tile_exists",
+        "team",
+        "tile_team",
+        "tile_guard",
+        "team_after"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BlockUnitComp.update() guarded team = tile.team assignment state.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_update_state"
+      ]
     }
   },
   "policy": {
