@@ -45784,6 +45784,45 @@
         "test_generated_sync_comp_write_sync_slice_is_registered_with_source_backing"
       ]
     },
+    "sync_write_sync_manual.empty_body": {
+      "godot_owner": "PortGame.source_sync_write_sync_manual_state",
+      "godot_symbol": "source_sync_write_sync_manual_result.empty_body",
+      "java_expr": "void writeSyncManual(FloatBuffer buffer){}",
+      "java_method": "writeSyncManual(FloatBuffer buffer)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp writeSyncManual body is internally generated upstream and empty in source.",
+      "runtime_proof": "/root/Main.source_sync_write_sync_manual_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_write_sync_manual_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_write_sync_manual.method": {
+      "godot_owner": "PortGame.source_sync_write_sync_manual_state",
+      "godot_symbol": "source_sync_write_sync_manual_result.method",
+      "java_expr": "void writeSyncManual(FloatBuffer buffer){}",
+      "java_method": "writeSyncManual(FloatBuffer buffer)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp writeSyncManual method boundary and empty generated body.",
+      "runtime_proof": "/root/Main.source_sync_write_sync_manual_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_write_sync_manual_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_write_sync_manual.no_op": {
+      "godot_owner": "PortGame.source_sync_write_sync_manual_state",
+      "godot_symbol": "source_sync_write_sync_manual_result.no_op",
+      "java_expr": "void writeSyncManual(FloatBuffer buffer){}",
+      "java_method": "writeSyncManual(FloatBuffer buffer)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Empty SyncComp writeSyncManual body has no visible side effects in this source slice.",
+      "runtime_proof": "/root/Main.source_sync_write_sync_manual_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_write_sync_manual_slice_is_registered_with_source_backing"
+      ]
+    },
     "test_collision.bullet.team": {
       "godot_owner": "PortGame.source_bullet_type_test_collision_state",
       "godot_symbol": "bullet_state.team",

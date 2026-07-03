@@ -16416,6 +16416,24 @@
         "test_port_game_exposes_source_sync_snap_sync_state"
       ]
     },
+    "PortGame.source_sync_write_sync_manual_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "empty_body",
+        "no_op"
+      ],
+      "rule": "Public runtime contract for SyncComp.writeSyncManual(FloatBuffer buffer) empty no-op state.",
+      "runtime_proof": "/root/Main.source_sync_write_sync_manual_state",
+      "source_method": "writeSyncManual(FloatBuffer buffer)",
+      "source_slice": "N1122",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_write_sync_manual_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_write_sync_manual_state"
+      ]
+    },
     "PortGame.source_sync_write_sync_state": {
       "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
       "params": [],
