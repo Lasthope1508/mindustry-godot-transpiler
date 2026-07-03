@@ -4731,6 +4731,44 @@ class BuildingComp{
             self.assertIn('"in_fog_visibility_loop_source_owner": "PortGame.source_building_in_fog_visibility_loop_state"', source_text)
             self.assertIn('"in_fog_visibility_loop": in_fog_visibility_loop', source_text)
 
+    def test_emit_bridges_building_comp_killed_initial_side_effects_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void killed(){
+        dead = true;
+        Events.fire(new BlockDestroyEvent(tile));
+        onDestroyed();
+        if(tile != emptyTile){
+            tile.remove();
+        }
+        remove();
+        afterDestroyed();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_killed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_value: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('var killed_initial_side_effects := {"method": "public void killed(){", "tile_value": tile_value, "dead": true, "event": {"type": "BlockDestroyEvent", "tile": tile_value}, "on_destroyed_called": true, "next_step": "tile_remove_gate"}', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source_text)
+            self.assertIn('"killed_initial_side_effects_source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source_text)
+            self.assertIn('"killed_initial_side_effects": killed_initial_side_effects', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

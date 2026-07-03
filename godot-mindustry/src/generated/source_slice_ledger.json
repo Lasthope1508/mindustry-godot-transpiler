@@ -23327,6 +23327,40 @@
         "test_port_game_exposes_generated_building_comp_in_fog_visibility_loop_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1099": {
+      "deferred_exprs": [
+        "tile.remove(), remove(), and afterDestroyed() remain owned by source_building_killed_removal_side_effects_state and later generated removal bridge slices."
+      ],
+      "exact_exprs": [
+        "public void killed(){",
+        "dead = true;",
+        "Events.fire(new BlockDestroyEvent(tile));",
+        "onDestroyed();",
+        "if(tile != emptyTile){",
+        "tile"
+      ],
+      "godot_owner": "PortGame.source_building_killed_initial_side_effects_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "killed()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_killed_215 and PortGame generated bridge to existing N601 canonical source_building_killed_initial_side_effects_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_killed_initial_side_effects_bridge_state",
+      "source_symbols": [
+        "building_killed_initial_side_effects.method",
+        "building_killed_initial_side_effects.dead_assignment",
+        "building_killed_initial_side_effects.block_destroy_event",
+        "building_killed_initial_side_effects.on_destroyed_call",
+        "building_killed_initial_side_effects.tile_remove_boundary",
+        "building_killed_initial_side_effects.tile_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_killed_initial_side_effects_to_source_state",
+        "test_generated_building_comp_bridges_killed_initial_side_effects_to_source_state",
+        "test_port_game_exposes_generated_building_comp_killed_initial_side_effects_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

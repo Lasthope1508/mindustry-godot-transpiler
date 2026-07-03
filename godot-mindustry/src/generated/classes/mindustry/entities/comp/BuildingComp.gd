@@ -1570,7 +1570,9 @@ func java_method_inFogTo_214(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate_source_owner": "PortGame.source_building_in_fog_initial_gate_state", "in_fog_initial_gate": in_fog_initial_gate, "in_fog_discovery_gate_source_owner": "PortGame.source_building_in_fog_discovery_gate_state", "in_fog_discovery_gate": in_fog_discovery_gate, "in_fog_visibility_loop_source_owner": "PortGame.source_building_in_fog_visibility_loop_state", "in_fog_visibility_loop": in_fog_visibility_loop}
 
 func java_method_killed_215(_args: Array = []) -> Variant:
-	return null
+	var tile_value: Variant = _args[0] if _args.size() > 0 else null
+	var killed_initial_side_effects := {"method": "public void killed(){", "tile_value": tile_value, "dead": true, "event": {"type": "BlockDestroyEvent", "tile": tile_value}, "on_destroyed_called": true, "next_step": "tile_remove_gate"}
+	return {"source_owner": "PortGame.source_building_killed_initial_side_effects_state", "killed_initial_side_effects_source_owner": "PortGame.source_building_killed_initial_side_effects_state", "killed_initial_side_effects": killed_initial_side_effects}
 
 func java_method_checkAllowUpdate_216(_args: Array = []) -> Variant:
 	return null

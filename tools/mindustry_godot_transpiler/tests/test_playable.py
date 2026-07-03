@@ -5814,6 +5814,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_killed_initial_side_effects_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_killed_215(_args: Array = []) -> Variant:", source)
+        self.assertIn("var tile_value: Variant = _args[0] if _args.size() > 0 else null", source)
+        self.assertIn('var killed_initial_side_effects := {"method": "public void killed(){", "tile_value": tile_value, "dead": true, "event": {"type": "BlockDestroyEvent", "tile": tile_value}, "on_destroyed_called": true, "next_step": "tile_remove_gate"}', source)
+        self.assertIn('"source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source)
+        self.assertIn('"killed_initial_side_effects_source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source)
+        self.assertIn('"killed_initial_side_effects": killed_initial_side_effects', source)
+
+    def test_port_game_exposes_generated_building_comp_killed_initial_side_effects_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_killed_215([tile_value])", source)
+        self.assertIn("var canonical = source_building_killed_initial_side_effects_state(tile_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_killed_215"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

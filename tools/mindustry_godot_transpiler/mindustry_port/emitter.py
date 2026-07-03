@@ -1444,6 +1444,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "killed"
+    ):
+        return [
+            "\tvar tile_value: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar killed_initial_side_effects := {\"method\": \"public void killed(){\", \"tile_value\": tile_value, \"dead\": true, \"event\": {\"type\": \"BlockDestroyEvent\", \"tile\": tile_value}, \"on_destroyed_called\": true, \"next_step\": \"tile_remove_gate\"}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_killed_initial_side_effects_state\", \"killed_initial_side_effects_source_owner\": \"PortGame.source_building_killed_initial_side_effects_state\", \"killed_initial_side_effects\": killed_initial_side_effects}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

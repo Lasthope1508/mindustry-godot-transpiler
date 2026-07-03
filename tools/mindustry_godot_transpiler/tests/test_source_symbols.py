@@ -26409,6 +26409,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return true;", building_generated_in_fog_visibility_loop["exact_exprs"])
         self.assertIn("fogControl.isVisibleTile(viewer, tx + x + of, ty + y + of)", building_generated_in_fog_visibility_loop["exact_exprs"])
 
+        building_generated_killed_initial = source_symbols.source_slice(ledger, "N1099")
+        self.assertEqual(building_generated_killed_initial["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_killed_initial["java_method"], "killed()")
+        self.assertEqual(building_generated_killed_initial["godot_owner"], "PortGame.source_building_killed_initial_side_effects_state")
+        self.assertEqual(building_generated_killed_initial["runtime_proof"], "/root/Main.generated_building_comp_killed_initial_side_effects_bridge_state")
+        self.assertIn("public void killed(){", building_generated_killed_initial["exact_exprs"])
+        self.assertIn("dead = true;", building_generated_killed_initial["exact_exprs"])
+        self.assertIn("Events.fire(new BlockDestroyEvent(tile));", building_generated_killed_initial["exact_exprs"])
+        self.assertIn("onDestroyed();", building_generated_killed_initial["exact_exprs"])
+        self.assertIn("if(tile != emptyTile){", building_generated_killed_initial["exact_exprs"])
+        self.assertIn("tile", building_generated_killed_initial["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

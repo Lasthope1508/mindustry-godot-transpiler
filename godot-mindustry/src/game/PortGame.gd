@@ -6729,6 +6729,18 @@ func source_building_in_fog_visibility_loop_state(block_size_value: int, block_s
 					return {"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}}
 	return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}
 
+func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_killed_215([tile_value])
+	var canonical = source_building_killed_initial_side_effects_state(tile_value)
+	return {
+		"source_owner": "PortGame.source_building_killed_initial_side_effects_state",
+		"generated_owner": "BuildingComp.java_method_killed_215",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:
 	return {
 		"method": "public void killed(){",
