@@ -4535,6 +4535,65 @@ class BuildingComp{
             self.assertIn('"accepted": accepted_stack', source_text)
             self.assertIn('"set_prop_item_content": set_prop_item_content', source_text)
 
+    def test_emit_bridges_building_comp_set_prop_liquid_content_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void setProp(UnlockableContent content, double value){
+        if(content instanceof Item item && items != null){
+            int amount = (int)value;
+            if(items.get(item) != amount){
+                if(items.get(item) < amount){
+                    handleStack(item, acceptStack(item, amount - items.get(item), null), null);
+                }else if(amount >= 0){
+                    removeStack(item, items.get(item) - amount);
+                }
+            }
+        }else if(content instanceof Liquid liquid && liquids != null){
+            float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);
+            //decreasing amount is always allowed
+            if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){
+                liquids.set(liquid, amount);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setProp_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_liquids_module := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var liquid_value: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var block_liquid_capacity := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var accept_liquid_result := bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn("var current_liquid_matches := bool(_args[7] if _args.size() > 7 else false)", source_text)
+            self.assertIn("var current_liquid_amount := float(_args[8] if _args.size() > 8 else 0.0)", source_text)
+            self.assertIn("var block_consumes_liquid := bool(_args[9] if _args.size() > 9 else false)", source_text)
+            self.assertIn("var liquid_amount := clampf(value, 0.0, block_liquid_capacity)", source_text)
+            self.assertIn('"liquid_content_source_owner": "PortGame.source_building_set_prop_liquid_content_state"', source_text)
+            self.assertIn('"liquid_gate": "}else if(content instanceof Liquid liquid && liquids != null){"', source_text)
+            self.assertIn('"clamp_assign": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);"', source_text)
+            self.assertIn('"decreasing_comment": "//decreasing amount is always allowed"', source_text)
+            self.assertIn('"set_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){"', source_text)
+            self.assertIn('"liquids_set_call": "liquids.set(liquid, amount);"', source_text)
+            self.assertIn('"liquid": liquid_value', source_text)
+            self.assertIn('"amount": liquid_amount', source_text)
+            self.assertIn('"set_prop_liquid_content": set_prop_liquid_content', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

@@ -6596,6 +6596,18 @@ func generated_building_comp_set_prop_item_content_bridge_state(content_type: St
 		"canonical": canonical,
 	}
 
+func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_setProp_213([content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid])
+	var canonical = source_building_set_prop_liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)
+	return {
+		"source_owner": "PortGame.source_building_set_prop_liquid_content_state",
+		"generated_owner": "BuildingComp.java_method_setProp_213",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public void setProp(UnlockableContent content, double value){",

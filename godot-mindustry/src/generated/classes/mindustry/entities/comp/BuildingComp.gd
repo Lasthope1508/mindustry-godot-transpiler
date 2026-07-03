@@ -1490,6 +1490,14 @@ func java_method_setProp_213(_args: Array = []) -> Variant:
 	var current_amount := int(_args[3] if _args.size() > 3 else 0)
 	var value := float(_args[4] if _args.size() > 4 else 0.0)
 	var accepted_stack := int(_args[5] if _args.size() > 5 else 0)
+	var has_liquids_module := bool(_args[1] if _args.size() > 1 else false)
+	var liquid_value: Variant = _args[2] if _args.size() > 2 else null
+	var current_liquid_amount_value := float(_args[3] if _args.size() > 3 else 0.0)
+	var block_liquid_capacity := float(_args[5] if _args.size() > 5 else 0.0)
+	var accept_liquid_result := bool(_args[6] if _args.size() > 6 else false)
+	var current_liquid_matches := bool(_args[7] if _args.size() > 7 else false)
+	var current_liquid_amount := float(_args[8] if _args.size() > 8 else 0.0)
+	var block_consumes_liquid := bool(_args[9] if _args.size() > 9 else false)
 	var amount := int(value)
 	var source_exprs := {"method": "public void setProp(UnlockableContent content, double value){", "item_gate": "if(content instanceof Item item && items != null){", "amount_assign": "int amount = (int)value;", "amount_diff_gate": "if(items.get(item) != amount){", "increase_gate": "if(items.get(item) < amount){", "handle_stack_call": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);", "remove_gate": "}else if(amount >= 0){", "remove_stack_call": "removeStack(item, items.get(item) - amount);"}
 	var set_prop_item_content: Dictionary
@@ -1505,7 +1513,21 @@ func java_method_setProp_213(_args: Array = []) -> Variant:
 		set_prop_item_content = {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
 	set_prop_item_content.merge(source_exprs)
 	set_prop_item_content.merge({"content_type": content_type, "has_items_module": has_items_module, "value": value})
-	return {"source_owner": "PortGame.source_building_set_prop_item_content_state", "item_content_source_owner": "PortGame.source_building_set_prop_item_content_state", "set_prop_item_content": set_prop_item_content}
+	var liquid_source_exprs := {"method": "public void setProp(UnlockableContent content, double value){", "liquid_gate": "}else if(content instanceof Liquid liquid && liquids != null){", "clamp_assign": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);", "decreasing_comment": "//decreasing amount is always allowed", "set_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){", "liquids_set_call": "liquids.set(liquid, amount);"}
+	var liquid_amount := clampf(value, 0.0, block_liquid_capacity)
+	var can_set_liquid := liquid_amount < current_liquid_amount_value
+	if not can_set_liquid:
+		can_set_liquid = accept_liquid_result and (current_liquid_matches or current_liquid_amount <= 0.1 or block_consumes_liquid)
+	var set_prop_liquid_content: Dictionary
+	if content_type != "liquid" or not has_liquids_module:
+		set_prop_liquid_content = {"action": "none", "liquid": liquid_value, "amount": current_liquid_amount_value}
+	elif can_set_liquid:
+		set_prop_liquid_content = {"action": "set_liquid", "liquid": liquid_value, "amount": liquid_amount}
+	else:
+		set_prop_liquid_content = {"action": "none", "liquid": liquid_value, "amount": current_liquid_amount_value}
+	set_prop_liquid_content.merge(liquid_source_exprs)
+	set_prop_liquid_content.merge({"content_type": content_type, "has_liquids_module": has_liquids_module, "value": value})
+	return {"source_owner": "PortGame.source_building_set_prop_item_content_state", "item_content_source_owner": "PortGame.source_building_set_prop_item_content_state", "liquid_content_source_owner": "PortGame.source_building_set_prop_liquid_content_state", "set_prop_item_content": set_prop_item_content, "set_prop_liquid_content": set_prop_liquid_content}
 
 func java_method_inFogTo_214(_args: Array = []) -> Variant:
 	return null

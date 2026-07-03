@@ -23175,6 +23175,50 @@
         "test_port_game_exposes_generated_building_comp_set_prop_item_content_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1095": {
+      "deferred_exprs": [
+        "Concrete LiquidModule mutation, acceptLiquid internals, liquid current object identity, and block consumesLiquid runtime object integration remain owned by existing runtime liquid integration; this generated bridge records BuildingComp setProp liquid content branch selection through existing N642 canonical owner."
+      ],
+      "exact_exprs": [
+        "public void setProp(UnlockableContent content, double value){",
+        "}else if(content instanceof Liquid liquid && liquids != null){",
+        "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
+        "//decreasing amount is always allowed",
+        "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",
+        "liquids.set(liquid, amount);"
+      ],
+      "godot_owner": "PortGame.source_building_set_prop_liquid_content_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_setProp_213 and PortGame generated bridge to existing N642 canonical source_building_set_prop_liquid_content_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_set_prop_liquid_content_bridge_state",
+      "source_symbols": [
+        "building_set_prop_liquid_content.method",
+        "building_set_prop_liquid_content.liquid_gate",
+        "building_set_prop_liquid_content.clamp_assign",
+        "building_set_prop_liquid_content.decreasing_comment",
+        "building_set_prop_liquid_content.set_gate",
+        "building_set_prop_liquid_content.liquids_set_call",
+        "building_set_prop_liquid_content.content_type",
+        "building_set_prop_liquid_content.has_liquids_module",
+        "building_set_prop_liquid_content.liquid_value",
+        "building_set_prop_liquid_content.current_amount",
+        "building_set_prop_liquid_content.value",
+        "building_set_prop_liquid_content.block_liquid_capacity",
+        "building_set_prop_liquid_content.accept_liquid_result",
+        "building_set_prop_liquid_content.current_liquid_matches",
+        "building_set_prop_liquid_content.current_liquid_amount",
+        "building_set_prop_liquid_content.block_consumes_liquid"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_set_prop_liquid_content_to_source_state",
+        "test_generated_building_comp_bridges_set_prop_liquid_content_to_source_state",
+        "test_port_game_exposes_generated_building_comp_set_prop_liquid_content_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

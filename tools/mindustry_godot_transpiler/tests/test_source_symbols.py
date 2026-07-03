@@ -26360,6 +26360,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("}else if(amount >= 0){", building_generated_set_prop_item_content["exact_exprs"])
         self.assertIn("removeStack(item, items.get(item) - amount);", building_generated_set_prop_item_content["exact_exprs"])
 
+        building_generated_set_prop_liquid_content = source_symbols.source_slice(ledger, "N1095")
+        self.assertEqual(building_generated_set_prop_liquid_content["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_set_prop_liquid_content["java_method"], "setProp(UnlockableContent content, double value)")
+        self.assertEqual(building_generated_set_prop_liquid_content["godot_owner"], "PortGame.source_building_set_prop_liquid_content_state")
+        self.assertEqual(building_generated_set_prop_liquid_content["runtime_proof"], "/root/Main.generated_building_comp_set_prop_liquid_content_bridge_state")
+        self.assertIn("public void setProp(UnlockableContent content, double value){", building_generated_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("}else if(content instanceof Liquid liquid && liquids != null){", building_generated_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);", building_generated_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("//decreasing amount is always allowed", building_generated_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){", building_generated_set_prop_liquid_content["exact_exprs"])
+        self.assertIn("liquids.set(liquid, amount);", building_generated_set_prop_liquid_content["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

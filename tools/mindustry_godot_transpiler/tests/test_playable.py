@@ -5693,6 +5693,41 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_set_prop_liquid_content_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_setProp_213(_args: Array = []) -> Variant:", source)
+        self.assertIn("var has_liquids_module := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var liquid_value: Variant = _args[2] if _args.size() > 2 else null", source)
+        self.assertIn("var block_liquid_capacity := float(_args[5] if _args.size() > 5 else 0.0)", source)
+        self.assertIn("var accept_liquid_result := bool(_args[6] if _args.size() > 6 else false)", source)
+        self.assertIn("var current_liquid_matches := bool(_args[7] if _args.size() > 7 else false)", source)
+        self.assertIn("var current_liquid_amount := float(_args[8] if _args.size() > 8 else 0.0)", source)
+        self.assertIn("var block_consumes_liquid := bool(_args[9] if _args.size() > 9 else false)", source)
+        self.assertIn("var liquid_amount := clampf(value, 0.0, block_liquid_capacity)", source)
+        self.assertIn('"liquid_content_source_owner": "PortGame.source_building_set_prop_liquid_content_state"', source)
+        self.assertIn('"liquid_gate": "}else if(content instanceof Liquid liquid && liquids != null){"', source)
+        self.assertIn('"clamp_assign": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);"', source)
+        self.assertIn('"decreasing_comment": "//decreasing amount is always allowed"', source)
+        self.assertIn('"set_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){"', source)
+        self.assertIn('"liquids_set_call": "liquids.set(liquid, amount);"', source)
+        self.assertIn('"liquid": liquid_value', source)
+        self.assertIn('"amount": liquid_amount', source)
+        self.assertIn('"set_prop_liquid_content": set_prop_liquid_content', source)
+
+    def test_port_game_exposes_generated_building_comp_set_prop_liquid_content_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setProp_213([content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid])", source)
+        self.assertIn("var canonical = source_building_set_prop_liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_set_prop_liquid_content_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_213"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
