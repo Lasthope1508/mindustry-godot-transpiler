@@ -5682,5 +5682,40 @@ class ChildComp{
             self.assertIn('"trnsx_rotc_expr": "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);"', source_text)
             self.assertIn('"trnsy_rotblock_expr": "y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);"', source_text)
 
+    def test_emit_bridges_pos_comp_set_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "PosComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class PosComp{
+    void set(float x, float y){
+        this.x = x;
+        this.y = y;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "PosComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_set_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var x_value: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var y_value: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_pos_set_state"', source_text)
+            self.assertIn('"method": "void set(float x, float y){"', source_text)
+            self.assertIn('"x_assign_expr": "this.x = x;"', source_text)
+            self.assertIn('"y_assign_expr": "this.y = y;"', source_text)
+            self.assertIn('"x": x_value', source_text)
+            self.assertIn('"y": y_value', source_text)
+
 if __name__ == "__main__":
     unittest.main()

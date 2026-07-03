@@ -1193,6 +1193,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_child_update_state\", \"method\": \"public void update(){\", \"parent_guard_expr\": \"if(parent != null){\", \"rot_with_parent_guard_expr\": \"if(rotWithParent){\", \"parent_rotc_guard_expr\": \"if(parent instanceof Rotc r){\", \"parent_rotblock_guard_expr\": \"}else if(parent instanceof RotBlock rot){\", \"trnsx_rotc_expr\": \"x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);\", \"trnsy_rotc_expr\": \"y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);\", \"rotation_rotc_expr\": \"rotation = r.rotation() + offsetRot;\", \"trnsx_rotblock_expr\": \"x = parent.getX() + Angles.trnsx(rot.buildRotation() + offsetPos, offsetX, offsetY);\", \"trnsy_rotblock_expr\": \"y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);\", \"rotation_rotblock_expr\": \"rotation = rot.buildRotation() + offsetRot;\", \"no_rot_x_expr\": \"x = parent.getX() + offsetX;\", \"no_rot_y_expr\": \"y = parent.getY() + offsetY;\", \"parentGuard\": parent_guard, \"rotWithParentGuard\": rot_with_parent_guard, \"parentRotcGuard\": parent_rotc_guard, \"parentRotBlockGuard\": parent_rotblock_guard, \"x\": next_x, \"y\": next_y, \"rotation\": next_rotation}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/PosComp.java"
+        and type_entry.get("name") == "PosComp"
+        and method.get("name") == "set"
+        and len(method.get("parameters", [])) == 2
+        and method.get("parameters", [])[0].get("type") == "float"
+        and method.get("parameters", [])[1].get("type") == "float"
+    ):
+        return [
+            "\tvar x_value: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar y_value: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\treturn {\"source_owner\": \"PortGame.source_pos_set_state\", \"method\": \"void set(float x, float y){\", \"x_assign_expr\": \"this.x = x;\", \"y_assign_expr\": \"this.y = y;\", \"x\": x_value, \"y\": y_value}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"

@@ -14469,6 +14469,35 @@
         "test_port_game_exposes_source_move_payload_state"
       ]
     },
+    "PortGame.source_pos_set_state": {
+      "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+      "params": [
+        {
+          "name": "x_value",
+          "schema": "source_pos_set_input",
+          "type": "float"
+        },
+        {
+          "name": "y_value",
+          "schema": "source_pos_set_input",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "x",
+        "y"
+      ],
+      "rule": "Public runtime contract for PosComp.set(float x, float y) position assignment state.",
+      "runtime_proof": "/root/Main.source_pos_set_state",
+      "source_method": "set(float x, float y)",
+      "source_slice": "N1115",
+      "status": "active",
+      "tests": [
+        "test_generated_pos_comp_set_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_pos_set_state"
+      ]
+    },
     "PortGame.source_power_generator_ambient_volume_state": {
       "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
       "params": [

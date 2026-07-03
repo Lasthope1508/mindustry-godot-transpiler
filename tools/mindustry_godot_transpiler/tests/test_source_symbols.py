@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 583)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 584)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 588)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 589)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40299,6 +40299,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_child_update_result["keys"]["x"]["java_expr"], "x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);")
         self.assertEqual(source_child_update_result["keys"]["y"]["java_expr"], "y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);")
         self.assertEqual(source_child_update_result["keys"]["rotation"]["java_expr"], "rotation = r.rotation() + offsetRot;")
+
+    def test_generated_pos_comp_set_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "pos_set.method")
+        self.assertEqual(method["java_expr"], "void set(float x, float y){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/PosComp.java")
+        self.assertEqual(method["java_method"], "set(float x, float y)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_pos_set_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_pos_set_state")
+
+        x_assign = source_symbols.source_symbol(registry, "pos_set.x_assign")
+        self.assertEqual(x_assign["java_expr"], "this.x = x;")
+        self.assertEqual(x_assign["godot_symbol"], "source_pos_set_result.x")
+        y_assign = source_symbols.source_symbol(registry, "pos_set.y_assign")
+        self.assertEqual(y_assign["java_expr"], "this.y = y;")
+        self.assertEqual(y_assign["godot_symbol"], "source_pos_set_result.y")
+
+        pos_set = source_symbols.source_slice(ledger, "N1115")
+        self.assertEqual(pos_set["java_source"], "core/src/mindustry/entities/comp/PosComp.java")
+        self.assertEqual(pos_set["java_method"], "set(float x, float y)")
+        self.assertEqual(pos_set["godot_owner"], "PortGame.source_pos_set_state")
+        self.assertEqual(pos_set["runtime_proof"], "/root/Main.generated_pos_comp_set_bridge_state")
+        self.assertIn("this.x = x;", pos_set["exact_exprs"])
+        self.assertIn("this.y = y;", pos_set["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_pos_set_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["x_value", "y_value"])
+        self.assertEqual(contract["params"][0]["schema"], "source_pos_set_input")
+        self.assertEqual(contract["params"][1]["schema"], "source_pos_set_input")
+        for key in ["method", "x", "y"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_pos_set_input = source_symbols.state_schema(schema, "source_pos_set_input")
+        self.assertEqual(source_pos_set_input["keys"]["x"]["java_expr"], "float x")
+        self.assertEqual(source_pos_set_input["keys"]["y"]["java_expr"], "float y")
+
+        source_pos_set_result = source_symbols.state_schema(schema, "source_pos_set_result")
+        self.assertEqual(source_pos_set_result["keys"]["method"]["java_expr"], "void set(float x, float y){")
+        self.assertEqual(source_pos_set_result["keys"]["x"]["java_expr"], "this.x = x;")
+        self.assertEqual(source_pos_set_result["keys"]["y"]["java_expr"], "this.y = y;")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

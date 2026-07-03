@@ -11633,5 +11633,40 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_pos_comp_bridges_set_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "PosComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_set_0(_args: Array = []) -> Variant:", source)
+        self.assertIn("var x_value: float = float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var y_value: float = float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_pos_set_state"', source)
+        self.assertIn('"method": "void set(float x, float y){"', source)
+        self.assertIn('"x_assign_expr": "this.x = x;"', source)
+        self.assertIn('"y_assign_expr": "this.y = y;"', source)
+        self.assertIn('"x": x_value', source)
+        self.assertIn('"y": y_value', source)
+
+    def test_port_game_exposes_source_pos_set_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_pos_set_state(x_value: float, y_value: float) -> Dictionary:", source)
+        self.assertIn('"method": "void set(float x, float y){"', source)
+        self.assertIn('"x": x_value', source)
+        self.assertIn('"y": y_value', source)
+
+    def test_port_game_exposes_generated_pos_comp_set_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/PosComp.gd")', source)
+        self.assertIn("var result = instance.java_method_set_0([x_value, y_value])", source)
+        self.assertIn("var canonical = source_pos_set_state(x_value, y_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_pos_set_state"', source)
+        self.assertIn('"generated_owner": "PosComp.java_method_set_0"', source)
+        self.assertIn('"matches": result.get("x", null) == canonical.get("x", null) and result.get("y", null) == canonical.get("y", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

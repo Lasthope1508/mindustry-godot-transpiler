@@ -48255,6 +48255,76 @@
       },
       "status": "active"
     },
+    "source_pos_set_input": {
+      "keys": {
+        "x": {
+          "godot_symbol": "source_pos_set_input.x",
+          "java_expr": "float x",
+          "java_method": "set(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "PosComp.set x parameter.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_pos_set_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_pos_set_input.y",
+          "java_expr": "float y",
+          "java_method": "set(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "PosComp.set y parameter.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_pos_set_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_pos_set_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_pos_set_result.method",
+          "java_expr": "void set(float x, float y){",
+          "java_method": "set(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "Result records PosComp.set method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_pos_set_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_pos_set_result.x",
+          "java_expr": "this.x = x;",
+          "java_method": "set(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "Result records assigned x field value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_pos_set_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_pos_set_result.y",
+          "java_expr": "this.y = y;",
+          "java_method": "set(float x, float y)",
+          "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+          "rule": "Result records assigned y field value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_pos_set_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "source_power_generator_ambient_volume_input": {
       "keys": {
         "production_efficiency": {

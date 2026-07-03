@@ -39728,6 +39728,71 @@
         "test_port_game_exposes_source_move_payload_state"
       ]
     },
+    "pos_set.method": {
+      "godot_owner": "PortGame.source_pos_set_state",
+      "godot_symbol": "source_pos_set_result.method",
+      "java_expr": "void set(float x, float y){",
+      "java_method": "set(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+      "rule": "PosComp.set(float,float) method boundary.",
+      "runtime_proof": "/root/Main.source_pos_set_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_pos_comp_set_slice_is_registered_with_source_backing"
+      ]
+    },
+    "pos_set.x_assign": {
+      "godot_owner": "PortGame.source_pos_set_state",
+      "godot_symbol": "source_pos_set_result.x",
+      "java_expr": "this.x = x;",
+      "java_method": "set(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+      "rule": "PosComp.set assigns imported x field.",
+      "runtime_proof": "/root/Main.source_pos_set_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_pos_comp_set_slice_is_registered_with_source_backing"
+      ]
+    },
+    "pos_set.x_input": {
+      "godot_owner": "PortGame.source_pos_set_state",
+      "godot_symbol": "source_pos_set_input.x",
+      "java_expr": "float x",
+      "java_method": "set(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+      "rule": "PosComp.set x parameter.",
+      "runtime_proof": "/root/Main.source_pos_set_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_pos_comp_set_slice_is_registered_with_source_backing"
+      ]
+    },
+    "pos_set.y_assign": {
+      "godot_owner": "PortGame.source_pos_set_state",
+      "godot_symbol": "source_pos_set_result.y",
+      "java_expr": "this.y = y;",
+      "java_method": "set(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+      "rule": "PosComp.set assigns imported y field.",
+      "runtime_proof": "/root/Main.source_pos_set_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_pos_comp_set_slice_is_registered_with_source_backing"
+      ]
+    },
+    "pos_set.y_input": {
+      "godot_owner": "PortGame.source_pos_set_state",
+      "godot_symbol": "source_pos_set_input.y",
+      "java_expr": "float y",
+      "java_method": "set(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+      "rule": "PosComp.set y parameter.",
+      "runtime_proof": "/root/Main.source_pos_set_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_pos_comp_set_slice_is_registered_with_source_backing"
+      ]
+    },
     "power_generator_ambient_volume.mathf_clamp_unit": {
       "godot_owner": "PortGame.source_power_generator_ambient_volume_state",
       "godot_symbol": "source_power_generator_ambient_volume_result.mathf_clamp_return",

@@ -7107,6 +7107,26 @@ func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictio
 		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and is_equal_approx(float(result.get("x", 0.0)), float(canonical.get("x", 0.0))) and is_equal_approx(float(result.get("y", 0.0)), float(canonical.get("y", 0.0))) and is_equal_approx(float(result.get("rotation", 0.0)), float(canonical.get("rotation", 0.0))),
 	}
 
+func source_pos_set_state(x_value: float, y_value: float) -> Dictionary:
+	return {
+		"method": "void set(float x, float y){",
+		"x": x_value,
+		"y": y_value,
+	}
+
+func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/PosComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_set_0([x_value, y_value])
+	var canonical = source_pos_set_state(x_value, y_value)
+	return {
+		"source_owner": "PortGame.source_pos_set_state",
+		"generated_owner": "PosComp.java_method_set_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("x", null) == canonical.get("x", null) and result.get("y", null) == canonical.get("y", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

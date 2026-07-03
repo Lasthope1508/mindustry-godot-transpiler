@@ -3319,6 +3319,36 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1115": {
+      "exact_exprs": [
+        "@SyncField(true) @SyncLocal float x, y;",
+        "void set(float x, float y){",
+        "this.x = x;",
+        "this.y = y;"
+      ],
+      "godot_owner": "PortGame.source_pos_set_state",
+      "java_class": "mindustry.entities.comp.PosComp",
+      "java_method": "set(float x, float y)",
+      "java_source": "core/src/mindustry/entities/comp/PosComp.java",
+      "rule": "Registers PosComp.set(float x, float y) imported position field assignment and wires generated PosComp.java_method_set_0 plus PortGame generated bridge to canonical source_pos_set_state.",
+      "runtime_proof": "/root/Main.generated_pos_comp_set_bridge_state",
+      "source_symbols": [
+        "pos_set.method",
+        "pos_set.x_input",
+        "pos_set.y_input",
+        "pos_set.x_assign",
+        "pos_set.y_assign"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_pos_comp_set_to_source_state",
+        "test_generated_pos_comp_bridges_set_to_source_state",
+        "test_port_game_exposes_source_pos_set_state",
+        "test_port_game_exposes_generated_pos_comp_set_bridge_state",
+        "test_generated_pos_comp_set_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
