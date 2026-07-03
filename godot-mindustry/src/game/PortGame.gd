@@ -7489,6 +7489,29 @@ func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_
 		"matches": result.get("is_valid", null) == canonical.get("is_valid", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_block_unit_is_added_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
+	var is_added: bool = tile_exists and tile_is_valid
+	return {
+		"method": "public boolean isAdded(){",
+		"return_expr": "return tile != null && tile.isValid();",
+		"tile_exists": tile_exists,
+		"tile_is_valid": tile_is_valid,
+		"is_added": is_added,
+	}
+
+func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_isAdded_9([tile_exists, tile_is_valid])
+	var canonical = source_block_unit_is_added_state(tile_exists, tile_is_valid)
+	return {
+		"source_owner": "PortGame.source_block_unit_is_added_state",
+		"generated_owner": "BlockUnitComp.java_method_isAdded_9",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("is_added", null) == canonical.get("is_added", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

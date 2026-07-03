@@ -75773,6 +75773,71 @@
       "java_expr": "tile != null && tile.isValid()",
       "rule": "Result of BlockUnitComp isValid return expression.",
       "status": "source-backed"
+    },
+    "block_unit_is_added.method": {
+      "godot_owner": "PortGame.source_block_unit_is_added_state",
+      "java_method": "isAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
+      "tests": [
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_is_added_result.method",
+      "java_expr": "public boolean isAdded(){",
+      "rule": "BlockUnitComp isAdded method boundary.",
+      "status": "source-backed"
+    },
+    "block_unit_is_added.return_expr": {
+      "godot_owner": "PortGame.source_block_unit_is_added_state",
+      "java_method": "isAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
+      "tests": [
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_is_added_result.return_expr",
+      "java_expr": "return tile != null && tile.isValid();",
+      "rule": "BlockUnitComp isAdded returns true when tile exists and tile.isValid() is true.",
+      "status": "source-backed"
+    },
+    "block_unit_is_added.tile_exists": {
+      "godot_owner": "PortGame.source_block_unit_is_added_state",
+      "java_method": "isAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
+      "tests": [
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_is_added_input.tile_exists",
+      "java_expr": "tile != null",
+      "rule": "Explicit runtime fact for BlockUnitComp tile non-null branch in isAdded().",
+      "status": "explicit-input"
+    },
+    "block_unit_is_added.tile_is_valid": {
+      "godot_owner": "PortGame.source_block_unit_is_added_state",
+      "java_method": "isAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
+      "tests": [
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_is_added_input.tile_is_valid",
+      "java_expr": "tile.isValid()",
+      "rule": "Explicit runtime fact for BlockUnitComp tile.isValid() branch in isAdded().",
+      "status": "explicit-input"
+    },
+    "block_unit_is_added.is_added": {
+      "godot_owner": "PortGame.source_block_unit_is_added_state",
+      "java_method": "isAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
+      "tests": [
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_is_added_result.is_added",
+      "java_expr": "tile != null && tile.isValid()",
+      "rule": "Result of BlockUnitComp isAdded return expression.",
+      "status": "source-backed"
     }
   },
   "version": 1

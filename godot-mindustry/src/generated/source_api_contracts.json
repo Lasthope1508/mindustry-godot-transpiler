@@ -24314,6 +24314,37 @@
         "test_generated_block_unit_comp_is_valid_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_is_valid_state"
       ]
+    },
+    "PortGame.source_block_unit_is_added_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_block_unit_is_added_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "tile_is_valid",
+          "schema": "source_block_unit_is_added_input.tile_is_valid",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "tile_exists",
+        "tile_is_valid",
+        "is_added"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.isAdded() tile exists/isValid return state.",
+      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
+      "source_method": "isAdded()",
+      "source_slice": "N1133",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_is_added_state"
+      ]
     }
   },
   "policy": {
