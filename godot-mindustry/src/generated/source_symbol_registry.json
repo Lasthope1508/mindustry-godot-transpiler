@@ -74031,6 +74031,84 @@
       "java_expr": "spawnerUnitId = spawner.id;",
       "rule": "UnitTetherComp.update stores spawner.id into spawnerUnitId when guard fails.",
       "status": "source-backed"
+    },
+    "unit_tether_after_read.method": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_after_read_result.method",
+      "java_expr": "public void afterRead(){",
+      "rule": "UnitTetherComp.afterRead method boundary.",
+      "status": "source-backed"
+    },
+    "unit_tether_after_read.guard": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_after_read_result.guard",
+      "java_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);",
+      "rule": "UnitTetherComp.afterRead restores spawner from stored id when spawnerUnitId is not -1.",
+      "status": "source-backed"
+    },
+    "unit_tether_after_read.groups_unit_get_by_id": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_after_read_result.groupsUnitGetById",
+      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
+      "rule": "UnitTetherComp.afterRead lookup call used to restore transient spawner.",
+      "status": "source-backed"
+    },
+    "unit_tether_after_read.spawner_unit_id_reset": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_after_read_result.spawnerUnitId",
+      "java_expr": "spawnerUnitId = -1;",
+      "rule": "UnitTetherComp.afterRead resets spawnerUnitId after optional lookup.",
+      "status": "source-backed"
+    },
+    "unit_tether_after_read.spawner_unit_id": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_after_read_input.spawner_unit_id",
+      "java_expr": "spawnerUnitId",
+      "rule": "Explicit input mirrors stored spawnerUnitId before UnitTetherComp.afterRead reset.",
+      "status": "explicit-input"
+    },
+    "unit_tether_after_read.groups_unit_get_by_id_result": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_after_read_input.groups_unit_get_by_id_result",
+      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
+      "rule": "Explicit input carries deferred Groups.unit.getByID(spawnerUnitId) result until live Groups runtime owns unit lookup.",
+      "status": "explicit-input"
     }
   },
   "version": 1

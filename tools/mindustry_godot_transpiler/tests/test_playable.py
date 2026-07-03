@@ -6113,6 +6113,52 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_unit_tether_comp_bridges_after_read_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_afterRead_0(_args: Array = []) -> Variant:", source)
+        self.assertIn("var spawner_unit_id := int(_args[0] if _args.size() > 0 else -1)", source)
+        self.assertIn("var groups_unit_get_by_id_result: Variant = _args[1] if _args.size() > 1 else null", source)
+        self.assertIn("var guard: bool = spawner_unit_id != -1", source)
+        self.assertIn("var spawner_value: Variant = null", source)
+        self.assertIn("var groups_unit_get_by_id_call: Variant = null", source)
+        self.assertIn("if guard:", source)
+        self.assertIn('groups_unit_get_by_id_call = {"call": "Groups.unit.getByID(spawnerUnitId)", "id": spawner_unit_id}', source)
+        self.assertIn("spawner_value = groups_unit_get_by_id_result", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_tether_after_read_state"', source)
+        self.assertIn('"method": "public void afterRead(){"', source)
+        self.assertIn('"guard_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);"', source)
+        self.assertIn('"reset_expr": "spawnerUnitId = -1;"', source)
+        self.assertIn('"spawnerUnitId": -1', source)
+
+    def test_port_game_exposes_source_unit_tether_after_read_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", source)
+        self.assertIn("var guard: bool = spawner_unit_id != -1", source)
+        self.assertIn("var spawner_value: Variant = null", source)
+        self.assertIn("var groups_unit_get_by_id_call: Variant = null", source)
+        self.assertIn('groups_unit_get_by_id_call = {"call": "Groups.unit.getByID(spawnerUnitId)", "id": spawner_unit_id}', source)
+        self.assertIn("spawner_value = groups_unit_get_by_id_result", source)
+        self.assertIn('"spawnerUnitIdBefore": spawner_unit_id', source)
+        self.assertIn('"groupsUnitGetById": groups_unit_get_by_id_call', source)
+        self.assertIn('"spawner": spawner_value', source)
+        self.assertIn('"spawnerUnitId": -1', source)
+
+    def test_port_game_exposes_generated_unit_tether_comp_after_read_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_afterRead_0([spawner_unit_id, groups_unit_get_by_id_result])", source)
+        self.assertIn("var canonical = source_unit_tether_after_read_state(spawner_unit_id, groups_unit_get_by_id_result)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_tether_after_read_state"', source)
+        self.assertIn('"generated_owner": "UnitTetherComp.java_method_afterRead_0"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_unit_tether_comp_bridges_update_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
         source = generated.read_text(encoding="utf-8")

@@ -23748,6 +23748,42 @@
       ],
       "runtime_proof": "/root/Main.generated_unit_tether_comp_update_bridge_state",
       "rule": "Registers UnitTetherComp.update despawn guard and valid-spawner spawnerUnitId assignment; wires generated UnitTetherComp.java_method_update_2 plus PortGame generated bridge to canonical source_unit_tether_update_state."
+    },
+    "N1111": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "java_class": "mindustry.entities.comp.UnitTetherComp",
+      "java_method": "afterRead()",
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "exact_exprs": [
+        "public transient @Nullable Unit spawner;",
+        "public int spawnerUnitId = -1;",
+        "public void afterRead(){",
+        "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);",
+        "Groups.unit.getByID(spawnerUnitId)",
+        "spawnerUnitId = -1;"
+      ],
+      "deferred_exprs": [
+        "Live Groups.unit.getByID(spawnerUnitId) lookup remains an explicit input until Groups unit map runtime exists."
+      ],
+      "source_symbols": [
+        "unit_tether_after_read.method",
+        "unit_tether_after_read.guard",
+        "unit_tether_after_read.groups_unit_get_by_id",
+        "unit_tether_after_read.spawner_unit_id_reset",
+        "unit_tether_after_read.spawner_unit_id",
+        "unit_tether_after_read.groups_unit_get_by_id_result"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_tether_comp_after_read_to_source_state",
+        "test_generated_unit_tether_comp_bridges_after_read_to_source_state",
+        "test_port_game_exposes_source_unit_tether_after_read_state",
+        "test_port_game_exposes_generated_unit_tether_comp_after_read_bridge_state",
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_tether_comp_after_read_bridge_state",
+      "rule": "Registers UnitTetherComp.afterRead optional spawner lookup and unconditional spawnerUnitId reset; wires generated UnitTetherComp.java_method_afterRead_0 plus PortGame generated bridge to canonical source_unit_tether_after_read_state."
     }
   },
   "version": 1

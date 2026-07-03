@@ -5122,6 +5122,46 @@ class BuildingTetherComp{
             self.assertIn('"unit": unit_id', source_text)
             self.assertIn('"despawn": despawn_call', source_text)
 
+    def test_emit_bridges_unit_tether_comp_after_read_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "UnitTetherComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class UnitTetherComp{
+    public void afterRead(){
+        if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);
+        spawnerUnitId = -1;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_afterRead_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var spawner_unit_id := int(_args[0] if _args.size() > 0 else -1)", source_text)
+            self.assertIn("var groups_unit_get_by_id_result: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var guard: bool = spawner_unit_id != -1", source_text)
+            self.assertIn("var spawner_value: Variant = null", source_text)
+            self.assertIn("var groups_unit_get_by_id_call: Variant = null", source_text)
+            self.assertIn("if guard:", source_text)
+            self.assertIn('groups_unit_get_by_id_call = {"call": "Groups.unit.getByID(spawnerUnitId)", "id": spawner_unit_id}', source_text)
+            self.assertIn("spawner_value = groups_unit_get_by_id_result", source_text)
+            self.assertIn('"source_owner": "PortGame.source_unit_tether_after_read_state"', source_text)
+            self.assertIn('"method": "public void afterRead(){"', source_text)
+            self.assertIn('"guard_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);"', source_text)
+            self.assertIn('"reset_expr": "spawnerUnitId = -1;"', source_text)
+            self.assertIn('"spawnerUnitId": -1', source_text)
+
     def test_emit_bridges_unit_tether_comp_update_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

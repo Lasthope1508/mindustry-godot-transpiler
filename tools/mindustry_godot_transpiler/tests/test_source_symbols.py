@@ -6594,6 +6594,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(synccomp_after_sync["java_expr"], "void afterSync(){}")
         self.assertEqual(synccomp_after_sync["java_source"], "core/src/mindustry/entities/comp/SyncComp.java")
 
+    def test_unit_tether_after_read_symbols_are_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_tether_after_read.method")
+        self.assertEqual(method["java_expr"], "public void afterRead(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/UnitTetherComp.java")
+        self.assertEqual(method["java_method"], "afterRead()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_tether_after_read_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_tether_after_read_state")
+        self.assertEqual(method["godot_symbol"], "source_unit_tether_after_read_result.method")
+
+        guard = source_symbols.source_symbol(registry, "unit_tether_after_read.guard")
+        self.assertEqual(guard["java_expr"], "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);")
+        self.assertEqual(guard["godot_symbol"], "source_unit_tether_after_read_result.guard")
+
+        lookup = source_symbols.source_symbol(registry, "unit_tether_after_read.groups_unit_get_by_id")
+        self.assertEqual(lookup["java_expr"], "Groups.unit.getByID(spawnerUnitId)")
+        self.assertEqual(lookup["godot_symbol"], "source_unit_tether_after_read_result.groupsUnitGetById")
+
+        reset = source_symbols.source_symbol(registry, "unit_tether_after_read.spawner_unit_id_reset")
+        self.assertEqual(reset["java_expr"], "spawnerUnitId = -1;")
+        self.assertEqual(reset["godot_symbol"], "source_unit_tether_after_read_result.spawnerUnitId")
+
+        spawner_unit_id = source_symbols.source_symbol(registry, "unit_tether_after_read.spawner_unit_id")
+        self.assertEqual(spawner_unit_id["java_expr"], "spawnerUnitId")
+        self.assertEqual(spawner_unit_id["godot_symbol"], "source_unit_tether_after_read_input.spawner_unit_id")
+
+        lookup_result = source_symbols.source_symbol(registry, "unit_tether_after_read.groups_unit_get_by_id_result")
+        self.assertEqual(lookup_result["java_expr"], "Groups.unit.getByID(spawnerUnitId)")
+        self.assertEqual(lookup_result["godot_symbol"], "source_unit_tether_after_read_input.groups_unit_get_by_id_result")
+
     def test_unit_aim_look_position_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19657,9 +19691,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 579)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 580)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 584)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 585)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19673,6 +19707,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_dump_null_remove_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_null_success_handoff_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_specific_proximity_scan_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_terminal_failure_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_in_fog_discovery_gate_state", audit["registeredSourceOwners"])
@@ -26632,6 +26667,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("}else{", unit_tether_update["exact_exprs"])
         self.assertIn("spawnerUnitId = spawner.id;", unit_tether_update["exact_exprs"])
 
+        unit_tether_after_read = source_symbols.source_slice(ledger, "N1111")
+        self.assertEqual(unit_tether_after_read["java_source"], "core/src/mindustry/entities/comp/UnitTetherComp.java")
+        self.assertEqual(unit_tether_after_read["java_method"], "afterRead()")
+        self.assertEqual(unit_tether_after_read["godot_owner"], "PortGame.source_unit_tether_after_read_state")
+        self.assertEqual(unit_tether_after_read["runtime_proof"], "/root/Main.generated_unit_tether_comp_after_read_bridge_state")
+        self.assertIn("public void afterRead(){", unit_tether_after_read["exact_exprs"])
+        self.assertIn("if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);", unit_tether_after_read["exact_exprs"])
+        self.assertIn("spawnerUnitId = -1;", unit_tether_after_read["exact_exprs"])
+        self.assertIn("public int spawnerUnitId = -1;", unit_tether_after_read["exact_exprs"])
+        self.assertIn("Groups.unit.getByID(spawnerUnitId)", unit_tether_after_read["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
@@ -29484,6 +29530,19 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("unit_id", unit_tether_update["return_keys"])
         self.assertNotIn("spawner_id", unit_tether_update["return_keys"])
         self.assertEqual(unit_tether_update["source_method"], "update()")
+
+        unit_tether_after_read = source_symbols.api_contract(contracts, "PortGame.source_unit_tether_after_read_state")
+        self.assertEqual(
+            [param["name"] for param in unit_tether_after_read["params"]],
+            ["spawner_unit_id", "groups_unit_get_by_id_result"],
+        )
+        self.assertEqual(unit_tether_after_read["params"][0]["schema"], "source_unit_tether_after_read_input.spawner_unit_id")
+        self.assertEqual(unit_tether_after_read["params"][1]["schema"], "source_unit_tether_after_read_input.groups_unit_get_by_id_result")
+        for key in ["method", "guard", "spawnerUnitIdBefore", "groupsUnitGetById", "spawner", "spawnerUnitId"]:
+            self.assertIn(key, unit_tether_after_read["return_keys"])
+        self.assertNotIn("spawner_unit_id", unit_tether_after_read["return_keys"])
+        self.assertNotIn("groups_unit_get_by_id_result", unit_tether_after_read["return_keys"])
+        self.assertEqual(unit_tether_after_read["source_method"], "afterRead()")
 
         unit_update_tile_unit_on_any = source_symbols.api_contract(contracts, "PortGame.source_unit_update_tile_unit_on_any_state")
         self.assertEqual(
@@ -35043,6 +35102,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_tether_update_input["keys"]["unit_id"]["java_expr"], "self()")
         self.assertEqual(source_unit_tether_update_input["keys"]["spawner_id"]["java_expr"], "spawner.id")
 
+        source_unit_tether_after_read_input = source_symbols.state_schema(schema, "source_unit_tether_after_read_input")
+        self.assertEqual(source_unit_tether_after_read_input["keys"]["spawner_unit_id"]["java_expr"], "spawnerUnitId")
+        self.assertEqual(source_unit_tether_after_read_input["keys"]["groups_unit_get_by_id_result"]["java_expr"], "Groups.unit.getByID(spawnerUnitId)")
+
         source_unit_update_tile_unit_on_any_input = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_any_input")
         self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["tile_exists"]["java_expr"], "tile != null")
         self.assertEqual(source_unit_update_tile_unit_on_any_input["keys"]["tile_build_exists"]["java_expr"], "tile.build != null")
@@ -35586,6 +35649,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_unit_tether_update_result["keys"]["spawnerUnitId"]["java_expr"], "spawnerUnitId = spawner.id;")
         self.assertNotIn("unit_id", source_unit_tether_update_result["keys"])
         self.assertNotIn("spawner_id", source_unit_tether_update_result["keys"])
+
+        source_unit_tether_after_read_result = source_symbols.state_schema(schema, "source_unit_tether_after_read_result")
+        self.assertEqual(source_unit_tether_after_read_result["keys"]["method"]["java_expr"], "public void afterRead(){")
+        self.assertEqual(source_unit_tether_after_read_result["keys"]["guard"]["java_expr"], "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);")
+        self.assertEqual(source_unit_tether_after_read_result["keys"]["spawnerUnitIdBefore"]["alias_of"], "source_unit_tether_after_read_input.spawner_unit_id")
+        self.assertEqual(source_unit_tether_after_read_result["keys"]["groupsUnitGetById"]["java_expr"], "Groups.unit.getByID(spawnerUnitId)")
+        self.assertEqual(source_unit_tether_after_read_result["keys"]["spawner"]["alias_of"], "source_unit_tether_after_read_input.groups_unit_get_by_id_result")
+        self.assertEqual(source_unit_tether_after_read_result["keys"]["spawnerUnitId"]["java_expr"], "spawnerUnitId = -1;")
+        self.assertNotIn("spawner_unit_id", source_unit_tether_after_read_result["keys"])
+        self.assertNotIn("groups_unit_get_by_id_result", source_unit_tether_after_read_result["keys"])
 
         source_unit_update_tile_unit_on_any_result = source_symbols.state_schema(schema, "source_unit_update_tile_unit_on_any_result")
         self.assertEqual(source_unit_update_tile_unit_on_any_result["keys"]["guard"]["java_expr"], "if(tile != null && tile.build != null){")

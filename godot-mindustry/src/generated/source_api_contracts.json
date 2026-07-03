@@ -23776,6 +23776,38 @@
       ],
       "runtime_proof": "/root/Main.source_unit_tether_update_state",
       "rule": "Public runtime contract for UnitTetherComp.update despawn guard and valid-spawner spawnerUnitId assignment; keep all guard inputs explicit."
+    },
+    "PortGame.source_unit_tether_after_read_state": {
+      "status": "active",
+      "source_slice": "N1111",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "source_method": "afterRead()",
+      "params": [
+        {
+          "name": "spawner_unit_id",
+          "type": "int",
+          "schema": "source_unit_tether_after_read_input.spawner_unit_id"
+        },
+        {
+          "name": "groups_unit_get_by_id_result",
+          "type": "Variant",
+          "schema": "source_unit_tether_after_read_input.groups_unit_get_by_id_result"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "spawnerUnitIdBefore",
+        "groupsUnitGetById",
+        "spawner",
+        "spawnerUnitId"
+      ],
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_tether_after_read_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "rule": "Public runtime contract for UnitTetherComp.afterRead optional Groups.unit lookup and unconditional spawnerUnitId reset."
     }
   },
   "policy": {
