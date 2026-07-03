@@ -1275,6 +1275,33 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "setProp"
+        and [parameter.get("type") for parameter in method.get("parameters", [])] == ["LAccess", "double"]
+    ):
+        return [
+            "\tvar prop := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar current_health := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar max_health_value := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar value := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar dead_state := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar self_state: Variant = _args[5] if _args.size() > 5 else null",
+            "\tvar health := current_health",
+            "\tvar build_destroyed_called := false",
+            "\tvar build_destroyed: Variant = null",
+            "\tvar health_changed := false",
+            "\tif prop == \"health\":",
+            "\t\thealth = clampf(value, 0.0, max_health_value)",
+            "\t\tif health <= 0.0 and not dead_state:",
+            "\t\t\tbuild_destroyed_called = true",
+            "\t\t\tbuild_destroyed = self_state",
+            "\t\telse:",
+            "\t\t\thealth_changed = true",
+            "\tvar set_prop_health := {\"method\": \"public void setProp(LAccess prop, double value){\", \"switch_prop\": \"switch(prop){\", \"health_case\": \"case health -> {\", \"clamp_assign\": \"health = (float)Mathf.clamp(value, 0, maxHealth);\", \"destroy_gate\": \"if(health <= 0f && !dead()){\", \"build_destroyed_call\": \"Call.buildDestroyed(self());\", \"else_branch\": \"}else{\", \"health_changed_call\": \"healthChanged();\", \"prop\": prop, \"current_health\": current_health, \"max_health_value\": max_health_value, \"value\": value, \"dead_state\": dead_state, \"self_state\": self_state, \"health\": health, \"build_destroyed_called\": build_destroyed_called, \"build_destroyed\": build_destroyed, \"health_changed\": health_changed}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_set_prop_health_state\", \"health_source_owner\": \"PortGame.source_building_set_prop_health_state\", \"set_prop_health\": set_prop_health}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

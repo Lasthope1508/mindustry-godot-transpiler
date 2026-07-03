@@ -5486,6 +5486,50 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_set_prop_health_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_setProp_211(_args: Array = []) -> Variant:", source)
+        self.assertIn('var prop := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var current_health := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var max_health_value := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var value := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var dead_state := bool(_args[4] if _args.size() > 4 else false)", source)
+        self.assertIn("var self_state: Variant = _args[5] if _args.size() > 5 else null", source)
+        self.assertIn("var health := current_health", source)
+        self.assertIn("var build_destroyed_called := false", source)
+        self.assertIn("var build_destroyed: Variant = null", source)
+        self.assertIn("var health_changed := false", source)
+        self.assertIn('if prop == "health":', source)
+        self.assertIn("health = clampf(value, 0.0, max_health_value)", source)
+        self.assertIn("if health <= 0.0 and not dead_state:", source)
+        self.assertIn("build_destroyed_called = true", source)
+        self.assertIn("build_destroyed = self_state", source)
+        self.assertIn("health_changed = true", source)
+        self.assertIn('"health_source_owner": "PortGame.source_building_set_prop_health_state"', source)
+        self.assertIn('"method": "public void setProp(LAccess prop, double value){"', source)
+        self.assertIn('"switch_prop": "switch(prop){"', source)
+        self.assertIn('"health_case": "case health -> {"', source)
+        self.assertIn('"clamp_assign": "health = (float)Mathf.clamp(value, 0, maxHealth);"', source)
+        self.assertIn('"destroy_gate": "if(health <= 0f && !dead()){"', source)
+        self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());"', source)
+        self.assertIn('"else_branch": "}else{"', source)
+        self.assertIn('"health_changed_call": "healthChanged();"', source)
+        self.assertIn('"set_prop_health": set_prop_health', source)
+
+    def test_port_game_exposes_generated_building_comp_set_prop_health_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setProp_211([prop, current_health, max_health_value, value, dead_state, self_state])", source)
+        self.assertIn("var canonical = source_building_set_prop_health_state(prop, current_health, max_health_value, value, dead_state, self_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_set_prop_health_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

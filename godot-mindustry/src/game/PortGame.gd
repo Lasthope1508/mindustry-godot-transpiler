@@ -6483,6 +6483,18 @@ func source_building_set_prop_health_state(prop: String, current_health: float, 
 	changed_result.merge(source_exprs)
 	return changed_result
 
+func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_setProp_211([prop, current_health, max_health_value, value, dead_state, self_state])
+	var canonical = source_building_set_prop_health_state(prop, current_health, max_health_value, value, dead_state, self_state)
+	return {
+		"source_owner": "PortGame.source_building_set_prop_health_state",
+		"generated_owner": "BuildingComp.java_method_setProp_211",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public void setProp(LAccess prop, double value){",

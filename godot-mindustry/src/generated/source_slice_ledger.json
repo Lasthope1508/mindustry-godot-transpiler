@@ -22974,6 +22974,51 @@
         "test_port_game_exposes_generated_building_comp_control_config_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1090": {
+      "deferred_exprs": [
+        "Concrete BuildingComp health field mutation, Call.buildDestroyed, and healthChanged side effects remain owned by runtime entity integration; this generated bridge records only BuildingComp setProp health case branch selection through existing N640 canonical owner.",
+        "BuildingComp.setProp(LAccess prop, double value) team and totalPower cases remain deferred to later generated bridge slices."
+      ],
+      "exact_exprs": [
+        "public void setProp(LAccess prop, double value){",
+        "switch(prop){",
+        "case health -> {",
+        "health = (float)Mathf.clamp(value, 0, maxHealth);",
+        "if(health <= 0f && !dead()){",
+        "Call.buildDestroyed(self());",
+        "}else{",
+        "healthChanged();"
+      ],
+      "godot_owner": "PortGame.source_building_set_prop_health_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(LAccess prop, double value)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_setProp_211 and PortGame generated bridge to existing N640 canonical source_building_set_prop_health_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_set_prop_health_bridge_state",
+      "source_symbols": [
+        "building_set_prop_health.method",
+        "building_set_prop_health.switch_prop",
+        "building_set_prop_health.health_case",
+        "building_set_prop_health.clamp_assign",
+        "building_set_prop_health.destroy_gate",
+        "building_set_prop_health.build_destroyed_call",
+        "building_set_prop_health.else_branch",
+        "building_set_prop_health.health_changed_call",
+        "building_set_prop_health.prop",
+        "building_set_prop_health.current_health",
+        "building_set_prop_health.max_health_value",
+        "building_set_prop_health.value",
+        "building_set_prop_health.dead_state",
+        "building_set_prop_health.self_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_set_prop_health_to_source_state",
+        "test_generated_building_comp_bridges_set_prop_health_to_source_state",
+        "test_port_game_exposes_generated_building_comp_set_prop_health_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

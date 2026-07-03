@@ -4246,6 +4246,68 @@ class BuildingComp{
             self.assertIn('"value": value', source_text)
             self.assertIn('"control_config": control_config', source_text)
 
+    def test_emit_bridges_building_comp_set_prop_health_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void setProp(LAccess prop, double value){
+        switch(prop){
+            case health -> {
+                health = (float)Mathf.clamp(value, 0, maxHealth);
+                if(health <= 0f && !dead()){
+                    Call.buildDestroyed(self());
+                }else{
+                    healthChanged();
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setProp_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var prop := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var current_health := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var max_health_value := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var value := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var dead_state := bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var self_state: Variant = _args[5] if _args.size() > 5 else null", source_text)
+            self.assertIn("var health := current_health", source_text)
+            self.assertIn("var build_destroyed_called := false", source_text)
+            self.assertIn("var build_destroyed: Variant = null", source_text)
+            self.assertIn("var health_changed := false", source_text)
+            self.assertIn('if prop == "health":', source_text)
+            self.assertIn("health = clampf(value, 0.0, max_health_value)", source_text)
+            self.assertIn("if health <= 0.0 and not dead_state:", source_text)
+            self.assertIn("build_destroyed_called = true", source_text)
+            self.assertIn("build_destroyed = self_state", source_text)
+            self.assertIn("health_changed = true", source_text)
+            self.assertIn('"health_source_owner": "PortGame.source_building_set_prop_health_state"', source_text)
+            self.assertIn('"method": "public void setProp(LAccess prop, double value){"', source_text)
+            self.assertIn('"switch_prop": "switch(prop){"', source_text)
+            self.assertIn('"health_case": "case health -> {"', source_text)
+            self.assertIn('"clamp_assign": "health = (float)Mathf.clamp(value, 0, maxHealth);"', source_text)
+            self.assertIn('"destroy_gate": "if(health <= 0f && !dead()){"', source_text)
+            self.assertIn('"build_destroyed_call": "Call.buildDestroyed(self());"', source_text)
+            self.assertIn('"else_branch": "}else{"', source_text)
+            self.assertIn('"health_changed_call": "healthChanged();"', source_text)
+            self.assertIn('"set_prop_health": set_prop_health', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

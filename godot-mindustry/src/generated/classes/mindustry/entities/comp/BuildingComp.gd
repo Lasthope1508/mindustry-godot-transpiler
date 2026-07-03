@@ -1424,7 +1424,25 @@ func java_method_control_210(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_control_config_state", "config_source_owner": "PortGame.source_building_control_config_state", "control_config": control_config}
 
 func java_method_setProp_211(_args: Array = []) -> Variant:
-	return null
+	var prop := str(_args[0] if _args.size() > 0 else "")
+	var current_health := float(_args[1] if _args.size() > 1 else 0.0)
+	var max_health_value := float(_args[2] if _args.size() > 2 else 0.0)
+	var value := float(_args[3] if _args.size() > 3 else 0.0)
+	var dead_state := bool(_args[4] if _args.size() > 4 else false)
+	var self_state: Variant = _args[5] if _args.size() > 5 else null
+	var health := current_health
+	var build_destroyed_called := false
+	var build_destroyed: Variant = null
+	var health_changed := false
+	if prop == "health":
+		health = clampf(value, 0.0, max_health_value)
+		if health <= 0.0 and not dead_state:
+			build_destroyed_called = true
+			build_destroyed = self_state
+		else:
+			health_changed = true
+	var set_prop_health := {"method": "public void setProp(LAccess prop, double value){", "switch_prop": "switch(prop){", "health_case": "case health -> {", "clamp_assign": "health = (float)Mathf.clamp(value, 0, maxHealth);", "destroy_gate": "if(health <= 0f && !dead()){", "build_destroyed_call": "Call.buildDestroyed(self());", "else_branch": "}else{", "health_changed_call": "healthChanged();", "prop": prop, "current_health": current_health, "max_health_value": max_health_value, "value": value, "dead_state": dead_state, "self_state": self_state, "health": health, "build_destroyed_called": build_destroyed_called, "build_destroyed": build_destroyed, "health_changed": health_changed}
+	return {"source_owner": "PortGame.source_building_set_prop_health_state", "health_source_owner": "PortGame.source_building_set_prop_health_state", "set_prop_health": set_prop_health}
 
 func java_method_setProp_212(_args: Array = []) -> Variant:
 	return null
